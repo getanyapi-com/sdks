@@ -11,6 +11,11 @@ import type {
  */
 export interface PlaystoreReviewsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Android app package name or full Google Play store URL (e.g. com.supercell.brawlstars).
    */
   appId: string;
@@ -27,6 +32,10 @@ export interface PlaystoreReviewsInput {
    * Only return reviews on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-06-30).
    */
   endDate?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Only return reviews whose text contains one of these keywords (e.g. ["crash", "login"]).
    */
@@ -62,6 +71,10 @@ export interface PlaystoreReviewsInput {
    * Review ordering: mostRelevant, newest, or rating (e.g. newest).
    */
   sortBy?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface PlaystoreReviewsItem {

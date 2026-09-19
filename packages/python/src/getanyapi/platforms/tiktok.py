@@ -26,98 +26,35 @@ class TiktokAdLibraryAdInput(TypedDict, total=False):
 
     adId: Required[str]
     """TikTok Top Ads material/ad ID, or a Top Ads detail URL (e.g. 7648493525660270600)."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokAdLibrarySearchInput(TypedDict, total=False):
     """Input for TikTok Ad Library Search."""
 
-    adFormat: NotRequired[Literal["spark_ads", "non_spark_ads"]]
-    """Ad format filter."""
-    adLanguage: NotRequired[
-        Literal[
-            "en",
-            "es",
-            "ar",
-            "vi",
-            "th",
-            "de",
-            "id",
-            "pt",
-            "fr",
-            "ms",
-            "nl",
-            "ja",
-            "it",
-            "ro",
-            "zh-Hant",
-            "ko",
-        ]
-    ]
-    """Ad language filter."""
     advertiserName: NotRequired[str]
-    """Filter to a specific advertiser by name (searches the public TikTok Ads Library by advertiser)."""
+    """Advertiser name to list ads for (e.g. Spotify). Provide advertiserName or query, never both."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
-    """Page number for pagination (defaults to 1)."""
-    duration: NotRequired[
-        Literal["under_10s", "10_20s", "20_30s", "30_40s", "40_50s", "over_50s"]
-    ]
-    """Video duration bucket filter."""
-    industry: NotRequired[
-        Literal[
-            "apparel_accessories",
-            "appliances",
-            "apps",
-            "baby_kids_maternity",
-            "beauty_personal_care",
-            "business_services",
-            "ecommerce_non_app",
-            "education",
-            "financial_services",
-            "food_beverage",
-            "games",
-            "health",
-            "home_improvement",
-            "household_products",
-            "life_services",
-            "news_entertainment",
-            "pets",
-            "sports_outdoor",
-            "tech_electronics",
-            "travel",
-            "vehicle_transportation",
-        ]
-    ]
-    """Advertiser industry filter."""
-    likes: NotRequired[
-        Literal["top_1_20", "top_21_40", "top_41_60", "top_61_80", "top_81_100"]
-    ]
-    """Likes percentile bucket filter (top_1_20 is the top-performing 20 percent)."""
-    limit: NotRequired[Any]
-    """Results per page, with an existing maximum of 50 (default 20). Use a canonical JSON integer; legacy numeric strings remain accepted."""
-    objective: NotRequired[
-        Literal[
-            "app_installs",
-            "conversions",
-            "lead_generation",
-            "product_sales",
-            "reach",
-            "traffic",
-            "video_views",
-        ]
-    ]
-    """Campaign objective filter."""
-    orderBy: NotRequired[str]
-    """Sort metric: for_you, impression, play_2s_rate, play_6s_rate, cvr, ctr, or like."""
-    period: NotRequired[Any]
-    """Time window for top ads. Use the canonical JSON integer 7, 30, or 180; legacy numeric strings remain accepted."""
+    """Opaque cursor from a previous response's nextCursor. Omit it for the first page."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    query: Required[str]
-    """Keyword to search ad titles and content (e.g. spotify)."""
+    query: NotRequired[str]
+    """Keyword to search ad titles and content (e.g. spotify). Provide query or advertiserName, never both."""
     region: NotRequired[str]
-    """Country code (defaults to US)."""
+    """Two-letter region code for TikTok's Commercial Content Library, such as DE, FR, GB or IT. Each region holds a different set of ads. Omit it to take the library's own default region, DE. Coverage is the EU and EEA; a non-EU code such as US is not served."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokAdTransparencySearchInput(TypedDict, total=False):
@@ -125,10 +62,14 @@ class TiktokAdTransparencySearchInput(TypedDict, total=False):
 
     advertiserId: NotRequired[str]
     """TikTok Commercial Content Library advertiser ID. Provide advertiserId or query."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Search cursor from a previous response's nextCursor."""
     days: NotRequired[int]
     """Number of days of Commercial Content Library history to search, from 1 to 365. Defaults to 30. Range: 1 to 365. Default: 30."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of ads to return, from 1 to 50. Defaults to 20. Billing is flat per request. Range: 1 to 50. Default: 20."""
     offset: NotRequired[int]
@@ -141,26 +82,40 @@ class TiktokAdTransparencySearchInput(TypedDict, total=False):
     """Region code for the transparency search. Defaults to DE. Default: DE."""
     sort: NotRequired[str]
     """Upstream sort expression. Defaults to last_shown_date,desc. Default: last_shown_date,desc."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokAudienceDemographicsInput(TypedDict, total=False):
     """Input for TikTok Audience Demographics."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "shakira")."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokCommentRepliesInput(TypedDict, total=False):
     """Input for TikTok Comment Replies."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     commentId: Required[str]
     """TikTok comment ID (the comment's cid from the comments endpoint)."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """TikTok video URL the comment belongs to."""
 
@@ -168,21 +123,31 @@ class TiktokCommentRepliesInput(TypedDict, total=False):
 class TiktokFollowersInput(TypedDict, total=False):
     """Input for TikTok Followers."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor, to fetch the next page of followers."""
     handle: Required[str]
     """TikTok username whose followers to list, without the @ prefix (e.g. stoolpresidente)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokFollowingInput(TypedDict, total=False):
     """Input for TikTok Following."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireCursor: NotRequired[bool]
@@ -191,51 +156,102 @@ class TiktokFollowingInput(TypedDict, total=False):
         list[Literal["bio", "followers", "following", "nextCursor", "videos"]]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokHashtagVideosInput(TypedDict, total=False):
     """Input for TikTok Hashtag Videos."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     hashtag: Required[str]
     """TikTok hashtag to fetch videos for, without the # prefix (e.g. booktok)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of results to return (1-20, default 20). Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokLiveInput(TypedDict, total=False):
     """Input for TikTok Live."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "thejustalex")."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokPhotosInput(TypedDict, total=False):
     """Input for TikTok Photos."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full TikTok photo-mode post URL. TikTok serves slideshow posts under the same /video/<id> path as videos, so the normal share link works."""
+
+
+class TiktokPlaylistVideosInput(TypedDict, total=False):
+    """Input for TikTok Playlist Videos."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    id: NotRequired[str]
+    """TikTok playlist id. Use it when tiktok.profile_playlists handed you the id."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum items to return in one page. Range: 1 to 30. Default: 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    url: NotRequired[str]
+    """Full TikTok playlist URL. The playlist id is the numeric run at the end."""
 
 
 class TiktokProfileInput(TypedDict, total=False):
     """Input for TikTok Profile."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokProfileContactInput(TypedDict, total=False):
     """Input for TikTok Profile Contact Info."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """TikTok username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
@@ -267,46 +283,108 @@ class TiktokProfileContactInput(TypedDict, total=False):
         ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class TiktokProfilePlaylistsInput(TypedDict, total=False):
+    """Input for TikTok Profile Playlists."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum items to return in one page. Range: 1 to 30. Default: 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    secUid: Required[str]
+    """TikTok's opaque sec_uid for the account. TikTok's own endpoint keys on it and will not accept a handle; call tiktok.profile with the handle first and read secUid off its response."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokProfileRegionInput(TypedDict, total=False):
     """Input for TikTok Profile Region."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     handle: Required[str]
     """TikTok username without the leading @ (e.g. "stoolpresidente")."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class TiktokProfileRepostsInput(TypedDict, total=False):
+    """Input for TikTok Profile Reposts."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum items to return in one page. Range: 1 to 30. Default: 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    secUid: Required[str]
+    """TikTok's opaque sec_uid for the account. TikTok's own endpoint keys on it and will not accept a handle; call tiktok.profile with the handle first and read secUid off its response."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokProfileVideosInput(TypedDict, total=False):
     """Input for TikTok Profile Videos."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
     handle: Required[str]
     """TikTok username without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokSearchHashtagInput(TypedDict, total=False):
     """Input for TikTok Hashtag Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Hashtag or keyword to search for (without the leading #)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokSearchKeywordInput(TypedDict, total=False):
     """Input for TikTok Keyword Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
     datePosted: NotRequired[Any]
-    """Time frame filter. Use a canonical JSON integer that is nonnegative; common values are 0 for any time, 1 for the past 24 hours, 7 for the past week, and 30 for the past month. Legacy numeric strings remain accepted."""
+    """Time frame filter, in days back from now. Use a canonical JSON integer that is nonnegative: 0 for any time, 1 for the past 24 hours, 7 for the past week, 30 for the past month, 90 for the past three months, or 180 for the past six months. Any other number is not guaranteed to filter anything. Legacy numeric strings remain accepted."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
@@ -315,13 +393,53 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     """Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working."""
     sortBy: NotRequired[Any]
     """Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class TiktokSearchPhotosInput(TypedDict, total=False):
+    """Input for TikTok Photo Search."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum items to return in one page. Range: 1 to 30. Default: 20."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Search keyword."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class TiktokSearchSuggestionsInput(TypedDict, total=False):
+    """Input for TikTok Search Suggestions."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Seed keyword to expand."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokSearchTopInput(TypedDict, total=False):
     """Input for TikTok Top Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     publishTime: NotRequired[str]
@@ -332,63 +450,66 @@ class TiktokSearchTopInput(TypedDict, total=False):
     """2-letter country code for the proxy location (e.g. US, GB, FR)."""
     sortBy: NotRequired[str]
     """Sort order: relevance, most-liked, date-posted."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokSearchUsersInput(TypedDict, total=False):
     """Input for TikTok User Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The keyword to search TikTok accounts for."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokSongInput(TypedDict, total=False):
     """Input for TikTok Song."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     clipId: Required[str]
     """The clip identifier for the song, found in TikTok music URLs (e.g. 7439295283975702544)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokSongVideosInput(TypedDict, total=False):
     """Input for TikTok Song Videos."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     clipId: Required[str]
     """The song ID found in TikTok music URLs (e.g. 7439295283975702544)."""
     cursor: NotRequired[str]
     """Pagination cursor for retrieving the next page of results."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokTopAdsSearchInput(TypedDict, total=False):
     """Input for TikTok Top Ads Search."""
 
-    adLanguage: NotRequired[
-        Literal[
-            "en",
-            "es",
-            "ar",
-            "vi",
-            "th",
-            "de",
-            "id",
-            "pt",
-            "fr",
-            "ms",
-            "nl",
-            "ja",
-            "it",
-            "ro",
-            "zh-Hant",
-            "ko",
-        ]
-    ]
-    """Language code for returned ads (default en). Default: en."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of ads requested for this page, from 1 through 20 (default 20). Range: 1 to 20. Default: 20."""
     objective: NotRequired[
@@ -402,32 +523,36 @@ class TiktokTopAdsSearchInput(TypedDict, total=False):
             "product_sales",
         ]
     ]
-    """Campaign objective filter (default traffic). Default: traffic."""
-    orderBy: NotRequired[Literal["for_you", "likes"]]
-    """Result ordering: Creative Center recommendations or like count (default for_you). Default: for_you."""
+    """Campaign objective filter. Omit it to search every objective."""
     page: NotRequired[int]
     """One-based provider page number (default 1). Minimum: 1. Default: 1."""
     performanceRank: NotRequired[
         Literal["top_1_20", "top_21_40", "top_41_60", "top_61_80"]
     ]
-    """Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent (default top_1_20). Default: top_1_20."""
+    """Ad performance percentile bucket, where top_1_20 is the highest-performing 20 percent. Omit it to search every bucket."""
     period: NotRequired[int]
     """Lookback period in days (default 180). Default: 180."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search in TikTok Creative Center top video ads."""
-    region: NotRequired[str]
-    """Country code used to select the Creative Center market (default US). Default: US."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokTrendingFeedInput(TypedDict, total=False):
     """Input for TikTok Trending Feed."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: Required[str]
     """2-letter country code for the proxy location (e.g. "US")."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     trim: NotRequired[str]
     """Set to true to return a simplified response."""
 
@@ -435,6 +560,10 @@ class TiktokTrendingFeedInput(TypedDict, total=False):
 class TiktokTrendingHashtagsInput(TypedDict, total=False):
     """Input for TikTok Trending Hashtags."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     industry: NotRequired[
         Literal[
             "apparel_accessories",
@@ -495,15 +624,23 @@ class TiktokTrendingHashtagsInput(TypedDict, total=False):
     """Two-letter country code of the market whose hashtag ranking to read (default US). Each market is ranked independently, so US and DE return different boards. Default: US."""
     requireFields: NotRequired[list[Literal["industryIds", "topCreators"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `industryIds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hashtag that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class TiktokVideoInput(TypedDict, total=False):
     """Input for TikTok Video."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
     """TikTok video ID, the numeric run at the end of a video URL. Use it when a listing SKU handed you an id and no URL."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
     """Full TikTok video URL."""
 
@@ -511,10 +648,16 @@ class TiktokVideoInput(TypedDict, total=False):
 class TiktokVideoCommentsInput(TypedDict, total=False):
     """Input for TikTok Video Comments."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     cursor: NotRequired[str]
     """Pagination cursor from a previous response's nextCursor."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full TikTok video URL."""
 
@@ -522,28 +665,54 @@ class TiktokVideoCommentsInput(TypedDict, total=False):
 class TiktokVideoDownloadInput(TypedDict, total=False):
     """Input for TikTok Video Download."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["durationSeconds", "height", "image", "watermarkedUrl", "width"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `height` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full TikTok video URL. Share links and tracking query params are fine."""
 
 
 class TiktokVideoTranscriptInput(TypedDict, total=False):
-    """Input for TikTok Video Transcript."""
+    """Input for TikTok Video Transcript (native captions)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """Full TikTok video URL."""
 
 
 class TiktokVideoTranscriptFullInput(TypedDict, total=False):
-    """Input for TikTok Video Transcript (Audio)."""
+    """Input for TikTok Video Transcript (AnyAPI speech to text)."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    hostVideo: NotRequired[bool]
+    """Also store the video and return a hosted MP4 link that plays without TikTok's signed CDN URL. Charged as an extra on top of the transcript. Default: false."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """TikTok video URL (e.g. "https://www.tiktok.com/@user/video/1234567890")."""
+    wordTimestamps: NotRequired[bool]
+    """Return per-word timings inside each segment. Words carry timings only; the recognizer scores a phrase rather than a word, so there is no per-word confidence to report. Default: false."""
 
 
 class TiktokAdLibraryAdData(BaseModel):
@@ -602,29 +771,38 @@ class TiktokAdLibrarySearchAd(BaseModel):
 
     ad_id: str = Field(
         alias="adId",
-        description="Populated whenever the provider has data for the entity.",
+        description="TikTok ad id. Populated whenever the provider has data for the entity.",
     )
     ad_title: str = Field(
         alias="adTitle",
-        description="Populated whenever the provider has data for the entity.",
+        description="Ad title as shown in TikTok's ad library. Populated whenever the provider has data for the entity.",
     )
-    brand_name: str = Field(alias="brandName")
-    cost: float
+    brand_name: str = Field(alias="brandName", description="Advertiser name on the ad.")
     cover_url: str = Field(
         alias="coverUrl",
-        description="Populated whenever the provider has data for the entity.",
+        description="Cover image URL of the ad's first video. Populated whenever the provider has data for the entity.",
     )
-    ctr: float
-    industry: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    estimated_audience: str = Field(
+        alias="estimatedAudience",
+        description='Audience size band TikTok publishes for the ad, for example "100K-200K".',
     )
-    likes: int
-    objective: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    first_shown_utc: int | None = Field(
+        default=None,
+        alias="firstShownUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when TikTok first showed the ad. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    last_shown_utc: int | None = Field(
+        default=None,
+        alias="lastShownUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when TikTok last showed the ad. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Link to the ad's detail page in TikTok's public Ads Library.",
     )
     video_url: str = Field(
         alias="videoUrl",
-        description="Populated whenever the provider has data for the entity.",
+        description="Playable URL of the ad's first video. Populated whenever the provider has data for the entity.",
     )
 
 
@@ -909,6 +1087,81 @@ class TiktokPhotosImage(BaseModel):
     width: int | None = Field(default=None, description="Pixel width of the image.")
 
 
+class TiktokPlaylistVideosData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    videos: list[TiktokPlaylistVideosVideo] = Field(
+        description="Videos in the playlist, in the order TikTok lists them."
+    )
+
+
+class TiktokPlaylistVideosVideo(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Handle of the account that posted the video, without the leading @. Populated whenever the provider has data for the entity."
+    )
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. TikTok rounds this for large accounts.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="The author's display name, which is not the handle and can contain any characters.",
+    )
+    author_sec_uid: str | None = Field(
+        default=None,
+        alias="authorSecUid",
+        description="The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+    )
+    author_verified: bool | None = Field(default=None, alias="authorVerified")
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    comments: int
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    duration_seconds: int | None = Field(
+        default=None, alias="durationSeconds", description="Video length in seconds."
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+    )
+    id: str = Field(
+        description="TikTok video id. Pass it to tiktok.video as id for the full record. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the video's cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Absent when the upstream provides no cover.",
+    )
+    likes: int
+    saves: int | None = None
+    shares: int
+    sound_author: str | None = Field(
+        default=None, alias="soundAuthor", description="Credited author of the sound."
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track.',
+    )
+    views: int
+
+
 class TiktokProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -1046,6 +1299,41 @@ class TiktokProfileContactSocialLink(BaseModel):
     url: str = Field(description="The account URL on that platform.")
 
 
+class TiktokProfilePlaylistsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    playlists: list[TiktokProfilePlaylistsPlaylist]
+
+
+class TiktokProfilePlaylistsPlaylist(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    cover_url: str | None = Field(
+        default=None,
+        alias="coverUrl",
+        description="Playlist cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact.",
+    )
+    creator_handle: str | None = Field(
+        default=None,
+        alias="creatorHandle",
+        description="Handle of the account that owns the playlist, without the leading @. Useful because this SKU is keyed by secUid rather than handle.",
+    )
+    id: str = Field(
+        description="Playlist id. Pass it to tiktok.playlist_videos as id to list the videos in it. Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    video_count: int = Field(
+        alias="videoCount",
+        description="Number of videos TikTok reports in the playlist.",
+    )
+
+
 class TiktokProfileRegionData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -1059,6 +1347,81 @@ class TiktokProfileRegionData(BaseModel):
     region: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class TiktokProfileRepostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    videos: list[TiktokProfileRepostsVideo] = Field(
+        description="Videos the creator reposted, newest first. Reposts are other accounts' videos, so author is usually not the creator you asked about."
+    )
+
+
+class TiktokProfileRepostsVideo(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Handle of the account that posted the video, without the leading @. Populated whenever the provider has data for the entity."
+    )
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. TikTok rounds this for large accounts.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="The author's display name, which is not the handle and can contain any characters.",
+    )
+    author_sec_uid: str | None = Field(
+        default=None,
+        alias="authorSecUid",
+        description="The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+    )
+    author_verified: bool | None = Field(default=None, alias="authorVerified")
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    comments: int
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    duration_seconds: int | None = Field(
+        default=None, alias="durationSeconds", description="Video length in seconds."
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+    )
+    id: str = Field(
+        description="TikTok video id. Pass it to tiktok.video as id for the full record. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the video's cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Absent when the upstream provides no cover.",
+    )
+    likes: int
+    saves: int | None = None
+    shares: int
+    sound_author: str | None = Field(
+        default=None, alias="soundAuthor", description="Credited author of the sound."
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track.',
+    )
+    views: int
 
 
 class TiktokProfileVideosData(BaseModel):
@@ -1168,6 +1531,113 @@ class TiktokSearchKeywordVideo(BaseModel):
     saves: int | None = None
     shares: int
     views: int
+
+
+class TiktokSearchPhotosData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    posts: list[TiktokSearchPhotosPost] = Field(
+        description="Photo-mode posts matching the keyword."
+    )
+
+
+class TiktokSearchPhotosPost(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    author: str = Field(
+        description="Handle of the account that posted the video, without the leading @. Populated whenever the provider has data for the entity."
+    )
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. TikTok rounds this for large accounts.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="The author's display name, which is not the handle and can contain any characters.",
+    )
+    author_sec_uid: str | None = Field(
+        default=None,
+        alias="authorSecUid",
+        description="The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+    )
+    author_verified: bool | None = Field(default=None, alias="authorVerified")
+    caption: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    comments: int
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+    )
+    id: str = Field(
+        description="TikTok video id. Pass it to tiktok.video as id for the full record. Populated whenever the provider has data for the entity."
+    )
+    images: list[TiktokSearchPhotosImage] | None = Field(
+        default=None, description="The slideshow's images in order."
+    )
+    likes: int
+    saves: int | None = None
+    shares: int
+    sound_author: str | None = Field(
+        default=None, alias="soundAuthor", description="Credited author of the sound."
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track.',
+    )
+    title: str | None = Field(
+        default=None,
+        description="The slideshow's own title, which TikTok stores separately from the caption. Absent when the creator set none.",
+    )
+    views: int
+
+
+class TiktokSearchPhotosImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    height: int | None = None
+    image: str = Field(
+        description="Image URL. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Populated whenever the provider has data for the entity."
+    )
+    width: int | None = None
+
+
+class TiktokSearchSuggestionsData(BaseModel):
+    suggestions: list[TiktokSearchSuggestionsSuggestion] = Field(
+        description="Suggested searches, most relevant first."
+    )
+
+
+class TiktokSearchSuggestionsSuggestion(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    language: str | None = Field(
+        default=None,
+        description="BCP-47 language code TikTok assigns the suggestion, e.g. en.",
+    )
+    score: float | None = Field(
+        default=None,
+        description="TikTok's relative weight for the suggestion. Comparable within one response only; it is not a search volume.",
+    )
+    text: str = Field(
+        description="The suggested search term. Populated whenever the provider has data for the entity."
+    )
 
 
 class TiktokSearchTopData(BaseModel):
@@ -1594,24 +2064,52 @@ class TiktokVideoTranscriptData(BaseModel):
 class TiktokVideoTranscriptFullData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    bytes: int | None = Field(
+        default=None, description="Size of the hosted MP4 in bytes. Minimum: 0."
+    )
     duration_seconds: float | None = Field(
         default=None,
         alias="durationSeconds",
         description="Video duration in seconds. Minimum: 0.",
     )
+    expires_utc: float | None = Field(
+        default=None,
+        alias="expiresUtc",
+        description="When the hosted link stops working. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    hosted_url: str | None = Field(
+        default=None,
+        alias="hostedUrl",
+        description="Hosted MP4 link, returned only when the request set hostVideo. It plays without TikTok's signed CDN URL and without any cookie, and it stops working at expiresUtc.",
+    )
+    id: str | None = Field(default=None, description="TikTok video id.")
     language: str | None = Field(
         default=None,
         description='Detected spoken language of the audio (BCP-47 style code, e.g. "en").',
     )
+    owner_username: str | None = Field(
+        default=None,
+        alias="ownerUsername",
+        description="Creator handle, without the leading @.",
+    )
     segments: list[TiktokVideoTranscriptFullSegment] | None = Field(
         default=None,
-        description="Timed transcript segments in playback order, each with the recognizer's per-word confidence so low-confidence text can be treated as uncertain rather than quoted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Timed transcript segments in playback order, one per sentence, so a segment locates a specific line in the video rather than a whole speaker turn. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    source: str = Field(
-        description='How the text was produced. Always "audio_asr" on this endpoint: the words come from automatic speech recognition over the audio, not from a caption track the platform published. Populated whenever the provider has data for the entity.'
+    source: Literal["audio_asr", "transcript_unavailable"] = Field(
+        description='How the text was produced. "audio_asr" means the words come from speech recognition over the video\'s audio, never from a caption track TikTok published - for TikTok\'s own captions, use tiktok.video_transcript. "transcript_unavailable" means recognition did not complete for this video, so the transcript is empty for that reason rather than because the video has no speech in it; the rest of the record is still what we resolved, and no audio time is charged. Populated whenever the provider has data for the entity.'
+    )
+    thumbnail_url: str | None = Field(
+        default=None,
+        alias="thumbnailUrl",
+        description="Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.",
     )
     transcript: str = Field(
-        description="Full spoken-word transcript, machine-transcribed from the video's audio track. Populated whenever the provider has data for the entity."
+        description="Full spoken-word transcript, recognized from the video's audio track. Populated whenever the provider has data for the entity."
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical URL of the video this transcript came from.",
     )
 
 
@@ -1619,45 +2117,43 @@ class TiktokVideoTranscriptFullSegment(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     end_seconds: float = Field(
-        alias="endSeconds", description="Segment end offset in seconds. Minimum: 0."
+        alias="endSeconds",
+        description="Segment end offset in seconds, taken from the last word it contains. Minimum: 0.",
     )
     language: str | None = Field(
         default=None, description="Detected language for this segment."
     )
     speaker: str | None = Field(
         default=None,
-        description='Recognizer speaker label for this segment (e.g. "SPEAKER_00"). Diarization is a guess, not an identification.',
+        description="Speaker label for this segment, stable within one response and meaningless across responses. Telling voices apart is a guess, not an identification, and the label is not a name.",
     )
     start_seconds: float = Field(
-        alias="startSeconds", description="Segment start offset in seconds. Minimum: 0."
+        alias="startSeconds",
+        description="Segment start offset in seconds, taken from the first word it contains. Minimum: 0.",
     )
     text: str = Field(description="Text of this segment.")
     words: list[TiktokVideoTranscriptFullWord] | None = Field(
         default=None,
-        description="Per-word timing and recognizer confidence for this segment.",
+        description="Per-word timings for this segment, returned only when the request set wordTimestamps. Words carry no confidence score: the recognizer scores a phrase rather than a word.",
     )
 
 
 class TiktokVideoTranscriptFullWord(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    confidence: float = Field(
-        description="Recognizer score for this word, exactly as the recognizer reported it. It is normally an alignment probability between 0 and 1, but on audio the recognizer could not align it reports a negative log-scale score instead, so read the sign before treating the number as a probability. Either way, lower means less certain, and low values are common on names, jargon, and music."
-    )
     end_seconds: float | None = Field(
         default=None,
         alias="endSeconds",
         description="Word end offset in seconds. Minimum: 0.",
-    )
-    speaker: str | None = Field(
-        default=None, description="Recognizer speaker label for this word."
     )
     start_seconds: float | None = Field(
         default=None,
         alias="startSeconds",
         description="Word start offset in seconds. Minimum: 0.",
     )
-    word: str = Field(description="The recognized word.")
+    text: str = Field(
+        description="The recognized word, in display form with its own punctuation."
+    )
 
 
 class TiktokNamespace:
@@ -1695,13 +2191,13 @@ class TiktokNamespace:
     ) -> RunResult[TiktokAdLibrarySearchData]:
         """TikTok Ad Library Search
 
-        Search TikTok's ad library by keyword (top ads with brand, title, spend,
-        CTR, likes, and video info).
+        Search TikTok's public Ads Library by keyword or advertiser (advertiser,
+        title, audience band, run dates, library link, and video).
 
-        Price: $0.0012 per request.
+        Price: $0.0005 per request.
 
         Example:
-            res = client.tiktok.ad_library_search(limit=20, objective="conversions", period=30, query="spotify")
+            res = client.tiktok.ad_library_search(query="spotify")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.ad_library_search", dict(input), options
@@ -1806,7 +2302,7 @@ class TiktokNamespace:
         List the replies to a TikTok comment with cursor pagination (text, author,
         likes).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.comment_replies(commentId="7623828115408274207", url="https://www.tiktok.com/@stoolpresidente/video/7623818255903329566")
@@ -1988,6 +2484,50 @@ class TiktokNamespace:
         )
         return RunResult[TiktokPhotosData].model_validate(raw)
 
+    def playlist_videos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokPlaylistVideosInput],
+    ) -> RunResult[TiktokPlaylistVideosData]:
+        """TikTok Playlist Videos
+
+        List the videos inside one TikTok playlist by playlist URL or id, in
+        playlist order, with view, like and comment counts.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.playlist_videos(url="https://www.tiktok.com/@mrbeast/playlist/Beast%20Games-7596415294902389534")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.playlist_videos", dict(input), options
+        )
+        return RunResult[TiktokPlaylistVideosData].model_validate(raw)
+
+    def iter_playlist_videos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokPlaylistVideosInput],
+    ) -> Paginator[TiktokPlaylistVideosVideo, TiktokPlaylistVideosData]:
+        """Iterate TikTok Playlist Videos results, following pagination cursors.
+
+        Yields validated `TiktokPlaylistVideosVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.playlist_videos",
+            dict(input),
+            "videos",
+            item_model=TiktokPlaylistVideosVideo,
+            data_model=TiktokPlaylistVideosData,
+            bare=False,
+            options=options,
+        )
+
     def profile(
         self,
         *,
@@ -1999,7 +2539,7 @@ class TiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -2032,6 +2572,50 @@ class TiktokNamespace:
         )
         return RunResult[TiktokProfileContactData].model_validate(raw)
 
+    def profile_playlists(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfilePlaylistsInput],
+    ) -> RunResult[TiktokProfilePlaylistsData]:
+        """TikTok Profile Playlists
+
+        List the playlists a TikTok creator has published on their profile, with
+        each playlist's name, video count and cover image.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.profile_playlists(secUid="MS4wLjABAAAABKjQkOz_IIzXXzEAl_9LGsWhvK-gBnlczwRPXK8EmxAp6K3X0qiaP5_OEqmm0XwG")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.profile_playlists", dict(input), options
+        )
+        return RunResult[TiktokProfilePlaylistsData].model_validate(raw)
+
+    def iter_profile_playlists(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfilePlaylistsInput],
+    ) -> Paginator[TiktokProfilePlaylistsPlaylist, TiktokProfilePlaylistsData]:
+        """Iterate TikTok Profile Playlists results, following pagination cursors.
+
+        Yields validated `TiktokProfilePlaylistsPlaylist` items from the `playlists` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.profile_playlists",
+            dict(input),
+            "playlists",
+            item_model=TiktokProfilePlaylistsPlaylist,
+            data_model=TiktokProfilePlaylistsData,
+            bare=False,
+            options=options,
+        )
+
     def profile_region(
         self,
         *,
@@ -2052,6 +2636,50 @@ class TiktokNamespace:
         )
         return RunResult[TiktokProfileRegionData].model_validate(raw)
 
+    def profile_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfileRepostsInput],
+    ) -> RunResult[TiktokProfileRepostsData]:
+        """TikTok Profile Reposts
+
+        List the videos a TikTok creator has reposted to their profile, with view,
+        like and comment counts and cursor pagination.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.profile_reposts(secUid="MS4wLjABAAAABKjQkOz_IIzXXzEAl_9LGsWhvK-gBnlczwRPXK8EmxAp6K3X0qiaP5_OEqmm0XwG")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.profile_reposts", dict(input), options
+        )
+        return RunResult[TiktokProfileRepostsData].model_validate(raw)
+
+    def iter_profile_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfileRepostsInput],
+    ) -> Paginator[TiktokProfileRepostsVideo, TiktokProfileRepostsData]:
+        """Iterate TikTok Profile Reposts results, following pagination cursors.
+
+        Yields validated `TiktokProfileRepostsVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.profile_reposts",
+            dict(input),
+            "videos",
+            item_model=TiktokProfileRepostsVideo,
+            data_model=TiktokProfileRepostsData,
+            bare=False,
+            options=options,
+        )
+
     def profile_videos(
         self,
         *,
@@ -2063,7 +2691,7 @@ class TiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -2151,7 +2779,7 @@ class TiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy=0)
@@ -2184,6 +2812,72 @@ class TiktokNamespace:
             options=options,
         )
 
+    def search_photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchPhotosInput],
+    ) -> RunResult[TiktokSearchPhotosData]:
+        """TikTok Photo Search
+
+        Search TikTok for photo-mode (slideshow) posts by keyword, with every image
+        in each post plus view, like and comment counts. tiktok.search_keyword
+        returns videos and drops these.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.search_photos(query="latte art")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.search_photos", dict(input), options
+        )
+        return RunResult[TiktokSearchPhotosData].model_validate(raw)
+
+    def iter_search_photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchPhotosInput],
+    ) -> Paginator[TiktokSearchPhotosPost, TiktokSearchPhotosData]:
+        """Iterate TikTok Photo Search results, following pagination cursors.
+
+        Yields validated `TiktokSearchPhotosPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.search_photos",
+            dict(input),
+            "posts",
+            item_model=TiktokSearchPhotosPost,
+            data_model=TiktokSearchPhotosData,
+            bare=False,
+            options=options,
+        )
+
+    def search_suggestions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchSuggestionsInput],
+    ) -> RunResult[TiktokSearchSuggestionsData]:
+        """TikTok Search Suggestions
+
+        Get the search terms TikTok suggests for a keyword, each with its language
+        and relative weight - the queries real TikTok users type around your topic.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.search_suggestions(query="protein powder")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.search_suggestions", dict(input), options
+        )
+        return RunResult[TiktokSearchSuggestionsData].model_validate(raw)
+
     def search_top(
         self,
         *,
@@ -2195,7 +2889,7 @@ class TiktokNamespace:
         Search TikTok's top results for a keyword (caption, views, likes, comments,
         shares) with cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.search_top(query="funny")
@@ -2239,7 +2933,7 @@ class TiktokNamespace:
         Search TikTok accounts by keyword (handle, nickname, follower count) with
         cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.search_users(query="chef")
@@ -2280,7 +2974,7 @@ class TiktokNamespace:
         Fetch details for a TikTok song or sound (title, author, duration, cover
         art, and how many videos use it).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.song(clipId="7439295283975702544")
@@ -2301,7 +2995,7 @@ class TiktokNamespace:
         List TikTok videos that use a given song or sound (with descriptions,
         authors, and engagement stats).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.song_videos(clipId="7439295283975702544")
@@ -2342,8 +3036,8 @@ class TiktokNamespace:
     ) -> RunResult[TiktokTopAdsSearchData]:
         """TikTok Top Ads Search
 
-        Search TikTok Creative Center top video ads by keyword with explicit
-        performance, objective, region, language, and time-window filters.
+        Search TikTok Creative Center top video ads by keyword, with campaign
+        objective, performance percentile, and time-window filters.
 
         Price: $0.0012 per request.
 
@@ -2367,7 +3061,7 @@ class TiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -2415,7 +3109,7 @@ class TiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -2436,7 +3130,7 @@ class TiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0008 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -2482,7 +3176,7 @@ class TiktokNamespace:
         the cover image, with duration and pixel dimensions. Photo-mode posts carry
         no video file - use tiktok.photos for those.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.video_download(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287")
@@ -2498,9 +3192,15 @@ class TiktokNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TiktokVideoTranscriptInput],
     ) -> RunResult[TiktokVideoTranscriptData]:
-        """TikTok Video Transcript
+        """TikTok Video Transcript (native captions)
 
-        Fetch the spoken-word transcript of a TikTok video by URL.
+        Fetch the caption track TikTok itself published for a video, as TikTok wrote
+        it. It is the cheapest way to get the words, and it is only as good as
+        TikTok's own transcription: it mishears names and uncommon words, and many
+        videos - especially non-English ones - have no caption track at all, which
+        comes back as not found. When you need the words to be right, or there is no
+        track to read, tiktok.video_transcript_full transcribes the audio with
+        AnyAPI's own speech-to-text instead.
 
         Price: $0.0012 per request.
 
@@ -2518,13 +3218,22 @@ class TiktokNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TiktokVideoTranscriptFullInput],
     ) -> RunResult[TiktokVideoTranscriptFullData]:
-        """TikTok Video Transcript (Audio)
+        """TikTok Video Transcript (AnyAPI speech to text)
 
-        Transcribe the spoken audio of a TikTok video with timed segments, speaker
-        labels, and per-word confidence - for videos TikTok publishes no subtitle
-        track for.
+        Transcribe the spoken audio of a TikTok video with AnyAPI's own
+        speech-to-text: timed sentence-level segments, speaker labels, detected
+        language, and optional per-word timings, for videos TikTok publishes no
+        caption track for and for videos whose caption track gets the words wrong.
+        AnyAPI downloads the video and runs the audio through MAI-Transcribe-2
+        rather than reading anything TikTok wrote, which is why it handles
+        non-English speech and hears words the native captions mishear. The answer
+        also carries the video's id, URL, creator handle, and cover image. Turn on
+        hostVideo to also get the MP4 on a hosted link that plays without TikTok's
+        signed, short-lived CDN URL expiring on you. If you only want whatever
+        TikTok itself published and you want it for a tenth of the price,
+        tiktok.video_transcript is that.
 
-        Price: $0.0176 per request plus $0 per result (maximum $0.0176).
+        Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
         Example:
             res = client.tiktok.video_transcript_full(url="https://www.tiktok.com/@thatdudecancook/video/7649086431641521421")
@@ -2570,13 +3279,13 @@ class AsyncTiktokNamespace:
     ) -> RunResult[TiktokAdLibrarySearchData]:
         """TikTok Ad Library Search
 
-        Search TikTok's ad library by keyword (top ads with brand, title, spend,
-        CTR, likes, and video info).
+        Search TikTok's public Ads Library by keyword or advertiser (advertiser,
+        title, audience band, run dates, library link, and video).
 
-        Price: $0.0012 per request.
+        Price: $0.0005 per request.
 
         Example:
-            res = client.tiktok.ad_library_search(limit=20, objective="conversions", period=30, query="spotify")
+            res = client.tiktok.ad_library_search(query="spotify")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.ad_library_search", dict(input), options
@@ -2681,7 +3390,7 @@ class AsyncTiktokNamespace:
         List the replies to a TikTok comment with cursor pagination (text, author,
         likes).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.comment_replies(commentId="7623828115408274207", url="https://www.tiktok.com/@stoolpresidente/video/7623818255903329566")
@@ -2863,6 +3572,50 @@ class AsyncTiktokNamespace:
         )
         return RunResult[TiktokPhotosData].model_validate(raw)
 
+    async def playlist_videos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokPlaylistVideosInput],
+    ) -> RunResult[TiktokPlaylistVideosData]:
+        """TikTok Playlist Videos
+
+        List the videos inside one TikTok playlist by playlist URL or id, in
+        playlist order, with view, like and comment counts.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.playlist_videos(url="https://www.tiktok.com/@mrbeast/playlist/Beast%20Games-7596415294902389534")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.playlist_videos", dict(input), options
+        )
+        return RunResult[TiktokPlaylistVideosData].model_validate(raw)
+
+    def iter_playlist_videos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokPlaylistVideosInput],
+    ) -> AsyncPaginator[TiktokPlaylistVideosVideo, TiktokPlaylistVideosData]:
+        """Iterate TikTok Playlist Videos results, following pagination cursors.
+
+        Yields validated `TiktokPlaylistVideosVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.playlist_videos",
+            dict(input),
+            "videos",
+            item_model=TiktokPlaylistVideosVideo,
+            data_model=TiktokPlaylistVideosData,
+            bare=False,
+            options=options,
+        )
+
     async def profile(
         self,
         *,
@@ -2874,7 +3627,7 @@ class AsyncTiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -2907,6 +3660,50 @@ class AsyncTiktokNamespace:
         )
         return RunResult[TiktokProfileContactData].model_validate(raw)
 
+    async def profile_playlists(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfilePlaylistsInput],
+    ) -> RunResult[TiktokProfilePlaylistsData]:
+        """TikTok Profile Playlists
+
+        List the playlists a TikTok creator has published on their profile, with
+        each playlist's name, video count and cover image.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.profile_playlists(secUid="MS4wLjABAAAABKjQkOz_IIzXXzEAl_9LGsWhvK-gBnlczwRPXK8EmxAp6K3X0qiaP5_OEqmm0XwG")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.profile_playlists", dict(input), options
+        )
+        return RunResult[TiktokProfilePlaylistsData].model_validate(raw)
+
+    def iter_profile_playlists(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfilePlaylistsInput],
+    ) -> AsyncPaginator[TiktokProfilePlaylistsPlaylist, TiktokProfilePlaylistsData]:
+        """Iterate TikTok Profile Playlists results, following pagination cursors.
+
+        Yields validated `TiktokProfilePlaylistsPlaylist` items from the `playlists` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.profile_playlists",
+            dict(input),
+            "playlists",
+            item_model=TiktokProfilePlaylistsPlaylist,
+            data_model=TiktokProfilePlaylistsData,
+            bare=False,
+            options=options,
+        )
+
     async def profile_region(
         self,
         *,
@@ -2927,6 +3724,50 @@ class AsyncTiktokNamespace:
         )
         return RunResult[TiktokProfileRegionData].model_validate(raw)
 
+    async def profile_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfileRepostsInput],
+    ) -> RunResult[TiktokProfileRepostsData]:
+        """TikTok Profile Reposts
+
+        List the videos a TikTok creator has reposted to their profile, with view,
+        like and comment counts and cursor pagination.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.profile_reposts(secUid="MS4wLjABAAAABKjQkOz_IIzXXzEAl_9LGsWhvK-gBnlczwRPXK8EmxAp6K3X0qiaP5_OEqmm0XwG")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.profile_reposts", dict(input), options
+        )
+        return RunResult[TiktokProfileRepostsData].model_validate(raw)
+
+    def iter_profile_reposts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokProfileRepostsInput],
+    ) -> AsyncPaginator[TiktokProfileRepostsVideo, TiktokProfileRepostsData]:
+        """Iterate TikTok Profile Reposts results, following pagination cursors.
+
+        Yields validated `TiktokProfileRepostsVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.profile_reposts",
+            dict(input),
+            "videos",
+            item_model=TiktokProfileRepostsVideo,
+            data_model=TiktokProfileRepostsData,
+            bare=False,
+            options=options,
+        )
+
     async def profile_videos(
         self,
         *,
@@ -2938,7 +3779,7 @@ class AsyncTiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -3026,7 +3867,7 @@ class AsyncTiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy=0)
@@ -3059,6 +3900,72 @@ class AsyncTiktokNamespace:
             options=options,
         )
 
+    async def search_photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchPhotosInput],
+    ) -> RunResult[TiktokSearchPhotosData]:
+        """TikTok Photo Search
+
+        Search TikTok for photo-mode (slideshow) posts by keyword, with every image
+        in each post plus view, like and comment counts. tiktok.search_keyword
+        returns videos and drops these.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.search_photos(query="latte art")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.search_photos", dict(input), options
+        )
+        return RunResult[TiktokSearchPhotosData].model_validate(raw)
+
+    def iter_search_photos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchPhotosInput],
+    ) -> AsyncPaginator[TiktokSearchPhotosPost, TiktokSearchPhotosData]:
+        """Iterate TikTok Photo Search results, following pagination cursors.
+
+        Yields validated `TiktokSearchPhotosPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.search_photos",
+            dict(input),
+            "posts",
+            item_model=TiktokSearchPhotosPost,
+            data_model=TiktokSearchPhotosData,
+            bare=False,
+            options=options,
+        )
+
+    async def search_suggestions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokSearchSuggestionsInput],
+    ) -> RunResult[TiktokSearchSuggestionsData]:
+        """TikTok Search Suggestions
+
+        Get the search terms TikTok suggests for a keyword, each with its language
+        and relative weight - the queries real TikTok users type around your topic.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.tiktok.search_suggestions(query="protein powder")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "tiktok.search_suggestions", dict(input), options
+        )
+        return RunResult[TiktokSearchSuggestionsData].model_validate(raw)
+
     async def search_top(
         self,
         *,
@@ -3070,7 +3977,7 @@ class AsyncTiktokNamespace:
         Search TikTok's top results for a keyword (caption, views, likes, comments,
         shares) with cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.search_top(query="funny")
@@ -3114,7 +4021,7 @@ class AsyncTiktokNamespace:
         Search TikTok accounts by keyword (handle, nickname, follower count) with
         cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.search_users(query="chef")
@@ -3155,7 +4062,7 @@ class AsyncTiktokNamespace:
         Fetch details for a TikTok song or sound (title, author, duration, cover
         art, and how many videos use it).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.song(clipId="7439295283975702544")
@@ -3176,7 +4083,7 @@ class AsyncTiktokNamespace:
         List TikTok videos that use a given song or sound (with descriptions,
         authors, and engagement stats).
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.song_videos(clipId="7439295283975702544")
@@ -3217,8 +4124,8 @@ class AsyncTiktokNamespace:
     ) -> RunResult[TiktokTopAdsSearchData]:
         """TikTok Top Ads Search
 
-        Search TikTok Creative Center top video ads by keyword with explicit
-        performance, objective, region, language, and time-window filters.
+        Search TikTok Creative Center top video ads by keyword, with campaign
+        objective, performance percentile, and time-window filters.
 
         Price: $0.0012 per request.
 
@@ -3242,7 +4149,7 @@ class AsyncTiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -3290,7 +4197,7 @@ class AsyncTiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.0005 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -3311,7 +4218,7 @@ class AsyncTiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0008 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -3357,7 +4264,7 @@ class AsyncTiktokNamespace:
         the cover image, with duration and pixel dimensions. Photo-mode posts carry
         no video file - use tiktok.photos for those.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.tiktok.video_download(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287")
@@ -3373,9 +4280,15 @@ class AsyncTiktokNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TiktokVideoTranscriptInput],
     ) -> RunResult[TiktokVideoTranscriptData]:
-        """TikTok Video Transcript
+        """TikTok Video Transcript (native captions)
 
-        Fetch the spoken-word transcript of a TikTok video by URL.
+        Fetch the caption track TikTok itself published for a video, as TikTok wrote
+        it. It is the cheapest way to get the words, and it is only as good as
+        TikTok's own transcription: it mishears names and uncommon words, and many
+        videos - especially non-English ones - have no caption track at all, which
+        comes back as not found. When you need the words to be right, or there is no
+        track to read, tiktok.video_transcript_full transcribes the audio with
+        AnyAPI's own speech-to-text instead.
 
         Price: $0.0012 per request.
 
@@ -3393,13 +4306,22 @@ class AsyncTiktokNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[TiktokVideoTranscriptFullInput],
     ) -> RunResult[TiktokVideoTranscriptFullData]:
-        """TikTok Video Transcript (Audio)
+        """TikTok Video Transcript (AnyAPI speech to text)
 
-        Transcribe the spoken audio of a TikTok video with timed segments, speaker
-        labels, and per-word confidence - for videos TikTok publishes no subtitle
-        track for.
+        Transcribe the spoken audio of a TikTok video with AnyAPI's own
+        speech-to-text: timed sentence-level segments, speaker labels, detected
+        language, and optional per-word timings, for videos TikTok publishes no
+        caption track for and for videos whose caption track gets the words wrong.
+        AnyAPI downloads the video and runs the audio through MAI-Transcribe-2
+        rather than reading anything TikTok wrote, which is why it handles
+        non-English speech and hears words the native captions mishear. The answer
+        also carries the video's id, URL, creator handle, and cover image. Turn on
+        hostVideo to also get the MP4 on a hosted link that plays without TikTok's
+        signed, short-lived CDN URL expiring on you. If you only want whatever
+        TikTok itself published and you want it for a tenth of the price,
+        tiktok.video_transcript is that.
 
-        Price: $0.0176 per request plus $0 per result (maximum $0.0176).
+        Price: $0.0015 per request plus $0.006 per audio minute (maximum $0.095).
 
         Example:
             res = client.tiktok.video_transcript_full(url="https://www.tiktok.com/@thatdudecancook/video/7649086431641521421")

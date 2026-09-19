@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class PersonEnrichmentBettercontactInput(TypedDict, total=False):
     """Input for Person Enrichment - BetterContact."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     company: NotRequired[str]
     """Employer name, for when you have no domain."""
     companyDomain: NotRequired[str]
@@ -26,35 +28,72 @@ class PersonEnrichmentBettercontactInput(TypedDict, total=False):
     """Arbitrary identifiers echoed back on the result, for joining the answer to your own records."""
     firstName: Required[str]
     """Contact's first name."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     lastName: Required[str]
     """Contact's last name."""
     linkedinUrl: NotRequired[str]
     """Contact's LinkedIn profile URL, which raises the match rate."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class PersonEnrichmentCrustdataV3Input(TypedDict, total=False):
+    """Input for Person Enrichment - Crustdata v3."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    email: NotRequired[str]
+    """The person's business email address."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    linkedinUrl: NotRequired[str]
+    """LinkedIn profile URL, e.g. https://www.linkedin.com/in/satyanadella. Send exactly one of linkedinUrl or email."""
+    minSimilarityScore: NotRequired[float]
+    """For an email lookup, the lowest match similarity from 0 to 1 to accept. Leave unset to use Crustdata's default. Range: 0 to 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PersonEnrichmentFullenrichBulkInput(TypedDict, total=False):
     """Input for Bulk Person Enrichment - FullEnrich."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     contacts: Required[list[dict[str, Any]]]
     """People to enrich, up to 99 per call. You are charged only for the contacts the waterfall resolves, though the funds held cover every contact you submit until the call settles. Each entry is passed to FullEnrich exactly as you write it, which is why these keys are snake_case while the rest of the API is camelCase. Give a name plus an employer (company_name or domain), or a linkedin_url, or both - more identity means a better hit rate."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PersonEnrichmentFullenrichReverseEmailInput(TypedDict, total=False):
     """Input for Reverse Email Lookup - FullEnrich."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     contacts: Required[list[dict[str, Any]]]
     """Addresses to look up, up to 99 per call. You are charged only for the addresses that resolve to a person, though the funds held cover every address you submit until the call settles. Each entry is an object so you can tag it; the address itself goes in email."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PersonEnrichmentLushaInput(TypedDict, total=False):
     """Input for Person Enrichment - Lusha."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyDomain: NotRequired[str]
     """Employer domain, e.g. apollo.io. Secondary identifier for a name-based lookup."""
     companyName: NotRequired[str]
@@ -63,6 +102,8 @@ class PersonEnrichmentLushaInput(TypedDict, total=False):
     """Known email address, used to resolve the person's identity."""
     firstName: NotRequired[str]
     """First name. Send with lastName plus companyName or companyDomain."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     lastName: NotRequired[str]
     """Last name. Send with firstName plus companyName or companyDomain."""
     linkedinUrl: NotRequired[str]
@@ -77,11 +118,15 @@ class PersonEnrichmentLushaInput(TypedDict, total=False):
     """Reveal phone numbers. Defaults to true upstream."""
     signals: NotRequired[bool]
     """Include buying-intent signals in the response."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PersonEnrichmentPeopledatalabsInput(TypedDict, total=False):
     """Input for Person Enrichment - People Data Labs."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     birthDate: NotRequired[str]
     """Known birth date, to disambiguate a name match."""
     company: NotRequired[str]
@@ -96,6 +141,8 @@ class PersonEnrichmentPeopledatalabsInput(TypedDict, total=False):
     """SHA-256 or MD5 hash of an email address, for privacy-preserving matching."""
     firstName: NotRequired[str]
     """First name. Send with lastName plus company, school or location."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeIfMatched: NotRequired[bool]
     """Report which of the sent identifiers actually matched."""
     lastName: NotRequired[str]
@@ -128,6 +175,8 @@ class PersonEnrichmentPeopledatalabsInput(TypedDict, total=False):
     """People Data Labs boolean expression over top-level fields that a match must satisfy, e.g. personal_emails or (emails and phone_numbers)."""
     school: NotRequired[str]
     """School the person attended, used to disambiguate a name match."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     streetAddress: NotRequired[str]
     """Street address to match on."""
     titlecase: NotRequired[bool]
@@ -137,6 +186,8 @@ class PersonEnrichmentPeopledatalabsInput(TypedDict, total=False):
 class PersonEnrichmentProspeoInput(TypedDict, total=False):
     """Input for Person Enrichment - Prospeo."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyLinkedinUrl: NotRequired[str]
     """Employer LinkedIn page URL, for a more precise match."""
     companyName: NotRequired[str]
@@ -151,6 +202,8 @@ class PersonEnrichmentProspeoInput(TypedDict, total=False):
     """First name. Send with lastName plus companyWebsite for the best hit rate."""
     fullName: NotRequired[str]
     """Full name, as an alternative to firstName plus lastName."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     lastName: NotRequired[str]
     """Last name."""
     linkedinUrl: NotRequired[str]
@@ -163,15 +216,23 @@ class PersonEnrichmentProspeoInput(TypedDict, total=False):
     """Prospeo person id from an earlier People Search - Prospeo call."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PersonEnrichmentQuickenrichInput(TypedDict, total=False):
     """Input for Person Enrichment - QuickEnrich."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     email: Required[str]
     """Exact work email address to look up."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PersonEnrichmentBettercontactData(BaseModel):
@@ -348,6 +409,222 @@ class PersonEnrichmentBettercontactCompany(BaseModel):
     phone: str | None = Field(default=None, description="Company switchboard number.")
     size: str | None = Field(default=None, description="Employee headcount band.")
     website: str | None = Field(default=None, description="Company website URL.")
+
+
+class PersonEnrichmentCrustdataV3Data(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    connections: int | None = Field(
+        default=None, description="LinkedIn connection count."
+    )
+    current_positions: list[PersonEnrichmentCrustdataV3CurrentPosition] | None = Field(
+        default=None,
+        alias="currentPositions",
+        description="Roles the person holds now.",
+    )
+    education: list[PersonEnrichmentCrustdataV3Education] | None = Field(
+        default=None, description="Schools attended."
+    )
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="First name."
+    )
+    followers: int | None = Field(default=None, description="LinkedIn follower count.")
+    github_profiles: list[PersonEnrichmentCrustdataV3GithubProfile] | None = Field(
+        default=None,
+        alias="githubProfiles",
+        description="GitHub accounts matched to the person, each with its own match confidence.",
+    )
+    github_url: str | None = Field(
+        default=None,
+        alias="githubUrl",
+        description="GitHub profile URL linked from the profile.",
+    )
+    headline: str | None = Field(default=None, description="LinkedIn headline.")
+    image: str | None = Field(default=None, description="Profile photo URL.")
+    job_title: str | None = Field(
+        default=None, alias="jobTitle", description="Current job title."
+    )
+    languages: list[str] | None = Field(
+        default=None, description="Languages the person lists."
+    )
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Last name."
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="LinkedIn profile URL."
+    )
+    location: PersonEnrichmentCrustdataV3Location | None = Field(
+        default=None, description="Where the person is based."
+    )
+    match_confidence: float | None = Field(
+        default=None,
+        alias="matchConfidence",
+        description="Confidence from 0 to 1 that the returned person is the one asked for.",
+    )
+    name: str | None = Field(default=None, description="Full name.")
+    past_positions: list[PersonEnrichmentCrustdataV3PastPosition] | None = Field(
+        default=None, alias="pastPositions", description="Roles the person held before."
+    )
+    person_id: str = Field(alias="personId", description="Crustdata person id.")
+    skills: list[str] | None = Field(
+        default=None, description="Skills the person lists on LinkedIn."
+    )
+    summary: str | None = Field(default=None, description="Profile summary.")
+    twitter_handle: str | None = Field(
+        default=None, alias="twitterHandle", description="X (Twitter) handle."
+    )
+    years_of_experience: int | None = Field(
+        default=None,
+        alias="yearsOfExperience",
+        description="Total years of work experience.",
+    )
+
+
+class PersonEnrichmentCrustdataV3CurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_domain: str | None = Field(
+        default=None, alias="companyDomain", description="Employer website domain."
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Employer Crustdata company id, usable as companyId in Company Identify - Crustdata v3.",
+    )
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Employer LinkedIn company page URL.",
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Employer name."
+    )
+    description: str | None = Field(default=None, description="Role description.")
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type, e.g. Full-time.",
+    )
+    ended_utc: float | None = Field(
+        default=None,
+        alias="endedUtc",
+        description="When the role ended. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    function_category: str | None = Field(
+        default=None, alias="functionCategory", description="Job function."
+    )
+    location: str | None = Field(default=None, description="Where the role is based.")
+    seniority: str | None = Field(
+        default=None, description="Seniority level, e.g. CXO."
+    )
+    started_utc: float | None = Field(
+        default=None,
+        alias="startedUtc",
+        description="When the role started. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    title: str | None = Field(default=None, description="Job title.")
+
+
+class PersonEnrichmentCrustdataV3Education(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    degree: str | None = Field(default=None, description="Degree.")
+    description: str | None = Field(
+        default=None, description="Notes on the course of study."
+    )
+    end_year: int | None = Field(
+        default=None, alias="endYear", description="Year finished."
+    )
+    field_of_study: str | None = Field(
+        default=None, alias="fieldOfStudy", description="Field of study."
+    )
+    school: str | None = Field(default=None, description="School name.")
+    start_year: int | None = Field(
+        default=None, alias="startYear", description="Year started."
+    )
+
+
+class PersonEnrichmentCrustdataV3GithubProfile(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    bio: str | None = Field(default=None, description="Profile bio.")
+    company: str | None = Field(
+        default=None, description="Company as written on the profile."
+    )
+    confidence_score: float | None = Field(
+        default=None,
+        alias="confidenceScore",
+        description="Confidence from 0 to 1 that this account belongs to the person.",
+    )
+    followers: int | None = Field(default=None, description="Follower count.")
+    following: int | None = Field(default=None, description="Accounts followed.")
+    location: str | None = Field(
+        default=None, description="Location as written on the profile."
+    )
+    name: str | None = Field(default=None, description="Display name.")
+    profile_url: str | None = Field(
+        default=None, alias="profileUrl", description="GitHub profile URL."
+    )
+    public_repo_count: int | None = Field(
+        default=None, alias="publicRepoCount", description="Public repository count."
+    )
+
+
+class PersonEnrichmentCrustdataV3Location(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    city: str | None = Field(default=None, description="City.")
+    continent: str | None = Field(default=None, description="Continent.")
+    country: str | None = Field(default=None, description="Country.")
+    label: str | None = Field(
+        default=None, description="Location as written on the profile."
+    )
+    state: str | None = Field(default=None, description="State or region.")
+
+
+class PersonEnrichmentCrustdataV3PastPosition(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_domain: str | None = Field(
+        default=None, alias="companyDomain", description="Employer website domain."
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Employer Crustdata company id, usable as companyId in Company Identify - Crustdata v3.",
+    )
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Employer LinkedIn company page URL.",
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Employer name."
+    )
+    description: str | None = Field(default=None, description="Role description.")
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type, e.g. Full-time.",
+    )
+    ended_utc: float | None = Field(
+        default=None,
+        alias="endedUtc",
+        description="When the role ended. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    function_category: str | None = Field(
+        default=None, alias="functionCategory", description="Job function."
+    )
+    location: str | None = Field(default=None, description="Where the role is based.")
+    seniority: str | None = Field(
+        default=None, description="Seniority level, e.g. CXO."
+    )
+    started_utc: float | None = Field(
+        default=None,
+        alias="startedUtc",
+        description="When the role started. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    title: str | None = Field(default=None, description="Job title.")
 
 
 class PersonEnrichmentFullenrichBulkData(BaseModel):
@@ -2044,6 +2321,29 @@ class PersonEnrichmentNamespace:
         )
         return RunResult[PersonEnrichmentBettercontactData].model_validate(raw)
 
+    def crustdata_v3(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[PersonEnrichmentCrustdataV3Input],
+    ) -> RunResult[PersonEnrichmentCrustdataV3Data]:
+        """Person Enrichment - Crustdata v3
+
+        Enrich one person from a LinkedIn profile URL or a business email: profile,
+        headline, location, skills, current and past roles with the employer's
+        domain, education, social handles, and GitHub profiles. Contact details are
+        sold separately by Contact Enrichment - Crustdata v3.
+
+        Price: $0.096 per request.
+
+        Example:
+            res = client.person_enrichment.crustdata_v3(linkedinUrl="https://www.linkedin.com/in/satyanadella")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "person_enrichment.crustdata_v3", dict(input), options
+        )
+        return RunResult[PersonEnrichmentCrustdataV3Data].model_validate(raw)
+
     def fullenrich_bulk(
         self,
         *,
@@ -2207,6 +2507,29 @@ class AsyncPersonEnrichmentNamespace:
             "person_enrichment.bettercontact", dict(input), options
         )
         return RunResult[PersonEnrichmentBettercontactData].model_validate(raw)
+
+    async def crustdata_v3(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[PersonEnrichmentCrustdataV3Input],
+    ) -> RunResult[PersonEnrichmentCrustdataV3Data]:
+        """Person Enrichment - Crustdata v3
+
+        Enrich one person from a LinkedIn profile URL or a business email: profile,
+        headline, location, skills, current and past roles with the employer's
+        domain, education, social handles, and GitHub profiles. Contact details are
+        sold separately by Contact Enrichment - Crustdata v3.
+
+        Price: $0.096 per request.
+
+        Example:
+            res = client.person_enrichment.crustdata_v3(linkedinUrl="https://www.linkedin.com/in/satyanadella")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "person_enrichment.crustdata_v3", dict(input), options
+        )
+        return RunResult[PersonEnrichmentCrustdataV3Data].model_validate(raw)
 
     async def fullenrich_bulk(
         self,

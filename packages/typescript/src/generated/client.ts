@@ -19,9 +19,10 @@ import { ChatgptNamespace } from "./platforms/chatgpt.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
 import { CompanyNamespace } from "./platforms/company.js";
 import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
+import { CompanyIdentifyNamespace } from "./platforms/company_identify.js";
 import { CompanySearchNamespace } from "./platforms/company_search.js";
 import { CongressNamespace } from "./platforms/congress.js";
-import { DexscreenerNamespace } from "./platforms/dexscreener.js";
+import { ContactEnrichmentNamespace } from "./platforms/contact_enrichment.js";
 import { DouyinNamespace } from "./platforms/douyin.js";
 import { EbayNamespace } from "./platforms/ebay.js";
 import { EmailNamespace } from "./platforms/email.js";
@@ -53,6 +54,7 @@ import { PersonEnrichmentNamespace } from "./platforms/person_enrichment.js";
 import { PinterestNamespace } from "./platforms/pinterest.js";
 import { PlaystoreNamespace } from "./platforms/playstore.js";
 import { PolymarketNamespace } from "./platforms/polymarket.js";
+import { PropertyRecordsNamespace } from "./platforms/property_records.js";
 import { RealtorNamespace } from "./platforms/realtor.js";
 import { RedditNamespace } from "./platforms/reddit.js";
 import { RedfinNamespace } from "./platforms/redfin.js";
@@ -230,6 +232,14 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the company_identify platform.
+   */
+  get companyIdentify(): CompanyIdentifyNamespace {
+    return (this._namespaces["companyIdentify"] ??=
+      new CompanyIdentifyNamespace(this._core)) as CompanyIdentifyNamespace;
+  }
+
+  /**
    * Typed methods for the company_search platform.
    */
   get companySearch(): CompanySearchNamespace {
@@ -248,12 +258,11 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
-   * Typed methods for the dexscreener platform.
+   * Typed methods for the contact_enrichment platform.
    */
-  get dexscreener(): DexscreenerNamespace {
-    return (this._namespaces["dexscreener"] ??= new DexscreenerNamespace(
-      this._core,
-    )) as DexscreenerNamespace;
+  get contactEnrichment(): ContactEnrichmentNamespace {
+    return (this._namespaces["contactEnrichment"] ??=
+      new ContactEnrichmentNamespace(this._core)) as ContactEnrichmentNamespace;
   }
 
   /**
@@ -531,6 +540,14 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["polymarket"] ??= new PolymarketNamespace(
       this._core,
     )) as PolymarketNamespace;
+  }
+
+  /**
+   * Typed methods for the property_records platform.
+   */
+  get propertyRecords(): PropertyRecordsNamespace {
+    return (this._namespaces["propertyRecords"] ??=
+      new PropertyRecordsNamespace(this._core)) as PropertyRecordsNamespace;
   }
 
   /**

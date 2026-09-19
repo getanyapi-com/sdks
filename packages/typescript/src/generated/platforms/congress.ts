@@ -11,6 +11,11 @@ import type {
  */
 export interface CongressTradesInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Latest transaction date to include, inclusive, in YYYY-MM-DD format (e.g. 2026-06-01).
    */
   endDate?: string;
@@ -18,6 +23,10 @@ export interface CongressTradesInput {
    * Filter by the congressional member's first name, case-insensitive partial match (e.g. Nancy).
    */
   firstName?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Filter by the congressional member's last name, case-insensitive partial match (e.g. Pelosi).
    */
@@ -32,6 +41,10 @@ export interface CongressTradesInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Earliest transaction date to include, inclusive, in YYYY-MM-DD format (e.g. 2026-01-01).
    */

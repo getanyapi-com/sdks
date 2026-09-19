@@ -11,10 +11,19 @@ import type {
  */
 export interface SemrushKeywordsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter Semrush regional database that scopes the metrics (e.g. us, uk, de).
    * Default: us.
    */
   database?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * The search term to research (e.g. "best running shoes").
    */
@@ -24,6 +33,10 @@ export interface SemrushKeywordsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SemrushKeywordsItem {
@@ -124,6 +137,11 @@ export interface SemrushKeywordsData {
  */
 export interface SemrushOverviewInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Two-letter Semrush regional database that scopes the metrics (e.g. us, uk, de).
    * Default: us.
    */
@@ -132,6 +150,10 @@ export interface SemrushOverviewInput {
    * The domain to analyze (e.g. ahrefs.com).
    */
   domain: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Add Moz Domain Authority and Spam Score to the response.
    * Default: false.
@@ -142,6 +164,10 @@ export interface SemrushOverviewInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface SemrushOverviewItem {
@@ -287,7 +313,7 @@ export class SemrushNamespace {
    *
    * Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.
    *
-   * Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+   * Price: $0 per request plus $0.00495 per result (maximum $0.00495).
    *
    * @example
    * const res = await client.semrush.keywords({ keyword: "best running shoes", database: "us" });
@@ -304,7 +330,7 @@ export class SemrushNamespace {
    *
    * a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.
    *
-   * Price: $0 per request plus $0.0165 per result (maximum $0.0165).
+   * Price: $0 per request plus $0.00495 per result (maximum $0.00495).
    *
    * @example
    * const res = await client.semrush.overview({ domain: "ahrefs.com", database: "us" });

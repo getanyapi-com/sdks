@@ -18,10 +18,16 @@ if TYPE_CHECKING:
 class AhrefsBacklinksInput(TypedDict, total=False):
     """Input for Ahrefs Backlinks."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     mode: NotRequired[Literal["exact", "subdomains"]]
     """Match scope: "exact" for the given URL only, or "subdomains" to include the domain and its subdomains. Default: subdomains."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """The domain or page URL to find backlinks for (e.g. "ahrefs.com")."""
 
@@ -29,32 +35,50 @@ class AhrefsBacklinksInput(TypedDict, total=False):
 class AhrefsKeywordIdeasInput(TypedDict, total=False):
     """Input for Ahrefs Keyword Ideas."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     country: NotRequired[str]
     """Two-letter country code that scopes the suggestions (e.g. us, gb, de). Default: us."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: Required[str]
     """The seed keyword to expand into related suggestions (e.g. "coffee")."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class AhrefsKeywordsInput(TypedDict, total=False):
     """Input for Ahrefs Keyword Difficulty."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     country: NotRequired[str]
     """Two-letter country code that scopes volume and difficulty (e.g. us, gb, de). Default: us."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: Required[str]
     """The search term to analyze (e.g. "seo tools")."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class AhrefsOverviewInput(TypedDict, total=False):
     """Input for Ahrefs Domain Overview."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     mode: NotRequired[Literal["exact", "subdomains"]]
     """Analysis scope: subdomains covers the whole domain, exact matches only the given URL. Default: subdomains."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
     """The domain or page URL to analyze (e.g. ahrefs.com)."""
 
@@ -226,7 +250,7 @@ class AhrefsNamespace:
         Get the referring pages linking to a domain or URL, each with the source
         page, anchor text, linking domain rating, and page title.
 
-        Price: $0.0215 per request plus $0 per result (maximum $0.0215).
+        Price: $0.00501 per request plus $0 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
@@ -247,7 +271,7 @@ class AhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
@@ -269,7 +293,7 @@ class AhrefsNamespace:
         difficulty score (0-100) and the number of referring domains a page needs to
         rank in the top 10 - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
@@ -290,7 +314,7 @@ class AhrefsNamespace:
         Get an SEO authority overview for any domain or URL: Domain Rating, total
         backlinks, and referring domains - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")
@@ -318,7 +342,7 @@ class AsyncAhrefsNamespace:
         Get the referring pages linking to a domain or URL, each with the source
         page, anchor text, linking domain rating, and page title.
 
-        Price: $0.0215 per request plus $0 per result (maximum $0.0215).
+        Price: $0.00501 per request plus $0 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
@@ -339,7 +363,7 @@ class AsyncAhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
@@ -361,7 +385,7 @@ class AsyncAhrefsNamespace:
         difficulty score (0-100) and the number of referring domains a page needs to
         rank in the top 10 - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
@@ -382,7 +406,7 @@ class AsyncAhrefsNamespace:
         Get an SEO authority overview for any domain or URL: Domain Rating, total
         backlinks, and referring domains - as normalized JSON.
 
-        Price: $0.00165 per request plus $0.0198 per result (maximum $0.0215).
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")

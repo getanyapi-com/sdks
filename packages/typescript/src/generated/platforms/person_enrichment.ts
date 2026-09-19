@@ -11,6 +11,11 @@ import type {
  */
 export interface PersonEnrichmentBettercontactInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Employer name, for when you have no domain.
    */
   company?: string;
@@ -27,6 +32,10 @@ export interface PersonEnrichmentBettercontactInput {
    */
   firstName: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Contact's last name.
    */
   lastName: string;
@@ -40,6 +49,10 @@ export interface PersonEnrichmentBettercontactInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -277,6 +290,339 @@ export interface PersonEnrichmentBettercontactData {
   [extra: string]: unknown;
 }
 
+/**
+ * Input for Person Enrichment - Crustdata v3 (person_enrichment.crustdata_v3).
+ */
+export interface PersonEnrichmentCrustdataV3Input {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * The person's business email address.
+   * Format: email.
+   */
+  email?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn profile URL, e.g. https://www.linkedin.com/in/satyanadella. Send exactly one of linkedinUrl or email.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+  /**
+   * For an email lookup, the lowest match similarity from 0 to 1 to accept. Leave unset to use Crustdata's default.
+   * Range: minimum 0, maximum 1.
+   */
+  minSimilarityScore?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface PersonEnrichmentCrustdataV3CurrentPosition {
+  /**
+   * Employer website domain.
+   */
+  companyDomain?: string;
+  /**
+   * Employer Crustdata company id, usable as companyId in Company Identify - Crustdata v3.
+   */
+  companyId?: string;
+  /**
+   * Employer LinkedIn company page URL.
+   * Format: uri.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Employer name.
+   */
+  companyName?: string;
+  /**
+   * Role description.
+   */
+  description?: string;
+  /**
+   * Employment type, e.g. Full-time.
+   */
+  employmentType?: string;
+  /**
+   * When the role ended. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  endedUtc?: number;
+  /**
+   * Job function.
+   */
+  functionCategory?: string;
+  /**
+   * Where the role is based.
+   */
+  location?: string;
+  /**
+   * Seniority level, e.g. CXO.
+   */
+  seniority?: string;
+  /**
+   * When the role started. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  startedUtc?: number;
+  /**
+   * Job title.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentCrustdataV3Education {
+  /**
+   * Degree.
+   */
+  degree?: string;
+  /**
+   * Notes on the course of study.
+   */
+  description?: string;
+  /**
+   * Year finished.
+   */
+  endYear?: number;
+  /**
+   * Field of study.
+   */
+  fieldOfStudy?: string;
+  /**
+   * School name.
+   */
+  school?: string;
+  /**
+   * Year started.
+   */
+  startYear?: number;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentCrustdataV3GithubProfile {
+  /**
+   * Profile bio.
+   */
+  bio?: string;
+  /**
+   * Company as written on the profile.
+   */
+  company?: string;
+  /**
+   * Confidence from 0 to 1 that this account belongs to the person.
+   */
+  confidenceScore?: number;
+  /**
+   * Follower count.
+   */
+  followers?: number;
+  /**
+   * Accounts followed.
+   */
+  following?: number;
+  /**
+   * Location as written on the profile.
+   */
+  location?: string;
+  /**
+   * Display name.
+   */
+  name?: string;
+  /**
+   * GitHub profile URL.
+   * Format: uri.
+   */
+  profileUrl?: string;
+  /**
+   * Public repository count.
+   */
+  publicRepoCount?: number;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentCrustdataV3PastPosition {
+  /**
+   * Employer website domain.
+   */
+  companyDomain?: string;
+  /**
+   * Employer Crustdata company id, usable as companyId in Company Identify - Crustdata v3.
+   */
+  companyId?: string;
+  /**
+   * Employer LinkedIn company page URL.
+   * Format: uri.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Employer name.
+   */
+  companyName?: string;
+  /**
+   * Role description.
+   */
+  description?: string;
+  /**
+   * Employment type, e.g. Full-time.
+   */
+  employmentType?: string;
+  /**
+   * When the role ended. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  endedUtc?: number;
+  /**
+   * Job function.
+   */
+  functionCategory?: string;
+  /**
+   * Where the role is based.
+   */
+  location?: string;
+  /**
+   * Seniority level, e.g. CXO.
+   */
+  seniority?: string;
+  /**
+   * When the role started. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  startedUtc?: number;
+  /**
+   * Job title.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Person Enrichment - Crustdata v3 (person_enrichment.crustdata_v3).
+ */
+export interface PersonEnrichmentCrustdataV3Data {
+  /**
+   * LinkedIn connection count.
+   */
+  connections?: number;
+  /**
+   * Roles the person holds now.
+   */
+  currentPositions?: PersonEnrichmentCrustdataV3CurrentPosition[];
+  /**
+   * Schools attended.
+   */
+  education?: PersonEnrichmentCrustdataV3Education[];
+  /**
+   * First name.
+   */
+  firstName?: string;
+  /**
+   * LinkedIn follower count.
+   */
+  followers?: number;
+  /**
+   * GitHub accounts matched to the person, each with its own match confidence.
+   */
+  githubProfiles?: PersonEnrichmentCrustdataV3GithubProfile[];
+  /**
+   * GitHub profile URL linked from the profile.
+   * Format: uri.
+   */
+  githubUrl?: string;
+  /**
+   * LinkedIn headline.
+   */
+  headline?: string;
+  /**
+   * Profile photo URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * Current job title.
+   */
+  jobTitle?: string;
+  /**
+   * Languages the person lists.
+   */
+  languages?: string[];
+  /**
+   * Last name.
+   */
+  lastName?: string;
+  /**
+   * LinkedIn profile URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+  /**
+   * Where the person is based.
+   */
+  location?: {
+    /**
+     * City.
+     */
+    city?: string;
+    /**
+     * Continent.
+     */
+    continent?: string;
+    /**
+     * Country.
+     */
+    country?: string;
+    /**
+     * Location as written on the profile.
+     */
+    label?: string;
+    /**
+     * State or region.
+     */
+    state?: string;
+  };
+  /**
+   * Confidence from 0 to 1 that the returned person is the one asked for.
+   */
+  matchConfidence?: number;
+  /**
+   * Full name.
+   */
+  name?: string;
+  /**
+   * Roles the person held before.
+   */
+  pastPositions?: PersonEnrichmentCrustdataV3PastPosition[];
+  /**
+   * Crustdata person id.
+   */
+  personId: string;
+  /**
+   * Skills the person lists on LinkedIn.
+   */
+  skills?: string[];
+  /**
+   * Profile summary.
+   */
+  summary?: string;
+  /**
+   * X (Twitter) handle.
+   */
+  twitterHandle?: string;
+  /**
+   * Total years of work experience.
+   */
+  yearsOfExperience?: number;
+  [extra: string]: unknown;
+}
+
 export interface PersonEnrichmentFullenrichBulkContact {
   /**
    * Employer name. Use this when you do not have the domain.
@@ -313,14 +659,27 @@ export interface PersonEnrichmentFullenrichBulkContact {
  */
 export interface PersonEnrichmentFullenrichBulkInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * People to enrich, up to 99 per call. You are charged only for the contacts the waterfall resolves, though the funds held cover every contact you submit until the call settles. Each entry is passed to FullEnrich exactly as you write it, which is why these keys are snake_case while the rest of the API is camelCase. Give a name plus an employer (company_name or domain), or a linkedin_url, or both - more identity means a better hit rate.
    */
   contacts: PersonEnrichmentFullenrichBulkContact[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface PersonEnrichmentFullenrichBulkContact {
@@ -680,14 +1039,27 @@ export interface PersonEnrichmentFullenrichReverseEmailContact {
  */
 export interface PersonEnrichmentFullenrichReverseEmailInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Addresses to look up, up to 99 per call. You are charged only for the addresses that resolve to a person, though the funds held cover every address you submit until the call settles. Each entry is an object so you can tag it; the address itself goes in email.
    */
   contacts: PersonEnrichmentFullenrichReverseEmailContact[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface PersonEnrichmentFullenrichReverseEmailContact {
@@ -980,6 +1352,11 @@ export interface PersonEnrichmentFullenrichReverseEmailData {
  */
 export interface PersonEnrichmentLushaInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Employer domain, e.g. apollo.io. Secondary identifier for a name-based lookup.
    */
   companyDomain?: string;
@@ -996,6 +1373,10 @@ export interface PersonEnrichmentLushaInput {
    * First name. Send with lastName plus companyName or companyDomain.
    */
   firstName?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Last name. Send with firstName plus companyName or companyDomain.
    */
@@ -1026,6 +1407,10 @@ export interface PersonEnrichmentLushaInput {
    * Include buying-intent signals in the response.
    */
   signals?: boolean;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface PersonEnrichmentLushaNaicsCode {
@@ -1300,6 +1685,11 @@ export interface PersonEnrichmentLushaData {
  */
 export interface PersonEnrichmentPeopledatalabsInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Known birth date, to disambiguate a name match.
    */
   birthDate?: string;
@@ -1328,6 +1718,10 @@ export interface PersonEnrichmentPeopledatalabsInput {
    * First name. Send with lastName plus company, school or location.
    */
   firstName?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
   /**
    * Report which of the sent identifiers actually matched.
    */
@@ -1394,6 +1788,10 @@ export interface PersonEnrichmentPeopledatalabsInput {
    * School the person attended, used to disambiguate a name match.
    */
   school?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
   /**
    * Street address to match on.
    */
@@ -1952,6 +2350,11 @@ export interface PersonEnrichmentPeopledatalabsData {
  */
 export interface PersonEnrichmentProspeoInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Employer LinkedIn page URL, for a more precise match.
    * Format: uri.
    */
@@ -1982,6 +2385,10 @@ export interface PersonEnrichmentProspeoInput {
    */
   fullName?: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Last name.
    */
   lastName?: string;
@@ -2007,6 +2414,10 @@ export interface PersonEnrichmentProspeoInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 export interface PersonEnrichmentProspeoEvent {
@@ -2502,15 +2913,28 @@ export interface PersonEnrichmentProspeoData {
  */
 export interface PersonEnrichmentQuickenrichInput {
   /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
    * Exact work email address to look up.
    * Format: email.
    */
   email: string;
   /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
 }
 
 /**
@@ -2626,6 +3050,23 @@ export class PersonEnrichmentNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<PersonEnrichmentBettercontactData>> {
     return this._core.run("person_enrichment.bettercontact", input, options);
+  }
+
+  /**
+   * Person Enrichment - Crustdata v3
+   *
+   * Enrich one person from a LinkedIn profile URL or a business email: profile, headline, location, skills, current and past roles with the employer's domain, education, social handles, and GitHub profiles. Contact details are sold separately by Contact Enrichment - Crustdata v3.
+   *
+   * Price: $0.096 per request.
+   *
+   * @example
+   * const res = await client.personEnrichment.crustdataV3({ linkedinUrl: "https://www.linkedin.com/in/satyanadella" });
+   */
+  crustdataV3(
+    input: PersonEnrichmentCrustdataV3Input,
+    options?: RequestOptions,
+  ): Promise<RunResult<PersonEnrichmentCrustdataV3Data>> {
+    return this._core.run("person_enrichment.crustdata_v3", input, options);
   }
 
   /**

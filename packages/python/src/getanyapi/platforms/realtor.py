@@ -18,10 +18,14 @@ if TYPE_CHECKING:
 class RealtorSearchInput(TypedDict, total=False):
     """Input for Realtor.com Search."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     bathsMin: NotRequired[int]
     """Minimum number of bathrooms (e.g. 2). Minimum: 0."""
     bedsMin: NotRequired[int]
     """Minimum number of bedrooms (e.g. 3). Minimum: 0."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: NotRequired[str]
     """Free-text keyword that must appear in the listing description (e.g. 'pool')."""
     limit: NotRequired[int]
@@ -62,6 +66,8 @@ class RealtorSearchInput(TypedDict, total=False):
         ]
     ]
     """Listing statuses to include in for_sale mode; omit for active For Sale + Ready to Build. Ignored in sold mode (e.g. ["for_sale", "pending"])."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class RealtorSearchData(BaseModel):

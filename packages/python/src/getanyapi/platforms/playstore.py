@@ -18,6 +18,8 @@ if TYPE_CHECKING:
 class PlaystoreReviewsInput(TypedDict, total=False):
     """Input for Google Play Reviews."""
 
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     appId: Required[str]
     """Android app package name or full Google Play store URL (e.g. com.supercell.brawlstars)."""
     appVersion: NotRequired[list[str]]
@@ -26,6 +28,8 @@ class PlaystoreReviewsInput(TypedDict, total=False):
     """Only return reviews from this device type (e.g. "tablet"); omit for the provider default."""
     endDate: NotRequired[str]
     """Only return reviews on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-06-30)."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: NotRequired[list[str]]
     """Only return reviews whose text contains one of these keywords (e.g. ["crash", "login"])."""
     languages: NotRequired[list[str]]
@@ -42,6 +46,8 @@ class PlaystoreReviewsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `title` or `version`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[str]
     """Review ordering: mostRelevant, newest, or rating (e.g. newest)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class PlaystoreReviewsData(BaseModel):

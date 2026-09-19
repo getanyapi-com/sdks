@@ -20,6 +20,8 @@ class AirbnbSearchInput(TypedDict, total=False):
 
     adults: NotRequired[int]
     """Number of adult guests (e.g. 2). Minimum: 1."""
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     checkIn: NotRequired[str]
     """Check-in date in YYYY-MM-DD format (e.g. 2026-07-01)."""
     checkOut: NotRequired[str]
@@ -79,6 +81,8 @@ class AirbnbSearchInput(TypedDict, total=False):
         ]
     ]
     """Currency code for prices (e.g. EUR). Default: USD."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     infants: NotRequired[int]
     """Number of infant guests (e.g. 1). Minimum: 0."""
     limit: NotRequired[int]
@@ -99,6 +103,8 @@ class AirbnbSearchInput(TypedDict, total=False):
     """Maximum search price in the selected currency (e.g. 300). Minimum: 0."""
     priceMin: NotRequired[int]
     """Minimum search price in the selected currency (e.g. 50). Minimum: 0."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
 class AirbnbSearchData(BaseModel):

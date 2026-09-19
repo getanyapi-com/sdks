@@ -2,149 +2,116 @@
 
 import type {
   ClientCore,
-  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
-import { paginate } from "../../core/index.js";
 
 /**
- * Input for Naver Blog Search (naver.blog_search).
+ * Input for Contact Enrichment - Crustdata v3 (contact_enrichment.crustdata_v3).
  */
-export interface NaverBlogSearchInput {
+export interface ContactEnrichmentCrustdataV3Input {
   /**
    * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Opaque pagination cursor from a previous response's nextCursor.
+   * The person's business email address.
+   * Format: email.
    */
-  cursor?: string;
+  email?: string;
   /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of title-enriched posts to return, from 1 to 5 (default 5).
-   * Range: minimum 1, maximum 5.
+   * LinkedIn profile URL, e.g. https://www.linkedin.com/in/satyanadella. Send exactly one of linkedinUrl or email.
+   * Format: uri.
    */
-  limit?: number;
+  linkedinUrl?: string;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
   /**
-   * Keyword phrase to search across Naver blogs.
-   */
-  query: string;
-  /**
-   * Order posts by Naver relevance or newest publication date (default relevance).
-   * One of: relevance, recent.
-   */
-  sort?: "relevance" | "recent";
-  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
 
-export interface NaverBlogSearchItem {
+export interface ContactEnrichmentCrustdataV3BusinessEmail {
   /**
-   * Blogger display name.
+   * Email address.
    */
-  bloggerName: string;
+  email: string;
   /**
-   * Public root URL for the blog that published the post.
-   * Format: uri.
+   * Deliverability status, e.g. deliverable or unknown.
    */
-  bloggerUrl: string;
+  status?: string;
+  [extra: string]: unknown;
+}
+
+export interface ContactEnrichmentCrustdataV3PersonalEmail {
   /**
-   * Publication date as a UTC epoch timestamp in seconds.
+   * Email address.
    */
-  createdUtc: number;
+  email: string;
   /**
-   * Search-result excerpt from the post.
+   * Deliverability status, e.g. deliverable or unknown.
    */
-  description: string;
-  /**
-   * One-based rank within this result page.
-   * Range: minimum 1.
-   */
-  rank: number;
-  /**
-   * Blog post title.
-   */
-  title: string;
-  /**
-   * Public blog post URL.
-   * Format: uri.
-   */
-  url: string;
+  status?: string;
   [extra: string]: unknown;
 }
 
 /**
- * The `data` payload of Naver Blog Search (naver.blog_search).
+ * The `data` payload of Contact Enrichment - Crustdata v3 (contact_enrichment.crustdata_v3).
  */
-export interface NaverBlogSearchData {
+export interface ContactEnrichmentCrustdataV3Data {
   /**
-   * Blog posts in Naver's requested search order. Populated whenever the provider has data for the entity.
+   * Work email addresses.
    */
-  items: NaverBlogSearchItem[];
+  businessEmails?: ContactEnrichmentCrustdataV3BusinessEmail[];
   /**
-   * Opaque cursor for the next page, or an empty string when no next page is available.
+   * Confidence from 0 to 1 that the returned person is the one asked for.
    */
-  nextCursor: string | null;
+  matchConfidence?: number;
   /**
-   * Naver's reported number of matching blog posts.
-   * Range: minimum 0.
+   * Crustdata person id.
    */
-  total: number;
+  personId: string;
+  /**
+   * Personal email addresses.
+   */
+  personalEmails?: ContactEnrichmentCrustdataV3PersonalEmail[];
+  /**
+   * Phone numbers, as Crustdata stores them.
+   */
+  phoneNumbers?: string[];
+  [extra: string]: unknown;
 }
 
 /**
- * Typed methods for the naver platform. Attached to the AnyAPI client as
- * `client.naver`.
+ * Typed methods for the contact_enrichment platform. Attached to the AnyAPI client as
+ * `client.contactEnrichment`.
  */
-export class NaverNamespace {
+export class ContactEnrichmentNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
-   * Naver Blog Search
+   * Contact Enrichment - Crustdata v3
    *
-   * Search up to five enriched Naver blog results by keyword with stable cursor pagination: result rank, title, excerpt, post and blogger URLs, blogger name, publish time, and Naver's total match count.
+   * Find one person's business emails, personal emails, and phone numbers from a LinkedIn profile URL or a business email, with a deliverability status on every email. Billed only when the person is found.
    *
-   * Price: $0.036 per request.
+   * Price: $0.24 per request.
    *
    * @example
-   * const res = await client.naver.blogSearch({ query: "제주도 맛집", limit: 5, sort: "relevance" });
+   * const res = await client.contactEnrichment.crustdataV3({ linkedinUrl: "https://www.linkedin.com/in/satyanadella" });
    */
-  blogSearch(
-    input: NaverBlogSearchInput,
+  crustdataV3(
+    input: ContactEnrichmentCrustdataV3Input,
     options?: RequestOptions,
-  ): Promise<RunResult<NaverBlogSearchData>> {
-    return this._core.run("naver.blog_search", input, options);
-  }
-
-  /**
-   * Iterate every result of Naver Blog Search across pages.
-   *
-   * Yields items directly; call `.pages()` on the return value to walk whole
-   * result pages instead (each carries its own costUsd).
-   */
-  iterBlogSearch(
-    input: NaverBlogSearchInput,
-    options?: RequestOptions,
-  ): Paginator<NaverBlogSearchItem, RunResult<NaverBlogSearchData>> {
-    return paginate<NaverBlogSearchItem, RunResult<NaverBlogSearchData>>(
-      this._core,
-      "naver.blog_search",
-      input as unknown as Record<string, unknown>,
-      "items",
-      false,
-      options,
-    );
+  ): Promise<RunResult<ContactEnrichmentCrustdataV3Data>> {
+    return this._core.run("contact_enrichment.crustdata_v3", input, options);
   }
 }
