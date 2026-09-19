@@ -4,9 +4,10 @@ import { NOT_FOUND_REASONS } from "../src/index.js";
 
 // The gateway owns the reason vocabulary and publishes it as the `reason` enum on every
 // found-data output schema in the OpenAPI document. The runtime union is a copy, so this
-// test holds the copy to the source: every operation that declares the enum must declare
-// exactly the runtime's words, in order. Until the committed snapshot carries the field
-// (it is refreshed from the live gateway after deploy), there is nothing to compare.
+// test holds the copy to the source. Each operation publishes only the words its own
+// sources can answer with, in the runtime's order, and across the catalog every runtime
+// word is published somewhere. Until the committed snapshot carries the field (it is
+// refreshed from the live gateway after deploy), there is nothing to compare.
 function publishedReasonEnums(): string[][] {
   const openapi = JSON.parse(
     readFileSync(new URL("../../../openapi.json", import.meta.url), "utf8"),
@@ -34,8 +35,13 @@ function publishedReasonEnums(): string[][] {
 
 describe("not-found reason vocabulary", () => {
   it("matches the enum the gateway publishes on every found-data output schema", () => {
-    for (const published of publishedReasonEnums()) {
-      expect(published).toEqual([...NOT_FOUND_REASONS]);
+    const enums = publishedReasonEnums();
+    for (const published of enums) {
+      expect(published).toEqual(NOT_FOUND_REASONS.filter((word) => published.includes(word)));
     }
+    if (enums.length === 0) return;
+    expect(NOT_FOUND_REASONS.filter((word) => enums.some((e) => e.includes(word)))).toEqual([
+      ...NOT_FOUND_REASONS,
+    ]);
   });
 });
