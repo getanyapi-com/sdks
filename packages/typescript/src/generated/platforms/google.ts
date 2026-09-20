@@ -256,8 +256,9 @@ export interface GoogleImagesInput {
   source?: string[];
   /**
    * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   * One of: 1h, 1d, 7d, 1y, all.
    */
-  timeframe?: string;
+  timeframe?: "1h" | "1d" | "7d" | "1y" | "all";
 }
 
 export interface GoogleImagesItem {
@@ -710,8 +711,9 @@ export interface GoogleSearchInput {
   source?: string[];
   /**
    * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   * One of: 1h, 1d, 7d, 1y, all.
    */
-  timeframe?: string;
+  timeframe?: "1h" | "1d" | "7d" | "1y" | "all";
 }
 
 export interface GoogleSearchResult {
@@ -788,8 +790,9 @@ export interface GoogleSearch100Input {
   source?: string[];
   /**
    * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   * One of: 1h, 1d, 7d, 1y, all.
    */
-  timeframe?: string;
+  timeframe?: "1h" | "1d" | "7d" | "1y" | "all";
 }
 
 export interface GoogleSearch100Result {
@@ -876,8 +879,9 @@ export interface GoogleVideosInput {
   source?: string[];
   /**
    * Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).
+   * One of: 1h, 1d, 7d, 1y, all.
    */
-  timeframe?: string;
+  timeframe?: "1h" | "1d" | "7d" | "1y" | "all";
 }
 
 export interface GoogleVideosResult {

@@ -17174,7 +17174,7 @@
         "duration": "0",
         "publishedWithin": 0,
         "query": "机器人",
-        "sort": 0
+        "sort": "relevance"
       },
       "input": {
         "kind": "object",
@@ -17247,8 +17247,15 @@
             "format": null
           },
           "sort": {
-            "kind": "unknown",
-            "description": "Sort order. Use the canonical JSON integer 0 for comprehensive, 1 for most liked, or 2 for newest; legacy numeric strings remain accepted."
+            "kind": "string",
+            "description": "Sort order: relevance (Douyin's comprehensive ranking), most-liked, date-posted.",
+            "enum": [
+              "relevance",
+              "most-liked",
+              "date-posted"
+            ],
+            "default": "relevance",
+            "format": null
           },
           "source": {
             "kind": "array",
@@ -17505,7 +17512,7 @@
       "example": {
         "limit": 20,
         "secUserId": "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE",
-        "sort": 0
+        "sort": "newest"
       },
       "input": {
         "kind": "object",
@@ -17555,8 +17562,14 @@
             "format": null
           },
           "sort": {
-            "kind": "unknown",
-            "description": "Post order. Use the canonical JSON integer 0 for newest or 1 for most popular; legacy numeric strings remain accepted."
+            "kind": "string",
+            "description": "Post order: newest, most-popular.",
+            "enum": [
+              "newest",
+              "most-popular"
+            ],
+            "default": "newest",
+            "format": null
           },
           "source": {
             "kind": "array",
@@ -30472,7 +30485,11 @@
           "since": {
             "kind": "string",
             "description": "Trending range: daily, weekly, or monthly (defaults to daily).",
-            "enum": null,
+            "enum": [
+              "daily",
+              "weekly",
+              "monthly"
+            ],
             "default": null,
             "format": null
           },
@@ -33220,7 +33237,13 @@
           "timeframe": {
             "kind": "string",
             "description": "Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).",
-            "enum": null,
+            "enum": [
+              "1h",
+              "1d",
+              "7d",
+              "1y",
+              "all"
+            ],
             "default": null,
             "format": null
           }
@@ -34196,7 +34219,13 @@
           "timeframe": {
             "kind": "string",
             "description": "Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).",
-            "enum": null,
+            "enum": [
+              "1h",
+              "1d",
+              "7d",
+              "1y",
+              "all"
+            ],
             "default": null,
             "format": null
           }
@@ -34385,7 +34414,13 @@
           "timeframe": {
             "kind": "string",
             "description": "Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).",
-            "enum": null,
+            "enum": [
+              "1h",
+              "1d",
+              "7d",
+              "1y",
+              "all"
+            ],
             "default": null,
             "format": null
           }
@@ -34583,7 +34618,13 @@
           "timeframe": {
             "kind": "string",
             "description": "Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction).",
-            "enum": null,
+            "enum": [
+              "1h",
+              "1d",
+              "7d",
+              "1y",
+              "all"
+            ],
             "default": null,
             "format": null
           }
@@ -76423,7 +76464,13 @@
           "sort": {
             "kind": "string",
             "description": "Optional sort order: relevance, hot, top, new, comments.",
-            "enum": null,
+            "enum": [
+              "relevance",
+              "hot",
+              "top",
+              "new",
+              "comments"
+            ],
             "default": null,
             "format": null
           },
@@ -76448,7 +76495,14 @@
           "timeframe": {
             "kind": "string",
             "description": "Optional time filter: all, year, month, week, day, hour.",
-            "enum": null,
+            "enum": [
+              "all",
+              "year",
+              "month",
+              "week",
+              "day",
+              "hour"
+            ],
             "default": null,
             "format": null
           }
@@ -91371,7 +91425,7 @@
       "example": {
         "datePosted": 0,
         "query": "cooking",
-        "sortBy": 0
+        "sortBy": "relevance"
       },
       "input": {
         "kind": "object",
@@ -91423,8 +91477,15 @@
             "default": null
           },
           "sortBy": {
-            "kind": "unknown",
-            "description": "Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted."
+            "kind": "string",
+            "description": "Sort order: relevance, most-liked, date-posted.",
+            "enum": [
+              "relevance",
+              "most-liked",
+              "date-posted"
+            ],
+            "default": "relevance",
+            "format": null
           },
           "source": {
             "kind": "array",
@@ -92056,7 +92117,14 @@
           "publishTime": {
             "kind": "string",
             "description": "Time-frame filter: yesterday, this-week, this-month, last-3-months, last-6-months, all-time.",
-            "enum": null,
+            "enum": [
+              "yesterday",
+              "this-week",
+              "this-month",
+              "last-3-months",
+              "last-6-months",
+              "all-time"
+            ],
             "default": null,
             "format": null
           },
@@ -92077,7 +92145,11 @@
           "sortBy": {
             "kind": "string",
             "description": "Sort order: relevance, most-liked, date-posted.",
-            "enum": null,
+            "enum": [
+              "relevance",
+              "most-liked",
+              "date-posted"
+            ],
             "default": null,
             "format": null
           },
@@ -97667,7 +97739,11 @@
           "sortBy": {
             "kind": "string",
             "description": "Review ordering: auto, relevancy, or recent (e.g. recent).",
-            "enum": null,
+            "enum": [
+              "auto",
+              "relevancy",
+              "recent"
+            ],
             "default": "auto",
             "format": null
           },
@@ -108861,7 +108937,10 @@
           "order": {
             "kind": "string",
             "description": "Comment order (e.g. top, newest).",
-            "enum": null,
+            "enum": [
+              "top",
+              "newest"
+            ],
             "default": null,
             "format": null
           },

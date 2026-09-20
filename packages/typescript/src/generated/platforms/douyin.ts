@@ -135,9 +135,11 @@ export interface DouyinSearchVideosInput {
    */
   searchId?: string;
   /**
-   * Sort order. Use the canonical JSON integer 0 for comprehensive, 1 for most liked, or 2 for newest; legacy numeric strings remain accepted.
+   * Sort order: relevance (Douyin's comprehensive ranking), most-liked, date-posted.
+   * One of: relevance, most-liked, date-posted.
+   * Default: relevance.
    */
-  sort?: unknown;
+  sort?: "relevance" | "most-liked" | "date-posted";
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -293,9 +295,11 @@ export interface DouyinUserPostsInput {
    */
   secUserId: string;
   /**
-   * Post order. Use the canonical JSON integer 0 for newest or 1 for most popular; legacy numeric strings remain accepted.
+   * Post order: newest, most-popular.
+   * One of: newest, most-popular.
+   * Default: newest.
    */
-  sort?: unknown;
+  sort?: "newest" | "most-popular";
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -685,7 +689,7 @@ export class DouyinNamespace {
    * Price: $0.012 per request.
    *
    * @example
-   * const res = await client.douyin.searchVideos({ query: "机器人", duration: "0", publishedWithin: 0, sort: 0 });
+   * const res = await client.douyin.searchVideos({ query: "机器人", duration: "0", publishedWithin: 0, sort: "relevance" });
    */
   searchVideos(
     input: DouyinSearchVideosInput,
@@ -702,7 +706,7 @@ export class DouyinNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.douyin.userPosts({ secUserId: "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", limit: 20, sort: 0 });
+   * const res = await client.douyin.userPosts({ secUserId: "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", limit: 20, sort: "newest" });
    */
   userPosts(
     input: DouyinUserPostsInput,

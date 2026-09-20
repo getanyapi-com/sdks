@@ -1809,9 +1809,11 @@ export interface TiktokSearchKeywordInput {
    */
   requireCursor?: boolean;
   /**
-   * Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted.
+   * Sort order: relevance, most-liked, date-posted.
+   * One of: relevance, most-liked, date-posted.
+   * Default: relevance.
    */
-  sortBy?: unknown;
+  sortBy?: "relevance" | "most-liked" | "date-posted";
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2060,8 +2062,15 @@ export interface TiktokSearchTopInput {
   preferLatencyUnderMs?: number;
   /**
    * Time-frame filter: yesterday, this-week, this-month, last-3-months, last-6-months, all-time.
+   * One of: yesterday, this-week, this-month, last-3-months, last-6-months, all-time.
    */
-  publishTime?: string;
+  publishTime?:
+    | "yesterday"
+    | "this-week"
+    | "this-month"
+    | "last-3-months"
+    | "last-6-months"
+    | "all-time";
   /**
    * Keyword to search for (e.g. "funny").
    */
@@ -2072,8 +2081,9 @@ export interface TiktokSearchTopInput {
   region?: string;
   /**
    * Sort order: relevance, most-liked, date-posted.
+   * One of: relevance, most-liked, date-posted.
    */
-  sortBy?: string;
+  sortBy?: "relevance" | "most-liked" | "date-posted";
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3864,7 +3874,7 @@ export class TiktokNamespace {
    * Price: $0.0007 per request.
    *
    * @example
-   * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: 0 });
+   * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: "relevance" });
    */
   searchKeyword(
     input: TiktokSearchKeywordInput,

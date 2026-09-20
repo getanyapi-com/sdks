@@ -51,8 +51,8 @@ class DouyinSearchVideosInput(TypedDict, total=False):
     """Keyword to search for."""
     searchId: NotRequired[str]
     """Search ID returned by the previous page."""
-    sort: NotRequired[Any]
-    """Sort order. Use the canonical JSON integer 0 for comprehensive, 1 for most liked, or 2 for newest; legacy numeric strings remain accepted."""
+    sort: NotRequired[Literal["relevance", "most-liked", "date-posted"]]
+    """Sort order: relevance (Douyin's comprehensive ranking), most-liked, date-posted. Default: relevance."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -72,8 +72,8 @@ class DouyinUserPostsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     secUserId: Required[str]
     """Douyin sec_user_id for the public account."""
-    sort: NotRequired[Any]
-    """Post order. Use the canonical JSON integer 0 for newest or 1 for most popular; legacy numeric strings remain accepted."""
+    sort: NotRequired[Literal["newest", "most-popular"]]
+    """Post order: newest, most-popular. Default: newest."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -480,7 +480,7 @@ class DouyinNamespace:
         Price: $0.012 per request.
 
         Example:
-            res = client.douyin.search_videos(duration="0", publishedWithin=0, query="机器人", sort=0)
+            res = client.douyin.search_videos(duration="0", publishedWithin=0, query="机器人", sort="relevance")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.search_videos", dict(input), options
@@ -501,7 +501,7 @@ class DouyinNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.douyin.user_posts(limit=20, secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", sort=0)
+            res = client.douyin.user_posts(limit=20, secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", sort="newest")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.user_posts", dict(input), options
@@ -591,7 +591,7 @@ class AsyncDouyinNamespace:
         Price: $0.012 per request.
 
         Example:
-            res = client.douyin.search_videos(duration="0", publishedWithin=0, query="机器人", sort=0)
+            res = client.douyin.search_videos(duration="0", publishedWithin=0, query="机器人", sort="relevance")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.search_videos", dict(input), options
@@ -612,7 +612,7 @@ class AsyncDouyinNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.douyin.user_posts(limit=20, secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", sort=0)
+            res = client.douyin.user_posts(limit=20, secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE", sort="newest")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.user_posts", dict(input), options

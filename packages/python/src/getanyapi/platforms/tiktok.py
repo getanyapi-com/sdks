@@ -403,8 +403,8 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     """The keyword to search TikTok for."""
     requireCursor: NotRequired[bool]
     """Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working."""
-    sortBy: NotRequired[Any]
-    """Sort order. Use the canonical JSON integer 0 for relevance, 1 for most liked, or 2 for newest first; legacy numeric strings remain accepted."""
+    sortBy: NotRequired[Literal["relevance", "most-liked", "date-posted"]]
+    """Sort order: relevance, most-liked, date-posted. Default: relevance."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -454,13 +454,22 @@ class TiktokSearchTopInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    publishTime: NotRequired[str]
+    publishTime: NotRequired[
+        Literal[
+            "yesterday",
+            "this-week",
+            "this-month",
+            "last-3-months",
+            "last-6-months",
+            "all-time",
+        ]
+    ]
     """Time-frame filter: yesterday, this-week, this-month, last-3-months, last-6-months, all-time."""
     query: Required[str]
     """Keyword to search for (e.g. "funny")."""
     region: NotRequired[str]
     """2-letter country code for the proxy location (e.g. US, GB, FR)."""
-    sortBy: NotRequired[str]
+    sortBy: NotRequired[Literal["relevance", "most-liked", "date-posted"]]
     """Sort order: relevance, most-liked, date-posted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -3210,7 +3219,7 @@ class TiktokNamespace:
         Price: $0.0007 per request.
 
         Example:
-            res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy=0)
+            res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy="relevance")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_keyword", dict(input), options
@@ -4298,7 +4307,7 @@ class AsyncTiktokNamespace:
         Price: $0.0007 per request.
 
         Example:
-            res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy=0)
+            res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy="relevance")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "tiktok.search_keyword", dict(input), options
