@@ -1470,6 +1470,10 @@ export interface YoutubeVideoTranscriptInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Only use sources that return these fields. The cheapest source returns the transcript as one block of text and no timings, so name any of these to be served by a source that carries timed segments instead.
+   */
+  requireFields?: ("durationSeconds" | "segments" | "startSeconds" | "text")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2194,7 +2198,7 @@ export class YoutubeNamespace {
    *
    * Fetch the transcript/captions of a YouTube video or Short by URL or ID.
    *
-   * Price: $0.011 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscript({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });

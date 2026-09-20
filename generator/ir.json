@@ -109311,7 +109311,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.011,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -109359,6 +109359,22 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Only use sources that return these fields. The cheapest source returns the transcript as one block of text and no timings, so name any of these to be served by a source that carries timed segments instead.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "durationSeconds",
+                "segments",
+                "startSeconds",
+                "text"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
