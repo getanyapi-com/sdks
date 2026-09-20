@@ -3955,7 +3955,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.searchTop({ query: "funny" });
