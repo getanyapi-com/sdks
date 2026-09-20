@@ -5531,7 +5531,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts by keyword (text, link, publish date).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.linkedin.searchPosts({ query: "hiring", datePosted: "last-week" });

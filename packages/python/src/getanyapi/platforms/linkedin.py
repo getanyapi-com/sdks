@@ -4565,7 +4565,7 @@ class LinkedinNamespace:
 
         Search public LinkedIn posts by keyword (text, link, publish date).
 
-        Price: $0.0012 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
@@ -5257,7 +5257,7 @@ class AsyncLinkedinNamespace:
 
         Search public LinkedIn posts by keyword (text, link, publish date).
 
-        Price: $0.0012 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.linkedin.search_posts(datePosted="last-week", query="hiring")
