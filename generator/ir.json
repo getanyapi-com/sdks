@@ -21,11 +21,6 @@
     },
     {
       "kind": "dead-cursor",
-      "slug": "facebook.profile_reels",
-      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
-    },
-    {
-      "kind": "dead-cursor",
       "slug": "zhihu.question_answers",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     }
@@ -758,6 +753,288 @@
                 "open": true,
                 "mustPopulate": [
                   "domain"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "ahrefs.traffic",
+      "platform": "ahrefs",
+      "action": "traffic",
+      "operationId": "ahrefs_traffic",
+      "name": "Ahrefs Traffic Overview",
+      "category": "search",
+      "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.00501,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.00495,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "ahrefs",
+      "tsMethod": "traffic",
+      "tsIterMethod": null,
+      "pyNamespace": "ahrefs",
+      "pyMethod": "traffic",
+      "pyIterMethod": null,
+      "inputTypeName": "AhrefsTrafficInput",
+      "outputTypeName": "AhrefsTrafficData",
+      "example": {
+        "mode": "subdomains",
+        "url": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "mode": {
+            "kind": "string",
+            "description": "Analysis scope: subdomains covers the domain and its subdomains, domain covers the root domain only, prefix covers every page under the given path, exact matches only the given URL.",
+            "enum": [
+              "exact",
+              "subdomains",
+              "prefix",
+              "domain"
+            ],
+            "default": "subdomains",
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "The domain or page URL to analyze (e.g. ahrefs.com).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top pages, top countries, and traffic history. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "domain": {
+                    "kind": "string",
+                    "description": "The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mode": {
+                    "kind": "string",
+                    "description": "Analysis scope used: subdomains, domain, prefix, or exact.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "monthlyTraffic": {
+                    "kind": "integer",
+                    "description": "Estimated monthly organic search visits.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "monthlyTrafficValueUsd": {
+                    "kind": "number",
+                    "description": "Estimated monthly USD value of the organic traffic, what the same clicks would cost in paid search.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "topCountries": {
+                    "kind": "array",
+                    "description": "Countries sending the most organic traffic, up to five.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "country": {
+                          "kind": "string",
+                          "description": "Two-letter country code.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "sharePct": {
+                          "kind": "number",
+                          "description": "Share (0-100) of the domain's organic traffic from this country.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "country"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "topKeywords": {
+                    "kind": "array",
+                    "description": "The top organic keywords the domain already ranks for, up to five, ordered by traffic. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "keyword": {
+                          "kind": "string",
+                          "description": "The organic keyword.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "position": {
+                          "kind": "integer",
+                          "description": "Current Google organic position for this keyword.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "traffic": {
+                          "kind": "integer",
+                          "description": "Estimated monthly traffic this keyword drives to the domain.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "keyword"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "topPages": {
+                    "kind": "array",
+                    "description": "The pages receiving the most organic traffic, up to five.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "sharePct": {
+                          "kind": "number",
+                          "description": "Share (0-100) of the domain's organic traffic this page receives.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "traffic": {
+                          "kind": "integer",
+                          "description": "Estimated monthly organic visits to the page.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "The page URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "trafficHistory": {
+                    "kind": "array",
+                    "description": "Monthly organic traffic estimates for recent months, oldest first.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "monthUtc": {
+                          "kind": "number",
+                          "description": "UTC epoch timestamp in seconds (Unix time) of the first day of the month. Multiply by 1000 for a JS Date in milliseconds.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "organicTraffic": {
+                          "kind": "integer",
+                          "description": "Estimated organic search visits in that month.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "monthUtc"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "domain",
+                  "topKeywords"
                 ]
               },
               "mustPopulate": true
@@ -18964,7 +19241,7 @@
       "category": "shop",
       "description": "Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00225,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -19063,6 +19340,27 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bidCount",
+                "condition",
+                "currency",
+                "listingType",
+                "price",
+                "sellerFeedbackCount",
+                "sellerFeedbackPercent",
+                "sellerName",
+                "shippingCost"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sort": {
             "kind": "string",
@@ -19236,10 +19534,10 @@
       "category": "shop",
       "description": "Retrieve recently sold eBay listings for any keyword with optional price-range, condition, and sort filters (sold price, sale date, condition, seller, item details); ideal for pricing research.",
       "pricing": {
-        "priceUsd": 0.088,
-        "baseUsd": 0.022,
-        "perItemUsd": 0.00264,
-        "perItemUnit": "result"
+        "priceUsd": 0.0135,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "ebay",
       "tsMethod": "soldListings",
@@ -19275,7 +19573,7 @@
           },
           "freeShipping": {
             "kind": "boolean",
-            "description": "Only include listings that sold with free shipping.",
+            "description": "Not supported by the current sources: only false (no filter) is accepted; true is refused without charge.",
             "default": null
           },
           "ignoreSources": {
@@ -19291,7 +19589,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-25, default 25).",
             "minimum": 1,
             "maximum": 25,
             "default": null
@@ -19337,12 +19635,12 @@
           },
           "returnsAccepted": {
             "kind": "boolean",
-            "description": "Only include listings from sellers who accept returns.",
+            "description": "Not supported by the current sources: only false (no filter) is accepted; true is refused without charge.",
             "default": null
           },
           "seller": {
             "kind": "string",
-            "description": "Restrict to sold listings from one seller username (e.g. rainierconsignment).",
+            "description": "Not supported by the current sources: a request that sets it is refused without charge.",
             "enum": null,
             "default": null,
             "format": null
@@ -19358,7 +19656,7 @@
           },
           "sort": {
             "kind": "string",
-            "description": "Result sort order; omit for eBay's default best-match order (e.g. price_high sorts by highest sold price first).",
+            "description": "Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first).",
             "enum": [
               "ended_recently",
               "price_low",
@@ -19395,6 +19693,11 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "bestOfferAccepted": {
+                    "kind": "boolean",
+                    "description": "True when eBay marked the sale as Best Offer accepted. Absent when the source could not tell.",
+                    "default": null
+                  },
                   "bidCount": {
                     "kind": "integer",
                     "description": "Number of bids the listing received, for auction sales.",
@@ -19450,35 +19753,35 @@
                   },
                   "listingType": {
                     "kind": "string",
-                    "description": "Sale format (e.g. Fixed price, Auction).",
+                    "description": "Sale format: Auction or Fixed price.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "sellerFeedbackCount": {
                     "kind": "integer",
-                    "description": "Seller's lifetime feedback count, when available.",
+                    "description": "Seller's lifetime feedback count. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "sellerFeedbackPercent": {
                     "kind": "number",
-                    "description": "Seller's positive-feedback percentage, when available.",
+                    "description": "Seller's positive-feedback percentage. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "sellerUsername": {
                     "kind": "string",
-                    "description": "Seller's eBay username, when available.",
+                    "description": "Seller's eBay username. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "shippingCost": {
                     "kind": "string",
-                    "description": "Shipping cost as displayed on the listing (e.g. \"Free delivery\", \"$5.55 delivery\").",
+                    "description": "Shipping the buyer paid, in the site currency (e.g. \"$5.55\"; \"$0\" is free shipping).",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -19492,7 +19795,276 @@
                   },
                   "soldPrice": {
                     "kind": "number",
-                    "description": "Final sold price in the site currency.",
+                    "description": "Final sold price in the site currency. When bestOfferAccepted is true this is the listing's asking price: eBay does not publish the accepted offer amount.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soldUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Listing title as it appeared on eBay. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical listing URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "itemId",
+                  "sellerFeedbackCount",
+                  "sellerFeedbackPercent",
+                  "sellerUsername",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "ebay.sold_listings_thin",
+      "platform": "ebay",
+      "action": "sold_listings_thin",
+      "operationId": "ebay_sold_listings_thin",
+      "name": "eBay Sold Listings (Basic)",
+      "category": "shop",
+      "description": "Retrieve recently sold eBay listings for any keyword with the sold price, sale date, condition, format, bids, and whether a Best Offer was accepted, without seller details; the lighter sibling of eBay Sold Listings for price comps.",
+      "pricing": {
+        "priceUsd": 0.0135,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "ebay",
+      "tsMethod": "soldListingsThin",
+      "tsIterMethod": null,
+      "pyNamespace": "ebay",
+      "pyMethod": "sold_listings_thin",
+      "pyIterMethod": null,
+      "inputTypeName": "EbaySoldListingsThinInput",
+      "outputTypeName": "EbaySoldListingsThinData",
+      "example": {
+        "limit": 10,
+        "query": "iphone 13 pro",
+        "sort": "ended_recently"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "condition": {
+            "kind": "string",
+            "description": "Item condition filter (e.g. used).",
+            "enum": [
+              "any",
+              "new",
+              "used"
+            ],
+            "default": "any",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of results to return (1-25, default 25).",
+            "minimum": 1,
+            "maximum": 25,
+            "default": null
+          },
+          "listingType": {
+            "kind": "string",
+            "description": "Restrict to a listing format; omit or use all for both (e.g. auction for auction sales only).",
+            "enum": [
+              "all",
+              "auction",
+              "buy_it_now"
+            ],
+            "default": null,
+            "format": null
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum sold price in the site currency (e.g. 500).",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum sold price in the site currency (e.g. 200).",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keyword for sold items (e.g. iphone 13 pro).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "site": {
+            "kind": "string",
+            "description": "eBay country site to search. Sold-listing coverage is currently US only.",
+            "enum": [
+              "ebay.com"
+            ],
+            "default": "ebay.com",
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first).",
+            "enum": [
+              "ended_recently",
+              "price_low",
+              "price_high"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Sold listing records: title, sold price, sale date, condition, format, bids, and item URL, without seller details. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "bestOfferAccepted": {
+                    "kind": "boolean",
+                    "description": "True when eBay marked the sale as Best Offer accepted. Absent when the source could not tell.",
+                    "default": null
+                  },
+                  "bidCount": {
+                    "kind": "integer",
+                    "description": "Number of bids the listing received, for auction sales.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "condition": {
+                    "kind": "string",
+                    "description": "Item condition as listed (e.g. Pre-Owned).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary listing image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "itemId": {
+                    "kind": "string",
+                    "description": "eBay item identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listingType": {
+                    "kind": "string",
+                    "description": "Sale format: Auction or Fixed price.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shippingCost": {
+                    "kind": "string",
+                    "description": "Shipping the buyer paid, in the site currency (e.g. \"$5.55\"; \"$0\" is free shipping).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soldCurrency": {
+                    "kind": "string",
+                    "description": "ISO currency code of the sold price (e.g. USD).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soldPrice": {
+                    "kind": "number",
+                    "description": "Final sold price in the site currency. When bestOfferAccepted is true this is the listing's asking price: eBay does not publish the accepted offer amount.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -27243,6 +27815,31 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoId` or `authorId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorId",
+                "authorImage",
+                "authorName",
+                "authorVerified",
+                "comments",
+                "createdUtc",
+                "durationSeconds",
+                "image",
+                "likes",
+                "shares",
+                "url",
+                "videoId",
+                "views"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -27320,7 +27917,7 @@
             },
             "id": {
               "kind": "string",
-              "description": "Populated whenever the provider has data for the entity.",
+              "description": "Facebook post id. For a reel or video post this is NOT the id in the /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
@@ -27354,6 +27951,14 @@
             "url": {
               "kind": "string",
               "description": "Canonical Facebook URL of the post.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "videoId": {
+              "kind": "string",
+              "description": "Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -28405,10 +29010,10 @@
       },
       "tsNamespace": "facebook",
       "tsMethod": "profileReels",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterProfileReels",
       "pyNamespace": "facebook",
       "pyMethod": "profile_reels",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_profile_reels",
       "inputTypeName": "FacebookProfileReelsInput",
       "outputTypeName": "FacebookProfileReelsData",
       "example": {
@@ -28476,6 +29081,14 @@
         "data": {
           "kind": "object",
           "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "reels": {
               "kind": "array",
               "description": "The profile's reels. Populated whenever the provider has data for the entity.",
@@ -28595,10 +29208,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "reels",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -29072,9 +29685,9 @@
       "category": "social",
       "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).",
       "pricing": {
-        "priceUsd": 0.0661,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.0033,
+        "priceUsd": 0.027,
+        "baseUsd": 0,
+        "perItemUsd": 0.00135,
         "perItemUnit": "result"
       },
       "tsNamespace": "facebook",
@@ -32670,10 +33283,10 @@
       "category": "search",
       "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.",
       "pricing": {
-        "priceUsd": 0.0007,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.00336,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.0033,
+        "perItemUnit": "result"
       },
       "tsNamespace": "google",
       "tsMethod": "aiMode",
@@ -34106,7 +34719,7 @@
       "operationId": "google_search",
       "name": "Google Search",
       "category": "search",
-      "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Pass the returned nextCursor back as cursor to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
+      "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
         "priceUsd": 0.0005,
         "baseUsd": null,
@@ -34142,7 +34755,7 @@
           },
           "cursor": {
             "kind": "string",
-            "description": "Continuation token from a previous response's nextCursor. Pass it back to fetch the next page of results.",
+            "description": "Deprecated: send page instead. A continuation token from an earlier response's nextCursor is still accepted and still continues on the source that issued it; page is ignored when cursor is sent alongside it.",
             "enum": null,
             "default": null,
             "format": null
@@ -34174,7 +34787,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of organic results to return in this response. Google stopped honoring bulk result counts in September 2025, so one page is about 10 results and a limit above 10 is accepted but will not return more than that. To go deeper, either page through with cursor (about 10 results per call, each billed as a request) or use google.search_100, which returns up to 100 ranked results in a single call for one flat charge and is cheaper past roughly 20 results. Price is flat per request.",
+            "description": "Maximum number of organic results to return in this response. Google stopped honoring bulk result counts in September 2025, so one page is about 10 results and a limit above 10 is accepted but will not return more than that. To go deeper, send page (about 10 results per page, each billed as a request) or use google.search_100, which returns up to 100 ranked results in a single call for one flat charge and is cheaper past roughly 20 results. Price is flat per request.",
             "minimum": 1,
             "maximum": 100,
             "default": 10
@@ -34185,6 +34798,13 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of about 10 organic results to return, starting at 1. Send page 2, 3, ... to walk deeper; each page is billed as one request and any source can serve any page. Replaces cursor.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -37342,7 +37962,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40379,7 +40999,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40427,6 +41047,27 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `contactMethod`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "contactMethod",
+                "followers",
+                "following",
+                "isBusiness",
+                "posts",
+                "private",
+                "title",
+                "url",
+                "verified"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -40548,7 +41189,7 @@
             },
             "posts": {
               "kind": "integer",
-              "description": "Number of posts on the account.",
+              "description": "Always 0: none of the sources behind this API returns the account's total post count.",
               "minimum": null,
               "maximum": null,
               "default": null
@@ -42235,7 +42876,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.027,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -54031,7 +54672,7 @@
       "category": "social",
       "description": "Search public LinkedIn posts by keyword (text, link, publish date).",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -56400,10 +57041,10 @@
       "category": "data",
       "description": "Search Google Maps for businesses and enrich each result with contact details (emails, phones, and social profiles from their websites), up to 20 records per request.",
       "pricing": {
-        "priceUsd": 0.0991,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.00495,
-        "perItemUnit": "result"
+        "priceUsd": 0.0045,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "maps",
       "tsMethod": "contacts",
@@ -56459,7 +57100,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -56498,6 +57139,46 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `reviewCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a business that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "address",
+                "categories",
+                "category",
+                "cid",
+                "city",
+                "countryCode",
+                "domain",
+                "emails",
+                "facebooks",
+                "image",
+                "instagrams",
+                "language",
+                "latitude",
+                "linkedIns",
+                "longitude",
+                "neighborhood",
+                "phone",
+                "phones",
+                "postalCode",
+                "rank",
+                "rating",
+                "reviewCount",
+                "state",
+                "street",
+                "tiktoks",
+                "twitters",
+                "website",
+                "youtubes"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -66454,10 +67135,10 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.002,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0111,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.011,
+        "perItemUnit": "result"
       },
       "tsNamespace": "perplexity",
       "tsMethod": "search",
@@ -75351,10 +76032,10 @@
       "category": "social",
       "description": "Fetch a Reddit user's public profile (karma split, post and comment counts, bio, avatar, account age) by username.",
       "pricing": {
-        "priceUsd": 0.00225,
-        "baseUsd": 0.00225,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "reddit",
       "tsMethod": "profile",
@@ -83244,6 +83925,664 @@
       }
     },
     {
+      "slug": "similarweb.overview",
+      "platform": "similarweb",
+      "action": "overview",
+      "operationId": "similarweb_overview",
+      "name": "Similarweb Website Traffic",
+      "category": "search",
+      "description": "Get the Similarweb traffic overview for any website: estimated monthly visits and a three-month history, global, country, and category rank, bounce rate, pages per visit, visit duration, traffic sources including AI chatbots, top countries, and top search keywords - as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.00167,
+        "baseUsd": 0.00002,
+        "perItemUsd": 0.00165,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "similarweb",
+      "tsMethod": "overview",
+      "tsIterMethod": null,
+      "pyNamespace": "similarweb",
+      "pyMethod": "overview",
+      "pyIterMethod": null,
+      "inputTypeName": "SimilarwebOverviewInput",
+      "outputTypeName": "SimilarwebOverviewData",
+      "example": {
+        "domain": "stripe.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "domain": {
+            "kind": "string",
+            "description": "The website's domain, without a scheme or path (e.g. stripe.com).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "domain"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "avgVisitDurationSeconds": {
+              "kind": "number",
+              "description": "Average visit duration in seconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "bounceRate": {
+              "kind": "number",
+              "description": "Share of visits that leave after one page, as a fraction from 0 to 1.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "category": {
+              "kind": "string",
+              "description": "Similarweb's category slug for the website (e.g. finance, news_and_media).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "categoryRank": {
+              "kind": "integer",
+              "description": "Rank by traffic within the website's category. Null for websites too small to rank.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "countryCode": {
+              "kind": "string",
+              "description": "Two-letter code of the country countryRank is measured in, the website's top country.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "countryRank": {
+              "kind": "integer",
+              "description": "Rank by traffic within countryCode. Null for websites too small to rank.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "The website's meta description as Similarweb records it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "domain": {
+              "kind": "string",
+              "description": "The website's domain. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "globalRank": {
+              "kind": "integer",
+              "description": "Similarweb global rank by traffic. Null for websites too small to rank. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Screenshot of the website's homepage.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "monthlyVisits": {
+              "kind": "integer",
+              "description": "Estimated total visits in the snapshot month. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "pagesPerVisit": {
+              "kind": "number",
+              "description": "Average pages viewed per visit.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "snapshotUtc": {
+              "kind": "number",
+              "description": "The month the traffic figures describe: UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "The website's page title as Similarweb records it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "topCountries": {
+              "kind": "array",
+              "description": "Countries sending the most visits, up to five, largest first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "countryCode": {
+                    "kind": "string",
+                    "description": "Two-letter country code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "countryName": {
+                    "kind": "string",
+                    "description": "Country name in English.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "share": {
+                    "kind": "number",
+                    "description": "Share of the website's visits, as a fraction from 0 to 1 (0.25 means 25%).",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "countryCode"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "topKeywords": {
+              "kind": "array",
+              "description": "Search keywords sending the most visits, up to five. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "cpcUsd": {
+                    "kind": "number",
+                    "description": "Average cost per click in USD. Null when Similarweb has no figure.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "estimatedValue": {
+                    "kind": "number",
+                    "description": "Similarweb's estimated value of the keyword to this website, as Similarweb publishes it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "keyword": {
+                    "kind": "string",
+                    "description": "The search keyword.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "searchVolume": {
+                    "kind": "integer",
+                    "description": "Monthly search volume for the keyword.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "keyword"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "trafficSources": {
+              "kind": "object",
+              "description": "Where the website's visits come from. Each value is a fraction from 0 to 1 of all visits. Populated whenever the provider has data for the entity.",
+              "properties": {
+                "affiliate": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from affiliate and paid referral links, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "direct": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from typing the address or bookmarks, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "displayAds": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from display ads, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "genAi": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from AI chatbots such as ChatGPT, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "mail": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from email, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "referrals": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from links on other websites, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "searchOrganic": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from unpaid search results, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "searchPaid": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from paid search ads, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "socialOrganic": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from unpaid social media, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "socialPaid": {
+                  "kind": "number",
+                  "description": "Share of visits that arrive from paid social media ads, as a fraction from 0 to 1 (0.25 means 25%).",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "visitsHistory": {
+              "kind": "array",
+              "description": "Estimated monthly visits for recent months, oldest first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "monthUtc": {
+                    "kind": "number",
+                    "description": "First day of the month: UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "visits": {
+                    "kind": "integer",
+                    "description": "Estimated visits in that month.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "monthUtc"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "domain",
+            "title",
+            "description",
+            "category",
+            "image",
+            "snapshotUtc",
+            "globalRank",
+            "countryCode",
+            "countryRank",
+            "categoryRank",
+            "monthlyVisits",
+            "bounceRate",
+            "pagesPerVisit",
+            "avgVisitDurationSeconds",
+            "visitsHistory",
+            "trafficSources",
+            "topCountries",
+            "topKeywords"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "domain",
+            "globalRank",
+            "monthlyVisits",
+            "topCountries",
+            "topKeywords",
+            "trafficSources",
+            "visitsHistory"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "similarweb.similar_sites",
+      "platform": "similarweb",
+      "action": "similar_sites",
+      "operationId": "similarweb_similar_sites",
+      "name": "Similarweb Similar Sites",
+      "category": "search",
+      "description": "Find the websites Similarweb ranks as most similar to any website: up to 20 competitor and alternative sites in similarity order, each with its similarity score, category, top-country rank, estimated monthly visits, and description - as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.00167,
+        "baseUsd": 0.00002,
+        "perItemUsd": 0.00165,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "similarweb",
+      "tsMethod": "similarSites",
+      "tsIterMethod": null,
+      "pyNamespace": "similarweb",
+      "pyMethod": "similar_sites",
+      "pyIterMethod": null,
+      "inputTypeName": "SimilarwebSimilarSitesInput",
+      "outputTypeName": "SimilarwebSimilarSitesData",
+      "example": {
+        "domain": "stripe.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "domain": {
+            "kind": "string",
+            "description": "The website's domain, without a scheme or path (e.g. stripe.com).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "domain"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "category": {
+              "kind": "string",
+              "description": "Similarweb category of the website (e.g. Finance).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "The website's meta description as Similarweb records it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "domain": {
+              "kind": "string",
+              "description": "The website's domain. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sites": {
+              "kind": "array",
+              "description": "Websites most similar to this one, up to 20, most similar first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "category": {
+                    "kind": "string",
+                    "description": "Similarweb category path of the similar website (e.g. Finance/Banking_Credit_and_Lending).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "The similar website's meta description.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "The similar website's domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Screenshot of the similar website's homepage.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "similarityRank": {
+                    "kind": "integer",
+                    "description": "Position in the similarity list, 1 being most similar.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "similarityScore": {
+                    "kind": "number",
+                    "description": "Similarweb's similarity score from 0 to 1, higher meaning more similar.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "topCountryRank": {
+                    "kind": "integer",
+                    "description": "The similar website's traffic rank in its own top country.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "totalVisits": {
+                    "kind": "integer",
+                    "description": "Estimated monthly visits to the similar website.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "tags": {
+              "kind": "array",
+              "description": "Topic tags Similarweb assigns the website.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "title": {
+              "kind": "string",
+              "description": "The website's page title as Similarweb records it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "totalVisits": {
+              "kind": "integer",
+              "description": "Estimated monthly visits to the website.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "domain",
+            "title",
+            "description",
+            "category",
+            "totalVisits",
+            "tags",
+            "sites"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "domain",
+            "sites"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "snapchat.profile",
       "platform": "snapchat",
       "action": "profile",
@@ -87555,7 +88894,7 @@
       "category": "social",
       "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -96244,9 +97583,9 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-10, default 10).",
+            "description": "Accepted but ignored. The search returns every product TikTok Shop gives for the query, typically about 30 and occasionally more than 50, for the same price per call.",
             "minimum": 1,
-            "maximum": 10,
+            "maximum": null,
             "default": null
           },
           "preferLatencyUnderMs": {
@@ -109311,7 +110650,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

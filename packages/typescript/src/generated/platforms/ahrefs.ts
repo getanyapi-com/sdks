@@ -342,6 +342,143 @@ export interface AhrefsOverviewData {
 }
 
 /**
+ * Input for Ahrefs Traffic Overview (ahrefs.traffic).
+ */
+export interface AhrefsTrafficInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Analysis scope: subdomains covers the domain and its subdomains, domain covers the root domain only, prefix covers every page under the given path, exact matches only the given URL.
+   * One of: exact, subdomains, prefix, domain.
+   * Default: subdomains.
+   */
+  mode?: "exact" | "subdomains" | "prefix" | "domain";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * The domain or page URL to analyze (e.g. ahrefs.com).
+   */
+  url: string;
+}
+
+export interface AhrefsTrafficItem {
+  /**
+   * The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.
+   */
+  domain: string;
+  /**
+   * Analysis scope used: subdomains, domain, prefix, or exact.
+   */
+  mode?: string;
+  /**
+   * Estimated monthly organic search visits.
+   */
+  monthlyTraffic?: number;
+  /**
+   * Estimated monthly USD value of the organic traffic, what the same clicks would cost in paid search.
+   */
+  monthlyTrafficValueUsd?: number;
+  /**
+   * Countries sending the most organic traffic, up to five.
+   */
+  topCountries?: AhrefsTrafficTopCountrie[];
+  /**
+   * The top organic keywords the domain already ranks for, up to five, ordered by traffic. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  topKeywords?: AhrefsTrafficTopKeyword[];
+  /**
+   * The pages receiving the most organic traffic, up to five.
+   */
+  topPages?: AhrefsTrafficTopPage[];
+  /**
+   * Monthly organic traffic estimates for recent months, oldest first.
+   */
+  trafficHistory?: AhrefsTrafficTrafficHistory[];
+  [extra: string]: unknown;
+}
+
+export interface AhrefsTrafficTopCountrie {
+  /**
+   * Two-letter country code.
+   */
+  country: string;
+  /**
+   * Share (0-100) of the domain's organic traffic from this country.
+   */
+  sharePct?: number;
+  [extra: string]: unknown;
+}
+
+export interface AhrefsTrafficTopKeyword {
+  /**
+   * The organic keyword.
+   */
+  keyword: string;
+  /**
+   * Current Google organic position for this keyword.
+   */
+  position?: number;
+  /**
+   * Estimated monthly traffic this keyword drives to the domain.
+   */
+  traffic?: number;
+  [extra: string]: unknown;
+}
+
+export interface AhrefsTrafficTopPage {
+  /**
+   * Share (0-100) of the domain's organic traffic this page receives.
+   */
+  sharePct?: number;
+  /**
+   * Estimated monthly organic visits to the page.
+   */
+  traffic?: number;
+  /**
+   * The page URL.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+export interface AhrefsTrafficTrafficHistory {
+  /**
+   * UTC epoch timestamp in seconds (Unix time) of the first day of the month. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  monthUtc: number;
+  /**
+   * Estimated organic search visits in that month.
+   */
+  organicTraffic?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Ahrefs Traffic Overview (ahrefs.traffic).
+ */
+export interface AhrefsTrafficData {
+  /**
+   * Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top pages, top countries, and traffic history. Populated whenever the provider has data for the entity.
+   */
+  items: AhrefsTrafficItem[];
+}
+
+/**
  * Typed methods for the ahrefs platform. Attached to the AnyAPI client as
  * `client.ahrefs`.
  */
@@ -414,5 +551,22 @@ export class AhrefsNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<AhrefsOverviewData>> {
     return this._core.run("ahrefs.overview", input, options);
+  }
+
+  /**
+   * Ahrefs Traffic Overview
+   *
+   * Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON.
+   *
+   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+   *
+   * @example
+   * const res = await client.ahrefs.traffic({ url: "ahrefs.com", mode: "subdomains" });
+   */
+  traffic(
+    input: AhrefsTrafficInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<AhrefsTrafficData>> {
+    return this._core.run("ahrefs.traffic", input, options);
   }
 }

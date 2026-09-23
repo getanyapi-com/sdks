@@ -83,6 +83,23 @@ class AhrefsOverviewInput(TypedDict, total=False):
     """The domain or page URL to analyze (e.g. ahrefs.com)."""
 
 
+class AhrefsTrafficInput(TypedDict, total=False):
+    """Input for Ahrefs Traffic Overview."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    mode: NotRequired[Literal["exact", "subdomains", "prefix", "domain"]]
+    """Analysis scope: subdomains covers the domain and its subdomains, domain covers the root domain only, prefix covers every page under the given path, exact matches only the given URL. Default: subdomains."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    url: Required[str]
+    """The domain or page URL to analyze (e.g. ahrefs.com)."""
+
+
 class AhrefsBacklinksData(BaseModel):
     items: list[AhrefsBacklinksItem] = Field(
         description="Referring pages that link to the domain or URL. Populated whenever the provider has data for the entity."
@@ -273,6 +290,106 @@ class AhrefsOverviewItem(BaseModel):
     )
 
 
+class AhrefsTrafficData(BaseModel):
+    items: list[AhrefsTrafficItem] = Field(
+        description="Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top pages, top countries, and traffic history. Populated whenever the provider has data for the entity."
+    )
+
+
+class AhrefsTrafficItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    domain: str = Field(
+        description="The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity."
+    )
+    mode: str | None = Field(
+        default=None,
+        description="Analysis scope used: subdomains, domain, prefix, or exact.",
+    )
+    monthly_traffic: int | None = Field(
+        default=None,
+        alias="monthlyTraffic",
+        description="Estimated monthly organic search visits.",
+    )
+    monthly_traffic_value_usd: float | None = Field(
+        default=None,
+        alias="monthlyTrafficValueUsd",
+        description="Estimated monthly USD value of the organic traffic, what the same clicks would cost in paid search.",
+    )
+    top_countries: list[AhrefsTrafficTopCountrie] | None = Field(
+        default=None,
+        alias="topCountries",
+        description="Countries sending the most organic traffic, up to five.",
+    )
+    top_keywords: list[AhrefsTrafficTopKeyword] | None = Field(
+        default=None,
+        alias="topKeywords",
+        description="The top organic keywords the domain already ranks for, up to five, ordered by traffic. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    top_pages: list[AhrefsTrafficTopPage] | None = Field(
+        default=None,
+        alias="topPages",
+        description="The pages receiving the most organic traffic, up to five.",
+    )
+    traffic_history: list[AhrefsTrafficTrafficHistory] | None = Field(
+        default=None,
+        alias="trafficHistory",
+        description="Monthly organic traffic estimates for recent months, oldest first.",
+    )
+
+
+class AhrefsTrafficTopCountrie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str = Field(description="Two-letter country code.")
+    share_pct: float | None = Field(
+        default=None,
+        alias="sharePct",
+        description="Share (0-100) of the domain's organic traffic from this country.",
+    )
+
+
+class AhrefsTrafficTopKeyword(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    keyword: str = Field(description="The organic keyword.")
+    position: int | None = Field(
+        default=None, description="Current Google organic position for this keyword."
+    )
+    traffic: int | None = Field(
+        default=None,
+        description="Estimated monthly traffic this keyword drives to the domain.",
+    )
+
+
+class AhrefsTrafficTopPage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    share_pct: float | None = Field(
+        default=None,
+        alias="sharePct",
+        description="Share (0-100) of the domain's organic traffic this page receives.",
+    )
+    traffic: int | None = Field(
+        default=None, description="Estimated monthly organic visits to the page."
+    )
+    url: str = Field(description="The page URL.")
+
+
+class AhrefsTrafficTrafficHistory(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    month_utc: float = Field(
+        alias="monthUtc",
+        description="UTC epoch timestamp in seconds (Unix time) of the first day of the month. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    organic_traffic: int | None = Field(
+        default=None,
+        alias="organicTraffic",
+        description="Estimated organic search visits in that month.",
+    )
+
+
 class AhrefsNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -363,6 +480,29 @@ class AhrefsNamespace:
             "ahrefs.overview", dict(input), options
         )
         return RunResult[AhrefsOverviewData].model_validate(raw)
+
+    def traffic(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[AhrefsTrafficInput],
+    ) -> RunResult[AhrefsTrafficData]:
+        """Ahrefs Traffic Overview
+
+        Get the Ahrefs organic traffic overview for any domain or URL: monthly
+        traffic estimate and value, the top keywords it already ranks for with
+        position and traffic, top pages, traffic by country, and a monthly traffic
+        history - as normalized JSON.
+
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+
+        Example:
+            res = client.ahrefs.traffic(mode="subdomains", url="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "ahrefs.traffic", dict(input), options
+        )
+        return RunResult[AhrefsTrafficData].model_validate(raw)
 
 
 class AsyncAhrefsNamespace:
@@ -455,3 +595,26 @@ class AsyncAhrefsNamespace:
             "ahrefs.overview", dict(input), options
         )
         return RunResult[AhrefsOverviewData].model_validate(raw)
+
+    async def traffic(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[AhrefsTrafficInput],
+    ) -> RunResult[AhrefsTrafficData]:
+        """Ahrefs Traffic Overview
+
+        Get the Ahrefs organic traffic overview for any domain or URL: monthly
+        traffic estimate and value, the top keywords it already ranks for with
+        position and traffic, top pages, traffic by country, and a monthly traffic
+        history - as normalized JSON.
+
+        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+
+        Example:
+            res = client.ahrefs.traffic(mode="subdomains", url="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "ahrefs.traffic", dict(input), options
+        )
+        return RunResult[AhrefsTrafficData].model_validate(raw)

@@ -33,7 +33,7 @@ class MapsContactsInput(TypedDict, total=False):
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of results to return (1-20, default 20). Range: 1 to 20."""
     location: Required[str]
     """Free-text location to search in, ideally city plus country (e.g. Denver, USA)."""
     placeMinimumStars: NotRequired[
@@ -44,6 +44,41 @@ class MapsContactsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """What you would type in the Google Maps search bar (e.g. dentist)."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "address",
+                "categories",
+                "category",
+                "cid",
+                "city",
+                "countryCode",
+                "domain",
+                "emails",
+                "facebooks",
+                "image",
+                "instagrams",
+                "language",
+                "latitude",
+                "linkedIns",
+                "longitude",
+                "neighborhood",
+                "phone",
+                "phones",
+                "postalCode",
+                "rank",
+                "rating",
+                "reviewCount",
+                "state",
+                "street",
+                "tiktoks",
+                "twitters",
+                "website",
+                "youtubes",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `reviewCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a business that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     website: NotRequired[Literal["allPlaces", "withWebsite", "withoutWebsite"]]
@@ -671,7 +706,7 @@ class MapsNamespace:
         details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.0991).
+        Price: $0.0045 per request.
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee shop", website="withWebsite")
@@ -806,7 +841,7 @@ class AsyncMapsNamespace:
         details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.0991).
+        Price: $0.0045 per request.
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee shop", website="withWebsite")

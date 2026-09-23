@@ -2112,6 +2112,24 @@ export interface FacebookPostInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoId` or `authorId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "authorId"
+    | "authorImage"
+    | "authorName"
+    | "authorVerified"
+    | "comments"
+    | "createdUtc"
+    | "durationSeconds"
+    | "image"
+    | "likes"
+    | "shares"
+    | "url"
+    | "videoId"
+    | "views"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2151,7 +2169,7 @@ export interface FacebookPostData {
    */
   durationSeconds?: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Facebook post id. For a reel or video post this is NOT the id in the /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity.
    */
   id: string;
   /**
@@ -2168,6 +2186,10 @@ export interface FacebookPostData {
    * Canonical Facebook URL of the post.
    */
   url?: string;
+  /**
+   * Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.
+   */
+  videoId?: string | null;
   views: number;
   [extra: string]: unknown;
 }
@@ -2679,6 +2701,10 @@ export interface FacebookProfileReelsReel {
  * The `data` payload of Facebook Profile Reels (facebook.profile_reels).
  */
 export interface FacebookProfileReelsData {
+  /**
+   * Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
   /**
    * The profile's reels. Populated whenever the provider has data for the entity.
    */
@@ -3707,6 +3733,29 @@ export class FacebookNamespace {
   }
 
   /**
+   * Iterate every result of Facebook Profile Reels across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterProfileReels(
+    input: FacebookProfileReelsInput,
+    options?: RequestOptions,
+  ): Paginator<FacebookProfileReelsReel, RunResult<FacebookProfileReelsData>> {
+    return paginate<
+      FacebookProfileReelsReel,
+      RunResult<FacebookProfileReelsData>
+    >(
+      this._core,
+      "facebook.profile_reels",
+      input as unknown as Record<string, unknown>,
+      "reels",
+      false,
+      options,
+    );
+  }
+
+  /**
    * Facebook Company Search
    *
    * Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.
@@ -3745,7 +3794,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
    *
-   * Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
+   * Price: $0 per request plus $0.00135 per result (maximum $0.027).
    *
    * @example
    * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });

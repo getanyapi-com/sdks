@@ -662,8 +662,8 @@ export interface TiktokShopSearchInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-10, default 10).
-   * Range: minimum 1, maximum 10.
+   * Accepted but ignored. The search returns every product TikTok Shop gives for the query, typically about 30 and occasionally more than 50, for the same price per call.
+   * Range: minimum 1.
    */
   limit?: number;
   /**

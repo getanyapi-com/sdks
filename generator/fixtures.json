@@ -68,6 +68,23 @@
     "items": 1,
     "replayed": false
   },
+  "ahrefs.traffic": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "airbnb.search": {
     "output": {
       "found": true,
@@ -886,6 +903,25 @@
     "replayed": false
   },
   "ebay.sold_listings": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "ebay.sold_listings_thin": {
     "output": {
       "found": true,
       "data": {
@@ -4938,6 +4974,79 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "similarweb.overview": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "title": "sample",
+        "description": "sample",
+        "category": "sample",
+        "image": "sample",
+        "snapshotUtc": 1.5,
+        "globalRank": 1,
+        "countryCode": "sample",
+        "countryRank": 1,
+        "categoryRank": 1,
+        "monthlyVisits": 1,
+        "bounceRate": 1.5,
+        "pagesPerVisit": 1.5,
+        "avgVisitDurationSeconds": 1.5,
+        "visitsHistory": [
+          {
+            "monthUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "trafficSources": {
+          "_extra": "passthrough"
+        },
+        "topCountries": [
+          {
+            "countryCode": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "topKeywords": [
+          {
+            "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "similarweb.similar_sites": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "title": "sample",
+        "description": "sample",
+        "category": "sample",
+        "totalVisits": 1,
+        "tags": [
+          "sample"
+        ],
+        "sites": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",

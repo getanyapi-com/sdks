@@ -62,6 +62,7 @@ import { RednoteNamespace } from "./platforms/rednote.js";
 import { SecNamespace } from "./platforms/sec.js";
 import { SemrushNamespace } from "./platforms/semrush.js";
 import { SeoNamespace } from "./platforms/seo.js";
+import { SimilarwebNamespace } from "./platforms/similarweb.js";
 import { SnapchatNamespace } from "./platforms/snapchat.js";
 import { SocialNamespace } from "./platforms/social.js";
 import { SpotifyNamespace } from "./platforms/spotify.js";
@@ -611,6 +612,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["seo"] ??= new SeoNamespace(
       this._core,
     )) as SeoNamespace;
+  }
+
+  /**
+   * Typed methods for the similarweb platform.
+   */
+  get similarweb(): SimilarwebNamespace {
+    return (this._namespaces["similarweb"] ??= new SimilarwebNamespace(
+      this._core,
+    )) as SimilarwebNamespace;
   }
 
   /**

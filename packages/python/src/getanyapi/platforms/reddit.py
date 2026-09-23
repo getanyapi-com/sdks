@@ -1165,7 +1165,7 @@ class RedditNamespace:
         Fetch a Reddit user's public profile (karma split, post and comment counts,
         bio, avatar, account age) by username.
 
-        Price: $0.00225 per request plus $0 per result (maximum $0.00225).
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.profile(username="spez")
@@ -1560,7 +1560,7 @@ class AsyncRedditNamespace:
         Fetch a Reddit user's public profile (karma split, post and comment counts,
         bio, avatar, account age) by username.
 
-        Price: $0.00225 per request plus $0 per result (maximum $0.00225).
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.profile(username="spez")

@@ -11,6 +11,8 @@ import type {
   AhrefsKeywordsInput,
   AhrefsOverviewData,
   AhrefsOverviewInput,
+  AhrefsTrafficData,
+  AhrefsTrafficInput,
 } from "./platforms/ahrefs.js";
 import type {
   AirbnbSearchData,
@@ -141,6 +143,8 @@ import type {
   EbaySearchInput,
   EbaySoldListingsData,
   EbaySoldListingsInput,
+  EbaySoldListingsThinData,
+  EbaySoldListingsThinInput,
 } from "./platforms/ebay.js";
 import type {
   EmailFindData,
@@ -624,6 +628,12 @@ import type {
   SeoSearchVolumeInput,
 } from "./platforms/seo.js";
 import type {
+  SimilarwebOverviewData,
+  SimilarwebOverviewInput,
+  SimilarwebSimilarSitesData,
+  SimilarwebSimilarSitesInput,
+} from "./platforms/similarweb.js";
+import type {
   SnapchatProfileData,
   SnapchatProfileInput,
 } from "./platforms/snapchat.js";
@@ -927,6 +937,11 @@ export interface SkuMap {
     data: AhrefsOverviewData;
     result: RunResult<AhrefsOverviewData>;
   };
+  "ahrefs.traffic": {
+    input: AhrefsTrafficInput;
+    data: AhrefsTrafficData;
+    result: RunResult<AhrefsTrafficData>;
+  };
   "airbnb.search": {
     input: AirbnbSearchInput;
     data: AirbnbSearchData;
@@ -1161,6 +1176,11 @@ export interface SkuMap {
     input: EbaySoldListingsInput;
     data: EbaySoldListingsData;
     result: RunResult<EbaySoldListingsData>;
+  };
+  "ebay.sold_listings_thin": {
+    input: EbaySoldListingsThinInput;
+    data: EbaySoldListingsThinData;
+    result: RunResult<EbaySoldListingsThinData>;
   };
   "email.find": {
     input: EmailFindInput;
@@ -2201,6 +2221,16 @@ export interface SkuMap {
     input: SeoSearchVolumeInput;
     data: SeoSearchVolumeData;
     result: RunResult<SeoSearchVolumeData>;
+  };
+  "similarweb.overview": {
+    input: SimilarwebOverviewInput;
+    data: SimilarwebOverviewData;
+    result: RunResult<SimilarwebOverviewData>;
+  };
+  "similarweb.similar_sites": {
+    input: SimilarwebSimilarSitesInput;
+    data: SimilarwebSimilarSitesData;
+    result: RunResult<SimilarwebSimilarSitesData>;
   };
   "snapchat.profile": {
     input: SnapchatProfileInput;

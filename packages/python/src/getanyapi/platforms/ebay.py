@@ -68,6 +68,22 @@ class EbaySearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keywords, e.g. "nintendo switch" or "vintage levis 501"."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "bidCount",
+                "condition",
+                "currency",
+                "listingType",
+                "price",
+                "sellerFeedbackCount",
+                "sellerFeedbackPercent",
+                "sellerName",
+                "shippingCost",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sort: NotRequired[
         Literal[
             "best_match", "ending_soonest", "newly_listed", "price_low", "price_high"
@@ -86,11 +102,11 @@ class EbaySoldListingsInput(TypedDict, total=False):
     condition: NotRequired[Literal["any", "new", "used"]]
     """Item condition filter (e.g. used). Default: any."""
     freeShipping: NotRequired[bool]
-    """Only include listings that sold with free shipping."""
+    """Not supported by the current sources: only false (no filter) is accepted; true is refused without charge."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
     listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
     """Restrict to a listing format; omit or use all for both (e.g. auction for auction sales only)."""
     maxPrice: NotRequired[float]
@@ -102,13 +118,42 @@ class EbaySoldListingsInput(TypedDict, total=False):
     query: Required[str]
     """Search keyword for sold items (e.g. iphone 13 pro)."""
     returnsAccepted: NotRequired[bool]
-    """Only include listings from sellers who accept returns."""
+    """Not supported by the current sources: only false (no filter) is accepted; true is refused without charge."""
     seller: NotRequired[str]
-    """Restrict to sold listings from one seller username (e.g. rainierconsignment)."""
+    """Not supported by the current sources: a request that sets it is refused without charge."""
     site: NotRequired[Literal["ebay.com"]]
     """eBay country site to search. Sold-listing coverage is currently US only. Default: ebay.com."""
     sort: NotRequired[Literal["ended_recently", "price_low", "price_high"]]
-    """Result sort order; omit for eBay's default best-match order (e.g. price_high sorts by highest sold price first)."""
+    """Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class EbaySoldListingsThinInput(TypedDict, total=False):
+    """Input for eBay Sold Listings (Basic)."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    condition: NotRequired[Literal["any", "new", "used"]]
+    """Item condition filter (e.g. used). Default: any."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
+    listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
+    """Restrict to a listing format; omit or use all for both (e.g. auction for auction sales only)."""
+    maxPrice: NotRequired[float]
+    """Optional maximum sold price in the site currency (e.g. 500). Minimum: 0."""
+    minPrice: NotRequired[float]
+    """Optional minimum sold price in the site currency (e.g. 200). Minimum: 0."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Search keyword for sold items (e.g. iphone 13 pro)."""
+    site: NotRequired[Literal["ebay.com"]]
+    """eBay country site to search. Sold-listing coverage is currently US only. Default: ebay.com."""
+    sort: NotRequired[Literal["ended_recently", "price_low", "price_high"]]
+    """Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first)."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -454,6 +499,11 @@ class EbaySoldListingsData(BaseModel):
 class EbaySoldListingsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    best_offer_accepted: bool | None = Field(
+        default=None,
+        alias="bestOfferAccepted",
+        description="True when eBay marked the sale as Best Offer accepted. Absent when the source could not tell.",
+    )
     bid_count: int | None = Field(
         default=None,
         alias="bidCount",
@@ -485,27 +535,27 @@ class EbaySoldListingsItem(BaseModel):
     listing_type: str | None = Field(
         default=None,
         alias="listingType",
-        description="Sale format (e.g. Fixed price, Auction).",
+        description="Sale format: Auction or Fixed price.",
     )
     seller_feedback_count: int | None = Field(
         default=None,
         alias="sellerFeedbackCount",
-        description="Seller's lifetime feedback count, when available.",
+        description="Seller's lifetime feedback count. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     seller_feedback_percent: float | None = Field(
         default=None,
         alias="sellerFeedbackPercent",
-        description="Seller's positive-feedback percentage, when available.",
+        description="Seller's positive-feedback percentage. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     seller_username: str | None = Field(
         default=None,
         alias="sellerUsername",
-        description="Seller's eBay username, when available.",
+        description="Seller's eBay username. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     shipping_cost: str | None = Field(
         default=None,
         alias="shippingCost",
-        description='Shipping cost as displayed on the listing (e.g. "Free delivery", "$5.55 delivery").',
+        description='Shipping the buyer paid, in the site currency (e.g. "$5.55"; "$0" is free shipping).',
     )
     sold_currency: str | None = Field(
         default=None,
@@ -515,7 +565,70 @@ class EbaySoldListingsItem(BaseModel):
     sold_price: float | None = Field(
         default=None,
         alias="soldPrice",
-        description="Final sold price in the site currency.",
+        description="Final sold price in the site currency. When bestOfferAccepted is true this is the listing's asking price: eBay does not publish the accepted offer amount.",
+    )
+    sold_utc: float | None = Field(
+        default=None,
+        alias="soldUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    title: str = Field(
+        description="Listing title as it appeared on eBay. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical listing URL. Populated whenever the provider has data for the entity."
+    )
+
+
+class EbaySoldListingsThinData(BaseModel):
+    items: list[EbaySoldListingsThinItem] = Field(
+        description="Sold listing records: title, sold price, sale date, condition, format, bids, and item URL, without seller details. Populated whenever the provider has data for the entity."
+    )
+
+
+class EbaySoldListingsThinItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    best_offer_accepted: bool | None = Field(
+        default=None,
+        alias="bestOfferAccepted",
+        description="True when eBay marked the sale as Best Offer accepted. Absent when the source could not tell.",
+    )
+    bid_count: int | None = Field(
+        default=None,
+        alias="bidCount",
+        description="Number of bids the listing received, for auction sales.",
+    )
+    condition: str | None = Field(
+        default=None, description="Item condition as listed (e.g. Pre-Owned)."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Primary listing image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    item_id: str = Field(
+        alias="itemId",
+        description="eBay item identifier. Populated whenever the provider has data for the entity.",
+    )
+    listing_type: str | None = Field(
+        default=None,
+        alias="listingType",
+        description="Sale format: Auction or Fixed price.",
+    )
+    shipping_cost: str | None = Field(
+        default=None,
+        alias="shippingCost",
+        description='Shipping the buyer paid, in the site currency (e.g. "$5.55"; "$0" is free shipping).',
+    )
+    sold_currency: str | None = Field(
+        default=None,
+        alias="soldCurrency",
+        description="ISO currency code of the sold price (e.g. USD).",
+    )
+    sold_price: float | None = Field(
+        default=None,
+        alias="soldPrice",
+        description="Final sold price in the site currency. When bestOfferAccepted is true this is the listing's asking price: eBay does not publish the accepted offer amount.",
     )
     sold_utc: float | None = Field(
         default=None,
@@ -590,7 +703,7 @@ class EbayNamespace:
         item-condition, listing-type, and sort filters and get title, price,
         condition, shipping, and seller in one normalized response.
 
-        Price: $0.0005 per request.
+        Price: $0.00225 per request.
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -612,7 +725,7 @@ class EbayNamespace:
         price-range, condition, and sort filters (sold price, sale date, condition,
         seller, item details); ideal for pricing research.
 
-        Price: $0.022 per request plus $0.00264 per result (maximum $0.088).
+        Price: $0.0135 per request.
 
         Example:
             res = client.ebay.sold_listings(limit=10, query="iphone 13 pro", sort="ended_recently")
@@ -621,6 +734,29 @@ class EbayNamespace:
             "ebay.sold_listings", dict(input), options
         )
         return RunResult[EbaySoldListingsData].model_validate(raw)
+
+    def sold_listings_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EbaySoldListingsThinInput],
+    ) -> RunResult[EbaySoldListingsThinData]:
+        """eBay Sold Listings (Basic)
+
+        Retrieve recently sold eBay listings for any keyword with the sold price,
+        sale date, condition, format, bids, and whether a Best Offer was accepted,
+        without seller details; the lighter sibling of eBay Sold Listings for price
+        comps.
+
+        Price: $0.0135 per request.
+
+        Example:
+            res = client.ebay.sold_listings_thin(limit=10, query="iphone 13 pro", sort="ended_recently")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "ebay.sold_listings_thin", dict(input), options
+        )
+        return RunResult[EbaySoldListingsThinData].model_validate(raw)
 
 
 class AsyncEbayNamespace:
@@ -683,7 +819,7 @@ class AsyncEbayNamespace:
         item-condition, listing-type, and sort filters and get title, price,
         condition, shipping, and seller in one normalized response.
 
-        Price: $0.0005 per request.
+        Price: $0.00225 per request.
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -705,7 +841,7 @@ class AsyncEbayNamespace:
         price-range, condition, and sort filters (sold price, sale date, condition,
         seller, item details); ideal for pricing research.
 
-        Price: $0.022 per request plus $0.00264 per result (maximum $0.088).
+        Price: $0.0135 per request.
 
         Example:
             res = client.ebay.sold_listings(limit=10, query="iphone 13 pro", sort="ended_recently")
@@ -714,3 +850,26 @@ class AsyncEbayNamespace:
             "ebay.sold_listings", dict(input), options
         )
         return RunResult[EbaySoldListingsData].model_validate(raw)
+
+    async def sold_listings_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[EbaySoldListingsThinInput],
+    ) -> RunResult[EbaySoldListingsThinData]:
+        """eBay Sold Listings (Basic)
+
+        Retrieve recently sold eBay listings for any keyword with the sold price,
+        sale date, condition, format, bids, and whether a Best Offer was accepted,
+        without seller details; the lighter sibling of eBay Sold Listings for price
+        comps.
+
+        Price: $0.0135 per request.
+
+        Example:
+            res = client.ebay.sold_listings_thin(limit=10, query="iphone 13 pro", sort="ended_recently")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "ebay.sold_listings_thin", dict(input), options
+        )
+        return RunResult[EbaySoldListingsThinData].model_validate(raw)

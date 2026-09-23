@@ -400,6 +400,20 @@ export interface EbaySearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "bidCount"
+    | "condition"
+    | "currency"
+    | "listingType"
+    | "price"
+    | "sellerFeedbackCount"
+    | "sellerFeedbackPercent"
+    | "sellerName"
+    | "shippingCost"
+  )[];
+  /**
    * Result sort order; omit for eBay's Best Match (e.g. price_low sorts by lowest price plus shipping first).
    * One of: best_match, ending_soonest, newly_listed, price_low, price_high.
    */
@@ -492,7 +506,7 @@ export interface EbaySoldListingsInput {
    */
   condition?: "any" | "new" | "used";
   /**
-   * Only include listings that sold with free shipping.
+   * Not supported by the current sources: only false (no filter) is accepted; true is refused without charge.
    */
   freeShipping?: boolean;
   /**
@@ -500,7 +514,7 @@ export interface EbaySoldListingsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-25, default 25).
    * Range: minimum 1, maximum 25.
    */
   limit?: number;
@@ -529,11 +543,11 @@ export interface EbaySoldListingsInput {
    */
   query: string;
   /**
-   * Only include listings from sellers who accept returns.
+   * Not supported by the current sources: only false (no filter) is accepted; true is refused without charge.
    */
   returnsAccepted?: boolean;
   /**
-   * Restrict to sold listings from one seller username (e.g. rainierconsignment).
+   * Not supported by the current sources: a request that sets it is refused without charge.
    */
   seller?: string;
   /**
@@ -543,7 +557,7 @@ export interface EbaySoldListingsInput {
    */
   site?: "ebay.com";
   /**
-   * Result sort order; omit for eBay's default best-match order (e.g. price_high sorts by highest sold price first).
+   * Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first).
    * One of: ended_recently, price_low, price_high.
    */
   sort?: "ended_recently" | "price_low" | "price_high";
@@ -554,6 +568,10 @@ export interface EbaySoldListingsInput {
 }
 
 export interface EbaySoldListingsItem {
+  /**
+   * True when eBay marked the sale as Best Offer accepted. Absent when the source could not tell.
+   */
+  bestOfferAccepted?: boolean;
   /**
    * Number of bids the listing received, for auction sales.
    */
@@ -584,23 +602,26 @@ export interface EbaySoldListingsItem {
    */
   itemId: string;
   /**
-   * Sale format (e.g. Fixed price, Auction).
+   * Sale format: Auction or Fixed price.
    */
   listingType?: string;
   /**
-   * Seller's lifetime feedback count, when available.
+   * Seller's lifetime feedback count. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   sellerFeedbackCount?: number;
   /**
-   * Seller's positive-feedback percentage, when available.
+   * Seller's positive-feedback percentage. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   sellerFeedbackPercent?: number;
   /**
-   * Seller's eBay username, when available.
+   * Seller's eBay username. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   sellerUsername?: string;
   /**
-   * Shipping cost as displayed on the listing (e.g. "Free delivery", "$5.55 delivery").
+   * Shipping the buyer paid, in the site currency (e.g. "$5.55"; "$0" is free shipping).
    */
   shippingCost?: string;
   /**
@@ -608,7 +629,7 @@ export interface EbaySoldListingsItem {
    */
   soldCurrency?: string;
   /**
-   * Final sold price in the site currency.
+   * Final sold price in the site currency. When bestOfferAccepted is true this is the listing's asking price: eBay does not publish the accepted offer amount.
    */
   soldPrice?: number;
   /**
@@ -634,6 +655,134 @@ export interface EbaySoldListingsData {
    * Sold listing records: title, sold price, sale date, condition, seller, and item URL. Populated whenever the provider has data for the entity.
    */
   items: EbaySoldListingsItem[];
+}
+
+/**
+ * Input for eBay Sold Listings (Basic) (ebay.sold_listings_thin).
+ */
+export interface EbaySoldListingsThinInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Item condition filter (e.g. used).
+   * One of: any, new, used.
+   * Default: any.
+   */
+  condition?: "any" | "new" | "used";
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum number of results to return (1-25, default 25).
+   * Range: minimum 1, maximum 25.
+   */
+  limit?: number;
+  /**
+   * Restrict to a listing format; omit or use all for both (e.g. auction for auction sales only).
+   * One of: all, auction, buy_it_now.
+   */
+  listingType?: "all" | "auction" | "buy_it_now";
+  /**
+   * Optional maximum sold price in the site currency (e.g. 500).
+   * Range: minimum 0.
+   */
+  maxPrice?: number;
+  /**
+   * Optional minimum sold price in the site currency (e.g. 200).
+   * Range: minimum 0.
+   */
+  minPrice?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Search keyword for sold items (e.g. iphone 13 pro).
+   */
+  query: string;
+  /**
+   * eBay country site to search. Sold-listing coverage is currently US only.
+   * One of: ebay.com.
+   * Default: ebay.com.
+   */
+  site?: "ebay.com";
+  /**
+   * Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first).
+   * One of: ended_recently, price_low, price_high.
+   */
+  sort?: "ended_recently" | "price_low" | "price_high";
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface EbaySoldListingsThinItem {
+  /**
+   * True when eBay marked the sale as Best Offer accepted. Absent when the source could not tell.
+   */
+  bestOfferAccepted?: boolean;
+  /**
+   * Number of bids the listing received, for auction sales.
+   */
+  bidCount?: number;
+  /**
+   * Item condition as listed (e.g. Pre-Owned).
+   */
+  condition?: string;
+  /**
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * eBay item identifier. Populated whenever the provider has data for the entity.
+   */
+  itemId: string;
+  /**
+   * Sale format: Auction or Fixed price.
+   */
+  listingType?: string;
+  /**
+   * Shipping the buyer paid, in the site currency (e.g. "$5.55"; "$0" is free shipping).
+   */
+  shippingCost?: string;
+  /**
+   * ISO currency code of the sold price (e.g. USD).
+   */
+  soldCurrency?: string;
+  /**
+   * Final sold price in the site currency. When bestOfferAccepted is true this is the listing's asking price: eBay does not publish the accepted offer amount.
+   */
+  soldPrice?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  soldUtc?: number;
+  /**
+   * Listing title as it appeared on eBay. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Canonical listing URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of eBay Sold Listings (Basic) (ebay.sold_listings_thin).
+ */
+export interface EbaySoldListingsThinData {
+  /**
+   * Sold listing records: title, sold price, sale date, condition, format, bids, and item URL, without seller details. Populated whenever the provider has data for the entity.
+   */
+  items: EbaySoldListingsThinItem[];
 }
 
 /**
@@ -682,7 +831,7 @@ export class EbayNamespace {
    *
    * Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00225 per request.
    *
    * @example
    * const res = await client.ebay.search({ query: "nintendo switch", limit: 3, sort: "price_low" });
@@ -699,7 +848,7 @@ export class EbayNamespace {
    *
    * Retrieve recently sold eBay listings for any keyword with optional price-range, condition, and sort filters (sold price, sale date, condition, seller, item details); ideal for pricing research.
    *
-   * Price: $0.022 per request plus $0.00264 per result (maximum $0.088).
+   * Price: $0.0135 per request.
    *
    * @example
    * const res = await client.ebay.soldListings({ query: "iphone 13 pro", limit: 10, sort: "ended_recently" });
@@ -709,5 +858,22 @@ export class EbayNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<EbaySoldListingsData>> {
     return this._core.run("ebay.sold_listings", input, options);
+  }
+
+  /**
+   * eBay Sold Listings (Basic)
+   *
+   * Retrieve recently sold eBay listings for any keyword with the sold price, sale date, condition, format, bids, and whether a Best Offer was accepted, without seller details; the lighter sibling of eBay Sold Listings for price comps.
+   *
+   * Price: $0.0135 per request.
+   *
+   * @example
+   * const res = await client.ebay.soldListingsThin({ query: "iphone 13 pro", limit: 10, sort: "ended_recently" });
+   */
+  soldListingsThin(
+    input: EbaySoldListingsThinInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<EbaySoldListingsThinData>> {
+    return this._core.run("ebay.sold_listings_thin", input, options);
   }
 }

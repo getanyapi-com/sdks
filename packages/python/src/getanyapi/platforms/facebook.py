@@ -374,6 +374,26 @@ class FacebookPostInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorId",
+                "authorImage",
+                "authorName",
+                "authorVerified",
+                "comments",
+                "createdUtc",
+                "durationSeconds",
+                "image",
+                "likes",
+                "shares",
+                "url",
+                "videoId",
+                "views",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoId` or `authorId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -1922,7 +1942,7 @@ class FacebookPostData(BaseModel):
         description="Length of the post's video in seconds, 0 when the post carries no video.",
     )
     id: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Facebook post id. For a reel or video post this is NOT the id in the /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity."
     )
     image: str | None = Field(
         default=None, description="Preview image or video thumbnail URL for the post."
@@ -1934,6 +1954,11 @@ class FacebookPostData(BaseModel):
     )
     url: str | None = Field(
         default=None, description="Canonical Facebook URL of the post."
+    )
+    video_id: str | None = Field(
+        default=None,
+        alias="videoId",
+        description="Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.",
     )
     views: int
 
@@ -2165,6 +2190,13 @@ class FacebookProfilePostsMedia(BaseModel):
 
 
 class FacebookProfileReelsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.",
+    )
     reels: list[FacebookProfileReelsReel] = Field(
         description="The profile's reels. Populated whenever the provider has data for the entity."
     )
@@ -3198,6 +3230,29 @@ class FacebookNamespace:
         )
         return RunResult[FacebookProfileReelsData].model_validate(raw)
 
+    def iter_profile_reels(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookProfileReelsInput],
+    ) -> Paginator[FacebookProfileReelsReel, FacebookProfileReelsData]:
+        """Iterate Facebook Profile Reels results, following pagination cursors.
+
+        Yields validated `FacebookProfileReelsReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "facebook.profile_reels",
+            dict(input),
+            "reels",
+            item_model=FacebookProfileReelsReel,
+            data_model=FacebookProfileReelsData,
+            bare=False,
+            options=options,
+        )
+
     def search_companies(
         self,
         *,
@@ -3252,7 +3307,7 @@ class FacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
+        Price: $0 per request plus $0.00135 per result (maximum $0.027).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
@@ -4006,6 +4061,29 @@ class AsyncFacebookNamespace:
         )
         return RunResult[FacebookProfileReelsData].model_validate(raw)
 
+    def iter_profile_reels(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookProfileReelsInput],
+    ) -> AsyncPaginator[FacebookProfileReelsReel, FacebookProfileReelsData]:
+        """Iterate Facebook Profile Reels results, following pagination cursors.
+
+        Yields validated `FacebookProfileReelsReel` items from the `reels` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "facebook.profile_reels",
+            dict(input),
+            "reels",
+            item_model=FacebookProfileReelsReel,
+            data_model=FacebookProfileReelsData,
+            bare=False,
+            options=options,
+        )
+
     async def search_companies(
         self,
         *,
@@ -4060,7 +4138,7 @@ class AsyncFacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
+        Price: $0 per request plus $0.00135 per result (maximum $0.027).
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
