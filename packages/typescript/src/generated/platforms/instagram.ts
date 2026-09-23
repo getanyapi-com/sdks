@@ -2337,6 +2337,125 @@ export interface InstagramSearchProfilesData {
 }
 
 /**
+ * Input for Instagram Profile Search with Contact (instagram.search_profiles_contact).
+ */
+export interface InstagramSearchProfilesContactInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Pagination cursor returned by a previous response.
+   */
+  cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Most profiles to return on this page, 1 to 12.
+   * Range: minimum 1, maximum 12.
+   * Default: 8.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Bio or caption keyword/phrase to search for.
+   */
+  query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface InstagramSearchProfilesContactProfile {
+  /**
+   * Profile picture URL. Populated whenever the provider has data for the entity.
+   */
+  avatarUrl: string;
+  /**
+   * Profile bio text. Populated whenever the provider has data for the entity.
+   */
+  bio: string;
+  /**
+   * Country the account is based in, from the account's About panel. Absent when Instagram does not show it. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  country?: string;
+  /**
+   * Display name on the profile. Populated whenever the provider has data for the entity.
+   */
+  displayName: string;
+  /**
+   * Public contact email the account lists. Absent when the account does not publish one. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  email?: string;
+  /**
+   * External link the account lists in its bio.
+   */
+  externalUrl?: string;
+  /**
+   * Follower count, or 0 when Instagram did not report it.
+   */
+  followers: number;
+  /**
+   * Number of accounts this profile follows.
+   */
+  following: number;
+  /**
+   * Instagram username, without the @. Populated whenever the provider has data for the entity.
+   */
+  handle: string;
+  /**
+   * Instagram account id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Month and year the account joined Instagram, as shown on its About panel, for example "October 2013". Absent when not shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  joined?: string;
+  /**
+   * Public contact phone number the account lists, in international format. Absent when the account does not publish one.
+   */
+  phone?: string;
+  /**
+   * Number of posts on the profile.
+   */
+  posts: number;
+  /**
+   * Canonical URL of the profile.
+   */
+  url?: string;
+  /**
+   * Whether the account has a verified badge.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Profile Search with Contact (instagram.search_profiles_contact).
+ */
+export interface InstagramSearchProfilesContactData {
+  /**
+   * Opaque cursor for the next page of profiles, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Matching public profiles with the contact details each account publishes. Populated whenever the provider has data for the entity.
+   */
+  profiles: InstagramSearchProfilesContactProfile[];
+}
+
+/**
  * Input for Instagram Similar Profiles (instagram.similar_profiles).
  */
 export interface InstagramSimilarProfilesInput {
@@ -4089,6 +4208,49 @@ export class InstagramNamespace {
     >(
       this._core,
       "instagram.search_profiles",
+      input as unknown as Record<string, unknown>,
+      "profiles",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * Instagram Profile Search with Contact
+   *
+   * Search public Instagram profiles by a bio or caption keyword and get each account's country, the month it joined, and the public email and phone number it lists. Charged per profile that comes back with those details.
+   *
+   * Price: $0.0036 per request plus $0.0036 per result (maximum $0.09).
+   *
+   * @example
+   * const res = await client.instagram.searchProfilesContact({ query: "skincare" });
+   */
+  searchProfilesContact(
+    input: InstagramSearchProfilesContactInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramSearchProfilesContactData>> {
+    return this._core.run("instagram.search_profiles_contact", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Profile Search with Contact across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterSearchProfilesContact(
+    input: InstagramSearchProfilesContactInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramSearchProfilesContactProfile,
+    RunResult<InstagramSearchProfilesContactData>
+  > {
+    return paginate<
+      InstagramSearchProfilesContactProfile,
+      RunResult<InstagramSearchProfilesContactData>
+    >(
+      this._core,
+      "instagram.search_profiles_contact",
       input as unknown as Record<string, unknown>,
       "profiles",
       false,

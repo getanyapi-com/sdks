@@ -459,6 +459,25 @@ class InstagramSearchProfilesInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class InstagramSearchProfilesContactInput(TypedDict, total=False):
+    """Input for Instagram Profile Search with Contact."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor returned by a previous response."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Most profiles to return on this page, 1 to 12. Range: 1 to 12. Default: 8."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Bio or caption keyword/phrase to search for."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class InstagramSimilarProfilesInput(TypedDict, total=False):
     """Input for Instagram Similar Profiles."""
 
@@ -1986,6 +2005,68 @@ class InstagramSearchProfilesProfile(BaseModel):
     verified: bool
 
 
+class InstagramSearchProfilesContactData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of profiles, or null when there are no more. Pass it back as cursor to continue.",
+    )
+    profiles: list[InstagramSearchProfilesContactProfile] = Field(
+        description="Matching public profiles with the contact details each account publishes. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramSearchProfilesContactProfile(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str = Field(
+        alias="avatarUrl",
+        description="Profile picture URL. Populated whenever the provider has data for the entity.",
+    )
+    bio: str = Field(
+        description="Profile bio text. Populated whenever the provider has data for the entity."
+    )
+    country: str | None = Field(
+        default=None,
+        description="Country the account is based in, from the account's About panel. Absent when Instagram does not show it. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    display_name: str = Field(
+        alias="displayName",
+        description="Display name on the profile. Populated whenever the provider has data for the entity.",
+    )
+    email: str | None = Field(
+        default=None,
+        description="Public contact email the account lists. Absent when the account does not publish one. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    external_url: str | None = Field(
+        default=None,
+        alias="externalUrl",
+        description="External link the account lists in its bio.",
+    )
+    followers: int = Field(
+        description="Follower count, or 0 when Instagram did not report it."
+    )
+    following: int = Field(description="Number of accounts this profile follows.")
+    handle: str = Field(
+        description="Instagram username, without the @. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Instagram account id. Populated whenever the provider has data for the entity."
+    )
+    joined: str | None = Field(
+        default=None,
+        description='Month and year the account joined Instagram, as shown on its About panel, for example "October 2013". Absent when not shown. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    phone: str | None = Field(
+        default=None,
+        description="Public contact phone number the account lists, in international format. Absent when the account does not publish one.",
+    )
+    posts: int = Field(description="Number of posts on the profile.")
+    url: str | None = Field(default=None, description="Canonical URL of the profile.")
+    verified: bool = Field(description="Whether the account has a verified badge.")
+
+
 class InstagramSimilarProfilesData(BaseModel):
     profiles: list[InstagramSimilarProfilesProfile] = Field(
         description="Accounts Instagram recommends as similar to the requested profile. Populated whenever the provider has data for the entity."
@@ -3441,6 +3522,53 @@ class InstagramNamespace:
             options=options,
         )
 
+    def search_profiles_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchProfilesContactInput],
+    ) -> RunResult[InstagramSearchProfilesContactData]:
+        """Instagram Profile Search with Contact
+
+        Search public Instagram profiles by a bio or caption keyword and get each
+        account's country, the month it joined, and the public email and phone
+        number it lists. Charged per profile that comes back with those details.
+
+        Price: $0.0036 per request plus $0.0036 per result (maximum $0.09).
+
+        Example:
+            res = client.instagram.search_profiles_contact(query="skincare")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_profiles_contact", dict(input), options
+        )
+        return RunResult[InstagramSearchProfilesContactData].model_validate(raw)
+
+    def iter_search_profiles_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchProfilesContactInput],
+    ) -> Paginator[
+        InstagramSearchProfilesContactProfile, InstagramSearchProfilesContactData
+    ]:
+        """Iterate Instagram Profile Search with Contact results, following pagination cursors.
+
+        Yields validated `InstagramSearchProfilesContactProfile` items from the `profiles` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "instagram.search_profiles_contact",
+            dict(input),
+            "profiles",
+            item_model=InstagramSearchProfilesContactProfile,
+            data_model=InstagramSearchProfilesContactData,
+            bare=False,
+            options=options,
+        )
+
     def similar_profiles(
         self,
         *,
@@ -4518,6 +4646,53 @@ class AsyncInstagramNamespace:
             "profiles",
             item_model=InstagramSearchProfilesProfile,
             data_model=InstagramSearchProfilesData,
+            bare=False,
+            options=options,
+        )
+
+    async def search_profiles_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchProfilesContactInput],
+    ) -> RunResult[InstagramSearchProfilesContactData]:
+        """Instagram Profile Search with Contact
+
+        Search public Instagram profiles by a bio or caption keyword and get each
+        account's country, the month it joined, and the public email and phone
+        number it lists. Charged per profile that comes back with those details.
+
+        Price: $0.0036 per request plus $0.0036 per result (maximum $0.09).
+
+        Example:
+            res = client.instagram.search_profiles_contact(query="skincare")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_profiles_contact", dict(input), options
+        )
+        return RunResult[InstagramSearchProfilesContactData].model_validate(raw)
+
+    def iter_search_profiles_contact(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchProfilesContactInput],
+    ) -> AsyncPaginator[
+        InstagramSearchProfilesContactProfile, InstagramSearchProfilesContactData
+    ]:
+        """Iterate Instagram Profile Search with Contact results, following pagination cursors.
+
+        Yields validated `InstagramSearchProfilesContactProfile` items from the `profiles` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "instagram.search_profiles_contact",
+            dict(input),
+            "profiles",
+            item_model=InstagramSearchProfilesContactProfile,
+            data_model=InstagramSearchProfilesContactData,
             bare=False,
             options=options,
         )

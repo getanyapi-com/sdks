@@ -367,6 +367,8 @@ import type {
   InstagramSearchInput,
   InstagramSearchLocationsData,
   InstagramSearchLocationsInput,
+  InstagramSearchProfilesContactData,
+  InstagramSearchProfilesContactInput,
   InstagramSearchProfilesData,
   InstagramSearchProfilesInput,
   InstagramSimilarProfilesData,
@@ -1676,6 +1678,11 @@ export interface SkuMap {
     input: InstagramSearchProfilesInput;
     data: InstagramSearchProfilesData;
     result: RunResult<InstagramSearchProfilesData>;
+  };
+  "instagram.search_profiles_contact": {
+    input: InstagramSearchProfilesContactInput;
+    data: InstagramSearchProfilesContactData;
+    result: RunResult<InstagramSearchProfilesContactData>;
   };
   "instagram.similar_profiles": {
     input: InstagramSimilarProfilesInput;

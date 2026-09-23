@@ -2957,6 +2957,32 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.search_profiles_contact": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "profiles": [
+          {
+            "id": "sample",
+            "handle": "sample",
+            "displayName": "sample",
+            "bio": "sample",
+            "followers": 1,
+            "following": 1,
+            "posts": 1,
+            "verified": true,
+            "avatarUrl": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.similar_profiles": {
     "output": {
       "found": true,

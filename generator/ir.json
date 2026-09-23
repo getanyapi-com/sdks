@@ -42868,6 +42868,261 @@
       }
     },
     {
+      "slug": "instagram.search_profiles_contact",
+      "platform": "instagram",
+      "action": "search_profiles_contact",
+      "operationId": "instagram_search_profiles_contact",
+      "name": "Instagram Profile Search with Contact",
+      "category": "social",
+      "description": "Search public Instagram profiles by a bio or caption keyword and get each account's country, the month it joined, and the public email and phone number it lists. Charged per profile that comes back with those details.",
+      "pricing": {
+        "priceUsd": 0.09,
+        "baseUsd": 0.0036,
+        "perItemUsd": 0.0036,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "instagram",
+      "tsMethod": "searchProfilesContact",
+      "tsIterMethod": "iterSearchProfilesContact",
+      "pyNamespace": "instagram",
+      "pyMethod": "search_profiles_contact",
+      "pyIterMethod": "iter_search_profiles_contact",
+      "inputTypeName": "InstagramSearchProfilesContactInput",
+      "outputTypeName": "InstagramSearchProfilesContactData",
+      "example": {
+        "query": "skincare"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor returned by a previous response.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Most profiles to return on this page, 1 to 12.",
+            "minimum": 1,
+            "maximum": 12,
+            "default": 8
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Bio or caption keyword/phrase to search for.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of profiles, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "profiles": {
+              "kind": "array",
+              "description": "Matching public profiles with the contact details each account publishes. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "avatarUrl": {
+                    "kind": "string",
+                    "description": "Profile picture URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "bio": {
+                    "kind": "string",
+                    "description": "Profile bio text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Country the account is based in, from the account's About panel. Absent when Instagram does not show it. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "displayName": {
+                    "kind": "string",
+                    "description": "Display name on the profile. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "email": {
+                    "kind": "string",
+                    "description": "Public contact email the account lists. Absent when the account does not publish one. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "externalUrl": {
+                    "kind": "string",
+                    "description": "External link the account lists in its bio.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "followers": {
+                    "kind": "integer",
+                    "description": "Follower count, or 0 when Instagram did not report it.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "following": {
+                    "kind": "integer",
+                    "description": "Number of accounts this profile follows.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "handle": {
+                    "kind": "string",
+                    "description": "Instagram username, without the @. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Instagram account id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "joined": {
+                    "kind": "string",
+                    "description": "Month and year the account joined Instagram, as shown on its About panel, for example \"October 2013\". Absent when not shown. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "phone": {
+                    "kind": "string",
+                    "description": "Public contact phone number the account lists, in international format. Absent when the account does not publish one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "posts": {
+                    "kind": "integer",
+                    "description": "Number of posts on the profile.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical URL of the profile.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "verified": {
+                    "kind": "boolean",
+                    "description": "Whether the account has a verified badge.",
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "handle",
+                  "displayName",
+                  "bio",
+                  "followers",
+                  "following",
+                  "posts",
+                  "verified",
+                  "avatarUrl"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "avatarUrl",
+                  "bio",
+                  "country",
+                  "displayName",
+                  "email",
+                  "handle",
+                  "id",
+                  "joined"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "nextCursor",
+            "profiles"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "profiles"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "profiles",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "instagram.similar_profiles",
       "platform": "instagram",
       "action": "similar_profiles",
