@@ -42878,8 +42878,8 @@
       "pricing": {
         "priceUsd": 0.09,
         "baseUsd": 0.0036,
-        "perItemUsd": 0.0036,
-        "perItemUnit": "result"
+        "perItemUsd": 0.0072,
+        "perItemUnit": "profile"
       },
       "tsNamespace": "instagram",
       "tsMethod": "searchProfilesContact",

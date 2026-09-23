@@ -3534,7 +3534,7 @@ class InstagramNamespace:
         account's country, the month it joined, and the public email and phone
         number it lists. Charged per profile that comes back with those details.
 
-        Price: $0.0036 per request plus $0.0036 per result (maximum $0.09).
+        Price: $0.0036 per request plus $0.0072 per profile (maximum $0.09).
 
         Example:
             res = client.instagram.search_profiles_contact(query="skincare")
@@ -4662,7 +4662,7 @@ class AsyncInstagramNamespace:
         account's country, the month it joined, and the public email and phone
         number it lists. Charged per profile that comes back with those details.
 
-        Price: $0.0036 per request plus $0.0036 per result (maximum $0.09).
+        Price: $0.0036 per request plus $0.0072 per profile (maximum $0.09).
 
         Example:
             res = client.instagram.search_profiles_contact(query="skincare")

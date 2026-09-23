@@ -4220,7 +4220,7 @@ export class InstagramNamespace {
    *
    * Search public Instagram profiles by a bio or caption keyword and get each account's country, the month it joined, and the public email and phone number it lists. Charged per profile that comes back with those details.
    *
-   * Price: $0.0036 per request plus $0.0036 per result (maximum $0.09).
+   * Price: $0.0036 per request plus $0.0072 per profile (maximum $0.09).
    *
    * @example
    * const res = await client.instagram.searchProfilesContact({ query: "skincare" });
