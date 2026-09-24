@@ -600,6 +600,10 @@ import type {
   SemrushOverviewInput,
 } from "./platforms/semrush.js";
 import type {
+  SeoBacklinkAnchorsData,
+  SeoBacklinkAnchorsInput,
+  SeoBacklinkCompetitorsData,
+  SeoBacklinkCompetitorsInput,
   SeoBacklinksData,
   SeoBacklinksInput,
   SeoBacklinksSummaryData,
@@ -608,6 +612,8 @@ import type {
   SeoCompetitorsDomainInput,
   SeoDomainIntersectionData,
   SeoDomainIntersectionInput,
+  SeoDomainPagesData,
+  SeoDomainPagesInput,
   SeoDomainRankOverviewData,
   SeoDomainRankOverviewInput,
   SeoDomainTechnologiesData,
@@ -624,6 +630,12 @@ import type {
   SeoKeywordSuggestionsInput,
   SeoLlmMentionsData,
   SeoLlmMentionsInput,
+  SeoLlmTopBrandsData,
+  SeoLlmTopBrandsInput,
+  SeoLlmTopDomainsData,
+  SeoLlmTopDomainsInput,
+  SeoLlmTopPagesData,
+  SeoLlmTopPagesInput,
   SeoLocalPackData,
   SeoLocalPackInput,
   SeoRankedKeywordsData,
@@ -636,6 +648,8 @@ import type {
   SeoSearchIntentInput,
   SeoSearchVolumeData,
   SeoSearchVolumeInput,
+  SeoTopPagesData,
+  SeoTopPagesInput,
 } from "./platforms/seo.js";
 import type {
   SimilarwebOverviewData,
@@ -2167,6 +2181,16 @@ export interface SkuMap {
     data: SemrushOverviewData;
     result: RunResult<SemrushOverviewData>;
   };
+  "seo.backlink_anchors": {
+    input: SeoBacklinkAnchorsInput;
+    data: SeoBacklinkAnchorsData;
+    result: RunResult<SeoBacklinkAnchorsData>;
+  };
+  "seo.backlink_competitors": {
+    input: SeoBacklinkCompetitorsInput;
+    data: SeoBacklinkCompetitorsData;
+    result: RunResult<SeoBacklinkCompetitorsData>;
+  };
   "seo.backlinks": {
     input: SeoBacklinksInput;
     data: SeoBacklinksData;
@@ -2186,6 +2210,11 @@ export interface SkuMap {
     input: SeoDomainIntersectionInput;
     data: SeoDomainIntersectionData;
     result: RunResult<SeoDomainIntersectionData>;
+  };
+  "seo.domain_pages": {
+    input: SeoDomainPagesInput;
+    data: SeoDomainPagesData;
+    result: RunResult<SeoDomainPagesData>;
   };
   "seo.domain_rank_overview": {
     input: SeoDomainRankOverviewInput;
@@ -2227,6 +2256,21 @@ export interface SkuMap {
     data: SeoLlmMentionsData;
     result: RunResult<SeoLlmMentionsData>;
   };
+  "seo.llm_top_brands": {
+    input: SeoLlmTopBrandsInput;
+    data: SeoLlmTopBrandsData;
+    result: RunResult<SeoLlmTopBrandsData>;
+  };
+  "seo.llm_top_domains": {
+    input: SeoLlmTopDomainsInput;
+    data: SeoLlmTopDomainsData;
+    result: RunResult<SeoLlmTopDomainsData>;
+  };
+  "seo.llm_top_pages": {
+    input: SeoLlmTopPagesInput;
+    data: SeoLlmTopPagesData;
+    result: RunResult<SeoLlmTopPagesData>;
+  };
   "seo.local_pack": {
     input: SeoLocalPackInput;
     data: SeoLocalPackData;
@@ -2256,6 +2300,11 @@ export interface SkuMap {
     input: SeoSearchVolumeInput;
     data: SeoSearchVolumeData;
     result: RunResult<SeoSearchVolumeData>;
+  };
+  "seo.top_pages": {
+    input: SeoTopPagesInput;
+    data: SeoTopPagesData;
+    result: RunResult<SeoTopPagesData>;
   };
   "similarweb.overview": {
     input: SimilarwebOverviewInput;

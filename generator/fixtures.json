@@ -4772,6 +4772,39 @@
     "items": 1,
     "replayed": false
   },
+  "seo.backlink_anchors": {
+    "output": {
+      "found": true,
+      "data": {
+        "anchors": [
+          {
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.backlink_competitors": {
+    "output": {
+      "found": true,
+      "data": {
+        "competitors": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "seo.backlinks": {
     "output": {
       "found": true,
@@ -4828,6 +4861,23 @@
           {
             "keyword": "sample",
             "firstRank": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.domain_pages": {
+    "output": {
+      "found": true,
+      "data": {
+        "pages": [
+          {
+            "url": "sample",
             "_extra": "passthrough"
           }
         ]
@@ -4966,6 +5016,57 @@
     "items": 1,
     "replayed": false
   },
+  "seo.llm_top_brands": {
+    "output": {
+      "found": true,
+      "data": {
+        "brands": [
+          {
+            "brand": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.llm_top_domains": {
+    "output": {
+      "found": true,
+      "data": {
+        "domains": [
+          {
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.llm_top_pages": {
+    "output": {
+      "found": true,
+      "data": {
+        "pages": [
+          {
+            "page": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "seo.local_pack": {
     "output": {
       "found": true,
@@ -5061,6 +5162,23 @@
         "keywords": [
           {
             "keyword": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.top_pages": {
+    "output": {
+      "found": true,
+      "data": {
+        "pages": [
+          {
+            "url": "sample",
             "_extra": "passthrough"
           }
         ]

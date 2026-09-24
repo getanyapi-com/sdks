@@ -9,6 +9,238 @@ import type {
 import { paginate } from "../../core/index.js";
 
 /**
+ * Input for SEO Backlink Anchors (seo.backlink_anchors).
+ */
+export interface SeoBacklinkAnchorsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Count links pointing at the target's subdomains as well as the target itself.
+   * Default: true.
+   */
+  includeSubdomains?: boolean;
+  /**
+   * Maximum number of anchor texts to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Count backlinks that are live now, ones that have been lost, or both.
+   * One of: live, lost, all.
+   * Default: live.
+   */
+  status?: "live" | "lost" | "all";
+  /**
+   * Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.
+   */
+  target: string;
+}
+
+export interface SeoBacklinkAnchorsAnchor {
+  /**
+   * Anchor text. Absent for links without text, such as image links. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  anchor?: string;
+  /**
+   * Backlinks counted. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  backlinks?: number;
+  /**
+   * Backlinks pointing at pages that no longer resolve.
+   */
+  brokenBacklinks?: number;
+  /**
+   * Linked pages with an error status.
+   */
+  brokenPages?: number;
+  /**
+   * When the first of these backlinks was seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstSeenUtc?: number;
+  /**
+   * Count of these backlinks, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).
+   */
+  linksByAttribute?: {};
+  /**
+   * Count of these backlinks, by country code of the linking domain. An empty key means the country is unknown.
+   */
+  linksByCountry?: {};
+  /**
+   * Count of these backlinks, by type of linking site (blogs, news, ecommerce, and so on).
+   */
+  linksByPlatformType?: {};
+  /**
+   * Count of these backlinks, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.
+   */
+  linksBySemanticLocation?: {};
+  /**
+   * Count of these backlinks, by top-level domain of the linking page.
+   */
+  linksByTld?: {};
+  /**
+   * Count of these backlinks, by link type (anchor, image, redirect, canonical, alternate).
+   */
+  linksByType?: {};
+  /**
+   * When the last of these backlinks was lost, if they were. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lostUtc?: number;
+  /**
+   * Authority rank on a 0-1000 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rank?: number;
+  /**
+   * Distinct linking domains.
+   */
+  referringDomains?: number;
+  /**
+   * Linking domains whose every link is nofollow.
+   */
+  referringDomainsNofollow?: number;
+  /**
+   * Distinct IP addresses of linking pages.
+   */
+  referringIps?: number;
+  /**
+   * Distinct linking registrable domains.
+   */
+  referringMainDomains?: number;
+  /**
+   * Linking registrable domains whose every link is nofollow.
+   */
+  referringMainDomainsNofollow?: number;
+  /**
+   * Distinct linking pages.
+   */
+  referringPages?: number;
+  /**
+   * Linking pages whose links are all nofollow.
+   */
+  referringPagesNofollow?: number;
+  /**
+   * Distinct subnets of linking pages.
+   */
+  referringSubnets?: number;
+  /**
+   * Average spam score of those backlinks on a 0-100 scale.
+   */
+  spamScore?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Backlink Anchors (seo.backlink_anchors).
+ */
+export interface SeoBacklinkAnchorsData {
+  /**
+   * Anchor texts of backlinks to the target. Populated whenever the provider has data for the entity.
+   */
+  anchors: SeoBacklinkAnchorsAnchor[];
+  /**
+   * Total anchor texts, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
+ * Input for SEO Backlink Competitors (seo.backlink_competitors).
+ */
+export interface SeoBacklinkCompetitorsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Leave out very large sites (such as google.com or wikipedia.org) that share backlinks with almost everyone.
+   * Default: true.
+   */
+  excludeLargeDomains?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum number of competing domains to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Group results by registrable domain rather than listing subdomains separately.
+   * Default: true.
+   */
+  mainDomainOnly?: boolean;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.
+   */
+  target: string;
+}
+
+export interface SeoBacklinkCompetitorsCompetitor {
+  /**
+   * Competing domain. Populated whenever the provider has data for the entity.
+   */
+  domain: string;
+  /**
+   * Authority rank of the competing domain on a 0-1000 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rank?: number;
+  /**
+   * Backlinks the competing domain shares with the target. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  sharedBacklinks?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Backlink Competitors (seo.backlink_competitors).
+ */
+export interface SeoBacklinkCompetitorsData {
+  /**
+   * Domains sharing backlinks with the target, most shared first. Populated whenever the provider has data for the entity.
+   */
+  competitors: SeoBacklinkCompetitorsCompetitor[];
+  /**
+   * Total competing domains, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
  * Input for SEO Backlinks (seo.backlinks).
  */
 export interface SeoBacklinksInput {
@@ -659,6 +891,273 @@ export interface SeoDomainIntersectionData {
    * SEO keyword records both domains rank for. Populated whenever the provider has data for the entity.
    */
   keywords: SeoDomainIntersectionKeyword[];
+}
+
+/**
+ * Input for SEO Domain Pages (seo.domain_pages).
+ */
+export interface SeoDomainPagesInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Count links pointing at the target's subdomains as well as the target itself.
+   * Default: true.
+   */
+  includeSubdomains?: boolean;
+  /**
+   * Maximum number of pages to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Count backlinks that are live now, ones that have been lost, or both.
+   * One of: live, lost, all.
+   * Default: live.
+   */
+  status?: "live" | "lost" | "all";
+  /**
+   * Domain or subdomain to list pages for, without a protocol or leading www.
+   */
+  target: string;
+}
+
+export interface SeoDomainPagesPage {
+  /**
+   * Backlinks counted. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  backlinks?: number;
+  /**
+   * Backlinks pointing at pages that no longer resolve.
+   */
+  brokenBacklinks?: number;
+  /**
+   * Linked pages with an error status.
+   */
+  brokenPages?: number;
+  /**
+   * Canonical URL declared by the page.
+   */
+  canonical?: string;
+  /**
+   * Character set of the page.
+   */
+  charset?: string;
+  /**
+   * Content encoding of the response.
+   */
+  contentEncoding?: string;
+  /**
+   * Host of the page. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  domain?: string;
+  /**
+   * Encoded page size in bytes.
+   */
+  encodedSize?: number;
+  /**
+   * Outbound links on the page.
+   */
+  externalLinks?: number;
+  /**
+   * When the page was last crawled. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  fetchedUtc?: number;
+  /**
+   * When the first of these backlinks was seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstSeenUtc?: number;
+  /**
+   * When the page was first crawled. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstVisitedUtc?: number;
+  /**
+   * H1 headings on the page.
+   */
+  h1?: string[];
+  /**
+   * H2 headings on the page.
+   */
+  h2?: string[];
+  /**
+   * H3 headings on the page.
+   */
+  h3?: string[];
+  /**
+   * Images on the page.
+   */
+  imagesCount?: number;
+  /**
+   * Internal links on the page.
+   */
+  internalLinks?: number;
+  /**
+   * IP address the page was fetched from.
+   */
+  ip?: string;
+  /**
+   * Language code of the page.
+   */
+  language?: string;
+  /**
+   * Count of these backlinks, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).
+   */
+  linksByAttribute?: {};
+  /**
+   * Count of these backlinks, by country code of the linking domain. An empty key means the country is unknown.
+   */
+  linksByCountry?: {};
+  /**
+   * Count of these backlinks, by type of linking site (blogs, news, ecommerce, and so on).
+   */
+  linksByPlatformType?: {};
+  /**
+   * Count of these backlinks, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.
+   */
+  linksBySemanticLocation?: {};
+  /**
+   * Count of these backlinks, by top-level domain of the linking page.
+   */
+  linksByTld?: {};
+  /**
+   * Count of these backlinks, by link type (anchor, image, redirect, canonical, alternate).
+   */
+  linksByType?: {};
+  /**
+   * When the last of these backlinks was lost, if they were. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lostUtc?: number;
+  /**
+   * Registrable domain of the page.
+   */
+  mainDomain?: string;
+  /**
+   * Media type of the page.
+   */
+  mediaType?: string;
+  /**
+   * Spam score of the page on a 0-100 scale.
+   */
+  pageSpamScore?: number;
+  /**
+   * Site types detected, such as blogs, news, or ecommerce.
+   */
+  platformTypes?: string[];
+  /**
+   * When the page was crawled before the last time. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  previousVisitedUtc?: number;
+  /**
+   * Authority rank on a 0-1000 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rank?: number;
+  /**
+   * Distinct linking domains.
+   */
+  referringDomains?: number;
+  /**
+   * Linking domains whose every link is nofollow.
+   */
+  referringDomainsNofollow?: number;
+  /**
+   * Distinct IP addresses of linking pages.
+   */
+  referringIps?: number;
+  /**
+   * Distinct linking registrable domains.
+   */
+  referringMainDomains?: number;
+  /**
+   * Linking registrable domains whose every link is nofollow.
+   */
+  referringMainDomainsNofollow?: number;
+  /**
+   * Distinct linking pages.
+   */
+  referringPages?: number;
+  /**
+   * Linking pages whose links are all nofollow.
+   */
+  referringPagesNofollow?: number;
+  /**
+   * Distinct subnets of linking pages.
+   */
+  referringSubnets?: number;
+  /**
+   * Web server or CDN serving the page.
+   */
+  server?: string;
+  /**
+   * Page size in bytes.
+   */
+  size?: number;
+  /**
+   * Open Graph and Twitter card tags, by tag name.
+   */
+  socialTags?: {};
+  /**
+   * Average spam score of those backlinks on a 0-100 scale.
+   */
+  spamScore?: number;
+  /**
+   * HTTP status of the page on the last crawl.
+   */
+  statusCode?: number;
+  /**
+   * Technologies detected on the page, by category.
+   */
+  technologies?: {};
+  /**
+   * Page title.
+   */
+  title?: string;
+  /**
+   * Top-level domain of the page.
+   */
+  tld?: string;
+  /**
+   * Page URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Words on the page.
+   */
+  wordsCount?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Domain Pages (seo.domain_pages).
+ */
+export interface SeoDomainPagesData {
+  /**
+   * Pages of the domain with their backlink and on-page data. Populated whenever the provider has data for the entity.
+   */
+  pages: SeoDomainPagesPage[];
+  /**
+   * Total pages, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
 }
 
 /**
@@ -1590,6 +2089,1119 @@ export interface SeoLlmMentionsData {
 }
 
 /**
+ * Input for SEO LLM Top Brands (seo.llm_top_brands).
+ */
+export interface SeoLlmTopBrandsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * How many entries each breakdown list (cited domains, brands, locations, and so on) carries.
+   * Range: minimum 1, maximum 10.
+   * Default: 5.
+   */
+  breakdownLimit?: number;
+  /**
+   * Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Only count AI answers that contain this word or phrase. Send domain or keyword, not both.
+   */
+  keyword?: string;
+  /**
+   * Language code to restrict answers to, for example en. Omit for every language.
+   */
+  language?: string;
+  /**
+   * Maximum number of brands to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Location code to restrict answers to, for example 2840 for the United States. Omit for every location.
+   */
+  location?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface SeoLlmTopBrandsBrand {
+  /**
+   * Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand name. Populated whenever the provider has data for the entity.
+   */
+  brand: string;
+  /**
+   * Categories of the brands named in answers mentioning this brand.
+   */
+  brandCategories?: SeoLlmTopBrandsBrandCategorie[];
+  /**
+   * Brands most often named in answers mentioning this brand.
+   */
+  brands?: SeoLlmTopBrandsBrand[];
+  /**
+   * Domains most often cited as sources in answers mentioning this brand.
+   */
+  citedDomains?: SeoLlmTopBrandsCitedDomain[];
+  /**
+   * Mentions of this brand, by language.
+   */
+  languages?: SeoLlmTopBrandsLanguage[];
+  /**
+   * Mentions of this brand, by location.
+   */
+  locations?: SeoLlmTopBrandsLocation[];
+  /**
+   * AI answers that mention this brand. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: number;
+  /**
+   * Mentions of this brand, by AI surface.
+   */
+  platforms?: SeoLlmTopBrandsPlatform[];
+  /**
+   * Domains most often in the web results behind answers mentioning this brand.
+   */
+  searchResultDomains?: SeoLlmTopBrandsSearchResultDomain[];
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsBrandCategorie {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Category of the named brand.
+   */
+  category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsCitedDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain cited as a source.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsLanguage {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Language code.
+   */
+  language: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsLocation {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Location code, for example 2840 for the United States.
+   */
+  location: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsPlatform {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  /**
+   * AI surface: google (AI Overviews) or chat_gpt.
+   */
+  platform: string;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsSearchResultDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain in the web results the AI consulted.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallBrandCategorie {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Category of the named brand.
+   */
+  category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallBrand {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand named in the answer.
+   */
+  brand: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallCitedDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain cited as a source.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallLanguage {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Language code.
+   */
+  language: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallLocation {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Location code, for example 2840 for the United States.
+   */
+  location: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallPlatform {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  /**
+   * AI surface: google (AI Overviews) or chat_gpt.
+   */
+  platform: string;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsOverallSearchResultDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain in the web results the AI consulted.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO LLM Top Brands (seo.llm_top_brands).
+ */
+export interface SeoLlmTopBrandsData {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brands named in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity.
+   */
+  brands: SeoLlmTopBrandsBrand[];
+  /**
+   * AI answers matching the request.
+   */
+  mentions?: number;
+  /**
+   * Categories of the brands named in answers mentioning the target.
+   */
+  overallBrandCategories?: SeoLlmTopBrandsOverallBrandCategorie[];
+  /**
+   * Brands most often named in answers mentioning the target.
+   */
+  overallBrands?: SeoLlmTopBrandsOverallBrand[];
+  /**
+   * Domains most often cited as sources in answers mentioning the target.
+   */
+  overallCitedDomains?: SeoLlmTopBrandsOverallCitedDomain[];
+  /**
+   * Mentions of the target, by language.
+   */
+  overallLanguages?: SeoLlmTopBrandsOverallLanguage[];
+  /**
+   * Mentions of the target, by location.
+   */
+  overallLocations?: SeoLlmTopBrandsOverallLocation[];
+  /**
+   * Mentions of the target, by AI surface.
+   */
+  overallPlatforms?: SeoLlmTopBrandsOverallPlatform[];
+  /**
+   * Domains most often in the web results behind answers mentioning the target.
+   */
+  overallSearchResultDomains?: SeoLlmTopBrandsOverallSearchResultDomain[];
+  /**
+   * Total brands matching the request, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
+ * Input for SEO LLM Top Domains (seo.llm_top_domains).
+ */
+export interface SeoLlmTopDomainsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * How many entries each breakdown list (cited domains, brands, locations, and so on) carries.
+   * Range: minimum 1, maximum 10.
+   * Default: 5.
+   */
+  breakdownLimit?: number;
+  /**
+   * Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Only count AI answers that contain this word or phrase. Send domain or keyword, not both.
+   */
+  keyword?: string;
+  /**
+   * Language code to restrict answers to, for example en. Omit for every language.
+   */
+  language?: string;
+  /**
+   * Maximum number of domains to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Location code to restrict answers to, for example 2840 for the United States. Omit for every location.
+   */
+  location?: number;
+  /**
+   * AI surface to count: google for Google AI Overviews, chat_gpt for ChatGPT. Omit for both.
+   * One of: google, chat_gpt.
+   */
+  platform?: "google" | "chat_gpt";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface SeoLlmTopDomainsDomain {
+  /**
+   * Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Categories of the brands named in answers mentioning this domain.
+   */
+  brandCategories?: SeoLlmTopDomainsBrandCategorie[];
+  /**
+   * Brands most often named in answers mentioning this domain.
+   */
+  brands?: SeoLlmTopDomainsBrand[];
+  /**
+   * Domains most often cited as sources in answers mentioning this domain.
+   */
+  citedDomains?: SeoLlmTopDomainsCitedDomain[];
+  /**
+   * Cited domain. Populated whenever the provider has data for the entity.
+   */
+  domain: string;
+  /**
+   * Mentions of this domain, by language.
+   */
+  languages?: SeoLlmTopDomainsLanguage[];
+  /**
+   * Mentions of this domain, by location.
+   */
+  locations?: SeoLlmTopDomainsLocation[];
+  /**
+   * AI answers that mention this domain. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: number;
+  /**
+   * Mentions of this domain, by AI surface.
+   */
+  platforms?: SeoLlmTopDomainsPlatform[];
+  /**
+   * Domains most often in the web results behind answers mentioning this domain.
+   */
+  searchResultDomains?: SeoLlmTopDomainsSearchResultDomain[];
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsBrandCategorie {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Category of the named brand.
+   */
+  category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsBrand {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand named in the answer.
+   */
+  brand: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsCitedDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain cited as a source.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsLanguage {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Language code.
+   */
+  language: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsLocation {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Location code, for example 2840 for the United States.
+   */
+  location: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsPlatform {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  /**
+   * AI surface: google (AI Overviews) or chat_gpt.
+   */
+  platform: string;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsSearchResultDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain in the web results the AI consulted.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallBrandCategorie {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Category of the named brand.
+   */
+  category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallBrand {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand named in the answer.
+   */
+  brand: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallCitedDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain cited as a source.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallLanguage {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Language code.
+   */
+  language: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallLocation {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Location code, for example 2840 for the United States.
+   */
+  location: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallPlatform {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  /**
+   * AI surface: google (AI Overviews) or chat_gpt.
+   */
+  platform: string;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopDomainsOverallSearchResultDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain in the web results the AI consulted.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO LLM Top Domains (seo.llm_top_domains).
+ */
+export interface SeoLlmTopDomainsData {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domains cited in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity.
+   */
+  domains: SeoLlmTopDomainsDomain[];
+  /**
+   * AI answers matching the request.
+   */
+  mentions?: number;
+  /**
+   * Categories of the brands named in answers mentioning the target.
+   */
+  overallBrandCategories?: SeoLlmTopDomainsOverallBrandCategorie[];
+  /**
+   * Brands most often named in answers mentioning the target.
+   */
+  overallBrands?: SeoLlmTopDomainsOverallBrand[];
+  /**
+   * Domains most often cited as sources in answers mentioning the target.
+   */
+  overallCitedDomains?: SeoLlmTopDomainsOverallCitedDomain[];
+  /**
+   * Mentions of the target, by language.
+   */
+  overallLanguages?: SeoLlmTopDomainsOverallLanguage[];
+  /**
+   * Mentions of the target, by location.
+   */
+  overallLocations?: SeoLlmTopDomainsOverallLocation[];
+  /**
+   * Mentions of the target, by AI surface.
+   */
+  overallPlatforms?: SeoLlmTopDomainsOverallPlatform[];
+  /**
+   * Domains most often in the web results behind answers mentioning the target.
+   */
+  overallSearchResultDomains?: SeoLlmTopDomainsOverallSearchResultDomain[];
+  /**
+   * Total domains matching the request, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
+ * Input for SEO LLM Top Pages (seo.llm_top_pages).
+ */
+export interface SeoLlmTopPagesInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * How many entries each breakdown list (cited domains, brands, locations, and so on) carries.
+   * Range: minimum 1, maximum 10.
+   * Default: 5.
+   */
+  breakdownLimit?: number;
+  /**
+   * Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Only count AI answers that contain this word or phrase. Send domain or keyword, not both.
+   */
+  keyword?: string;
+  /**
+   * Language code to restrict answers to, for example en. Omit for every language.
+   */
+  language?: string;
+  /**
+   * Maximum number of pages to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Location code to restrict answers to, for example 2840 for the United States. Omit for every location.
+   */
+  location?: number;
+  /**
+   * AI surface to count: google for Google AI Overviews, chat_gpt for ChatGPT. Omit for both.
+   * One of: google, chat_gpt.
+   */
+  platform?: "google" | "chat_gpt";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface SeoLlmTopPagesOverallBrandCategorie {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Category of the named brand.
+   */
+  category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesOverallBrand {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand named in the answer.
+   */
+  brand: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesOverallCitedDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain cited as a source.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesOverallLanguage {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Language code.
+   */
+  language: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesOverallLocation {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Location code, for example 2840 for the United States.
+   */
+  location: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesOverallPlatform {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  /**
+   * AI surface: google (AI Overviews) or chat_gpt.
+   */
+  platform: string;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesOverallSearchResultDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain in the web results the AI consulted.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesPage {
+  /**
+   * Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Categories of the brands named in answers mentioning this page.
+   */
+  brandCategories?: SeoLlmTopPagesBrandCategorie[];
+  /**
+   * Brands most often named in answers mentioning this page.
+   */
+  brands?: SeoLlmTopPagesBrand[];
+  /**
+   * Domains most often cited as sources in answers mentioning this page.
+   */
+  citedDomains?: SeoLlmTopPagesCitedDomain[];
+  /**
+   * Mentions of this page, by language.
+   */
+  languages?: SeoLlmTopPagesLanguage[];
+  /**
+   * Mentions of this page, by location.
+   */
+  locations?: SeoLlmTopPagesLocation[];
+  /**
+   * AI answers that mention this page. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: number;
+  /**
+   * Cited page URL. Populated whenever the provider has data for the entity.
+   */
+  page: string;
+  /**
+   * Mentions of this page, by AI surface.
+   */
+  platforms?: SeoLlmTopPagesPlatform[];
+  /**
+   * Domains most often in the web results behind answers mentioning this page.
+   */
+  searchResultDomains?: SeoLlmTopPagesSearchResultDomain[];
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesBrandCategorie {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Category of the named brand.
+   */
+  category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesBrand {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand named in the answer.
+   */
+  brand: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesCitedDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain cited as a source.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesLanguage {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Language code.
+   */
+  language: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesLocation {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Location code, for example 2840 for the United States.
+   */
+  location: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesPlatform {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  /**
+   * AI surface: google (AI Overviews) or chat_gpt.
+   */
+  platform: string;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopPagesSearchResultDomain {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Domain in the web results the AI consulted.
+   */
+  domain: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO LLM Top Pages (seo.llm_top_pages).
+ */
+export interface SeoLlmTopPagesData {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * AI answers matching the request.
+   */
+  mentions?: number;
+  /**
+   * Categories of the brands named in answers mentioning the target.
+   */
+  overallBrandCategories?: SeoLlmTopPagesOverallBrandCategorie[];
+  /**
+   * Brands most often named in answers mentioning the target.
+   */
+  overallBrands?: SeoLlmTopPagesOverallBrand[];
+  /**
+   * Domains most often cited as sources in answers mentioning the target.
+   */
+  overallCitedDomains?: SeoLlmTopPagesOverallCitedDomain[];
+  /**
+   * Mentions of the target, by language.
+   */
+  overallLanguages?: SeoLlmTopPagesOverallLanguage[];
+  /**
+   * Mentions of the target, by location.
+   */
+  overallLocations?: SeoLlmTopPagesOverallLocation[];
+  /**
+   * Mentions of the target, by AI surface.
+   */
+  overallPlatforms?: SeoLlmTopPagesOverallPlatform[];
+  /**
+   * Domains most often in the web results behind answers mentioning the target.
+   */
+  overallSearchResultDomains?: SeoLlmTopPagesOverallSearchResultDomain[];
+  /**
+   * Pages cited in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity.
+   */
+  pages: SeoLlmTopPagesPage[];
+  /**
+   * Total pages matching the request, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
  * Input for SEO Local Pack (seo.local_pack).
  */
 export interface SeoLocalPackInput {
@@ -2319,11 +3931,272 @@ export interface SeoSearchVolumeData {
 }
 
 /**
+ * Input for SEO Top Pages (seo.top_pages).
+ */
+export interface SeoTopPagesInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Language code for search metrics.
+   * Default: en.
+   */
+  language?: string;
+  /**
+   * Maximum number of pages to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Location code for search metrics. The default is the United States.
+   * Default: 2840.
+   */
+  location?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Count rankings the page holds now, rankings it has lost, or both.
+   * One of: live, lost, all.
+   * Default: live.
+   */
+  status?: "live" | "lost" | "all";
+  /**
+   * Domain to analyze, without a protocol or leading www.
+   */
+  target: string;
+}
+
+export interface SeoTopPagesPage {
+  /**
+   * Organic keywords that moved down since the previous update.
+   */
+  organicDown?: number;
+  /**
+   * Keywords the page ranks for in organic results. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  organicKeywords?: number;
+  /**
+   * Organic keywords no longer ranking since the previous update.
+   */
+  organicLost?: number;
+  /**
+   * Organic keywords newly ranking since the previous update.
+   */
+  organicNew?: number;
+  /**
+   * Organic keywords ranking the page at positions 1.
+   */
+  organicPos1?: number;
+  /**
+   * Organic keywords ranking the page at positions 11-20.
+   */
+  organicPos11To20?: number;
+  /**
+   * Organic keywords ranking the page at positions 21-30.
+   */
+  organicPos21To30?: number;
+  /**
+   * Organic keywords ranking the page at positions 2-3.
+   */
+  organicPos2To3?: number;
+  /**
+   * Organic keywords ranking the page at positions 31-40.
+   */
+  organicPos31To40?: number;
+  /**
+   * Organic keywords ranking the page at positions 41-50.
+   */
+  organicPos41To50?: number;
+  /**
+   * Organic keywords ranking the page at positions 4-10.
+   */
+  organicPos4To10?: number;
+  /**
+   * Organic keywords ranking the page at positions 51-60.
+   */
+  organicPos51To60?: number;
+  /**
+   * Organic keywords ranking the page at positions 61-70.
+   */
+  organicPos61To70?: number;
+  /**
+   * Organic keywords ranking the page at positions 71-80.
+   */
+  organicPos71To80?: number;
+  /**
+   * Organic keywords ranking the page at positions 81-90.
+   */
+  organicPos81To90?: number;
+  /**
+   * Organic keywords ranking the page at positions 91-100.
+   */
+  organicPos91To100?: number;
+  /**
+   * Estimated monthly organic traffic to the page. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  organicTraffic?: number;
+  /**
+   * Estimated monthly cost in USD of buying the page's organic traffic as ads.
+   */
+  organicTrafficCostUsd?: number;
+  /**
+   * Organic keywords that moved up since the previous update.
+   */
+  organicUp?: number;
+  /**
+   * Paid keywords that moved down since the previous update.
+   */
+  paidDown?: number;
+  /**
+   * Keywords the page ranks for in paid results.
+   */
+  paidKeywords?: number;
+  /**
+   * Paid keywords no longer ranking since the previous update.
+   */
+  paidLost?: number;
+  /**
+   * Paid keywords newly ranking since the previous update.
+   */
+  paidNew?: number;
+  /**
+   * Paid keywords ranking the page at positions 1.
+   */
+  paidPos1?: number;
+  /**
+   * Paid keywords ranking the page at positions 11-20.
+   */
+  paidPos11To20?: number;
+  /**
+   * Paid keywords ranking the page at positions 21-30.
+   */
+  paidPos21To30?: number;
+  /**
+   * Paid keywords ranking the page at positions 2-3.
+   */
+  paidPos2To3?: number;
+  /**
+   * Paid keywords ranking the page at positions 31-40.
+   */
+  paidPos31To40?: number;
+  /**
+   * Paid keywords ranking the page at positions 41-50.
+   */
+  paidPos41To50?: number;
+  /**
+   * Paid keywords ranking the page at positions 4-10.
+   */
+  paidPos4To10?: number;
+  /**
+   * Paid keywords ranking the page at positions 51-60.
+   */
+  paidPos51To60?: number;
+  /**
+   * Paid keywords ranking the page at positions 61-70.
+   */
+  paidPos61To70?: number;
+  /**
+   * Paid keywords ranking the page at positions 71-80.
+   */
+  paidPos71To80?: number;
+  /**
+   * Paid keywords ranking the page at positions 81-90.
+   */
+  paidPos81To90?: number;
+  /**
+   * Paid keywords ranking the page at positions 91-100.
+   */
+  paidPos91To100?: number;
+  /**
+   * Estimated monthly paid traffic to the page.
+   */
+  paidTraffic?: number;
+  /**
+   * Estimated monthly cost in USD of buying the page's paid traffic as ads.
+   */
+  paidTrafficCostUsd?: number;
+  /**
+   * Paid keywords that moved up since the previous update.
+   */
+  paidUp?: number;
+  /**
+   * Page URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Top Pages (seo.top_pages).
+ */
+export interface SeoTopPagesData {
+  /**
+   * Pages of the domain ranked by organic search traffic. Populated whenever the provider has data for the entity.
+   */
+  pages: SeoTopPagesPage[];
+  /**
+   * Total ranking pages, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
  * Typed methods for the seo platform. Attached to the AnyAPI client as
  * `client.seo`.
  */
 export class SeoNamespace {
   constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * SEO Backlink Anchors
+   *
+   * Get AnyAPI SEO anchor texts of the backlinks pointing at a domain or URL, each with backlink and referring domain counts, authority rank, and spam score as normalized JSON.
+   *
+   * Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+   *
+   * @example
+   * const res = await client.seo.backlinkAnchors({ target: "ahrefs.com", limit: 10 });
+   */
+  backlinkAnchors(
+    input: SeoBacklinkAnchorsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoBacklinkAnchorsData>> {
+    return this._core.run("seo.backlink_anchors", input, options);
+  }
+
+  /**
+   * SEO Backlink Competitors
+   *
+   * Find the domains that share the most backlinks with a domain or URL, each with its authority rank and shared backlink count as normalized JSON.
+   *
+   * Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+   *
+   * @example
+   * const res = await client.seo.backlinkCompetitors({ target: "ahrefs.com", limit: 10 });
+   */
+  backlinkCompetitors(
+    input: SeoBacklinkCompetitorsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoBacklinkCompetitorsData>> {
+    return this._core.run("seo.backlink_competitors", input, options);
+  }
 
   /**
    * SEO Backlinks
@@ -2391,6 +4264,23 @@ export class SeoNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<SeoDomainIntersectionData>> {
     return this._core.run("seo.domain_intersection", input, options);
+  }
+
+  /**
+   * SEO Domain Pages
+   *
+   * Get AnyAPI SEO pages of a domain with their backlink profile (rank, backlinks, referring domains) and on-page data (title, headings, word count, status, technologies) as normalized JSON.
+   *
+   * Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+   *
+   * @example
+   * const res = await client.seo.domainPages({ target: "ahrefs.com", limit: 10 });
+   */
+  domainPages(
+    input: SeoDomainPagesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoDomainPagesData>> {
+    return this._core.run("seo.domain_pages", input, options);
   }
 
   /**
@@ -2556,6 +4446,57 @@ export class SeoNamespace {
   }
 
   /**
+   * SEO LLM Top Brands
+   *
+   * Rank the brands ChatGPT names most often in answers about a keyword or domain, each with mention count, AI search volume, and the sources and categories behind them as normalized JSON.
+   *
+   * Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+   *
+   * @example
+   * const res = await client.seo.llmTopBrands({ keyword: "seo tools", limit: 5 });
+   */
+  llmTopBrands(
+    input: SeoLlmTopBrandsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoLlmTopBrandsData>> {
+    return this._core.run("seo.llm_top_brands", input, options);
+  }
+
+  /**
+   * SEO LLM Top Domains
+   *
+   * Rank the domains Google AI Overviews and ChatGPT cite most often in answers about a keyword or domain, each with mention count, AI search volume, and breakdowns by platform, location, and co-cited sources as normalized JSON.
+   *
+   * Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+   *
+   * @example
+   * const res = await client.seo.llmTopDomains({ keyword: "seo tools", limit: 5 });
+   */
+  llmTopDomains(
+    input: SeoLlmTopDomainsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoLlmTopDomainsData>> {
+    return this._core.run("seo.llm_top_domains", input, options);
+  }
+
+  /**
+   * SEO LLM Top Pages
+   *
+   * Rank the pages Google AI Overviews and ChatGPT cite most often in answers about a keyword or domain, each with mention count, AI search volume, and breakdowns by platform, location, and co-cited sources as normalized JSON.
+   *
+   * Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+   *
+   * @example
+   * const res = await client.seo.llmTopPages({ keyword: "seo tools", limit: 5 });
+   */
+  llmTopPages(
+    input: SeoLlmTopPagesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoLlmTopPagesData>> {
+    return this._core.run("seo.llm_top_pages", input, options);
+  }
+
+  /**
    * SEO Local Pack
    *
    * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.
@@ -2655,5 +4596,22 @@ export class SeoNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<SeoSearchVolumeData>> {
     return this._core.run("seo.search_volume", input, options);
+  }
+
+  /**
+   * SEO Top Pages
+   *
+   * Get AnyAPI SEO top pages of a domain by organic search, each with ranking keyword counts, estimated traffic and its ad value, and position distribution as normalized JSON.
+   *
+   * Price: $0.0144 per request plus $0.00015 per result (maximum $0.1584).
+   *
+   * @example
+   * const res = await client.seo.topPages({ target: "ahrefs.com", limit: 10 });
+   */
+  topPages(
+    input: SeoTopPagesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoTopPagesData>> {
+    return this._core.run("seo.top_pages", input, options);
   }
 }

@@ -21,6 +21,48 @@ if TYPE_CHECKING:
     from .._client import AnyAPI
 
 
+class SeoBacklinkAnchorsInput(TypedDict, total=False):
+    """Input for SEO Backlink Anchors."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    includeSubdomains: NotRequired[bool]
+    """Count links pointing at the target's subdomains as well as the target itself. Default: true."""
+    limit: NotRequired[int]
+    """Maximum number of anchor texts to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    status: NotRequired[Literal["live", "lost", "all"]]
+    """Count backlinks that are live now, ones that have been lost, or both. Default: live."""
+    target: Required[str]
+    """Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www."""
+
+
+class SeoBacklinkCompetitorsInput(TypedDict, total=False):
+    """Input for SEO Backlink Competitors."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    excludeLargeDomains: NotRequired[bool]
+    """Leave out very large sites (such as google.com or wikipedia.org) that share backlinks with almost everyone. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum number of competing domains to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    mainDomainOnly: NotRequired[bool]
+    """Group results by registrable domain rather than listing subdomains separately. Default: true."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    target: Required[str]
+    """Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www."""
+
+
 class SeoBacklinksInput(TypedDict, total=False):
     """Input for SEO Backlinks."""
 
@@ -120,6 +162,27 @@ class SeoDomainIntersectionInput(TypedDict, total=False):
     """First domain to compare, without a protocol or leading www."""
     target2: Required[str]
     """Second domain to compare, without a protocol or leading www."""
+
+
+class SeoDomainPagesInput(TypedDict, total=False):
+    """Input for SEO Domain Pages."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    includeSubdomains: NotRequired[bool]
+    """Count links pointing at the target's subdomains as well as the target itself. Default: true."""
+    limit: NotRequired[int]
+    """Maximum number of pages to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    status: NotRequired[Literal["live", "lost", "all"]]
+    """Count backlinks that are live now, ones that have been lost, or both. Default: live."""
+    target: Required[str]
+    """Domain or subdomain to list pages for, without a protocol or leading www."""
 
 
 class SeoDomainRankOverviewInput(TypedDict, total=False):
@@ -306,6 +369,85 @@ class SeoLlmMentionsInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class SeoLlmTopBrandsInput(TypedDict, total=False):
+    """Input for SEO LLM Top Brands."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    breakdownLimit: NotRequired[int]
+    """How many entries each breakdown list (cited domains, brands, locations, and so on) carries. Range: 1 to 10. Default: 5."""
+    domain: NotRequired[str]
+    """Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    keyword: NotRequired[str]
+    """Only count AI answers that contain this word or phrase. Send domain or keyword, not both."""
+    language: NotRequired[str]
+    """Language code to restrict answers to, for example en. Omit for every language."""
+    limit: NotRequired[int]
+    """Maximum number of brands to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    location: NotRequired[int]
+    """Location code to restrict answers to, for example 2840 for the United States. Omit for every location."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class SeoLlmTopDomainsInput(TypedDict, total=False):
+    """Input for SEO LLM Top Domains."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    breakdownLimit: NotRequired[int]
+    """How many entries each breakdown list (cited domains, brands, locations, and so on) carries. Range: 1 to 10. Default: 5."""
+    domain: NotRequired[str]
+    """Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    keyword: NotRequired[str]
+    """Only count AI answers that contain this word or phrase. Send domain or keyword, not both."""
+    language: NotRequired[str]
+    """Language code to restrict answers to, for example en. Omit for every language."""
+    limit: NotRequired[int]
+    """Maximum number of domains to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    location: NotRequired[int]
+    """Location code to restrict answers to, for example 2840 for the United States. Omit for every location."""
+    platform: NotRequired[Literal["google", "chat_gpt"]]
+    """AI surface to count: google for Google AI Overviews, chat_gpt for ChatGPT. Omit for both."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class SeoLlmTopPagesInput(TypedDict, total=False):
+    """Input for SEO LLM Top Pages."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    breakdownLimit: NotRequired[int]
+    """How many entries each breakdown list (cited domains, brands, locations, and so on) carries. Range: 1 to 10. Default: 5."""
+    domain: NotRequired[str]
+    """Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    keyword: NotRequired[str]
+    """Only count AI answers that contain this word or phrase. Send domain or keyword, not both."""
+    language: NotRequired[str]
+    """Language code to restrict answers to, for example en. Omit for every language."""
+    limit: NotRequired[int]
+    """Maximum number of pages to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    location: NotRequired[int]
+    """Location code to restrict answers to, for example 2840 for the United States. Omit for every location."""
+    platform: NotRequired[Literal["google", "chat_gpt"]]
+    """AI surface to count: google for Google AI Overviews, chat_gpt for ChatGPT. Omit for both."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class SeoLocalPackInput(TypedDict, total=False):
     """Input for SEO Local Pack."""
 
@@ -442,6 +584,206 @@ class SeoSearchVolumeInput(TypedDict, total=False):
     """When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class SeoTopPagesInput(TypedDict, total=False):
+    """Input for SEO Top Pages."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    language: NotRequired[str]
+    """Language code for search metrics. Default: en."""
+    limit: NotRequired[int]
+    """Maximum number of pages to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    location: NotRequired[int]
+    """Location code for search metrics. The default is the United States. Default: 2840."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    status: NotRequired[Literal["live", "lost", "all"]]
+    """Count rankings the page holds now, rankings it has lost, or both. Default: live."""
+    target: Required[str]
+    """Domain to analyze, without a protocol or leading www."""
+
+
+class SeoBacklinkAnchorsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    anchors: list[SeoBacklinkAnchorsAnchor] = Field(
+        description="Anchor texts of backlinks to the target. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total anchor texts, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoBacklinkAnchorsAnchor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    anchor: str | None = Field(
+        default=None,
+        description="Anchor text. Absent for links without text, such as image links. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    backlinks: int | None = Field(
+        default=None,
+        description="Backlinks counted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    broken_backlinks: int | None = Field(
+        default=None,
+        alias="brokenBacklinks",
+        description="Backlinks pointing at pages that no longer resolve.",
+    )
+    broken_pages: int | None = Field(
+        default=None,
+        alias="brokenPages",
+        description="Linked pages with an error status.",
+    )
+    first_seen_utc: float | None = Field(
+        default=None,
+        alias="firstSeenUtc",
+        description="When the first of these backlinks was seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    links_by_attribute: SeoBacklinkAnchorsLinksByAttribute | None = Field(
+        default=None,
+        alias="linksByAttribute",
+        description="Count of these backlinks, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+    )
+    links_by_country: SeoBacklinkAnchorsLinksByCountry | None = Field(
+        default=None,
+        alias="linksByCountry",
+        description="Count of these backlinks, by country code of the linking domain. An empty key means the country is unknown.",
+    )
+    links_by_platform_type: SeoBacklinkAnchorsLinksByPlatformType | None = Field(
+        default=None,
+        alias="linksByPlatformType",
+        description="Count of these backlinks, by type of linking site (blogs, news, ecommerce, and so on).",
+    )
+    links_by_semantic_location: SeoBacklinkAnchorsLinksBySemanticLocation | None = (
+        Field(
+            default=None,
+            alias="linksBySemanticLocation",
+            description="Count of these backlinks, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+        )
+    )
+    links_by_tld: SeoBacklinkAnchorsLinksByTld | None = Field(
+        default=None,
+        alias="linksByTld",
+        description="Count of these backlinks, by top-level domain of the linking page.",
+    )
+    links_by_type: SeoBacklinkAnchorsLinksByType | None = Field(
+        default=None,
+        alias="linksByType",
+        description="Count of these backlinks, by link type (anchor, image, redirect, canonical, alternate).",
+    )
+    lost_utc: float | None = Field(
+        default=None,
+        alias="lostUtc",
+        description="When the last of these backlinks was lost, if they were. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    rank: int | None = Field(
+        default=None,
+        description="Authority rank on a 0-1000 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    referring_domains: int | None = Field(
+        default=None, alias="referringDomains", description="Distinct linking domains."
+    )
+    referring_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringDomainsNofollow",
+        description="Linking domains whose every link is nofollow.",
+    )
+    referring_ips: int | None = Field(
+        default=None,
+        alias="referringIps",
+        description="Distinct IP addresses of linking pages.",
+    )
+    referring_main_domains: int | None = Field(
+        default=None,
+        alias="referringMainDomains",
+        description="Distinct linking registrable domains.",
+    )
+    referring_main_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringMainDomainsNofollow",
+        description="Linking registrable domains whose every link is nofollow.",
+    )
+    referring_pages: int | None = Field(
+        default=None, alias="referringPages", description="Distinct linking pages."
+    )
+    referring_pages_nofollow: int | None = Field(
+        default=None,
+        alias="referringPagesNofollow",
+        description="Linking pages whose links are all nofollow.",
+    )
+    referring_subnets: int | None = Field(
+        default=None,
+        alias="referringSubnets",
+        description="Distinct subnets of linking pages.",
+    )
+    spam_score: int | None = Field(
+        default=None,
+        alias="spamScore",
+        description="Average spam score of those backlinks on a 0-100 scale.",
+    )
+
+
+class SeoBacklinkAnchorsLinksByAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinkAnchorsLinksByCountry(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinkAnchorsLinksByPlatformType(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinkAnchorsLinksBySemanticLocation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinkAnchorsLinksByTld(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinkAnchorsLinksByType(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinkCompetitorsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    competitors: list[SeoBacklinkCompetitorsCompetitor] = Field(
+        description="Domains sharing backlinks with the target, most shared first. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total competing domains, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoBacklinkCompetitorsCompetitor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    domain: str = Field(
+        description="Competing domain. Populated whenever the provider has data for the entity."
+    )
+    rank: int | None = Field(
+        default=None,
+        description="Authority rank of the competing domain on a 0-1000 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    shared_backlinks: int | None = Field(
+        default=None,
+        alias="sharedBacklinks",
+        description="Backlinks the competing domain shares with the target. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
 
 
 class SeoBacklinksData(BaseModel):
@@ -966,6 +1308,243 @@ class SeoDomainIntersectionKeyword(BaseModel):
         alias="updatedUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+
+
+class SeoDomainPagesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    pages: list[SeoDomainPagesPage] = Field(
+        description="Pages of the domain with their backlink and on-page data. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total pages, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoDomainPagesPage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    backlinks: int | None = Field(
+        default=None,
+        description="Backlinks counted. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    broken_backlinks: int | None = Field(
+        default=None,
+        alias="brokenBacklinks",
+        description="Backlinks pointing at pages that no longer resolve.",
+    )
+    broken_pages: int | None = Field(
+        default=None,
+        alias="brokenPages",
+        description="Linked pages with an error status.",
+    )
+    canonical: str | None = Field(
+        default=None, description="Canonical URL declared by the page."
+    )
+    charset: str | None = Field(default=None, description="Character set of the page.")
+    content_encoding: str | None = Field(
+        default=None,
+        alias="contentEncoding",
+        description="Content encoding of the response.",
+    )
+    domain: str | None = Field(
+        default=None,
+        description="Host of the page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    encoded_size: int | None = Field(
+        default=None, alias="encodedSize", description="Encoded page size in bytes."
+    )
+    external_links: int | None = Field(
+        default=None, alias="externalLinks", description="Outbound links on the page."
+    )
+    fetched_utc: float | None = Field(
+        default=None,
+        alias="fetchedUtc",
+        description="When the page was last crawled. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    first_seen_utc: float | None = Field(
+        default=None,
+        alias="firstSeenUtc",
+        description="When the first of these backlinks was seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    first_visited_utc: float | None = Field(
+        default=None,
+        alias="firstVisitedUtc",
+        description="When the page was first crawled. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    h1: list[str] | None = Field(default=None, description="H1 headings on the page.")
+    h2: list[str] | None = Field(default=None, description="H2 headings on the page.")
+    h3: list[str] | None = Field(default=None, description="H3 headings on the page.")
+    images_count: int | None = Field(
+        default=None, alias="imagesCount", description="Images on the page."
+    )
+    internal_links: int | None = Field(
+        default=None, alias="internalLinks", description="Internal links on the page."
+    )
+    ip: str | None = Field(
+        default=None, description="IP address the page was fetched from."
+    )
+    language: str | None = Field(default=None, description="Language code of the page.")
+    links_by_attribute: SeoDomainPagesLinksByAttribute | None = Field(
+        default=None,
+        alias="linksByAttribute",
+        description="Count of these backlinks, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+    )
+    links_by_country: SeoDomainPagesLinksByCountry | None = Field(
+        default=None,
+        alias="linksByCountry",
+        description="Count of these backlinks, by country code of the linking domain. An empty key means the country is unknown.",
+    )
+    links_by_platform_type: SeoDomainPagesLinksByPlatformType | None = Field(
+        default=None,
+        alias="linksByPlatformType",
+        description="Count of these backlinks, by type of linking site (blogs, news, ecommerce, and so on).",
+    )
+    links_by_semantic_location: SeoDomainPagesLinksBySemanticLocation | None = Field(
+        default=None,
+        alias="linksBySemanticLocation",
+        description="Count of these backlinks, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+    )
+    links_by_tld: SeoDomainPagesLinksByTld | None = Field(
+        default=None,
+        alias="linksByTld",
+        description="Count of these backlinks, by top-level domain of the linking page.",
+    )
+    links_by_type: SeoDomainPagesLinksByType | None = Field(
+        default=None,
+        alias="linksByType",
+        description="Count of these backlinks, by link type (anchor, image, redirect, canonical, alternate).",
+    )
+    lost_utc: float | None = Field(
+        default=None,
+        alias="lostUtc",
+        description="When the last of these backlinks was lost, if they were. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    main_domain: str | None = Field(
+        default=None, alias="mainDomain", description="Registrable domain of the page."
+    )
+    media_type: str | None = Field(
+        default=None, alias="mediaType", description="Media type of the page."
+    )
+    page_spam_score: int | None = Field(
+        default=None,
+        alias="pageSpamScore",
+        description="Spam score of the page on a 0-100 scale.",
+    )
+    platform_types: list[str] | None = Field(
+        default=None,
+        alias="platformTypes",
+        description="Site types detected, such as blogs, news, or ecommerce.",
+    )
+    previous_visited_utc: float | None = Field(
+        default=None,
+        alias="previousVisitedUtc",
+        description="When the page was crawled before the last time. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    rank: int | None = Field(
+        default=None,
+        description="Authority rank on a 0-1000 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    referring_domains: int | None = Field(
+        default=None, alias="referringDomains", description="Distinct linking domains."
+    )
+    referring_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringDomainsNofollow",
+        description="Linking domains whose every link is nofollow.",
+    )
+    referring_ips: int | None = Field(
+        default=None,
+        alias="referringIps",
+        description="Distinct IP addresses of linking pages.",
+    )
+    referring_main_domains: int | None = Field(
+        default=None,
+        alias="referringMainDomains",
+        description="Distinct linking registrable domains.",
+    )
+    referring_main_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringMainDomainsNofollow",
+        description="Linking registrable domains whose every link is nofollow.",
+    )
+    referring_pages: int | None = Field(
+        default=None, alias="referringPages", description="Distinct linking pages."
+    )
+    referring_pages_nofollow: int | None = Field(
+        default=None,
+        alias="referringPagesNofollow",
+        description="Linking pages whose links are all nofollow.",
+    )
+    referring_subnets: int | None = Field(
+        default=None,
+        alias="referringSubnets",
+        description="Distinct subnets of linking pages.",
+    )
+    server: str | None = Field(
+        default=None, description="Web server or CDN serving the page."
+    )
+    size: int | None = Field(default=None, description="Page size in bytes.")
+    social_tags: SeoDomainPagesSocialTag | None = Field(
+        default=None,
+        alias="socialTags",
+        description="Open Graph and Twitter card tags, by tag name.",
+    )
+    spam_score: int | None = Field(
+        default=None,
+        alias="spamScore",
+        description="Average spam score of those backlinks on a 0-100 scale.",
+    )
+    status_code: int | None = Field(
+        default=None,
+        alias="statusCode",
+        description="HTTP status of the page on the last crawl.",
+    )
+    technologies: SeoDomainPagesTechnologie | None = Field(
+        default=None, description="Technologies detected on the page, by category."
+    )
+    title: str | None = Field(default=None, description="Page title.")
+    tld: str | None = Field(default=None, description="Top-level domain of the page.")
+    url: str = Field(
+        description="Page URL. Populated whenever the provider has data for the entity."
+    )
+    words_count: int | None = Field(
+        default=None, alias="wordsCount", description="Words on the page."
+    )
+
+
+class SeoDomainPagesLinksByAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesLinksByCountry(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesLinksByPlatformType(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesLinksBySemanticLocation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesLinksByTld(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesLinksByType(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesSocialTag(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoDomainPagesTechnologie(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoDomainRankOverviewData(BaseModel):
@@ -1513,6 +2092,903 @@ class SeoLlmMentionsSource(BaseModel):
     url: str = Field(description="Source URL.")
 
 
+class SeoLlmTopBrandsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brands: list[SeoLlmTopBrandsBrand] = Field(
+        description="Brands named in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers matching the request."
+    )
+    overall_brand_categories: list[SeoLlmTopBrandsOverallBrandCategorie] | None = Field(
+        default=None,
+        alias="overallBrandCategories",
+        description="Categories of the brands named in answers mentioning the target.",
+    )
+    overall_brands: list[SeoLlmTopBrandsOverallBrand] | None = Field(
+        default=None,
+        alias="overallBrands",
+        description="Brands most often named in answers mentioning the target.",
+    )
+    overall_cited_domains: list[SeoLlmTopBrandsOverallCitedDomain] | None = Field(
+        default=None,
+        alias="overallCitedDomains",
+        description="Domains most often cited as sources in answers mentioning the target.",
+    )
+    overall_languages: list[SeoLlmTopBrandsOverallLanguage] | None = Field(
+        default=None,
+        alias="overallLanguages",
+        description="Mentions of the target, by language.",
+    )
+    overall_locations: list[SeoLlmTopBrandsOverallLocation] | None = Field(
+        default=None,
+        alias="overallLocations",
+        description="Mentions of the target, by location.",
+    )
+    overall_platforms: list[SeoLlmTopBrandsOverallPlatform] | None = Field(
+        default=None,
+        alias="overallPlatforms",
+        description="Mentions of the target, by AI surface.",
+    )
+    overall_search_result_domains: (
+        list[SeoLlmTopBrandsOverallSearchResultDomain] | None
+    ) = Field(
+        default=None,
+        alias="overallSearchResultDomains",
+        description="Domains most often in the web results behind answers mentioning the target.",
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total brands matching the request, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoLlmTopBrandsBrand(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    brand: str = Field(
+        description="Brand name. Populated whenever the provider has data for the entity."
+    )
+    brand_categories: list[SeoLlmTopBrandsBrandCategorie] | None = Field(
+        default=None,
+        alias="brandCategories",
+        description="Categories of the brands named in answers mentioning this brand.",
+    )
+    brands: list[SeoLlmTopBrandsBrand] | None = Field(
+        default=None,
+        description="Brands most often named in answers mentioning this brand.",
+    )
+    cited_domains: list[SeoLlmTopBrandsCitedDomain] | None = Field(
+        default=None,
+        alias="citedDomains",
+        description="Domains most often cited as sources in answers mentioning this brand.",
+    )
+    languages: list[SeoLlmTopBrandsLanguage] | None = Field(
+        default=None, description="Mentions of this brand, by language."
+    )
+    locations: list[SeoLlmTopBrandsLocation] | None = Field(
+        default=None, description="Mentions of this brand, by location."
+    )
+    mentions: int | None = Field(
+        default=None,
+        description="AI answers that mention this brand. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    platforms: list[SeoLlmTopBrandsPlatform] | None = Field(
+        default=None, description="Mentions of this brand, by AI surface."
+    )
+    search_result_domains: list[SeoLlmTopBrandsSearchResultDomain] | None = Field(
+        default=None,
+        alias="searchResultDomains",
+        description="Domains most often in the web results behind answers mentioning this brand.",
+    )
+
+
+class SeoLlmTopBrandsBrandCategorie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsCitedDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain cited as a source.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    language: str = Field(description="Language code.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    location: int = Field(
+        description="Location code, for example 2840 for the United States."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsPlatform(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+    platform: str = Field(description="AI surface: google (AI Overviews) or chat_gpt.")
+
+
+class SeoLlmTopBrandsSearchResultDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain in the web results the AI consulted.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsOverallBrandCategorie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsOverallBrand(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brand: str = Field(description="Brand named in the answer.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsOverallCitedDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain cited as a source.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsOverallLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    language: str = Field(description="Language code.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsOverallLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    location: int = Field(
+        description="Location code, for example 2840 for the United States."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsOverallPlatform(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+    platform: str = Field(description="AI surface: google (AI Overviews) or chat_gpt.")
+
+
+class SeoLlmTopBrandsOverallSearchResultDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain in the web results the AI consulted.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domains: list[SeoLlmTopDomainsDomain] = Field(
+        description="Domains cited in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers matching the request."
+    )
+    overall_brand_categories: list[SeoLlmTopDomainsOverallBrandCategorie] | None = (
+        Field(
+            default=None,
+            alias="overallBrandCategories",
+            description="Categories of the brands named in answers mentioning the target.",
+        )
+    )
+    overall_brands: list[SeoLlmTopDomainsOverallBrand] | None = Field(
+        default=None,
+        alias="overallBrands",
+        description="Brands most often named in answers mentioning the target.",
+    )
+    overall_cited_domains: list[SeoLlmTopDomainsOverallCitedDomain] | None = Field(
+        default=None,
+        alias="overallCitedDomains",
+        description="Domains most often cited as sources in answers mentioning the target.",
+    )
+    overall_languages: list[SeoLlmTopDomainsOverallLanguage] | None = Field(
+        default=None,
+        alias="overallLanguages",
+        description="Mentions of the target, by language.",
+    )
+    overall_locations: list[SeoLlmTopDomainsOverallLocation] | None = Field(
+        default=None,
+        alias="overallLocations",
+        description="Mentions of the target, by location.",
+    )
+    overall_platforms: list[SeoLlmTopDomainsOverallPlatform] | None = Field(
+        default=None,
+        alias="overallPlatforms",
+        description="Mentions of the target, by AI surface.",
+    )
+    overall_search_result_domains: (
+        list[SeoLlmTopDomainsOverallSearchResultDomain] | None
+    ) = Field(
+        default=None,
+        alias="overallSearchResultDomains",
+        description="Domains most often in the web results behind answers mentioning the target.",
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total domains matching the request, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoLlmTopDomainsDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    brand_categories: list[SeoLlmTopDomainsBrandCategorie] | None = Field(
+        default=None,
+        alias="brandCategories",
+        description="Categories of the brands named in answers mentioning this domain.",
+    )
+    brands: list[SeoLlmTopDomainsBrand] | None = Field(
+        default=None,
+        description="Brands most often named in answers mentioning this domain.",
+    )
+    cited_domains: list[SeoLlmTopDomainsCitedDomain] | None = Field(
+        default=None,
+        alias="citedDomains",
+        description="Domains most often cited as sources in answers mentioning this domain.",
+    )
+    domain: str = Field(
+        description="Cited domain. Populated whenever the provider has data for the entity."
+    )
+    languages: list[SeoLlmTopDomainsLanguage] | None = Field(
+        default=None, description="Mentions of this domain, by language."
+    )
+    locations: list[SeoLlmTopDomainsLocation] | None = Field(
+        default=None, description="Mentions of this domain, by location."
+    )
+    mentions: int | None = Field(
+        default=None,
+        description="AI answers that mention this domain. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    platforms: list[SeoLlmTopDomainsPlatform] | None = Field(
+        default=None, description="Mentions of this domain, by AI surface."
+    )
+    search_result_domains: list[SeoLlmTopDomainsSearchResultDomain] | None = Field(
+        default=None,
+        alias="searchResultDomains",
+        description="Domains most often in the web results behind answers mentioning this domain.",
+    )
+
+
+class SeoLlmTopDomainsBrandCategorie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsBrand(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brand: str = Field(description="Brand named in the answer.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsCitedDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain cited as a source.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    language: str = Field(description="Language code.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    location: int = Field(
+        description="Location code, for example 2840 for the United States."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsPlatform(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+    platform: str = Field(description="AI surface: google (AI Overviews) or chat_gpt.")
+
+
+class SeoLlmTopDomainsSearchResultDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain in the web results the AI consulted.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsOverallBrandCategorie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsOverallBrand(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brand: str = Field(description="Brand named in the answer.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsOverallCitedDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain cited as a source.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsOverallLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    language: str = Field(description="Language code.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsOverallLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    location: int = Field(
+        description="Location code, for example 2840 for the United States."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopDomainsOverallPlatform(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+    platform: str = Field(description="AI surface: google (AI Overviews) or chat_gpt.")
+
+
+class SeoLlmTopDomainsOverallSearchResultDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain in the web results the AI consulted.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers matching the request."
+    )
+    overall_brand_categories: list[SeoLlmTopPagesOverallBrandCategorie] | None = Field(
+        default=None,
+        alias="overallBrandCategories",
+        description="Categories of the brands named in answers mentioning the target.",
+    )
+    overall_brands: list[SeoLlmTopPagesOverallBrand] | None = Field(
+        default=None,
+        alias="overallBrands",
+        description="Brands most often named in answers mentioning the target.",
+    )
+    overall_cited_domains: list[SeoLlmTopPagesOverallCitedDomain] | None = Field(
+        default=None,
+        alias="overallCitedDomains",
+        description="Domains most often cited as sources in answers mentioning the target.",
+    )
+    overall_languages: list[SeoLlmTopPagesOverallLanguage] | None = Field(
+        default=None,
+        alias="overallLanguages",
+        description="Mentions of the target, by language.",
+    )
+    overall_locations: list[SeoLlmTopPagesOverallLocation] | None = Field(
+        default=None,
+        alias="overallLocations",
+        description="Mentions of the target, by location.",
+    )
+    overall_platforms: list[SeoLlmTopPagesOverallPlatform] | None = Field(
+        default=None,
+        alias="overallPlatforms",
+        description="Mentions of the target, by AI surface.",
+    )
+    overall_search_result_domains: (
+        list[SeoLlmTopPagesOverallSearchResultDomain] | None
+    ) = Field(
+        default=None,
+        alias="overallSearchResultDomains",
+        description="Domains most often in the web results behind answers mentioning the target.",
+    )
+    pages: list[SeoLlmTopPagesPage] = Field(
+        description="Pages cited in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total pages matching the request, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoLlmTopPagesOverallBrandCategorie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesOverallBrand(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brand: str = Field(description="Brand named in the answer.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesOverallCitedDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain cited as a source.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesOverallLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    language: str = Field(description="Language code.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesOverallLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    location: int = Field(
+        description="Location code, for example 2840 for the United States."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesOverallPlatform(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+    platform: str = Field(description="AI surface: google (AI Overviews) or chat_gpt.")
+
+
+class SeoLlmTopPagesOverallSearchResultDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain in the web results the AI consulted.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesPage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    brand_categories: list[SeoLlmTopPagesBrandCategorie] | None = Field(
+        default=None,
+        alias="brandCategories",
+        description="Categories of the brands named in answers mentioning this page.",
+    )
+    brands: list[SeoLlmTopPagesBrand] | None = Field(
+        default=None,
+        description="Brands most often named in answers mentioning this page.",
+    )
+    cited_domains: list[SeoLlmTopPagesCitedDomain] | None = Field(
+        default=None,
+        alias="citedDomains",
+        description="Domains most often cited as sources in answers mentioning this page.",
+    )
+    languages: list[SeoLlmTopPagesLanguage] | None = Field(
+        default=None, description="Mentions of this page, by language."
+    )
+    locations: list[SeoLlmTopPagesLocation] | None = Field(
+        default=None, description="Mentions of this page, by location."
+    )
+    mentions: int | None = Field(
+        default=None,
+        description="AI answers that mention this page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    page: str = Field(
+        description="Cited page URL. Populated whenever the provider has data for the entity."
+    )
+    platforms: list[SeoLlmTopPagesPlatform] | None = Field(
+        default=None, description="Mentions of this page, by AI surface."
+    )
+    search_result_domains: list[SeoLlmTopPagesSearchResultDomain] | None = Field(
+        default=None,
+        alias="searchResultDomains",
+        description="Domains most often in the web results behind answers mentioning this page.",
+    )
+
+
+class SeoLlmTopPagesBrandCategorie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesBrand(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brand: str = Field(description="Brand named in the answer.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesCitedDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain cited as a source.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    language: str = Field(description="Language code.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    location: int = Field(
+        description="Location code, for example 2840 for the United States."
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopPagesPlatform(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+    platform: str = Field(description="AI surface: google (AI Overviews) or chat_gpt.")
+
+
+class SeoLlmTopPagesSearchResultDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    domain: str = Field(description="Domain in the web results the AI consulted.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
 class SeoLocalPackData(BaseModel):
     places: list[SeoLocalPackPlace] = Field(
         description="SEO local pack place records. Populated whenever the provider has data for the entity."
@@ -1968,11 +3444,265 @@ class SeoSearchVolumeMonthlySearche(BaseModel):
     )
 
 
+class SeoTopPagesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    pages: list[SeoTopPagesPage] = Field(
+        description="Pages of the domain ranked by organic search traffic. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total ranking pages, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoTopPagesPage(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    organic_down: int | None = Field(
+        default=None,
+        alias="organicDown",
+        description="Organic keywords that moved down since the previous update.",
+    )
+    organic_keywords: int | None = Field(
+        default=None,
+        alias="organicKeywords",
+        description="Keywords the page ranks for in organic results. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    organic_lost: int | None = Field(
+        default=None,
+        alias="organicLost",
+        description="Organic keywords no longer ranking since the previous update.",
+    )
+    organic_new: int | None = Field(
+        default=None,
+        alias="organicNew",
+        description="Organic keywords newly ranking since the previous update.",
+    )
+    organic_pos1: int | None = Field(
+        default=None,
+        alias="organicPos1",
+        description="Organic keywords ranking the page at positions 1.",
+    )
+    organic_pos11_to20: int | None = Field(
+        default=None,
+        alias="organicPos11To20",
+        description="Organic keywords ranking the page at positions 11-20.",
+    )
+    organic_pos21_to30: int | None = Field(
+        default=None,
+        alias="organicPos21To30",
+        description="Organic keywords ranking the page at positions 21-30.",
+    )
+    organic_pos2_to3: int | None = Field(
+        default=None,
+        alias="organicPos2To3",
+        description="Organic keywords ranking the page at positions 2-3.",
+    )
+    organic_pos31_to40: int | None = Field(
+        default=None,
+        alias="organicPos31To40",
+        description="Organic keywords ranking the page at positions 31-40.",
+    )
+    organic_pos41_to50: int | None = Field(
+        default=None,
+        alias="organicPos41To50",
+        description="Organic keywords ranking the page at positions 41-50.",
+    )
+    organic_pos4_to10: int | None = Field(
+        default=None,
+        alias="organicPos4To10",
+        description="Organic keywords ranking the page at positions 4-10.",
+    )
+    organic_pos51_to60: int | None = Field(
+        default=None,
+        alias="organicPos51To60",
+        description="Organic keywords ranking the page at positions 51-60.",
+    )
+    organic_pos61_to70: int | None = Field(
+        default=None,
+        alias="organicPos61To70",
+        description="Organic keywords ranking the page at positions 61-70.",
+    )
+    organic_pos71_to80: int | None = Field(
+        default=None,
+        alias="organicPos71To80",
+        description="Organic keywords ranking the page at positions 71-80.",
+    )
+    organic_pos81_to90: int | None = Field(
+        default=None,
+        alias="organicPos81To90",
+        description="Organic keywords ranking the page at positions 81-90.",
+    )
+    organic_pos91_to100: int | None = Field(
+        default=None,
+        alias="organicPos91To100",
+        description="Organic keywords ranking the page at positions 91-100.",
+    )
+    organic_traffic: float | None = Field(
+        default=None,
+        alias="organicTraffic",
+        description="Estimated monthly organic traffic to the page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    organic_traffic_cost_usd: float | None = Field(
+        default=None,
+        alias="organicTrafficCostUsd",
+        description="Estimated monthly cost in USD of buying the page's organic traffic as ads.",
+    )
+    organic_up: int | None = Field(
+        default=None,
+        alias="organicUp",
+        description="Organic keywords that moved up since the previous update.",
+    )
+    paid_down: int | None = Field(
+        default=None,
+        alias="paidDown",
+        description="Paid keywords that moved down since the previous update.",
+    )
+    paid_keywords: int | None = Field(
+        default=None,
+        alias="paidKeywords",
+        description="Keywords the page ranks for in paid results.",
+    )
+    paid_lost: int | None = Field(
+        default=None,
+        alias="paidLost",
+        description="Paid keywords no longer ranking since the previous update.",
+    )
+    paid_new: int | None = Field(
+        default=None,
+        alias="paidNew",
+        description="Paid keywords newly ranking since the previous update.",
+    )
+    paid_pos1: int | None = Field(
+        default=None,
+        alias="paidPos1",
+        description="Paid keywords ranking the page at positions 1.",
+    )
+    paid_pos11_to20: int | None = Field(
+        default=None,
+        alias="paidPos11To20",
+        description="Paid keywords ranking the page at positions 11-20.",
+    )
+    paid_pos21_to30: int | None = Field(
+        default=None,
+        alias="paidPos21To30",
+        description="Paid keywords ranking the page at positions 21-30.",
+    )
+    paid_pos2_to3: int | None = Field(
+        default=None,
+        alias="paidPos2To3",
+        description="Paid keywords ranking the page at positions 2-3.",
+    )
+    paid_pos31_to40: int | None = Field(
+        default=None,
+        alias="paidPos31To40",
+        description="Paid keywords ranking the page at positions 31-40.",
+    )
+    paid_pos41_to50: int | None = Field(
+        default=None,
+        alias="paidPos41To50",
+        description="Paid keywords ranking the page at positions 41-50.",
+    )
+    paid_pos4_to10: int | None = Field(
+        default=None,
+        alias="paidPos4To10",
+        description="Paid keywords ranking the page at positions 4-10.",
+    )
+    paid_pos51_to60: int | None = Field(
+        default=None,
+        alias="paidPos51To60",
+        description="Paid keywords ranking the page at positions 51-60.",
+    )
+    paid_pos61_to70: int | None = Field(
+        default=None,
+        alias="paidPos61To70",
+        description="Paid keywords ranking the page at positions 61-70.",
+    )
+    paid_pos71_to80: int | None = Field(
+        default=None,
+        alias="paidPos71To80",
+        description="Paid keywords ranking the page at positions 71-80.",
+    )
+    paid_pos81_to90: int | None = Field(
+        default=None,
+        alias="paidPos81To90",
+        description="Paid keywords ranking the page at positions 81-90.",
+    )
+    paid_pos91_to100: int | None = Field(
+        default=None,
+        alias="paidPos91To100",
+        description="Paid keywords ranking the page at positions 91-100.",
+    )
+    paid_traffic: float | None = Field(
+        default=None,
+        alias="paidTraffic",
+        description="Estimated monthly paid traffic to the page.",
+    )
+    paid_traffic_cost_usd: float | None = Field(
+        default=None,
+        alias="paidTrafficCostUsd",
+        description="Estimated monthly cost in USD of buying the page's paid traffic as ads.",
+    )
+    paid_up: int | None = Field(
+        default=None,
+        alias="paidUp",
+        description="Paid keywords that moved up since the previous update.",
+    )
+    url: str = Field(
+        description="Page URL. Populated whenever the provider has data for the entity."
+    )
+
+
 class SeoNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
     def __init__(self, client: "AnyAPI") -> None:
         self._client = client
+
+    def backlink_anchors(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinkAnchorsInput],
+    ) -> RunResult[SeoBacklinkAnchorsData]:
+        """SEO Backlink Anchors
+
+        Get AnyAPI SEO anchor texts of the backlinks pointing at a domain or URL,
+        each with backlink and referring domain counts, authority rank, and spam
+        score as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.backlink_anchors(limit=10, target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlink_anchors", dict(input), options
+        )
+        return RunResult[SeoBacklinkAnchorsData].model_validate(raw)
+
+    def backlink_competitors(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinkCompetitorsInput],
+    ) -> RunResult[SeoBacklinkCompetitorsData]:
+        """SEO Backlink Competitors
+
+        Find the domains that share the most backlinks with a domain or URL, each
+        with its authority rank and shared backlink count as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.backlink_competitors(limit=10, target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlink_competitors", dict(input), options
+        )
+        return RunResult[SeoBacklinkCompetitorsData].model_validate(raw)
 
     def backlinks(
         self,
@@ -2059,6 +3789,28 @@ class SeoNamespace:
             "seo.domain_intersection", dict(input), options
         )
         return RunResult[SeoDomainIntersectionData].model_validate(raw)
+
+    def domain_pages(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainPagesInput],
+    ) -> RunResult[SeoDomainPagesData]:
+        """SEO Domain Pages
+
+        Get AnyAPI SEO pages of a domain with their backlink profile (rank,
+        backlinks, referring domains) and on-page data (title, headings, word count,
+        status, technologies) as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.domain_pages(limit=10, target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.domain_pages", dict(input), options
+        )
+        return RunResult[SeoDomainPagesData].model_validate(raw)
 
     def domain_rank_overview(
         self,
@@ -2252,6 +4004,72 @@ class SeoNamespace:
         )
         return RunResult[SeoLlmMentionsData].model_validate(raw)
 
+    def llm_top_brands(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmTopBrandsInput],
+    ) -> RunResult[SeoLlmTopBrandsData]:
+        """SEO LLM Top Brands
+
+        Rank the brands ChatGPT names most often in answers about a keyword or
+        domain, each with mention count, AI search volume, and the sources and
+        categories behind them as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_top_brands(keyword="seo tools", limit=5)
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_top_brands", dict(input), options
+        )
+        return RunResult[SeoLlmTopBrandsData].model_validate(raw)
+
+    def llm_top_domains(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmTopDomainsInput],
+    ) -> RunResult[SeoLlmTopDomainsData]:
+        """SEO LLM Top Domains
+
+        Rank the domains Google AI Overviews and ChatGPT cite most often in answers
+        about a keyword or domain, each with mention count, AI search volume, and
+        breakdowns by platform, location, and co-cited sources as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_top_domains(keyword="seo tools", limit=5)
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_top_domains", dict(input), options
+        )
+        return RunResult[SeoLlmTopDomainsData].model_validate(raw)
+
+    def llm_top_pages(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmTopPagesInput],
+    ) -> RunResult[SeoLlmTopPagesData]:
+        """SEO LLM Top Pages
+
+        Rank the pages Google AI Overviews and ChatGPT cite most often in answers
+        about a keyword or domain, each with mention count, AI search volume, and
+        breakdowns by platform, location, and co-cited sources as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_top_pages(keyword="seo tools", limit=5)
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_top_pages", dict(input), options
+        )
+        return RunResult[SeoLlmTopPagesData].model_validate(raw)
+
     def local_pack(
         self,
         *,
@@ -2377,12 +4195,77 @@ class SeoNamespace:
         )
         return RunResult[SeoSearchVolumeData].model_validate(raw)
 
+    def top_pages(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoTopPagesInput],
+    ) -> RunResult[SeoTopPagesData]:
+        """SEO Top Pages
+
+        Get AnyAPI SEO top pages of a domain by organic search, each with ranking
+        keyword counts, estimated traffic and its ad value, and position
+        distribution as normalized JSON.
+
+        Price: $0.0144 per request plus $0.00015 per result (maximum $0.1584).
+
+        Example:
+            res = client.seo.top_pages(limit=10, target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.top_pages", dict(input), options
+        )
+        return RunResult[SeoTopPagesData].model_validate(raw)
+
 
 class AsyncSeoNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
     def __init__(self, client: "AsyncAnyAPI") -> None:
         self._client = client
+
+    async def backlink_anchors(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinkAnchorsInput],
+    ) -> RunResult[SeoBacklinkAnchorsData]:
+        """SEO Backlink Anchors
+
+        Get AnyAPI SEO anchor texts of the backlinks pointing at a domain or URL,
+        each with backlink and referring domain counts, authority rank, and spam
+        score as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.backlink_anchors(limit=10, target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlink_anchors", dict(input), options
+        )
+        return RunResult[SeoBacklinkAnchorsData].model_validate(raw)
+
+    async def backlink_competitors(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinkCompetitorsInput],
+    ) -> RunResult[SeoBacklinkCompetitorsData]:
+        """SEO Backlink Competitors
+
+        Find the domains that share the most backlinks with a domain or URL, each
+        with its authority rank and shared backlink count as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.backlink_competitors(limit=10, target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlink_competitors", dict(input), options
+        )
+        return RunResult[SeoBacklinkCompetitorsData].model_validate(raw)
 
     async def backlinks(
         self,
@@ -2469,6 +4352,28 @@ class AsyncSeoNamespace:
             "seo.domain_intersection", dict(input), options
         )
         return RunResult[SeoDomainIntersectionData].model_validate(raw)
+
+    async def domain_pages(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoDomainPagesInput],
+    ) -> RunResult[SeoDomainPagesData]:
+        """SEO Domain Pages
+
+        Get AnyAPI SEO pages of a domain with their backlink profile (rank,
+        backlinks, referring domains) and on-page data (title, headings, word count,
+        status, technologies) as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.domain_pages(limit=10, target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.domain_pages", dict(input), options
+        )
+        return RunResult[SeoDomainPagesData].model_validate(raw)
 
     async def domain_rank_overview(
         self,
@@ -2662,6 +4567,72 @@ class AsyncSeoNamespace:
         )
         return RunResult[SeoLlmMentionsData].model_validate(raw)
 
+    async def llm_top_brands(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmTopBrandsInput],
+    ) -> RunResult[SeoLlmTopBrandsData]:
+        """SEO LLM Top Brands
+
+        Rank the brands ChatGPT names most often in answers about a keyword or
+        domain, each with mention count, AI search volume, and the sources and
+        categories behind them as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_top_brands(keyword="seo tools", limit=5)
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_top_brands", dict(input), options
+        )
+        return RunResult[SeoLlmTopBrandsData].model_validate(raw)
+
+    async def llm_top_domains(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmTopDomainsInput],
+    ) -> RunResult[SeoLlmTopDomainsData]:
+        """SEO LLM Top Domains
+
+        Rank the domains Google AI Overviews and ChatGPT cite most often in answers
+        about a keyword or domain, each with mention count, AI search volume, and
+        breakdowns by platform, location, and co-cited sources as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_top_domains(keyword="seo tools", limit=5)
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_top_domains", dict(input), options
+        )
+        return RunResult[SeoLlmTopDomainsData].model_validate(raw)
+
+    async def llm_top_pages(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmTopPagesInput],
+    ) -> RunResult[SeoLlmTopPagesData]:
+        """SEO LLM Top Pages
+
+        Rank the pages Google AI Overviews and ChatGPT cite most often in answers
+        about a keyword or domain, each with mention count, AI search volume, and
+        breakdowns by platform, location, and co-cited sources as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_top_pages(keyword="seo tools", limit=5)
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_top_pages", dict(input), options
+        )
+        return RunResult[SeoLlmTopPagesData].model_validate(raw)
+
     async def local_pack(
         self,
         *,
@@ -2786,3 +4757,25 @@ class AsyncSeoNamespace:
             "seo.search_volume", dict(input), options
         )
         return RunResult[SeoSearchVolumeData].model_validate(raw)
+
+    async def top_pages(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoTopPagesInput],
+    ) -> RunResult[SeoTopPagesData]:
+        """SEO Top Pages
+
+        Get AnyAPI SEO top pages of a domain by organic search, each with ranking
+        keyword counts, estimated traffic and its ad value, and position
+        distribution as normalized JSON.
+
+        Price: $0.0144 per request plus $0.00015 per result (maximum $0.1584).
+
+        Example:
+            res = client.seo.top_pages(limit=10, target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.top_pages", dict(input), options
+        )
+        return RunResult[SeoTopPagesData].model_validate(raw)

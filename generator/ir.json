@@ -80892,6 +80892,469 @@
       }
     },
     {
+      "slug": "seo.backlink_anchors",
+      "platform": "seo",
+      "action": "backlink_anchors",
+      "operationId": "seo_backlink_anchors",
+      "name": "SEO Backlink Anchors",
+      "category": "search",
+      "description": "Get AnyAPI SEO anchor texts of the backlinks pointing at a domain or URL, each with backlink and referring domain counts, authority rank, and spam score as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.0768,
+        "baseUsd": 0.0288,
+        "perItemUsd": 0.00005,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "backlinkAnchors",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "backlink_anchors",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoBacklinkAnchorsInput",
+      "outputTypeName": "SeoBacklinkAnchorsData",
+      "example": {
+        "limit": 10,
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "includeSubdomains": {
+            "kind": "boolean",
+            "description": "Count links pointing at the target's subdomains as well as the target itself.",
+            "default": true
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of anchor texts to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "status": {
+            "kind": "string",
+            "description": "Count backlinks that are live now, ones that have been lost, or both.",
+            "enum": [
+              "live",
+              "lost",
+              "all"
+            ],
+            "default": "live",
+            "format": null
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "anchors": {
+              "kind": "array",
+              "description": "Anchor texts of backlinks to the target. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "anchor": {
+                    "kind": "string",
+                    "description": "Anchor text. Absent for links without text, such as image links. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "backlinks": {
+                    "kind": "integer",
+                    "description": "Backlinks counted. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brokenBacklinks": {
+                    "kind": "integer",
+                    "description": "Backlinks pointing at pages that no longer resolve.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brokenPages": {
+                    "kind": "integer",
+                    "description": "Linked pages with an error status.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "firstSeenUtc": {
+                    "kind": "number",
+                    "description": "When the first of these backlinks was seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "linksByAttribute": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByCountry": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by country code of the linking domain. An empty key means the country is unknown.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByPlatformType": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by type of linking site (blogs, news, ecommerce, and so on).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksBySemanticLocation": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByTld": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by top-level domain of the linking page.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByType": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by link type (anchor, image, redirect, canonical, alternate).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "lostUtc": {
+                    "kind": "number",
+                    "description": "When the last of these backlinks was lost, if they were. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "Authority rank on a 0-1000 scale. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringDomains": {
+                    "kind": "integer",
+                    "description": "Distinct linking domains.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringDomainsNofollow": {
+                    "kind": "integer",
+                    "description": "Linking domains whose every link is nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringIps": {
+                    "kind": "integer",
+                    "description": "Distinct IP addresses of linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringMainDomains": {
+                    "kind": "integer",
+                    "description": "Distinct linking registrable domains.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringMainDomainsNofollow": {
+                    "kind": "integer",
+                    "description": "Linking registrable domains whose every link is nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringPages": {
+                    "kind": "integer",
+                    "description": "Distinct linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringPagesNofollow": {
+                    "kind": "integer",
+                    "description": "Linking pages whose links are all nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringSubnets": {
+                    "kind": "integer",
+                    "description": "Distinct subnets of linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "spamScore": {
+                    "kind": "integer",
+                    "description": "Average spam score of those backlinks on a 0-100 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [],
+                "open": true,
+                "mustPopulate": [
+                  "anchor",
+                  "backlinks",
+                  "rank"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total anchor texts, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "anchors"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "anchors",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.backlink_competitors",
+      "platform": "seo",
+      "action": "backlink_competitors",
+      "operationId": "seo_backlink_competitors",
+      "name": "SEO Backlink Competitors",
+      "category": "search",
+      "description": "Find the domains that share the most backlinks with a domain or URL, each with its authority rank and shared backlink count as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.0768,
+        "baseUsd": 0.0288,
+        "perItemUsd": 0.00005,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "backlinkCompetitors",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "backlink_competitors",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoBacklinkCompetitorsInput",
+      "outputTypeName": "SeoBacklinkCompetitorsData",
+      "example": {
+        "limit": 10,
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "excludeLargeDomains": {
+            "kind": "boolean",
+            "description": "Leave out very large sites (such as google.com or wikipedia.org) that share backlinks with almost everyone.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of competing domains to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "mainDomainOnly": {
+            "kind": "boolean",
+            "description": "Group results by registrable domain rather than listing subdomains separately.",
+            "default": true
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "competitors": {
+              "kind": "array",
+              "description": "Domains sharing backlinks with the target, most shared first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "domain": {
+                    "kind": "string",
+                    "description": "Competing domain. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "Authority rank of the competing domain on a 0-1000 scale. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sharedBacklinks": {
+                    "kind": "integer",
+                    "description": "Backlinks the competing domain shares with the target. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "domain",
+                  "rank",
+                  "sharedBacklinks"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total competing domains, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "competitors"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "competitors",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "seo.backlinks",
       "platform": "seo",
       "action": "backlinks",
@@ -82149,6 +82612,521 @@
           "open": false,
           "mustPopulate": [
             "keywords"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.domain_pages",
+      "platform": "seo",
+      "action": "domain_pages",
+      "operationId": "seo_domain_pages",
+      "name": "SEO Domain Pages",
+      "category": "search",
+      "description": "Get AnyAPI SEO pages of a domain with their backlink profile (rank, backlinks, referring domains) and on-page data (title, headings, word count, status, technologies) as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.0768,
+        "baseUsd": 0.0288,
+        "perItemUsd": 0.00005,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "domainPages",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "domain_pages",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoDomainPagesInput",
+      "outputTypeName": "SeoDomainPagesData",
+      "example": {
+        "limit": 10,
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "includeSubdomains": {
+            "kind": "boolean",
+            "description": "Count links pointing at the target's subdomains as well as the target itself.",
+            "default": true
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of pages to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "status": {
+            "kind": "string",
+            "description": "Count backlinks that are live now, ones that have been lost, or both.",
+            "enum": [
+              "live",
+              "lost",
+              "all"
+            ],
+            "default": "live",
+            "format": null
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain or subdomain to list pages for, without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "pages": {
+              "kind": "array",
+              "description": "Pages of the domain with their backlink and on-page data. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "backlinks": {
+                    "kind": "integer",
+                    "description": "Backlinks counted. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brokenBacklinks": {
+                    "kind": "integer",
+                    "description": "Backlinks pointing at pages that no longer resolve.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brokenPages": {
+                    "kind": "integer",
+                    "description": "Linked pages with an error status.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "canonical": {
+                    "kind": "string",
+                    "description": "Canonical URL declared by the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "charset": {
+                    "kind": "string",
+                    "description": "Character set of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "contentEncoding": {
+                    "kind": "string",
+                    "description": "Content encoding of the response.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Host of the page. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "encodedSize": {
+                    "kind": "integer",
+                    "description": "Encoded page size in bytes.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "externalLinks": {
+                    "kind": "integer",
+                    "description": "Outbound links on the page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "fetchedUtc": {
+                    "kind": "number",
+                    "description": "When the page was last crawled. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "firstSeenUtc": {
+                    "kind": "number",
+                    "description": "When the first of these backlinks was seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "firstVisitedUtc": {
+                    "kind": "number",
+                    "description": "When the page was first crawled. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "h1": {
+                    "kind": "array",
+                    "description": "H1 headings on the page.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "h2": {
+                    "kind": "array",
+                    "description": "H2 headings on the page.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "h3": {
+                    "kind": "array",
+                    "description": "H3 headings on the page.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "imagesCount": {
+                    "kind": "integer",
+                    "description": "Images on the page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "internalLinks": {
+                    "kind": "integer",
+                    "description": "Internal links on the page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "ip": {
+                    "kind": "string",
+                    "description": "IP address the page was fetched from.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Language code of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linksByAttribute": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByCountry": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by country code of the linking domain. An empty key means the country is unknown.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByPlatformType": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by type of linking site (blogs, news, ecommerce, and so on).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksBySemanticLocation": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByTld": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by top-level domain of the linking page.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByType": {
+                    "kind": "object",
+                    "description": "Count of these backlinks, by link type (anchor, image, redirect, canonical, alternate).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "lostUtc": {
+                    "kind": "number",
+                    "description": "When the last of these backlinks was lost, if they were. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mainDomain": {
+                    "kind": "string",
+                    "description": "Registrable domain of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mediaType": {
+                    "kind": "string",
+                    "description": "Media type of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pageSpamScore": {
+                    "kind": "integer",
+                    "description": "Spam score of the page on a 0-100 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "platformTypes": {
+                    "kind": "array",
+                    "description": "Site types detected, such as blogs, news, or ecommerce.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "previousVisitedUtc": {
+                    "kind": "number",
+                    "description": "When the page was crawled before the last time. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "Authority rank on a 0-1000 scale. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringDomains": {
+                    "kind": "integer",
+                    "description": "Distinct linking domains.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringDomainsNofollow": {
+                    "kind": "integer",
+                    "description": "Linking domains whose every link is nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringIps": {
+                    "kind": "integer",
+                    "description": "Distinct IP addresses of linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringMainDomains": {
+                    "kind": "integer",
+                    "description": "Distinct linking registrable domains.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringMainDomainsNofollow": {
+                    "kind": "integer",
+                    "description": "Linking registrable domains whose every link is nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringPages": {
+                    "kind": "integer",
+                    "description": "Distinct linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringPagesNofollow": {
+                    "kind": "integer",
+                    "description": "Linking pages whose links are all nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringSubnets": {
+                    "kind": "integer",
+                    "description": "Distinct subnets of linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "server": {
+                    "kind": "string",
+                    "description": "Web server or CDN serving the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "size": {
+                    "kind": "integer",
+                    "description": "Page size in bytes.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "socialTags": {
+                    "kind": "object",
+                    "description": "Open Graph and Twitter card tags, by tag name.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "spamScore": {
+                    "kind": "integer",
+                    "description": "Average spam score of those backlinks on a 0-100 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "statusCode": {
+                    "kind": "integer",
+                    "description": "HTTP status of the page on the last crawl.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "technologies": {
+                    "kind": "object",
+                    "description": "Technologies detected on the page, by category.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Page title.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "tld": {
+                    "kind": "string",
+                    "description": "Top-level domain of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "wordsCount": {
+                    "kind": "integer",
+                    "description": "Words on the page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "backlinks",
+                  "domain",
+                  "rank",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total pages, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "pages"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "pages",
+            "totalCount"
           ]
         }
       },
@@ -84086,6 +85064,2075 @@
       }
     },
     {
+      "slug": "seo.llm_top_brands",
+      "platform": "seo",
+      "action": "llm_top_brands",
+      "operationId": "seo_llm_top_brands",
+      "name": "SEO LLM Top Brands",
+      "category": "search",
+      "description": "Rank the brands ChatGPT names most often in answers about a keyword or domain, each with mention count, AI search volume, and the sources and categories behind them as normalized JSON.",
+      "pricing": {
+        "priceUsd": 1.32,
+        "baseUsd": 0.12,
+        "perItemUsd": 0.0012,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "llmTopBrands",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "llm_top_brands",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoLlmTopBrandsInput",
+      "outputTypeName": "SeoLlmTopBrandsData",
+      "example": {
+        "keyword": "seo tools",
+        "limit": 5
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "breakdownLimit": {
+            "kind": "integer",
+            "description": "How many entries each breakdown list (cited domains, brands, locations, and so on) carries.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "keyword": {
+            "kind": "string",
+            "description": "Only count AI answers that contain this word or phrase. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "language": {
+            "kind": "string",
+            "description": "Language code to restrict answers to, for example en. Omit for every language.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of brands to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "location": {
+            "kind": "integer",
+            "description": "Location code to restrict answers to, for example 2840 for the United States. Omit for every location.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "aiSearchVolume": {
+              "kind": "integer",
+              "description": "Estimated monthly AI search volume of those answers.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "brands": {
+              "kind": "array",
+              "description": "Brands named in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "brandCategories": {
+                    "kind": "array",
+                    "description": "Categories of the brands named in answers mentioning this brand.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "category": {
+                          "kind": "string",
+                          "description": "Category of the named brand.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "category"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "brands": {
+                    "kind": "array",
+                    "description": "Brands most often named in answers mentioning this brand.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "brand": {
+                          "kind": "string",
+                          "description": "Brand named in the answer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "brand"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "citedDomains": {
+                    "kind": "array",
+                    "description": "Domains most often cited as sources in answers mentioning this brand.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "domain": {
+                          "kind": "string",
+                          "description": "Domain cited as a source.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "domain"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "languages": {
+                    "kind": "array",
+                    "description": "Mentions of this brand, by language.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "language": {
+                          "kind": "string",
+                          "description": "Language code.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "language"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "description": "Mentions of this brand, by location.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "location": {
+                          "kind": "integer",
+                          "description": "Location code, for example 2840 for the United States.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "location"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers that mention this brand. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "platforms": {
+                    "kind": "array",
+                    "description": "Mentions of this brand, by AI surface.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "platform": {
+                          "kind": "string",
+                          "description": "AI surface: google (AI Overviews) or chat_gpt.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "platform"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "searchResultDomains": {
+                    "kind": "array",
+                    "description": "Domains most often in the web results behind answers mentioning this brand.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "domain": {
+                          "kind": "string",
+                          "description": "Domain in the web results the AI consulted.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "domain"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "brand"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "aiSearchVolume",
+                  "brand",
+                  "mentions"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "mentions": {
+              "kind": "integer",
+              "description": "AI answers matching the request.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "overallBrandCategories": {
+              "kind": "array",
+              "description": "Categories of the brands named in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Category of the named brand.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "category"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallBrands": {
+              "kind": "array",
+              "description": "Brands most often named in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand named in the answer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "brand"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallCitedDomains": {
+              "kind": "array",
+              "description": "Domains most often cited as sources in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Domain cited as a source.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallLanguages": {
+              "kind": "array",
+              "description": "Mentions of the target, by language.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Language code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "language"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallLocations": {
+              "kind": "array",
+              "description": "Mentions of the target, by location.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "location": {
+                    "kind": "integer",
+                    "description": "Location code, for example 2840 for the United States.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "location"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallPlatforms": {
+              "kind": "array",
+              "description": "Mentions of the target, by AI surface.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "platform": {
+                    "kind": "string",
+                    "description": "AI surface: google (AI Overviews) or chat_gpt.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "platform"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallSearchResultDomains": {
+              "kind": "array",
+              "description": "Domains most often in the web results behind answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Domain in the web results the AI consulted.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total brands matching the request, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "brands"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "brands",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.llm_top_domains",
+      "platform": "seo",
+      "action": "llm_top_domains",
+      "operationId": "seo_llm_top_domains",
+      "name": "SEO LLM Top Domains",
+      "category": "search",
+      "description": "Rank the domains Google AI Overviews and ChatGPT cite most often in answers about a keyword or domain, each with mention count, AI search volume, and breakdowns by platform, location, and co-cited sources as normalized JSON.",
+      "pricing": {
+        "priceUsd": 1.32,
+        "baseUsd": 0.12,
+        "perItemUsd": 0.0012,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "llmTopDomains",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "llm_top_domains",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoLlmTopDomainsInput",
+      "outputTypeName": "SeoLlmTopDomainsData",
+      "example": {
+        "keyword": "seo tools",
+        "limit": 5
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "breakdownLimit": {
+            "kind": "integer",
+            "description": "How many entries each breakdown list (cited domains, brands, locations, and so on) carries.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "keyword": {
+            "kind": "string",
+            "description": "Only count AI answers that contain this word or phrase. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "language": {
+            "kind": "string",
+            "description": "Language code to restrict answers to, for example en. Omit for every language.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of domains to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "location": {
+            "kind": "integer",
+            "description": "Location code to restrict answers to, for example 2840 for the United States. Omit for every location.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "platform": {
+            "kind": "string",
+            "description": "AI surface to count: google for Google AI Overviews, chat_gpt for ChatGPT. Omit for both.",
+            "enum": [
+              "google",
+              "chat_gpt"
+            ],
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "aiSearchVolume": {
+              "kind": "integer",
+              "description": "Estimated monthly AI search volume of those answers.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "domains": {
+              "kind": "array",
+              "description": "Domains cited in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brandCategories": {
+                    "kind": "array",
+                    "description": "Categories of the brands named in answers mentioning this domain.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "category": {
+                          "kind": "string",
+                          "description": "Category of the named brand.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "category"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "brands": {
+                    "kind": "array",
+                    "description": "Brands most often named in answers mentioning this domain.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "brand": {
+                          "kind": "string",
+                          "description": "Brand named in the answer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "brand"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "citedDomains": {
+                    "kind": "array",
+                    "description": "Domains most often cited as sources in answers mentioning this domain.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "domain": {
+                          "kind": "string",
+                          "description": "Domain cited as a source.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "domain"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Cited domain. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "languages": {
+                    "kind": "array",
+                    "description": "Mentions of this domain, by language.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "language": {
+                          "kind": "string",
+                          "description": "Language code.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "language"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "description": "Mentions of this domain, by location.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "location": {
+                          "kind": "integer",
+                          "description": "Location code, for example 2840 for the United States.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "location"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers that mention this domain. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "platforms": {
+                    "kind": "array",
+                    "description": "Mentions of this domain, by AI surface.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "platform": {
+                          "kind": "string",
+                          "description": "AI surface: google (AI Overviews) or chat_gpt.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "platform"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "searchResultDomains": {
+                    "kind": "array",
+                    "description": "Domains most often in the web results behind answers mentioning this domain.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "domain": {
+                          "kind": "string",
+                          "description": "Domain in the web results the AI consulted.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "domain"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "aiSearchVolume",
+                  "domain",
+                  "mentions"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "mentions": {
+              "kind": "integer",
+              "description": "AI answers matching the request.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "overallBrandCategories": {
+              "kind": "array",
+              "description": "Categories of the brands named in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Category of the named brand.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "category"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallBrands": {
+              "kind": "array",
+              "description": "Brands most often named in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand named in the answer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "brand"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallCitedDomains": {
+              "kind": "array",
+              "description": "Domains most often cited as sources in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Domain cited as a source.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallLanguages": {
+              "kind": "array",
+              "description": "Mentions of the target, by language.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Language code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "language"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallLocations": {
+              "kind": "array",
+              "description": "Mentions of the target, by location.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "location": {
+                    "kind": "integer",
+                    "description": "Location code, for example 2840 for the United States.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "location"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallPlatforms": {
+              "kind": "array",
+              "description": "Mentions of the target, by AI surface.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "platform": {
+                    "kind": "string",
+                    "description": "AI surface: google (AI Overviews) or chat_gpt.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "platform"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallSearchResultDomains": {
+              "kind": "array",
+              "description": "Domains most often in the web results behind answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Domain in the web results the AI consulted.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total domains matching the request, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "domains"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "domains",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.llm_top_pages",
+      "platform": "seo",
+      "action": "llm_top_pages",
+      "operationId": "seo_llm_top_pages",
+      "name": "SEO LLM Top Pages",
+      "category": "search",
+      "description": "Rank the pages Google AI Overviews and ChatGPT cite most often in answers about a keyword or domain, each with mention count, AI search volume, and breakdowns by platform, location, and co-cited sources as normalized JSON.",
+      "pricing": {
+        "priceUsd": 1.32,
+        "baseUsd": 0.12,
+        "perItemUsd": 0.0012,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "llmTopPages",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "llm_top_pages",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoLlmTopPagesInput",
+      "outputTypeName": "SeoLlmTopPagesData",
+      "example": {
+        "keyword": "seo tools",
+        "limit": 5
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "breakdownLimit": {
+            "kind": "integer",
+            "description": "How many entries each breakdown list (cited domains, brands, locations, and so on) carries.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 5
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Only count AI answers that mention or cite this domain, without a protocol or leading www. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "keyword": {
+            "kind": "string",
+            "description": "Only count AI answers that contain this word or phrase. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "language": {
+            "kind": "string",
+            "description": "Language code to restrict answers to, for example en. Omit for every language.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of pages to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "location": {
+            "kind": "integer",
+            "description": "Location code to restrict answers to, for example 2840 for the United States. Omit for every location.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "platform": {
+            "kind": "string",
+            "description": "AI surface to count: google for Google AI Overviews, chat_gpt for ChatGPT. Omit for both.",
+            "enum": [
+              "google",
+              "chat_gpt"
+            ],
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "aiSearchVolume": {
+              "kind": "integer",
+              "description": "Estimated monthly AI search volume of those answers.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "mentions": {
+              "kind": "integer",
+              "description": "AI answers matching the request.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "overallBrandCategories": {
+              "kind": "array",
+              "description": "Categories of the brands named in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Category of the named brand.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "category"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallBrands": {
+              "kind": "array",
+              "description": "Brands most often named in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand named in the answer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "brand"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallCitedDomains": {
+              "kind": "array",
+              "description": "Domains most often cited as sources in answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Domain cited as a source.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallLanguages": {
+              "kind": "array",
+              "description": "Mentions of the target, by language.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Language code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "language"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallLocations": {
+              "kind": "array",
+              "description": "Mentions of the target, by location.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "location": {
+                    "kind": "integer",
+                    "description": "Location code, for example 2840 for the United States.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "location"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallPlatforms": {
+              "kind": "array",
+              "description": "Mentions of the target, by AI surface.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "platform": {
+                    "kind": "string",
+                    "description": "AI surface: google (AI Overviews) or chat_gpt.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "platform"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "overallSearchResultDomains": {
+              "kind": "array",
+              "description": "Domains most often in the web results behind answers mentioning the target.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Domain in the web results the AI consulted.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers counted in this group.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "pages": {
+              "kind": "array",
+              "description": "Pages cited in matching AI answers, most mentioned first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume of those answers. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brandCategories": {
+                    "kind": "array",
+                    "description": "Categories of the brands named in answers mentioning this page.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "category": {
+                          "kind": "string",
+                          "description": "Category of the named brand.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "category"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "brands": {
+                    "kind": "array",
+                    "description": "Brands most often named in answers mentioning this page.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "brand": {
+                          "kind": "string",
+                          "description": "Brand named in the answer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "brand"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "citedDomains": {
+                    "kind": "array",
+                    "description": "Domains most often cited as sources in answers mentioning this page.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "domain": {
+                          "kind": "string",
+                          "description": "Domain cited as a source.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "domain"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "languages": {
+                    "kind": "array",
+                    "description": "Mentions of this page, by language.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "language": {
+                          "kind": "string",
+                          "description": "Language code.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "language"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "description": "Mentions of this page, by location.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "location": {
+                          "kind": "integer",
+                          "description": "Location code, for example 2840 for the United States.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "location"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "mentions": {
+                    "kind": "integer",
+                    "description": "AI answers that mention this page. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "page": {
+                    "kind": "string",
+                    "description": "Cited page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "platforms": {
+                    "kind": "array",
+                    "description": "Mentions of this page, by AI surface.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "platform": {
+                          "kind": "string",
+                          "description": "AI surface: google (AI Overviews) or chat_gpt.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "platform"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "searchResultDomains": {
+                    "kind": "array",
+                    "description": "Domains most often in the web results behind answers mentioning this page.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "aiSearchVolume": {
+                          "kind": "integer",
+                          "description": "Estimated monthly AI search volume of those answers.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "domain": {
+                          "kind": "string",
+                          "description": "Domain in the web results the AI consulted.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mentions": {
+                          "kind": "integer",
+                          "description": "AI answers counted in this group.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "domain"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "page"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "aiSearchVolume",
+                  "mentions",
+                  "page"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total pages matching the request, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "pages"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "pages",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "seo.local_pack",
       "platform": "seo",
       "action": "local_pack",
@@ -85574,6 +88621,436 @@
           "open": false,
           "mustPopulate": [
             "keywords"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.top_pages",
+      "platform": "seo",
+      "action": "top_pages",
+      "operationId": "seo_top_pages",
+      "name": "SEO Top Pages",
+      "category": "search",
+      "description": "Get AnyAPI SEO top pages of a domain by organic search, each with ranking keyword counts, estimated traffic and its ad value, and position distribution as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.1584,
+        "baseUsd": 0.0144,
+        "perItemUsd": 0.00015,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "topPages",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "top_pages",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoTopPagesInput",
+      "outputTypeName": "SeoTopPagesData",
+      "example": {
+        "limit": 10,
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "language": {
+            "kind": "string",
+            "description": "Language code for search metrics.",
+            "enum": null,
+            "default": "en",
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of pages to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "location": {
+            "kind": "integer",
+            "description": "Location code for search metrics. The default is the United States.",
+            "minimum": null,
+            "maximum": null,
+            "default": 2840
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "status": {
+            "kind": "string",
+            "description": "Count rankings the page holds now, rankings it has lost, or both.",
+            "enum": [
+              "live",
+              "lost",
+              "all"
+            ],
+            "default": "live",
+            "format": null
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain to analyze, without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "pages": {
+              "kind": "array",
+              "description": "Pages of the domain ranked by organic search traffic. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "organicDown": {
+                    "kind": "integer",
+                    "description": "Organic keywords that moved down since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicKeywords": {
+                    "kind": "integer",
+                    "description": "Keywords the page ranks for in organic results. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicLost": {
+                    "kind": "integer",
+                    "description": "Organic keywords no longer ranking since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicNew": {
+                    "kind": "integer",
+                    "description": "Organic keywords newly ranking since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos1": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 1.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos11To20": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 11-20.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos21To30": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 21-30.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos2To3": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 2-3.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos31To40": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 31-40.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos41To50": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 41-50.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos4To10": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 4-10.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos51To60": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 51-60.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos61To70": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 61-70.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos71To80": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 71-80.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos81To90": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 81-90.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicPos91To100": {
+                    "kind": "integer",
+                    "description": "Organic keywords ranking the page at positions 91-100.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicTraffic": {
+                    "kind": "number",
+                    "description": "Estimated monthly organic traffic to the page. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicTrafficCostUsd": {
+                    "kind": "number",
+                    "description": "Estimated monthly cost in USD of buying the page's organic traffic as ads.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "organicUp": {
+                    "kind": "integer",
+                    "description": "Organic keywords that moved up since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidDown": {
+                    "kind": "integer",
+                    "description": "Paid keywords that moved down since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidKeywords": {
+                    "kind": "integer",
+                    "description": "Keywords the page ranks for in paid results.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidLost": {
+                    "kind": "integer",
+                    "description": "Paid keywords no longer ranking since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidNew": {
+                    "kind": "integer",
+                    "description": "Paid keywords newly ranking since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos1": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 1.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos11To20": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 11-20.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos21To30": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 21-30.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos2To3": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 2-3.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos31To40": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 31-40.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos41To50": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 41-50.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos4To10": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 4-10.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos51To60": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 51-60.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos61To70": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 61-70.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos71To80": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 71-80.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos81To90": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 81-90.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidPos91To100": {
+                    "kind": "integer",
+                    "description": "Paid keywords ranking the page at positions 91-100.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidTraffic": {
+                    "kind": "number",
+                    "description": "Estimated monthly paid traffic to the page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidTrafficCostUsd": {
+                    "kind": "number",
+                    "description": "Estimated monthly cost in USD of buying the page's paid traffic as ads.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "paidUp": {
+                    "kind": "integer",
+                    "description": "Paid keywords that moved up since the previous update.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "organicKeywords",
+                  "organicTraffic",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total ranking pages, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "pages"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "pages",
+            "totalCount"
           ]
         }
       },
