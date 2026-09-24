@@ -662,7 +662,7 @@ export interface TiktokShopSearchInput {
    */
   ignoreSources?: string[];
   /**
-   * Accepted but ignored. The search returns every product TikTok Shop gives for the query, typically about 30 and occasionally more than 50, for the same price per call.
+   * Maximum products to return, honoured on US searches up to 30. Other countries and larger values return every product TikTok Shop gives for the query, typically about 30 and occasionally more than 50. The price per call is the same either way.
    * Range: minimum 1.
    */
   limit?: number;

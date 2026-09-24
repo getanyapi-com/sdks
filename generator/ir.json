@@ -97838,7 +97838,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Accepted but ignored. The search returns every product TikTok Shop gives for the query, typically about 30 and occasionally more than 50, for the same price per call.",
+            "description": "Maximum products to return, honoured on US searches up to 30. Other countries and larger values return every product TikTok Shop gives for the query, typically about 30 and occasionally more than 50. The price per call is the same either way.",
             "minimum": 1,
             "maximum": null,
             "default": null
