@@ -703,7 +703,7 @@ class EbayNamespace:
         item-condition, listing-type, and sort filters and get title, price,
         condition, shipping, and seller in one normalized response.
 
-        Price: $0.00225 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")
@@ -819,7 +819,7 @@ class AsyncEbayNamespace:
         item-condition, listing-type, and sort filters and get title, price,
         condition, shipping, and seller in one normalized response.
 
-        Price: $0.00225 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.ebay.search(limit=3, query="nintendo switch", sort="price_low")

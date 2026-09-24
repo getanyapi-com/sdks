@@ -706,7 +706,7 @@ class MapsNamespace:
         details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
-        Price: $0.0045 per request.
+        Price: $0.00325 per request.
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee shop", website="withWebsite")
@@ -841,7 +841,7 @@ class AsyncMapsNamespace:
         details (emails, phones, and social profiles from their websites), up to 20
         records per request.
 
-        Price: $0.0045 per request.
+        Price: $0.00325 per request.
 
         Example:
             res = client.maps.contacts(limit=3, location="Austin, TX", placeMinimumStars="four", query="coffee shop", website="withWebsite")

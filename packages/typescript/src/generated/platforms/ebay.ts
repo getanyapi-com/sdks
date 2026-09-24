@@ -831,7 +831,7 @@ export class EbayNamespace {
    *
    * Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.
    *
-   * Price: $0.00225 per request.
+   * Price: $0.00175 per request.
    *
    * @example
    * const res = await client.ebay.search({ query: "nintendo switch", limit: 3, sort: "price_low" });
