@@ -215,6 +215,8 @@ import type {
   FacebookMarketplaceLocationSearchInput,
   FacebookPageContactData,
   FacebookPageContactInput,
+  FacebookPageLookupData,
+  FacebookPageLookupInput,
   FacebookPhotosData,
   FacebookPhotosInput,
   FacebookPostCommentsData,
@@ -1366,6 +1368,11 @@ export interface SkuMap {
     input: FacebookPageContactInput;
     data: FacebookPageContactData;
     result: RunResult<FacebookPageContactData>;
+  };
+  "facebook.page_lookup": {
+    input: FacebookPageLookupInput;
+    data: FacebookPageLookupData;
+    result: RunResult<FacebookPageLookupData>;
   };
   "facebook.photos": {
     input: FacebookPhotosInput;

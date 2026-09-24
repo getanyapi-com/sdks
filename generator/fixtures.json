@@ -1529,6 +1529,25 @@
     "items": 1,
     "replayed": false
   },
+  "facebook.page_lookup": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "facebook.photos": {
     "output": {
       "found": true,

@@ -348,6 +348,23 @@ class FacebookPageContactInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class FacebookPageLookupInput(TypedDict, total=False):
+    """Input for Facebook Page Lookup."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum number of matches to return (1-7, default 7). Facebook's quick search answers a name with at most 7 matches. Range: 1 to 7. Default: 7."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Name to look up, as you would type it into Facebook's search box (e.g. NASA or plumber chicago)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class FacebookPhotosInput(TypedDict, total=False):
     """Input for Facebook Page Photos."""
 
@@ -1867,6 +1884,35 @@ class FacebookPageContactItem(BaseModel):
     )
 
 
+class FacebookPageLookupData(BaseModel):
+    items: list[FacebookPageLookupItem] = Field(
+        description="Pages and profiles whose name matches the query, in Facebook's order. Matches can include personal profiles as well as Pages."
+    )
+
+
+class FacebookPageLookupItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str = Field(
+        description="Numeric Facebook id of the Page or profile, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Profile picture URL. Facebook signs it in the query string, so it works only as returned and expires. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    is_verified: bool | None = Field(
+        default=None,
+        alias="isVerified",
+        description="Whether Facebook shows the verified badge on this Page or profile.",
+    )
+    name: str = Field(
+        description="Display name of the Page or profile. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Facebook URL of the Page or profile. Populated whenever the provider has data for the entity."
+    )
+
+
 class FacebookPhotosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -2970,6 +3016,30 @@ class FacebookNamespace:
         )
         return RunResult[FacebookPageContactData].model_validate(raw)
 
+    def page_lookup(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookPageLookupInput],
+    ) -> RunResult[FacebookPageLookupData]:
+        """Facebook Page Lookup
+
+        Look up Facebook Pages and profiles by name with Facebook's own quick
+        search. A name lookup that returns basic identity fields only: name, URL,
+        profile image, Facebook id, and verified status. Matches can include
+        personal profiles as well as Pages. For full Page details (category,
+        followers, phone, website), use facebook.search_pages.
+
+        Price: $0.00975 per request.
+
+        Example:
+            res = client.facebook.page_lookup(limit=5, query="NASA")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "facebook.page_lookup", dict(input), options
+        )
+        return RunResult[FacebookPageLookupData].model_validate(raw)
+
     def photos(
         self,
         *,
@@ -3800,6 +3870,30 @@ class AsyncFacebookNamespace:
             "facebook.page_contact", dict(input), options
         )
         return RunResult[FacebookPageContactData].model_validate(raw)
+
+    async def page_lookup(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[FacebookPageLookupInput],
+    ) -> RunResult[FacebookPageLookupData]:
+        """Facebook Page Lookup
+
+        Look up Facebook Pages and profiles by name with Facebook's own quick
+        search. A name lookup that returns basic identity fields only: name, URL,
+        profile image, Facebook id, and verified status. Matches can include
+        personal profiles as well as Pages. For full Page details (category,
+        followers, phone, website), use facebook.search_pages.
+
+        Price: $0.00975 per request.
+
+        Example:
+            res = client.facebook.page_lookup(limit=5, query="NASA")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "facebook.page_lookup", dict(input), options
+        )
+        return RunResult[FacebookPageLookupData].model_validate(raw)
 
     async def photos(
         self,

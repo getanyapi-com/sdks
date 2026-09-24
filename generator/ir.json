@@ -28749,6 +28749,163 @@
       }
     },
     {
+      "slug": "facebook.page_lookup",
+      "platform": "facebook",
+      "action": "page_lookup",
+      "operationId": "facebook_page_lookup",
+      "name": "Facebook Page Lookup",
+      "category": "social",
+      "description": "Look up Facebook Pages and profiles by name with Facebook's own quick search. A name lookup that returns basic identity fields only: name, URL, profile image, Facebook id, and verified status. Matches can include personal profiles as well as Pages. For full Page details (category, followers, phone, website), use facebook.search_pages.",
+      "pricing": {
+        "priceUsd": 0.00975,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "facebook",
+      "tsMethod": "pageLookup",
+      "tsIterMethod": null,
+      "pyNamespace": "facebook",
+      "pyMethod": "page_lookup",
+      "pyIterMethod": null,
+      "inputTypeName": "FacebookPageLookupInput",
+      "outputTypeName": "FacebookPageLookupData",
+      "example": {
+        "limit": 5,
+        "query": "NASA"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of matches to return (1-7, default 7). Facebook's quick search answers a name with at most 7 matches.",
+            "minimum": 1,
+            "maximum": 7,
+            "default": 7
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Name to look up, as you would type it into Facebook's search box (e.g. NASA or plumber chicago).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Pages and profiles whose name matches the query, in Facebook's order. Matches can include personal profiles as well as Pages.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "id": {
+                    "kind": "string",
+                    "description": "Numeric Facebook id of the Page or profile, as a string. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Profile picture URL. Facebook signs it in the query string, so it works only as returned and expires. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isVerified": {
+                    "kind": "boolean",
+                    "description": "Whether Facebook shows the verified badge on this Page or profile.",
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Display name of the Page or profile. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Facebook URL of the Page or profile. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "id",
+                  "image",
+                  "name",
+                  "url"
+                ]
+              },
+              "mustPopulate": false
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "facebook.photos",
       "platform": "facebook",
       "action": "photos",
