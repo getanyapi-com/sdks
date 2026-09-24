@@ -9,6 +9,430 @@ import type {
 import { paginate } from "../../core/index.js";
 
 /**
+ * Input for SEO Backlinks (seo.backlinks).
+ */
+export interface SeoBacklinksInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Count links pointing at the target's subdomains as well as the target itself.
+   * Default: true.
+   */
+  includeSubdomains?: boolean;
+  /**
+   * Maximum number of backlinks to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * as_is returns every backlink; one_per_domain keeps one backlink per linking domain; one_per_anchor keeps one per anchor text.
+   * One of: as_is, one_per_domain, one_per_anchor.
+   * Default: as_is.
+   */
+  mode?: "as_is" | "one_per_domain" | "one_per_anchor";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Return backlinks that are live now, ones that have been lost, or both.
+   * One of: live, lost, all.
+   * Default: live.
+   */
+  status?: "live" | "lost" | "all";
+  /**
+   * Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.
+   */
+  target: string;
+}
+
+export interface SeoBacklinksBacklink {
+  /**
+   * Anchor text of the link.
+   */
+  anchor?: string;
+  /**
+   * rel attributes on the link, such as nofollow, sponsored, ugc, or noopener.
+   */
+  attributes?: string[];
+  /**
+   * True when the link passes ranking value (no nofollow attribute). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  dofollow?: boolean;
+  /**
+   * Domain of the linking page. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  domainFrom?: string;
+  /**
+   * Country code of the linking domain.
+   */
+  domainFromCountry?: string;
+  /**
+   * IP address of the linking domain.
+   */
+  domainFromIp?: string;
+  /**
+   * True when the linking host is a bare IP address.
+   */
+  domainFromIsIp?: boolean;
+  /**
+   * Site types of the linking domain, such as blogs, news, or ecommerce.
+   */
+  domainFromPlatformTypes?: string[];
+  /**
+   * Authority rank of the linking domain on a 0-1000 scale.
+   */
+  domainFromRank?: number;
+  /**
+   * Domain of the target URL.
+   */
+  domainTo?: string;
+  /**
+   * When the backlink was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstSeenUtc?: number;
+  /**
+   * Backlinks grouped into this one by the requested mode.
+   */
+  groupCount?: number;
+  /**
+   * Alt text of the linked image, for image links.
+   */
+  imageAlt?: string;
+  /**
+   * URL of the linked image, for image links.
+   */
+  imageUrl?: string;
+  /**
+   * True when the target URL no longer resolves.
+   */
+  isBroken?: boolean;
+  /**
+   * True when the link reaches the target through a redirect or canonical.
+   */
+  isIndirect?: boolean;
+  /**
+   * True when the backlink has been removed.
+   */
+  isLost?: boolean;
+  /**
+   * True when the backlink appeared since the previous crawl.
+   */
+  isNew?: boolean;
+  /**
+   * True when the link was present on the first crawl of the linking page.
+   */
+  isOriginal?: boolean;
+  /**
+   * When the backlink was last seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number;
+  /**
+   * How the link is placed: anchor, image, redirect, canonical, alternate, and so on.
+   */
+  linkType?: string;
+  /**
+   * Identical links from the linking page to the target.
+   */
+  linksCount?: number;
+  /**
+   * Character encoding of the linking page.
+   */
+  pageFromEncoding?: string;
+  /**
+   * Outbound links on the linking page.
+   */
+  pageFromExternalLinks?: number;
+  /**
+   * Internal links on the linking page.
+   */
+  pageFromInternalLinks?: number;
+  /**
+   * Keywords the linking page ranks in the top 10 for.
+   */
+  pageFromKeywordsTop10?: number;
+  /**
+   * Keywords the linking page ranks in the top 100 for.
+   */
+  pageFromKeywordsTop100?: number;
+  /**
+   * Keywords the linking page ranks in the top 3 for.
+   */
+  pageFromKeywordsTop3?: number;
+  /**
+   * Language code of the linking page.
+   */
+  pageFromLanguage?: string;
+  /**
+   * Authority rank of the linking page on a 0-1000 scale.
+   */
+  pageFromRank?: number;
+  /**
+   * Size of the linking page in bytes.
+   */
+  pageFromSize?: number;
+  /**
+   * HTTP status the linking page returned.
+   */
+  pageFromStatusCode?: number;
+  /**
+   * Title of the linking page.
+   */
+  pageFromTitle?: string;
+  /**
+   * When the backlink was seen on the crawl before the last one. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  previousSeenUtc?: number;
+  /**
+   * Authority rank of the backlink on a 0-1000 scale.
+   */
+  rank?: number;
+  /**
+   * Page section holding the link, such as article, footer, or nav.
+   */
+  semanticLocation?: string;
+  /**
+   * Spam score of the backlink on a 0-100 scale.
+   */
+  spamScore?: number;
+  /**
+   * Text right after the link on the linking page.
+   */
+  textAfter?: string;
+  /**
+   * Text right before the link on the linking page.
+   */
+  textBefore?: string;
+  /**
+   * Top-level domain of the linking page.
+   */
+  tldFrom?: string;
+  /**
+   * URL of the page carrying the link. Populated whenever the provider has data for the entity.
+   */
+  urlFrom: string;
+  /**
+   * Target URL the link points at. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  urlTo?: string;
+  /**
+   * Where the target URL redirects, if it does.
+   */
+  urlToRedirectTarget?: string;
+  /**
+   * Spam score of the target URL on a 0-100 scale.
+   */
+  urlToSpamScore?: number;
+  /**
+   * HTTP status the target URL returned.
+   */
+  urlToStatusCode?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Backlinks (seo.backlinks).
+ */
+export interface SeoBacklinksData {
+  /**
+   * Backlinks pointing at the target. Populated whenever the provider has data for the entity.
+   */
+  backlinks: SeoBacklinksBacklink[];
+  /**
+   * Total backlinks matching the request, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
+ * Input for SEO Backlinks Summary (seo.backlinks_summary).
+ */
+export interface SeoBacklinksSummaryInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Count links pointing at the target's subdomains as well as the target itself.
+   * Default: true.
+   */
+  includeSubdomains?: boolean;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.
+   */
+  target: string;
+}
+
+/**
+ * The `data` payload of SEO Backlinks Summary (seo.backlinks_summary).
+ */
+export interface SeoBacklinksSummaryData {
+  /**
+   * Total live backlinks pointing at the target. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  backlinks?: number;
+  /**
+   * Average spam score of the backlinks on a 0-100 scale.
+   */
+  backlinksSpamScore?: number;
+  /**
+   * Backlinks pointing at target pages that no longer resolve.
+   */
+  brokenBacklinks?: number;
+  /**
+   * Target pages with an error status that still receive backlinks.
+   */
+  brokenPages?: number;
+  /**
+   * Content management system detected on the target.
+   */
+  cms?: string;
+  /**
+   * Country code of the target's server.
+   */
+  country?: string;
+  /**
+   * Target pages crawled.
+   */
+  crawledPages?: number;
+  /**
+   * Outbound links from the target to other domains.
+   */
+  externalLinks?: number;
+  /**
+   * When a backlink to the target was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstSeenUtc?: number;
+  /**
+   * Links between pages of the target.
+   */
+  internalLinks?: number;
+  /**
+   * IP address the target resolves to.
+   */
+  ipAddress?: string;
+  /**
+   * True when the target is a bare IP address.
+   */
+  isIp?: boolean;
+  /**
+   * Count of referring links to the target, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).
+   */
+  linksByAttribute?: {};
+  /**
+   * Count of referring links to the target, by country code of the linking domain. An empty key means the country is unknown.
+   */
+  linksByCountry?: {};
+  /**
+   * Count of referring links to the target, by type of linking site (blogs, news, ecommerce, and so on).
+   */
+  linksByPlatformType?: {};
+  /**
+   * Count of referring links to the target, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.
+   */
+  linksBySemanticLocation?: {};
+  /**
+   * Count of referring links to the target, by top-level domain of the linking page.
+   */
+  linksByTld?: {};
+  /**
+   * Count of referring links to the target, by link type (anchor, image, redirect, canonical, alternate).
+   */
+  linksByType?: {};
+  /**
+   * When the target lost its last backlink, if it has. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lostUtc?: number;
+  /**
+   * Site types detected for the target, such as blogs, news, or ecommerce.
+   */
+  platformTypes?: string[];
+  /**
+   * Authority rank of the target on a 0-1000 scale, derived from its backlink profile. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rank?: number;
+  /**
+   * Distinct domains linking to the target. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  referringDomains?: number;
+  /**
+   * Referring domains whose every link is nofollow.
+   */
+  referringDomainsNofollow?: number;
+  /**
+   * Distinct IP addresses hosting referring pages.
+   */
+  referringIps?: number;
+  /**
+   * Distinct registrable domains linking to the target.
+   */
+  referringMainDomains?: number;
+  /**
+   * Referring registrable domains whose every link is nofollow.
+   */
+  referringMainDomainsNofollow?: number;
+  /**
+   * Distinct pages linking to the target.
+   */
+  referringPages?: number;
+  /**
+   * Referring pages whose links are all nofollow.
+   */
+  referringPagesNofollow?: number;
+  /**
+   * Distinct subnets hosting referring pages.
+   */
+  referringSubnets?: number;
+  /**
+   * Web server or CDN serving the target.
+   */
+  server?: string;
+  /**
+   * Domain or URL the totals describe. Populated whenever the provider has data for the entity.
+   */
+  target: string;
+  /**
+   * Spam score of the target itself on a 0-100 scale.
+   */
+  targetSpamScore?: number;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for SEO Competitor Domains (seo.competitors_domain).
  */
 export interface SeoCompetitorsDomainInput {
@@ -1005,6 +1429,167 @@ export interface SeoKeywordSuggestionsData {
 }
 
 /**
+ * Input for SEO LLM Mentions (seo.llm_mentions).
+ */
+export interface SeoLlmMentionsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Domain whose mentions to find, without a protocol or leading www. Send domain or keyword, not both.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Brand name or phrase whose mentions to find. Send domain or keyword, not both.
+   */
+  keyword?: string;
+  /**
+   * Language code to restrict answers to, for example en. Omit for every language.
+   */
+  language?: string;
+  /**
+   * Maximum number of AI answers to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Location code to restrict answers to, for example 2840 for the United States. Omit for every location.
+   */
+  location?: number;
+  /**
+   * AI surface to search: google for Google AI Overviews, chat_gpt for ChatGPT.
+   * One of: google, chat_gpt.
+   * Default: google.
+   */
+  platform?: "google" | "chat_gpt";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface SeoLlmMentionsMention {
+  /**
+   * Estimated monthly AI search volume for the question.
+   */
+  aiSearchVolume?: number;
+  /**
+   * The AI answer in markdown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  answer?: string;
+  /**
+   * When this answer was first recorded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstResponseUtc?: number;
+  /**
+   * Language code of the answer.
+   */
+  language?: string;
+  /**
+   * When this answer was last recorded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastResponseUtc?: number;
+  /**
+   * Location code of the answer.
+   */
+  location?: number;
+  /**
+   * Model that produced the answer.
+   */
+  model?: string;
+  /**
+   * Monthly AI search-volume history for the question.
+   */
+  monthlySearches?: SeoLlmMentionsMonthlySearche[];
+  /**
+   * AI surface that answered: google or chat_gpt. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  platform?: string;
+  /**
+   * Question the AI answered. Populated whenever the provider has data for the entity.
+   */
+  question: string;
+  /**
+   * Sources the answer cites.
+   */
+  sources?: SeoLlmMentionsSource[];
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmMentionsMonthlySearche {
+  /**
+   * Calendar month number for the monthly search-volume record.
+   */
+  month?: number;
+  /**
+   * AI search volume for the month.
+   */
+  searchVolume?: number;
+  /**
+   * Calendar year for the monthly search-volume record.
+   */
+  year?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmMentionsSource {
+  /**
+   * Source domain.
+   */
+  domain?: string;
+  /**
+   * 1-based position of the source in the answer.
+   */
+  position?: number;
+  /**
+   * Text excerpt from the source.
+   */
+  snippet?: string;
+  /**
+   * Publisher name.
+   */
+  sourceName?: string;
+  /**
+   * Source page title.
+   */
+  title?: string;
+  /**
+   * Source URL.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO LLM Mentions (seo.llm_mentions).
+ */
+export interface SeoLlmMentionsData {
+  /**
+   * AI answers that mention the target. Populated whenever the provider has data for the entity.
+   */
+  mentions: SeoLlmMentionsMention[];
+  /**
+   * Total AI answers mentioning the target, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
+}
+
+/**
  * Input for SEO Local Pack (seo.local_pack).
  */
 export interface SeoLocalPackInput {
@@ -1270,6 +1855,154 @@ export interface SeoRankedKeywordsData {
    * SEO ranked keyword records for the domain. Populated whenever the provider has data for the entity.
    */
   rankedKeywords: SeoRankedKeywordsRankedKeyword[];
+}
+
+/**
+ * Input for SEO Referring Domains (seo.referring_domains).
+ */
+export interface SeoReferringDomainsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Count links pointing at the target's subdomains as well as the target itself.
+   * Default: true.
+   */
+  includeSubdomains?: boolean;
+  /**
+   * Maximum number of referring domains to return. You are billed per returned result, so a lower limit costs less.
+   * Range: minimum 1, maximum 1000.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.
+   */
+  target: string;
+}
+
+export interface SeoReferringDomainsReferringDomain {
+  /**
+   * Backlinks from this domain to the target. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  backlinks?: number;
+  /**
+   * Backlinks from this domain to target pages that no longer resolve.
+   */
+  brokenBacklinks?: number;
+  /**
+   * Target pages with an error status that this domain still links to.
+   */
+  brokenPages?: number;
+  /**
+   * Referring domain. Populated whenever the provider has data for the entity.
+   */
+  domain: string;
+  /**
+   * When a link from this domain was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  firstSeenUtc?: number;
+  /**
+   * Count of this domain's links to the target, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).
+   */
+  linksByAttribute?: {};
+  /**
+   * Count of this domain's links to the target, by country code of the linking domain. An empty key means the country is unknown.
+   */
+  linksByCountry?: {};
+  /**
+   * Count of this domain's links to the target, by type of linking site (blogs, news, ecommerce, and so on).
+   */
+  linksByPlatformType?: {};
+  /**
+   * Count of this domain's links to the target, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.
+   */
+  linksBySemanticLocation?: {};
+  /**
+   * Count of this domain's links to the target, by top-level domain of the linking page.
+   */
+  linksByTld?: {};
+  /**
+   * Count of this domain's links to the target, by link type (anchor, image, redirect, canonical, alternate).
+   */
+  linksByType?: {};
+  /**
+   * When this domain's last link to the target was lost, if it was. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lostUtc?: number;
+  /**
+   * Authority rank of the referring domain on a 0-1000 scale. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rank?: number;
+  /**
+   * Distinct domains linking to this referring domain.
+   */
+  referringDomains?: number;
+  /**
+   * Domains whose every link to this referring domain is nofollow.
+   */
+  referringDomainsNofollow?: number;
+  /**
+   * Distinct IP addresses among this domain's linking pages.
+   */
+  referringIps?: number;
+  /**
+   * Distinct registrable domains linking to this referring domain.
+   */
+  referringMainDomains?: number;
+  /**
+   * Registrable domains whose every link to this referring domain is nofollow.
+   */
+  referringMainDomainsNofollow?: number;
+  /**
+   * Pages on this domain linking to the target.
+   */
+  referringPages?: number;
+  /**
+   * Pages on this domain whose links to the target are all nofollow.
+   */
+  referringPagesNofollow?: number;
+  /**
+   * Distinct subnets among this domain's linking pages.
+   */
+  referringSubnets?: number;
+  /**
+   * Average spam score of this domain's backlinks on a 0-100 scale.
+   */
+  spamScore?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of SEO Referring Domains (seo.referring_domains).
+ */
+export interface SeoReferringDomainsData {
+  /**
+   * Domains linking to the target. Populated whenever the provider has data for the entity.
+   */
+  referringDomains: SeoReferringDomainsReferringDomain[];
+  /**
+   * Total referring domains, before the limit. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  totalCount?: number;
 }
 
 /**
@@ -1593,6 +2326,40 @@ export class SeoNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
+   * SEO Backlinks
+   *
+   * Get AnyAPI SEO backlinks for a domain or URL, each with the linking page, anchor text, dofollow flag, authority rank, spam score, and first and last seen dates as normalized JSON.
+   *
+   * Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+   *
+   * @example
+   * const res = await client.seo.backlinks({ target: "ahrefs.com", limit: 10 });
+   */
+  backlinks(
+    input: SeoBacklinksInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoBacklinksData>> {
+    return this._core.run("seo.backlinks", input, options);
+  }
+
+  /**
+   * SEO Backlinks Summary
+   *
+   * Get AnyAPI SEO backlink profile totals for a domain or URL: backlinks, referring domains, authority rank, spam score, and broken links as normalized JSON.
+   *
+   * Price: $0.02885 per request plus $0 per result (maximum $0.02885).
+   *
+   * @example
+   * const res = await client.seo.backlinksSummary({ target: "ahrefs.com" });
+   */
+  backlinksSummary(
+    input: SeoBacklinksSummaryInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoBacklinksSummaryData>> {
+    return this._core.run("seo.backlinks_summary", input, options);
+  }
+
+  /**
    * SEO Competitor Domains
    *
    * Get AnyAPI SEO competitor domains for a target domain with shared keyword counts and organic metrics as normalized JSON.
@@ -1772,6 +2539,23 @@ export class SeoNamespace {
   }
 
   /**
+   * SEO LLM Mentions
+   *
+   * Find AI answers that mention a domain or keyword, from Google AI Overviews or ChatGPT, each with the question asked, the answer, its cited sources, and AI search volume as normalized JSON.
+   *
+   * Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+   *
+   * @example
+   * const res = await client.seo.llmMentions({ domain: "ahrefs.com", limit: 5, platform: "google" });
+   */
+  llmMentions(
+    input: SeoLlmMentionsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoLlmMentionsData>> {
+    return this._core.run("seo.llm_mentions", input, options);
+  }
+
+  /**
    * SEO Local Pack
    *
    * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.
@@ -1803,6 +2587,23 @@ export class SeoNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<SeoRankedKeywordsData>> {
     return this._core.run("seo.ranked_keywords", input, options);
+  }
+
+  /**
+   * SEO Referring Domains
+   *
+   * Get AnyAPI SEO referring domains for a domain or URL, each with its backlink count, authority rank, spam score, and first seen date as normalized JSON.
+   *
+   * Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+   *
+   * @example
+   * const res = await client.seo.referringDomains({ target: "ahrefs.com", limit: 10 });
+   */
+  referringDomains(
+    input: SeoReferringDomainsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<SeoReferringDomainsData>> {
+    return this._core.run("seo.referring_domains", input, options);
   }
 
   /**

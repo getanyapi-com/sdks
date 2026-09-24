@@ -4772,6 +4772,36 @@
     "items": 1,
     "replayed": false
   },
+  "seo.backlinks": {
+    "output": {
+      "found": true,
+      "data": {
+        "backlinks": [
+          {
+            "urlFrom": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.backlinks_summary": {
+    "output": {
+      "found": true,
+      "data": {
+        "target": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "seo.competitors_domain": {
     "output": {
       "found": true,
@@ -4919,6 +4949,23 @@
     "items": 1,
     "replayed": false
   },
+  "seo.llm_mentions": {
+    "output": {
+      "found": true,
+      "data": {
+        "mentions": [
+          {
+            "question": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "seo.local_pack": {
     "output": {
       "found": true,
@@ -4945,6 +4992,23 @@
           {
             "keyword": "sample",
             "rankAbsolute": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "seo.referring_domains": {
+    "output": {
+      "found": true,
+      "data": {
+        "referringDomains": [
+          {
+            "domain": "sample",
             "_extra": "passthrough"
           }
         ]

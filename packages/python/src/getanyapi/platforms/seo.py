@@ -21,6 +21,46 @@ if TYPE_CHECKING:
     from .._client import AnyAPI
 
 
+class SeoBacklinksInput(TypedDict, total=False):
+    """Input for SEO Backlinks."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    includeSubdomains: NotRequired[bool]
+    """Count links pointing at the target's subdomains as well as the target itself. Default: true."""
+    limit: NotRequired[int]
+    """Maximum number of backlinks to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    mode: NotRequired[Literal["as_is", "one_per_domain", "one_per_anchor"]]
+    """as_is returns every backlink; one_per_domain keeps one backlink per linking domain; one_per_anchor keeps one per anchor text. Default: as_is."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    status: NotRequired[Literal["live", "lost", "all"]]
+    """Return backlinks that are live now, ones that have been lost, or both. Default: live."""
+    target: Required[str]
+    """Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www."""
+
+
+class SeoBacklinksSummaryInput(TypedDict, total=False):
+    """Input for SEO Backlinks Summary."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    includeSubdomains: NotRequired[bool]
+    """Count links pointing at the target's subdomains as well as the target itself. Default: true."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    target: Required[str]
+    """Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www."""
+
+
 class SeoCompetitorsDomainInput(TypedDict, total=False):
     """Input for SEO Competitor Domains."""
 
@@ -241,6 +281,31 @@ class SeoKeywordSuggestionsInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class SeoLlmMentionsInput(TypedDict, total=False):
+    """Input for SEO LLM Mentions."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    domain: NotRequired[str]
+    """Domain whose mentions to find, without a protocol or leading www. Send domain or keyword, not both."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    keyword: NotRequired[str]
+    """Brand name or phrase whose mentions to find. Send domain or keyword, not both."""
+    language: NotRequired[str]
+    """Language code to restrict answers to, for example en. Omit for every language."""
+    limit: NotRequired[int]
+    """Maximum number of AI answers to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    location: NotRequired[int]
+    """Location code to restrict answers to, for example 2840 for the United States. Omit for every location."""
+    platform: NotRequired[Literal["google", "chat_gpt"]]
+    """AI surface to search: google for Google AI Overviews, chat_gpt for ChatGPT. Default: google."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class SeoLocalPackInput(TypedDict, total=False):
     """Input for SEO Local Pack."""
 
@@ -287,6 +352,25 @@ class SeoRankedKeywordsInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     target: Required[str]
     """Domain to analyze, without a protocol or leading www."""
+
+
+class SeoReferringDomainsInput(TypedDict, total=False):
+    """Input for SEO Referring Domains."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    includeSubdomains: NotRequired[bool]
+    """Count links pointing at the target's subdomains as well as the target itself. Default: true."""
+    limit: NotRequired[int]
+    """Maximum number of referring domains to return. You are billed per returned result, so a lower limit costs less. Range: 1 to 1000. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    target: Required[str]
+    """Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www."""
 
 
 class SeoRelatedKeywordsInput(TypedDict, total=False):
@@ -358,6 +442,415 @@ class SeoSearchVolumeInput(TypedDict, total=False):
     """When true, include Google search-partner network volume in the reported numbers; when false (the default), count Google search only."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class SeoBacklinksData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    backlinks: list[SeoBacklinksBacklink] = Field(
+        description="Backlinks pointing at the target. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total backlinks matching the request, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoBacklinksBacklink(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    anchor: str | None = Field(default=None, description="Anchor text of the link.")
+    attributes: list[str] | None = Field(
+        default=None,
+        description="rel attributes on the link, such as nofollow, sponsored, ugc, or noopener.",
+    )
+    dofollow: bool | None = Field(
+        default=None,
+        description="True when the link passes ranking value (no nofollow attribute). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    domain_from: str | None = Field(
+        default=None,
+        alias="domainFrom",
+        description="Domain of the linking page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    domain_from_country: str | None = Field(
+        default=None,
+        alias="domainFromCountry",
+        description="Country code of the linking domain.",
+    )
+    domain_from_ip: str | None = Field(
+        default=None,
+        alias="domainFromIp",
+        description="IP address of the linking domain.",
+    )
+    domain_from_is_ip: bool | None = Field(
+        default=None,
+        alias="domainFromIsIp",
+        description="True when the linking host is a bare IP address.",
+    )
+    domain_from_platform_types: list[str] | None = Field(
+        default=None,
+        alias="domainFromPlatformTypes",
+        description="Site types of the linking domain, such as blogs, news, or ecommerce.",
+    )
+    domain_from_rank: int | None = Field(
+        default=None,
+        alias="domainFromRank",
+        description="Authority rank of the linking domain on a 0-1000 scale.",
+    )
+    domain_to: str | None = Field(
+        default=None, alias="domainTo", description="Domain of the target URL."
+    )
+    first_seen_utc: float | None = Field(
+        default=None,
+        alias="firstSeenUtc",
+        description="When the backlink was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    group_count: int | None = Field(
+        default=None,
+        alias="groupCount",
+        description="Backlinks grouped into this one by the requested mode.",
+    )
+    image_alt: str | None = Field(
+        default=None,
+        alias="imageAlt",
+        description="Alt text of the linked image, for image links.",
+    )
+    image_url: str | None = Field(
+        default=None,
+        alias="imageUrl",
+        description="URL of the linked image, for image links.",
+    )
+    is_broken: bool | None = Field(
+        default=None,
+        alias="isBroken",
+        description="True when the target URL no longer resolves.",
+    )
+    is_indirect: bool | None = Field(
+        default=None,
+        alias="isIndirect",
+        description="True when the link reaches the target through a redirect or canonical.",
+    )
+    is_lost: bool | None = Field(
+        default=None,
+        alias="isLost",
+        description="True when the backlink has been removed.",
+    )
+    is_new: bool | None = Field(
+        default=None,
+        alias="isNew",
+        description="True when the backlink appeared since the previous crawl.",
+    )
+    is_original: bool | None = Field(
+        default=None,
+        alias="isOriginal",
+        description="True when the link was present on the first crawl of the linking page.",
+    )
+    last_seen_utc: float | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="When the backlink was last seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    link_type: str | None = Field(
+        default=None,
+        alias="linkType",
+        description="How the link is placed: anchor, image, redirect, canonical, alternate, and so on.",
+    )
+    links_count: int | None = Field(
+        default=None,
+        alias="linksCount",
+        description="Identical links from the linking page to the target.",
+    )
+    page_from_encoding: str | None = Field(
+        default=None,
+        alias="pageFromEncoding",
+        description="Character encoding of the linking page.",
+    )
+    page_from_external_links: int | None = Field(
+        default=None,
+        alias="pageFromExternalLinks",
+        description="Outbound links on the linking page.",
+    )
+    page_from_internal_links: int | None = Field(
+        default=None,
+        alias="pageFromInternalLinks",
+        description="Internal links on the linking page.",
+    )
+    page_from_keywords_top10: int | None = Field(
+        default=None,
+        alias="pageFromKeywordsTop10",
+        description="Keywords the linking page ranks in the top 10 for.",
+    )
+    page_from_keywords_top100: int | None = Field(
+        default=None,
+        alias="pageFromKeywordsTop100",
+        description="Keywords the linking page ranks in the top 100 for.",
+    )
+    page_from_keywords_top3: int | None = Field(
+        default=None,
+        alias="pageFromKeywordsTop3",
+        description="Keywords the linking page ranks in the top 3 for.",
+    )
+    page_from_language: str | None = Field(
+        default=None,
+        alias="pageFromLanguage",
+        description="Language code of the linking page.",
+    )
+    page_from_rank: int | None = Field(
+        default=None,
+        alias="pageFromRank",
+        description="Authority rank of the linking page on a 0-1000 scale.",
+    )
+    page_from_size: int | None = Field(
+        default=None,
+        alias="pageFromSize",
+        description="Size of the linking page in bytes.",
+    )
+    page_from_status_code: int | None = Field(
+        default=None,
+        alias="pageFromStatusCode",
+        description="HTTP status the linking page returned.",
+    )
+    page_from_title: str | None = Field(
+        default=None, alias="pageFromTitle", description="Title of the linking page."
+    )
+    previous_seen_utc: float | None = Field(
+        default=None,
+        alias="previousSeenUtc",
+        description="When the backlink was seen on the crawl before the last one. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    rank: int | None = Field(
+        default=None, description="Authority rank of the backlink on a 0-1000 scale."
+    )
+    semantic_location: str | None = Field(
+        default=None,
+        alias="semanticLocation",
+        description="Page section holding the link, such as article, footer, or nav.",
+    )
+    spam_score: int | None = Field(
+        default=None,
+        alias="spamScore",
+        description="Spam score of the backlink on a 0-100 scale.",
+    )
+    text_after: str | None = Field(
+        default=None,
+        alias="textAfter",
+        description="Text right after the link on the linking page.",
+    )
+    text_before: str | None = Field(
+        default=None,
+        alias="textBefore",
+        description="Text right before the link on the linking page.",
+    )
+    tld_from: str | None = Field(
+        default=None,
+        alias="tldFrom",
+        description="Top-level domain of the linking page.",
+    )
+    url_from: str = Field(
+        alias="urlFrom",
+        description="URL of the page carrying the link. Populated whenever the provider has data for the entity.",
+    )
+    url_to: str | None = Field(
+        default=None,
+        alias="urlTo",
+        description="Target URL the link points at. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url_to_redirect_target: str | None = Field(
+        default=None,
+        alias="urlToRedirectTarget",
+        description="Where the target URL redirects, if it does.",
+    )
+    url_to_spam_score: int | None = Field(
+        default=None,
+        alias="urlToSpamScore",
+        description="Spam score of the target URL on a 0-100 scale.",
+    )
+    url_to_status_code: int | None = Field(
+        default=None,
+        alias="urlToStatusCode",
+        description="HTTP status the target URL returned.",
+    )
+
+
+class SeoBacklinksSummaryData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    backlinks: int | None = Field(
+        default=None,
+        description="Total live backlinks pointing at the target. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    backlinks_spam_score: int | None = Field(
+        default=None,
+        alias="backlinksSpamScore",
+        description="Average spam score of the backlinks on a 0-100 scale.",
+    )
+    broken_backlinks: int | None = Field(
+        default=None,
+        alias="brokenBacklinks",
+        description="Backlinks pointing at target pages that no longer resolve.",
+    )
+    broken_pages: int | None = Field(
+        default=None,
+        alias="brokenPages",
+        description="Target pages with an error status that still receive backlinks.",
+    )
+    cms: str | None = Field(
+        default=None, description="Content management system detected on the target."
+    )
+    country: str | None = Field(
+        default=None, description="Country code of the target's server."
+    )
+    crawled_pages: int | None = Field(
+        default=None, alias="crawledPages", description="Target pages crawled."
+    )
+    external_links: int | None = Field(
+        default=None,
+        alias="externalLinks",
+        description="Outbound links from the target to other domains.",
+    )
+    first_seen_utc: float | None = Field(
+        default=None,
+        alias="firstSeenUtc",
+        description="When a backlink to the target was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    internal_links: int | None = Field(
+        default=None,
+        alias="internalLinks",
+        description="Links between pages of the target.",
+    )
+    ip_address: str | None = Field(
+        default=None,
+        alias="ipAddress",
+        description="IP address the target resolves to.",
+    )
+    is_ip: bool | None = Field(
+        default=None,
+        alias="isIp",
+        description="True when the target is a bare IP address.",
+    )
+    links_by_attribute: SeoBacklinksSummaryLinksByAttribute | None = Field(
+        default=None,
+        alias="linksByAttribute",
+        description="Count of referring links to the target, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+    )
+    links_by_country: SeoBacklinksSummaryLinksByCountry | None = Field(
+        default=None,
+        alias="linksByCountry",
+        description="Count of referring links to the target, by country code of the linking domain. An empty key means the country is unknown.",
+    )
+    links_by_platform_type: SeoBacklinksSummaryLinksByPlatformType | None = Field(
+        default=None,
+        alias="linksByPlatformType",
+        description="Count of referring links to the target, by type of linking site (blogs, news, ecommerce, and so on).",
+    )
+    links_by_semantic_location: SeoBacklinksSummaryLinksBySemanticLocation | None = (
+        Field(
+            default=None,
+            alias="linksBySemanticLocation",
+            description="Count of referring links to the target, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+        )
+    )
+    links_by_tld: SeoBacklinksSummaryLinksByTld | None = Field(
+        default=None,
+        alias="linksByTld",
+        description="Count of referring links to the target, by top-level domain of the linking page.",
+    )
+    links_by_type: SeoBacklinksSummaryLinksByType | None = Field(
+        default=None,
+        alias="linksByType",
+        description="Count of referring links to the target, by link type (anchor, image, redirect, canonical, alternate).",
+    )
+    lost_utc: float | None = Field(
+        default=None,
+        alias="lostUtc",
+        description="When the target lost its last backlink, if it has. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    platform_types: list[str] | None = Field(
+        default=None,
+        alias="platformTypes",
+        description="Site types detected for the target, such as blogs, news, or ecommerce.",
+    )
+    rank: int | None = Field(
+        default=None,
+        description="Authority rank of the target on a 0-1000 scale, derived from its backlink profile. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    referring_domains: int | None = Field(
+        default=None,
+        alias="referringDomains",
+        description="Distinct domains linking to the target. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    referring_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringDomainsNofollow",
+        description="Referring domains whose every link is nofollow.",
+    )
+    referring_ips: int | None = Field(
+        default=None,
+        alias="referringIps",
+        description="Distinct IP addresses hosting referring pages.",
+    )
+    referring_main_domains: int | None = Field(
+        default=None,
+        alias="referringMainDomains",
+        description="Distinct registrable domains linking to the target.",
+    )
+    referring_main_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringMainDomainsNofollow",
+        description="Referring registrable domains whose every link is nofollow.",
+    )
+    referring_pages: int | None = Field(
+        default=None,
+        alias="referringPages",
+        description="Distinct pages linking to the target.",
+    )
+    referring_pages_nofollow: int | None = Field(
+        default=None,
+        alias="referringPagesNofollow",
+        description="Referring pages whose links are all nofollow.",
+    )
+    referring_subnets: int | None = Field(
+        default=None,
+        alias="referringSubnets",
+        description="Distinct subnets hosting referring pages.",
+    )
+    server: str | None = Field(
+        default=None, description="Web server or CDN serving the target."
+    )
+    target: str = Field(
+        description="Domain or URL the totals describe. Populated whenever the provider has data for the entity."
+    )
+    target_spam_score: int | None = Field(
+        default=None,
+        alias="targetSpamScore",
+        description="Spam score of the target itself on a 0-100 scale.",
+    )
+
+
+class SeoBacklinksSummaryLinksByAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinksSummaryLinksByCountry(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinksSummaryLinksByPlatformType(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinksSummaryLinksBySemanticLocation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinksSummaryLinksByTld(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoBacklinksSummaryLinksByType(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoCompetitorsDomainData(BaseModel):
@@ -925,6 +1418,101 @@ class SeoKeywordSuggestionsMonthlySearche(BaseModel):
     )
 
 
+class SeoLlmMentionsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    mentions: list[SeoLlmMentionsMention] = Field(
+        description="AI answers that mention the target. Populated whenever the provider has data for the entity."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total AI answers mentioning the target, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoLlmMentionsMention(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume for the question.",
+    )
+    answer: str | None = Field(
+        default=None,
+        description="The AI answer in markdown. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    first_response_utc: float | None = Field(
+        default=None,
+        alias="firstResponseUtc",
+        description="When this answer was first recorded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    language: str | None = Field(
+        default=None, description="Language code of the answer."
+    )
+    last_response_utc: float | None = Field(
+        default=None,
+        alias="lastResponseUtc",
+        description="When this answer was last recorded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    location: int | None = Field(
+        default=None, description="Location code of the answer."
+    )
+    model: str | None = Field(
+        default=None, description="Model that produced the answer."
+    )
+    monthly_searches: list[SeoLlmMentionsMonthlySearche] | None = Field(
+        default=None,
+        alias="monthlySearches",
+        description="Monthly AI search-volume history for the question.",
+    )
+    platform: str | None = Field(
+        default=None,
+        description="AI surface that answered: google or chat_gpt. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    question: str = Field(
+        description="Question the AI answered. Populated whenever the provider has data for the entity."
+    )
+    sources: list[SeoLlmMentionsSource] | None = Field(
+        default=None, description="Sources the answer cites."
+    )
+
+
+class SeoLlmMentionsMonthlySearche(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    month: int | None = Field(
+        default=None,
+        description="Calendar month number for the monthly search-volume record.",
+    )
+    search_volume: int | None = Field(
+        default=None,
+        alias="searchVolume",
+        description="AI search volume for the month.",
+    )
+    year: int | None = Field(
+        default=None, description="Calendar year for the monthly search-volume record."
+    )
+
+
+class SeoLlmMentionsSource(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    domain: str | None = Field(default=None, description="Source domain.")
+    position: int | None = Field(
+        default=None, description="1-based position of the source in the answer."
+    )
+    snippet: str | None = Field(
+        default=None, description="Text excerpt from the source."
+    )
+    source_name: str | None = Field(
+        default=None, alias="sourceName", description="Publisher name."
+    )
+    title: str | None = Field(default=None, description="Source page title.")
+    url: str = Field(description="Source URL.")
+
+
 class SeoLocalPackData(BaseModel):
     places: list[SeoLocalPackPlace] = Field(
         description="SEO local pack place records. Populated whenever the provider has data for the entity."
@@ -1066,6 +1654,157 @@ class SeoRankedKeywordsRankedKeyword(BaseModel):
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     url: str | None = Field(default=None, description="Ranking URL for the domain.")
+
+
+class SeoReferringDomainsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    referring_domains: list[SeoReferringDomainsReferringDomain] = Field(
+        alias="referringDomains",
+        description="Domains linking to the target. Populated whenever the provider has data for the entity.",
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total referring domains, before the limit. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class SeoReferringDomainsReferringDomain(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    backlinks: int | None = Field(
+        default=None,
+        description="Backlinks from this domain to the target. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    broken_backlinks: int | None = Field(
+        default=None,
+        alias="brokenBacklinks",
+        description="Backlinks from this domain to target pages that no longer resolve.",
+    )
+    broken_pages: int | None = Field(
+        default=None,
+        alias="brokenPages",
+        description="Target pages with an error status that this domain still links to.",
+    )
+    domain: str = Field(
+        description="Referring domain. Populated whenever the provider has data for the entity."
+    )
+    first_seen_utc: float | None = Field(
+        default=None,
+        alias="firstSeenUtc",
+        description="When a link from this domain was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    links_by_attribute: SeoReferringDomainsLinksByAttribute | None = Field(
+        default=None,
+        alias="linksByAttribute",
+        description="Count of this domain's links to the target, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+    )
+    links_by_country: SeoReferringDomainsLinksByCountry | None = Field(
+        default=None,
+        alias="linksByCountry",
+        description="Count of this domain's links to the target, by country code of the linking domain. An empty key means the country is unknown.",
+    )
+    links_by_platform_type: SeoReferringDomainsLinksByPlatformType | None = Field(
+        default=None,
+        alias="linksByPlatformType",
+        description="Count of this domain's links to the target, by type of linking site (blogs, news, ecommerce, and so on).",
+    )
+    links_by_semantic_location: SeoReferringDomainsLinksBySemanticLocation | None = (
+        Field(
+            default=None,
+            alias="linksBySemanticLocation",
+            description="Count of this domain's links to the target, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+        )
+    )
+    links_by_tld: SeoReferringDomainsLinksByTld | None = Field(
+        default=None,
+        alias="linksByTld",
+        description="Count of this domain's links to the target, by top-level domain of the linking page.",
+    )
+    links_by_type: SeoReferringDomainsLinksByType | None = Field(
+        default=None,
+        alias="linksByType",
+        description="Count of this domain's links to the target, by link type (anchor, image, redirect, canonical, alternate).",
+    )
+    lost_utc: float | None = Field(
+        default=None,
+        alias="lostUtc",
+        description="When this domain's last link to the target was lost, if it was. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    rank: int | None = Field(
+        default=None,
+        description="Authority rank of the referring domain on a 0-1000 scale. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    referring_domains: int | None = Field(
+        default=None,
+        alias="referringDomains",
+        description="Distinct domains linking to this referring domain.",
+    )
+    referring_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringDomainsNofollow",
+        description="Domains whose every link to this referring domain is nofollow.",
+    )
+    referring_ips: int | None = Field(
+        default=None,
+        alias="referringIps",
+        description="Distinct IP addresses among this domain's linking pages.",
+    )
+    referring_main_domains: int | None = Field(
+        default=None,
+        alias="referringMainDomains",
+        description="Distinct registrable domains linking to this referring domain.",
+    )
+    referring_main_domains_nofollow: int | None = Field(
+        default=None,
+        alias="referringMainDomainsNofollow",
+        description="Registrable domains whose every link to this referring domain is nofollow.",
+    )
+    referring_pages: int | None = Field(
+        default=None,
+        alias="referringPages",
+        description="Pages on this domain linking to the target.",
+    )
+    referring_pages_nofollow: int | None = Field(
+        default=None,
+        alias="referringPagesNofollow",
+        description="Pages on this domain whose links to the target are all nofollow.",
+    )
+    referring_subnets: int | None = Field(
+        default=None,
+        alias="referringSubnets",
+        description="Distinct subnets among this domain's linking pages.",
+    )
+    spam_score: int | None = Field(
+        default=None,
+        alias="spamScore",
+        description="Average spam score of this domain's backlinks on a 0-100 scale.",
+    )
+
+
+class SeoReferringDomainsLinksByAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoReferringDomainsLinksByCountry(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoReferringDomainsLinksByPlatformType(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoReferringDomainsLinksBySemanticLocation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoReferringDomainsLinksByTld(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class SeoReferringDomainsLinksByType(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class SeoRelatedKeywordsData(BaseModel):
@@ -1234,6 +1973,50 @@ class SeoNamespace:
 
     def __init__(self, client: "AnyAPI") -> None:
         self._client = client
+
+    def backlinks(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinksInput],
+    ) -> RunResult[SeoBacklinksData]:
+        """SEO Backlinks
+
+        Get AnyAPI SEO backlinks for a domain or URL, each with the linking page,
+        anchor text, dofollow flag, authority rank, spam score, and first and last
+        seen dates as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.backlinks(limit=10, target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlinks", dict(input), options
+        )
+        return RunResult[SeoBacklinksData].model_validate(raw)
+
+    def backlinks_summary(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinksSummaryInput],
+    ) -> RunResult[SeoBacklinksSummaryData]:
+        """SEO Backlinks Summary
+
+        Get AnyAPI SEO backlink profile totals for a domain or URL: backlinks,
+        referring domains, authority rank, spam score, and broken links as
+        normalized JSON.
+
+        Price: $0.02885 per request plus $0 per result (maximum $0.02885).
+
+        Example:
+            res = client.seo.backlinks_summary(target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlinks_summary", dict(input), options
+        )
+        return RunResult[SeoBacklinksSummaryData].model_validate(raw)
 
     def competitors_domain(
         self,
@@ -1447,6 +2230,28 @@ class SeoNamespace:
         )
         return RunResult[SeoKeywordSuggestionsData].model_validate(raw)
 
+    def llm_mentions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmMentionsInput],
+    ) -> RunResult[SeoLlmMentionsData]:
+        """SEO LLM Mentions
+
+        Find AI answers that mention a domain or keyword, from Google AI Overviews
+        or ChatGPT, each with the question asked, the answer, its cited sources, and
+        AI search volume as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_mentions(domain="ahrefs.com", limit=5, platform="google")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_mentions", dict(input), options
+        )
+        return RunResult[SeoLlmMentionsData].model_validate(raw)
+
     def local_pack(
         self,
         *,
@@ -1488,6 +2293,27 @@ class SeoNamespace:
             "seo.ranked_keywords", dict(input), options
         )
         return RunResult[SeoRankedKeywordsData].model_validate(raw)
+
+    def referring_domains(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoReferringDomainsInput],
+    ) -> RunResult[SeoReferringDomainsData]:
+        """SEO Referring Domains
+
+        Get AnyAPI SEO referring domains for a domain or URL, each with its backlink
+        count, authority rank, spam score, and first seen date as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.referring_domains(limit=10, target="ahrefs.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.referring_domains", dict(input), options
+        )
+        return RunResult[SeoReferringDomainsData].model_validate(raw)
 
     def related_keywords(
         self,
@@ -1557,6 +2383,50 @@ class AsyncSeoNamespace:
 
     def __init__(self, client: "AsyncAnyAPI") -> None:
         self._client = client
+
+    async def backlinks(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinksInput],
+    ) -> RunResult[SeoBacklinksData]:
+        """SEO Backlinks
+
+        Get AnyAPI SEO backlinks for a domain or URL, each with the linking page,
+        anchor text, dofollow flag, authority rank, spam score, and first and last
+        seen dates as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.backlinks(limit=10, target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlinks", dict(input), options
+        )
+        return RunResult[SeoBacklinksData].model_validate(raw)
+
+    async def backlinks_summary(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoBacklinksSummaryInput],
+    ) -> RunResult[SeoBacklinksSummaryData]:
+        """SEO Backlinks Summary
+
+        Get AnyAPI SEO backlink profile totals for a domain or URL: backlinks,
+        referring domains, authority rank, spam score, and broken links as
+        normalized JSON.
+
+        Price: $0.02885 per request plus $0 per result (maximum $0.02885).
+
+        Example:
+            res = client.seo.backlinks_summary(target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.backlinks_summary", dict(input), options
+        )
+        return RunResult[SeoBacklinksSummaryData].model_validate(raw)
 
     async def competitors_domain(
         self,
@@ -1770,6 +2640,28 @@ class AsyncSeoNamespace:
         )
         return RunResult[SeoKeywordSuggestionsData].model_validate(raw)
 
+    async def llm_mentions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoLlmMentionsInput],
+    ) -> RunResult[SeoLlmMentionsData]:
+        """SEO LLM Mentions
+
+        Find AI answers that mention a domain or keyword, from Google AI Overviews
+        or ChatGPT, each with the question asked, the answer, its cited sources, and
+        AI search volume as normalized JSON.
+
+        Price: $0.12 per request plus $0.0012 per result (maximum $1.32).
+
+        Example:
+            res = client.seo.llm_mentions(domain="ahrefs.com", limit=5, platform="google")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.llm_mentions", dict(input), options
+        )
+        return RunResult[SeoLlmMentionsData].model_validate(raw)
+
     async def local_pack(
         self,
         *,
@@ -1811,6 +2703,27 @@ class AsyncSeoNamespace:
             "seo.ranked_keywords", dict(input), options
         )
         return RunResult[SeoRankedKeywordsData].model_validate(raw)
+
+    async def referring_domains(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[SeoReferringDomainsInput],
+    ) -> RunResult[SeoReferringDomainsData]:
+        """SEO Referring Domains
+
+        Get AnyAPI SEO referring domains for a domain or URL, each with its backlink
+        count, authority rank, spam score, and first seen date as normalized JSON.
+
+        Price: $0.0288 per request plus $0.00005 per result (maximum $0.0768).
+
+        Example:
+            res = client.seo.referring_domains(limit=10, target="ahrefs.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "seo.referring_domains", dict(input), options
+        )
+        return RunResult[SeoReferringDomainsData].model_validate(raw)
 
     async def related_keywords(
         self,

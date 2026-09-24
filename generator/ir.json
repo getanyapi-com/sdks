@@ -80892,6 +80892,806 @@
       }
     },
     {
+      "slug": "seo.backlinks",
+      "platform": "seo",
+      "action": "backlinks",
+      "operationId": "seo_backlinks",
+      "name": "SEO Backlinks",
+      "category": "search",
+      "description": "Get AnyAPI SEO backlinks for a domain or URL, each with the linking page, anchor text, dofollow flag, authority rank, spam score, and first and last seen dates as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.0768,
+        "baseUsd": 0.0288,
+        "perItemUsd": 0.00005,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "backlinks",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "backlinks",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoBacklinksInput",
+      "outputTypeName": "SeoBacklinksData",
+      "example": {
+        "limit": 10,
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "includeSubdomains": {
+            "kind": "boolean",
+            "description": "Count links pointing at the target's subdomains as well as the target itself.",
+            "default": true
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of backlinks to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "mode": {
+            "kind": "string",
+            "description": "as_is returns every backlink; one_per_domain keeps one backlink per linking domain; one_per_anchor keeps one per anchor text.",
+            "enum": [
+              "as_is",
+              "one_per_domain",
+              "one_per_anchor"
+            ],
+            "default": "as_is",
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "status": {
+            "kind": "string",
+            "description": "Return backlinks that are live now, ones that have been lost, or both.",
+            "enum": [
+              "live",
+              "lost",
+              "all"
+            ],
+            "default": "live",
+            "format": null
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "backlinks": {
+              "kind": "array",
+              "description": "Backlinks pointing at the target. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "anchor": {
+                    "kind": "string",
+                    "description": "Anchor text of the link.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "attributes": {
+                    "kind": "array",
+                    "description": "rel attributes on the link, such as nofollow, sponsored, ugc, or noopener.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "dofollow": {
+                    "kind": "boolean",
+                    "description": "True when the link passes ranking value (no nofollow attribute). Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "domainFrom": {
+                    "kind": "string",
+                    "description": "Domain of the linking page. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domainFromCountry": {
+                    "kind": "string",
+                    "description": "Country code of the linking domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domainFromIp": {
+                    "kind": "string",
+                    "description": "IP address of the linking domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domainFromIsIp": {
+                    "kind": "boolean",
+                    "description": "True when the linking host is a bare IP address.",
+                    "default": null
+                  },
+                  "domainFromPlatformTypes": {
+                    "kind": "array",
+                    "description": "Site types of the linking domain, such as blogs, news, or ecommerce.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "domainFromRank": {
+                    "kind": "integer",
+                    "description": "Authority rank of the linking domain on a 0-1000 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domainTo": {
+                    "kind": "string",
+                    "description": "Domain of the target URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "firstSeenUtc": {
+                    "kind": "number",
+                    "description": "When the backlink was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "groupCount": {
+                    "kind": "integer",
+                    "description": "Backlinks grouped into this one by the requested mode.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "imageAlt": {
+                    "kind": "string",
+                    "description": "Alt text of the linked image, for image links.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "imageUrl": {
+                    "kind": "string",
+                    "description": "URL of the linked image, for image links.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isBroken": {
+                    "kind": "boolean",
+                    "description": "True when the target URL no longer resolves.",
+                    "default": null
+                  },
+                  "isIndirect": {
+                    "kind": "boolean",
+                    "description": "True when the link reaches the target through a redirect or canonical.",
+                    "default": null
+                  },
+                  "isLost": {
+                    "kind": "boolean",
+                    "description": "True when the backlink has been removed.",
+                    "default": null
+                  },
+                  "isNew": {
+                    "kind": "boolean",
+                    "description": "True when the backlink appeared since the previous crawl.",
+                    "default": null
+                  },
+                  "isOriginal": {
+                    "kind": "boolean",
+                    "description": "True when the link was present on the first crawl of the linking page.",
+                    "default": null
+                  },
+                  "lastSeenUtc": {
+                    "kind": "number",
+                    "description": "When the backlink was last seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "linkType": {
+                    "kind": "string",
+                    "description": "How the link is placed: anchor, image, redirect, canonical, alternate, and so on.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linksCount": {
+                    "kind": "integer",
+                    "description": "Identical links from the linking page to the target.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromEncoding": {
+                    "kind": "string",
+                    "description": "Character encoding of the linking page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pageFromExternalLinks": {
+                    "kind": "integer",
+                    "description": "Outbound links on the linking page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromInternalLinks": {
+                    "kind": "integer",
+                    "description": "Internal links on the linking page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromKeywordsTop10": {
+                    "kind": "integer",
+                    "description": "Keywords the linking page ranks in the top 10 for.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromKeywordsTop100": {
+                    "kind": "integer",
+                    "description": "Keywords the linking page ranks in the top 100 for.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromKeywordsTop3": {
+                    "kind": "integer",
+                    "description": "Keywords the linking page ranks in the top 3 for.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromLanguage": {
+                    "kind": "string",
+                    "description": "Language code of the linking page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pageFromRank": {
+                    "kind": "integer",
+                    "description": "Authority rank of the linking page on a 0-1000 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromSize": {
+                    "kind": "integer",
+                    "description": "Size of the linking page in bytes.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromStatusCode": {
+                    "kind": "integer",
+                    "description": "HTTP status the linking page returned.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "pageFromTitle": {
+                    "kind": "string",
+                    "description": "Title of the linking page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "previousSeenUtc": {
+                    "kind": "number",
+                    "description": "When the backlink was seen on the crawl before the last one. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "Authority rank of the backlink on a 0-1000 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "semanticLocation": {
+                    "kind": "string",
+                    "description": "Page section holding the link, such as article, footer, or nav.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "spamScore": {
+                    "kind": "integer",
+                    "description": "Spam score of the backlink on a 0-100 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "textAfter": {
+                    "kind": "string",
+                    "description": "Text right after the link on the linking page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "textBefore": {
+                    "kind": "string",
+                    "description": "Text right before the link on the linking page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "tldFrom": {
+                    "kind": "string",
+                    "description": "Top-level domain of the linking page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "urlFrom": {
+                    "kind": "string",
+                    "description": "URL of the page carrying the link. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "urlTo": {
+                    "kind": "string",
+                    "description": "Target URL the link points at. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "urlToRedirectTarget": {
+                    "kind": "string",
+                    "description": "Where the target URL redirects, if it does.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "urlToSpamScore": {
+                    "kind": "integer",
+                    "description": "Spam score of the target URL on a 0-100 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "urlToStatusCode": {
+                    "kind": "integer",
+                    "description": "HTTP status the target URL returned.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "urlFrom"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "dofollow",
+                  "domainFrom",
+                  "urlFrom",
+                  "urlTo"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total backlinks matching the request, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "backlinks"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "backlinks",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.backlinks_summary",
+      "platform": "seo",
+      "action": "backlinks_summary",
+      "operationId": "seo_backlinks_summary",
+      "name": "SEO Backlinks Summary",
+      "category": "search",
+      "description": "Get AnyAPI SEO backlink profile totals for a domain or URL: backlinks, referring domains, authority rank, spam score, and broken links as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.02885,
+        "baseUsd": 0.02885,
+        "perItemUsd": 0,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "backlinksSummary",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "backlinks_summary",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoBacklinksSummaryInput",
+      "outputTypeName": "SeoBacklinksSummaryData",
+      "example": {
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "includeSubdomains": {
+            "kind": "boolean",
+            "description": "Count links pointing at the target's subdomains as well as the target itself.",
+            "default": true
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "backlinks": {
+              "kind": "integer",
+              "description": "Total live backlinks pointing at the target. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "backlinksSpamScore": {
+              "kind": "integer",
+              "description": "Average spam score of the backlinks on a 0-100 scale.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "brokenBacklinks": {
+              "kind": "integer",
+              "description": "Backlinks pointing at target pages that no longer resolve.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "brokenPages": {
+              "kind": "integer",
+              "description": "Target pages with an error status that still receive backlinks.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "cms": {
+              "kind": "string",
+              "description": "Content management system detected on the target.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "country": {
+              "kind": "string",
+              "description": "Country code of the target's server.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "crawledPages": {
+              "kind": "integer",
+              "description": "Target pages crawled.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "externalLinks": {
+              "kind": "integer",
+              "description": "Outbound links from the target to other domains.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "firstSeenUtc": {
+              "kind": "number",
+              "description": "When a backlink to the target was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "internalLinks": {
+              "kind": "integer",
+              "description": "Links between pages of the target.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ipAddress": {
+              "kind": "string",
+              "description": "IP address the target resolves to.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "isIp": {
+              "kind": "boolean",
+              "description": "True when the target is a bare IP address.",
+              "default": null
+            },
+            "linksByAttribute": {
+              "kind": "object",
+              "description": "Count of referring links to the target, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "linksByCountry": {
+              "kind": "object",
+              "description": "Count of referring links to the target, by country code of the linking domain. An empty key means the country is unknown.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "linksByPlatformType": {
+              "kind": "object",
+              "description": "Count of referring links to the target, by type of linking site (blogs, news, ecommerce, and so on).",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "linksBySemanticLocation": {
+              "kind": "object",
+              "description": "Count of referring links to the target, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "linksByTld": {
+              "kind": "object",
+              "description": "Count of referring links to the target, by top-level domain of the linking page.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "linksByType": {
+              "kind": "object",
+              "description": "Count of referring links to the target, by link type (anchor, image, redirect, canonical, alternate).",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "lostUtc": {
+              "kind": "number",
+              "description": "When the target lost its last backlink, if it has. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "platformTypes": {
+              "kind": "array",
+              "description": "Site types detected for the target, such as blogs, news, or ecommerce.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "rank": {
+              "kind": "integer",
+              "description": "Authority rank of the target on a 0-1000 scale, derived from its backlink profile. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringDomains": {
+              "kind": "integer",
+              "description": "Distinct domains linking to the target. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringDomainsNofollow": {
+              "kind": "integer",
+              "description": "Referring domains whose every link is nofollow.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringIps": {
+              "kind": "integer",
+              "description": "Distinct IP addresses hosting referring pages.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringMainDomains": {
+              "kind": "integer",
+              "description": "Distinct registrable domains linking to the target.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringMainDomainsNofollow": {
+              "kind": "integer",
+              "description": "Referring registrable domains whose every link is nofollow.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringPages": {
+              "kind": "integer",
+              "description": "Distinct pages linking to the target.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringPagesNofollow": {
+              "kind": "integer",
+              "description": "Referring pages whose links are all nofollow.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "referringSubnets": {
+              "kind": "integer",
+              "description": "Distinct subnets hosting referring pages.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "server": {
+              "kind": "string",
+              "description": "Web server or CDN serving the target.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "target": {
+              "kind": "string",
+              "description": "Domain or URL the totals describe. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "targetSpamScore": {
+              "kind": "integer",
+              "description": "Spam score of the target itself on a 0-100 scale.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "target"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "backlinks",
+            "rank",
+            "referringDomains",
+            "target"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "seo.competitors_domain",
       "platform": "seo",
       "action": "competitors_domain",
@@ -82972,6 +83772,320 @@
       }
     },
     {
+      "slug": "seo.llm_mentions",
+      "platform": "seo",
+      "action": "llm_mentions",
+      "operationId": "seo_llm_mentions",
+      "name": "SEO LLM Mentions",
+      "category": "search",
+      "description": "Find AI answers that mention a domain or keyword, from Google AI Overviews or ChatGPT, each with the question asked, the answer, its cited sources, and AI search volume as normalized JSON.",
+      "pricing": {
+        "priceUsd": 1.32,
+        "baseUsd": 0.12,
+        "perItemUsd": 0.0012,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "llmMentions",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "llm_mentions",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoLlmMentionsInput",
+      "outputTypeName": "SeoLlmMentionsData",
+      "example": {
+        "domain": "ahrefs.com",
+        "limit": 5,
+        "platform": "google"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Domain whose mentions to find, without a protocol or leading www. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "keyword": {
+            "kind": "string",
+            "description": "Brand name or phrase whose mentions to find. Send domain or keyword, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "language": {
+            "kind": "string",
+            "description": "Language code to restrict answers to, for example en. Omit for every language.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of AI answers to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "location": {
+            "kind": "integer",
+            "description": "Location code to restrict answers to, for example 2840 for the United States. Omit for every location.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "platform": {
+            "kind": "string",
+            "description": "AI surface to search: google for Google AI Overviews, chat_gpt for ChatGPT.",
+            "enum": [
+              "google",
+              "chat_gpt"
+            ],
+            "default": "google",
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "mentions": {
+              "kind": "array",
+              "description": "AI answers that mention the target. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aiSearchVolume": {
+                    "kind": "integer",
+                    "description": "Estimated monthly AI search volume for the question.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "answer": {
+                    "kind": "string",
+                    "description": "The AI answer in markdown. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "firstResponseUtc": {
+                    "kind": "number",
+                    "description": "When this answer was first recorded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Language code of the answer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "lastResponseUtc": {
+                    "kind": "number",
+                    "description": "When this answer was last recorded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "location": {
+                    "kind": "integer",
+                    "description": "Location code of the answer.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "model": {
+                    "kind": "string",
+                    "description": "Model that produced the answer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "monthlySearches": {
+                    "kind": "array",
+                    "description": "Monthly AI search-volume history for the question.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "month": {
+                          "kind": "integer",
+                          "description": "Calendar month number for the monthly search-volume record.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "searchVolume": {
+                          "kind": "integer",
+                          "description": "AI search volume for the month.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "year": {
+                          "kind": "integer",
+                          "description": "Calendar year for the monthly search-volume record.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "platform": {
+                    "kind": "string",
+                    "description": "AI surface that answered: google or chat_gpt. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "question": {
+                    "kind": "string",
+                    "description": "Question the AI answered. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sources": {
+                    "kind": "array",
+                    "description": "Sources the answer cites.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "domain": {
+                          "kind": "string",
+                          "description": "Source domain.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "position": {
+                          "kind": "integer",
+                          "description": "1-based position of the source in the answer.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "snippet": {
+                          "kind": "string",
+                          "description": "Text excerpt from the source.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "sourceName": {
+                          "kind": "string",
+                          "description": "Publisher name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Source page title.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "Source URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "question"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "answer",
+                  "platform",
+                  "question"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total AI answers mentioning the target, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "mentions"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "mentions",
+            "totalCount"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "seo.local_pack",
       "platform": "seo",
       "action": "local_pack",
@@ -83507,6 +84621,297 @@
           "open": false,
           "mustPopulate": [
             "rankedKeywords"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "seo.referring_domains",
+      "platform": "seo",
+      "action": "referring_domains",
+      "operationId": "seo_referring_domains",
+      "name": "SEO Referring Domains",
+      "category": "search",
+      "description": "Get AnyAPI SEO referring domains for a domain or URL, each with its backlink count, authority rank, spam score, and first seen date as normalized JSON.",
+      "pricing": {
+        "priceUsd": 0.0768,
+        "baseUsd": 0.0288,
+        "perItemUsd": 0.00005,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "seo",
+      "tsMethod": "referringDomains",
+      "tsIterMethod": null,
+      "pyNamespace": "seo",
+      "pyMethod": "referring_domains",
+      "pyIterMethod": null,
+      "inputTypeName": "SeoReferringDomainsInput",
+      "outputTypeName": "SeoReferringDomainsData",
+      "example": {
+        "limit": 10,
+        "target": "ahrefs.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "includeSubdomains": {
+            "kind": "boolean",
+            "description": "Count links pointing at the target's subdomains as well as the target itself.",
+            "default": true
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of referring domains to return. You are billed per returned result, so a lower limit costs less.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 10
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "target": {
+            "kind": "string",
+            "description": "Domain, subdomain, or full page URL to analyze. Send a domain without a protocol or leading www.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "target"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "referringDomains": {
+              "kind": "array",
+              "description": "Domains linking to the target. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "backlinks": {
+                    "kind": "integer",
+                    "description": "Backlinks from this domain to the target. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brokenBacklinks": {
+                    "kind": "integer",
+                    "description": "Backlinks from this domain to target pages that no longer resolve.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "brokenPages": {
+                    "kind": "integer",
+                    "description": "Target pages with an error status that this domain still links to.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Referring domain. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "firstSeenUtc": {
+                    "kind": "number",
+                    "description": "When a link from this domain was first seen. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "linksByAttribute": {
+                    "kind": "object",
+                    "description": "Count of this domain's links to the target, by rel attribute (nofollow, sponsored, ugc, noopener, and so on).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByCountry": {
+                    "kind": "object",
+                    "description": "Count of this domain's links to the target, by country code of the linking domain. An empty key means the country is unknown.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByPlatformType": {
+                    "kind": "object",
+                    "description": "Count of this domain's links to the target, by type of linking site (blogs, news, ecommerce, and so on).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksBySemanticLocation": {
+                    "kind": "object",
+                    "description": "Count of this domain's links to the target, by the page section holding the link (article, footer, nav, and so on). An empty key means no section was detected.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByTld": {
+                    "kind": "object",
+                    "description": "Count of this domain's links to the target, by top-level domain of the linking page.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "linksByType": {
+                    "kind": "object",
+                    "description": "Count of this domain's links to the target, by link type (anchor, image, redirect, canonical, alternate).",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "lostUtc": {
+                    "kind": "number",
+                    "description": "When this domain's last link to the target was lost, if it was. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rank": {
+                    "kind": "integer",
+                    "description": "Authority rank of the referring domain on a 0-1000 scale. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringDomains": {
+                    "kind": "integer",
+                    "description": "Distinct domains linking to this referring domain.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringDomainsNofollow": {
+                    "kind": "integer",
+                    "description": "Domains whose every link to this referring domain is nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringIps": {
+                    "kind": "integer",
+                    "description": "Distinct IP addresses among this domain's linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringMainDomains": {
+                    "kind": "integer",
+                    "description": "Distinct registrable domains linking to this referring domain.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringMainDomainsNofollow": {
+                    "kind": "integer",
+                    "description": "Registrable domains whose every link to this referring domain is nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringPages": {
+                    "kind": "integer",
+                    "description": "Pages on this domain linking to the target.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringPagesNofollow": {
+                    "kind": "integer",
+                    "description": "Pages on this domain whose links to the target are all nofollow.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "referringSubnets": {
+                    "kind": "integer",
+                    "description": "Distinct subnets among this domain's linking pages.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "spamScore": {
+                    "kind": "integer",
+                    "description": "Average spam score of this domain's backlinks on a 0-100 scale.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "domain"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "backlinks",
+                  "domain",
+                  "rank"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total referring domains, before the limit. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "referringDomains"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "referringDomains",
+            "totalCount"
           ]
         }
       },

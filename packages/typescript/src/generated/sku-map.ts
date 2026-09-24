@@ -600,6 +600,10 @@ import type {
   SemrushOverviewInput,
 } from "./platforms/semrush.js";
 import type {
+  SeoBacklinksData,
+  SeoBacklinksInput,
+  SeoBacklinksSummaryData,
+  SeoBacklinksSummaryInput,
   SeoCompetitorsDomainData,
   SeoCompetitorsDomainInput,
   SeoDomainIntersectionData,
@@ -618,10 +622,14 @@ import type {
   SeoKeywordOverviewInput,
   SeoKeywordSuggestionsData,
   SeoKeywordSuggestionsInput,
+  SeoLlmMentionsData,
+  SeoLlmMentionsInput,
   SeoLocalPackData,
   SeoLocalPackInput,
   SeoRankedKeywordsData,
   SeoRankedKeywordsInput,
+  SeoReferringDomainsData,
+  SeoReferringDomainsInput,
   SeoRelatedKeywordsData,
   SeoRelatedKeywordsInput,
   SeoSearchIntentData,
@@ -2159,6 +2167,16 @@ export interface SkuMap {
     data: SemrushOverviewData;
     result: RunResult<SemrushOverviewData>;
   };
+  "seo.backlinks": {
+    input: SeoBacklinksInput;
+    data: SeoBacklinksData;
+    result: RunResult<SeoBacklinksData>;
+  };
+  "seo.backlinks_summary": {
+    input: SeoBacklinksSummaryInput;
+    data: SeoBacklinksSummaryData;
+    result: RunResult<SeoBacklinksSummaryData>;
+  };
   "seo.competitors_domain": {
     input: SeoCompetitorsDomainInput;
     data: SeoCompetitorsDomainData;
@@ -2204,6 +2222,11 @@ export interface SkuMap {
     data: SeoKeywordSuggestionsData;
     result: RunResult<SeoKeywordSuggestionsData>;
   };
+  "seo.llm_mentions": {
+    input: SeoLlmMentionsInput;
+    data: SeoLlmMentionsData;
+    result: RunResult<SeoLlmMentionsData>;
+  };
   "seo.local_pack": {
     input: SeoLocalPackInput;
     data: SeoLocalPackData;
@@ -2213,6 +2236,11 @@ export interface SkuMap {
     input: SeoRankedKeywordsInput;
     data: SeoRankedKeywordsData;
     result: RunResult<SeoRankedKeywordsData>;
+  };
+  "seo.referring_domains": {
+    input: SeoReferringDomainsInput;
+    data: SeoReferringDomainsData;
+    result: RunResult<SeoReferringDomainsData>;
   };
   "seo.related_keywords": {
     input: SeoRelatedKeywordsInput;
