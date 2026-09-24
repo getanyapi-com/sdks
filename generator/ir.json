@@ -27251,9 +27251,9 @@
       "category": "social",
       "description": "List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.",
       "pricing": {
-        "priceUsd": 0.132,
-        "baseUsd": 0,
-        "perItemUsd": 0.0066,
+        "priceUsd": 0.12,
+        "baseUsd": 0.03,
+        "perItemUsd": 0.0045,
         "perItemUnit": "result"
       },
       "tsNamespace": "facebook",

@@ -3357,7 +3357,7 @@ export class FacebookNamespace {
    *
    * List the public followers (or accounts followed) of any Facebook page or profile URL as normalized JSON records.
    *
-   * Price: $0 per request plus $0.0066 per result (maximum $0.132).
+   * Price: $0.03 per request plus $0.0045 per result (maximum $0.12).
    *
    * @example
    * const res = await client.facebook.followers({ url: "https://www.facebook.com/nike", limit: 3 });
