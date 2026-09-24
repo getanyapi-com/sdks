@@ -49917,9 +49917,9 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.11,
-        "baseUsd": 0,
-        "perItemUsd": 0.011,
+        "priceUsd": 0.0512,
+        "baseUsd": 0.0032,
+        "perItemUsd": 0.0048,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -49980,6 +49980,33 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `openToWork` or `premium`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an employee who genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "city",
+                "companyId",
+                "companyUrl",
+                "country",
+                "countryCode",
+                "createdUtc",
+                "creator",
+                "firstName",
+                "image",
+                "influencer",
+                "jobTitle",
+                "lastName",
+                "location",
+                "openToWork",
+                "premium"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
