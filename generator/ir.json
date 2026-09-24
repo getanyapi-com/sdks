@@ -20697,7 +20697,7 @@
       "operationId": "ebay_sold_listings",
       "name": "eBay Sold Listings",
       "category": "shop",
-      "description": "Retrieve recently sold eBay listings for any keyword with optional price-range, condition, and sort filters (sold price, sale date, condition, seller, item details); ideal for pricing research.",
+      "description": "Retrieve recently sold eBay listings for any keyword with optional price-range, condition, category, sold-date, and sort filters, page by page (sold price, sale date, condition, seller, item details); ideal for pricing research.",
       "pricing": {
         "priceUsd": 0.0135,
         "baseUsd": null,
@@ -20725,6 +20725,13 @@
             "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
           },
+          "categoryId": {
+            "kind": "string",
+            "description": "Optional numeric eBay category id to search within (e.g. 9355 for Cell Phones & Smartphones, 9394 for Cell Phone Accessories).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "condition": {
             "kind": "string",
             "description": "Item condition filter (e.g. used).",
@@ -20734,6 +20741,13 @@
               "used"
             ],
             "default": "any",
+            "format": null
+          },
+          "endDate": {
+            "kind": "string",
+            "description": "Only return listings sold on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-09-15). This bound is applied to each page after it is fetched, so a page can hold fewer than limit listings, or none, while hasMore is still true: keep requesting the next page until hasMore is false.",
+            "enum": null,
+            "default": null,
             "format": null
           },
           "freeShipping": {
@@ -20783,6 +20797,13 @@
             "minimum": 0,
             "maximum": null,
             "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page. Use with hasMore in the output to paginate, and keep query, filters, and limit the same while walking pages, because limit sets the page size.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -20840,6 +20861,13 @@
               "format": null
             },
             "mustPopulate": false
+          },
+          "startDate": {
+            "kind": "string",
+            "description": "Only return listings sold on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-09-01).",
+            "enum": null,
+            "default": null,
+            "format": null
           }
         },
         "required": [
@@ -20852,6 +20880,11 @@
         "data": {
           "kind": "object",
           "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another results page exists. With endDate set a page can be short or empty while this is still true; request page + 1 to continue.",
+              "default": null
+            },
             "items": {
               "kind": "array",
               "description": "Sold listing records: title, sold price, sale date, condition, seller, and item URL. Populated whenever the provider has data for the entity.",

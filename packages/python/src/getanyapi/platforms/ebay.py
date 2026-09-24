@@ -99,8 +99,12 @@ class EbaySoldListingsInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    categoryId: NotRequired[str]
+    """Optional numeric eBay category id to search within (e.g. 9355 for Cell Phones & Smartphones, 9394 for Cell Phone Accessories)."""
     condition: NotRequired[Literal["any", "new", "used"]]
     """Item condition filter (e.g. used). Default: any."""
+    endDate: NotRequired[str]
+    """Only return listings sold on or before this date, inclusive, in YYYY-MM-DD format (e.g. 2026-09-15). This bound is applied to each page after it is fetched, so a page can hold fewer than limit listings, or none, while hasMore is still true: keep requesting the next page until hasMore is false."""
     freeShipping: NotRequired[bool]
     """Not supported by the current sources: only false (no filter) is accepted; true is refused without charge."""
     ignoreSources: NotRequired[list[str]]
@@ -113,6 +117,8 @@ class EbaySoldListingsInput(TypedDict, total=False):
     """Optional maximum sold price in the site currency (e.g. 500). Minimum: 0."""
     minPrice: NotRequired[float]
     """Optional minimum sold price in the site currency (e.g. 200). Minimum: 0."""
+    page: NotRequired[int]
+    """1-based results page. Use with hasMore in the output to paginate, and keep query, filters, and limit the same while walking pages, because limit sets the page size. Minimum: 1. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
@@ -127,6 +133,8 @@ class EbaySoldListingsInput(TypedDict, total=False):
     """Result sort order; omitted means ended_recently (e.g. price_high sorts by highest sold price plus shipping first)."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    startDate: NotRequired[str]
+    """Only return listings sold on or after this date, inclusive, in YYYY-MM-DD format (e.g. 2026-09-01)."""
 
 
 class EbaySoldListingsThinInput(TypedDict, total=False):
@@ -491,6 +499,13 @@ class EbaySearchItem(BaseModel):
 
 
 class EbaySoldListingsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool | None = Field(
+        default=None,
+        alias="hasMore",
+        description="True when another results page exists. With endDate set a page can be short or empty while this is still true; request page + 1 to continue.",
+    )
     items: list[EbaySoldListingsItem] = Field(
         description="Sold listing records: title, sold price, sale date, condition, seller, and item URL. Populated whenever the provider has data for the entity."
     )
@@ -722,8 +737,9 @@ class EbayNamespace:
         """eBay Sold Listings
 
         Retrieve recently sold eBay listings for any keyword with optional
-        price-range, condition, and sort filters (sold price, sale date, condition,
-        seller, item details); ideal for pricing research.
+        price-range, condition, category, sold-date, and sort filters, page by page
+        (sold price, sale date, condition, seller, item details); ideal for pricing
+        research.
 
         Price: $0.0135 per request.
 
@@ -838,8 +854,9 @@ class AsyncEbayNamespace:
         """eBay Sold Listings
 
         Retrieve recently sold eBay listings for any keyword with optional
-        price-range, condition, and sort filters (sold price, sale date, condition,
-        seller, item details); ideal for pricing research.
+        price-range, condition, category, sold-date, and sort filters, page by page
+        (sold price, sale date, condition, seller, item details); ideal for pricing
+        research.
 
         Price: $0.0135 per request.
 
