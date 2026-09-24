@@ -946,7 +946,7 @@ export class GoogleNamespace {
    *
    * Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.
    *
-   * Price: $0.00006 per request plus $0.0033 per result (maximum $0.00336).
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.google.aiMode({ prompt: "What is AnyAPI at getanyapi.com, and what does it offer?" });
