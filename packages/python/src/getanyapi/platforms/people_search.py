@@ -44,8 +44,33 @@ class PeopleSearchAiArkInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class PeopleSearchCrustdataInput(TypedDict, total=False):
+    """Input for People Search - Crustdata."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    companyDomain: Required[str]
+    """Company domain without a path."""
+    country: NotRequired[str]
+    fuzzyTitle: NotRequired[bool]
+    """Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Range: 1 to 100. Default: 3."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    profileKeywords: NotRequired[Any]
+    requireVerifiedEmail: NotRequired[bool]
+    """Default: false."""
+    seniority: NotRequired[Any]
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    titleKeywords: Required[Any]
+
+
 class PeopleSearchCrustdataV3Input(TypedDict, total=False):
-    """Input for People Search - Crustdata v3."""
+    """Input for People Search - Crustdata v3 (legacy)."""
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
@@ -906,6 +931,328 @@ class PeopleSearchAiArkSupportedLocale(BaseModel):
     )
     language: str | None = Field(
         default=None, description="Language code for this locale."
+    )
+
+
+class PeopleSearchCrustdataData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    has_more: bool | None = Field(
+        default=None,
+        alias="hasMore",
+        description="True when more profiles exist beyond this page.",
+    )
+    profiles: list[PeopleSearchCrustdataProfile] = Field(
+        description="Matching professional profiles."
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total number of profiles matching the search. Minimum: 0.",
+    )
+
+
+class PeopleSearchCrustdataProfile(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str | None = Field(default=None, description="City of residence.")
+    continent: str | None = Field(default=None, description="Continent of residence.")
+    country: str | None = Field(default=None, description="Country of residence.")
+    current_employers: list[PeopleSearchCrustdataCurrentEmployer] | None = Field(
+        default=None,
+        alias="currentEmployers",
+        description="Positions the person currently holds.",
+    )
+    education_background: Any | None = Field(
+        default=None,
+        alias="educationBackground",
+        description="Education history exactly as Crustdata returns it (school, degree, years, location). Untyped passthrough: the structure ships verbatim and is not validated.",
+    )
+    flagship_profile_url: str | None = Field(
+        default=None,
+        alias="flagshipProfileUrl",
+        description="LinkedIn flagship profile URL. Usually the same value as linkedinUrl; Crustdata returns both and they can differ when the profile has a vanity URL.",
+    )
+    headline: str | None = Field(default=None, description="LinkedIn headline.")
+    image: str | None = Field(default=None, description="Profile picture URL.")
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="LinkedIn profile URL."
+    )
+    name: str = Field(description="Full name of the person.")
+    past_employers: list[PeopleSearchCrustdataPastEmployer] | None = Field(
+        default=None,
+        alias="pastEmployers",
+        description="Positions the person previously held.",
+    )
+    person_id: str | None = Field(
+        default=None,
+        alias="personId",
+        description="Crustdata identifier for this person.",
+    )
+    record_updated_utc: int | None = Field(
+        default=None,
+        alias="recordUpdatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last wrote the record. Differs from updatedUtc, which reports the profile's own last-updated stamp.",
+    )
+    region: str | None = Field(
+        default=None, description="Region string as published on the profile."
+    )
+    state: str | None = Field(
+        default=None, description="State or province of residence."
+    )
+    twitter_handle: str | None = Field(
+        default=None,
+        alias="twitterHandle",
+        description="X (Twitter) handle listed on the profile.",
+    )
+
+
+class PeopleSearchCrustdataCurrentEmployer(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    business_email_verified: bool | None = Field(
+        default=None,
+        alias="businessEmailVerified",
+        description="True when a business email at this employer has been verified.",
+    )
+    company_domain: str | None = Field(
+        default=None, alias="companyDomain", description="Employer website domain."
+    )
+    company_headcount: int | None = Field(
+        default=None,
+        alias="companyHeadcount",
+        description="Latest observed employee count at the employer.",
+    )
+    company_headcount_range: str | None = Field(
+        default=None,
+        alias="companyHeadcountRange",
+        description="Employer headcount band, e.g. 51-200.",
+    )
+    company_headquarters_country: str | None = Field(
+        default=None,
+        alias="companyHeadquartersCountry",
+        description="Country of the employer's headquarters.",
+    )
+    company_hq_location: str | None = Field(
+        default=None,
+        alias="companyHqLocation",
+        description="Full headquarters location of the employer.",
+    )
+    company_hq_location_address_components: list[str] | None = Field(
+        default=None,
+        alias="companyHqLocationAddressComponents",
+        description="The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.",
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.",
+    )
+    company_industries: list[str] | None = Field(
+        default=None,
+        alias="companyIndustries",
+        description="All LinkedIn industries listed for the employer.",
+    )
+    company_industry: str | None = Field(
+        default=None,
+        alias="companyIndustry",
+        description="Primary LinkedIn industry of the employer.",
+    )
+    company_linkedin_id: str | None = Field(
+        default=None,
+        alias="companyLinkedinId",
+        description="LinkedIn's own numeric identifier for the employer company page.",
+    )
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Employer LinkedIn company page URL.",
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Employer name."
+    )
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Employer company type, e.g. Privately Held or Public Company.",
+    )
+    company_website: str | None = Field(
+        default=None, alias="companyWebsite", description="Employer website URL."
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type, e.g. Full-time or Contract.",
+    )
+    function_category: str | None = Field(
+        default=None,
+        alias="functionCategory",
+        description="Job function category, e.g. Engineering or Sales.",
+    )
+    linkedin_id: str | None = Field(
+        default=None,
+        alias="linkedinId",
+        description="LinkedIn's own numeric identifier for the employer page. Crustdata returns the same value as companyLinkedinId on this record.",
+    )
+    location: str | None = Field(default=None, description="Location of the role.")
+    position_id: str | None = Field(
+        default=None,
+        alias="positionId",
+        description="Crustdata identifier for this specific position record.",
+    )
+    primary_employer: bool | None = Field(
+        default=None,
+        alias="primaryEmployer",
+        description="True when this is the profile's primary listed position.",
+    )
+    seniority: str | None = Field(
+        default=None,
+        description="Seniority level of the role, e.g. Entry Level or Owner / Partner.",
+    )
+    start_utc: int | None = Field(
+        default=None,
+        alias="startUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Start of the role.",
+    )
+    title: str | None = Field(
+        default=None, description="Job title held at this employer."
+    )
+    years_at_company: int | None = Field(
+        default=None,
+        alias="yearsAtCompany",
+        description="Whole years spent at this employer.",
+    )
+    years_at_company_range: str | None = Field(
+        default=None,
+        alias="yearsAtCompanyRange",
+        description="Human-readable tenure band, e.g. 3 to 5 years.",
+    )
+
+
+class PeopleSearchCrustdataPastEmployer(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    business_email_verified: bool | None = Field(
+        default=None,
+        alias="businessEmailVerified",
+        description="True when a business email at this employer has been verified.",
+    )
+    company_domain: str | None = Field(
+        default=None, alias="companyDomain", description="Employer website domain."
+    )
+    company_headcount: int | None = Field(
+        default=None,
+        alias="companyHeadcount",
+        description="Latest observed employee count at the employer.",
+    )
+    company_headcount_range: str | None = Field(
+        default=None,
+        alias="companyHeadcountRange",
+        description="Employer headcount band, e.g. 51-200.",
+    )
+    company_headquarters_country: str | None = Field(
+        default=None,
+        alias="companyHeadquartersCountry",
+        description="Country of the employer's headquarters.",
+    )
+    company_hq_location: str | None = Field(
+        default=None,
+        alias="companyHqLocation",
+        description="Full headquarters location of the employer.",
+    )
+    company_hq_location_address_components: list[str] | None = Field(
+        default=None,
+        alias="companyHqLocationAddressComponents",
+        description="The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.",
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.",
+    )
+    company_industries: list[str] | None = Field(
+        default=None,
+        alias="companyIndustries",
+        description="All LinkedIn industries listed for the employer.",
+    )
+    company_industry: str | None = Field(
+        default=None,
+        alias="companyIndustry",
+        description="Primary LinkedIn industry of the employer.",
+    )
+    company_linkedin_id: str | None = Field(
+        default=None,
+        alias="companyLinkedinId",
+        description="LinkedIn's own numeric identifier for the employer company page.",
+    )
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Employer LinkedIn company page URL.",
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Employer name."
+    )
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Employer company type, e.g. Privately Held or Public Company.",
+    )
+    company_website: str | None = Field(
+        default=None, alias="companyWebsite", description="Employer website URL."
+    )
+    employment_type: str | None = Field(
+        default=None,
+        alias="employmentType",
+        description="Employment type, e.g. Full-time or Contract.",
+    )
+    end_utc: int | None = Field(
+        default=None,
+        alias="endUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. End of the role.",
+    )
+    function_category: str | None = Field(
+        default=None,
+        alias="functionCategory",
+        description="Job function category, e.g. Engineering or Sales.",
+    )
+    linkedin_id: str | None = Field(
+        default=None,
+        alias="linkedinId",
+        description="LinkedIn's own numeric identifier for the employer page. Crustdata returns the same value as companyLinkedinId on this record.",
+    )
+    location: str | None = Field(default=None, description="Location of the role.")
+    position_id: str | None = Field(
+        default=None,
+        alias="positionId",
+        description="Crustdata identifier for this specific position record.",
+    )
+    primary_employer: bool | None = Field(
+        default=None,
+        alias="primaryEmployer",
+        description="True when this is the profile's primary listed position.",
+    )
+    seniority: str | None = Field(
+        default=None,
+        description="Seniority level of the role, e.g. Entry Level or Owner / Partner.",
+    )
+    start_utc: int | None = Field(
+        default=None,
+        alias="startUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Start of the role.",
+    )
+    title: str | None = Field(
+        default=None, description="Job title held at this employer."
+    )
+    years_at_company: int | None = Field(
+        default=None,
+        alias="yearsAtCompany",
+        description="Whole years spent at this employer.",
+    )
+    years_at_company_range: str | None = Field(
+        default=None,
+        alias="yearsAtCompanyRange",
+        description="Human-readable tenure band, e.g. 3 to 5 years.",
     )
 
 
@@ -3152,13 +3499,33 @@ class PeopleSearchNamespace:
         )
         return RunResult[PeopleSearchAiArkData].model_validate(raw)
 
+    def crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[PeopleSearchCrustdataInput],
+    ) -> RunResult[PeopleSearchCrustdataData]:
+        """People Search - Crustdata
+
+        Find up to 100 professional profiles by company domain and title keywords.
+
+        Price: $0.0012 per request plus $0.00144 per result (maximum $0.1452).
+
+        Example:
+            res = client.people_search.crustdata(companyDomain="posthog.com", limit=1, titleKeywords="engineer")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "people_search.crustdata", dict(input), options
+        )
+        return RunResult[PeopleSearchCrustdataData].model_validate(raw)
+
     def crustdata_v3(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PeopleSearchCrustdataV3Input],
     ) -> RunResult[PeopleSearchCrustdataV3Data]:
-        """People Search - Crustdata v3
+        """People Search - Crustdata v3 (legacy)
 
         Find up to 100 professional profiles by company domain and title keywords.
 
@@ -3356,13 +3723,33 @@ class AsyncPeopleSearchNamespace:
         )
         return RunResult[PeopleSearchAiArkData].model_validate(raw)
 
+    async def crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[PeopleSearchCrustdataInput],
+    ) -> RunResult[PeopleSearchCrustdataData]:
+        """People Search - Crustdata
+
+        Find up to 100 professional profiles by company domain and title keywords.
+
+        Price: $0.0012 per request plus $0.00144 per result (maximum $0.1452).
+
+        Example:
+            res = client.people_search.crustdata(companyDomain="posthog.com", limit=1, titleKeywords="engineer")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "people_search.crustdata", dict(input), options
+        )
+        return RunResult[PeopleSearchCrustdataData].model_validate(raw)
+
     async def crustdata_v3(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[PeopleSearchCrustdataV3Input],
     ) -> RunResult[PeopleSearchCrustdataV3Data]:
-        """People Search - Crustdata v3
+        """People Search - Crustdata v3 (legacy)
 
         Find up to 100 professional profiles by company domain and title keywords.
 

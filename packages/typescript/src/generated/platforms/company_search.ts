@@ -445,12 +445,321 @@ export interface CompanySearchAiArkData {
   totalPages: number;
 }
 
+export interface CompanySearchCrustdataSort {
+  field: string;
+  /**
+   * One of: asc, desc.
+   */
+  order: "asc" | "desc";
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Company Search - Crustdata (company_search.crustdata).
+ */
+export interface CompanySearchCrustdataInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  cursor?: string;
+  /**
+   * Response groups to return. Omit for the default set: basic_info, headcount, funding, revenue, locations, social_profiles, taxonomy, followers and metadata.
+   */
+  fields?: unknown;
+  /**
+   * Crustdata company-search filter expression. A condition is {"field": <field>, "type": <operator>, "value": <match>}; a group is {"op": "and"|"or", "conditions": [<condition or group>, ...]}. Pass one condition or one group. Operators: = != < =< > => in not_in (.) (fuzzy text) [.] (exact token). Common fields: basic_info.primary_domain, basic_info.name, basic_info.industries, basic_info.employee_count_range, basic_info.year_founded, headcount.total, headcount.growth_percent.12m, locations.country, locations.headquarters, taxonomy.professional_network_industry, funding.last_round_type, funding.total_investment_usd, funding.last_fundraise_date, revenue.estimated.lower_bound_usd, followers.count. An `in` list takes at most 5 values.
+   */
+  filters: {};
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum companies to return on this page. Every company returned is billed; the page is capped at 250 to bound the cost of a single call.
+   * Range: minimum 1, maximum 250.
+   * Default: 10.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Sort directives applied in order, each {"field": <field>, "order": "asc"|"desc"}. Sortable fields include basic_info.name, basic_info.year_founded, headcount.total, funding.total_investment_usd, funding.last_fundraise_date, revenue.estimated.lower_bound_usd and followers.count.
+   */
+  sorts?: CompanySearchCrustdataSort[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanySearchCrustdataCompanie {
+  /**
+   * Acquisition status, when the company has been acquired.
+   */
+  acquisitionStatus?: string;
+  /**
+   * Crustdata identifier for the company, accepted by the Company Enrichment endpoint.
+   */
+  companyId?: string;
+  /**
+   * Company type, e.g. Privately Held or Public Company.
+   */
+  companyType?: string;
+  /**
+   * Publicly listed contact email address.
+   */
+  contactEmail?: string;
+  /**
+   * Crunchbase category tags, followed by the broader category groups they belong to.
+   */
+  crunchbaseCategories?: string[];
+  /**
+   * Company description from its LinkedIn page.
+   */
+  description?: string;
+  /**
+   * Primary website domain, or null when the upstream holds none for this company.
+   */
+  domain?: string | null;
+  /**
+   * All domains associated with the company.
+   */
+  domains?: string[];
+  /**
+   * Latest observed employee count.
+   */
+  employeeCount?: number;
+  /**
+   * Headcount change over trailing windows, absolute and percent.
+   */
+  employeeGrowth?: {
+    /**
+     * Net change over the last twelve months.
+     */
+    absolute12m?: number;
+    /**
+     * Net change over the last month.
+     */
+    absolute1m?: number;
+    /**
+     * Net change over the last three months.
+     */
+    absolute3m?: number;
+    /**
+     * Net change over the last six months.
+     */
+    absolute6m?: number;
+    /**
+     * Percent change over the last twelve months.
+     */
+    percent12m?: number;
+    /**
+     * Percent change over the last month.
+     */
+    percent1m?: number;
+    /**
+     * Percent change over the last three months.
+     */
+    percent3m?: number;
+    /**
+     * Percent change over the last six months.
+     */
+    percent6m?: number;
+  };
+  /**
+   * Employee count band, e.g. 51-200.
+   */
+  employeeRange?: string;
+  /**
+   * Upper bound of estimated annual revenue in USD.
+   */
+  estimatedRevenueHigherUsd?: number;
+  /**
+   * Lower bound of estimated annual revenue in USD.
+   */
+  estimatedRevenueLowerUsd?: number;
+  /**
+   * Fiscal year end.
+   */
+  fiscalYearEnd?: string;
+  /**
+   * Latest LinkedIn follower count.
+   */
+  followerCount?: number;
+  /**
+   * LinkedIn follower change over trailing windows, in percent.
+   */
+  followerGrowth?: {
+    /**
+     * Percent change over the last twelve months.
+     */
+    percent12m?: number;
+    /**
+     * Percent change over the last month.
+     */
+    percent1m?: number;
+    /**
+     * Percent change over the last three months.
+     */
+    percent3m?: number;
+    /**
+     * Percent change over the last six months.
+     */
+    percent6m?: number;
+  };
+  /**
+   * Year the company was founded.
+   */
+  foundedYear?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the growth metrics on this record were last calculated.
+   */
+  growthCalculatedUtc?: number;
+  /**
+   * Headquarters location.
+   */
+  headquarters?: string;
+  /**
+   * Country of the headquarters.
+   */
+  hqCountry?: string;
+  /**
+   * Headquarters street address and city. Crustdata returns the same string as headquarters for most companies.
+   */
+  hqStreetAddressAndCity?: string;
+  /**
+   * Company logo URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last indexed the record for search, which is usually just after updatedUtc.
+   */
+  indexedUtc?: number;
+  /**
+   * All LinkedIn industries listed for the company.
+   */
+  industries?: string[];
+  /**
+   * Primary LinkedIn industry.
+   */
+  industry?: string;
+  /**
+   * Investors named on the Crunchbase profile.
+   */
+  investors?: string[];
+  /**
+   * True when the company itself invests in other companies.
+   */
+  isInvestor?: boolean;
+  /**
+   * Country holding the largest share of employees.
+   */
+  largestHeadcountCountry?: string;
+  /**
+   * Type of the most recent funding round, e.g. series_e.
+   */
+  lastFundingType?: string;
+  /**
+   * Amount raised in the most recent funding round, in USD.
+   */
+  lastFundingUsd?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date of the most recent funding round.
+   */
+  lastFundingUtc?: number;
+  /**
+   * LinkedIn speciality tags listed by the company.
+   */
+  linkedinCategories?: string[];
+  /**
+   * LinkedIn's own numeric identifier for the company page.
+   */
+  linkedinCompanyId?: string;
+  /**
+   * Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.
+   */
+  linkedinProfileName?: string;
+  /**
+   * LinkedIn company page URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+  /**
+   * Markets the company trades in, e.g. PRIVATE or NASDAQ.
+   */
+  markets?: string[];
+  /**
+   * Company name.
+   */
+  name: string;
+  /**
+   * Office addresses exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every company we captured.
+   */
+  officeAddresses?: unknown;
+  /**
+   * Publicly listed phone number.
+   */
+  phone?: string;
+  /**
+   * Stock ticker symbols.
+   */
+  stockSymbols?: string[];
+  /**
+   * Total investment raised to date, in USD.
+   */
+  totalFundingUsd?: number;
+  /**
+   * X (Twitter) profile URL.
+   * Format: uri.
+   */
+  twitterUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When this company record was last refreshed.
+   */
+  updatedUtc?: number;
+  /**
+   * Company website URL.
+   * Format: uri.
+   */
+  website?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Search - Crustdata (company_search.crustdata).
+ */
+export interface CompanySearchCrustdataData {
+  /**
+   * Matching companies.
+   */
+  companies: CompanySearchCrustdataCompanie[];
+  /**
+   * True when more companies exist beyond this page.
+   */
+  hasMore?: boolean;
+  /**
+   * Opaque continuation token; null when the walk is complete.
+   */
+  nextCursor?: string | null;
+  /**
+   * Total number of companies matching the filters.
+   * Range: minimum 0.
+   */
+  totalCount?: number;
+}
+
 export interface CompanySearchCrustdataV3Sort {
   [extra: string]: unknown;
 }
 
 /**
- * Input for Company Search - Crustdata v3 (company_search.crustdata_v3).
+ * Input for Company Search - Crustdata v3 (legacy) (company_search.crustdata_v3).
  */
 export interface CompanySearchCrustdataV3Input {
   /**
@@ -798,7 +1107,7 @@ export interface CompanySearchCrustdataV3Companie {
 }
 
 /**
- * The `data` payload of Company Search - Crustdata v3 (company_search.crustdata_v3).
+ * The `data` payload of Company Search - Crustdata v3 (legacy) (company_search.crustdata_v3).
  */
 export interface CompanySearchCrustdataV3Data {
   /**
@@ -2898,7 +3207,50 @@ export class CompanySearchNamespace {
   }
 
   /**
-   * Company Search - Crustdata v3
+   * Company Search - Crustdata
+   *
+   * Search companies by structured filters with cursor pagination.
+   *
+   * Price: $0.0012 per request plus $0.00144 per result (maximum $0.3612).
+   *
+   * @example
+   * const res = await client.companySearch.crustdata({ filters: { field: "basic_info.primary_domain", type: "=", value: "posthog.com" }, limit: 1 });
+   */
+  crustdata(
+    input: CompanySearchCrustdataInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanySearchCrustdataData>> {
+    return this._core.run("company_search.crustdata", input, options);
+  }
+
+  /**
+   * Iterate every result of Company Search - Crustdata across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterCrustdata(
+    input: CompanySearchCrustdataInput,
+    options?: RequestOptions,
+  ): Paginator<
+    CompanySearchCrustdataCompanie,
+    RunResult<CompanySearchCrustdataData>
+  > {
+    return paginate<
+      CompanySearchCrustdataCompanie,
+      RunResult<CompanySearchCrustdataData>
+    >(
+      this._core,
+      "company_search.crustdata",
+      input as unknown as Record<string, unknown>,
+      "companies",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * Company Search - Crustdata v3 (legacy)
    *
    * Search companies by structured filters with cursor pagination.
    *
@@ -2915,7 +3267,7 @@ export class CompanySearchNamespace {
   }
 
   /**
-   * Iterate every result of Company Search - Crustdata v3 across pages.
+   * Iterate every result of Company Search - Crustdata v3 (legacy) across pages.
    *
    * Yields items directly; call `.pages()` on the return value to walk whole
    * result pages instead (each carries its own costUsd).

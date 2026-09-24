@@ -674,7 +674,366 @@ export interface PeopleSearchAiArkData {
 }
 
 /**
- * Input for People Search - Crustdata v3 (people_search.crustdata_v3).
+ * Input for People Search - Crustdata (people_search.crustdata).
+ */
+export interface PeopleSearchCrustdataInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Company domain without a path.
+   */
+  companyDomain: string;
+  country?: string;
+  /**
+   * Default: true.
+   */
+  fuzzyTitle?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Range: minimum 1, maximum 100.
+   * Default: 3.
+   */
+  limit?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  profileKeywords?: unknown;
+  /**
+   * Default: false.
+   */
+  requireVerifiedEmail?: boolean;
+  seniority?: unknown;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  titleKeywords: unknown;
+}
+
+export interface PeopleSearchCrustdataProfile {
+  /**
+   * City of residence.
+   */
+  city?: string;
+  /**
+   * Continent of residence.
+   */
+  continent?: string;
+  /**
+   * Country of residence.
+   */
+  country?: string;
+  /**
+   * Positions the person currently holds.
+   */
+  currentEmployers?: PeopleSearchCrustdataCurrentEmployer[];
+  /**
+   * Education history exactly as Crustdata returns it (school, degree, years, location). Untyped passthrough: the structure ships verbatim and is not validated.
+   */
+  educationBackground?: unknown;
+  /**
+   * LinkedIn flagship profile URL. Usually the same value as linkedinUrl; Crustdata returns both and they can differ when the profile has a vanity URL.
+   * Format: uri.
+   */
+  flagshipProfileUrl?: string;
+  /**
+   * LinkedIn headline.
+   */
+  headline?: string;
+  /**
+   * Profile picture URL.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * LinkedIn profile URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+  /**
+   * Full name of the person.
+   */
+  name: string;
+  /**
+   * Positions the person previously held.
+   */
+  pastEmployers?: PeopleSearchCrustdataPastEmployer[];
+  /**
+   * Crustdata identifier for this person.
+   */
+  personId?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last wrote the record. Differs from updatedUtc, which reports the profile's own last-updated stamp.
+   */
+  recordUpdatedUtc?: number;
+  /**
+   * Region string as published on the profile.
+   */
+  region?: string;
+  /**
+   * State or province of residence.
+   */
+  state?: string;
+  /**
+   * X (Twitter) handle listed on the profile.
+   */
+  twitterHandle?: string;
+  [extra: string]: unknown;
+}
+
+export interface PeopleSearchCrustdataCurrentEmployer {
+  /**
+   * True when a business email at this employer has been verified.
+   */
+  businessEmailVerified?: boolean;
+  /**
+   * Employer website domain.
+   */
+  companyDomain?: string;
+  /**
+   * Latest observed employee count at the employer.
+   */
+  companyHeadcount?: number;
+  /**
+   * Employer headcount band, e.g. 51-200.
+   */
+  companyHeadcountRange?: string;
+  /**
+   * Country of the employer's headquarters.
+   */
+  companyHeadquartersCountry?: string;
+  /**
+   * Full headquarters location of the employer.
+   */
+  companyHqLocation?: string;
+  /**
+   * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
+   */
+  companyHqLocationAddressComponents?: string[];
+  /**
+   * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
+   */
+  companyId?: string;
+  /**
+   * All LinkedIn industries listed for the employer.
+   */
+  companyIndustries?: string[];
+  /**
+   * Primary LinkedIn industry of the employer.
+   */
+  companyIndustry?: string;
+  /**
+   * LinkedIn's own numeric identifier for the employer company page.
+   */
+  companyLinkedinId?: string;
+  /**
+   * Employer LinkedIn company page URL.
+   * Format: uri.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Employer name.
+   */
+  companyName?: string;
+  /**
+   * Employer company type, e.g. Privately Held or Public Company.
+   */
+  companyType?: string;
+  /**
+   * Employer website URL.
+   * Format: uri.
+   */
+  companyWebsite?: string;
+  /**
+   * Employment type, e.g. Full-time or Contract.
+   */
+  employmentType?: string;
+  /**
+   * Job function category, e.g. Engineering or Sales.
+   */
+  functionCategory?: string;
+  /**
+   * LinkedIn's own numeric identifier for the employer page. Crustdata returns the same value as companyLinkedinId on this record.
+   */
+  linkedinId?: string;
+  /**
+   * Location of the role.
+   */
+  location?: string;
+  /**
+   * Crustdata identifier for this specific position record.
+   */
+  positionId?: string;
+  /**
+   * True when this is the profile's primary listed position.
+   */
+  primaryEmployer?: boolean;
+  /**
+   * Seniority level of the role, e.g. Entry Level or Owner / Partner.
+   */
+  seniority?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Start of the role.
+   */
+  startUtc?: number;
+  /**
+   * Job title held at this employer.
+   */
+  title?: string;
+  /**
+   * Whole years spent at this employer.
+   */
+  yearsAtCompany?: number;
+  /**
+   * Human-readable tenure band, e.g. 3 to 5 years.
+   */
+  yearsAtCompanyRange?: string;
+  [extra: string]: unknown;
+}
+
+export interface PeopleSearchCrustdataPastEmployer {
+  /**
+   * True when a business email at this employer has been verified.
+   */
+  businessEmailVerified?: boolean;
+  /**
+   * Employer website domain.
+   */
+  companyDomain?: string;
+  /**
+   * Latest observed employee count at the employer.
+   */
+  companyHeadcount?: number;
+  /**
+   * Employer headcount band, e.g. 51-200.
+   */
+  companyHeadcountRange?: string;
+  /**
+   * Country of the employer's headquarters.
+   */
+  companyHeadquartersCountry?: string;
+  /**
+   * Full headquarters location of the employer.
+   */
+  companyHqLocation?: string;
+  /**
+   * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
+   */
+  companyHqLocationAddressComponents?: string[];
+  /**
+   * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
+   */
+  companyId?: string;
+  /**
+   * All LinkedIn industries listed for the employer.
+   */
+  companyIndustries?: string[];
+  /**
+   * Primary LinkedIn industry of the employer.
+   */
+  companyIndustry?: string;
+  /**
+   * LinkedIn's own numeric identifier for the employer company page.
+   */
+  companyLinkedinId?: string;
+  /**
+   * Employer LinkedIn company page URL.
+   * Format: uri.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Employer name.
+   */
+  companyName?: string;
+  /**
+   * Employer company type, e.g. Privately Held or Public Company.
+   */
+  companyType?: string;
+  /**
+   * Employer website URL.
+   * Format: uri.
+   */
+  companyWebsite?: string;
+  /**
+   * Employment type, e.g. Full-time or Contract.
+   */
+  employmentType?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. End of the role.
+   */
+  endUtc?: number;
+  /**
+   * Job function category, e.g. Engineering or Sales.
+   */
+  functionCategory?: string;
+  /**
+   * LinkedIn's own numeric identifier for the employer page. Crustdata returns the same value as companyLinkedinId on this record.
+   */
+  linkedinId?: string;
+  /**
+   * Location of the role.
+   */
+  location?: string;
+  /**
+   * Crustdata identifier for this specific position record.
+   */
+  positionId?: string;
+  /**
+   * True when this is the profile's primary listed position.
+   */
+  primaryEmployer?: boolean;
+  /**
+   * Seniority level of the role, e.g. Entry Level or Owner / Partner.
+   */
+  seniority?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Start of the role.
+   */
+  startUtc?: number;
+  /**
+   * Job title held at this employer.
+   */
+  title?: string;
+  /**
+   * Whole years spent at this employer.
+   */
+  yearsAtCompany?: number;
+  /**
+   * Human-readable tenure band, e.g. 3 to 5 years.
+   */
+  yearsAtCompanyRange?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of People Search - Crustdata (people_search.crustdata).
+ */
+export interface PeopleSearchCrustdataData {
+  /**
+   * True when more profiles exist beyond this page.
+   */
+  hasMore?: boolean;
+  /**
+   * Matching professional profiles.
+   */
+  profiles: PeopleSearchCrustdataProfile[];
+  /**
+   * Total number of profiles matching the search.
+   * Range: minimum 0.
+   */
+  totalCount?: number;
+}
+
+/**
+ * Input for People Search - Crustdata v3 (legacy) (people_search.crustdata_v3).
  */
 export interface PeopleSearchCrustdataV3Input {
   /**
@@ -1282,7 +1641,7 @@ export interface PeopleSearchCrustdataV3PastEmployer {
 }
 
 /**
- * The `data` payload of People Search - Crustdata v3 (people_search.crustdata_v3).
+ * The `data` payload of People Search - Crustdata v3 (legacy) (people_search.crustdata_v3).
  */
 export interface PeopleSearchCrustdataV3Data {
   /**
@@ -4072,7 +4431,24 @@ export class PeopleSearchNamespace {
   }
 
   /**
-   * People Search - Crustdata v3
+   * People Search - Crustdata
+   *
+   * Find up to 100 professional profiles by company domain and title keywords.
+   *
+   * Price: $0.0012 per request plus $0.00144 per result (maximum $0.1452).
+   *
+   * @example
+   * const res = await client.peopleSearch.crustdata({ companyDomain: "posthog.com", titleKeywords: "engineer", limit: 1 });
+   */
+  crustdata(
+    input: PeopleSearchCrustdataInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<PeopleSearchCrustdataData>> {
+    return this._core.run("people_search.crustdata", input, options);
+  }
+
+  /**
+   * People Search - Crustdata v3 (legacy)
    *
    * Find up to 100 professional profiles by company domain and title keywords.
    *

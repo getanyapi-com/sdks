@@ -531,6 +531,19 @@
     "items": 1,
     "replayed": false
   },
+  "company_enrichment.crustdata": {
+    "output": {
+      "found": true,
+      "data": {
+        "domain": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "company_enrichment.crustdata_v3": {
     "output": {
       "found": true,
@@ -612,6 +625,23 @@
         "size": 1,
         "total": 1,
         "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.crustdata": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -3970,6 +4000,23 @@
         "size": 1,
         "total": 1,
         "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.crustdata": {
+    "output": {
+      "found": true,
+      "data": {
+        "profiles": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",

@@ -15,8 +15,27 @@ if TYPE_CHECKING:
     from .._client import AnyAPI
 
 
+class CompanyEnrichmentCrustdataInput(TypedDict, total=False):
+    """Input for Company Enrichment - Crustdata."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    companyDomain: NotRequired[str]
+    companyId: NotRequired[Any]
+    companyLinkedinUrl: NotRequired[str]
+    companyName: NotRequired[str]
+    exactMatch: NotRequired[bool]
+    fields: NotRequired[Any]
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class CompanyEnrichmentCrustdataV3Input(TypedDict, total=False):
-    """Input for Company Enrichment - Crustdata v3."""
+    """Input for Company Enrichment - Crustdata v3 (legacy)."""
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
@@ -99,6 +118,302 @@ class CompanyEnrichmentProspeoInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class CompanyEnrichmentCrustdataData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    acquisition_status: str | None = Field(
+        default=None,
+        alias="acquisitionStatus",
+        description="Acquisition status, when the company has been acquired.",
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Crustdata identifier for the company, accepted back as the companyId input.",
+    )
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Company type, e.g. Privately Held or Public Company.",
+    )
+    crunchbase_categories: list[str] | None = Field(
+        default=None,
+        alias="crunchbaseCategories",
+        description="Crunchbase category tags, followed by the broader category groups they belong to.",
+    )
+    description: str | None = Field(
+        default=None, description="Company description from its LinkedIn page."
+    )
+    domain: str | None = Field(
+        description="Primary website domain, or null when the upstream holds none for this company."
+    )
+    domains: list[str] | None = Field(
+        default=None, description="All domains associated with the company."
+    )
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Latest observed employee count.",
+    )
+    employee_growth_absolute: (
+        CompanyEnrichmentCrustdataEmployeeGrowthAbsolute | None
+    ) = Field(
+        default=None,
+        alias="employeeGrowthAbsolute",
+        description="Net headcount change over trailing windows.",
+    )
+    employee_growth_percent: CompanyEnrichmentCrustdataEmployeeGrowthPercent | None = (
+        Field(
+            default=None,
+            alias="employeeGrowthPercent",
+            description="Percent headcount change over trailing windows.",
+        )
+    )
+    employee_range: str | None = Field(
+        default=None,
+        alias="employeeRange",
+        description="Employee count band, e.g. 51-200.",
+    )
+    estimated_revenue_higher_usd: int | None = Field(
+        default=None,
+        alias="estimatedRevenueHigherUsd",
+        description="Upper bound of estimated annual revenue in USD.",
+    )
+    estimated_revenue_lower_usd: int | None = Field(
+        default=None,
+        alias="estimatedRevenueLowerUsd",
+        description="Lower bound of estimated annual revenue in USD.",
+    )
+    fiscal_year_end: str | None = Field(
+        default=None, alias="fiscalYearEnd", description="Fiscal year end."
+    )
+    founded_utc: int | None = Field(
+        default=None,
+        alias="foundedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Founding date of the company.",
+    )
+    founded_year: int | None = Field(
+        default=None, alias="foundedYear", description="Year the company was founded."
+    )
+    headcount_by_function_timeseries: Any | None = Field(
+        default=None,
+        alias="headcountByFunctionTimeseries",
+        description="Headcount history broken down by region and by job function. Untyped passthrough: the whole nested structure ships exactly as Crustdata returns it, including its raw grouping keys (GEO_REGION, CURRENT_FUNCTION) and its string observation dates rather than epoch seconds, because the shape cannot be expressed in the canonical field grammar.",
+    )
+    headcount_by_region: CompanyEnrichmentCrustdataHeadcountByRegion | None = Field(
+        default=None,
+        alias="headcountByRegion",
+        description="Employee count per region, keyed by LinkedIn region name.",
+    )
+    headcount_by_region_percent: (
+        CompanyEnrichmentCrustdataHeadcountByRegionPercent | None
+    ) = Field(
+        default=None,
+        alias="headcountByRegionPercent",
+        description="Share of employees per region as a percent, keyed by LinkedIn region name.",
+    )
+    headcount_by_role: CompanyEnrichmentCrustdataHeadcountByRole | None = Field(
+        default=None,
+        alias="headcountByRole",
+        description="Employee count per job function, keyed by LinkedIn function name.",
+    )
+    headcount_by_role_percent: (
+        CompanyEnrichmentCrustdataHeadcountByRolePercent | None
+    ) = Field(
+        default=None,
+        alias="headcountByRolePercent",
+        description="Share of employees per job function as a percent, keyed by LinkedIn function name.",
+    )
+    headcount_by_role_six_months_growth_percent: Any | None = Field(
+        default=None,
+        alias="headcountByRoleSixMonthsGrowthPercent",
+        description="Six-month percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated.",
+    )
+    headcount_by_role_yoy_growth_percent: Any | None = Field(
+        default=None,
+        alias="headcountByRoleYoyGrowthPercent",
+        description="Year-over-year percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated.",
+    )
+    headcount_by_skill: CompanyEnrichmentCrustdataHeadcountBySkill | None = Field(
+        default=None,
+        alias="headcountBySkill",
+        description="Employee count per listed skill, keyed by skill name.",
+    )
+    headcount_by_skill_percent: (
+        CompanyEnrichmentCrustdataHeadcountBySkillPercent | None
+    ) = Field(
+        default=None,
+        alias="headcountBySkillPercent",
+        description="Share of employees per listed skill as a percent, keyed by skill name.",
+    )
+    headcount_timeseries: list[CompanyEnrichmentCrustdataHeadcountTimeserie] | None = (
+        Field(
+            default=None,
+            alias="headcountTimeseries",
+            description="Historical employee-count observations, oldest first.",
+        )
+    )
+    hq_country: str | None = Field(
+        default=None, alias="hqCountry", description="Country of the headquarters."
+    )
+    hq_state: str | None = Field(
+        default=None,
+        alias="hqState",
+        description="State or province of the headquarters.",
+    )
+    hq_street_address: str | None = Field(
+        default=None,
+        alias="hqStreetAddress",
+        description="Headquarters street address. Crustdata returns the same string as location for most companies.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Company logo URL. Crustdata's cached copy, which does not expire.",
+    )
+    industries: list[str] | None = Field(
+        default=None, description="All LinkedIn industries listed for the company."
+    )
+    industry: str | None = Field(default=None, description="Primary LinkedIn industry.")
+    ipo_utc: int | None = Field(
+        default=None,
+        alias="ipoUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the company went public.",
+    )
+    largest_headcount_country: str | None = Field(
+        default=None,
+        alias="largestHeadcountCountry",
+        description="Country holding the largest share of employees.",
+    )
+    linkedin_company_id: str | None = Field(
+        default=None,
+        alias="linkedinCompanyId",
+        description="LinkedIn's own numeric identifier for the company page.",
+    )
+    linkedin_profile_name: str | None = Field(
+        default=None,
+        alias="linkedinProfileName",
+        description="Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.",
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="LinkedIn company page URL."
+    )
+    location: str | None = Field(default=None, description="Headquarters location.")
+    naics: CompanyEnrichmentCrustdataNaic | None = Field(
+        default=None, description="Primary NAICS industry classification."
+    )
+    name: str | None = Field(default=None, description="Company name.")
+    sic_codes: list[CompanyEnrichmentCrustdataSicCode] | None = Field(
+        default=None,
+        alias="sicCodes",
+        description="SIC industry classifications assigned to the company.",
+    )
+    specialities: list[str] | None = Field(
+        default=None, description="Speciality tags the company lists on LinkedIn."
+    )
+    twitter_url: str | None = Field(
+        default=None, alias="twitterUrl", description="X (Twitter) profile URL."
+    )
+    website: str | None = Field(default=None, description="Company website URL.")
+
+
+class CompanyEnrichmentCrustdataEmployeeGrowthAbsolute(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    mom: int | None = Field(default=None, description="Change over the last month.")
+    qoq: int | None = Field(default=None, description="Change over the last quarter.")
+    six_months: int | None = Field(
+        default=None, alias="sixMonths", description="Change over the last six months."
+    )
+    two_years: int | None = Field(
+        default=None, alias="twoYears", description="Change over the last two years."
+    )
+    yoy: int | None = Field(
+        default=None, description="Change over the last twelve months."
+    )
+
+
+class CompanyEnrichmentCrustdataEmployeeGrowthPercent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    mom: float | None = Field(default=None, description="Change over the last month.")
+    qoq: float | None = Field(default=None, description="Change over the last quarter.")
+    six_months: float | None = Field(
+        default=None, alias="sixMonths", description="Change over the last six months."
+    )
+    two_years: float | None = Field(
+        default=None, alias="twoYears", description="Change over the last two years."
+    )
+    yoy: float | None = Field(
+        default=None, description="Change over the last twelve months."
+    )
+
+
+class CompanyEnrichmentCrustdataHeadcountByRegion(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentCrustdataHeadcountByRegionPercent(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentCrustdataHeadcountByRole(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentCrustdataHeadcountByRolePercent(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentCrustdataHeadcountBySkill(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentCrustdataHeadcountBySkillPercent(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentCrustdataHeadcountTimeserie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    date_utc: int | None = Field(
+        default=None,
+        alias="dateUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Observation date.",
+    )
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Employee count observed on that date.",
+    )
+
+
+class CompanyEnrichmentCrustdataNaic(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    code: str | None = Field(default=None, description="Primary NAICS code.")
+    industry: str | None = Field(default=None, description="NAICS industry name.")
+    industry_group: str | None = Field(
+        default=None, alias="industryGroup", description="NAICS industry group name."
+    )
+    sector: str | None = Field(default=None, description="NAICS sector name.")
+    sub_sector: str | None = Field(
+        default=None, alias="subSector", description="NAICS sub-sector name."
+    )
+    year: int | None = Field(
+        default=None, description="NAICS revision year the code belongs to."
+    )
+
+
+class CompanyEnrichmentCrustdataSicCode(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    code: str | None = Field(default=None, description="SIC code.")
+    industry: str | None = Field(default=None, description="SIC industry name.")
+    year: int | None = Field(
+        default=None, description="SIC revision year the code belongs to."
+    )
 
 
 class CompanyEnrichmentCrustdataV3Data(BaseModel):
@@ -1392,13 +1707,33 @@ class CompanyEnrichmentNamespace:
     def __init__(self, client: "AnyAPI") -> None:
         self._client = client
 
+    def crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanyEnrichmentCrustdataInput],
+    ) -> RunResult[CompanyEnrichmentCrustdataData]:
+        """Company Enrichment - Crustdata
+
+        Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
+
+        Price: $0.096 per request.
+
+        Example:
+            res = client.company_enrichment.crustdata(companyDomain="posthog.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "company_enrichment.crustdata", dict(input), options
+        )
+        return RunResult[CompanyEnrichmentCrustdataData].model_validate(raw)
+
     def crustdata_v3(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[CompanyEnrichmentCrustdataV3Input],
     ) -> RunResult[CompanyEnrichmentCrustdataV3Data]:
-        """Company Enrichment - Crustdata v3
+        """Company Enrichment - Crustdata v3 (legacy)
 
         Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
 
@@ -1485,13 +1820,33 @@ class AsyncCompanyEnrichmentNamespace:
     def __init__(self, client: "AsyncAnyAPI") -> None:
         self._client = client
 
+    async def crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanyEnrichmentCrustdataInput],
+    ) -> RunResult[CompanyEnrichmentCrustdataData]:
+        """Company Enrichment - Crustdata
+
+        Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
+
+        Price: $0.096 per request.
+
+        Example:
+            res = client.company_enrichment.crustdata(companyDomain="posthog.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "company_enrichment.crustdata", dict(input), options
+        )
+        return RunResult[CompanyEnrichmentCrustdataData].model_validate(raw)
+
     async def crustdata_v3(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[CompanyEnrichmentCrustdataV3Input],
     ) -> RunResult[CompanyEnrichmentCrustdataV3Data]:
-        """Company Enrichment - Crustdata v3
+        """Company Enrichment - Crustdata v3 (legacy)
 
         Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
 

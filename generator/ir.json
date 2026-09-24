@@ -8253,7 +8253,7 @@
       "category": "data",
       "description": "Research a company from one domain, name, or email and return a cross-checked dossier: what it does, how it talks, who it competes with, its firmographics, its hiring and news signal, and its social presence.",
       "pricing": {
-        "priceUsd": 0.44338,
+        "priceUsd": 0.56338,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -8546,11 +8546,600 @@
       }
     },
     {
+      "slug": "company_enrichment.crustdata",
+      "platform": "company_enrichment",
+      "action": "crustdata",
+      "operationId": "company_enrichment_crustdata",
+      "name": "Company Enrichment - Crustdata",
+      "category": "data",
+      "description": "Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.",
+      "pricing": {
+        "priceUsd": 0.096,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "companyEnrichment",
+      "tsMethod": "crustdata",
+      "tsIterMethod": null,
+      "pyNamespace": "company_enrichment",
+      "pyMethod": "crustdata",
+      "pyIterMethod": null,
+      "inputTypeName": "CompanyEnrichmentCrustdataInput",
+      "outputTypeName": "CompanyEnrichmentCrustdataData",
+      "example": {
+        "companyDomain": "posthog.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "companyDomain": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "companyId": {
+            "kind": "unknown"
+          },
+          "companyLinkedinUrl": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          },
+          "companyName": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "exactMatch": {
+            "kind": "boolean",
+            "default": null
+          },
+          "fields": {
+            "kind": "unknown"
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "acquisitionStatus": {
+              "kind": "string",
+              "description": "Acquisition status, when the company has been acquired.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "companyId": {
+              "kind": "string",
+              "description": "Crustdata identifier for the company, accepted back as the companyId input.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "companyType": {
+              "kind": "string",
+              "description": "Company type, e.g. Privately Held or Public Company.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "crunchbaseCategories": {
+              "kind": "array",
+              "description": "Crunchbase category tags, followed by the broader category groups they belong to.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "description": {
+              "kind": "string",
+              "description": "Company description from its LinkedIn page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "domain": {
+              "kind": "string",
+              "description": "Primary website domain, or null when the upstream holds none for this company.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "domains": {
+              "kind": "array",
+              "description": "All domains associated with the company.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "employeeCount": {
+              "kind": "integer",
+              "description": "Latest observed employee count.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "employeeGrowthAbsolute": {
+              "kind": "object",
+              "description": "Net headcount change over trailing windows.",
+              "properties": {
+                "mom": {
+                  "kind": "integer",
+                  "description": "Change over the last month.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "qoq": {
+                  "kind": "integer",
+                  "description": "Change over the last quarter.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "sixMonths": {
+                  "kind": "integer",
+                  "description": "Change over the last six months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "twoYears": {
+                  "kind": "integer",
+                  "description": "Change over the last two years.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "yoy": {
+                  "kind": "integer",
+                  "description": "Change over the last twelve months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "employeeGrowthPercent": {
+              "kind": "object",
+              "description": "Percent headcount change over trailing windows.",
+              "properties": {
+                "mom": {
+                  "kind": "number",
+                  "description": "Change over the last month.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "qoq": {
+                  "kind": "number",
+                  "description": "Change over the last quarter.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "sixMonths": {
+                  "kind": "number",
+                  "description": "Change over the last six months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "twoYears": {
+                  "kind": "number",
+                  "description": "Change over the last two years.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "yoy": {
+                  "kind": "number",
+                  "description": "Change over the last twelve months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "employeeRange": {
+              "kind": "string",
+              "description": "Employee count band, e.g. 51-200.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "estimatedRevenueHigherUsd": {
+              "kind": "integer",
+              "description": "Upper bound of estimated annual revenue in USD.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "estimatedRevenueLowerUsd": {
+              "kind": "integer",
+              "description": "Lower bound of estimated annual revenue in USD.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "fiscalYearEnd": {
+              "kind": "string",
+              "description": "Fiscal year end.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "foundedUtc": {
+              "kind": "integer",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Founding date of the company.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "foundedYear": {
+              "kind": "integer",
+              "description": "Year the company was founded.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "headcountByFunctionTimeseries": {
+              "kind": "unknown",
+              "description": "Headcount history broken down by region and by job function. Untyped passthrough: the whole nested structure ships exactly as Crustdata returns it, including its raw grouping keys (GEO_REGION, CURRENT_FUNCTION) and its string observation dates rather than epoch seconds, because the shape cannot be expressed in the canonical field grammar."
+            },
+            "headcountByRegion": {
+              "kind": "object",
+              "description": "Employee count per region, keyed by LinkedIn region name.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headcountByRegionPercent": {
+              "kind": "object",
+              "description": "Share of employees per region as a percent, keyed by LinkedIn region name.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headcountByRole": {
+              "kind": "object",
+              "description": "Employee count per job function, keyed by LinkedIn function name.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headcountByRolePercent": {
+              "kind": "object",
+              "description": "Share of employees per job function as a percent, keyed by LinkedIn function name.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headcountByRoleSixMonthsGrowthPercent": {
+              "kind": "unknown",
+              "description": "Six-month percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated."
+            },
+            "headcountByRoleYoyGrowthPercent": {
+              "kind": "unknown",
+              "description": "Year-over-year percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated."
+            },
+            "headcountBySkill": {
+              "kind": "object",
+              "description": "Employee count per listed skill, keyed by skill name.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headcountBySkillPercent": {
+              "kind": "object",
+              "description": "Share of employees per listed skill as a percent, keyed by skill name.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headcountTimeseries": {
+              "kind": "array",
+              "description": "Historical employee-count observations, oldest first.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "dateUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Observation date.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "employeeCount": {
+                    "kind": "integer",
+                    "description": "Employee count observed on that date.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "hqCountry": {
+              "kind": "string",
+              "description": "Country of the headquarters.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "hqState": {
+              "kind": "string",
+              "description": "State or province of the headquarters.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "hqStreetAddress": {
+              "kind": "string",
+              "description": "Headquarters street address. Crustdata returns the same string as location for most companies.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Company logo URL. Crustdata's cached copy, which does not expire.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "industries": {
+              "kind": "array",
+              "description": "All LinkedIn industries listed for the company.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "industry": {
+              "kind": "string",
+              "description": "Primary LinkedIn industry.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "ipoUtc": {
+              "kind": "integer",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the company went public.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "largestHeadcountCountry": {
+              "kind": "string",
+              "description": "Country holding the largest share of employees.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinCompanyId": {
+              "kind": "string",
+              "description": "LinkedIn's own numeric identifier for the company page.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinProfileName": {
+              "kind": "string",
+              "description": "Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinUrl": {
+              "kind": "string",
+              "description": "LinkedIn company page URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "location": {
+              "kind": "string",
+              "description": "Headquarters location.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "naics": {
+              "kind": "object",
+              "description": "Primary NAICS industry classification.",
+              "properties": {
+                "code": {
+                  "kind": "string",
+                  "description": "Primary NAICS code.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "industry": {
+                  "kind": "string",
+                  "description": "NAICS industry name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "industryGroup": {
+                  "kind": "string",
+                  "description": "NAICS industry group name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "sector": {
+                  "kind": "string",
+                  "description": "NAICS sector name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "subSector": {
+                  "kind": "string",
+                  "description": "NAICS sub-sector name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "year": {
+                  "kind": "integer",
+                  "description": "NAICS revision year the code belongs to.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "name": {
+              "kind": "string",
+              "description": "Company name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sicCodes": {
+              "kind": "array",
+              "description": "SIC industry classifications assigned to the company.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "code": {
+                    "kind": "string",
+                    "description": "SIC code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "industry": {
+                    "kind": "string",
+                    "description": "SIC industry name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "year": {
+                    "kind": "integer",
+                    "description": "SIC revision year the code belongs to.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "specialities": {
+              "kind": "array",
+              "description": "Speciality tags the company lists on LinkedIn.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "twitterUrl": {
+              "kind": "string",
+              "description": "X (Twitter) profile URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "website": {
+              "kind": "string",
+              "description": "Company website URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            }
+          },
+          "required": [
+            "domain"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "company_enrichment.crustdata_v3",
       "platform": "company_enrichment",
       "action": "crustdata_v3",
       "operationId": "company_enrichment_crustdata_v3",
-      "name": "Company Enrichment - Crustdata v3",
+      "name": "Company Enrichment - Crustdata v3 (legacy)",
       "category": "data",
       "description": "Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.",
       "pricing": {
@@ -12152,11 +12741,609 @@
       }
     },
     {
+      "slug": "company_search.crustdata",
+      "platform": "company_search",
+      "action": "crustdata",
+      "operationId": "company_search_crustdata",
+      "name": "Company Search - Crustdata",
+      "category": "data",
+      "description": "Search companies by structured filters with cursor pagination.",
+      "pricing": {
+        "priceUsd": 0.3612,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.00144,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "companySearch",
+      "tsMethod": "crustdata",
+      "tsIterMethod": "iterCrustdata",
+      "pyNamespace": "company_search",
+      "pyMethod": "crustdata",
+      "pyIterMethod": "iter_crustdata",
+      "inputTypeName": "CompanySearchCrustdataInput",
+      "outputTypeName": "CompanySearchCrustdataData",
+      "example": {
+        "filters": {
+          "field": "basic_info.primary_domain",
+          "type": "=",
+          "value": "posthog.com"
+        },
+        "limit": 1
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "fields": {
+            "kind": "unknown",
+            "description": "Response groups to return. Omit for the default set: basic_info, headcount, funding, revenue, locations, social_profiles, taxonomy, followers and metadata."
+          },
+          "filters": {
+            "kind": "object",
+            "description": "Crustdata company-search filter expression. A condition is {\"field\": <field>, \"type\": <operator>, \"value\": <match>}; a group is {\"op\": \"and\"|\"or\", \"conditions\": [<condition or group>, ...]}. Pass one condition or one group. Operators: = != < =< > => in not_in (.) (fuzzy text) [.] (exact token). Common fields: basic_info.primary_domain, basic_info.name, basic_info.industries, basic_info.employee_count_range, basic_info.year_founded, headcount.total, headcount.growth_percent.12m, locations.country, locations.headquarters, taxonomy.professional_network_industry, funding.last_round_type, funding.total_investment_usd, funding.last_fundraise_date, revenue.estimated.lower_bound_usd, followers.count. An `in` list takes at most 5 values.",
+            "properties": {},
+            "required": [],
+            "open": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum companies to return on this page. Every company returned is billed; the page is capped at 250 to bound the cost of a single call.",
+            "minimum": 1,
+            "maximum": 250,
+            "default": 10
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "sorts": {
+            "kind": "array",
+            "description": "Sort directives applied in order, each {\"field\": <field>, \"order\": \"asc\"|\"desc\"}. Sortable fields include basic_info.name, basic_info.year_founded, headcount.total, funding.total_investment_usd, funding.last_fundraise_date, revenue.estimated.lower_bound_usd and followers.count.",
+            "items": {
+              "kind": "object",
+              "properties": {
+                "field": {
+                  "kind": "string",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "order": {
+                  "kind": "string",
+                  "enum": [
+                    "asc",
+                    "desc"
+                  ],
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [
+                "field",
+                "order"
+              ],
+              "open": true
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "filters"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "companies": {
+              "kind": "array",
+              "description": "Matching companies.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "acquisitionStatus": {
+                    "kind": "string",
+                    "description": "Acquisition status, when the company has been acquired.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyId": {
+                    "kind": "string",
+                    "description": "Crustdata identifier for the company, accepted by the Company Enrichment endpoint.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyType": {
+                    "kind": "string",
+                    "description": "Company type, e.g. Privately Held or Public Company.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "contactEmail": {
+                    "kind": "string",
+                    "description": "Publicly listed contact email address.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "crunchbaseCategories": {
+                    "kind": "array",
+                    "description": "Crunchbase category tags, followed by the broader category groups they belong to.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Company description from its LinkedIn page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Primary website domain, or null when the upstream holds none for this company.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domains": {
+                    "kind": "array",
+                    "description": "All domains associated with the company.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "employeeCount": {
+                    "kind": "integer",
+                    "description": "Latest observed employee count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "employeeGrowth": {
+                    "kind": "object",
+                    "description": "Headcount change over trailing windows, absolute and percent.",
+                    "properties": {
+                      "absolute12m": {
+                        "kind": "integer",
+                        "description": "Net change over the last twelve months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "absolute1m": {
+                        "kind": "integer",
+                        "description": "Net change over the last month.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "absolute3m": {
+                        "kind": "integer",
+                        "description": "Net change over the last three months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "absolute6m": {
+                        "kind": "integer",
+                        "description": "Net change over the last six months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent12m": {
+                        "kind": "number",
+                        "description": "Percent change over the last twelve months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent1m": {
+                        "kind": "number",
+                        "description": "Percent change over the last month.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent3m": {
+                        "kind": "number",
+                        "description": "Percent change over the last three months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent6m": {
+                        "kind": "number",
+                        "description": "Percent change over the last six months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "employeeRange": {
+                    "kind": "string",
+                    "description": "Employee count band, e.g. 51-200.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "estimatedRevenueHigherUsd": {
+                    "kind": "integer",
+                    "description": "Upper bound of estimated annual revenue in USD.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "estimatedRevenueLowerUsd": {
+                    "kind": "integer",
+                    "description": "Lower bound of estimated annual revenue in USD.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "fiscalYearEnd": {
+                    "kind": "string",
+                    "description": "Fiscal year end.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "followerCount": {
+                    "kind": "integer",
+                    "description": "Latest LinkedIn follower count.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "followerGrowth": {
+                    "kind": "object",
+                    "description": "LinkedIn follower change over trailing windows, in percent.",
+                    "properties": {
+                      "percent12m": {
+                        "kind": "number",
+                        "description": "Percent change over the last twelve months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent1m": {
+                        "kind": "number",
+                        "description": "Percent change over the last month.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent3m": {
+                        "kind": "number",
+                        "description": "Percent change over the last three months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent6m": {
+                        "kind": "number",
+                        "description": "Percent change over the last six months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "foundedYear": {
+                    "kind": "integer",
+                    "description": "Year the company was founded.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "growthCalculatedUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the growth metrics on this record were last calculated.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "headquarters": {
+                    "kind": "string",
+                    "description": "Headquarters location.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "hqCountry": {
+                    "kind": "string",
+                    "description": "Country of the headquarters.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "hqStreetAddressAndCity": {
+                    "kind": "string",
+                    "description": "Headquarters street address and city. Crustdata returns the same string as headquarters for most companies.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Company logo URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "indexedUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last indexed the record for search, which is usually just after updatedUtc.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "industries": {
+                    "kind": "array",
+                    "description": "All LinkedIn industries listed for the company.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "industry": {
+                    "kind": "string",
+                    "description": "Primary LinkedIn industry.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "investors": {
+                    "kind": "array",
+                    "description": "Investors named on the Crunchbase profile.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "isInvestor": {
+                    "kind": "boolean",
+                    "description": "True when the company itself invests in other companies.",
+                    "default": null
+                  },
+                  "largestHeadcountCountry": {
+                    "kind": "string",
+                    "description": "Country holding the largest share of employees.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "lastFundingType": {
+                    "kind": "string",
+                    "description": "Type of the most recent funding round, e.g. series_e.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "lastFundingUsd": {
+                    "kind": "integer",
+                    "description": "Amount raised in the most recent funding round, in USD.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "lastFundingUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date of the most recent funding round.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "linkedinCategories": {
+                    "kind": "array",
+                    "description": "LinkedIn speciality tags listed by the company.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "linkedinCompanyId": {
+                    "kind": "string",
+                    "description": "LinkedIn's own numeric identifier for the company page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkedinProfileName": {
+                    "kind": "string",
+                    "description": "Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "description": "LinkedIn company page URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "markets": {
+                    "kind": "array",
+                    "description": "Markets the company trades in, e.g. PRIVATE or NASDAQ.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Company name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "officeAddresses": {
+                    "kind": "unknown",
+                    "description": "Office addresses exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every company we captured."
+                  },
+                  "phone": {
+                    "kind": "string",
+                    "description": "Publicly listed phone number.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "stockSymbols": {
+                    "kind": "array",
+                    "description": "Stock ticker symbols.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "totalFundingUsd": {
+                    "kind": "integer",
+                    "description": "Total investment raised to date, in USD.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "twitterUrl": {
+                    "kind": "string",
+                    "description": "X (Twitter) profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "updatedUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When this company record was last refreshed.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "website": {
+                    "kind": "string",
+                    "description": "Company website URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when more companies exist beyond this page.",
+              "default": null
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque continuation token; null when the walk is complete.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total number of companies matching the filters.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "companies"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "companies",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "company_search.crustdata_v3",
       "platform": "company_search",
       "action": "crustdata_v3",
       "operationId": "company_search_crustdata_v3",
-      "name": "Company Search - Crustdata v3",
+      "name": "Company Search - Crustdata v3 (legacy)",
       "category": "data",
       "description": "Search companies by structured filters with cursor pagination.",
       "pricing": {
@@ -61377,11 +62564,661 @@
       }
     },
     {
+      "slug": "people_search.crustdata",
+      "platform": "people_search",
+      "action": "crustdata",
+      "operationId": "people_search_crustdata",
+      "name": "People Search - Crustdata",
+      "category": "data",
+      "description": "Find up to 100 professional profiles by company domain and title keywords.",
+      "pricing": {
+        "priceUsd": 0.1452,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.00144,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "peopleSearch",
+      "tsMethod": "crustdata",
+      "tsIterMethod": null,
+      "pyNamespace": "people_search",
+      "pyMethod": "crustdata",
+      "pyIterMethod": null,
+      "inputTypeName": "PeopleSearchCrustdataInput",
+      "outputTypeName": "PeopleSearchCrustdataData",
+      "example": {
+        "companyDomain": "posthog.com",
+        "limit": 1,
+        "titleKeywords": "engineer"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "companyDomain": {
+            "kind": "string",
+            "description": "Company domain without a path.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "country": {
+            "kind": "string",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "fuzzyTitle": {
+            "kind": "boolean",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 3
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "profileKeywords": {
+            "kind": "unknown"
+          },
+          "requireVerifiedEmail": {
+            "kind": "boolean",
+            "default": false
+          },
+          "seniority": {
+            "kind": "unknown"
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "titleKeywords": {
+            "kind": "unknown"
+          }
+        },
+        "required": [
+          "companyDomain",
+          "titleKeywords"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when more profiles exist beyond this page.",
+              "default": null
+            },
+            "profiles": {
+              "kind": "array",
+              "description": "Matching professional profiles.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "city": {
+                    "kind": "string",
+                    "description": "City of residence.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "continent": {
+                    "kind": "string",
+                    "description": "Continent of residence.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Country of residence.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currentEmployers": {
+                    "kind": "array",
+                    "description": "Positions the person currently holds.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "businessEmailVerified": {
+                          "kind": "boolean",
+                          "description": "True when a business email at this employer has been verified.",
+                          "default": null
+                        },
+                        "companyDomain": {
+                          "kind": "string",
+                          "description": "Employer website domain.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHeadcount": {
+                          "kind": "integer",
+                          "description": "Latest observed employee count at the employer.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "companyHeadcountRange": {
+                          "kind": "string",
+                          "description": "Employer headcount band, e.g. 51-200.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHeadquartersCountry": {
+                          "kind": "string",
+                          "description": "Country of the employer's headquarters.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHqLocation": {
+                          "kind": "string",
+                          "description": "Full headquarters location of the employer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHqLocationAddressComponents": {
+                          "kind": "array",
+                          "description": "The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        },
+                        "companyId": {
+                          "kind": "string",
+                          "description": "Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyIndustries": {
+                          "kind": "array",
+                          "description": "All LinkedIn industries listed for the employer.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        },
+                        "companyIndustry": {
+                          "kind": "string",
+                          "description": "Primary LinkedIn industry of the employer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyLinkedinId": {
+                          "kind": "string",
+                          "description": "LinkedIn's own numeric identifier for the employer company page.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyLinkedinUrl": {
+                          "kind": "string",
+                          "description": "Employer LinkedIn company page URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "companyName": {
+                          "kind": "string",
+                          "description": "Employer name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyType": {
+                          "kind": "string",
+                          "description": "Employer company type, e.g. Privately Held or Public Company.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyWebsite": {
+                          "kind": "string",
+                          "description": "Employer website URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "employmentType": {
+                          "kind": "string",
+                          "description": "Employment type, e.g. Full-time or Contract.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "functionCategory": {
+                          "kind": "string",
+                          "description": "Job function category, e.g. Engineering or Sales.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkedinId": {
+                          "kind": "string",
+                          "description": "LinkedIn's own numeric identifier for the employer page. Crustdata returns the same value as companyLinkedinId on this record.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "location": {
+                          "kind": "string",
+                          "description": "Location of the role.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "positionId": {
+                          "kind": "string",
+                          "description": "Crustdata identifier for this specific position record.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "primaryEmployer": {
+                          "kind": "boolean",
+                          "description": "True when this is the profile's primary listed position.",
+                          "default": null
+                        },
+                        "seniority": {
+                          "kind": "string",
+                          "description": "Seniority level of the role, e.g. Entry Level or Owner / Partner.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "startUtc": {
+                          "kind": "integer",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Start of the role.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Job title held at this employer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "yearsAtCompany": {
+                          "kind": "integer",
+                          "description": "Whole years spent at this employer.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "yearsAtCompanyRange": {
+                          "kind": "string",
+                          "description": "Human-readable tenure band, e.g. 3 to 5 years.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "educationBackground": {
+                    "kind": "unknown",
+                    "description": "Education history exactly as Crustdata returns it (school, degree, years, location). Untyped passthrough: the structure ships verbatim and is not validated."
+                  },
+                  "flagshipProfileUrl": {
+                    "kind": "string",
+                    "description": "LinkedIn flagship profile URL. Usually the same value as linkedinUrl; Crustdata returns both and they can differ when the profile has a vanity URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "headline": {
+                    "kind": "string",
+                    "description": "LinkedIn headline.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Profile picture URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "linkedinUrl": {
+                    "kind": "string",
+                    "description": "LinkedIn profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Full name of the person.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pastEmployers": {
+                    "kind": "array",
+                    "description": "Positions the person previously held.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "businessEmailVerified": {
+                          "kind": "boolean",
+                          "description": "True when a business email at this employer has been verified.",
+                          "default": null
+                        },
+                        "companyDomain": {
+                          "kind": "string",
+                          "description": "Employer website domain.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHeadcount": {
+                          "kind": "integer",
+                          "description": "Latest observed employee count at the employer.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "companyHeadcountRange": {
+                          "kind": "string",
+                          "description": "Employer headcount band, e.g. 51-200.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHeadquartersCountry": {
+                          "kind": "string",
+                          "description": "Country of the employer's headquarters.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHqLocation": {
+                          "kind": "string",
+                          "description": "Full headquarters location of the employer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyHqLocationAddressComponents": {
+                          "kind": "array",
+                          "description": "The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        },
+                        "companyId": {
+                          "kind": "string",
+                          "description": "Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyIndustries": {
+                          "kind": "array",
+                          "description": "All LinkedIn industries listed for the employer.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        },
+                        "companyIndustry": {
+                          "kind": "string",
+                          "description": "Primary LinkedIn industry of the employer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyLinkedinId": {
+                          "kind": "string",
+                          "description": "LinkedIn's own numeric identifier for the employer company page.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyLinkedinUrl": {
+                          "kind": "string",
+                          "description": "Employer LinkedIn company page URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "companyName": {
+                          "kind": "string",
+                          "description": "Employer name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyType": {
+                          "kind": "string",
+                          "description": "Employer company type, e.g. Privately Held or Public Company.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "companyWebsite": {
+                          "kind": "string",
+                          "description": "Employer website URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "employmentType": {
+                          "kind": "string",
+                          "description": "Employment type, e.g. Full-time or Contract.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "endUtc": {
+                          "kind": "integer",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. End of the role.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "functionCategory": {
+                          "kind": "string",
+                          "description": "Job function category, e.g. Engineering or Sales.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkedinId": {
+                          "kind": "string",
+                          "description": "LinkedIn's own numeric identifier for the employer page. Crustdata returns the same value as companyLinkedinId on this record.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "location": {
+                          "kind": "string",
+                          "description": "Location of the role.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "positionId": {
+                          "kind": "string",
+                          "description": "Crustdata identifier for this specific position record.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "primaryEmployer": {
+                          "kind": "boolean",
+                          "description": "True when this is the profile's primary listed position.",
+                          "default": null
+                        },
+                        "seniority": {
+                          "kind": "string",
+                          "description": "Seniority level of the role, e.g. Entry Level or Owner / Partner.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "startUtc": {
+                          "kind": "integer",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Start of the role.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Job title held at this employer.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "yearsAtCompany": {
+                          "kind": "integer",
+                          "description": "Whole years spent at this employer.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "yearsAtCompanyRange": {
+                          "kind": "string",
+                          "description": "Human-readable tenure band, e.g. 3 to 5 years.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "personId": {
+                    "kind": "string",
+                    "description": "Crustdata identifier for this person.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "recordUpdatedUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last wrote the record. Differs from updatedUtc, which reports the profile's own last-updated stamp.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "region": {
+                    "kind": "string",
+                    "description": "Region string as published on the profile.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "state": {
+                    "kind": "string",
+                    "description": "State or province of residence.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "twitterHandle": {
+                    "kind": "string",
+                    "description": "X (Twitter) handle listed on the profile.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "Total number of profiles matching the search.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "profiles"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "people_search.crustdata_v3",
       "platform": "people_search",
       "action": "crustdata_v3",
       "operationId": "people_search_crustdata_v3",
-      "name": "People Search - Crustdata v3",
+      "name": "People Search - Crustdata v3 (legacy)",
       "category": "data",
       "description": "Find up to 100 professional profiles by company domain and title keywords.",
       "pricing": {

@@ -199,7 +199,7 @@ export class CompanyNamespace {
    *
    * Research a company from one domain, name, or email and return a cross-checked dossier: what it does, how it talks, who it competes with, its firmographics, its hiring and news signal, and its social presence.
    *
-   * Price: $0.44338 per request.
+   * Price: $0.56338 per request.
    *
    * @example
    * const res = await client.company.research({ domain: "stripe.com", maxAgeDays: 7 });

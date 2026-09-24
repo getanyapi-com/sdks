@@ -46,8 +46,30 @@ class CompanySearchAiArkInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class CompanySearchCrustdataInput(TypedDict, total=False):
+    """Input for Company Search - Crustdata."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    fields: NotRequired[Any]
+    """Response groups to return. Omit for the default set: basic_info, headcount, funding, revenue, locations, social_profiles, taxonomy, followers and metadata."""
+    filters: Required[dict[str, Any]]
+    """Crustdata company-search filter expression. A condition is {"field": <field>, "type": <operator>, "value": <match>}; a group is {"op": "and"|"or", "conditions": [<condition or group>, ...]}. Pass one condition or one group. Operators: = != < =< > => in not_in (.) (fuzzy text) [.] (exact token). Common fields: basic_info.primary_domain, basic_info.name, basic_info.industries, basic_info.employee_count_range, basic_info.year_founded, headcount.total, headcount.growth_percent.12m, locations.country, locations.headquarters, taxonomy.professional_network_industry, funding.last_round_type, funding.total_investment_usd, funding.last_fundraise_date, revenue.estimated.lower_bound_usd, followers.count. An `in` list takes at most 5 values."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum companies to return on this page. Every company returned is billed; the page is capped at 250 to bound the cost of a single call. Range: 1 to 250. Default: 10."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    sorts: NotRequired[list[dict[str, Any]]]
+    """Sort directives applied in order, each {"field": <field>, "order": "asc"|"desc"}. Sortable fields include basic_info.name, basic_info.year_founded, headcount.total, funding.total_investment_usd, funding.last_fundraise_date, revenue.estimated.lower_bound_usd and followers.count."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class CompanySearchCrustdataV3Input(TypedDict, total=False):
-    """Input for Company Search - Crustdata v3."""
+    """Input for Company Search - Crustdata v3 (legacy)."""
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
@@ -676,6 +698,254 @@ class CompanySearchAiArkTechnologie(BaseModel):
 
     category: str | None = Field(default=None, description="Technology category.")
     name: str | None = Field(default=None, description="Technology name.")
+
+
+class CompanySearchCrustdataData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    companies: list[CompanySearchCrustdataCompanie] = Field(
+        description="Matching companies."
+    )
+    has_more: bool | None = Field(
+        default=None,
+        alias="hasMore",
+        description="True when more companies exist beyond this page.",
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque continuation token; null when the walk is complete.",
+    )
+    total_count: int | None = Field(
+        default=None,
+        alias="totalCount",
+        description="Total number of companies matching the filters. Minimum: 0.",
+    )
+
+
+class CompanySearchCrustdataCompanie(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    acquisition_status: str | None = Field(
+        default=None,
+        alias="acquisitionStatus",
+        description="Acquisition status, when the company has been acquired.",
+    )
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Crustdata identifier for the company, accepted by the Company Enrichment endpoint.",
+    )
+    company_type: str | None = Field(
+        default=None,
+        alias="companyType",
+        description="Company type, e.g. Privately Held or Public Company.",
+    )
+    contact_email: str | None = Field(
+        default=None,
+        alias="contactEmail",
+        description="Publicly listed contact email address.",
+    )
+    crunchbase_categories: list[str] | None = Field(
+        default=None,
+        alias="crunchbaseCategories",
+        description="Crunchbase category tags, followed by the broader category groups they belong to.",
+    )
+    description: str | None = Field(
+        default=None, description="Company description from its LinkedIn page."
+    )
+    domain: str | None = Field(
+        default=None,
+        description="Primary website domain, or null when the upstream holds none for this company.",
+    )
+    domains: list[str] | None = Field(
+        default=None, description="All domains associated with the company."
+    )
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Latest observed employee count.",
+    )
+    employee_growth: CompanySearchCrustdataEmployeeGrowth | None = Field(
+        default=None,
+        alias="employeeGrowth",
+        description="Headcount change over trailing windows, absolute and percent.",
+    )
+    employee_range: str | None = Field(
+        default=None,
+        alias="employeeRange",
+        description="Employee count band, e.g. 51-200.",
+    )
+    estimated_revenue_higher_usd: int | None = Field(
+        default=None,
+        alias="estimatedRevenueHigherUsd",
+        description="Upper bound of estimated annual revenue in USD.",
+    )
+    estimated_revenue_lower_usd: int | None = Field(
+        default=None,
+        alias="estimatedRevenueLowerUsd",
+        description="Lower bound of estimated annual revenue in USD.",
+    )
+    fiscal_year_end: str | None = Field(
+        default=None, alias="fiscalYearEnd", description="Fiscal year end."
+    )
+    follower_count: int | None = Field(
+        default=None,
+        alias="followerCount",
+        description="Latest LinkedIn follower count.",
+    )
+    follower_growth: CompanySearchCrustdataFollowerGrowth | None = Field(
+        default=None,
+        alias="followerGrowth",
+        description="LinkedIn follower change over trailing windows, in percent.",
+    )
+    founded_year: int | None = Field(
+        default=None, alias="foundedYear", description="Year the company was founded."
+    )
+    growth_calculated_utc: int | None = Field(
+        default=None,
+        alias="growthCalculatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the growth metrics on this record were last calculated.",
+    )
+    headquarters: str | None = Field(default=None, description="Headquarters location.")
+    hq_country: str | None = Field(
+        default=None, alias="hqCountry", description="Country of the headquarters."
+    )
+    hq_street_address_and_city: str | None = Field(
+        default=None,
+        alias="hqStreetAddressAndCity",
+        description="Headquarters street address and city. Crustdata returns the same string as headquarters for most companies.",
+    )
+    image: str | None = Field(default=None, description="Company logo URL.")
+    indexed_utc: int | None = Field(
+        default=None,
+        alias="indexedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last indexed the record for search, which is usually just after updatedUtc.",
+    )
+    industries: list[str] | None = Field(
+        default=None, description="All LinkedIn industries listed for the company."
+    )
+    industry: str | None = Field(default=None, description="Primary LinkedIn industry.")
+    investors: list[str] | None = Field(
+        default=None, description="Investors named on the Crunchbase profile."
+    )
+    is_investor: bool | None = Field(
+        default=None,
+        alias="isInvestor",
+        description="True when the company itself invests in other companies.",
+    )
+    largest_headcount_country: str | None = Field(
+        default=None,
+        alias="largestHeadcountCountry",
+        description="Country holding the largest share of employees.",
+    )
+    last_funding_type: str | None = Field(
+        default=None,
+        alias="lastFundingType",
+        description="Type of the most recent funding round, e.g. series_e.",
+    )
+    last_funding_usd: int | None = Field(
+        default=None,
+        alias="lastFundingUsd",
+        description="Amount raised in the most recent funding round, in USD.",
+    )
+    last_funding_utc: int | None = Field(
+        default=None,
+        alias="lastFundingUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date of the most recent funding round.",
+    )
+    linkedin_categories: list[str] | None = Field(
+        default=None,
+        alias="linkedinCategories",
+        description="LinkedIn speciality tags listed by the company.",
+    )
+    linkedin_company_id: str | None = Field(
+        default=None,
+        alias="linkedinCompanyId",
+        description="LinkedIn's own numeric identifier for the company page.",
+    )
+    linkedin_profile_name: str | None = Field(
+        default=None,
+        alias="linkedinProfileName",
+        description="Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.",
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="LinkedIn company page URL."
+    )
+    markets: list[str] | None = Field(
+        default=None,
+        description="Markets the company trades in, e.g. PRIVATE or NASDAQ.",
+    )
+    name: str = Field(description="Company name.")
+    office_addresses: Any | None = Field(
+        default=None,
+        alias="officeAddresses",
+        description="Office addresses exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every company we captured.",
+    )
+    phone: str | None = Field(default=None, description="Publicly listed phone number.")
+    stock_symbols: list[str] | None = Field(
+        default=None, alias="stockSymbols", description="Stock ticker symbols."
+    )
+    total_funding_usd: int | None = Field(
+        default=None,
+        alias="totalFundingUsd",
+        description="Total investment raised to date, in USD.",
+    )
+    twitter_url: str | None = Field(
+        default=None, alias="twitterUrl", description="X (Twitter) profile URL."
+    )
+    updated_utc: int | None = Field(
+        default=None,
+        alias="updatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When this company record was last refreshed.",
+    )
+    website: str | None = Field(default=None, description="Company website URL.")
+
+
+class CompanySearchCrustdataEmployeeGrowth(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    absolute12m: int | None = Field(
+        default=None, description="Net change over the last twelve months."
+    )
+    absolute1m: int | None = Field(
+        default=None, description="Net change over the last month."
+    )
+    absolute3m: int | None = Field(
+        default=None, description="Net change over the last three months."
+    )
+    absolute6m: int | None = Field(
+        default=None, description="Net change over the last six months."
+    )
+    percent12m: float | None = Field(
+        default=None, description="Percent change over the last twelve months."
+    )
+    percent1m: float | None = Field(
+        default=None, description="Percent change over the last month."
+    )
+    percent3m: float | None = Field(
+        default=None, description="Percent change over the last three months."
+    )
+    percent6m: float | None = Field(
+        default=None, description="Percent change over the last six months."
+    )
+
+
+class CompanySearchCrustdataFollowerGrowth(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    percent12m: float | None = Field(
+        default=None, description="Percent change over the last twelve months."
+    )
+    percent1m: float | None = Field(
+        default=None, description="Percent change over the last month."
+    )
+    percent3m: float | None = Field(
+        default=None, description="Percent change over the last three months."
+    )
+    percent6m: float | None = Field(
+        default=None, description="Percent change over the last six months."
+    )
 
 
 class CompanySearchCrustdataV3Data(BaseModel):
@@ -2276,13 +2546,56 @@ class CompanySearchNamespace:
         )
         return RunResult[CompanySearchAiArkData].model_validate(raw)
 
+    def crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanySearchCrustdataInput],
+    ) -> RunResult[CompanySearchCrustdataData]:
+        """Company Search - Crustdata
+
+        Search companies by structured filters with cursor pagination.
+
+        Price: $0.0012 per request plus $0.00144 per result (maximum $0.3612).
+
+        Example:
+            res = client.company_search.crustdata(filters={"field": "basic_info.primary_domain", "type": "=", "value": "posthog.com"}, limit=1)
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "company_search.crustdata", dict(input), options
+        )
+        return RunResult[CompanySearchCrustdataData].model_validate(raw)
+
+    def iter_crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanySearchCrustdataInput],
+    ) -> Paginator[CompanySearchCrustdataCompanie, CompanySearchCrustdataData]:
+        """Iterate Company Search - Crustdata results, following pagination cursors.
+
+        Yields validated `CompanySearchCrustdataCompanie` items from the `companies` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "company_search.crustdata",
+            dict(input),
+            "companies",
+            item_model=CompanySearchCrustdataCompanie,
+            data_model=CompanySearchCrustdataData,
+            bare=False,
+            options=options,
+        )
+
     def crustdata_v3(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[CompanySearchCrustdataV3Input],
     ) -> RunResult[CompanySearchCrustdataV3Data]:
-        """Company Search - Crustdata v3
+        """Company Search - Crustdata v3 (legacy)
 
         Search companies by structured filters with cursor pagination.
 
@@ -2302,7 +2615,7 @@ class CompanySearchNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[CompanySearchCrustdataV3Input],
     ) -> Paginator[CompanySearchCrustdataV3Companie, CompanySearchCrustdataV3Data]:
-        """Iterate Company Search - Crustdata v3 results, following pagination cursors.
+        """Iterate Company Search - Crustdata v3 (legacy) results, following pagination cursors.
 
         Yields validated `CompanySearchCrustdataV3Companie` items from the `companies` field of
         each page. Use `.pages()` on the returned paginator to walk whole
@@ -2480,13 +2793,56 @@ class AsyncCompanySearchNamespace:
         )
         return RunResult[CompanySearchAiArkData].model_validate(raw)
 
+    async def crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanySearchCrustdataInput],
+    ) -> RunResult[CompanySearchCrustdataData]:
+        """Company Search - Crustdata
+
+        Search companies by structured filters with cursor pagination.
+
+        Price: $0.0012 per request plus $0.00144 per result (maximum $0.3612).
+
+        Example:
+            res = client.company_search.crustdata(filters={"field": "basic_info.primary_domain", "type": "=", "value": "posthog.com"}, limit=1)
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "company_search.crustdata", dict(input), options
+        )
+        return RunResult[CompanySearchCrustdataData].model_validate(raw)
+
+    def iter_crustdata(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanySearchCrustdataInput],
+    ) -> AsyncPaginator[CompanySearchCrustdataCompanie, CompanySearchCrustdataData]:
+        """Iterate Company Search - Crustdata results, following pagination cursors.
+
+        Yields validated `CompanySearchCrustdataCompanie` items from the `companies` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "company_search.crustdata",
+            dict(input),
+            "companies",
+            item_model=CompanySearchCrustdataCompanie,
+            data_model=CompanySearchCrustdataData,
+            bare=False,
+            options=options,
+        )
+
     async def crustdata_v3(
         self,
         *,
         options: RequestOptions | None = None,
         **input: Unpack[CompanySearchCrustdataV3Input],
     ) -> RunResult[CompanySearchCrustdataV3Data]:
-        """Company Search - Crustdata v3
+        """Company Search - Crustdata v3 (legacy)
 
         Search companies by structured filters with cursor pagination.
 
@@ -2506,7 +2862,7 @@ class AsyncCompanySearchNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[CompanySearchCrustdataV3Input],
     ) -> AsyncPaginator[CompanySearchCrustdataV3Companie, CompanySearchCrustdataV3Data]:
-        """Iterate Company Search - Crustdata v3 results, following pagination cursors.
+        """Iterate Company Search - Crustdata v3 (legacy) results, following pagination cursors.
 
         Yields validated `CompanySearchCrustdataV3Companie` items from the `companies` field of
         each page. Use `.pages()` on the returned paginator to walk whole

@@ -177,7 +177,7 @@ class CompanyNamespace:
         cross-checked dossier: what it does, how it talks, who it competes with, its
         firmographics, its hiring and news signal, and its social presence.
 
-        Price: $0.44338 per request.
+        Price: $0.56338 per request.
 
         Example:
             res = client.company.research(domain="stripe.com", maxAgeDays=7)
@@ -206,7 +206,7 @@ class AsyncCompanyNamespace:
         cross-checked dossier: what it does, how it talks, who it competes with, its
         firmographics, its hiring and news signal, and its social presence.
 
-        Price: $0.44338 per request.
+        Price: $0.56338 per request.
 
         Example:
             res = client.company.research(domain="stripe.com", maxAgeDays=7)

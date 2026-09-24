@@ -85,6 +85,8 @@ import type {
   CompanyResearchInput,
 } from "./platforms/company.js";
 import type {
+  CompanyEnrichmentCrustdataData,
+  CompanyEnrichmentCrustdataInput,
   CompanyEnrichmentCrustdataV3Data,
   CompanyEnrichmentCrustdataV3Input,
   CompanyEnrichmentLushaData,
@@ -101,6 +103,8 @@ import type {
 import type {
   CompanySearchAiArkData,
   CompanySearchAiArkInput,
+  CompanySearchCrustdataData,
+  CompanySearchCrustdataInput,
   CompanySearchCrustdataV3Data,
   CompanySearchCrustdataV3Input,
   CompanySearchFullenrichData,
@@ -487,6 +491,8 @@ import type {
 import type {
   PeopleSearchAiArkData,
   PeopleSearchAiArkInput,
+  PeopleSearchCrustdataData,
+  PeopleSearchCrustdataInput,
   PeopleSearchCrustdataV3Data,
   PeopleSearchCrustdataV3Input,
   PeopleSearchFullenrichData,
@@ -1086,6 +1092,11 @@ export interface SkuMap {
     data: CompanyResearchData;
     result: RunResult<CompanyResearchData>;
   };
+  "company_enrichment.crustdata": {
+    input: CompanyEnrichmentCrustdataInput;
+    data: CompanyEnrichmentCrustdataData;
+    result: RunResult<CompanyEnrichmentCrustdataData>;
+  };
   "company_enrichment.crustdata_v3": {
     input: CompanyEnrichmentCrustdataV3Input;
     data: CompanyEnrichmentCrustdataV3Data;
@@ -1115,6 +1126,11 @@ export interface SkuMap {
     input: CompanySearchAiArkInput;
     data: CompanySearchAiArkData;
     result: RunResult<CompanySearchAiArkData>;
+  };
+  "company_search.crustdata": {
+    input: CompanySearchCrustdataInput;
+    data: CompanySearchCrustdataData;
+    result: RunResult<CompanySearchCrustdataData>;
   };
   "company_search.crustdata_v3": {
     input: CompanySearchCrustdataV3Input;
@@ -1960,6 +1976,11 @@ export interface SkuMap {
     input: PeopleSearchAiArkInput;
     data: PeopleSearchAiArkData;
     result: RunResult<PeopleSearchAiArkData>;
+  };
+  "people_search.crustdata": {
+    input: PeopleSearchCrustdataInput;
+    data: PeopleSearchCrustdataData;
+    result: RunResult<PeopleSearchCrustdataData>;
   };
   "people_search.crustdata_v3": {
     input: PeopleSearchCrustdataV3Input;

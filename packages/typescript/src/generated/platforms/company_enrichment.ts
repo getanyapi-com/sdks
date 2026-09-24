@@ -7,7 +7,322 @@ import type {
 } from "../../core/index.js";
 
 /**
- * Input for Company Enrichment - Crustdata v3 (company_enrichment.crustdata_v3).
+ * Input for Company Enrichment - Crustdata (company_enrichment.crustdata).
+ */
+export interface CompanyEnrichmentCrustdataInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  companyDomain?: string;
+  companyId?: unknown;
+  /**
+   * Format: uri.
+   */
+  companyLinkedinUrl?: string;
+  companyName?: string;
+  exactMatch?: boolean;
+  fields?: unknown;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentCrustdataHeadcountTimeserie {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Observation date.
+   */
+  dateUtc?: number;
+  /**
+   * Employee count observed on that date.
+   */
+  employeeCount?: number;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentCrustdataSicCode {
+  /**
+   * SIC code.
+   */
+  code?: string;
+  /**
+   * SIC industry name.
+   */
+  industry?: string;
+  /**
+   * SIC revision year the code belongs to.
+   */
+  year?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Enrichment - Crustdata (company_enrichment.crustdata).
+ */
+export interface CompanyEnrichmentCrustdataData {
+  /**
+   * Acquisition status, when the company has been acquired.
+   */
+  acquisitionStatus?: string;
+  /**
+   * Crustdata identifier for the company, accepted back as the companyId input.
+   */
+  companyId?: string;
+  /**
+   * Company type, e.g. Privately Held or Public Company.
+   */
+  companyType?: string;
+  /**
+   * Crunchbase category tags, followed by the broader category groups they belong to.
+   */
+  crunchbaseCategories?: string[];
+  /**
+   * Company description from its LinkedIn page.
+   */
+  description?: string;
+  /**
+   * Primary website domain, or null when the upstream holds none for this company.
+   */
+  domain: string | null;
+  /**
+   * All domains associated with the company.
+   */
+  domains?: string[];
+  /**
+   * Latest observed employee count.
+   */
+  employeeCount?: number;
+  /**
+   * Net headcount change over trailing windows.
+   */
+  employeeGrowthAbsolute?: {
+    /**
+     * Change over the last month.
+     */
+    mom?: number;
+    /**
+     * Change over the last quarter.
+     */
+    qoq?: number;
+    /**
+     * Change over the last six months.
+     */
+    sixMonths?: number;
+    /**
+     * Change over the last two years.
+     */
+    twoYears?: number;
+    /**
+     * Change over the last twelve months.
+     */
+    yoy?: number;
+  };
+  /**
+   * Percent headcount change over trailing windows.
+   */
+  employeeGrowthPercent?: {
+    /**
+     * Change over the last month.
+     */
+    mom?: number;
+    /**
+     * Change over the last quarter.
+     */
+    qoq?: number;
+    /**
+     * Change over the last six months.
+     */
+    sixMonths?: number;
+    /**
+     * Change over the last two years.
+     */
+    twoYears?: number;
+    /**
+     * Change over the last twelve months.
+     */
+    yoy?: number;
+  };
+  /**
+   * Employee count band, e.g. 51-200.
+   */
+  employeeRange?: string;
+  /**
+   * Upper bound of estimated annual revenue in USD.
+   */
+  estimatedRevenueHigherUsd?: number;
+  /**
+   * Lower bound of estimated annual revenue in USD.
+   */
+  estimatedRevenueLowerUsd?: number;
+  /**
+   * Fiscal year end.
+   */
+  fiscalYearEnd?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Founding date of the company.
+   */
+  foundedUtc?: number;
+  /**
+   * Year the company was founded.
+   */
+  foundedYear?: number;
+  /**
+   * Headcount history broken down by region and by job function. Untyped passthrough: the whole nested structure ships exactly as Crustdata returns it, including its raw grouping keys (GEO_REGION, CURRENT_FUNCTION) and its string observation dates rather than epoch seconds, because the shape cannot be expressed in the canonical field grammar.
+   */
+  headcountByFunctionTimeseries?: unknown;
+  /**
+   * Employee count per region, keyed by LinkedIn region name.
+   */
+  headcountByRegion?: {};
+  /**
+   * Share of employees per region as a percent, keyed by LinkedIn region name.
+   */
+  headcountByRegionPercent?: {};
+  /**
+   * Employee count per job function, keyed by LinkedIn function name.
+   */
+  headcountByRole?: {};
+  /**
+   * Share of employees per job function as a percent, keyed by LinkedIn function name.
+   */
+  headcountByRolePercent?: {};
+  /**
+   * Six-month percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated.
+   */
+  headcountByRoleSixMonthsGrowthPercent?: unknown;
+  /**
+   * Year-over-year percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated.
+   */
+  headcountByRoleYoyGrowthPercent?: unknown;
+  /**
+   * Employee count per listed skill, keyed by skill name.
+   */
+  headcountBySkill?: {};
+  /**
+   * Share of employees per listed skill as a percent, keyed by skill name.
+   */
+  headcountBySkillPercent?: {};
+  /**
+   * Historical employee-count observations, oldest first.
+   */
+  headcountTimeseries?: CompanyEnrichmentCrustdataHeadcountTimeserie[];
+  /**
+   * Country of the headquarters.
+   */
+  hqCountry?: string;
+  /**
+   * State or province of the headquarters.
+   */
+  hqState?: string;
+  /**
+   * Headquarters street address. Crustdata returns the same string as location for most companies.
+   */
+  hqStreetAddress?: string;
+  /**
+   * Company logo URL. Crustdata's cached copy, which does not expire.
+   * Format: uri.
+   */
+  image?: string;
+  /**
+   * All LinkedIn industries listed for the company.
+   */
+  industries?: string[];
+  /**
+   * Primary LinkedIn industry.
+   */
+  industry?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the company went public.
+   */
+  ipoUtc?: number;
+  /**
+   * Country holding the largest share of employees.
+   */
+  largestHeadcountCountry?: string;
+  /**
+   * LinkedIn's own numeric identifier for the company page.
+   */
+  linkedinCompanyId?: string;
+  /**
+   * Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.
+   */
+  linkedinProfileName?: string;
+  /**
+   * LinkedIn company page URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+  /**
+   * Headquarters location.
+   */
+  location?: string;
+  /**
+   * Primary NAICS industry classification.
+   */
+  naics?: {
+    /**
+     * Primary NAICS code.
+     */
+    code?: string;
+    /**
+     * NAICS industry name.
+     */
+    industry?: string;
+    /**
+     * NAICS industry group name.
+     */
+    industryGroup?: string;
+    /**
+     * NAICS sector name.
+     */
+    sector?: string;
+    /**
+     * NAICS sub-sector name.
+     */
+    subSector?: string;
+    /**
+     * NAICS revision year the code belongs to.
+     */
+    year?: number;
+  };
+  /**
+   * Company name.
+   */
+  name?: string;
+  /**
+   * SIC industry classifications assigned to the company.
+   */
+  sicCodes?: CompanyEnrichmentCrustdataSicCode[];
+  /**
+   * Speciality tags the company lists on LinkedIn.
+   */
+  specialities?: string[];
+  /**
+   * X (Twitter) profile URL.
+   * Format: uri.
+   */
+  twitterUrl?: string;
+  /**
+   * Company website URL.
+   * Format: uri.
+   */
+  website?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Company Enrichment - Crustdata v3 (legacy) (company_enrichment.crustdata_v3).
  */
 export interface CompanyEnrichmentCrustdataV3Input {
   /**
@@ -68,7 +383,7 @@ export interface CompanyEnrichmentCrustdataV3SicCode {
 }
 
 /**
- * The `data` payload of Company Enrichment - Crustdata v3 (company_enrichment.crustdata_v3).
+ * The `data` payload of Company Enrichment - Crustdata v3 (legacy) (company_enrichment.crustdata_v3).
  */
 export interface CompanyEnrichmentCrustdataV3Data {
   /**
@@ -1411,7 +1726,24 @@ export class CompanyEnrichmentNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
-   * Company Enrichment - Crustdata v3
+   * Company Enrichment - Crustdata
+   *
+   * Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
+   *
+   * Price: $0.096 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.crustdata({ companyDomain: "posthog.com" });
+   */
+  crustdata(
+    input: CompanyEnrichmentCrustdataInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentCrustdataData>> {
+    return this._core.run("company_enrichment.crustdata", input, options);
+  }
+
+  /**
+   * Company Enrichment - Crustdata v3 (legacy)
    *
    * Enrich a company by domain, name, LinkedIn URL, or Crustdata identifier.
    *
