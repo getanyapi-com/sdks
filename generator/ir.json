@@ -108802,6 +108802,7 @@
                 "authorVerified",
                 "bookmarkCount",
                 "conversationId",
+                "inReplyToId",
                 "isReply",
                 "lang",
                 "likeCount",
@@ -108911,6 +108912,14 @@
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "inReplyToId": {
+                    "kind": "string",
+                    "description": "Id of the post this post directly replies to, as a string, or null when the post is not a reply.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -110179,6 +110188,7 @@
                 "bookmarks",
                 "conversationId",
                 "height",
+                "inReplyToId",
                 "lang",
                 "likes",
                 "media",
@@ -110281,6 +110291,14 @@
             "id": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "inReplyToId": {
+              "kind": "string",
+              "description": "Id of the post this post directly replies to, as a string, or null when the post is not a reply.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null

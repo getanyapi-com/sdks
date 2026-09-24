@@ -192,6 +192,7 @@ class TwitterSearchInput(TypedDict, total=False):
                 "authorVerified",
                 "bookmarkCount",
                 "conversationId",
+                "inReplyToId",
                 "isReply",
                 "lang",
                 "likeCount",
@@ -298,6 +299,7 @@ class TwitterTweetInput(TypedDict, total=False):
                 "bookmarks",
                 "conversationId",
                 "height",
+                "inReplyToId",
                 "lang",
                 "likes",
                 "media",
@@ -932,6 +934,11 @@ class TwitterSearchItem(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    in_reply_to_id: str | None = Field(
+        default=None,
+        alias="inReplyToId",
+        description="Id of the post this post directly replies to, as a string, or null when the post is not a reply.",
+    )
     is_reply: bool | None = Field(default=None, alias="isReply")
     lang: str | None = None
     like_count: int | None = Field(default=None, alias="likeCount")
@@ -1314,6 +1321,11 @@ class TwitterTweetData(BaseModel):
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    in_reply_to_id: str | None = Field(
+        default=None,
+        alias="inReplyToId",
+        description="Id of the post this post directly replies to, as a string, or null when the post is not a reply.",
     )
     lang: str | None = Field(
         default=None, description="Two-letter language code X detected for the post."

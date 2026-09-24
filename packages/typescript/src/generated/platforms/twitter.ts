@@ -861,6 +861,7 @@ export interface TwitterSearchInput {
     | "authorVerified"
     | "bookmarkCount"
     | "conversationId"
+    | "inReplyToId"
     | "isReply"
     | "lang"
     | "likeCount"
@@ -904,6 +905,10 @@ export interface TwitterSearchItem {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Id of the post this post directly replies to, as a string, or null when the post is not a reply.
+   */
+  inReplyToId?: string | null;
   isReply?: boolean;
   lang?: string;
   likeCount?: number;
@@ -1487,6 +1492,7 @@ export interface TwitterTweetInput {
     | "bookmarks"
     | "conversationId"
     | "height"
+    | "inReplyToId"
     | "lang"
     | "likes"
     | "media"
@@ -1572,6 +1578,10 @@ export interface TwitterTweetData {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Id of the post this post directly replies to, as a string, or null when the post is not a reply.
+   */
+  inReplyToId?: string | null;
   /**
    * Two-letter language code X detected for the post.
    */
