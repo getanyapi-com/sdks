@@ -21330,7 +21330,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -59515,10 +59515,10 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0035,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0105,
+        "baseUsd": 0.00605,
+        "perItemUsd": 0.00005,
+        "perItemUnit": "result"
       },
       "tsNamespace": "maps",
       "tsMethod": "reviews",

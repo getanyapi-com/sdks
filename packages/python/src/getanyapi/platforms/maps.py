@@ -746,7 +746,7 @@ class MapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one normalized response.
 
-        Price: $0.0035 per request.
+        Price: $0.00605 per request plus $0.00005 per result (maximum $0.0105).
 
         Example:
             res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4")
@@ -881,7 +881,7 @@ class AsyncMapsNamespace:
         Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way
         you need, in one normalized response.
 
-        Price: $0.0035 per request.
+        Price: $0.00605 per request plus $0.00005 per result (maximum $0.0105).
 
         Example:
             res = client.maps.reviews(limit=3, placeId="ChIJN1t_tDeuEmsRUsoyG83frY4")

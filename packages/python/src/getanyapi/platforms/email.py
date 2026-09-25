@@ -135,7 +135,7 @@ class EmailNamespace:
 
         Find a person's work email address from their name and company domain.
 
-        Price: $0.0154 per request.
+        Price: $0.0308 per request.
 
         Example:
             res = client.email.find(person={"domain": "google.com", "firstName": "Damien", "surname": "Neil"})
@@ -183,7 +183,7 @@ class AsyncEmailNamespace:
 
         Find a person's work email address from their name and company domain.
 
-        Price: $0.0154 per request.
+        Price: $0.0308 per request.
 
         Example:
             res = client.email.find(person={"domain": "google.com", "firstName": "Damien", "surname": "Neil"})
