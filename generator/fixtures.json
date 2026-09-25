@@ -7808,6 +7808,21 @@
     "items": 1,
     "replayed": false
   },
+  "zillow.agent": {
+    "output": {
+      "found": true,
+      "data": {
+        "username": "sample",
+        "name": "sample",
+        "url": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "zillow.property": {
     "output": {
       "found": true,

@@ -7,6 +7,101 @@ import type {
 } from "../../core/index.js";
 
 /**
+ * Input for Zillow Agent (zillow.agent).
+ */
+export interface ZillowAgentInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Zillow agent profile URL (e.g. https://www.zillow.com/profile/gregorycarlsonATX/).
+   */
+  url: string;
+}
+
+/**
+ * The `data` payload of Zillow Agent (zillow.agent).
+ */
+export interface ZillowAgentData {
+  /**
+   * Agent's self-written biography, as HTML.
+   */
+  bio?: string;
+  /**
+   * Brokerage or business name the agent works under. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  company?: string;
+  /**
+   * Agent's email address as listed on the profile. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  email?: string;
+  /**
+   * Number of active for-sale listings.
+   */
+  forSaleCount?: number;
+  /**
+   * Profile photo URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * True when Zillow flags the agent as a top agent.
+   */
+  isTopAgent?: boolean;
+  /**
+   * Agent's full name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Agent's phone number as listed on the profile (the cell number when one is listed). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  phone?: string;
+  /**
+   * Average review rating out of 5.
+   */
+  rating?: number;
+  /**
+   * Number of reviews on the profile.
+   */
+  reviewCount?: number;
+  /**
+   * Cities and areas the agent lists as served, e.g. "Austin, TX".
+   */
+  serviceAreas?: string[];
+  /**
+   * Total sales on record for the agent (for a team lead, the team's total).
+   */
+  totalSales?: number;
+  /**
+   * Canonical Zillow profile URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  /**
+   * Zillow screen name, the last segment of the profile URL. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for Zillow Property (zillow.property).
  */
 export interface ZillowPropertyInput {
@@ -433,6 +528,23 @@ export interface ZillowSearchData {
  */
 export class ZillowNamespace {
   constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Zillow Agent
+   *
+   * Fetch one Zillow real estate agent's profile by URL: name, phone, email, brokerage, rating, review count, sales, and service areas.
+   *
+   * Price: $0.0005 per request.
+   *
+   * @example
+   * const res = await client.zillow.agent({ url: "https://www.zillow.com/profile/gregorycarlsonATX/" });
+   */
+  agent(
+    input: ZillowAgentInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<ZillowAgentData>> {
+    return this._core.run("zillow.agent", input, options);
+  }
 
   /**
    * Zillow Property

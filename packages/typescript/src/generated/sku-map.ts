@@ -936,6 +936,8 @@ import type {
   ZhihuSearchArticlesInput,
 } from "./platforms/zhihu.js";
 import type {
+  ZillowAgentData,
+  ZillowAgentInput,
   ZillowPropertyData,
   ZillowPropertyInput,
   ZillowSearchData,
@@ -2933,6 +2935,11 @@ export interface SkuMap {
     input: ZhihuSearchArticlesInput;
     data: ZhihuSearchArticlesData;
     result: RunResult<ZhihuSearchArticlesData>;
+  };
+  "zillow.agent": {
+    input: ZillowAgentInput;
+    data: ZillowAgentData;
+    result: RunResult<ZillowAgentData>;
   };
   "zillow.property": {
     input: ZillowPropertyInput;

@@ -119528,6 +119528,211 @@
       }
     },
     {
+      "slug": "zillow.agent",
+      "platform": "zillow",
+      "action": "agent",
+      "operationId": "zillow_agent",
+      "name": "Zillow Agent",
+      "category": "data",
+      "description": "Fetch one Zillow real estate agent's profile by URL: name, phone, email, brokerage, rating, review count, sales, and service areas.",
+      "pricing": {
+        "priceUsd": 0.0005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "zillow",
+      "tsMethod": "agent",
+      "tsIterMethod": null,
+      "pyNamespace": "zillow",
+      "pyMethod": "agent",
+      "pyIterMethod": null,
+      "inputTypeName": "ZillowAgentInput",
+      "outputTypeName": "ZillowAgentData",
+      "example": {
+        "url": "https://www.zillow.com/profile/gregorycarlsonATX/"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Zillow agent profile URL (e.g. https://www.zillow.com/profile/gregorycarlsonATX/).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "bio": {
+              "kind": "string",
+              "description": "Agent's self-written biography, as HTML.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "company": {
+              "kind": "string",
+              "description": "Brokerage or business name the agent works under. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "email": {
+              "kind": "string",
+              "description": "Agent's email address as listed on the profile. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "forSaleCount": {
+              "kind": "integer",
+              "description": "Number of active for-sale listings.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Profile photo URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "isTopAgent": {
+              "kind": "boolean",
+              "description": "True when Zillow flags the agent as a top agent.",
+              "default": null
+            },
+            "name": {
+              "kind": "string",
+              "description": "Agent's full name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "phone": {
+              "kind": "string",
+              "description": "Agent's phone number as listed on the profile (the cell number when one is listed). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Average review rating out of 5.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "reviewCount": {
+              "kind": "integer",
+              "description": "Number of reviews on the profile.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "serviceAreas": {
+              "kind": "array",
+              "description": "Cities and areas the agent lists as served, e.g. \"Austin, TX\".",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "totalSales": {
+              "kind": "integer",
+              "description": "Total sales on record for the agent (for a team lead, the team's total).",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical Zillow profile URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "username": {
+              "kind": "string",
+              "description": "Zillow screen name, the last segment of the profile URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "username",
+            "name",
+            "url"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "company",
+            "email",
+            "image",
+            "name",
+            "phone",
+            "url",
+            "username"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "zillow.property",
       "platform": "zillow",
       "action": "property",
