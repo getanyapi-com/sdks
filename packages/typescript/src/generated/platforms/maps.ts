@@ -969,7 +969,7 @@ export class MapsNamespace {
    *
    * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.
    *
-   * Price: $0.00605 per request plus $0.00005 per result (maximum $0.0105).
+   * Price: $0.0035 per request.
    *
    * @example
    * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3 });
