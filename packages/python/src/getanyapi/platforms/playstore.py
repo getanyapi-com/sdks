@@ -35,7 +35,7 @@ class PlaystoreReviewsInput(TypedDict, total=False):
     languages: NotRequired[list[str]]
     """Only return reviews in these ISO 639-1 languages (e.g. ["en", "es"])."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less. Range: 1 to 100."""
+    """Maximum number of results to return (1-100, default 100). Range: 1 to 100."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     rating: NotRequired[int]
@@ -118,7 +118,7 @@ class PlaystoreNamespace:
         Fetch Google Play reviews for any Android app by package name or store URL:
         ratings, review text, dates, and helpfulness votes.
 
-        Price: $0 per request plus $0.00013 per result (maximum $0.0121).
+        Price: $0.0009 per request.
 
         Example:
             res = client.playstore.reviews(appId="com.whatsapp", limit=3)
@@ -146,7 +146,7 @@ class AsyncPlaystoreNamespace:
         Fetch Google Play reviews for any Android app by package name or store URL:
         ratings, review text, dates, and helpfulness votes.
 
-        Price: $0 per request plus $0.00013 per result (maximum $0.0121).
+        Price: $0.0009 per request.
 
         Example:
             res = client.playstore.reviews(appId="com.whatsapp", limit=3)

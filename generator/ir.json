@@ -5808,10 +5808,10 @@
       "category": "shop",
       "description": "Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.",
       "pricing": {
-        "priceUsd": 0.011,
-        "baseUsd": 0,
-        "perItemUsd": 0.00011,
-        "perItemUnit": "result"
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "appstore",
       "tsMethod": "reviews",
@@ -5861,7 +5861,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-100, default 100).",
             "minimum": 1,
             "maximum": 100,
             "default": null
@@ -75958,10 +75958,10 @@
       "category": "shop",
       "description": "Fetch Google Play reviews for any Android app by package name or store URL: ratings, review text, dates, and helpfulness votes.",
       "pricing": {
-        "priceUsd": 0.0121,
-        "baseUsd": 0,
-        "perItemUsd": 0.00013,
-        "perItemUnit": "result"
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "playstore",
       "tsMethod": "reviews",
@@ -76054,7 +76054,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-100, default 100).",
             "minimum": 1,
             "maximum": 100,
             "default": null

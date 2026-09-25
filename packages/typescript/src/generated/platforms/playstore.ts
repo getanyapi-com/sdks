@@ -45,7 +45,7 @@ export interface PlaystoreReviewsInput {
    */
   languages?: string[];
   /**
-   * Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-100, default 100).
    * Range: minimum 1, maximum 100.
    */
   limit?: number;
@@ -148,7 +148,7 @@ export class PlaystoreNamespace {
    *
    * Fetch Google Play reviews for any Android app by package name or store URL: ratings, review text, dates, and helpfulness votes.
    *
-   * Price: $0 per request plus $0.00013 per result (maximum $0.0121).
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.playstore.reviews({ appId: "com.whatsapp", limit: 3 });

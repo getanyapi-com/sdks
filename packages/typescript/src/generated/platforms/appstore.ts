@@ -29,7 +29,7 @@ export interface AppstoreReviewsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-100, default 100). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-100, default 100).
    * Range: minimum 1, maximum 100.
    */
   limit?: number;
@@ -118,7 +118,7 @@ export class AppstoreNamespace {
    *
    * Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.
    *
-   * Price: $0 per request plus $0.00011 per result (maximum $0.011).
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.appstore.reviews({ appId: "389801252", country: "us", limit: 3 });
