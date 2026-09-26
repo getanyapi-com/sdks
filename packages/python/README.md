@@ -166,8 +166,9 @@ result = agent_signup(label="my-agent")
 client = AnyAPI(api_key=result.secret)
 ```
 
-The key ships with a small starter balance and a per-key spend cap; a human funds it by claiming
-it at `result.claim_url`.
+The key ships with a small starter balance and a per-key spend cap; to go past the cap, a human
+authorizes an AnyAPI wallet over OAuth, as described in
+[agent self-signup](https://getanyapi.com/docs/agent-self-signup).
 
 ## Docs
 

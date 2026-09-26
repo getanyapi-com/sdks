@@ -444,28 +444,25 @@ describe("describe", () => {
 });
 
 describe("agentSignup", () => {
-  it("POSTs /agent/signup with NO auth header and maps the result", async () => {
-    const { fetch, calls } = mockFetch([
-      {
-        body: {
-          secret: "sk_new",
-          capUsd: 5,
-          claimToken: "tok",
-          claimUrl: "https://getanyapi.com/claim/tok",
-        },
-      },
-    ]);
+  const signupBody = { secret: "sk_new", capUsd: 5, keyId: "key_1" };
+  // The gateway still sends these retired claim-flow fields until it drops them.
+  const retiredFields = {
+    verificationStatus: "pending",
+    claimToken: "",
+    claimUrl: "https://getanyapi.com/dashboard",
+  };
+
+  it.each([
+    ["without", signupBody],
+    ["with", { ...signupBody, ...retiredFields }],
+  ])("POSTs /agent/signup with NO auth header and maps the result %s the retired fields", async (_label, body) => {
+    const { fetch, calls } = mockFetch([{ body }]);
     const res = await agentSignup({
       fetch,
       sponsorEmail: "h@x.com",
       label: "bot",
     });
-    expect(res).toEqual({
-      secret: "sk_new",
-      capUsd: 5,
-      claimToken: "tok",
-      claimUrl: "https://getanyapi.com/claim/tok",
-    });
+    expect(res).toStrictEqual({ secret: "sk_new", capUsd: 5 });
     const call = calls[0]!;
     expect(call.url).toBe("https://api.getanyapi.com/agent/signup");
     expect(call.init.method).toBe("POST");

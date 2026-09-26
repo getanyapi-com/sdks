@@ -778,8 +778,6 @@ export interface AgentSignupOptions {
 export interface AgentSignupResult {
   secret: string; // the API key, returned once
   capUsd: number; // per-key spend cap in USD
-  claimToken: string;
-  claimUrl: string;
 }
 ```
 
@@ -819,10 +817,11 @@ export interface AgentSignupResult {
 - The REST adapter omits `heavy` when false, so clients normalize an omitted key to public
   `false` while rejecting non-boolean values.
 - `agentSignup()` -> POST `/agent/signup` (NO auth header) -> `AgentSignupResult` (map
-  `capUsd`, `secret`, `claimToken`, `claimUrl`). The gateway body is a superset: it also
-  carries `keyId`, `verificationStatus`, `expiresAt`, `notice`, `upgrade`, and (when the
-  trial's OAuth client was pre-registered) `clientId`. The four mapped fields are all sent
-  unconditionally; the rest are a deliberate projection, not a wire mismatch.
+  `capUsd` and `secret`, both sent unconditionally). The gateway body is a superset: it also
+  carries `keyId`, `expiresAt`, `notice`, `upgrade`, and (when the trial's OAuth client was
+  pre-registered) `clientId`. Leaving those out is a deliberate projection, not a wire
+  mismatch. The retired claim-flow fields `verificationStatus`, `claimToken`, and `claimUrl`
+  are not read either, so a body with or without them maps to the same result.
 - **(v1 erratum) Account/discovery field presence.** Audited against the gateway response
   structs, the ONLY conditionally-present fields on this surface are `email` (omitted when
   empty), `heavy` (omitted when false), `inputSchema` / `outputSchema` (omitted on
@@ -1195,8 +1194,6 @@ class RequestOptions(TypedDict, total=False):
 class AgentSignupResult(BaseModel):
     secret: str
     cap_usd: float           # alias "capUsd"
-    claim_token: str         # alias "claimToken"
-    claim_url: str           # alias "claimUrl"
 ```
 
 ## 4. Synthetic fixture envelope format (FROZEN)

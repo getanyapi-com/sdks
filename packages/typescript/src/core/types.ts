@@ -384,8 +384,6 @@ export interface AgentSignupResult {
   secret: string;
   /** Per-key spend cap in USD. */
   capUsd: number;
-  claimToken: string;
-  claimUrl: string;
 }
 
 import { AnyAPIError, ResultNotFoundError } from "./errors.js";

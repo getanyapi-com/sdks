@@ -41,17 +41,15 @@ export function mapProfile(raw: ProfileResponse): AccountProfile {
   return profile;
 }
 
-/** Raw /agent/signup body. */
+/** Raw /agent/signup body (superset; only the mapped fields are read). */
 interface AgentSignupResponse {
   secret: string;
   capUsd: number;
-  claimToken: string;
-  claimUrl: string;
 }
 
 /**
  * Agent self-signup. POST /agent/signup with NO auth header. Returns a one-time API key
- * plus its spend cap and claim details. See SPEC 2.7.
+ * plus its spend cap. See SPEC 2.7.
  */
 export async function agentSignup(
   options: AgentSignupOptions = {},
@@ -112,7 +110,5 @@ export async function agentSignup(
   return {
     secret: parsed.secret,
     capUsd: parsed.capUsd,
-    claimToken: parsed.claimToken,
-    claimUrl: parsed.claimUrl,
   };
 }

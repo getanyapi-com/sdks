@@ -402,7 +402,7 @@ export interface AgentSignupOptions {
   baseUrl?: string; fetch?: typeof fetch; sponsorEmail?: string; label?: string;
 }
 export interface AgentSignupResult {
-  secret: string; capUsd: number; claimToken: string; claimUrl: string;
+  secret: string; capUsd: number;
 }
 `;
 

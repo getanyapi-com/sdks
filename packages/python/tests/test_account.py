@@ -464,23 +464,30 @@ def test_describe_404_raises_not_found() -> None:
         client.describe("nope.gone")
 
 
-def test_agent_signup_maps_result(monkeypatch: pytest.MonkeyPatch) -> None:
+SIGNUP_BODY: dict[str, object] = {"secret": "sk_live_x", "capUsd": 0.15, "keyId": "key_1"}
+# The gateway still sends these retired claim-flow fields until it drops them.
+RETIRED_SIGNUP_FIELDS: dict[str, object] = {
+    "verificationStatus": "pending",
+    "claimToken": "",
+    "claimUrl": "https://getanyapi.com/dashboard",
+}
+
+
+@pytest.mark.parametrize(
+    "body",
+    [SIGNUP_BODY, {**SIGNUP_BODY, **RETIRED_SIGNUP_FIELDS}],
+    ids=["without-retired-fields", "with-retired-fields"],
+)
+def test_agent_signup_maps_result(
+    monkeypatch: pytest.MonkeyPatch, body: dict[str, object]
+) -> None:
     captured: dict[str, object] = {}
 
     def handler(request: httpx.Request) -> httpx.Response:
         captured["path"] = request.url.path
         captured["auth"] = request.headers.get("authorization")
         captured["body"] = json.loads(request.content)
-        return json_response(
-            200,
-            {
-                "secret": "sk_live_x",
-                "capUsd": 0.15,
-                "claimToken": "tok",
-                "claimUrl": "https://getanyapi.com/dashboard",
-                "keyId": "key_1",
-            },
-        )
+        return json_response(200, body)
 
     transport = httpx.MockTransport(handler)
     import getanyapi._client as client_mod
@@ -498,8 +505,6 @@ def test_agent_signup_maps_result(monkeypatch: pytest.MonkeyPatch) -> None:
     assert captured["body"] == {"sponsorEmail": "me@x.com", "label": "bot"}
     assert result.secret == "sk_live_x"
     assert result.cap_usd == 0.15
-    assert result.claim_token == "tok"
-    assert result.claim_url == "https://getanyapi.com/dashboard"
 
 
 async def test_async_account() -> None:

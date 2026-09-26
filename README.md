@@ -77,7 +77,8 @@ detail. The essentials:
   replayed result. `maxInProgressWaitMs` / `max_in_progress_wait` (default 60s) bounds the total
   time one call may block on that. Every other 409 raises immediately.
 - **Agent signup.** `agentSignup()` / `agent_signup()` bootstraps a capped starter key with no
-  account, for autonomous agents; a human funds it via the returned claim URL.
+  account, for autonomous agents; to go past its cap, a human authorizes an AnyAPI wallet over
+  OAuth ([agent self-signup](https://getanyapi.com/docs/agent-self-signup)).
 
 ## Repo layout
 
