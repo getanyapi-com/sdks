@@ -187,12 +187,13 @@ Bootstrap a key with no account (for autonomous agents):
 ```ts
 import { agentSignup } from "@getanyapi/sdk";
 
-const { secret, capUsd, claimUrl } = await agentSignup({ label: "my-agent" });
+const { secret, capUsd } = await agentSignup({ label: "my-agent" });
 const client = new AnyAPI({ apiKey: secret });
 ```
 
-The key ships with a small starter balance and a per-key spend cap; a human funds it by
-claiming it at `claimUrl`.
+The key ships with a small starter balance and a per-key spend cap; to go past the cap, a human
+authorizes an AnyAPI wallet over OAuth, as described in
+[agent self-signup](https://getanyapi.com/docs/agent-self-signup).
 
 ## Docs
 

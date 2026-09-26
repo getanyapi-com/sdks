@@ -284,8 +284,6 @@ class AgentSignupResult(BaseModel):
 
     secret: str
     cap_usd: float = Field(alias="capUsd")
-    claim_token: str = Field(alias="claimToken")
-    claim_url: str = Field(alias="claimUrl")
 
 
 # Convenience aliases used by the transport for untyped generic runs.
