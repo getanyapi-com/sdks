@@ -10,7 +10,7 @@ unknown fields, exposed via ``.model_extra``.
 
 from __future__ import annotations
 
-from typing import Any, Generic, Literal, TypeVar, cast
+from typing import Any, Generic, Literal, TypeVar, cast, get_args
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from typing_extensions import TypedDict
@@ -73,9 +73,10 @@ class OutputFound(BaseModel, Generic[T]):
 # words; ``tests/test_not_found_reason.py`` holds the two together once the live
 # OpenAPI carries the field. ``not_found``: the source states the target does not
 # exist, or returned nothing for it. ``suspended``: the platform has suspended the
-# account.
-NotFoundReason = Literal["not_found", "suspended"]
-NOT_FOUND_REASONS: tuple[str, ...] = ("not_found", "suspended")
+# account. ``unavailable``: the platform did not show this to the source: it may not
+# exist, or it may be visible only to signed-in users.
+NotFoundReason = Literal["not_found", "suspended", "unavailable"]
+NOT_FOUND_REASONS: tuple[str, ...] = get_args(NotFoundReason)
 
 
 class OutputNotFound(BaseModel):

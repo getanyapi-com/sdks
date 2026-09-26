@@ -61,8 +61,10 @@ export interface RequestSnapshot<T = unknown> {
  * test holds the two together once the live OpenAPI carries the field.
  * - `not_found`: the source states the target does not exist, or returned nothing for it.
  * - `suspended`: the platform has suspended the account.
+ * - `unavailable`: the platform did not show this to the source: it may not exist, or it may
+ *   be visible only to signed-in users.
  */
-export const NOT_FOUND_REASONS = ["not_found", "suspended"] as const;
+export const NOT_FOUND_REASONS = ["not_found", "suspended", "unavailable"] as const;
 export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number];
 
 /**

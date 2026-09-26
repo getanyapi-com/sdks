@@ -337,7 +337,7 @@ export interface RunResult<T> {
   jqError?: string;
   hint?: string;
 }
-export declare const NOT_FOUND_REASONS: readonly ["not_found", "suspended"];
+export declare const NOT_FOUND_REASONS: readonly ["not_found", "suspended", "unavailable"];
 export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number];
 export type Output<T> =
   | { found: true; data: T }

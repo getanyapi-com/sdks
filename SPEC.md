@@ -420,8 +420,10 @@ export interface RunResult<T> {
 /** Why a call answered found:false. The gateway publishes this list as the `reason` enum on
  *  every found-data output schema; the runtime names the same words and a drift test holds
  *  them together. `not_found`: the source states the target does not exist, or returned
- *  nothing for it. `suspended`: the platform has suspended the account. */
-export type NotFoundReason = "not_found" | "suspended";
+ *  nothing for it. `suspended`: the platform has suspended the account. `unavailable`: the
+ *  platform did not show this to the source: it may not exist, or it may be visible only to
+ *  signed-in users. */
+export type NotFoundReason = "not_found" | "suspended" | "unavailable";
 
 /** Discriminated union on `found`. When found is false, data is null and `reason` says why
  *  (absent only on a response from a gateway older than the field). */
