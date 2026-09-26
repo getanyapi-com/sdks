@@ -4546,7 +4546,7 @@ class LinkedinNamespace:
         experience detail, skills, certifications, connections, and verified flags
         use linkedin.profile.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -5238,7 +5238,7 @@ class AsyncLinkedinNamespace:
         experience detail, skills, certifications, connections, and verified flags
         use linkedin.profile.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")

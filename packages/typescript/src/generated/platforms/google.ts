@@ -963,7 +963,7 @@ export class GoogleNamespace {
    *
    * Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.
    *
-   * Price: $0.0018 per request.
+   * Price: $0.0048 per request.
    *
    * @example
    * const res = await client.google.aiOverview({ prompt: "How does photosynthesis work?" });

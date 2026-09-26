@@ -404,6 +404,40 @@ class InstagramSearchInput(TypedDict, total=False):
     """What to search for: user profiles, hashtags, or places (e.g. hashtag). Default: user."""
 
 
+class InstagramSearchFollowersInput(TypedDict, total=False):
+    """Input for Instagram Search Followers."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Name or username text to look for among this account's followers (e.g. john). Instagram matches loosely, and on large accounts it does not search followers at all, so the most recent followers come back instead."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    username: Required[str]
+    """The Instagram username whose followers to search, without the leading @ (e.g. milada2788)."""
+
+
+class InstagramSearchFollowingInput(TypedDict, total=False):
+    """Input for Instagram Search Following."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Name or username text to look for among the accounts this user follows (e.g. skin). Instagram matches loosely, so close matches are returned too."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    username: Required[str]
+    """The Instagram username whose following list to search, without the leading @ (e.g. moogooskincare)."""
+
+
 class InstagramSearchHashtagInput(TypedDict, total=False):
     """Input for Instagram Hashtag Search."""
 
@@ -1836,6 +1870,74 @@ class InstagramSearchItem(BaseModel):
     )
 
 
+class InstagramSearchFollowersData(BaseModel):
+    items: list[InstagramSearchFollowersItem] = Field(
+        description="Followers of the account that Instagram returned for the query, in Instagram's own order. On smaller accounts these are matches from the whole follower list, and Instagram's matching is loose, so some may not contain the exact query text. On large accounts Instagram does not search followers, so these are the account's most recent followers, whatever the query. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramSearchFollowersItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    handle: str = Field(
+        description="The follower's username, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="The follower's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the follower's profile picture. Instagram signs this URL in its query string, so use it as returned. Empty when the source omits it.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="The follower's display name. Empty when the account has none.",
+    )
+    private: bool | None = Field(
+        default=None, description="Whether the follower's account is private."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical URL of the follower's profile."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the follower's account is verified."
+    )
+
+
+class InstagramSearchFollowingData(BaseModel):
+    items: list[InstagramSearchFollowingItem] = Field(
+        description="Accounts the user follows that Instagram matched to the query, in Instagram's own order. Instagram's matching is loose, so some results may not contain the exact query text. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramSearchFollowingItem(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    handle: str = Field(
+        description="The followed account's username, without the @ prefix. Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="The followed account's numeric Instagram user ID, as a string. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="URL of the followed account's profile picture. Instagram signs this URL in its query string, so use it as returned. Empty when the source omits it.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="The followed account's display name. Empty when the account has none.",
+    )
+    private: bool | None = Field(
+        default=None, description="Whether the followed account is private."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical URL of the followed account's profile."
+    )
+    verified: bool | None = Field(
+        default=None, description="Whether the followed account is verified."
+    )
+
+
 class InstagramSearchHashtagData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -2768,7 +2870,7 @@ class InstagramNamespace:
 
         List Instagram reels that use a given audio track by audio id.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.audio_reels(audioId="1392969992841787")
@@ -2833,7 +2935,7 @@ class InstagramNamespace:
         List the replies to an Instagram comment with cursor pagination (text,
         author, likes).
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
@@ -3061,7 +3163,7 @@ class InstagramNamespace:
         filters use instagram.search_hashtag; for the chronological feed use
         instagram.hashtag_recent_posts.
 
-        Price: $0.0015 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.hashtag_top_posts(hashtag="skincare")
@@ -3301,7 +3403,7 @@ class InstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00257 per request plus $0 per result (maximum $0.00257).
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -3355,7 +3457,7 @@ class InstagramNamespace:
         same keyword, with a recency filter and numbered pages, use
         instagram.web_reels_search.
 
-        Price: $0.0015 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -3408,6 +3510,54 @@ class InstagramNamespace:
             "instagram.search", dict(input), options
         )
         return RunResult[InstagramSearchData].model_validate(raw)
+
+    def search_followers(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchFollowersInput],
+    ) -> RunResult[InstagramSearchFollowersData]:
+        """Instagram Search Followers
+
+        Search the followers of a public Instagram account by name or username,
+        using Instagram's own follower search. On smaller accounts it searches the
+        whole follower list and returns close matches ranked by Instagram. On large
+        accounts Instagram does not support searching followers, so the result is
+        the account's most recent followers instead, whatever the query. Returns
+        usernames, names, and profile details.
+
+        Price: $0.0022 per request.
+
+        Example:
+            res = client.instagram.search_followers(query="john", username="milada2788")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_followers", dict(input), options
+        )
+        return RunResult[InstagramSearchFollowersData].model_validate(raw)
+
+    def search_following(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchFollowingInput],
+    ) -> RunResult[InstagramSearchFollowingData]:
+        """Instagram Search Following
+
+        Search the accounts a public Instagram user follows by name or username.
+        Matching is Instagram's own loose search, so results are close matches
+        ranked by Instagram and some may not contain your exact word. Returns
+        usernames, names, and profile details.
+
+        Price: $0.0022 per request.
+
+        Example:
+            res = client.instagram.search_following(query="skin", username="moogooskincare")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_following", dict(input), options
+        )
+        return RunResult[InstagramSearchFollowingData].model_validate(raw)
 
     def search_hashtag(
         self,
@@ -3469,7 +3619,7 @@ class InstagramNamespace:
         Search Instagram locations by keyword and return each place's id, name,
         address and coordinates.
 
-        Price: $0.0024 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.search_locations(query="Eiffel Tower")
@@ -3601,7 +3751,7 @@ class InstagramNamespace:
         Fetch a public Instagram account's currently live stories with media, type,
         dimensions, posting time, and 24-hour expiry by username.
 
-        Price: $0.0024 per request.
+        Price: $0.0022 per request.
 
         Example:
             res = client.instagram.stories_full(username="natgeo")
@@ -3817,7 +3967,7 @@ class InstagramNamespace:
         List the posts a public Instagram account has reposted to its feed, with
         cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.user_reposts(userId="787132")
@@ -3894,7 +4044,7 @@ class AsyncInstagramNamespace:
 
         List Instagram reels that use a given audio track by audio id.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.audio_reels(audioId="1392969992841787")
@@ -3959,7 +4109,7 @@ class AsyncInstagramNamespace:
         List the replies to an Instagram comment with cursor pagination (text,
         author, likes).
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.comment_replies(commentId="18126632131325044", url="https://www.instagram.com/p/C8rKmYvsrck/")
@@ -4189,7 +4339,7 @@ class AsyncInstagramNamespace:
         filters use instagram.search_hashtag; for the chronological feed use
         instagram.hashtag_recent_posts.
 
-        Price: $0.0015 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.hashtag_top_posts(hashtag="skincare")
@@ -4429,7 +4579,7 @@ class AsyncInstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00257 per request plus $0 per result (maximum $0.00257).
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -4483,7 +4633,7 @@ class AsyncInstagramNamespace:
         same keyword, with a recency filter and numbered pages, use
         instagram.web_reels_search.
 
-        Price: $0.0015 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.reels_search(query="travel")
@@ -4536,6 +4686,54 @@ class AsyncInstagramNamespace:
             "instagram.search", dict(input), options
         )
         return RunResult[InstagramSearchData].model_validate(raw)
+
+    async def search_followers(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchFollowersInput],
+    ) -> RunResult[InstagramSearchFollowersData]:
+        """Instagram Search Followers
+
+        Search the followers of a public Instagram account by name or username,
+        using Instagram's own follower search. On smaller accounts it searches the
+        whole follower list and returns close matches ranked by Instagram. On large
+        accounts Instagram does not support searching followers, so the result is
+        the account's most recent followers instead, whatever the query. Returns
+        usernames, names, and profile details.
+
+        Price: $0.0022 per request.
+
+        Example:
+            res = client.instagram.search_followers(query="john", username="milada2788")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_followers", dict(input), options
+        )
+        return RunResult[InstagramSearchFollowersData].model_validate(raw)
+
+    async def search_following(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramSearchFollowingInput],
+    ) -> RunResult[InstagramSearchFollowingData]:
+        """Instagram Search Following
+
+        Search the accounts a public Instagram user follows by name or username.
+        Matching is Instagram's own loose search, so results are close matches
+        ranked by Instagram and some may not contain your exact word. Returns
+        usernames, names, and profile details.
+
+        Price: $0.0022 per request.
+
+        Example:
+            res = client.instagram.search_following(query="skin", username="moogooskincare")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.search_following", dict(input), options
+        )
+        return RunResult[InstagramSearchFollowingData].model_validate(raw)
 
     async def search_hashtag(
         self,
@@ -4597,7 +4795,7 @@ class AsyncInstagramNamespace:
         Search Instagram locations by keyword and return each place's id, name,
         address and coordinates.
 
-        Price: $0.0024 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.search_locations(query="Eiffel Tower")
@@ -4729,7 +4927,7 @@ class AsyncInstagramNamespace:
         Fetch a public Instagram account's currently live stories with media, type,
         dimensions, posting time, and 24-hour expiry by username.
 
-        Price: $0.0024 per request.
+        Price: $0.0022 per request.
 
         Example:
             res = client.instagram.stories_full(username="natgeo")
@@ -4945,7 +5143,7 @@ class AsyncInstagramNamespace:
         List the posts a public Instagram account has reposted to its feed, with
         cursor pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.user_reposts(userId="787132")
