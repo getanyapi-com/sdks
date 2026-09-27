@@ -374,27 +374,7 @@ export interface ZillowSearchInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `yearBuilt`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    | "baths"
-    | "beds"
-    | "brokerName"
-    | "city"
-    | "currency"
-    | "daysOnZillow"
-    | "images"
-    | "isZillowOwned"
-    | "latitude"
-    | "livingArea"
-    | "longitude"
-    | "lotSize"
-    | "price"
-    | "propertyType"
-    | "rentZestimate"
-    | "state"
-    | "status"
-    | "taxAssessedValue"
-    | "yearBuilt"
-    | "zestimate"
-    | "zipcode"
+    "brokerName" | "images" | "isZillowOwned" | "taxAssessedValue" | "yearBuilt"
   )[];
   /**
    * Only show listings with a price reduction. Buy searches only; ignored for rentals (e.g. true).

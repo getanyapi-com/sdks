@@ -39,9 +39,7 @@ class TrustpilotReviewsInput(TypedDict, total=False):
                 "authorCountry",
                 "avatarUrl",
                 "language",
-                "rating",
                 "reviewerReviewsCount",
-                "verified",
             ]
         ]
     ]

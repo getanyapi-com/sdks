@@ -383,25 +383,11 @@ export interface LinkedinCompanyInput {
   requireFields?: (
     | "city"
     | "companyType"
-    | "country"
-    | "employeeCountRange"
-    | "foundedOn"
     | "fundingData"
-    | "headquarter"
-    | "id"
-    | "industry"
     | "line1"
-    | "linkedinUrl"
-    | "locations"
-    | "logoUrl"
-    | "name"
     | "pageVerified"
     | "postalCode"
     | "similarOrganizations"
-    | "specialities"
-    | "tagline"
-    | "universalName"
-    | "website"
   )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
@@ -582,19 +568,14 @@ export interface LinkedinCompanyEmployeesInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `openToWork` or `premium`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an employee who genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    | "city"
     | "companyId"
     | "companyUrl"
-    | "country"
     | "countryCode"
     | "createdUtc"
     | "creator"
     | "firstName"
-    | "image"
     | "influencer"
-    | "jobTitle"
     | "lastName"
-    | "location"
     | "openToWork"
     | "premium"
   )[];
@@ -1754,7 +1735,7 @@ export interface LinkedinJobsThinInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("companyUrl" | "createdUtc" | "id" | "logoUrl")[];
+  requireFields?: "logoUrl"[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1838,9 +1819,7 @@ export interface LinkedinPostInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `image`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: (
-    "authorImage" | "authorUrl" | "comments" | "image" | "likes" | "title"
-  )[];
+  requireFields?: ("authorImage" | "image")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2050,7 +2029,7 @@ export interface LinkedinPostReactionsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("actor" | "items" | "postId" | "reactionType")[];
+  requireFields?: "postId"[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2176,60 +2155,10 @@ export interface LinkedinProfileInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `workplaceType`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `topSkills` or `workplaceType`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    | "about"
-    | "certifications"
-    | "city"
-    | "companyId"
-    | "companyLinkedinUrl"
-    | "companyName"
-    | "connectionsCount"
-    | "country"
-    | "countryCode"
-    | "coverImage"
-    | "creator"
-    | "currentPosition"
-    | "degree"
-    | "description"
-    | "duration"
-    | "education"
-    | "employmentType"
-    | "endDate"
-    | "endorsements"
-    | "fieldOfStudy"
-    | "firstName"
-    | "followerCount"
-    | "hiring"
-    | "honorsAndAwards"
-    | "id"
-    | "influencer"
-    | "issuedAt"
-    | "issuedBy"
-    | "languages"
-    | "lastName"
-    | "location"
-    | "name"
-    | "openToWork"
-    | "photo"
-    | "positions"
-    | "premium"
-    | "projects"
-    | "publicIdentifier"
-    | "publications"
-    | "publishedText"
-    | "school"
-    | "schoolId"
-    | "schoolUrl"
-    | "skills"
-    | "startDate"
-    | "state"
-    | "title"
-    | "topSkills"
-    | "url"
-    | "verified"
-    | "workplaceType"
+    "endorsements" | "positions" | "schoolId" | "topSkills" | "workplaceType"
   )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
@@ -3711,24 +3640,12 @@ export interface LinkedinProfileThinInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `headline` or `recentPosts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    | "about"
     | "activityType"
     | "articles"
-    | "avatarUrl"
-    | "company"
-    | "companyUrl"
     | "createdUtc"
-    | "education"
-    | "endDate"
-    | "followers"
     | "headline"
     | "id"
-    | "location"
-    | "name"
     | "recentPosts"
-    | "school"
-    | "schoolUrl"
-    | "startDate"
     | "text"
     | "url"
   )[];

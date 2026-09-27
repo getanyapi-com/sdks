@@ -63,13 +63,10 @@ class TripadvisorSearchInput(TypedDict, total=False):
         list[
             Literal[
                 "address",
-                "category",
                 "city",
                 "country",
                 "email",
                 "hotelClass",
-                "id",
-                "image",
                 "latitude",
                 "longitude",
                 "phone",
@@ -77,8 +74,6 @@ class TripadvisorSearchInput(TypedDict, total=False):
                 "priceLevel",
                 "priceRange",
                 "ranking",
-                "reviewCount",
-                "type",
                 "website",
             ]
         ]

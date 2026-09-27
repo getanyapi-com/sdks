@@ -196,13 +196,10 @@ export interface TripadvisorSearchInput {
    */
   requireFields?: (
     | "address"
-    | "category"
     | "city"
     | "country"
     | "email"
     | "hotelClass"
-    | "id"
-    | "image"
     | "latitude"
     | "longitude"
     | "phone"
@@ -210,8 +207,6 @@ export interface TripadvisorSearchInput {
     | "priceLevel"
     | "priceRange"
     | "ranking"
-    | "reviewCount"
-    | "type"
     | "website"
   )[];
   /**

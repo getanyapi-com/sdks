@@ -71,15 +71,10 @@ class EbaySearchInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
-                "bidCount",
-                "condition",
-                "currency",
                 "listingType",
-                "price",
                 "sellerFeedbackCount",
                 "sellerFeedbackPercent",
                 "sellerName",
-                "shippingCost",
             ]
         ]
     ]

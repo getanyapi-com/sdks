@@ -50,9 +50,7 @@ export interface TrustpilotReviewsInput {
     | "authorCountry"
     | "avatarUrl"
     | "language"
-    | "rating"
     | "reviewerReviewsCount"
-    | "verified"
   )[];
   /**
    * Review ordering: auto, relevancy, or recent (e.g. recent).

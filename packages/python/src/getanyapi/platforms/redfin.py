@@ -44,32 +44,16 @@ class RedfinSearchInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
-                "addressLine",
                 "agentName",
-                "baths",
-                "beds",
-                "city",
                 "countryCode",
                 "daysOnMarket",
                 "description",
                 "garageSpaces",
                 "hoaFee",
-                "latitude",
-                "listingId",
-                "longitude",
-                "lotSize",
-                "mlsId",
                 "parkingSpaces",
-                "postalCode",
-                "price",
                 "pricePerSqft",
                 "soldUtc",
-                "sqft",
-                "state",
-                "status",
                 "stories",
-                "title",
-                "yearBuilt",
             ]
         ]
     ]

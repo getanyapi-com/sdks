@@ -124,27 +124,7 @@ class ZillowSearchInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
-                "baths",
-                "beds",
-                "brokerName",
-                "city",
-                "currency",
-                "daysOnZillow",
-                "images",
-                "isZillowOwned",
-                "latitude",
-                "livingArea",
-                "longitude",
-                "lotSize",
-                "price",
-                "propertyType",
-                "rentZestimate",
-                "state",
-                "status",
-                "taxAssessedValue",
-                "yearBuilt",
-                "zestimate",
-                "zipcode",
+                "brokerName", "images", "isZillowOwned", "taxAssessedValue", "yearBuilt"
             ]
         ]
     ]

@@ -33,28 +33,14 @@ class YelpSearchInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
-                "address1",
                 "address2",
                 "address3",
-                "avg_rating",
-                "categories",
-                "city",
-                "country",
                 "dialable_phone",
                 "is_closed",
-                "latitude",
                 "localized_phone",
-                "localized_price",
-                "longitude",
-                "neighborhoods",
-                "phone",
                 "photo_count",
                 "price",
-                "review_count",
-                "state",
                 "unrounded_avg_rating",
-                "url",
-                "zip",
             ]
         ]
     ]
