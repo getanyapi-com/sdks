@@ -555,7 +555,7 @@ export interface LinkedinCompanyEmployeesInput {
    */
   jobTitle?: string;
   /**
-   * Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-10, default 10).
    * Range: minimum 1, maximum 10.
    */
   limit?: number;
@@ -970,6 +970,10 @@ export interface LinkedinCompanyThinInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `companyType` or `coverImage`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a company page that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("companyType" | "coverImage")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -986,11 +990,11 @@ export interface LinkedinCompanyThinData {
   /**
    * Company type, e.g. Privately Held, Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Company page cover image URL. The query string is a signed token, so keep the URL intact.
    */
-  coverImage?: string;
+  coverImage?: string | null;
   /**
    * Company about/description text. Populated whenever the provider has data for the entity.
    */
@@ -4054,6 +4058,21 @@ export interface LinkedinSearchPostsFullInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `attachmentType` or `pollOptions`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "attachmentDescription"
+    | "attachmentImage"
+    | "attachmentSubtitle"
+    | "attachmentTitle"
+    | "attachmentType"
+    | "attachmentUrl"
+    | "pollClosed"
+    | "pollOptions"
+    | "pollQuestion"
+    | "pollTotalVotes"
+  )[];
+  /**
    * Order results by search relevance or publication date.
    * One of: relevance, date.
    * Default: relevance.
@@ -5220,7 +5239,7 @@ export class LinkedinNamespace {
    *
    * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.
    *
-   * Price: $0.0032 per request plus $0.0048 per result (maximum $0.0512).
+   * Price: $0.006 per request.
    *
    * @example
    * const res = await client.linkedin.companyEmployees({ company: "stripe", limit: 3 });
@@ -5271,7 +5290,7 @@ export class LinkedinNamespace {
    *
    * Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.001 per request.
    *
    * @example
    * const res = await client.linkedin.companyThin({ url: "https://www.linkedin.com/company/stripe" });
@@ -5583,7 +5602,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts with rich author, engagement, attachment, and poll details.
    *
-   * Price: $0.005 per request.
+   * Price: $0.003 per request.
    *
    * @example
    * const res = await client.linkedin.searchPostsFull({ query: "artificial intelligence", datePosted: "last-week", limit: 10, sort: "relevance" });
