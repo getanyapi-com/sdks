@@ -53,6 +53,9 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
       - run: pnpm install --frozen-lockfile
 
@@ -125,6 +128,13 @@ jobs:
           fi
           echo "tag v$VERSION is free."
 
+      # Nothing has tested the candidate: regen pushes it on its blocked path, before any test
+      # step, and a push made with the default GITHUB_TOKEN starts no CI on catalog-refresh or
+      # on main. Run release.yml's test gate on this exact commit before main moves, so a red
+      # tree fails here with main and the tags untouched and the blocked-regen issue still open.
+      - name: test gate on the candidate (release.yml's verify gate)
+        uses: ./.github/actions/test-gate
+
       - name: fast-forward main and push the tag
         env:
           VERSION: ${{ steps.subject.outputs.version }}
@@ -144,10 +154,8 @@ jobs:
         # A tag pushed with the default GITHUB_TOKEN does NOT trigger tag-`push` workflows, so
         # we explicitly dispatch release.yml with the tag as input, exactly as regen.yml does.
         #
-        # release.yml's `verify` job re-runs the complete gate against the tag (generator
-        # typecheck + vitest, regen drift, TypeScript, Python pyright/mypy/pytest, both live
-        # discovery canaries, dash guard) before anything is published, so the gates are
-        # deliberately NOT duplicated here.
+        # release.yml's `verify` job re-runs the test gate above plus both live discovery
+        # canaries and the dash guard against the tag before anything is published.
         run: gh workflow run release.yml --ref "v$VERSION" -f tag="v$VERSION"
 
       - name: close the blocked-regen issue this accept resolved

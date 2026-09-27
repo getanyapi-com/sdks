@@ -56,16 +56,16 @@ export interface RequestSnapshot<T = unknown> {
 }
 
 /**
- * Why a call answered `found: false`. The gateway publishes this list as the `reason` enum on
- * every found-data output schema, so the runtime names the same words; the generator drift
- * test holds the two together once the live OpenAPI carries the field.
+ * Why a call answered `found: false`. The gateway owns this vocabulary and can add a word
+ * after a release is published, so `NotFoundReason` names the words known at release for
+ * autocomplete but accepts any string, which arrives exactly as the gateway sent it.
  * - `not_found`: the source states the target does not exist, or returned nothing for it.
  * - `suspended`: the platform has suspended the account.
  * - `unavailable`: the platform did not show this to the source: it may not exist, or it may
  *   be visible only to signed-in users.
  */
 export const NOT_FOUND_REASONS = ["not_found", "suspended", "unavailable"] as const;
-export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number];
+export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number] | (string & {});
 
 /**
  * Discriminated union on `found`. When found is false, data is null and `reason` says why

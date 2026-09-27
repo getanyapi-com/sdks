@@ -1,0 +1,42 @@
+name: SDK test gate
+description: >-
+  The one test gate every publishing path runs on the tree in the workspace: release.yml's
+  verify job before it publishes, and regen.yml and accept-catalog-refresh.yml before they
+  move main or push a tag. The caller has already run `pnpm install --frozen-lockfile` and
+  set up Python.
+
+# Pushes and tags made with the default GITHUB_TOKEN start no workflow, so a bot commit on
+# main gets no CI run of its own: this gate, run before the push, is the only test it gets.
+# Without it, v0.61.3 and v0.62.0 were tagged on trees whose TypeScript tests failed, which
+# release.yml found only after main and the tags had moved. The steps are the ones
+# release.yml's verify job ran inline, in the same order.
+
+runs:
+  using: composite
+  steps:
+    - name: install pinned ruff (generated-Python formatting is part of byte determinism)
+      shell: bash
+      run: pip install ruff==0.15.20
+    - name: generator typecheck + vitest
+      shell: bash
+      run: pnpm --filter @anyapi/generator run check
+    - name: regen drift (byte-identical)
+      shell: bash
+      run: pnpm run generate:check
+    - name: typescript (tsc strict + vitest + tsup + consumer typecheck)
+      shell: bash
+      run: |
+        pnpm --filter @getanyapi/sdk run check
+        pnpm --filter @getanyapi/sdk run consumer-typecheck
+    - name: install python package + dev deps
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e "packages/python[dev]"
+    - name: pyright + mypy --strict + pytest
+      shell: bash
+      working-directory: packages/python
+      run: |
+        pyright
+        mypy
+        pytest
