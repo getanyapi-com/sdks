@@ -24,7 +24,7 @@ export interface GlassdoorJobsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -46,6 +46,19 @@ export interface GlassdoorJobsInput {
    * Job title or keywords to search (keyword mode). Provide this or a url.
    */
   query?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `companyIndustry` or `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a job listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "companyIndustry"
+    | "companyRevenue"
+    | "companySize"
+    | "companyType"
+    | "expired"
+    | "logoUrl"
+    | "normalizedTitle"
+    | "sector"
+  )[];
   /**
    * Sort order: most recent (date) or best match (relevance). Keyword mode only.
    * One of: date, relevance.
@@ -90,19 +103,19 @@ export interface GlassdoorJobsItem {
   /**
    * Primary industry of the hiring employer.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Employer revenue band as Glassdoor words it.
    */
-  companyRevenue?: string;
+  companyRevenue?: string | null;
   /**
    * Employer headcount band as Glassdoor words it (e.g. "1001 to 5000 Employees").
    */
-  companySize?: string;
+  companySize?: string | null;
   /**
    * Employer ownership type (e.g. "Company - Private").
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Full job description (may contain HTML).
    */
@@ -114,7 +127,7 @@ export interface GlassdoorJobsItem {
   /**
    * Whether Glassdoor reports the listing as expired.
    */
-  expired?: boolean;
+  expired?: boolean | null;
   /**
    * Glassdoor job listing id. Populated whenever the provider has data for the entity.
    */
@@ -130,11 +143,11 @@ export interface GlassdoorJobsItem {
   /**
    * Employer square logo image URL.
    */
-  logoUrl?: string;
+  logoUrl?: string | null;
   /**
    * Glassdoor's normalized occupation title for the listing.
    */
-  normalizedTitle?: string;
+  normalizedTitle?: string | null;
   /**
    * Employer Glassdoor star rating (0 when not rated).
    */
@@ -167,7 +180,7 @@ export interface GlassdoorJobsItem {
   /**
    * Sector of the hiring employer.
    */
-  sector?: string;
+  sector?: string | null;
   /**
    * Job title. Populated whenever the provider has data for the entity.
    */
@@ -201,10 +214,10 @@ export class GlassdoorNamespace {
    *
    * Search Glassdoor job listings by keyword and location, or scrape any Glassdoor company or job search page URL - up to 20 normalized job records per request.
    *
-   * Price: $0.0055 per request plus $0.00523 per result (maximum $0.11).
+   * Price: $0.009 per request.
    *
    * @example
-   * const res = await client.glassdoor.jobs({ limit: 3, location: "United States", postedLimit: "month", query: "software engineer" });
+   * const res = await client.glassdoor.jobs({ limit: 3, url: "https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm" });
    */
   jobs(
     input: GlassdoorJobsInput,

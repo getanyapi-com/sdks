@@ -30,7 +30,7 @@ export interface UpworkJobsInput {
    */
   jobType?: "fixed" | "hourly";
   /**
-   * Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (10-25, default 25).
    * Range: minimum 10, maximum 25.
    */
   limit?: number;
@@ -51,6 +51,10 @@ export interface UpworkJobsInput {
    * Keywords to search Upwork jobs for (e.g. react developer).
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `premium` or `reposted`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a job that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("premium" | "reposted")[];
   /**
    * Sort order for listings: newest or relevance (e.g. newest).
    * One of: newest, relevance.
@@ -128,7 +132,7 @@ export interface UpworkJobsItem {
   /**
    * Whether Upwork flags the posting as premium.
    */
-  premium?: boolean;
+  premium?: boolean | null;
   /**
    * Number of proposals submitted.
    */
@@ -136,7 +140,7 @@ export interface UpworkJobsItem {
   /**
    * Whether the posting is a repost of an earlier job.
    */
-  reposted?: boolean;
+  reposted?: boolean | null;
   /**
    * Skill tags.
    */
@@ -174,7 +178,7 @@ export class UpworkNamespace {
    *
    * Search Upwork job postings by keyword, with up to 25 fresh listings per request.
    *
-   * Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
+   * Price: $0.01 per request.
    *
    * @example
    * const res = await client.upwork.jobs({ query: "web developer", jobType: "fixed", limit: 10 });

@@ -34252,10 +34252,10 @@
       "category": "data",
       "description": "Search Glassdoor job listings by keyword and location, or scrape any Glassdoor company or job search page URL - up to 20 normalized job records per request.",
       "pricing": {
-        "priceUsd": 0.11,
-        "baseUsd": 0.0055,
-        "perItemUsd": 0.00523,
-        "perItemUnit": "result"
+        "priceUsd": 0.009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "glassdoor",
       "tsMethod": "jobs",
@@ -34267,9 +34267,7 @@
       "outputTypeName": "GlassdoorJobsData",
       "example": {
         "limit": 3,
-        "location": "United States",
-        "postedLimit": "month",
-        "query": "software engineer"
+        "url": "https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm"
       },
       "input": {
         "kind": "object",
@@ -34297,7 +34295,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (1-20, default 20).",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -34333,6 +34331,26 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `companyIndustry` or `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a job listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "companyIndustry",
+                "companyRevenue",
+                "companySize",
+                "companyType",
+                "expired",
+                "logoUrl",
+                "normalizedTitle",
+                "sector"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sortBy": {
             "kind": "string",
@@ -34420,6 +34438,7 @@
                   "companyIndustry": {
                     "kind": "string",
                     "description": "Primary industry of the hiring employer.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34427,6 +34446,7 @@
                   "companyRevenue": {
                     "kind": "string",
                     "description": "Employer revenue band as Glassdoor words it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34434,6 +34454,7 @@
                   "companySize": {
                     "kind": "string",
                     "description": "Employer headcount band as Glassdoor words it (e.g. \"1001 to 5000 Employees\").",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34441,6 +34462,7 @@
                   "companyType": {
                     "kind": "string",
                     "description": "Employer ownership type (e.g. \"Company - Private\").",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34460,6 +34482,7 @@
                   "expired": {
                     "kind": "boolean",
                     "description": "Whether Glassdoor reports the listing as expired.",
+                    "nullable": true,
                     "default": null
                   },
                   "id": {
@@ -34484,6 +34507,7 @@
                   "logoUrl": {
                     "kind": "string",
                     "description": "Employer square logo image URL.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34491,6 +34515,7 @@
                   "normalizedTitle": {
                     "kind": "string",
                     "description": "Glassdoor's normalized occupation title for the listing.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34548,6 +34573,7 @@
                   "sector": {
                     "kind": "string",
                     "description": "Sector of the hiring employer.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -111580,10 +111606,10 @@
       "category": "data",
       "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.",
       "pricing": {
-        "priceUsd": 0.0286,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0011,
-        "perItemUnit": "result"
+        "priceUsd": 0.01,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "upwork",
       "tsMethod": "jobs",
@@ -111640,7 +111666,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (10-25, default 25). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of results to return (10-25, default 25).",
             "minimum": 10,
             "maximum": 25,
             "default": null
@@ -111670,6 +111696,20 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `premium` or `reposted`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a job that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "premium",
+                "reposted"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "sort": {
             "kind": "string",
@@ -111816,6 +111856,7 @@
                   "premium": {
                     "kind": "boolean",
                     "description": "Whether Upwork flags the posting as premium.",
+                    "nullable": true,
                     "default": null
                   },
                   "proposals": {
@@ -111828,6 +111869,7 @@
                   "reposted": {
                     "kind": "boolean",
                     "description": "Whether the posting is a repost of an earlier job.",
+                    "nullable": true,
                     "default": null
                   },
                   "tags": {

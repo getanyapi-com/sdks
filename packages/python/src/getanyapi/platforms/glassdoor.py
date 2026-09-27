@@ -25,7 +25,7 @@ class GlassdoorJobsInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of results to return (1-20, default 20). Range: 1 to 20."""
     location: NotRequired[str]
     """City, region, or country to search within (keyword mode; e.g. United States, New York)."""
     postedLimit: NotRequired[Literal["24h", "week", "month"]]
@@ -34,6 +34,21 @@ class GlassdoorJobsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: NotRequired[str]
     """Job title or keywords to search (keyword mode). Provide this or a url."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "companyIndustry",
+                "companyRevenue",
+                "companySize",
+                "companyType",
+                "expired",
+                "logoUrl",
+                "normalizedTitle",
+                "sector",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `companyIndustry` or `logoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a job listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["date", "relevance"]]
     """Sort order: most recent (date) or best match (relevance). Keyword mode only."""
     source: NotRequired[list[str]]
@@ -177,10 +192,10 @@ class GlassdoorNamespace:
         Glassdoor company or job search page URL - up to 20 normalized job records
         per request.
 
-        Price: $0.0055 per request plus $0.00523 per result (maximum $0.11).
+        Price: $0.009 per request.
 
         Example:
-            res = client.glassdoor.jobs(limit=3, location="United States", postedLimit="month", query="software engineer")
+            res = client.glassdoor.jobs(limit=3, url="https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "glassdoor.jobs", dict(input), options
@@ -206,10 +221,10 @@ class AsyncGlassdoorNamespace:
         Glassdoor company or job search page URL - up to 20 normalized job records
         per request.
 
-        Price: $0.0055 per request plus $0.00523 per result (maximum $0.11).
+        Price: $0.009 per request.
 
         Example:
-            res = client.glassdoor.jobs(limit=3, location="United States", postedLimit="month", query="software engineer")
+            res = client.glassdoor.jobs(limit=3, url="https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "glassdoor.jobs", dict(input), options
