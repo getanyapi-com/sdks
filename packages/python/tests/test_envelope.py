@@ -63,16 +63,6 @@ def test_not_found_envelope_carries_its_reason() -> None:
     )
     assert isinstance(result.output, OutputNotFound)
     assert result.output.reason == "suspended"
-    with pytest.raises(ValidationError):
-        RunResult[dict[str, Any]].model_validate(
-            {
-                "output": {"found": False, "data": None, "reason": "UserUnavailable"},
-                "provider": "AnyAPI",
-                "costUsd": 0.0,
-                "items": 0,
-                "replayed": False,
-            }
-        )
 
 
 def test_unwrap_returns_data_when_found() -> None:

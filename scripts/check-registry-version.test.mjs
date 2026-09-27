@@ -1,9 +1,8 @@
-import { deepEqual, match, rejects } from "node:assert/strict";
+import { deepEqual, equal, match, ok, rejects } from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
   main,
-  PYPI_NEGATIVE_CACHE_TTL_MS,
   queryRegistryVersion,
   registryUrls,
 } from "./check-registry-version.mjs";
@@ -58,62 +57,91 @@ test("rejects a successful response for a different version", async () => {
   );
 });
 
-test("terminal verification waits out PyPI's negative cache", async () => {
-  const events = [];
-  await main(["1.2.3", "--require-both", "--wait-for-pypi-cache"], {
-    fetchImpl: async (url) => {
-      events.push(String(url));
-      return String(url).includes("pypi")
-        ? jsonResponse(200, { info: { version: "1.2.3" } })
-        : jsonResponse(200, { version: "1.2.3" });
+const PIP_INDEX_URL = "https://pypi.org/simple/getanyapi/";
+
+/** A clock that only moves when the wait sleeps, so a deadline passes instantly. */
+function fakeClock() {
+  let time = 0;
+  const sleeps = [];
+  return {
+    sleeps,
+    now: () => time,
+    sleepImpl: async (duration) => {
+      sleeps.push(duration);
+      time += duration;
     },
-    sleepImpl: async (duration) => events.push(duration),
+  };
+}
+
+/** npm and pip's index each miss the exact version for their first N polls. */
+function propagatingRegistries({ npmMisses, pipMisses }) {
+  const calls = { npm: 0, pip: 0 };
+  const pipHeaders = [];
+  const fetchImpl = async (url, init) => {
+    if (String(url) === PIP_INDEX_URL) {
+      calls.pip += 1;
+      pipHeaders.push(init.headers);
+      const versions = calls.pip > pipMisses ? ["1.2.2", "1.2.3"] : ["1.2.2"];
+      return jsonResponse(200, { versions });
+    }
+    calls.npm += 1;
+    return calls.npm > npmMisses
+      ? jsonResponse(200, { version: "1.2.3" })
+      : jsonResponse(404, { error: "Not found" });
+  };
+  return { calls, fetchImpl, pipHeaders };
+}
+
+test("the wait polls until each registry serves the exact version", async () => {
+  const clock = fakeClock();
+  const registries = propagatingRegistries({ npmMisses: 2, pipMisses: 1 });
+  await main(["1.2.3", "--wait"], {
+    ...clock,
+    fetchImpl: registries.fetchImpl,
     writeOutput: () => {},
   });
-  deepEqual(events, [
-    PYPI_NEGATIVE_CACHE_TTL_MS,
-    "https://registry.npmjs.org/%40getanyapi%2Fsdk/1.2.3",
-    "https://pypi.org/pypi/getanyapi/1.2.3/json",
-  ]);
-});
-
-test("terminal verification skips the wait when PyPI existed", async () => {
-  const waits = [];
-  await main(["1.2.3", "--require-both"], {
-    fetchImpl: async (url) =>
-      String(url).includes("pypi")
-        ? jsonResponse(200, { info: { version: "1.2.3" } })
-        : jsonResponse(200, { version: "1.2.3" }),
-    sleepImpl: async (duration) => waits.push(duration),
-    writeOutput: () => {},
-  });
-  deepEqual(waits, []);
-});
-
-test("terminal verification fails when PyPI is missing after the wait", async () => {
-  const waits = [];
-  await rejects(
-    main(["1.2.3", "--require-both", "--wait-for-pypi-cache"], {
-      fetchImpl: async (url) =>
-        String(url).includes("pypi")
-          ? jsonResponse(404, { message: "Not Found" })
-          : jsonResponse(200, { version: "1.2.3" }),
-      sleepImpl: async (duration) => waits.push(duration),
-      writeOutput: () => {},
-    }),
-    /not present in both registries/,
-  );
-  deepEqual(waits, [PYPI_NEGATIVE_CACHE_TTL_MS]);
-});
-
-test("cache wait is valid only for terminal verification", async () => {
-  await rejects(
-    main(["1.2.3", "--wait-for-pypi-cache"]),
-    /requires --require-both/,
+  equal(clock.sleeps.length, 2);
+  // pip's index is not polled again once it serves the version.
+  deepEqual(registries.calls, { npm: 3, pip: 2 });
+  // The same Accept as pip, so the check reads the page variant pip installs from.
+  match(
+    registries.pipHeaders[0].accept,
+    /^application\/vnd\.pypi\.simple\.v1\+json, /,
   );
 });
 
-test("release workflow wires the wait to a preflight PyPI miss", async () => {
+test("the wait fails at its deadline naming the registry and version", async () => {
+  const clock = fakeClock();
+  const registries = propagatingRegistries({
+    npmMisses: Infinity,
+    pipMisses: 0,
+  });
+  const error = await main(["1.2.3", "--wait"], {
+    ...clock,
+    fetchImpl: registries.fetchImpl,
+    writeOutput: () => {},
+  }).catch((reason) => reason);
+  const stated =
+    /^npm @getanyapi\/sdk@1\.2\.3: not visible after (\d+) s$/.exec(
+      error?.message,
+    );
+  ok(stated, `unexpected outcome: ${error}`);
+  // The last poll lands on the deadline the message states, not before it.
+  equal(clock.now(), Number(stated[1]) * 1000);
+});
+
+test("the wait does not sleep when both registries already serve the version", async () => {
+  const clock = fakeClock();
+  const registries = propagatingRegistries({ npmMisses: 0, pipMisses: 0 });
+  await main(["1.2.3", "--wait"], {
+    ...clock,
+    fetchImpl: registries.fetchImpl,
+    writeOutput: () => {},
+  });
+  deepEqual(clock.sleeps, []);
+});
+
+test("release workflow waits for both registries before the smokes", async () => {
   const workflow = await readFile(
     new URL("../.github/workflows/release.yml", import.meta.url),
     "utf8",
@@ -122,14 +150,10 @@ test("release workflow wires the wait to a preflight PyPI miss", async () => {
     workflow.indexOf("  verify-published:"),
     workflow.indexOf("  npm-smoke:"),
   );
-  match(
-    verifyJob,
-    /PYPI_WAS_MISSING: \$\{\{ needs\.registry-state\.outputs\.pypi_exists == 'false' \}\}/,
-  );
   match(verifyJob, /ref: \$\{\{ github\.workflow_sha \}\}/);
   match(
     verifyJob,
-    /args=\(--require-both\)[\s\S]*if \[ "\$PYPI_WAS_MISSING" = "true" \]; then[\s\S]*args\+=\(--wait-for-pypi-cache\)/,
+    /node scripts\/check-registry-version\.mjs "\$VERSION" --wait\n/,
   );
 });
 

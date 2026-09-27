@@ -180,15 +180,14 @@ Releases are automated from the live catalog. Two workflows drive it:
   where the change sits: Python types a nested input object as `dict[str, Any]` and an
   optional output field as `X | None`, so a change there reaches only TypeScript, and an output
   openness change can reach only Python. The post-refresh drift check proves that both match
-  the new IR. A blocked run uploads the
-  old/new IR, release notes, and generated diff, then fails before versioning, committing, or
-  tagging. Because a blocked run needs a person, it also opens a GitHub issue assigned to the
-  owner naming the blocked SKUs and linking the run and that artifact
-  (`scripts/upsert-regen-issue.mjs`); any other job
-  failure files the same issue. There is one issue per outage, not one per run: a repeat
-  rewrites the body, a changed block adds a delta comment, and the next healthy run closes
-  it. Closing matters - the upsert reuses an open issue by title, so leaving it open would
-  turn the next real failure into another silent comment.
+  the new IR. A blocked run uploads the old/new IR, release notes, and generated diff, then
+  fails before versioning, committing, or tagging. Because a blocked run needs a person, it
+  also opens a GitHub issue assigned to the owner naming the blocked SKUs and linking the run
+  and that artifact (`scripts/upsert-regen-issue.mjs`); any other job failure, and any failed
+  release, files the same issue. There is one issue per outage, not one per run: a repeat
+  rewrites the body, a changed block adds a delta comment, and the next successful release
+  closes it. Closing matters - the upsert reuses an open issue by title, so leaving it open
+  would turn the next real failure into another silent comment.
   On patch or minor it applies the version to BOTH
   `packages/typescript/package.json` and `packages/python/pyproject.toml` in lockstep, commits
   the regenerated tree, tags `v<X.Y.Z>`, pushes, and dispatches `release.yml`. The change
@@ -197,11 +196,12 @@ Releases are automated from the live catalog. Two workflows drive it:
 - `.github/workflows/release.yml` (publish) runs on a `v*` tag push and on manual dispatch
   (`tag` input). `verify` re-runs the full gate suite and asserts the tag matches both
   manifests. It queries the exact version on npm and PyPI, skips a side already present,
-  publishes a missing side, then re-queries both and smokes both exact versions. When PyPI was
-  missing at preflight, terminal verification first waits its documented 60-second default
-  cache TTL so the pre-publish 404 cannot mask the upload. Only then does it create the GitHub
-  Release. This makes rerunning the same tag a recovery operation instead of attempting to
-  republish an immutable version.
+  publishes a missing side, then polls npm and the PyPI simple index pip installs from until
+  both serve the exact version (the deadline is derived from measured propagation in
+  `scripts/check-registry-version.mjs`) and smokes both exact versions. Only then does it
+  create the GitHub Release. This makes rerunning the same tag a recovery operation instead
+  of attempting to republish an immutable version. A failed release opens or updates the
+  regen issue; a successful one closes it.
 
 ### Manual compatibility release
 

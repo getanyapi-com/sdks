@@ -18,11 +18,13 @@ name: regen
 # wrong. Only a change the classifier cannot explain is blocked.
 #
 # A blocked run needs a HUMAN, so it opens a GitHub issue assigned to the owner and keeps
-# one issue per outage rather than one per run. The next healthy run closes it. Closing is
-# the point: the upsert reuses an open issue by title, so a stale open issue would turn the
-# next real failure into another silent comment on a thread nobody watches. Between
-# 2026-09-01 and 2026-09-05 this job failed every night with no signal but GitHub's default
-# Actions email, and the published SDKs sat five days stale.
+# one issue per outage rather than one per run. The next successful release closes it, in
+# release.yml, because only that run knows whether publishing worked; this job used to close
+# it as soon as it dispatched the release, before that result existed. Closing is the point:
+# the upsert reuses an open issue by title, so a stale open issue would turn the next real
+# failure into another silent comment on a thread nobody watches. Between 2026-09-01 and
+# 2026-09-05 this job failed every night with no signal but GitHub's default Actions email,
+# and the published SDKs sat five days stale.
 #
 # A blocked run also leaves the batch REVIEWABLE instead of leaving homework. Before it
 # fails, it version-bumps and commits the tree it already regenerated and force-pushes it to
@@ -51,8 +53,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # The upsert deduplicates by exact title, so the failure and recovery paths must name
-  # the same string. Changing it orphans any issue already open under the old title.
+  # The upsert deduplicates by exact title, so this failure path and release.yml (which files
+  # failed releases and closes the issue after a successful one) must name the same string.
+  # Changing it orphans any issue already open under the old title.
   REGEN_ISSUE_TITLE: "regen is blocked: the SDKs are not being published"
 
 jobs:
@@ -178,9 +181,14 @@ jobs:
       - name: credentialless Python live discovery canary
         run: python scripts/live-discovery-python.py
 
-      - name: verify regenerated tree is self-consistent (drift check)
+      # The regenerated tree gets release.yml's whole test gate (its drift check included)
+      # before anything is versioned, committed, pushed, or tagged. The push below uses the
+      # default GITHUB_TOKEN, which starts no CI on main, so without this a tree that fails
+      # its own tests is tagged and only release.yml finds out. A red gate fails the job, the
+      # steps below are skipped, and the blocked-regen issue step reports it.
+      - name: test gate on the regenerated tree (release.yml's verify gate)
         if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
-        run: pnpm run generate:check
+        uses: ./.github/actions/test-gate
 
       - name: compute + apply lockstep version bump
         if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
@@ -253,6 +261,8 @@ jobs:
             printf 'regen failed with no classification (state: %s)\n' \
               "${BUMP:-before the classifier ran}" > regen-items.txt
           fi
+          # The backticks below are literal Markdown for the issue body, not substitutions.
+          # shellcheck disable=SC2016
           {
             printf '`regen` stopped and did not publish. The SDKs stay at the last released version until this is resolved.\n\n'
             printf '## What is blocking\n\n'
@@ -283,13 +293,3 @@ jobs:
             --title "$REGEN_ISSUE_TITLE" \
             --body-file regen-issue.md \
             --items "$(cat regen-items.txt)"
-
-      - name: close the blocked-regen issue on recovery
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          node scripts/upsert-regen-issue.mjs \
-            --title "$REGEN_ISSUE_TITLE" \
-            --resolve \
-            --body "regen recovered: [run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) classified \`${{ steps.classify.outputs.bump }}\`."
