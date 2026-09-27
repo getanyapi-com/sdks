@@ -149,7 +149,7 @@ class UpworkNamespace:
         Search Upwork job postings by keyword, with up to 25 fresh listings per
         request.
 
-        Price: $0.01 per request.
+        Price: $0.007 per request.
 
         Example:
             res = client.upwork.jobs(jobType="fixed", limit=10, query="web developer")
@@ -174,7 +174,7 @@ class AsyncUpworkNamespace:
         Search Upwork job postings by keyword, with up to 25 fresh listings per
         request.
 
-        Price: $0.01 per request.
+        Price: $0.007 per request.
 
         Example:
             res = client.upwork.jobs(jobType="fixed", limit=10, query="web developer")

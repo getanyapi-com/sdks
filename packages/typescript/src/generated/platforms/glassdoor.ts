@@ -214,7 +214,7 @@ export class GlassdoorNamespace {
    *
    * Search Glassdoor job listings by keyword and location, or scrape any Glassdoor company or job search page URL - up to 20 normalized job records per request.
    *
-   * Price: $0.009 per request.
+   * Price: $0.007 per request.
    *
    * @example
    * const res = await client.glassdoor.jobs({ limit: 3, url: "https://www.glassdoor.com/Jobs/Google-Jobs-E9079.htm" });
