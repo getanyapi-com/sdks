@@ -4,10 +4,31 @@ import { appendFile } from "node:fs/promises";
 import { setTimeout as sleep } from "node:timers/promises";
 import { pathToFileURL } from "node:url";
 
-// PyPI applies this default TTL when a 404 has no cache header. The source is
-// pinned because this value is an external release contract, not a tuning knob:
-// https://github.com/pypi/infra/blob/c14f8827038ac43a0ddc3040c18f7bac74f201a6/terraform/warehouse/vcl/main.vcl#L445-L454
-export const PYPI_NEGATIVE_CACHE_TTL_MS = 60_000;
+// Since 2026-09-17 npm has made a version visible only some time after `npm publish`
+// returns. Measured over all 25 releases since (v0.47.0 to v0.63.0) as the registry's own
+// `time[<version>]` minus the release run's `+ @getanyapi/sdk@<version>` publish log line,
+// a measure every one-shot re-query in those runs agrees with: 54.8 to 247.6 s, median
+// 126.6 s. The 19 releases before it (v0.38.0 to v0.46.2) were visible at once.
+//
+// The deadline is the slowest of them, v0.52.0's 247.6 s, rounded up to a whole second.
+// It counts from the first poll, which starts only after both publish jobs have finished.
+const DEADLINE_MS = 248_000;
+// The measured delays land on a few distinct values (55, 75, 96, 127, 157, 188, 200 and
+// 248 s), the closest two 12.6 s apart (v0.59.0 at 187.7 s, v0.58.0 at 200.3 s). Polling
+// every 12 s adds less wait after a version appears than separates any two of them.
+const INTERVAL_MS = 12_000;
+
+// pip installs from the simple index, not the JSON API, and the two can disagree: in 6
+// releases (v0.34.0, v0.34.1, v0.34.4, v0.39.1, v0.40.1, v0.61.0) the JSON API served the
+// new version while pip, 88 to 128 s after the upload, still read an index without it.
+// The request carries pip's own headers (pip/_internal/index/collector.py) because PyPI's
+// CDN varies this page on Accept.
+const PIP_INDEX_URL = "https://pypi.org/simple/getanyapi/";
+const PIP_INDEX_HEADERS = {
+  accept:
+    "application/vnd.pypi.simple.v1+json, application/vnd.pypi.simple.v1+html; q=0.1, text/html; q=0.01",
+  "cache-control": "max-age=0",
+};
 
 export function registryUrls(version) {
   const encodedVersion = encodeURIComponent(version);
@@ -17,17 +38,22 @@ export function registryUrls(version) {
   };
 }
 
-async function queryOne(name, url, version, readVersion, fetchImpl) {
+async function fetchJson(name, url, headers, fetchImpl) {
   const response = await fetchImpl(url, {
-    headers: { "user-agent": "AnyAPI SDK release workflow" },
+    headers: { "user-agent": "AnyAPI SDK release workflow", ...headers },
   });
-  if (response.status === 404) return false;
+  if (response.status === 404) return undefined;
   if (!response.ok) {
     throw new Error(
       `${name} registry query failed with HTTP ${response.status}`,
     );
   }
-  const payload = await response.json();
+  return response.json();
+}
+
+async function queryOne(name, url, version, readVersion, fetchImpl) {
+  const payload = await fetchJson(name, url, {}, fetchImpl);
+  if (payload === undefined) return false;
   const publishedVersion = readVersion(payload);
   if (publishedVersion !== version) {
     throw new Error(
@@ -37,10 +63,28 @@ async function queryOne(name, url, version, readVersion, fetchImpl) {
   return true;
 }
 
+function queryNpm(version, fetchImpl) {
+  const url = registryUrls(version).npm;
+  return queryOne("npm", url, version, (value) => value?.version, fetchImpl);
+}
+
+async function queryPipIndex(version, fetchImpl) {
+  const payload = await fetchJson(
+    "PyPI simple index",
+    PIP_INDEX_URL,
+    PIP_INDEX_HEADERS,
+    fetchImpl,
+  );
+  if (!Array.isArray(payload?.versions)) {
+    throw new Error("PyPI simple index returned no versions list");
+  }
+  return payload.versions.includes(version);
+}
+
 export async function queryRegistryVersion(version, fetchImpl = fetch) {
   const urls = registryUrls(version);
   const [npm, pypi] = await Promise.all([
-    queryOne("npm", urls.npm, version, (value) => value?.version, fetchImpl),
+    queryNpm(version, fetchImpl),
     queryOne(
       "PyPI",
       urls.pypi,
@@ -52,24 +96,56 @@ export async function queryRegistryVersion(version, fetchImpl = fetch) {
   return { npm, pypi };
 }
 
+// Poll until npm and pip's index both serve the exact version, or fail at the deadline.
+async function waitForRegistryVersion(
+  version,
+  { fetchImpl, sleepImpl, now, writeOutput },
+) {
+  const pending = new Map([
+    [`npm @getanyapi/sdk@${version}`, () => queryNpm(version, fetchImpl)],
+    [
+      `PyPI simple index getanyapi==${version}`,
+      () => queryPipIndex(version, fetchImpl),
+    ],
+  ]);
+  const start = now();
+  for (;;) {
+    for (const [label, query] of pending) {
+      if (await query()) {
+        const seconds = Math.round((now() - start) / 1000);
+        writeOutput(`${label}: visible after ${seconds} s of polling\n`);
+        pending.delete(label);
+      }
+    }
+    if (pending.size === 0) return;
+    const remaining = DEADLINE_MS - (now() - start);
+    if (remaining <= 0) {
+      throw new Error(
+        `${[...pending.keys()].join(" and ")}: not visible after ${DEADLINE_MS / 1000} s`,
+      );
+    }
+    await sleepImpl(Math.min(INTERVAL_MS, remaining));
+  }
+}
+
 export async function main(
   args = process.argv.slice(2),
   {
     appendFileImpl = appendFile,
     fetchImpl = fetch,
     sleepImpl = sleep,
+    now = Date.now,
     writeOutput = (value) => process.stdout.write(value),
   } = {},
 ) {
   const version = args[0];
   if (!version || version.startsWith("--")) {
     throw new Error(
-      "usage: check-registry-version.mjs <version> [--github-output <path>] [--require-both] [--wait-for-pypi-cache]",
+      "usage: check-registry-version.mjs <version> [--github-output <path>] [--wait]",
     );
   }
   let outputPath;
-  let requireBoth = false;
-  let waitForPypiCache = false;
+  let wait = false;
   for (let index = 1; index < args.length; index += 1) {
     const arg = args[index];
     if (arg === "--github-output") {
@@ -78,20 +154,21 @@ export async function main(
         throw new Error("--github-output requires a path");
       }
       index += 1;
-    } else if (arg === "--require-both") {
-      requireBoth = true;
-    } else if (arg === "--wait-for-pypi-cache") {
-      waitForPypiCache = true;
+    } else if (arg === "--wait") {
+      wait = true;
     } else {
       throw new Error(`unknown option: ${arg}`);
     }
   }
 
-  if (waitForPypiCache && !requireBoth) {
-    throw new Error("--wait-for-pypi-cache requires --require-both");
-  }
-  if (waitForPypiCache) {
-    await sleepImpl(PYPI_NEGATIVE_CACHE_TTL_MS);
+  if (wait) {
+    await waitForRegistryVersion(version, {
+      fetchImpl,
+      sleepImpl,
+      now,
+      writeOutput,
+    });
+    return;
   }
 
   const state = await queryRegistryVersion(version, fetchImpl);
@@ -106,9 +183,6 @@ export async function main(
       outputPath,
       `npm_exists=${state.npm}\npypi_exists=${state.pypi}\n`,
     );
-  }
-  if (requireBoth && (!state.npm || !state.pypi)) {
-    throw new Error(`version ${version} is not present in both registries`);
   }
 }
 

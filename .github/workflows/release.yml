@@ -7,9 +7,10 @@ name: release
 #   - workflow_dispatch (input: tag): how regen.yml kicks a release after auto-tagging, since
 #     a tag pushed by the default GITHUB_TOKEN does not fire the tag-`push` trigger.
 #
-# Flow: verify -> query both registries -> publish only missing sides -> re-query both ->
-# smoke both exact versions -> GitHub Release. npm publishes with provenance (id-token).
-# PyPI uses trusted publishing (OIDC, environment `pypi`) and never falls back to a token.
+# Flow: verify -> query both registries -> publish only missing sides -> wait until both
+# serve the exact version -> smoke both exact versions -> GitHub Release -> report the result
+# on the regen incident. npm publishes with provenance (id-token). PyPI uses trusted
+# publishing (OIDC, environment `pypi`) and never falls back to a token.
 
 on:
   push:
@@ -24,6 +25,11 @@ on:
 concurrency:
   group: release-${{ github.event.inputs.tag || github.ref_name }}
   cancel-in-progress: false
+
+env:
+  # Byte-identical to regen.yml's REGEN_ISSUE_TITLE. A failed release files into regen's
+  # incident and only a successful one closes it; the upsert deduplicates by exact title.
+  REGEN_ISSUE_TITLE: "regen is blocked: the SDKs are not being published"
 
 jobs:
   verify:
@@ -174,7 +180,7 @@ jobs:
           packages-dir: packages/python/dist
 
   verify-published:
-    name: re-query exact version in both registries
+    name: wait for exact version in both registries
     needs: [verify, registry-state, publish-npm, publish-pypi]
     if: ${{ always() && needs.verify.result == 'success' && needs.registry-state.result == 'success' }}
     runs-on: ubuntu-latest
@@ -186,16 +192,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: require both exact versions
+      - name: poll npm and pip's PyPI index until both serve the exact version
         env:
-          PYPI_WAS_MISSING: ${{ needs.registry-state.outputs.pypi_exists == 'false' }}
           VERSION: ${{ needs.verify.outputs.version }}
-        run: |
-          args=(--require-both)
-          if [ "$PYPI_WAS_MISSING" = "true" ]; then
-            args+=(--wait-for-pypi-cache)
-          fi
-          node scripts/check-registry-version.mjs "$VERSION" "${args[@]}"
+        run: node scripts/check-registry-version.mjs "$VERSION" --wait
 
   npm-smoke:
     name: smoke exact npm version
@@ -288,3 +288,58 @@ jobs:
           gh release create "$TAG" \
             --title "$TAG" \
             --notes "$NOTES"
+
+  # The only place the publish result is known. Between 2026-09-17 and 2026-09-25, 20 release
+  # runs failed (17 of them after publishing) and none reached a human: nothing here reported,
+  # and regen had already closed its incident when it dispatched the release.
+  report:
+    name: report the release result on the regen incident
+    needs: [verify, registry-state, publish-npm, publish-pypi, verify-published, npm-smoke, pypi-smoke, github-release]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Keep the workflow and issue CLI version matched during old-tag recovery.
+          ref: ${{ github.workflow_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: close the regen incident after a successful publish
+        if: needs.github-release.result == 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          node scripts/upsert-regen-issue.mjs \
+            --title "$REGEN_ISSUE_TITLE" \
+            --resolve \
+            --body "release published \`$TAG\` to npm and PyPI, smoked both, and created its GitHub Release ([run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID))."
+      # github-release runs whenever verify and both smokes succeed, so anything short of its
+      # success under !cancelled() means some job before it failed.
+      - name: open or update the regen incident on a failed release
+        if: needs.github-release.result != 'success'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          NEEDS: ${{ toJSON(needs) }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          jq -r 'to_entries[] | select(.value.result != "success" and .value.result != "skipped") | "\(env.TAG): \(.key) \(.value.result)"' \
+            <<<"$NEEDS" > release-items.txt
+          # shellcheck disable=SC2016 # the backticks are Markdown code spans, not substitutions
+          {
+            printf '`release` did not finish `%s`. npm, PyPI, or the GitHub Release may be missing it until it does.\n\n' "$TAG"
+            printf '## What failed\n\n'
+            sed 's/^/- /' release-items.txt
+            printf '\n[Failing run](%s)\n' "$RUN_URL"
+            printf '\nA fresh run resumes safely: registry-state skips a registry that already serves this exact version.\n\n'
+            printf '```\ngh workflow run release.yml -R %s --ref main -f tag=%s\n```\n' "$GITHUB_REPOSITORY" "$TAG"
+          } > release-issue.md
+          node scripts/upsert-regen-issue.mjs \
+            --title "$REGEN_ISSUE_TITLE" \
+            --body-file release-issue.md \
+            --items "$(cat release-items.txt)"

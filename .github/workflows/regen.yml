@@ -15,11 +15,13 @@ name: regen
 # across IR, fixtures, and both emitted trees. Unsafe or unexplained changes are blocked.
 #
 # A blocked run needs a HUMAN, so it opens a GitHub issue assigned to the owner and keeps
-# one issue per outage rather than one per run. The next healthy run closes it. Closing is
-# the point: the upsert reuses an open issue by title, so a stale open issue would turn the
-# next real failure into another silent comment on a thread nobody watches. Between
-# 2026-09-01 and 2026-09-05 this job failed every night with no signal but GitHub's default
-# Actions email, and the published SDKs sat five days stale.
+# one issue per outage rather than one per run. The next successful release closes it, in
+# release.yml, because only that run knows whether publishing worked: this job used to close
+# it as soon as it dispatched the release, and 0 of the 20 releases that then failed reached
+# a human. Closing is the point: the upsert reuses an open issue by title, so a stale open
+# issue would turn the next real failure into another silent comment on a thread nobody
+# watches. Between 2026-09-01 and 2026-09-05 this job failed every night with no signal but
+# GitHub's default Actions email, and the published SDKs sat five days stale.
 #
 # A blocked run also leaves the batch REVIEWABLE instead of leaving homework. Before it
 # fails, it version-bumps and commits the tree it already regenerated and force-pushes it to
@@ -48,8 +50,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # The upsert deduplicates by exact title, so the failure and recovery paths must name
-  # the same string. Changing it orphans any issue already open under the old title.
+  # The upsert deduplicates by exact title, so this failure path and release.yml (which files
+  # failed releases and closes the issue after a successful one) must name the same string.
+  # Changing it orphans any issue already open under the old title.
   REGEN_ISSUE_TITLE: "regen is blocked: the SDKs are not being published"
 
 jobs:
@@ -281,13 +284,3 @@ jobs:
             --title "$REGEN_ISSUE_TITLE" \
             --body-file regen-issue.md \
             --items "$(cat regen-items.txt)"
-
-      - name: close the blocked-regen issue on recovery
-        if: success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          node scripts/upsert-regen-issue.mjs \
-            --title "$REGEN_ISSUE_TITLE" \
-            --resolve \
-            --body "regen recovered: [run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID) classified \`${{ steps.classify.outputs.bump }}\`."

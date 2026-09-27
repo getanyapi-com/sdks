@@ -211,3 +211,19 @@ test("the CLI splits --items on newlines so an item may carry a comma", () => {
     "yelp.search: input.limit default changed, from null to 20",
   ]);
 });
+
+test("only a successful release closes the regen incident", () => {
+  const workflow = (name) =>
+    readFileSync(new URL(`../.github/workflows/${name}`, import.meta.url), "utf8");
+  const title = (text) => /^ {2}REGEN_ISSUE_TITLE: (".+")$/mu.exec(text)?.[1];
+  const regen = workflow("regen.yml");
+  const release = workflow("release.yml");
+  ok(title(regen));
+  equal(title(release), title(regen));
+  // regen dispatches the release before its result is known, so it never closes.
+  ok(!regen.includes("--resolve"));
+  const report = release.slice(release.indexOf("\n  report:"));
+  match(report, /^ {4}if: \$\{\{ !cancelled\(\) \}\}$/mu);
+  match(report, /if: needs\.github-release\.result == 'success'\n[\s\S]*?--resolve/u);
+  match(report, /if: needs\.github-release\.result != 'success'\n[\s\S]*?--body-file/u);
+});
