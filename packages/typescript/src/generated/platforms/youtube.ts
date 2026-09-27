@@ -1556,7 +1556,7 @@ export interface YoutubeVideoTranscriptFullInput {
    */
   ignoreSources?: string[];
   /**
-   * Preferred caption language code (e.g. "en", "es"). Defaults to English.
+   * Preferred caption language code (e.g. "en", "es"). Defaults to English. If the video has no captions in that language, you get the transcript in another language the video has; the `language` field in the result says which.
    */
   language?: string;
   /**

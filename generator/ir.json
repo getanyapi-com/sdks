@@ -118726,7 +118726,7 @@
           },
           "language": {
             "kind": "string",
-            "description": "Preferred caption language code (e.g. \"en\", \"es\"). Defaults to English.",
+            "description": "Preferred caption language code (e.g. \"en\", \"es\"). Defaults to English. If the video has no captions in that language, you get the transcript in another language the video has; the `language` field in the result says which.",
             "enum": null,
             "default": null,
             "format": null
