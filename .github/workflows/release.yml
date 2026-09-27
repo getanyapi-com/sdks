@@ -291,7 +291,8 @@ jobs:
 
   # The only place the publish result is known. Between 2026-09-17 and 2026-09-25, 20 release
   # runs failed (17 of them after publishing) and none reached a human: nothing here reported,
-  # and regen had already closed its incident when it dispatched the release.
+  # and for the two an accept dispatched (v0.48.0, v0.59.0) accept-catalog-refresh.yml had
+  # already closed the incident.
   report:
     name: report the release result on the regen incident
     needs: [verify, registry-state, publish-npm, publish-pypi, verify-published, npm-smoke, pypi-smoke, github-release]

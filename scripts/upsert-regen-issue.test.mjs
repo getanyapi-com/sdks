@@ -220,8 +220,9 @@ test("only a successful release closes the regen incident", () => {
   const release = workflow("release.yml");
   ok(title(regen));
   equal(title(release), title(regen));
-  // regen dispatches the release before its result is known, so it never closes.
+  // regen and accept dispatch the release before its result is known, so neither closes.
   ok(!regen.includes("--resolve"));
+  ok(!workflow("accept-catalog-refresh.yml").includes("--resolve"));
   const report = release.slice(release.indexOf("\n  report:"));
   match(report, /^ {4}if: \$\{\{ !cancelled\(\) \}\}$/mu);
   match(report, /if: needs\.github-release\.result == 'success'\n[\s\S]*?--resolve/u);

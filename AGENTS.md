@@ -37,6 +37,7 @@ Review it at `https://github.com/getanyapi-com/sdks/compare/main...catalog-refre
 the blocked items named in the incident issue. To accept, press "Run workflow" on
 `.github/workflows/accept-catalog-refresh.yml` (or run
 `gh workflow run accept-catalog-refresh.yml -R getanyapi-com/sdks`); it re-checks the version
-surfaces, fast-forwards `main`, pushes the tag, dispatches `release.yml`, and closes the
-incident issue. To reject, do nothing: the next run overwrites the candidate. There is no
-local step, and no PR, because this enterprise forbids Actions from opening one.
+surfaces, fast-forwards `main`, pushes the tag, and dispatches `release.yml`, which closes the
+incident issue only after the publish succeeds. To reject, do nothing: the next run
+overwrites the candidate. There is no local step, and no PR, because this enterprise forbids
+Actions from opening one.

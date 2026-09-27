@@ -6,7 +6,10 @@ name: Accept catalog refresh (publish)
 # fully prepared release on the `catalog-refresh` branch: the regenerated tree, committed by
 # anyapi-bot with all three version surfaces bumped in lockstep. Dispatching this workflow is
 # the accept: it fast-forwards main to that commit, pushes the matching tag, and hands the tag
-# to release.yml. Rejecting it is doing nothing.
+# to release.yml. Rejecting it is doing nothing. It leaves the incident issue open: only
+# release.yml knows whether the publish worked, so it closes the issue after a successful
+# release and updates it after a failed one. This workflow used to close it on dispatch, and
+# the v0.48.0 (#45) and v0.59.0 (#52) releases then failed with the issue already closed.
 #
 # This is a dispatch rather than a pull request only because the enterprise forbids Actions
 # from creating or approving pull requests (`can_approve_pull_request_reviews` is false, and
@@ -25,17 +28,10 @@ on:
 permissions:
   contents: write
   actions: write # to trigger release.yml via workflow_dispatch after tagging
-  issues: write # to close the blocked-regen incident this accept resolves
 
 concurrency:
   group: accept-catalog-refresh
   cancel-in-progress: false
-
-env:
-  # Byte-identical to regen.yml's REGEN_ISSUE_TITLE. The upsert deduplicates by exact title,
-  # so if these two ever drift apart this workflow closes nothing and the incident regen
-  # opened stays open forever, turning the next real failure into a silent comment.
-  REGEN_ISSUE_TITLE: "regen is blocked: the SDKs are not being published"
 
 jobs:
   accept:
@@ -149,14 +145,3 @@ jobs:
         # discovery canaries, dash guard) before anything is published, so the gates are
         # deliberately NOT duplicated here.
         run: gh workflow run release.yml --ref "v$VERSION" -f tag="v$VERSION"
-
-      - name: close the blocked-regen issue this accept resolved
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: ${{ steps.subject.outputs.version }}
-          BRANCH: ${{ inputs.branch }}
-        run: |
-          node scripts/upsert-regen-issue.mjs \
-            --title "$REGEN_ISSUE_TITLE" \
-            --resolve \
-            --body "blocked batch accepted: \`main\` fast-forwarded to \`$BRANCH\`, tagged \`v$VERSION\`, and handed to release.yml ([accept run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)). The publish itself is that release run."
