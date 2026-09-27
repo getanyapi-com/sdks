@@ -50340,9 +50340,9 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.11,
-        "baseUsd": 0,
-        "perItemUsd": 0.011,
+        "priceUsd": 0.0512,
+        "baseUsd": 0.0032,
+        "perItemUsd": 0.0048,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -56719,7 +56719,7 @@
       "operationId": "linkedin_search_posts",
       "name": "LinkedIn Post Search",
       "category": "social",
-      "description": "Search public LinkedIn posts by keyword (text, link, publish date).",
+      "description": "Search public LinkedIn posts by keyword (text, link, publish date). Results come from search-engine matches over public LinkedIn posts and work best with English keywords.",
       "pricing": {
         "priceUsd": 0.0012,
         "baseUsd": null,
