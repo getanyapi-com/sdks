@@ -176,9 +176,14 @@ jobs:
       - name: credentialless Python live discovery canary
         run: python scripts/live-discovery-python.py
 
-      - name: verify regenerated tree is self-consistent (drift check)
+      # The regenerated tree gets release.yml's whole test gate (its drift check included)
+      # before anything is versioned, committed, pushed, or tagged. The push below uses the
+      # default GITHUB_TOKEN, which starts no CI on main, so without this a tree that fails
+      # its own tests is tagged and only release.yml finds out. A red gate fails the job, the
+      # steps below are skipped, and the blocked-regen issue step reports it.
+      - name: test gate on the regenerated tree (release.yml's verify gate)
         if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
-        run: pnpm run generate:check
+        uses: ./.github/actions/test-gate
 
       - name: compute + apply lockstep version bump
         if: steps.classify.outputs.bump == 'patch' || steps.classify.outputs.bump == 'minor'
@@ -251,6 +256,8 @@ jobs:
             printf 'regen failed with no classification (state: %s)\n' \
               "${BUMP:-before the classifier ran}" > regen-items.txt
           fi
+          # The backticks below are literal Markdown for the issue body, not substitutions.
+          # shellcheck disable=SC2016
           {
             printf '`regen` stopped and did not publish. The SDKs stay at the last released version until this is resolved.\n\n'
             printf '## What is blocking\n\n'

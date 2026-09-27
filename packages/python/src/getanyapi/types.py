@@ -10,7 +10,7 @@ unknown fields, exposed via ``.model_extra``.
 
 from __future__ import annotations
 
-from typing import Any, Generic, Literal, TypeVar, cast, get_args
+from typing import Any, Generic, Literal, TypeVar, cast
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from typing_extensions import TypedDict
@@ -68,15 +68,14 @@ class OutputFound(BaseModel, Generic[T]):
     data: T
 
 
-# Why a call answered ``found: false``. The gateway publishes this list as the
-# ``reason`` enum on every found-data output schema, so the runtime names the same
-# words; ``tests/test_not_found_reason.py`` holds the two together once the live
-# OpenAPI carries the field. ``not_found``: the source states the target does not
+# Why a call answered ``found: false``. The gateway owns this vocabulary and can
+# add a word after a release is published, so ``NotFoundReason`` names the words
+# known at release for autocomplete but accepts any string, which arrives exactly
+# as the gateway sent it. ``not_found``: the source states the target does not
 # exist, or returned nothing for it. ``suspended``: the platform has suspended the
 # account. ``unavailable``: the platform did not show this to the source: it may not
 # exist, or it may be visible only to signed-in users.
-NotFoundReason = Literal["not_found", "suspended", "unavailable"]
-NOT_FOUND_REASONS: tuple[str, ...] = get_args(NotFoundReason)
+NotFoundReason = Literal["not_found", "suspended", "unavailable"] | str
 
 
 class OutputNotFound(BaseModel):

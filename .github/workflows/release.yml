@@ -69,27 +69,20 @@ jobs:
           fi
           echo "version match: $VERSION"
 
-      # Mirror ci.yml gates (duplication over indirection; correctness first).
-      - name: install pinned ruff (generated-Python formatting is part of byte determinism)
-        run: pip install ruff==0.15.20
-      - name: generator typecheck + vitest
-        run: pnpm --filter @anyapi/generator run check
-      - name: regen drift (byte-identical)
-        run: pnpm run generate:check
-      - name: typescript (tsc strict + vitest + tsup + consumer typecheck)
-        run: |
-          pnpm --filter @getanyapi/sdk run check
-          pnpm --filter @getanyapi/sdk run consumer-typecheck
-      - name: install python package + dev deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e "packages/python[dev]"
-      - name: pyright + mypy --strict + pytest
-        working-directory: packages/python
-        run: |
-          pyright
-          mypy
-          pytest
+      # The gate is shared with regen.yml and accept-catalog-refresh.yml, which run it before
+      # they move main or push a tag. It is read from this workflow's own commit, not from the
+      # tag: an old-tag recovery dispatched from main checks out a tree that predates the
+      # action, and still runs this workflow's gate against it, as it did when the steps were
+      # written inline here.
+      - name: check out the shared test gate from this workflow's commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          path: .workflow
+          sparse-checkout: .github/actions
+          sparse-checkout-cone-mode: false
+      - name: test gate (generator, regen drift, TypeScript, Python)
+        uses: ./.workflow/.github/actions/test-gate
       - name: credentialless TypeScript live discovery canary
         run: node scripts/live-discovery-ts.mjs
       - name: credentialless Python live discovery canary

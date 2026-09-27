@@ -417,13 +417,13 @@ export interface RunResult<T> {
   hint?: string;
 }
 
-/** Why a call answered found:false. The gateway publishes this list as the `reason` enum on
- *  every found-data output schema; the runtime names the same words and a drift test holds
- *  them together. `not_found`: the source states the target does not exist, or returned
- *  nothing for it. `suspended`: the platform has suspended the account. `unavailable`: the
- *  platform did not show this to the source: it may not exist, or it may be visible only to
- *  signed-in users. */
-export type NotFoundReason = "not_found" | "suspended" | "unavailable";
+/** Why a call answered found:false. The gateway owns this vocabulary and can add a word after
+ *  a release is published, so the known words are listed for autocomplete but any string is
+ *  accepted and kept as sent (Python: `Literal[...] | str`). `not_found`: the source states
+ *  the target does not exist, or returned nothing for it. `suspended`: the platform has
+ *  suspended the account. `unavailable`: the platform did not show this to the source: it may
+ *  not exist, or it may be visible only to signed-in users. */
+export type NotFoundReason = "not_found" | "suspended" | "unavailable" | (string & {});
 
 /** Discriminated union on `found`. When found is false, data is null and `reason` says why
  *  (absent only on a response from a gateway older than the field). */
