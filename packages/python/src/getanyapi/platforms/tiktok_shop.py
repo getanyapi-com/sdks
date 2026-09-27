@@ -70,21 +70,6 @@ class TiktokShopProductInput(TypedDict, total=False):
     """TikTok Shop product detail page URL (e.g. https://www.tiktok.com/shop/pdp/.../1729587769570529799)."""
 
 
-class TiktokShopProductFullInput(TypedDict, total=False):
-    """Input for TikTok Shop Product Full."""
-
-    allowFallbacks: NotRequired[bool]
-    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
-    ignoreSources: NotRequired[list[str]]
-    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
-    preferLatencyUnderMs: NotRequired[int]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    source: NotRequired[list[str]]
-    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
-    url: Required[str]
-    """TikTok Shop product URL. Any of the public forms works (https://www.tiktok.com/shop/pdp/<id>, https://shop.tiktok.com/<region>/pdp/<slug>/<id>, or https://shop.tiktok.com/view/product/<id>); the product id is read out of it."""
-
-
 class TiktokShopProductReviewsInput(TypedDict, total=False):
     """Input for TikTok Shop Product Reviews."""
 
@@ -137,6 +122,23 @@ class TiktokShopSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keyword for TikTok Shop products (e.g. wireless earbuds)."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "currency",
+                "discountPct",
+                "image",
+                "originalPrice",
+                "price",
+                "rating",
+                "reviewCount",
+                "sellerId",
+                "shopName",
+                "soldCount",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `currency`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -419,140 +421,6 @@ class TiktokShopProductData(BaseModel):
     )
 
 
-class TiktokShopProductFullData(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
-    category_id: str | None = Field(
-        default=None,
-        alias="categoryId",
-        description="Top-level TikTok Shop category id.",
-    )
-    category_path: str | None = Field(
-        default=None,
-        alias="categoryPath",
-        description="Slash-separated category breadcrumb, e.g. Health/Nutrition & Wellness/Vitamins.",
-    )
-    category_rank: float | None = Field(
-        default=None,
-        alias="categoryRank",
-        description="Sales rank of this product within its category. Approximate.",
-    )
-    commission_rate_pct: float | None = Field(
-        default=None,
-        alias="commissionRatePct",
-        description="Affiliate commission rate as a percentage, e.g. 25 for 25%. Zero when the product runs no open affiliate offer.",
-    )
-    currency: str | None = Field(
-        default=None,
-        description="ISO currency code, e.g. USD. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    gmv: float | None = Field(
-        default=None,
-        description="Lifetime gross merchandise value in the product's currency. Rounded upstream to three significant figures, so treat it as approximate.",
-    )
-    gmv30d: float | None = Field(
-        default=None,
-        description="Gross merchandise value over the last 30 days, in the product's currency. Rounded upstream to three significant figures, so treat it as approximate.",
-    )
-    image: str | None = Field(default=None, description="Primary product image URL.")
-    listed_utc: float | None = Field(
-        default=None,
-        alias="listedUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    live_count: float | None = Field(
-        default=None,
-        alias="liveCount",
-        description="Lifetime count of live streams promoting this product. Approximate.",
-    )
-    live_count30d: float | None = Field(
-        default=None,
-        alias="liveCount30d",
-        description="Live streams promoting this product in the last 30 days. Approximate.",
-    )
-    max_price: float | None = Field(
-        default=None, alias="maxPrice", description="Highest variant price."
-    )
-    min_price: float | None = Field(
-        default=None, alias="minPrice", description="Lowest variant price."
-    )
-    off_shelf: bool | None = Field(
-        default=None,
-        alias="offShelf",
-        description="True when the listing is no longer on sale.",
-    )
-    price: float | None = Field(
-        default=None,
-        description="Current selling price in the product's currency. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    product_id: str = Field(
-        alias="productId",
-        description="TikTok Shop product id. Populated whenever the provider has data for the entity.",
-    )
-    rating: float | None = Field(default=None, description="Average review score.")
-    region: str | None = Field(
-        default=None,
-        description="Two-letter country code of the TikTok Shop market, e.g. US.",
-    )
-    review_count: float | None = Field(
-        default=None,
-        alias="reviewCount",
-        description="Number of reviews. Rounded upstream to three significant figures, so treat it as approximate.",
-    )
-    seller_gmv: float | None = Field(
-        default=None,
-        alias="sellerGmv",
-        description="Seller's lifetime gross merchandise value. Approximate.",
-    )
-    seller_id: str | None = Field(
-        default=None, alias="sellerId", description="TikTok Shop seller id."
-    )
-    seller_name: str | None = Field(
-        default=None,
-        alias="sellerName",
-        description="Seller shop name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    seller_units_sold: float | None = Field(
-        default=None,
-        alias="sellerUnitsSold",
-        description="Seller's lifetime units sold across all products. Approximate.",
-    )
-    seller_url: str | None = Field(
-        default=None, alias="sellerUrl", description="Seller storefront URL."
-    )
-    stock: float | None = Field(
-        default=None,
-        description="Units currently in stock. Rounded upstream to three significant figures, so treat it as approximate.",
-    )
-    title: str = Field(
-        description="Product title. Populated whenever the provider has data for the entity."
-    )
-    units_sold: float | None = Field(
-        default=None,
-        alias="unitsSold",
-        description="Lifetime units sold. Rounded upstream to three significant figures, so treat it as approximate.",
-    )
-    units_sold30d: float | None = Field(
-        default=None,
-        alias="unitsSold30d",
-        description="Units sold in the last 30 days. Rounded upstream to three significant figures, so treat it as approximate.",
-    )
-    url: str | None = Field(
-        default=None,
-        description="Canonical product detail page URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    video_count: float | None = Field(
-        default=None,
-        alias="videoCount",
-        description="Lifetime count of videos promoting this product. Approximate.",
-    )
-    video_count30d: float | None = Field(
-        default=None,
-        alias="videoCount30d",
-        description="Videos promoting this product in the last 30 days. Approximate.",
-    )
-
-
 class TiktokShopProductReviewsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -813,7 +681,7 @@ class TiktokShopNamespace:
         Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
         from a product URL.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
@@ -822,29 +690,6 @@ class TiktokShopNamespace:
             "tiktok_shop.product", dict(input), options
         )
         return RunResult[TiktokShopProductData].model_validate(raw)
-
-    def product_full(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[TiktokShopProductFullInput],
-    ) -> RunResult[TiktokShopProductFullData]:
-        """TikTok Shop Product Full
-
-        Deep TikTok Shop product record from a product URL: affiliate commission
-        rate, units sold and GMV over the last 30 days and lifetime, stock, rating,
-        review count, category tree, listing date, and the seller's own sales
-        totals.
-
-        Price: $0.022 per request plus $0 per result (maximum $0.022).
-
-        Example:
-            res = client.tiktok_shop.product_full(url="https://www.tiktok.com/shop/pdp/1729527313880355335")
-        """
-        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
-            "tiktok_shop.product_full", dict(input), options
-        )
-        return RunResult[TiktokShopProductFullData].model_validate(raw)
 
     def product_reviews(
         self,
@@ -857,7 +702,7 @@ class TiktokShopNamespace:
         Fetch customer reviews for a TikTok Shop product by URL (rating, text,
         reviewer, country, and verified-purchase flag).
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.product_reviews(url="https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516")
@@ -878,7 +723,7 @@ class TiktokShopNamespace:
         Search TikTok Shop products by keyword across 15 countries: price, sales,
         rating, and seller info per product, in one normalized response.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
@@ -899,7 +744,7 @@ class TiktokShopNamespace:
         Get TikTok Shop search autocomplete terms for a keyword: the long-tail
         queries shoppers actually type, for keyword and demand research.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search_suggestions(country="US", query="ashwagandha gummies")
@@ -1058,7 +903,7 @@ class AsyncTiktokShopNamespace:
         Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
         from a product URL.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
@@ -1067,29 +912,6 @@ class AsyncTiktokShopNamespace:
             "tiktok_shop.product", dict(input), options
         )
         return RunResult[TiktokShopProductData].model_validate(raw)
-
-    async def product_full(
-        self,
-        *,
-        options: RequestOptions | None = None,
-        **input: Unpack[TiktokShopProductFullInput],
-    ) -> RunResult[TiktokShopProductFullData]:
-        """TikTok Shop Product Full
-
-        Deep TikTok Shop product record from a product URL: affiliate commission
-        rate, units sold and GMV over the last 30 days and lifetime, stock, rating,
-        review count, category tree, listing date, and the seller's own sales
-        totals.
-
-        Price: $0.022 per request plus $0 per result (maximum $0.022).
-
-        Example:
-            res = client.tiktok_shop.product_full(url="https://www.tiktok.com/shop/pdp/1729527313880355335")
-        """
-        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
-            "tiktok_shop.product_full", dict(input), options
-        )
-        return RunResult[TiktokShopProductFullData].model_validate(raw)
 
     async def product_reviews(
         self,
@@ -1102,7 +924,7 @@ class AsyncTiktokShopNamespace:
         Fetch customer reviews for a TikTok Shop product by URL (rating, text,
         reviewer, country, and verified-purchase flag).
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.product_reviews(url="https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516")
@@ -1123,7 +945,7 @@ class AsyncTiktokShopNamespace:
         Search TikTok Shop products by keyword across 15 countries: price, sales,
         rating, and seller info per product, in one normalized response.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
@@ -1144,7 +966,7 @@ class AsyncTiktokShopNamespace:
         Get TikTok Shop search autocomplete terms for a keyword: the long-tail
         queries shoppers actually type, for keyword and demand research.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search_suggestions(country="US", query="ashwagandha gummies")
