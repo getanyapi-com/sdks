@@ -457,6 +457,11 @@ class RedditPostCommentsComment(BaseModel):
     id: str = Field(
         description="Reddit comment ID (base-36, without the t1_ prefix). Populated whenever the provider has data for the entity."
     )
+    parent_id: str | None = Field(
+        default=None,
+        alias="parentId",
+        description="ID of the comment this one replies to (base-36, without the t1_ prefix). Empty for a top-level comment that replies to the post itself.",
+    )
     score: int | None = Field(
         default=None,
         description="Net score (upvotes minus downvotes) on the comment at fetch time.",
@@ -1098,8 +1103,8 @@ class RedditNamespace:
     ) -> RunResult[RedditPostCommentsData]:
         """Reddit Post Comments
 
-        List the top-level comments on a Reddit post by URL (author, body, score,
-        timestamp).
+        List the comments on a Reddit post by URL (author, body, score, timestamp,
+        parent comment). Replies carry the parentId of the comment they answer.
 
         Price: $0.0006 per request.
 
@@ -1493,8 +1498,8 @@ class AsyncRedditNamespace:
     ) -> RunResult[RedditPostCommentsData]:
         """Reddit Post Comments
 
-        List the top-level comments on a Reddit post by URL (author, body, score,
-        timestamp).
+        List the comments on a Reddit post by URL (author, body, score, timestamp,
+        parent comment). Replies carry the parentId of the comment they answer.
 
         Price: $0.0006 per request.
 

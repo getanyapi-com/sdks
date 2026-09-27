@@ -50268,9 +50268,9 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.0512,
-        "baseUsd": 0.0032,
-        "perItemUsd": 0.0048,
+        "priceUsd": 0.11,
+        "baseUsd": 0,
+        "perItemUsd": 0.011,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -78291,7 +78291,7 @@
       "operationId": "reddit_post_comments",
       "name": "Reddit Post Comments",
       "category": "social",
-      "description": "List the top-level comments on a Reddit post by URL (author, body, score, timestamp).",
+      "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.",
       "pricing": {
         "priceUsd": 0.0006,
         "baseUsd": null,
@@ -78401,6 +78401,13 @@
                   "id": {
                     "kind": "string",
                     "description": "Reddit comment ID (base-36, without the t1_ prefix). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "parentId": {
+                    "kind": "string",
+                    "description": "ID of the comment this one replies to (base-36, without the t1_ prefix). Empty for a top-level comment that replies to the post itself.",
                     "enum": null,
                     "default": null,
                     "format": null

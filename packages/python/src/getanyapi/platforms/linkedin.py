@@ -4175,7 +4175,7 @@ class LinkedinNamespace:
         List the employees of a LinkedIn company by name or company URL, with
         optional job-title filtering.
 
-        Price: $0.0032 per request plus $0.0048 per result (maximum $0.0512).
+        Price: $0 per request plus $0.011 per result (maximum $0.11).
 
         Example:
             res = client.linkedin.company_employees(company="stripe", limit=3)
@@ -4867,7 +4867,7 @@ class AsyncLinkedinNamespace:
         List the employees of a LinkedIn company by name or company URL, with
         optional job-title filtering.
 
-        Price: $0.0032 per request plus $0.0048 per result (maximum $0.0512).
+        Price: $0 per request plus $0.011 per result (maximum $0.11).
 
         Example:
             res = client.linkedin.company_employees(company="stripe", limit=3)

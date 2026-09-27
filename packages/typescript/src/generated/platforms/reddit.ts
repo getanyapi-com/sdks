@@ -241,6 +241,10 @@ export interface RedditPostCommentsComment {
    */
   id: string;
   /**
+   * ID of the comment this one replies to (base-36, without the t1_ prefix). Empty for a top-level comment that replies to the post itself.
+   */
+  parentId?: string;
+  /**
    * Net score (upvotes minus downvotes) on the comment at fetch time.
    */
   score?: number;
@@ -1373,7 +1377,7 @@ export class RedditNamespace {
   /**
    * Reddit Post Comments
    *
-   * List the top-level comments on a Reddit post by URL (author, body, score, timestamp).
+   * List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.
    *
    * Price: $0.0006 per request.
    *
