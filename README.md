@@ -174,11 +174,13 @@ Releases are automated from the live catalog. Two workflows drive it:
   - byte-identical IR, fixtures, and both emitted trees -> **none** (no commit, loop-safe);
   - generated output the classifier cannot explain -> **blocked**.
 
-  The workflow first proves that the committed generated trees match the old IR. Additions,
-  documentation, and pricing must then appear in both language trees; a breaking change must
-  appear in TypeScript and may leave Python unchanged (Python already types an optional output
-  field as `X | None`, so a nullability change there reaches only TypeScript). The
-  post-refresh drift check proves that both match the new IR. A blocked run uploads the
+  The workflow first proves that the committed generated trees match the old IR. A classified
+  addition, breaking change, documentation, or pricing change must then change at least one
+  language tree, and neither tree may change without one. Which tree it reaches depends on
+  where the change sits: Python types a nested input object as `dict[str, Any]` and an
+  optional output field as `X | None`, so a change there reaches only TypeScript, and an output
+  openness change can reach only Python. The post-refresh drift check proves that both match
+  the new IR. A blocked run uploads the
   old/new IR, release notes, and generated diff, then fails before versioning, committing, or
   tagging. Because a blocked run needs a person, it also opens a GitHub issue assigned to the
   owner naming the blocked SKUs and linking the run and that artifact

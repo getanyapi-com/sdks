@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { classifyIr, type GeneratedChanges } from "../src/classify.js";
-import type { ObjectNode, SkuEntry } from "../src/ir-types.js";
+import {
+  classifyIr,
+  type BumpLevel,
+  type GeneratedChanges,
+} from "../src/classify.js";
+import type { ArrayNode, ObjectNode, SkuEntry } from "../src/ir-types.js";
 import {
   base,
   classifyMutation,
@@ -10,7 +14,7 @@ import {
   ir,
   unchangedFiles,
 } from "./classify-fixture.js";
-import { int, obj, sku, str } from "./factories.js";
+import { arr, int, obj, sku, str } from "./factories.js";
 
 describe("classifyIr release states", () => {
   it("returns none only when every generator-owned surface is byte-identical", () => {
@@ -69,25 +73,18 @@ describe("classifyIr release states", () => {
     );
   });
 
-  it.each([
-    ["neither language", unchangedFiles],
-    ["TypeScript only", fileChanges({ typescriptChanged: true })],
-    ["Python only", fileChanges({ pythonChanged: true })],
-  ] satisfies Array<[string, GeneratedChanges]>)(
-    "blocks an optional field when %s regenerates",
-    (_label, files) => {
-      const result = classifyMutation(
-        (next) => {
-          input(next).properties.region = str();
-        },
-        fileChanges({ ...files, irChanged: true }),
-      );
-      expect(result.bump).toBe("blocked");
-      expect(
-        result.blocked.some((change) => change.kind === "unclassified-change"),
-      ).toBe(true);
-    },
-  );
+  it("blocks an optional field when neither language regenerates", () => {
+    const result = classifyMutation(
+      (next) => {
+        input(next).properties.region = str();
+      },
+      fileChanges({ irChanged: true }),
+    );
+    expect(result.bump).toBe("blocked");
+    expect(
+      result.blocked.some((change) => change.kind === "unclassified-change"),
+    ).toBe(true);
+  });
 
   it("blocks inconsistent IR byte-state evidence", () => {
     const result = classifyMutation(
@@ -347,32 +344,74 @@ describe("classifyIr breaking changes", () => {
     expect(result.blocked).toContainEqual(
       expect.objectContaining({
         kind: "unclassified-change",
-        slug: "typescript",
+        slug: "emitted-trees",
       }),
     );
   });
 
+  // Each row was measured by running both emitters on the committed IR with only that edit.
   // Python already types an optional output field as `X | None`, so making it nullable
-  // rewrites only the TypeScript tree. This is the shape of the redfin.search batch that
-  // held sdks#53.
-  it("publishes a breaking change that only the TypeScript tree renders", () => {
-    const before = sku({
-      slug: "redfin.search",
-      output: { envelope: "found-data", data: obj({ agentName: str() }) },
-    });
-    const after = structuredClone(before);
-    (after.output.data as ObjectNode).properties.agentName!.nullable = true;
-    const result = classifyIr(
-      ir([before]),
-      ir([after]),
+  // rewrites only TypeScript (the redfin.search batch that held sdks#53). An output openness
+  // flip on apollo.people_search `people[].organization` rewrote only Python. Python types a
+  // nested input object as `dict[str, Any]`, so a description on company_search.fullenrich
+  // `companyIds[].exact_match` rewrote only TypeScript.
+  const oneTreeCases: Array<
+    [string, BumpLevel, GeneratedChanges, SkuEntry, (next: SkuEntry) => void]
+  > = [
+    [
+      "an optional output field made nullable",
+      "minor",
       fileChanges({ irChanged: true, typescriptChanged: true }),
-    );
-    expect(result.bump).toBe("minor");
-    expect(result.blocked).toEqual([]);
-    expect(result.breaking.map((change) => change.kind)).toEqual([
-      "nullability-change",
-    ]);
-  });
+      sku({
+        slug: "redfin.search",
+        output: { envelope: "found-data", data: obj({ agentName: str() }) },
+      }),
+      (next) => {
+        (next.output.data as ObjectNode).properties.agentName!.nullable = true;
+      },
+    ],
+    [
+      "an output openness change",
+      "minor",
+      fileChanges({ irChanged: true, pythonChanged: true }),
+      sku({
+        slug: "apollo.people_search",
+        output: {
+          envelope: "found-data",
+          data: obj({ organization: obj({ name: str() }, [], true) }),
+        },
+      }),
+      (next) => {
+        const data = next.output.data as ObjectNode;
+        (data.properties.organization as ObjectNode).open = false;
+      },
+    ],
+    [
+      "a nested input description",
+      "patch",
+      fileChanges({ irChanged: true, typescriptChanged: true }),
+      sku({
+        slug: "company_search.fullenrich",
+        input: obj({ companyIds: arr(obj({ exact_match: str() })) }),
+      }),
+      (next) => {
+        const ids = input(next).properties.companyIds as ArrayNode;
+        (ids.items as ObjectNode).properties.exact_match!.description =
+          "Match the identifier exactly.";
+      },
+    ],
+  ];
+
+  it.each(oneTreeCases)(
+    "publishes %s that only one emitted tree renders",
+    (_label, bump, files, before, mutate) => {
+      const after = structuredClone(before);
+      mutate(after);
+      const result = classifyIr(ir([before]), ir([after]), files);
+      expect(result.bump).toBe(bump);
+      expect(result.blocked).toEqual([]);
+    },
+  );
 
   it("blocks future method or path fields until they are classified", () => {
     const oldSku = structuredClone(base) as SkuEntry & {

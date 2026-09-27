@@ -265,18 +265,21 @@ export function classifyIr(
       ),
     );
   }
-  // Additions, documentation, and pricing render in both languages. A breaking change must
-  // reach TypeScript but can leave Python untouched: Python already types an optional
-  // output field as `X | None`, so making it nullable rewrites only TypeScript.
-  const bothTreesExpected =
+  // Which tree a classified change rewrites depends on where it sits, not only on its kind.
+  // Python types a nested input object as `dict[str, Any]`, so adding or documenting a field
+  // inside one rewrites only TypeScript; Python already types an optional output field as
+  // `X | None`, so making it nullable rewrites only TypeScript; and an output openness
+  // change can rewrite only Python. So a classified change must reach at least one tree,
+  // and either tree may change only with a classified cause.
+  const explained =
     state.added.length > 0 ||
+    state.breaking.length > 0 ||
     state.changed.some(
       (change) => change.kind === "documentation" || change.kind === "pricing",
     );
-  const explained = bothTreesExpected || state.breaking.length > 0;
-  for (const [language, changed, mustChange] of [
-    ["TypeScript", files.typescriptChanged, explained],
-    ["Python", files.pythonChanged, bothTreesExpected],
+  for (const [language, changed] of [
+    ["TypeScript", files.typescriptChanged],
+    ["Python", files.pythonChanged],
   ] as const) {
     if (changed && !explained) {
       state.blocked.push(
@@ -286,15 +289,16 @@ export function classifyIr(
           `${language} emitted tree changed without a classified cause`,
         ),
       );
-    } else if (!changed && mustChange) {
-      state.blocked.push(
-        item(
-          "unclassified-change",
-          language.toLowerCase(),
-          `${language} emitted tree did not change with the public SDK surface`,
-        ),
-      );
     }
+  }
+  if (explained && !files.typescriptChanged && !files.pythonChanged) {
+    state.blocked.push(
+      item(
+        "unclassified-change",
+        "emitted-trees",
+        "neither emitted tree changed with the public SDK surface",
+      ),
+    );
   }
   const canChangeFixtures =
     state.breaking.length > 0 ||
