@@ -22,7 +22,7 @@ function classifyEnum(
     : [];
   if (removed.length > 0) {
     for (const member of removed) {
-      state.removed.push(
+      state.breaking.push(
         item(
           "enum-removed",
           slug,
@@ -62,7 +62,7 @@ function classifyEnum(
       return;
     }
   }
-  state.blocked.push(
+  state.breaking.push(
     item(
       "enum-change",
       slug,
@@ -79,7 +79,7 @@ export function classifySchema(
   state: ClassificationState,
 ): void {
   if (before.kind !== after.kind) {
-    state.blocked.push(
+    state.breaking.push(
       item(
         "type-change",
         slug,
@@ -89,7 +89,7 @@ export function classifySchema(
     return;
   }
   if (!same(before.nullable, after.nullable)) {
-    state.blocked.push(
+    state.breaking.push(
       item("nullability-change", slug, `${location} nullability changed`),
     );
   }
@@ -110,7 +110,7 @@ export function classifySchema(
       const oldCommon = oldKeys.filter((key) => newKeySet.has(key));
       const newCommon = newKeys.filter((key) => oldKeySet.has(key));
       if (!same(oldCommon, newCommon)) {
-        state.blocked.push(
+        state.breaking.push(
           item(
             "field-order-change",
             slug,
@@ -119,7 +119,7 @@ export function classifySchema(
         );
       }
       if (!same(before.required, next.required)) {
-        state.blocked.push(
+        state.breaking.push(
           item(
             "requiredness-change",
             slug,
@@ -128,17 +128,18 @@ export function classifySchema(
         );
       }
       if (before.open !== next.open) {
-        state.blocked.push(
+        state.breaking.push(
           item("openness-change", slug, `${location} openness changed`),
         );
       }
       // must-populate is a DOC-ONLY signal in both emitters: optionality comes from
       // `required` alone (emit-ts renderProperties, emit-py fieldDocComment), and the
       // annotation only adds the "Present whenever the upstream returns this record."
-      // line to a field that is already optional. Blocking it as a requiredness change
+      // line to a field that is already optional. Treating it as a requiredness change
       // classified the annotation by its name rather than by what it emits, and stalled
       // every release behind a comment edit. If it ever becomes type-bearing, the
-      // emit-ts/emit-py optionality tests fail first and this must go back to blocked.
+      // emit-ts/emit-py optionality tests fail first and this must become a requiredness
+      // change again.
       if (!same(before.mustPopulate, next.mustPopulate)) {
         state.changed.push(
           item(
@@ -152,7 +153,7 @@ export function classifySchema(
         const childLocation = `${location}.${key}`;
         if (!oldKeySet.has(key)) {
           if (next.required.includes(key)) {
-            state.blocked.push(
+            state.breaking.push(
               item(
                 "requiredness-change",
                 slug,
@@ -180,7 +181,7 @@ export function classifySchema(
       }
       for (const key of oldKeys) {
         if (!newKeySet.has(key)) {
-          state.removed.push(
+          state.breaking.push(
             item("field-removed", slug, `${location}.${key} field removed`),
           );
         }
@@ -222,12 +223,12 @@ export function classifySchema(
       const next = after as typeof before;
       classifyEnum(before.enum, next.enum, slug, location, state);
       if (!same(before.default, next.default)) {
-        state.blocked.push(
+        state.breaking.push(
           item("default-change", slug, `${location} default changed`),
         );
       }
       if (!same(before.format, next.format)) {
-        state.blocked.push(
+        state.breaking.push(
           item("format-change", slug, `${location} format changed`),
         );
       }
@@ -248,12 +249,12 @@ export function classifySchema(
         !same(before.minimum, next.minimum) ||
         !same(before.maximum, next.maximum)
       ) {
-        state.blocked.push(
+        state.breaking.push(
           item("bound-change", slug, `${location} numeric bounds changed`),
         );
       }
       if (!same(before.default, next.default)) {
-        state.blocked.push(
+        state.breaking.push(
           item("default-change", slug, `${location} default changed`),
         );
       }
@@ -270,7 +271,7 @@ export function classifySchema(
     case "boolean": {
       const next = after as typeof before;
       if (!same(before.default, next.default)) {
-        state.blocked.push(
+        state.breaking.push(
           item("default-change", slug, `${location} default changed`),
         );
       }

@@ -164,16 +164,25 @@ Releases are automated from the live catalog. Two workflows drive it:
   fallback, and manual dispatch. It fetches the live `openapi.json` + `catalog.json`,
   regenerates the whole tree, and classifies the IR diff:
   - a new SKU, optional field, enum member, or platform -> **minor**;
+  - a classified breaking change (a removed SKU, field, or enum member, or a changed
+    requiredness, nullability, type, enum, default, bound, format, openness, field order,
+    method, pagination, or envelope) -> **minor**, because the packages are 0.x, where semver
+    expresses a breaking change as a minor bump. The release notes name every one, with its
+    SKU, under `Breaking changes`. The gateway already serves the change when regen runs, so
+    holding it would protect no caller and only keep new installs wrong;
   - proven documentation, pricing, or emitter-neutral metadata changes -> **patch**;
   - byte-identical IR, fixtures, and both emitted trees -> **none** (no commit, loop-safe);
-  - removals, contract changes, or unexplained generated output -> **blocked**.
+  - generated output the classifier cannot explain -> **blocked**.
 
-  The workflow first proves that the committed generated trees match the old IR. Public
-  generated changes must then appear in both language trees, and the post-refresh drift check
-  proves that both match the new IR. A blocked run uploads the old/new IR, release notes, and
-  generated diff, then fails before versioning, committing, or tagging. Because a blocked run
-  needs a person, it also opens a GitHub issue assigned to the owner naming the blocked SKUs
-  and linking the run and that artifact (`scripts/upsert-regen-issue.mjs`); any other job
+  The workflow first proves that the committed generated trees match the old IR. Additions,
+  documentation, and pricing must then appear in both language trees; a breaking change must
+  appear in TypeScript and may leave Python unchanged (Python already types an optional output
+  field as `X | None`, so a nullability change there reaches only TypeScript). The
+  post-refresh drift check proves that both match the new IR. A blocked run uploads the
+  old/new IR, release notes, and generated diff, then fails before versioning, committing, or
+  tagging. Because a blocked run needs a person, it also opens a GitHub issue assigned to the
+  owner naming the blocked SKUs and linking the run and that artifact
+  (`scripts/upsert-regen-issue.mjs`); any other job
   failure files the same issue. There is one issue per outage, not one per run: a repeat
   rewrites the body, a changed block adds a delta comment, and the next healthy run closes
   it. Closing matters - the upsert reuses an open issue by title, so leaving it open would

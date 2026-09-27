@@ -1,4 +1,9 @@
 // Shared release-classification values and fail-closed unknown-field detection.
+//
+// `breaking` holds classified changes that can break an existing caller (a removal, or a
+// changed contract such as requiredness or nullability); they publish and are named in the
+// release notes. `blocked` holds only what the classifier cannot explain, which waits for a
+// human.
 
 export interface ChangeItem {
   kind: string;
@@ -8,7 +13,7 @@ export interface ChangeItem {
 
 export interface ClassificationState {
   added: ChangeItem[];
-  removed: ChangeItem[];
+  breaking: ChangeItem[];
   changed: ChangeItem[];
   blocked: ChangeItem[];
 }

@@ -2,7 +2,8 @@
 //
 // The semantic walk classifies every generator-consumed IR change. The regen wrapper also
 // reports byte changes in the IR, fixtures, and both emitted trees so a clean semantic diff
-// cannot hide generator drift. Only exact byte identity can produce `none`.
+// cannot hide generator drift. Only exact byte identity can produce `none`, and only a
+// change the classifier cannot explain produces `blocked`.
 
 import {
   item,
@@ -28,9 +29,8 @@ export interface GeneratedChanges {
 
 export interface Classification {
   bump: BumpLevel;
-  hasRemoval: boolean;
   added: ChangeItem[];
-  removed: ChangeItem[];
+  breaking: ChangeItem[];
   changed: ChangeItem[];
   blocked: ChangeItem[];
   summary: string;
@@ -75,7 +75,7 @@ function classifySku(
   const pathFields = ["platform", "action"] as const;
   for (const key of pathFields) {
     if (!same(before[key], after[key])) {
-      state.blocked.push(item("path-change", slug, `${key} changed`));
+      state.breaking.push(item("path-change", slug, `${key} changed`));
     }
   }
   const methodFields = [
@@ -89,21 +89,21 @@ function classifySku(
   ] as const;
   for (const key of methodFields) {
     if (!same(before[key], after[key])) {
-      state.blocked.push(item("method-change", slug, `${key} changed`));
+      state.breaking.push(item("method-change", slug, `${key} changed`));
     }
   }
   for (const key of ["inputTypeName", "outputTypeName"] as const) {
     if (before[key] !== after[key]) {
-      state.blocked.push(item("type-change", slug, `${key} changed`));
+      state.breaking.push(item("type-change", slug, `${key} changed`));
     }
   }
   if (!same(before.pagination, after.pagination)) {
-    state.blocked.push(
+    state.breaking.push(
       item("method-change", slug, "pagination or iterator contract changed"),
     );
   }
   if (before.output.envelope !== after.output.envelope) {
-    state.blocked.push(
+    state.breaking.push(
       item("envelope-change", slug, "response envelope changed"),
     );
   }
@@ -173,7 +173,7 @@ export function classifyIr(
 ): Classification {
   const state: ClassificationState = {
     added: [],
-    removed: [],
+    breaking: [],
     changed: [],
     blocked: [],
   };
@@ -187,7 +187,7 @@ export function classifyIr(
   }
   for (const slug of before.keys()) {
     if (!after.has(slug))
-      state.removed.push(item("sku-removed", slug, `SKU ${slug} removed`));
+      state.breaking.push(item("sku-removed", slug, `SKU ${slug} removed`));
   }
 
   const oldCommon = oldIr.skus
@@ -210,6 +210,8 @@ export function classifyIr(
     }
   }
 
+  // Neither of these is a catalog change the generated SDK carries: the IR version is a
+  // generator constant, and no emitter reads the base URL, so a new SDK could not follow it.
   if (oldIr.version !== newIr.version) {
     state.blocked.push(
       item("type-change", "catalog", "IR contract version changed"),
@@ -241,7 +243,7 @@ export function classifyIr(
 
   const hasIrClassification = [
     state.added,
-    state.removed,
+    state.breaking,
     state.changed,
     state.blocked,
   ].some((items) => items.length > 0);
@@ -263,34 +265,45 @@ export function classifyIr(
       ),
     );
   }
-  const emittedTreeChangeExpected =
+  // Additions, documentation, and pricing render in both languages. A breaking change must
+  // reach TypeScript but can leave Python untouched: Python already types an optional
+  // output field as `X | None`, so making it nullable rewrites only TypeScript.
+  const bothTreesExpected =
     state.added.length > 0 ||
     state.changed.some(
       (change) => change.kind === "documentation" || change.kind === "pricing",
     );
-  for (const [language, changed] of [
-    ["TypeScript", files.typescriptChanged],
-    ["Python", files.pythonChanged],
+  const explained = bothTreesExpected || state.breaking.length > 0;
+  for (const [language, changed, mustChange] of [
+    ["TypeScript", files.typescriptChanged, explained],
+    ["Python", files.pythonChanged, bothTreesExpected],
   ] as const) {
-    if (changed !== emittedTreeChangeExpected) {
+    if (changed && !explained) {
       state.blocked.push(
         item(
           "unclassified-change",
           language.toLowerCase(),
-          emittedTreeChangeExpected
-            ? `${language} emitted tree did not change with the public SDK surface`
-            : `${language} emitted tree changed without a classified cause`,
+          `${language} emitted tree changed without a classified cause`,
+        ),
+      );
+    } else if (!changed && mustChange) {
+      state.blocked.push(
+        item(
+          "unclassified-change",
+          language.toLowerCase(),
+          `${language} emitted tree did not change with the public SDK surface`,
         ),
       );
     }
   }
-  const canChangeFixtures = state.added.some(
-    (change) => change.kind === "sku-added" || change.kind === "enum-added",
-  );
+  const canChangeFixtures =
+    state.breaking.length > 0 ||
+    state.added.some(
+      (change) => change.kind === "sku-added" || change.kind === "enum-added",
+    );
   if (
     files.fixturesChanged &&
     !canChangeFixtures &&
-    state.removed.length === 0 &&
     state.blocked.length === 0
   ) {
     state.blocked.push(
@@ -302,15 +315,17 @@ export function classifyIr(
     );
   }
 
-  const hasRemoval = state.removed.length > 0;
+  // The packages are 0.x, where semver expresses a breaking change as a minor bump. The
+  // gateway already serves a classified change when regen runs, so holding it protects no
+  // caller; only a change the classifier cannot explain waits for a human.
   const bump: BumpLevel =
-    hasRemoval || state.blocked.length > 0
+    state.blocked.length > 0
       ? "blocked"
-      : state.added.length > 0
+      : state.added.length > 0 || state.breaking.length > 0
         ? "minor"
         : state.changed.length > 0
           ? "patch"
           : "none";
-  const partial = { bump, hasRemoval, ...state };
+  const partial = { bump, ...state };
   return { ...partial, summary: renderSummary(partial) };
 }

@@ -4,11 +4,15 @@ import type { ChangeItem, Classification } from "./classify.js";
 
 export function renderSummary(value: Omit<Classification, "summary">): string {
   const lines = [`Catalog refresh (${value.bump}).`, ""];
-  const section = (heading: string, items: ChangeItem[]): void => {
+  const section = (
+    heading: string,
+    items: ChangeItem[],
+    render: (entry: ChangeItem) => string = (entry) => entry.detail,
+  ): void => {
     if (items.length === 0) return;
     lines.push(
       `## ${heading} (${items.length})`,
-      ...items.map((entry) => `- ${entry.detail}`),
+      ...items.map((entry) => `- ${render(entry)}`),
       "",
     );
   };
@@ -20,7 +24,13 @@ export function renderSummary(value: Omit<Classification, "summary">): string {
     );
   }
   section("Blocked changes", value.blocked);
-  section("Removals", value.removed);
+  // A caller upgrading across a breaking change needs the SKU as well as the field, so
+  // these name both.
+  section(
+    "Breaking changes",
+    value.breaking,
+    (entry) => `${entry.slug}: ${entry.detail}`,
+  );
   section("Added", value.added);
   section("Changed", value.changed);
   if (value.bump === "none") {
