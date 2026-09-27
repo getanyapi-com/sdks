@@ -466,20 +466,26 @@ class EbaySearchItem(BaseModel):
         description="eBay item identifier. Populated whenever the provider has data for the entity.",
     )
     listing_type: str | None = Field(
-        default=None, alias="listingType", description="Auction, FixedPrice, etc."
+        default=None,
+        alias="listingType",
+        description="Auction, FixedPrice, etc. Null when the serving source does not publish the listing format.",
     )
     price: float | None = Field(default=None, description="Listing price.")
     seller_feedback_count: float | None = Field(
         default=None,
         alias="sellerFeedbackCount",
-        description="Seller's lifetime feedback count.",
+        description="Seller's lifetime feedback count, or null when the serving source does not publish it.",
     )
     seller_feedback_percent: float | None = Field(
         default=None,
         alias="sellerFeedbackPercent",
-        description="Seller positive-feedback percentage.",
+        description="Seller positive-feedback percentage, or null when the serving source does not publish it.",
     )
-    seller_name: str | None = Field(default=None, alias="sellerName")
+    seller_name: str | None = Field(
+        default=None,
+        alias="sellerName",
+        description="Seller username, or null when the serving source does not publish the seller.",
+    )
     shipping_cost: str | None = Field(
         default=None,
         alias="shippingCost",

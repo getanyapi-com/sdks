@@ -444,22 +444,25 @@ export interface EbaySearchItem {
    */
   itemId: string;
   /**
-   * Auction, FixedPrice, etc.
+   * Auction, FixedPrice, etc. Null when the serving source does not publish the listing format.
    */
-  listingType?: string;
+  listingType?: string | null;
   /**
    * Listing price.
    */
   price?: number;
   /**
-   * Seller's lifetime feedback count.
+   * Seller's lifetime feedback count, or null when the serving source does not publish it.
    */
-  sellerFeedbackCount?: number;
+  sellerFeedbackCount?: number | null;
   /**
-   * Seller positive-feedback percentage.
+   * Seller positive-feedback percentage, or null when the serving source does not publish it.
    */
-  sellerFeedbackPercent?: number;
-  sellerName?: string;
+  sellerFeedbackPercent?: number | null;
+  /**
+   * Seller username, or null when the serving source does not publish the seller.
+   */
+  sellerName?: string | null;
   /**
    * Shipping cost or free-delivery label.
    */

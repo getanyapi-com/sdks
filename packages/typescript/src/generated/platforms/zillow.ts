@@ -440,9 +440,13 @@ export interface ZillowSearchItem {
   livingArea?: number;
   longitude?: number;
   /**
-   * Lot size in square feet.
+   * Lot size as Zillow states it, in the unit named by lotSizeUnit (square feet or acres), or null when the listing has no lot size.
    */
-  lotSize?: number;
+  lotSize?: number | null;
+  /**
+   * Unit of lotSize: sqft or acres. Null when the listing has no lot size or the serving source does not name the unit.
+   */
+  lotSizeUnit?: string | null;
   /**
    * List price in the listing currency.
    */
@@ -452,9 +456,9 @@ export interface ZillowSearchItem {
    */
   propertyType?: string;
   /**
-   * Zillow estimated monthly rent.
+   * Zillow estimated monthly rent, or null when Zillow shows no rent Zestimate for the listing.
    */
-  rentZestimate?: number;
+  rentZestimate?: number | null;
   /**
    * Two-letter state code.
    */
@@ -469,9 +473,9 @@ export interface ZillowSearchItem {
    */
   streetAddress?: string;
   /**
-   * Assessed value the county tax authority carries for the property.
+   * Assessed value the county tax authority carries for the property, or null when none is published.
    */
-  taxAssessedValue?: number;
+  taxAssessedValue?: number | null;
   /**
    * Absolute Zillow listing URL. Populated whenever the provider has data for the entity.
    */
@@ -481,9 +485,9 @@ export interface ZillowSearchItem {
    */
   yearBuilt?: number | null;
   /**
-   * Zillow estimated market value.
+   * Zillow estimated market value, or null when Zillow shows no Zestimate for the listing.
    */
-  zestimate?: number;
+  zestimate?: number | null;
   zipcode?: string;
   /**
    * Zillow property id (zpid). Populated whenever the provider has data for the entity.

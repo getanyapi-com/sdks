@@ -536,7 +536,7 @@ export interface TiktokShopSearchItem {
    */
   image?: string;
   /**
-   * Pre-discount list price (0 when not on sale).
+   * Pre-discount list price. Omitted when the product is not on sale.
    */
   originalPrice?: number;
   /**
@@ -548,7 +548,7 @@ export interface TiktokShopSearchItem {
    */
   productId: string;
   /**
-   * Average review score.
+   * Average review score. Omitted when the product has no rating yet.
    */
   rating?: number;
   /**

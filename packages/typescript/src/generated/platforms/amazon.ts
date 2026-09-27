@@ -522,7 +522,7 @@ export interface AmazonSearchItem {
    */
   isSponsored?: boolean;
   /**
-   * Pre-discount list price when on sale, 0 when not discounted, or null when the serving source does not publish it.
+   * Pre-discount list price when on sale, or null when the product is not discounted or the serving source does not publish it.
    */
   listPrice?: number | null;
   /**
@@ -534,17 +534,17 @@ export interface AmazonSearchItem {
    */
   position?: number;
   /**
-   * Current price as a numeric amount; 0 when no offer is available.
+   * Current price as a numeric amount, or null when the result shows no current price (no offer, or only a secondary offer).
    */
-  price?: number;
+  price?: number | null;
   /**
-   * Average star rating, 0-5; 0 when unrated.
+   * Average star rating, 0-5, or null when the product is unrated.
    */
-  rating?: number;
+  rating?: number | null;
   /**
-   * Number of customer reviews; 0 when none.
+   * Number of customer reviews, or null when the product has none.
    */
-  reviewsCount?: number;
+  reviewsCount?: number | null;
   /**
    * Product title. Populated whenever the provider has data for the entity.
    */

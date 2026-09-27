@@ -398,7 +398,7 @@ class AmazonSearchItem(BaseModel):
     list_price: float | None = Field(
         default=None,
         alias="listPrice",
-        description="Pre-discount list price when on sale, 0 when not discounted, or null when the serving source does not publish it.",
+        description="Pre-discount list price when on sale, or null when the product is not discounted or the serving source does not publish it.",
     )
     offers_count: int | None = Field(
         default=None,
@@ -410,15 +410,16 @@ class AmazonSearchItem(BaseModel):
     )
     price: float | None = Field(
         default=None,
-        description="Current price as a numeric amount; 0 when no offer is available.",
+        description="Current price as a numeric amount, or null when the result shows no current price (no offer, or only a secondary offer).",
     )
     rating: float | None = Field(
-        default=None, description="Average star rating, 0-5; 0 when unrated."
+        default=None,
+        description="Average star rating, 0-5, or null when the product is unrated.",
     )
     reviews_count: int | None = Field(
         default=None,
         alias="reviewsCount",
-        description="Number of customer reviews; 0 when none.",
+        description="Number of customer reviews, or null when the product has none.",
     )
     title: str = Field(
         description="Product title. Populated whenever the provider has data for the entity."

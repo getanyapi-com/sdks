@@ -40,6 +40,10 @@ export interface PinterestSearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `description` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be null on a pin that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("description" | "videoUrl")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -52,12 +56,35 @@ export interface PinterestSearchInput {
 }
 
 export interface PinterestSearchItem {
+  /**
+   * Username (handle) of the account that saved the pin.
+   */
+  author?: string;
+  /**
+   * Display name of the account that saved the pin.
+   */
+  authorName?: string;
+  /**
+   * The pin's full description text, or null when the source does not provide it.
+   */
+  description?: string | null;
   id: string;
+  /**
+   * URL of the pin's full-size image; for a video pin, its cover image.
+   */
+  image?: string;
+  /**
+   * Pin title, or the pin's description when the pin has no title.
+   */
   title: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Streaming (HLS) URL of the pin's video, or null when the pin is not a video or the source does not provide it.
+   */
+  videoUrl?: string | null;
   [extra: string]: unknown;
 }
 

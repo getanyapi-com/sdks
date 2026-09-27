@@ -481,14 +481,17 @@ class TiktokShopSearchItem(BaseModel):
     original_price: float | None = Field(
         default=None,
         alias="originalPrice",
-        description="Pre-discount list price (0 when not on sale).",
+        description="Pre-discount list price. Omitted when the product is not on sale.",
     )
     price: float | None = Field(default=None, description="Current sale price.")
     product_id: str = Field(
         alias="productId",
         description="TikTok Shop product id. Populated whenever the provider has data for the entity.",
     )
-    rating: float | None = Field(default=None, description="Average review score.")
+    rating: float | None = Field(
+        default=None,
+        description="Average review score. Omitted when the product has no rating yet.",
+    )
     review_count: int | None = Field(
         default=None,
         alias="reviewCount",

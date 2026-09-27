@@ -348,7 +348,14 @@ class ZillowSearchItem(BaseModel):
     )
     longitude: float | None = None
     lot_size: float | None = Field(
-        default=None, alias="lotSize", description="Lot size in square feet."
+        default=None,
+        alias="lotSize",
+        description="Lot size as Zillow states it, in the unit named by lotSizeUnit (square feet or acres), or null when the listing has no lot size.",
+    )
+    lot_size_unit: str | None = Field(
+        default=None,
+        alias="lotSizeUnit",
+        description="Unit of lotSize: sqft or acres. Null when the listing has no lot size or the serving source does not name the unit.",
     )
     price: float | None = Field(
         default=None, description="List price in the listing currency."
@@ -361,7 +368,7 @@ class ZillowSearchItem(BaseModel):
     rent_zestimate: float | None = Field(
         default=None,
         alias="rentZestimate",
-        description="Zillow estimated monthly rent.",
+        description="Zillow estimated monthly rent, or null when Zillow shows no rent Zestimate for the listing.",
     )
     state: str | None = Field(default=None, description="Two-letter state code.")
     status: str | None = Field(
@@ -375,7 +382,7 @@ class ZillowSearchItem(BaseModel):
     tax_assessed_value: float | None = Field(
         default=None,
         alias="taxAssessedValue",
-        description="Assessed value the county tax authority carries for the property.",
+        description="Assessed value the county tax authority carries for the property, or null when none is published.",
     )
     url: str = Field(
         description="Absolute Zillow listing URL. Populated whenever the provider has data for the entity."
@@ -386,7 +393,8 @@ class ZillowSearchItem(BaseModel):
         description="Year the home was built, or null when the serving source does not publish it.",
     )
     zestimate: float | None = Field(
-        default=None, description="Zillow estimated market value."
+        default=None,
+        description="Zillow estimated market value, or null when Zillow shows no Zestimate for the listing.",
     )
     zipcode: str | None = None
     zpid: str = Field(

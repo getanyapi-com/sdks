@@ -32,18 +32,6 @@ class TrustpilotReviewsInput(TypedDict, total=False):
     """Maximum number of results to return (1-200, default 200). Trustpilot serves at most 200 reviews per company. Range: 1 to 200. Default: 200."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[
-        list[
-            Literal[
-                "author",
-                "authorCountry",
-                "avatarUrl",
-                "language",
-                "reviewerReviewsCount",
-            ]
-        ]
-    ]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `avatarUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["auto", "relevancy", "recent"]]
     """Review ordering: auto, relevancy, or recent (e.g. recent). Default: auto."""
     source: NotRequired[list[str]]
@@ -76,7 +64,7 @@ class TrustpilotReviewsItem(BaseModel):
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
-        description="URL of the reviewer's avatar image.",
+        description="URL of the reviewer's avatar image, or null when the reviewer has no photo.",
     )
     created_utc: float | None = Field(
         default=None,
@@ -85,6 +73,16 @@ class TrustpilotReviewsItem(BaseModel):
     )
     language: str | None = Field(
         default=None, description="Language code of the review text, e.g. en."
+    )
+    owner_response_text: str | None = Field(
+        default=None,
+        alias="ownerResponseText",
+        description="The company's public reply to the review. Absent when the company has not replied.",
+    )
+    owner_response_utc: float | None = Field(
+        default=None,
+        alias="ownerResponseUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the company replied; absent when it has not.",
     )
     rating: float = Field(description="Star rating (1-5).")
     reviewer_reviews_count: int | None = Field(

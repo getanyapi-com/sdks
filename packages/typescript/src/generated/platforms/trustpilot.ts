@@ -43,16 +43,6 @@ export interface TrustpilotReviewsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `avatarUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
-   */
-  requireFields?: (
-    | "author"
-    | "authorCountry"
-    | "avatarUrl"
-    | "language"
-    | "reviewerReviewsCount"
-  )[];
-  /**
    * Review ordering: auto, relevancy, or recent (e.g. recent).
    * One of: auto, relevancy, recent.
    * Default: auto.
@@ -87,9 +77,9 @@ export interface TrustpilotReviewsItem {
    */
   authorCountry?: string;
   /**
-   * URL of the reviewer's avatar image.
+   * URL of the reviewer's avatar image, or null when the reviewer has no photo.
    */
-  avatarUrl?: string;
+  avatarUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -99,6 +89,14 @@ export interface TrustpilotReviewsItem {
    * Language code of the review text, e.g. en.
    */
   language?: string;
+  /**
+   * The company's public reply to the review. Absent when the company has not replied.
+   */
+  ownerResponseText?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the company replied; absent when it has not.
+   */
+  ownerResponseUtc?: number;
   /**
    * Star rating (1-5).
    */
