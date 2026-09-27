@@ -106,7 +106,7 @@ class SnapchatNamespace:
         Fetch a Snapchat user's public profile by username: display name, bio,
         subscriber count, and recent public content.
 
-        Price: $0.0011 per request plus $0.0022 per result (maximum $0.0033).
+        Price: $0.0012 per request.
 
         Example:
             res = client.snapchat.profile(username="nasa")
@@ -134,7 +134,7 @@ class AsyncSnapchatNamespace:
         Fetch a Snapchat user's public profile by username: display name, bio,
         subscriber count, and recent public content.
 
-        Price: $0.0011 per request plus $0.0022 per result (maximum $0.0033).
+        Price: $0.0012 per request.
 
         Example:
             res = client.snapchat.profile(username="nasa")

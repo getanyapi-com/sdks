@@ -69952,10 +69952,10 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0111,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.011,
-        "perItemUnit": "result"
+        "priceUsd": 0.002,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "perplexity",
       "tsMethod": "search",
@@ -92662,10 +92662,10 @@
       "category": "social",
       "description": "Fetch a Snapchat user's public profile by username: display name, bio, subscriber count, and recent public content.",
       "pricing": {
-        "priceUsd": 0.0033,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0022,
-        "perItemUnit": "result"
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "snapchat",
       "tsMethod": "profile",
@@ -107183,7 +107183,7 @@
       "category": "social",
       "description": "Get a single Truth Social post by its URL - text, author, engagement (likes, comments, shares), and timestamp as clean JSON.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -107377,7 +107377,7 @@
       "category": "social",
       "description": "Get a Truth Social account's public profile by handle - display name, bio, follower/following counts, and post count as clean JSON.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -107566,7 +107566,7 @@
       "category": "social",
       "description": "List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
