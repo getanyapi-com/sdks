@@ -368,6 +368,10 @@ import type {
   InstagramReelsSearchData,
   InstagramReelsSearchInput,
   InstagramSearchData,
+  InstagramSearchFollowersData,
+  InstagramSearchFollowersInput,
+  InstagramSearchFollowingData,
+  InstagramSearchFollowingInput,
   InstagramSearchHashtagData,
   InstagramSearchHashtagInput,
   InstagramSearchInput,
@@ -583,6 +587,8 @@ import type {
   RedditUserPostsInput,
 } from "./platforms/reddit.js";
 import type {
+  RedfinPropertyData,
+  RedfinPropertyInput,
   RedfinSearchData,
   RedfinSearchInput,
 } from "./platforms/redfin.js";
@@ -783,8 +789,6 @@ import type {
   TiktokShopCreatorData,
   TiktokShopCreatorInput,
   TiktokShopProductData,
-  TiktokShopProductFullData,
-  TiktokShopProductFullInput,
   TiktokShopProductInput,
   TiktokShopProductReviewsData,
   TiktokShopProductReviewsInput,
@@ -1711,6 +1715,16 @@ export interface SkuMap {
     data: InstagramSearchData;
     result: RunResult<InstagramSearchData>;
   };
+  "instagram.search_followers": {
+    input: InstagramSearchFollowersInput;
+    data: InstagramSearchFollowersData;
+    result: RunResult<InstagramSearchFollowersData>;
+  };
+  "instagram.search_following": {
+    input: InstagramSearchFollowingInput;
+    data: InstagramSearchFollowingData;
+    result: RunResult<InstagramSearchFollowingData>;
+  };
   "instagram.search_hashtag": {
     input: InstagramSearchHashtagInput;
     data: InstagramSearchHashtagData;
@@ -2161,6 +2175,11 @@ export interface SkuMap {
     data: RedditUserPostsData;
     result: RunResult<RedditUserPostsData>;
   };
+  "redfin.property": {
+    input: RedfinPropertyInput;
+    data: RedfinPropertyData;
+    result: RunResult<RedfinPropertyData>;
+  };
   "redfin.search": {
     input: RedfinSearchInput;
     data: RedfinSearchData;
@@ -2605,11 +2624,6 @@ export interface SkuMap {
     input: TiktokShopProductInput;
     data: TiktokShopProductData;
     result: RunResult<TiktokShopProductData>;
-  };
-  "tiktok_shop.product_full": {
-    input: TiktokShopProductFullInput;
-    data: TiktokShopProductFullData;
-    result: RunResult<TiktokShopProductFullData>;
   };
   "tiktok_shop.product_reviews": {
     input: TiktokShopProductReviewsInput;

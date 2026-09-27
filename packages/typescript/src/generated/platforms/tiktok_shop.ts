@@ -361,169 +361,6 @@ export interface TiktokShopProductData {
 }
 
 /**
- * Input for TikTok Shop Product Full (tiktok_shop.product_full).
- */
-export interface TiktokShopProductFullInput {
-  /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
-   * Default: true.
-   */
-  allowFallbacks?: boolean;
-  /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
-   */
-  ignoreSources?: string[];
-  /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
-   * Range: minimum 1.
-   */
-  preferLatencyUnderMs?: number;
-  /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
-   */
-  source?: string[];
-  /**
-   * TikTok Shop product URL. Any of the public forms works (https://www.tiktok.com/shop/pdp/<id>, https://shop.tiktok.com/<region>/pdp/<slug>/<id>, or https://shop.tiktok.com/view/product/<id>); the product id is read out of it.
-   */
-  url: string;
-}
-
-/**
- * The `data` payload of TikTok Shop Product Full (tiktok_shop.product_full).
- */
-export interface TiktokShopProductFullData {
-  /**
-   * Top-level TikTok Shop category id.
-   */
-  categoryId?: string;
-  /**
-   * Slash-separated category breadcrumb, e.g. Health/Nutrition & Wellness/Vitamins.
-   */
-  categoryPath?: string;
-  /**
-   * Sales rank of this product within its category. Approximate.
-   */
-  categoryRank?: number;
-  /**
-   * Affiliate commission rate as a percentage, e.g. 25 for 25%. Zero when the product runs no open affiliate offer.
-   */
-  commissionRatePct?: number;
-  /**
-   * ISO currency code, e.g. USD. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  currency?: string;
-  /**
-   * Lifetime gross merchandise value in the product's currency. Rounded upstream to three significant figures, so treat it as approximate.
-   */
-  gmv?: number;
-  /**
-   * Gross merchandise value over the last 30 days, in the product's currency. Rounded upstream to three significant figures, so treat it as approximate.
-   */
-  gmv30d?: number;
-  /**
-   * Primary product image URL.
-   */
-  image?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
-   */
-  listedUtc?: number;
-  /**
-   * Lifetime count of live streams promoting this product. Approximate.
-   */
-  liveCount?: number;
-  /**
-   * Live streams promoting this product in the last 30 days. Approximate.
-   */
-  liveCount30d?: number;
-  /**
-   * Highest variant price.
-   */
-  maxPrice?: number;
-  /**
-   * Lowest variant price.
-   */
-  minPrice?: number;
-  /**
-   * True when the listing is no longer on sale.
-   */
-  offShelf?: boolean;
-  /**
-   * Current selling price in the product's currency. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  price?: number;
-  /**
-   * TikTok Shop product id. Populated whenever the provider has data for the entity.
-   */
-  productId: string;
-  /**
-   * Average review score.
-   */
-  rating?: number;
-  /**
-   * Two-letter country code of the TikTok Shop market, e.g. US.
-   */
-  region?: string;
-  /**
-   * Number of reviews. Rounded upstream to three significant figures, so treat it as approximate.
-   */
-  reviewCount?: number;
-  /**
-   * Seller's lifetime gross merchandise value. Approximate.
-   */
-  sellerGmv?: number;
-  /**
-   * TikTok Shop seller id.
-   */
-  sellerId?: string;
-  /**
-   * Seller shop name. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  sellerName?: string;
-  /**
-   * Seller's lifetime units sold across all products. Approximate.
-   */
-  sellerUnitsSold?: number;
-  /**
-   * Seller storefront URL.
-   */
-  sellerUrl?: string;
-  /**
-   * Units currently in stock. Rounded upstream to three significant figures, so treat it as approximate.
-   */
-  stock?: number;
-  /**
-   * Product title. Populated whenever the provider has data for the entity.
-   */
-  title: string;
-  /**
-   * Lifetime units sold. Rounded upstream to three significant figures, so treat it as approximate.
-   */
-  unitsSold?: number;
-  /**
-   * Units sold in the last 30 days. Rounded upstream to three significant figures, so treat it as approximate.
-   */
-  unitsSold30d?: number;
-  /**
-   * Canonical product detail page URL. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
-   */
-  url?: string;
-  /**
-   * Lifetime count of videos promoting this product. Approximate.
-   */
-  videoCount?: number;
-  /**
-   * Videos promoting this product in the last 30 days. Approximate.
-   */
-  videoCount30d?: number;
-  [extra: string]: unknown;
-}
-
-/**
  * Input for TikTok Shop Product Reviews (tiktok_shop.product_reviews).
  */
 export interface TiktokShopProductReviewsInput {
@@ -675,6 +512,21 @@ export interface TiktokShopSearchInput {
    * Search keyword for TikTok Shop products (e.g. wireless earbuds).
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `currency`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "currency"
+    | "discountPct"
+    | "image"
+    | "originalPrice"
+    | "price"
+    | "rating"
+    | "reviewCount"
+    | "sellerId"
+    | "shopName"
+    | "soldCount"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1013,7 +865,7 @@ export class TiktokShopNamespace {
    *
    * Fetch TikTok Shop product details (title, price, sales, seller, and ratings) from a product URL.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktokShop.product({ url: "https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799" });
@@ -1026,28 +878,11 @@ export class TiktokShopNamespace {
   }
 
   /**
-   * TikTok Shop Product Full
-   *
-   * Deep TikTok Shop product record from a product URL: affiliate commission rate, units sold and GMV over the last 30 days and lifetime, stock, rating, review count, category tree, listing date, and the seller's own sales totals.
-   *
-   * Price: $0.022 per request plus $0 per result (maximum $0.022).
-   *
-   * @example
-   * const res = await client.tiktokShop.productFull({ url: "https://www.tiktok.com/shop/pdp/1729527313880355335" });
-   */
-  productFull(
-    input: TiktokShopProductFullInput,
-    options?: RequestOptions,
-  ): Promise<RunResult<TiktokShopProductFullData>> {
-    return this._core.run("tiktok_shop.product_full", input, options);
-  }
-
-  /**
    * TikTok Shop Product Reviews
    *
    * Fetch customer reviews for a TikTok Shop product by URL (rating, text, reviewer, country, and verified-purchase flag).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktokShop.productReviews({ url: "https://www.tiktok.com/shop/pdp/cat-nail-clipper-by-potaroma-adjustable-sizes-built-in-file-safe-for-kittens-cats/1731578642912612516" });
@@ -1064,7 +899,7 @@ export class TiktokShopNamespace {
    *
    * Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktokShop.search({ query: "phone case", limit: 3 });
@@ -1081,7 +916,7 @@ export class TiktokShopNamespace {
    *
    * Get TikTok Shop search autocomplete terms for a keyword: the long-tail queries shoppers actually type, for keyword and demand research.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktokShop.searchSuggestions({ query: "ashwagandha gummies", country: "US" });

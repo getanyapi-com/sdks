@@ -499,6 +499,19 @@ export interface TiktokFollowersInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "avatarUrl"
+    | "bio"
+    | "createdUtc"
+    | "followerCount"
+    | "followers"
+    | "followingCount"
+    | "nextCursor"
+    | "total"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1114,6 +1127,19 @@ export interface TiktokProfileInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `createdUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an account that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "createdUtc"
+    | "followers"
+    | "following"
+    | "likes"
+    | "private"
+    | "secUid"
+    | "verified"
+    | "videos"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1134,7 +1160,7 @@ export interface TiktokProfileData {
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  createdUtc?: number;
+  createdUtc?: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1596,6 +1622,25 @@ export interface TiktokProfileVideosInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: (
+    | "authorHandle"
+    | "authorImage"
+    | "authorName"
+    | "authorUserId"
+    | "comments"
+    | "durationSeconds"
+    | "image"
+    | "likes"
+    | "nextCursor"
+    | "saves"
+    | "shares"
+    | "videoUrl"
+    | "videos"
+    | "views"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1805,9 +1850,23 @@ export interface TiktokSearchKeywordInput {
    */
   query: string;
   /**
-   * Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.
+   * Deprecated: name `nextCursor` in `requireFields` instead, which is the field this flag is translated into. It stays accepted so callers that already send it keep working. Sending it routes you to a source that returns a pagination cursor, which can raise your price when the cheapest source cannot page.
    */
   requireCursor?: boolean;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `region`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "author"
+    | "comments"
+    | "createdUtc"
+    | "likes"
+    | "nextCursor"
+    | "region"
+    | "saves"
+    | "shares"
+    | "views"
+  )[];
   /**
    * Sort order: relevance, most-liked, date-posted.
    * One of: relevance, most-liked, date-posted.
@@ -2080,6 +2139,24 @@ export interface TiktokSearchTopInput {
    */
   region?: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "authorImage"
+    | "authorName"
+    | "authorUserId"
+    | "comments"
+    | "contentType"
+    | "durationSeconds"
+    | "image"
+    | "likes"
+    | "nextCursor"
+    | "saves"
+    | "shares"
+    | "videoUrl"
+    | "views"
+  )[];
+  /**
    * Sort order: relevance, most-liked, date-posted.
    * One of: relevance, most-liked, date-posted.
    */
@@ -2185,6 +2262,18 @@ export interface TiktokSearchUsersInput {
    * The keyword to search TikTok accounts for.
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `verified`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "avatarUrl"
+    | "followers"
+    | "following"
+    | "likes"
+    | "nextCursor"
+    | "verified"
+    | "videos"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2330,6 +2419,26 @@ export interface TiktokSongVideosInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "authorImage"
+    | "authorUserId"
+    | "collectCount"
+    | "commentCount"
+    | "createTime"
+    | "description"
+    | "durationSeconds"
+    | "hasMore"
+    | "image"
+    | "likeCount"
+    | "nextCursor"
+    | "playCount"
+    | "shareCount"
+    | "url"
+    | "videoUrl"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3492,7 +3601,7 @@ export class TiktokNamespace {
    *
    * List the followers of a TikTok account by username, returning each follower's profile basics.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktok.followers({ handle: "stoolpresidente" });
@@ -3529,7 +3638,7 @@ export class TiktokNamespace {
    *
    * List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktok.following({ handle: "stoolpresidente" });
@@ -3948,7 +4057,7 @@ export class TiktokNamespace {
    *
    * Get the search terms TikTok suggests for a keyword, each with its language and relative weight - the queries real TikTok users type around your topic.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktok.searchSuggestions({ query: "protein powder" });
