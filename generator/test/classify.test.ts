@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { classifyIr, type GeneratedChanges } from "../src/classify.js";
-import type { SkuEntry } from "../src/ir-types.js";
+import {
+  classifyIr,
+  type BumpLevel,
+  type GeneratedChanges,
+} from "../src/classify.js";
+import type { ArrayNode, ObjectNode, SkuEntry } from "../src/ir-types.js";
 import {
   base,
   classifyMutation,
@@ -10,7 +14,7 @@ import {
   ir,
   unchangedFiles,
 } from "./classify-fixture.js";
-import { int, sku, str } from "./factories.js";
+import { arr, int, obj, sku, str } from "./factories.js";
 
 describe("classifyIr release states", () => {
   it("returns none only when every generator-owned surface is byte-identical", () => {
@@ -69,25 +73,18 @@ describe("classifyIr release states", () => {
     );
   });
 
-  it.each([
-    ["neither language", unchangedFiles],
-    ["TypeScript only", fileChanges({ typescriptChanged: true })],
-    ["Python only", fileChanges({ pythonChanged: true })],
-  ] satisfies Array<[string, GeneratedChanges]>)(
-    "blocks an optional field when %s regenerates",
-    (_label, files) => {
-      const result = classifyMutation(
-        (next) => {
-          input(next).properties.region = str();
-        },
-        fileChanges({ ...files, irChanged: true }),
-      );
-      expect(result.bump).toBe("blocked");
-      expect(
-        result.blocked.some((change) => change.kind === "unclassified-change"),
-      ).toBe(true);
-    },
-  );
+  it("blocks an optional field when neither language regenerates", () => {
+    const result = classifyMutation(
+      (next) => {
+        input(next).properties.region = str();
+      },
+      fileChanges({ irChanged: true }),
+    );
+    expect(result.bump).toBe("blocked");
+    expect(
+      result.blocked.some((change) => change.kind === "unclassified-change"),
+    ).toBe(true);
+  });
 
   it("blocks inconsistent IR byte-state evidence", () => {
     const result = classifyMutation(
@@ -154,156 +151,172 @@ describe("classifyIr release states", () => {
   });
 });
 
-describe("classifyIr blocked changes", () => {
-  it("blocks SKU removal", () => {
+// Owner decision 2026-09-26: the gateway already serves a classified contract change when
+// regen runs, so holding it protected no API caller and only kept new SDK installs wrong.
+// The packages are 0.x, where semver expresses a breaking change as a minor bump.
+describe("classifyIr breaking changes", () => {
+  const allTrees = fileChanges({
+    irChanged: true,
+    typescriptChanged: true,
+    pythonChanged: true,
+  });
+
+  it("publishes a SKU removal as minor and names it under Breaking changes", () => {
     const result = classifyIr(
       ir([base, sku({ slug: "google.search" })]),
       ir([base]),
-      fileChanges({ irChanged: true }),
+      fileChanges({ ...allTrees, fixturesChanged: true }),
     );
-    expect(result.bump).toBe("blocked");
-    expect(result.hasRemoval).toBe(true);
-    expect(result.removed.some((change) => change.kind === "sku-removed")).toBe(
-      true,
+    expect(result.bump).toBe("minor");
+    expect(result.blocked).toEqual([]);
+    expect(result.breaking).toContainEqual(
+      expect.objectContaining({ kind: "sku-removed", slug: "google.search" }),
     );
-  });
-
-  it("blocks field and enum removals", () => {
-    const fieldRemoval = classifyMutation((next) => {
-      delete input(next).properties.limit;
-    });
-    const enumRemoval = classifyMutation((next) => {
-      field(next, "sort").enum = ["helpful"];
-    });
-    expect(fieldRemoval.bump).toBe("blocked");
-    expect(fieldRemoval.hasRemoval).toBe(true);
-    expect(enumRemoval.bump).toBe("blocked");
-    expect(enumRemoval.hasRemoval).toBe(true);
+    expect(result.summary).toContain(
+      "## Breaking changes (1)\n- google.search: SKU google.search removed\n",
+    );
   });
 
   // must-populate is doc-only in both emitters (optionality comes from `required`), so a
-  // change to it may not block a release. It did: on 2026-08-30 a single annotation added
-  // to tiktok.profile.externalUrl stalled every SDK release behind a comment edit.
-  it("treats a must-populate change as documentation, not a blocked requiredness change", () => {
+  // change to it is documentation, never a breaking requiredness change. On 2026-08-30 a
+  // single annotation added to tiktok.profile.externalUrl stalled every SDK release.
+  it("treats a must-populate change as documentation, not a requiredness change", () => {
     // A must-populate edit really does rewrite both emitted trees - it is a doc comment
     // in each - so the byte-state evidence says ir + typescript + python changed.
-    const result = classifyMutation(
-      (next) => {
-        input(next).mustPopulate = ["sort"];
-      },
-      fileChanges({
-        irChanged: true,
-        typescriptChanged: true,
-        pythonChanged: true,
-      }),
-    );
+    const result = classifyMutation((next) => {
+      input(next).mustPopulate = ["sort"];
+    }, allTrees);
     expect(result.bump).toBe("patch");
+    expect(result.breaking).toHaveLength(0);
     expect(result.blocked).toHaveLength(0);
     expect(
       result.changed.some((change) => change.kind === "documentation"),
     ).toBe(true);
   });
 
-  it("still blocks a real requiredness change alongside a must-populate change", () => {
-    const result = classifyMutation(
-      (next) => {
-        input(next).mustPopulate = ["sort"];
-        input(next).required.push("sort");
-      },
-      fileChanges({
-        irChanged: true,
-        typescriptChanged: true,
-        pythonChanged: true,
-      }),
-    );
-    expect(result.bump).toBe("blocked");
-    expect(
-      result.blocked.some((change) => change.kind === "requiredness-change"),
-    ).toBe(true);
-  });
-
-  it("blocks a field added as required", () => {
+  it("still names a real requiredness change alongside a must-populate change", () => {
     const result = classifyMutation((next) => {
-      input(next).properties.region = str();
-      input(next).required.push("region");
-    });
-    expect(result.bump).toBe("blocked");
+      input(next).mustPopulate = ["sort"];
+      input(next).required.push("sort");
+    }, allTrees);
+    expect(result.bump).toBe("minor");
     expect(
-      result.blocked.some((change) => change.kind === "requiredness-change"),
+      result.breaking.some((change) => change.kind === "requiredness-change"),
     ).toBe(true);
   });
 
-  const structuralCases: Array<[string, string, (next: SkuEntry) => void]> = [
+  const breakingCases: Array<[string, string, (next: SkuEntry) => void]> = [
     [
-      "requiredness",
+      "a requiredness change",
       "requiredness-change",
       (next) => input(next).required.push("sort"),
     ],
     [
-      "type",
+      "a field added as required",
+      "requiredness-change",
+      (next) => {
+        input(next).properties.region = str();
+        input(next).required.push("region");
+      },
+    ],
+    [
+      "a field removal",
+      "field-removed",
+      (next) => {
+        delete input(next).properties.limit;
+      },
+    ],
+    [
+      "an enum member removal",
+      "enum-removed",
+      (next) => {
+        field(next, "sort").enum = ["helpful"];
+      },
+    ],
+    [
+      "an enum reorder",
+      "enum-change",
+      (next) => {
+        field(next, "sort").enum = ["recent", "helpful"];
+      },
+    ],
+    [
+      "an existing-field reorder",
+      "field-order-change",
+      (next) => {
+        const props = input(next).properties;
+        input(next).properties = {
+          sort: props.sort!,
+          product: props.product!,
+          limit: props.limit!,
+        };
+      },
+    ],
+    [
+      "a type change",
       "type-change",
       (next) => {
         input(next).properties.product = int();
       },
     ],
     [
-      "nullability",
+      "a nullability change",
       "nullability-change",
       (next) => {
         field(next, "product").nullable = true;
       },
     ],
     [
-      "openness",
+      "an openness change",
       "openness-change",
       (next) => {
         input(next).open = true;
       },
     ],
     [
-      "default",
+      "a default change",
       "default-change",
       (next) => {
         field(next, "sort").default = "recent";
       },
     ],
     [
-      "numeric bound",
+      "a numeric bound change",
       "bound-change",
       (next) => {
         field(next, "limit").maximum = 10;
       },
     ],
     [
-      "format",
+      "a format change",
       "format-change",
       (next) => {
         field(next, "product").format = "uri";
       },
     ],
     [
-      "method",
+      "a method rename",
       "method-change",
       (next) => {
         next.tsMethod = "fetchReviews";
       },
     ],
     [
-      "path",
+      "a path change",
       "path-change",
       (next) => {
         next.action = "reviewSearch";
       },
     ],
     [
-      "envelope",
+      "an envelope change",
       "envelope-change",
       (next) => {
         next.output.envelope = "bare";
       },
     ],
     [
-      "pagination",
+      "a pagination change",
       "method-change",
       (next) => {
         next.pagination.paginated = true;
@@ -311,27 +324,94 @@ describe("classifyIr blocked changes", () => {
     ],
   ];
 
-  it.each(structuralCases)("blocks a %s change", (_label, kind, mutate) => {
-    const result = classifyMutation(mutate);
+  it.each(breakingCases)(
+    "publishes %s as minor when both trees regenerate",
+    (_label, kind, mutate) => {
+      const result = classifyMutation(mutate, allTrees);
+      expect(result.bump).toBe("minor");
+      expect(result.blocked).toEqual([]);
+      expect(result.breaking.map((change) => change.kind)).toContain(kind);
+      expect(result.summary).toContain("## Breaking changes");
+    },
+  );
+
+  it("blocks a breaking change whose emitted trees did not change", () => {
+    const result = classifyMutation(
+      (next) => input(next).required.push("sort"),
+      fileChanges({ irChanged: true }),
+    );
     expect(result.bump).toBe("blocked");
-    expect(result.blocked.some((change) => change.kind === kind)).toBe(true);
+    expect(result.blocked).toContainEqual(
+      expect.objectContaining({
+        kind: "unclassified-change",
+        slug: "emitted-trees",
+      }),
+    );
   });
 
-  it("blocks enum and existing-field reordering", () => {
-    const enumOrder = classifyMutation((next) => {
-      field(next, "sort").enum = ["recent", "helpful"];
-    });
-    const fieldOrder = classifyMutation((next) => {
-      const props = input(next).properties;
-      input(next).properties = {
-        sort: props.sort!,
-        product: props.product!,
-        limit: props.limit!,
-      };
-    });
-    expect(enumOrder.bump).toBe("blocked");
-    expect(fieldOrder.bump).toBe("blocked");
-  });
+  // Each row was measured by running both emitters on the committed IR with only that edit.
+  // Python already types an optional output field as `X | None`, so making it nullable
+  // rewrites only TypeScript (the redfin.search batch that held sdks#53). An output openness
+  // flip on apollo.people_search `people[].organization` rewrote only Python. Python types a
+  // nested input object as `dict[str, Any]`, so a description on company_search.fullenrich
+  // `companyIds[].exact_match` rewrote only TypeScript.
+  const oneTreeCases: Array<
+    [string, BumpLevel, GeneratedChanges, SkuEntry, (next: SkuEntry) => void]
+  > = [
+    [
+      "an optional output field made nullable",
+      "minor",
+      fileChanges({ irChanged: true, typescriptChanged: true }),
+      sku({
+        slug: "redfin.search",
+        output: { envelope: "found-data", data: obj({ agentName: str() }) },
+      }),
+      (next) => {
+        (next.output.data as ObjectNode).properties.agentName!.nullable = true;
+      },
+    ],
+    [
+      "an output openness change",
+      "minor",
+      fileChanges({ irChanged: true, pythonChanged: true }),
+      sku({
+        slug: "apollo.people_search",
+        output: {
+          envelope: "found-data",
+          data: obj({ organization: obj({ name: str() }, [], true) }),
+        },
+      }),
+      (next) => {
+        const data = next.output.data as ObjectNode;
+        (data.properties.organization as ObjectNode).open = false;
+      },
+    ],
+    [
+      "a nested input description",
+      "patch",
+      fileChanges({ irChanged: true, typescriptChanged: true }),
+      sku({
+        slug: "company_search.fullenrich",
+        input: obj({ companyIds: arr(obj({ exact_match: str() })) }),
+      }),
+      (next) => {
+        const ids = input(next).properties.companyIds as ArrayNode;
+        (ids.items as ObjectNode).properties.exact_match!.description =
+          "Match the identifier exactly.";
+      },
+    ],
+  ];
+
+  it.each(oneTreeCases)(
+    "publishes %s that only one emitted tree renders",
+    (_label, bump, files, before, mutate) => {
+      const after = structuredClone(before);
+      mutate(after);
+      const result = classifyIr(ir([before]), ir([after]), files);
+      expect(result.bump).toBe(bump);
+      expect(result.blocked).toEqual([]);
+    },
+  );
 
   it("blocks future method or path fields until they are classified", () => {
     const oldSku = structuredClone(base) as SkuEntry & {

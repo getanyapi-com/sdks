@@ -12,7 +12,10 @@ name: regen
 #   - workflow_dispatch: manual kick.
 #
 # Loop guard: the job only commits/tags for patch or minor. `none` requires byte identity
-# across IR, fixtures, and both emitted trees. Unsafe or unexplained changes are blocked.
+# across IR, fixtures, and both emitted trees. A classified breaking change (a removal, or a
+# requiredness, nullability, or enum change) publishes as a minor with every item named in
+# the release notes: the gateway already serves it, so holding it only kept new installs
+# wrong. Only a change the classifier cannot explain is blocked.
 #
 # A blocked run needs a HUMAN, so it opens a GitHub issue assigned to the owner and keeps
 # one issue per outage rather than one per run. The next successful release closes it, in
@@ -129,9 +132,8 @@ jobs:
           # enough to defer for days (#33, #35, #37, #39), so leave a ready artifact instead.
           #
           # The level is always `minor`, never patch: the packages are 0.x, where semver
-          # expresses a breaking change as a minor bump, and every blocked kind (a removal, a
-          # requiredness change, an enum narrowing, a nullability change) is either breaking
-          # or safely covered by a minor.
+          # expresses a breaking change as a minor bump, and an unexplained change may be
+          # breaking.
           NEXT="$(pnpm --silent --filter @anyapi/generator run version:next minor)"
           pnpm --silent --filter @anyapi/generator run version:apply "$NEXT"
           git config user.name "anyapi-bot"
@@ -162,7 +164,7 @@ jobs:
       - name: stop blocked release before versioning
         if: ${{ always() && steps.classify.outputs.bump == 'blocked' }}
         run: |
-          echo "Unsafe or unclassified generated changes were detected."
+          echo "Generated changes the classifier cannot explain were detected."
           echo "Review the blocked-change artifact; no version, commit, or tag was created."
           exit 1
 
@@ -248,12 +250,12 @@ jobs:
           CANDIDATE_NEXT: ${{ steps.candidate.outputs.next }}
           CANDIDATE_BRANCH: ${{ steps.candidate.outputs.branch }}
         run: |
-          # The blocked and removed items ARE the block, and their slugs are what the
-          # reviewer decides from, so they are both the issue body and the fingerprint.
+          # The blocked items ARE the block, and their slugs are what the reviewer decides
+          # from, so they are both the issue body and the fingerprint.
           # A failure before or outside classification has no item list; it still files,
           # under a single stable item, so the run link reaches a human.
           if [ "$BUMP" = "blocked" ] && [ -f release-changes.json ]; then
-            jq -r '(.blocked + .removed)[] | "\(.slug): \(.detail)"' \
+            jq -r '.blocked[] | "\(.slug): \(.detail)"' \
               release-changes.json > regen-items.txt
           else
             printf 'regen failed with no classification (state: %s)\n' \
