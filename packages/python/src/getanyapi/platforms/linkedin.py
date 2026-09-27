@@ -405,6 +405,10 @@ class LinkedinPostReactionsInput(TypedDict, total=False):
     """Maximum number of reactions to return (1-100, default 100). Range: 1 to 100."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["actor", "items", "postId", "reactionType"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -435,6 +439,64 @@ class LinkedinProfileInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "about",
+                "certifications",
+                "city",
+                "companyId",
+                "companyLinkedinUrl",
+                "companyName",
+                "connectionsCount",
+                "country",
+                "countryCode",
+                "coverImage",
+                "creator",
+                "currentPosition",
+                "degree",
+                "description",
+                "duration",
+                "education",
+                "employmentType",
+                "endDate",
+                "endorsements",
+                "fieldOfStudy",
+                "firstName",
+                "followerCount",
+                "hiring",
+                "honorsAndAwards",
+                "id",
+                "influencer",
+                "issuedAt",
+                "issuedBy",
+                "languages",
+                "lastName",
+                "location",
+                "name",
+                "openToWork",
+                "photo",
+                "positions",
+                "premium",
+                "projects",
+                "publicIdentifier",
+                "publications",
+                "publishedText",
+                "school",
+                "schoolId",
+                "schoolUrl",
+                "skills",
+                "startDate",
+                "state",
+                "title",
+                "topSkills",
+                "url",
+                "verified",
+                "workplaceType",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `workplaceType`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -2231,7 +2293,7 @@ class LinkedinPostReactionsItem(BaseModel):
     post_id: str | None = Field(
         default=None,
         alias="postId",
-        description="LinkedIn URN of the post that was reacted to. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="LinkedIn URN of the post that was reacted to.",
     )
     reaction_type: str = Field(
         alias="reactionType",
@@ -2364,9 +2426,9 @@ class LinkedinProfileData(BaseModel):
     publications: list[LinkedinProfilePublication] | None = Field(
         default=None, description="Publications."
     )
-    skills: list[Any] | None = Field(
+    skills: list[LinkedinProfileSkill] | None = Field(
         default=None,
-        description="The member's skills, as free-form strings when present.",
+        description="The member's skills: an object per skill, or a bare skill name when LinkedIn shows no endorsed-skills section.",
     )
     state: str | None = Field(
         default=None, description="State or region of the profile owner."
@@ -2507,6 +2569,20 @@ class LinkedinProfilePublication(BaseModel):
         description="Publisher and/or date text as shown on LinkedIn.",
     )
     title: str | None = Field(default=None, description="Publication title.")
+
+
+class LinkedinProfileSkill(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    endorsements: str | None = Field(
+        default=None,
+        description="Endorsement count as LinkedIn shows it, e.g. '23 endorsements'. Null from a source that does not read endorsements; name it in requireFields to be served by one that does.",
+    )
+    name: str | None = Field(default=None, description="Skill name.")
+    positions: list[str] | None = Field(
+        default=None,
+        description="Where the skill was used or who endorsed it, as LinkedIn shows it, e.g. 'Endorsed by 3 colleagues at Rippling'. Null from a source that does not read them; name it in requireFields to be served by one that does.",
+    )
 
 
 class LinkedinProfileCommentsData(BaseModel):
@@ -4392,7 +4468,7 @@ class LinkedinNamespace:
         List who reacted to a LinkedIn post - reactor name, profile URL, job title,
         and reaction type. Lead-gen grade.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.post_reactions(limit=5, url="https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG")
@@ -4437,7 +4513,7 @@ class LinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.004 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")
@@ -5086,7 +5162,7 @@ class AsyncLinkedinNamespace:
         List who reacted to a LinkedIn post - reactor name, profile URL, job title,
         and reaction type. Lead-gen grade.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.post_reactions(limit=5, url="https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG")
@@ -5131,7 +5207,7 @@ class AsyncLinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.004 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")

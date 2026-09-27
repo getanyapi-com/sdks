@@ -444,7 +444,7 @@ export interface LinkedinCompanyData {
   /**
    * Company type, e.g. Privately Held, Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Company about/description text. Populated whenever the provider has data for the entity.
    */
@@ -495,7 +495,7 @@ export interface LinkedinCompanyData {
      * Total number of funding rounds.
      */
     numFundingRounds?: number;
-  };
+  } | null;
   /**
    * LinkedIn's numeric company id, as a string.
    */
@@ -523,11 +523,11 @@ export interface LinkedinCompanyData {
   /**
    * Whether LinkedIn has verified the company page.
    */
-  pageVerified?: boolean;
+  pageVerified?: boolean | null;
   /**
    * Similar organizations surfaced by LinkedIn.
    */
-  similarOrganizations?: unknown[];
+  similarOrganizations?: unknown[] | null;
   /**
    * Company-declared specialities.
    */
@@ -2048,6 +2048,10 @@ export interface LinkedinPostReactionsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("actor" | "items" | "postId" | "reactionType")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2092,10 +2096,9 @@ export interface LinkedinPostReactionsItem {
    */
   id?: string;
   /**
-   * LinkedIn URN of the post that was reacted to. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * LinkedIn URN of the post that was reacted to.
    */
-  postId?: string;
+  postId?: string | null;
   /**
    * Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).
    */
@@ -2173,6 +2176,62 @@ export interface LinkedinProfileInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `workplaceType`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "about"
+    | "certifications"
+    | "city"
+    | "companyId"
+    | "companyLinkedinUrl"
+    | "companyName"
+    | "connectionsCount"
+    | "country"
+    | "countryCode"
+    | "coverImage"
+    | "creator"
+    | "currentPosition"
+    | "degree"
+    | "description"
+    | "duration"
+    | "education"
+    | "employmentType"
+    | "endDate"
+    | "endorsements"
+    | "fieldOfStudy"
+    | "firstName"
+    | "followerCount"
+    | "hiring"
+    | "honorsAndAwards"
+    | "id"
+    | "influencer"
+    | "issuedAt"
+    | "issuedBy"
+    | "languages"
+    | "lastName"
+    | "location"
+    | "name"
+    | "openToWork"
+    | "photo"
+    | "positions"
+    | "premium"
+    | "projects"
+    | "publicIdentifier"
+    | "publications"
+    | "publishedText"
+    | "school"
+    | "schoolId"
+    | "schoolUrl"
+    | "skills"
+    | "startDate"
+    | "state"
+    | "title"
+    | "topSkills"
+    | "url"
+    | "verified"
+    | "workplaceType"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2246,7 +2305,7 @@ export interface LinkedinProfileEducation {
   /**
    * LinkedIn's numeric school id, as a string.
    */
-  schoolId?: string;
+  schoolId?: string | null;
   /**
    * School LinkedIn URL.
    */
@@ -2298,7 +2357,7 @@ export interface LinkedinProfileExperience {
   /**
    * Skills associated with this role.
    */
-  skills?: unknown[];
+  skills?: unknown[] | null;
   /**
    * Start date text, e.g. 'Feb 2014'.
    */
@@ -2306,7 +2365,7 @@ export interface LinkedinProfileExperience {
   /**
    * Workplace type, e.g. 'Remote' or 'On-site'.
    */
-  workplaceType?: string;
+  workplaceType?: string | null;
   [extra: string]: unknown;
 }
 
@@ -2314,7 +2373,7 @@ export interface LinkedinProfileHonorsAndAward {
   /**
    * Award description.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Issue date text.
    */
@@ -2334,7 +2393,7 @@ export interface LinkedinProfilePublication {
   /**
    * Publication description.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Publisher and/or date text as shown on LinkedIn.
    */
@@ -2343,6 +2402,22 @@ export interface LinkedinProfilePublication {
    * Publication title.
    */
   title?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfileSkill {
+  /**
+   * Endorsement count as LinkedIn shows it, e.g. '23 endorsements'. Null from a source that does not read endorsements; name it in requireFields to be served by one that does.
+   */
+  endorsements?: string | null;
+  /**
+   * Skill name.
+   */
+  name?: string;
+  /**
+   * Where the skill was used or who endorsed it, as LinkedIn shows it, e.g. 'Endorsed by 3 colleagues at Rippling'. Null from a source that does not read them; name it in requireFields to be served by one that does.
+   */
+  positions?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -2460,9 +2535,9 @@ export interface LinkedinProfileData {
    */
   publications?: LinkedinProfilePublication[];
   /**
-   * The member's skills, as free-form strings when present.
+   * The member's skills: an object per skill, or a bare skill name when LinkedIn shows no endorsed-skills section.
    */
-  skills?: unknown[];
+  skills?: LinkedinProfileSkill[];
   /**
    * State or region of the profile owner.
    */
@@ -2470,7 +2545,7 @@ export interface LinkedinProfileData {
   /**
    * The member's top skills, as free-form strings when present.
    */
-  topSkills?: unknown[];
+  topSkills?: unknown[] | null;
   /**
    * Canonical LinkedIn profile URL.
    */
@@ -5398,7 +5473,7 @@ export class LinkedinNamespace {
    *
    * List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.
    *
-   * Price: $0.005 per request.
+   * Price: $0.0029 per request.
    *
    * @example
    * const res = await client.linkedin.postReactions({ url: "https://www.linkedin.com/posts/satyanadella_today-were-bringing-skills-to-copilot-for-activity-7475945433668694017--kvG", limit: 5 });
@@ -5432,7 +5507,7 @@ export class LinkedinNamespace {
    *
    * Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.
    *
-   * Price: $0.004 per request.
+   * Price: $0.0029 per request.
    *
    * @example
    * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/patrickcollison" });

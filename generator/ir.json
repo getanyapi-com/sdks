@@ -50092,6 +50092,7 @@
             "companyType": {
               "kind": "string",
               "description": "Company type, e.g. Privately Held, Public Company.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -50157,6 +50158,7 @@
             "fundingData": {
               "kind": "object",
               "description": "Funding summary sourced from Crunchbase, when available.",
+              "nullable": true,
               "properties": {
                 "companyCrunchbaseUrl": {
                   "kind": "string",
@@ -50266,11 +50268,13 @@
             "pageVerified": {
               "kind": "boolean",
               "description": "Whether LinkedIn has verified the company page.",
+              "nullable": true,
               "default": null
             },
             "similarOrganizations": {
               "kind": "array",
               "description": "Similar organizations surfaced by LinkedIn.",
+              "nullable": true,
               "items": {
                 "kind": "unknown"
               },
@@ -53299,7 +53303,7 @@
       "category": "social",
       "description": "List who reacted to a LinkedIn post - reactor name, profile URL, job title, and reaction type. Lead-gen grade.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.0029,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -53348,6 +53352,22 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "actor",
+                "items",
+                "postId",
+                "reactionType"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -53444,7 +53464,8 @@
                   },
                   "postId": {
                     "kind": "string",
-                    "description": "LinkedIn URN of the post that was reacted to. Populated whenever the provider has data for the entity.",
+                    "description": "LinkedIn URN of the post that was reacted to.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -53461,10 +53482,7 @@
                   "reactionType",
                   "actor"
                 ],
-                "open": true,
-                "mustPopulate": [
-                  "postId"
-                ]
+                "open": true
               },
               "mustPopulate": false
             }
@@ -53607,7 +53625,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.004,
+        "priceUsd": 0.0029,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -53648,6 +53666,69 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `city` or `workplaceType`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "about",
+                "certifications",
+                "city",
+                "companyId",
+                "companyLinkedinUrl",
+                "companyName",
+                "connectionsCount",
+                "country",
+                "countryCode",
+                "coverImage",
+                "creator",
+                "currentPosition",
+                "degree",
+                "description",
+                "duration",
+                "education",
+                "employmentType",
+                "endDate",
+                "endorsements",
+                "fieldOfStudy",
+                "firstName",
+                "followerCount",
+                "hiring",
+                "honorsAndAwards",
+                "id",
+                "influencer",
+                "issuedAt",
+                "issuedBy",
+                "languages",
+                "lastName",
+                "location",
+                "name",
+                "openToWork",
+                "photo",
+                "positions",
+                "premium",
+                "projects",
+                "publicIdentifier",
+                "publications",
+                "publishedText",
+                "school",
+                "schoolId",
+                "schoolUrl",
+                "skills",
+                "startDate",
+                "state",
+                "title",
+                "topSkills",
+                "url",
+                "verified",
+                "workplaceType"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -53849,6 +53930,7 @@
                   "schoolId": {
                     "kind": "string",
                     "description": "LinkedIn's numeric school id, as a string.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -53947,6 +54029,7 @@
                   "skills": {
                     "kind": "array",
                     "description": "Skills associated with this role.",
+                    "nullable": true,
                     "items": {
                       "kind": "unknown"
                     },
@@ -53962,6 +54045,7 @@
                   "workplaceType": {
                     "kind": "string",
                     "description": "Workplace type, e.g. 'Remote' or 'On-site'.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -54012,6 +54096,7 @@
                   "description": {
                     "kind": "string",
                     "description": "Award description.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -54118,6 +54203,7 @@
                   "description": {
                     "kind": "string",
                     "description": "Publication description.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -54144,9 +54230,40 @@
             },
             "skills": {
               "kind": "array",
-              "description": "The member's skills, as free-form strings when present.",
+              "description": "The member's skills: an object per skill, or a bare skill name when LinkedIn shows no endorsed-skills section.",
               "items": {
-                "kind": "unknown"
+                "kind": "object",
+                "properties": {
+                  "endorsements": {
+                    "kind": "string",
+                    "description": "Endorsement count as LinkedIn shows it, e.g. '23 endorsements'. Null from a source that does not read endorsements; name it in requireFields to be served by one that does.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Skill name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "positions": {
+                    "kind": "array",
+                    "description": "Where the skill was used or who endorsed it, as LinkedIn shows it, e.g. 'Endorsed by 3 colleagues at Rippling'. Null from a source that does not read them; name it in requireFields to be served by one that does.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [],
+                "open": true
               },
               "mustPopulate": false
             },
@@ -54160,6 +54277,7 @@
             "topSkills": {
               "kind": "array",
               "description": "The member's top skills, as free-form strings when present.",
+              "nullable": true,
               "items": {
                 "kind": "unknown"
               },
