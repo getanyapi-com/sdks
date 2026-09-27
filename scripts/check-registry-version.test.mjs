@@ -2,6 +2,8 @@ import { deepEqual, equal, match, ok, rejects } from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 import {
+  DEADLINE_MS,
+  INTERVAL_MS,
   main,
   queryRegistryVersion,
   registryUrls,
@@ -180,6 +182,20 @@ test("release workflow reaches terminal proof after skipped publishes", async ()
     releaseJob,
     /if: \$\{\{ always\(\) && needs\.verify\.result == 'success' && needs\.npm-smoke\.result == 'success' && needs\.pypi-smoke\.result == 'success' \}\}/,
   );
+});
+
+test("the PyPI smoke install retries on the same policy as the registry wait", async () => {
+  const workflow = await readFile(
+    new URL("../.github/workflows/release.yml", import.meta.url),
+    "utf8",
+  );
+  const pypiSmokeJob = workflow.slice(
+    workflow.indexOf("  pypi-smoke:"),
+    workflow.indexOf("  github-release:"),
+  );
+  match(pypiSmokeJob, new RegExp(`DEADLINE_S: ${DEADLINE_MS / 1000}\n`));
+  match(pypiSmokeJob, new RegExp(`INTERVAL_S: ${INTERVAL_MS / 1000}\n`));
+  match(pypiSmokeJob, /until "\$smoke_dir\/venv\/bin\/python" -m pip install --no-cache-dir "getanyapi==\$VERSION"; do/);
 });
 
 test("rejects unknown CLI options before querying a registry", async () => {

@@ -226,15 +226,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      # PyPI's CDN edges refresh pip's index independently: on v0.64.0 (run 36287381452)
+      # verify-published saw the version, and this job's pip, about 15 s later, read an
+      # edge without it. So the install itself retries, on the same deadline and interval
+      # as scripts/check-registry-version.mjs (DEADLINE_MS, INTERVAL_MS; a test pins them).
       - name: install exact package into a fresh venv and smoke it
         env:
           VERSION: ${{ needs.verify.outputs.version }}
+          DEADLINE_S: 248
+          INTERVAL_S: 12
         run: |
           set -euo pipefail
           smoke_dir="$(mktemp -d)"
           python -m venv "$smoke_dir/venv"
           "$smoke_dir/venv/bin/python" -m pip install --upgrade pip
-          "$smoke_dir/venv/bin/python" -m pip install "getanyapi==$VERSION"
+          deadline=$((SECONDS + DEADLINE_S))
+          until "$smoke_dir/venv/bin/python" -m pip install --no-cache-dir "getanyapi==$VERSION"; do
+            if (( SECONDS + INTERVAL_S > deadline )); then
+              echo "::error::getanyapi==$VERSION not installable after $DEADLINE_S s"
+              exit 1
+            fi
+            sleep "$INTERVAL_S"
+          done
           cp "$GITHUB_WORKSPACE/smoke/pypi-smoke.py" "$smoke_dir/pypi-smoke.py"
           cd "$smoke_dir"
           "$smoke_dir/venv/bin/python" pypi-smoke.py

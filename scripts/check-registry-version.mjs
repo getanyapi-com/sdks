@@ -12,11 +12,11 @@ import { pathToFileURL } from "node:url";
 //
 // The deadline is the slowest of them, v0.52.0's 247.6 s, rounded up to a whole second.
 // It counts from the first poll, which starts only after both publish jobs have finished.
-const DEADLINE_MS = 248_000;
+export const DEADLINE_MS = 248_000;
 // The measured delays land on a few distinct values (55, 75, 96, 127, 157, 188, 200 and
 // 248 s), the closest two 12.6 s apart (v0.59.0 at 187.7 s, v0.58.0 at 200.3 s). Polling
 // every 12 s adds less wait after a version appears than separates any two of them.
-const INTERVAL_MS = 12_000;
+export const INTERVAL_MS = 12_000;
 
 // pip installs from the simple index, not the JSON API, and the two can disagree: in 6
 // releases (v0.34.0, v0.34.1, v0.34.4, v0.39.1, v0.40.1, v0.61.0) the JSON API served the
