@@ -491,6 +491,27 @@ export interface FacebookAdsSearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalResults` or `pageLikes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an ad that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "active"
+    | "adCount"
+    | "ads"
+    | "caption"
+    | "categories"
+    | "endDate"
+    | "isReshared"
+    | "linkDescription"
+    | "media"
+    | "nextCursor"
+    | "pageCategories"
+    | "pageDeleted"
+    | "pageLikes"
+    | "pageProfilePicture"
+    | "pageUrl"
+    | "totalResults"
+  )[];
+  /**
    * Match mode for the query: loose keyword match (keyword_unordered, the default) or exact phrase (keyword_exact_phrase).
    * One of: keyword_unordered, keyword_exact_phrase.
    */
@@ -654,7 +675,10 @@ export interface FacebookAdsSearchData {
    * Opaque cursor for the next page of ads, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor: string | null;
-  totalResults: number;
+  /**
+   * Total number of ads matching the search. Null when the source cannot report an exact count.
+   */
+  totalResults: number | null;
 }
 
 /**
@@ -2259,7 +2283,10 @@ export interface FacebookPostData {
    * Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.
    */
   videoId?: string | null;
-  views: number;
+  /**
+   * Number of views on the post's video. Null when the source cannot report an exact count, for example when it gives only a rounded figure such as 14K.
+   */
+  views: number | null;
   [extra: string]: unknown;
 }
 
@@ -2289,6 +2316,19 @@ export interface FacebookPostCommentsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `feedbackId` or `hasNextPage`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "authorId"
+    | "authorImage"
+    | "expansionToken"
+    | "feedbackId"
+    | "hasNextPage"
+    | "nextCursor"
+    | "reactions"
+    | "replies"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2705,6 +2745,19 @@ export interface FacebookProfileReelsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `feedbackId` or `authorVerified`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "authorId"
+    | "authorImage"
+    | "authorName"
+    | "authorVerified"
+    | "durationSeconds"
+    | "feedbackId"
+    | "nextCursor"
+    | "views"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2998,7 +3051,7 @@ export interface FacebookSearchPostsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -3880,7 +3933,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
    *
-   * Price: $0.00006 per request plus $0.0033 per result (maximum $0.0661).
+   * Price: $0.03 per request.
    *
    * @example
    * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });
