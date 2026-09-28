@@ -118,10 +118,10 @@ export interface CapterraReviewsItem {
    */
   id: string;
   /**
-   * Whether the reviewer received an incentive for the review. Populated whenever the provider has data for the entity.
+   * Whether the reviewer received an incentive for the review (for example a nominal gift); null when the source does not say. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  incentivized?: boolean;
+  incentivized?: boolean | null;
   /**
    * The vendor's public reply to the review.
    */

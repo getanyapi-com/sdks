@@ -224,13 +224,13 @@ class TripadvisorSearchItem(BaseModel):
         default=None,
         description='Ranking string within its location (e.g. "#2 of 1,885 hotels in Paris").',
     )
-    rating: float = Field(
-        description="Average traveler rating out of 5. Populated whenever the provider has data for the entity."
+    rating: float | None = Field(
+        description="Average traveler rating out of 5; null for a place Tripadvisor has not rated (such as a city). Populated whenever the provider has data for the entity."
     )
     review_count: float | None = Field(
         default=None,
         alias="reviewCount",
-        description="Total number of traveler reviews.",
+        description="Total number of traveler reviews; null when the source does not report it.",
     )
     title: str = Field(
         description="Place name. Populated whenever the provider has data for the entity."

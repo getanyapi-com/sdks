@@ -65,8 +65,14 @@ export interface GoogleAdsAdDetailsData {
    * Populated whenever the provider has data for the entity.
    */
   format: string;
-  impressionsMax: number;
-  impressionsMin: number;
+  /**
+   * Upper bound of the impressions range. Null when Google does not publish one for this creative.
+   */
+  impressionsMax: number | null;
+  /**
+   * Lower bound of the impressions range. Null when Google does not publish one for this creative.
+   */
+  impressionsMin: number | null;
   /**
    * ISO 8601 date.
    */

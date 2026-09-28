@@ -132,8 +132,8 @@ export interface IndeedJobsItem {
    */
   reviewCount?: number;
   salaryCurrency?: string;
-  salaryMax?: number;
-  salaryMin?: number;
+  salaryMax?: number | null;
+  salaryMin?: number | null;
   /**
    * Salary period, e.g. YEAR or HOUR.
    */

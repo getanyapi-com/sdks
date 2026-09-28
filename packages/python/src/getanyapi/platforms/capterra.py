@@ -110,7 +110,7 @@ class CapterraReviewsItem(BaseModel):
     )
     incentivized: bool | None = Field(
         default=None,
-        description="Whether the reviewer received an incentive for the review. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Whether the reviewer received an incentive for the review (for example a nominal gift); null when the source does not say. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     owner_response: str | None = Field(
         default=None,

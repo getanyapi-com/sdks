@@ -98,12 +98,12 @@ class GoogleShoppingSearchItem(BaseModel):
         default=None, alias="productId", description="Provider product identifier."
     )
     rating: float | None = Field(
-        default=None, description="Average product rating, 0-5; 0 when unrated."
+        default=None, description="Average product rating, 0-5; null when unrated."
     )
     reviews_count: int | None = Field(
         default=None,
         alias="reviewsCount",
-        description="Number of ratings / reviews; 0 when none reported.",
+        description="Number of ratings / reviews; null when none reported.",
     )
     seller: str | None = Field(
         default=None,

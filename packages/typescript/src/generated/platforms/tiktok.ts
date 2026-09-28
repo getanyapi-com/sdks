@@ -2071,7 +2071,7 @@ export interface TiktokSearchTopInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "nextCursor"[];
+  requireFields?: ("contentType" | "nextCursor")[];
   /**
    * Sort order: relevance, most-liked, date-posted.
    * One of: relevance, most-liked, date-posted.
@@ -2105,7 +2105,10 @@ export interface TiktokSearchTopItem {
    */
   caption: string;
   comments: number;
-  contentType: string;
+  /**
+   * TikTok's own label for the post format, such as video, or null when the serving source does not report it.
+   */
+  contentType: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -3164,7 +3167,10 @@ export interface TiktokVideoTranscriptData {
    * TikTok video id the transcript belongs to.
    */
   id?: string;
-  language?: string;
+  /**
+   * Language of the caption track, or null when the serving source does not report it.
+   */
+  language?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

@@ -122,7 +122,10 @@ class ThreadsPostData(BaseModel):
         alias="profilePicUrl",
         description="Profile picture URL of the author.",
     )
-    quote_count: int = Field(alias="quoteCount", description="Number of quote posts.")
+    quote_count: int | None = Field(
+        alias="quoteCount",
+        description="Number of quote posts. Null when the source does not report it.",
+    )
     reply_count: int = Field(
         alias="replyCount", description="Number of replies to the post."
     )

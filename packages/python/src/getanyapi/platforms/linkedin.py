@@ -1281,10 +1281,12 @@ class LinkedinCompanyEmployeeCountRange(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     end: int | None = Field(
-        default=None, description="Upper bound of the employee-count bucket."
+        default=None,
+        description="Upper bound of the employee-count bucket; null when the source does not report it.",
     )
     start: int | None = Field(
-        default=None, description="Lower bound of the employee-count bucket."
+        default=None,
+        description="Lower bound of the employee-count bucket; null when the source does not report it.",
     )
 
 
@@ -1310,7 +1312,7 @@ class LinkedinCompanyFundingData(BaseModel):
     num_funding_rounds: int | None = Field(
         default=None,
         alias="numFundingRounds",
-        description="Total number of funding rounds.",
+        description="Total number of funding rounds; null when the source does not report it.",
     )
 
 
@@ -2051,8 +2053,12 @@ class LinkedinJobsCompany(BaseModel):
 class LinkedinJobsSalary(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    max: float | None = Field(default=None, description="Maximum salary.")
-    min: float | None = Field(default=None, description="Minimum salary.")
+    max: float | None = Field(
+        default=None, description="Maximum salary; null when the posting shows none."
+    )
+    min: float | None = Field(
+        default=None, description="Minimum salary; null when the posting shows none."
+    )
     text: str | None = Field(
         default=None, description="Salary as displayed (e.g. '300,000 - 330,000 USD')."
     )
@@ -3948,7 +3954,7 @@ class LinkedinSearchProfilesEmailItem(BaseModel):
     follower_count: int | None = Field(
         default=None,
         alias="followerCount",
-        description="Number of followers of the profile.",
+        description="Number of followers of the profile; null when the source does not report it.",
     )
     handle: str | None = Field(
         default=None,

@@ -523,9 +523,9 @@ export interface FacebookAdsSearchInput {
 export interface FacebookAdsSearchAd {
   active: boolean;
   /**
-   * Number of ads in this campaign (collation count).
+   * Number of ads in this campaign (collation count). Null when the source does not report it.
    */
-  adCount: number;
+  adCount: number | null;
   /**
    * Caption line of the ad creative, usually the advertiser's display domain.
    */
@@ -832,9 +832,9 @@ export interface FacebookCompanyAdsInput {
 export interface FacebookCompanyAdsAd {
   active: boolean;
   /**
-   * Number of ads in this campaign (collation count).
+   * Number of ads in this campaign (collation count). Null when the source does not report it.
    */
-  adCount: number;
+  adCount: number | null;
   /**
    * Caption line of the ad creative, usually the advertiser's display domain.
    */
@@ -1592,9 +1592,9 @@ export interface FacebookMarketplaceListing {
    */
   cityPageId?: string;
   /**
-   * UTC epoch timestamp in seconds (Unix time) the listing was created. Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time) the listing was created. Multiply by 1000 for a JS Date in milliseconds. Null when the source does not report it.
    */
-  createdUtc?: number;
+  createdUtc?: number | null;
   /**
    * Delivery options the seller offers, e.g. "IN_PERSON" or "SHIPPING".
    */
@@ -2115,6 +2115,10 @@ export interface FacebookPhotosInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `imageWidth`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a photo that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("imageHeight" | "imageWidth" | "nextPageId")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2133,12 +2137,18 @@ export interface FacebookPhotosPhoto {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
-  imageHeight: number;
+  /**
+   * Height of imageUrl in pixels. Null when the serving source does not report it.
+   */
+  imageHeight: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
   imageUrl: string;
-  imageWidth: number;
+  /**
+   * Width of imageUrl in pixels. Null when the serving source does not report it.
+   */
+  imageWidth: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2162,7 +2172,10 @@ export interface FacebookPhotosData {
    * Opaque cursor for the next page of photos, or null when this lane has no more. Pass it back as cursor to continue.
    */
   nextCursor: string | null;
-  nextPageId: string;
+  /**
+   * Facebook's own id for the next page of photos. Null when the serving source does not report it; pass nextCursor back as cursor to continue either way.
+   */
+  nextPageId: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -3110,9 +3123,9 @@ export interface FacebookSearchPostsData {
    */
   authorImage?: string;
   /**
-   * Number of images attached to the post.
+   * Number of images attached to the post. Null when the source does not report it.
    */
-  imagesCount?: number;
+  imagesCount?: number | null;
   /**
    * Matching public Facebook post records for the query. Populated whenever the provider has data for the entity.
    */

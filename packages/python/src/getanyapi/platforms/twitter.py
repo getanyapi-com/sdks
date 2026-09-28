@@ -743,7 +743,9 @@ class TwitterRepliesItem(BaseModel):
         description="Canonical x.com URL of the reply, with tracking query params stripped. Populated whenever the provider has data for the entity."
     )
     view_count: int | None = Field(
-        default=None, alias="viewCount", description="Number of views of this reply."
+        default=None,
+        alias="viewCount",
+        description="Number of views of this reply. Null when the source does not report it, as for posts older than X view counts.",
     )
 
 
@@ -842,7 +844,11 @@ class TwitterSearchItem(BaseModel):
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    view_count: int | None = Field(default=None, alias="viewCount")
+    view_count: int | None = Field(
+        default=None,
+        alias="viewCount",
+        description="Number of views. Null when the source does not report it, as for posts older than X view counts.",
+    )
 
 
 class TwitterSearchMedia(BaseModel):

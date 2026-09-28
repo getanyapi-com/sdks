@@ -67,9 +67,9 @@ export interface ThreadsPostData {
    */
   profilePicUrl?: string;
   /**
-   * Number of quote posts.
+   * Number of quote posts. Null when the source does not report it.
    */
-  quoteCount: number;
+  quoteCount: number | null;
   /**
    * Number of replies to the post.
    */

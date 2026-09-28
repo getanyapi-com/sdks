@@ -85,13 +85,13 @@ export interface AlibabaSearchItem {
    */
   promotionPrice?: string;
   /**
-   * Average buyer review score, 0-5; 0 when the listing has no reviews.
+   * Average buyer review score, 0-5; null when Alibaba shows no review score for the supplier.
    */
-  rating?: number;
+  rating?: number | null;
   /**
-   * Number of buyer reviews; 0 when none.
+   * Number of buyer reviews; null when Alibaba shows no review count for the supplier.
    */
-  reviewCount?: number;
+  reviewCount?: number | null;
   /**
    * Supplier / company name.
    */

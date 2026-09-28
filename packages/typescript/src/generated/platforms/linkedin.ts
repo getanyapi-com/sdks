@@ -444,13 +444,13 @@ export interface LinkedinCompanyData {
    */
   employeeCountRange?: {
     /**
-     * Upper bound of the employee-count bucket.
+     * Upper bound of the employee-count bucket; null when the source does not report it.
      */
-    end?: number;
+    end?: number | null;
     /**
-     * Lower bound of the employee-count bucket.
+     * Lower bound of the employee-count bucket; null when the source does not report it.
      */
-    start?: number;
+    start?: number | null;
   };
   /**
    * LinkedIn page follower count. Populated whenever the provider has data for the entity.
@@ -478,9 +478,9 @@ export interface LinkedinCompanyData {
      */
     lastFundingType?: string;
     /**
-     * Total number of funding rounds.
+     * Total number of funding rounds; null when the source does not report it.
      */
-    numFundingRounds?: number;
+    numFundingRounds?: number | null;
   } | null;
   /**
    * LinkedIn's numeric company id, as a string.
@@ -1630,13 +1630,13 @@ export interface LinkedinJobsItem {
    */
   salary?: {
     /**
-     * Maximum salary.
+     * Maximum salary; null when the posting shows none.
      */
-    max?: number;
+    max?: number | null;
     /**
-     * Minimum salary.
+     * Minimum salary; null when the posting shows none.
      */
-    min?: number;
+    min?: number | null;
     /**
      * Salary as displayed (e.g. '300,000 - 330,000 USD').
      */
@@ -4914,9 +4914,9 @@ export interface LinkedinSearchProfilesEmailItem {
    */
   firstName?: string;
   /**
-   * Number of followers of the profile.
+   * Number of followers of the profile; null when the source does not report it.
    */
-  followerCount?: number;
+  followerCount?: number | null;
   /**
    * Public profile identifier (the vanity slug in the URL). Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.

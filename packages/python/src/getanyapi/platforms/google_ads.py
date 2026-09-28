@@ -120,8 +120,14 @@ class GoogleAdsAdDetailsData(BaseModel):
     format: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    impressions_max: int = Field(alias="impressionsMax")
-    impressions_min: int = Field(alias="impressionsMin")
+    impressions_max: int | None = Field(
+        alias="impressionsMax",
+        description="Upper bound of the impressions range. Null when Google does not publish one for this creative.",
+    )
+    impressions_min: int | None = Field(
+        alias="impressionsMin",
+        description="Lower bound of the impressions range. Null when Google does not publish one for this creative.",
+    )
     last_shown: str = Field(alias="lastShown", description="ISO 8601 date.")
     url: str | None = Field(
         default=None, description="Google Ads Transparency Center URL for the creative."

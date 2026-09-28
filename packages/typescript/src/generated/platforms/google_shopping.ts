@@ -104,13 +104,13 @@ export interface GoogleShoppingSearchItem {
    */
   productId?: string;
   /**
-   * Average product rating, 0-5; 0 when unrated.
+   * Average product rating, 0-5; null when unrated.
    */
-  rating?: number;
+  rating?: number | null;
   /**
-   * Number of ratings / reviews; 0 when none reported.
+   * Number of ratings / reviews; null when none reported.
    */
-  reviewsCount?: number;
+  reviewsCount?: number | null;
   /**
    * Store / seller name offering the product, e.g. "Target".
    */

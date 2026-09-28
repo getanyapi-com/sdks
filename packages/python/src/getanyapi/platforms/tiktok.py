@@ -442,7 +442,7 @@ class TiktokSearchTopInput(TypedDict, total=False):
     """Keyword to search for (e.g. "funny")."""
     region: NotRequired[str]
     """2-letter country code for the proxy location (e.g. US, GB, FR)."""
-    requireFields: NotRequired[list[Literal["nextCursor"]]]
+    requireFields: NotRequired[list[Literal["contentType", "nextCursor"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["relevance", "most-liked", "date-posted"]]
     """Sort order: relevance, most-liked, date-posted."""
@@ -1906,7 +1906,10 @@ class TiktokSearchTopItem(BaseModel):
         description="Populated whenever the provider has data for the entity."
     )
     comments: int
-    content_type: str = Field(alias="contentType")
+    content_type: str | None = Field(
+        alias="contentType",
+        description="TikTok's own label for the post format, such as video, or null when the serving source does not report it.",
+    )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
@@ -2465,7 +2468,10 @@ class TiktokVideoTranscriptData(BaseModel):
     id: str | None = Field(
         default=None, description="TikTok video id the transcript belongs to."
     )
-    language: str | None = None
+    language: str | None = Field(
+        default=None,
+        description="Language of the caption track, or null when the serving source does not report it.",
+    )
     transcript: str = Field(
         description="Populated whenever the provider has data for the entity."
     )

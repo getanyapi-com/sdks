@@ -277,13 +277,13 @@ export interface TripadvisorSearchItem {
    */
   ranking?: string;
   /**
-   * Average traveler rating out of 5. Populated whenever the provider has data for the entity.
+   * Average traveler rating out of 5; null for a place Tripadvisor has not rated (such as a city). Populated whenever the provider has data for the entity.
    */
-  rating: number;
+  rating: number | null;
   /**
-   * Total number of traveler reviews.
+   * Total number of traveler reviews; null when the source does not report it.
    */
-  reviewCount?: number;
+  reviewCount?: number | null;
   /**
    * Place name. Populated whenever the provider has data for the entity.
    */

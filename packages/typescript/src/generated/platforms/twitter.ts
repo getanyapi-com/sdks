@@ -749,9 +749,9 @@ export interface TwitterRepliesItem {
    */
   url: string;
   /**
-   * Number of views of this reply.
+   * Number of views of this reply. Null when the source does not report it, as for posts older than X view counts.
    */
-  viewCount?: number;
+  viewCount?: number | null;
   [extra: string]: unknown;
 }
 
@@ -892,7 +892,10 @@ export interface TwitterSearchItem {
    * Populated whenever the provider has data for the entity.
    */
   url: string;
-  viewCount?: number;
+  /**
+   * Number of views. Null when the source does not report it, as for posts older than X view counts.
+   */
+  viewCount?: number | null;
   [extra: string]: unknown;
 }
 

@@ -35,6 +35,10 @@ export interface YoutubeChannelInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "views"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -67,7 +71,10 @@ export interface YoutubeChannelData {
    */
   url?: string;
   videos: number;
-  views: number;
+  /**
+   * Lifetime view count across the channel's videos, or null when the serving source does not report it.
+   */
+  views: number | null;
   [extra: string]: unknown;
 }
 
@@ -237,6 +244,10 @@ export interface YoutubeChannelLivesInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `lengthText`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a live stream that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: "lengthText"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -251,7 +262,10 @@ export interface YoutubeChannelLivesLive {
    * URL of the live stream thumbnail image, tracking query parameters stripped.
    */
   image?: string;
-  lengthText: string;
+  /**
+   * Stream length as YouTube shows it, such as 3:29:31, or LIVE while it is streaming; null when the serving source does not report it.
+   */
+  lengthText: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -264,6 +278,9 @@ export interface YoutubeChannelLivesLive {
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Views of a past stream, or people watching a stream that is live now. Every source reads it from YouTube's rounded label ("60K watching" is 60000), so it is approximate.
+   */
   views: number;
   [extra: string]: unknown;
 }
@@ -422,10 +439,10 @@ export interface YoutubeChannelShortsShort {
    */
   image?: string;
   /**
-   * Public like count when supplied by the upstream response.
+   * Public like count, or null when the serving source does not report it.
    * Range: minimum 0.
    */
-  likes: number;
+  likes: number | null;
   /**
    * Public title or caption for the Short. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -495,7 +512,7 @@ export interface YoutubeChannelVideosInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded or shortened value for a field does not count as returning it.
    */
-  requireFields?: "views"[];
+  requireFields?: ("lengthText" | "views")[];
   /**
    * Sort order.
    * One of: latest, popular.
@@ -520,7 +537,10 @@ export interface YoutubeChannelVideosVideo {
    * URL of the video thumbnail image, tracking query parameters stripped.
    */
   image?: string;
-  lengthText: string;
+  /**
+   * Video length as YouTube shows it, such as 11:56, or null when the serving source does not report it.
+   */
+  lengthText: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

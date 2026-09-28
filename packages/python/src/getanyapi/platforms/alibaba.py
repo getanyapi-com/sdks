@@ -84,12 +84,12 @@ class AlibabaSearchItem(BaseModel):
     )
     rating: float | None = Field(
         default=None,
-        description="Average buyer review score, 0-5; 0 when the listing has no reviews.",
+        description="Average buyer review score, 0-5; null when Alibaba shows no review score for the supplier.",
     )
     review_count: int | None = Field(
         default=None,
         alias="reviewCount",
-        description="Number of buyer reviews; 0 when none.",
+        description="Number of buyer reviews; null when Alibaba shows no review count for the supplier.",
     )
     supplier_name: str | None = Field(
         default=None, alias="supplierName", description="Supplier / company name."
