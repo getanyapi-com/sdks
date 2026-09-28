@@ -34,7 +34,7 @@ export interface CompanyResearchInput {
    */
   maxAgeDays?: number;
   /**
-   * Company name, resolved to a domain before the run starts. Mutually exclusive with domain and email.
+   * Company name, resolved to one company domain by a Google search before the research starts. A name that matches no single company returns found false and costs only that search, at the Google Search API price, instead of the research price. Mutually exclusive with domain and email.
    */
   name?: string;
   /**
