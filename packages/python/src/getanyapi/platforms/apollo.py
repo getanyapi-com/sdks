@@ -39,10 +39,16 @@ class ApolloOrganizationEnrichInput(TypedDict, total=False):
     """Organization domain without a path, such as apollo.io."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    linkedinUrl: NotRequired[str]
+    """LinkedIn company page URL, which Apollo also matches on."""
+    name: NotRequired[str]
+    """Organization name, which improves match accuracy."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    website: NotRequired[str]
+    """Full website URL, which Apollo also matches on."""
 
 
 class ApolloOrganizationJobsInput(TypedDict, total=False):
@@ -52,8 +58,12 @@ class ApolloOrganizationJobsInput(TypedDict, total=False):
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum job postings returned on this page. Minimum: 1."""
     organizationId: Required[str]
     """Organization identifier returned by an Apollo organization endpoint."""
+    page: NotRequired[int]
+    """One-based result page. Minimum: 1. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     source: NotRequired[list[str]]
@@ -65,6 +75,8 @@ class ApolloOrganizationNewsInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    categories: NotRequired[list[str]]
+    """News categories or sub-categories to match, such as hires, investment or contract."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keywords: NotRequired[str]
@@ -77,6 +89,10 @@ class ApolloOrganizationNewsInput(TypedDict, total=False):
     """One-based result page. Minimum: 1. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    publishedAtGte: NotRequired[str]
+    """Only articles published on or after this date. Format: YYYY-MM-DD."""
+    publishedAtLte: NotRequired[str]
+    """Only articles published on or before this date. Format: YYYY-MM-DD."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -101,24 +117,74 @@ class ApolloOrganizationsSearchInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    domains: NotRequired[list[str]]
+    """Organization domains to match, without www, at most 1000."""
     employeeRanges: NotRequired[list[str]]
     """Employee-count ranges in Apollo notation, such as 51,200."""
+    excludeDomains: NotRequired[list[str]]
+    """Exclude organizations matching any of these domains. Every domain Apollo holds for that organization is excluded."""
+    excludeLocations: NotRequired[list[str]]
+    """Headquarters locations to exclude, such as ireland."""
+    headcountGrowthMonths: NotRequired[int]
+    """Trailing window in months for the headcount growth filter. Takes effect only together with minHeadcountGrowthPercent or maxHeadcountGrowthPercent."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     industryIds: NotRequired[list[str]]
     """Apollo industry tag identifiers to match."""
+    jobPostedAtGte: NotRequired[str]
+    """Only organizations with a job posted on or after this date. Format: YYYY-MM-DD."""
+    jobPostedAtLte: NotRequired[str]
+    """Only organizations with a job posted on or before this date. Format: YYYY-MM-DD."""
+    jobPostingLocations: NotRequired[list[str]]
+    """Locations of the organization's active job postings, such as japan."""
+    jobPostingTitles: NotRequired[list[str]]
+    """Job titles listed in the organization's active job postings, such as sales manager."""
+    keywordTags: NotRequired[list[str]]
+    """Keywords associated with the organization, such as mining or consulting."""
     keywords: NotRequired[str]
     """Keywords to match across organization records."""
+    lastFundingRoundDateGte: NotRequired[str]
+    """Only organizations whose most recent funding round is on or after this date. Format: YYYY-MM-DD."""
+    lastFundingRoundDateLte: NotRequired[str]
+    """Only organizations whose most recent funding round is on or before this date. Format: YYYY-MM-DD."""
     limit: NotRequired[int]
     """Maximum organizations returned on this page. Range: 1 to 100. Default: 25."""
     locations: NotRequired[list[str]]
     """Headquarters locations to match."""
+    lookalikeOrganizationIds: NotRequired[list[str]]
+    """Apollo organization identifiers to use as lookalike seeds, at most five. Results are narrowed to organizations similar to the seeds, and the seeds themselves are excluded. A seed Apollo holds no lookalike data for returns no results."""
+    maxFundingUsd: NotRequired[int]
+    """Maximum total funding across all rounds, in whole USD."""
+    maxHeadcountGrowthPercent: NotRequired[int]
+    """Maximum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 100 for 100%."""
+    maxJobs: NotRequired[int]
+    """Maximum number of active job postings at the organization."""
+    maxLatestFundingUsd: NotRequired[int]
+    """Maximum amount raised in the most recent funding round, in whole USD."""
+    maxRevenueUsd: NotRequired[int]
+    """Maximum organization annual revenue, in whole USD with no symbols."""
+    minFundingUsd: NotRequired[int]
+    """Minimum total funding across all rounds, in whole USD."""
+    minHeadcountGrowthPercent: NotRequired[int]
+    """Minimum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 10 for 10%. Negative values are accepted."""
+    minJobs: NotRequired[int]
+    """Minimum number of active job postings at the organization."""
+    minLatestFundingUsd: NotRequired[int]
+    """Minimum amount raised in the most recent funding round, in whole USD."""
+    minRevenueUsd: NotRequired[int]
+    """Minimum organization annual revenue, in whole USD with no symbols."""
+    name: NotRequired[str]
+    """Organization name to match; partial matches count."""
+    organizationIds: NotRequired[list[str]]
+    """Apollo organization identifiers to match."""
     page: NotRequired[int]
     """One-based result page. Range: 1 to 500. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    technologySlugOr: NotRequired[list[str]]
+    """Only organizations that use ANY of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id."""
 
 
 class ApolloPeopleSearchInput(TypedDict, total=False):
@@ -126,20 +192,58 @@ class ApolloPeopleSearchInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    emailStatuses: NotRequired[
+        list[Literal["verified", "unverified", "likely to engage", "unavailable"]]
+    ]
+    """Email statuses to match."""
     employeeRanges: NotRequired[list[str]]
     """Organization employee-count ranges in Apollo notation, such as 51,200."""
+    excludeOrganizationDomains: NotRequired[list[str]]
+    """Exclude people whose current employer matches any of these domains. Every domain Apollo holds for that employer is excluded."""
+    headcountGrowthMonths: NotRequired[int]
+    """Trailing window in months for the headcount growth filter. Takes effect only together with minHeadcountGrowthPercent or maxHeadcountGrowthPercent."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    includeSimilarTitles: NotRequired[bool]
+    """Whether titles similar to the ones in titles also match. Set false for strict title matches only."""
+    jobPostedAtGte: NotRequired[str]
+    """Only organizations with a job posted on or after this date. Format: YYYY-MM-DD."""
+    jobPostedAtLte: NotRequired[str]
+    """Only organizations with a job posted on or before this date. Format: YYYY-MM-DD."""
+    jobPostingLocations: NotRequired[list[str]]
+    """Locations of the organization's active job postings, such as japan."""
+    jobPostingTitles: NotRequired[list[str]]
+    """Job titles listed in the organization's active job postings, such as sales manager."""
     keywords: NotRequired[str]
     """Keywords to match across people records."""
     limit: NotRequired[int]
     """Maximum people returned on this page. Range: 1 to 100. Default: 25."""
+    lookalikeOrganizationIds: NotRequired[list[str]]
+    """Apollo organization identifiers to use as lookalike seeds, at most five. Results are narrowed to organizations similar to the seeds, and the seeds themselves are excluded. A seed Apollo holds no lookalike data for returns no results."""
+    maxHeadcountGrowthPercent: NotRequired[int]
+    """Maximum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 100 for 100%."""
+    maxJobs: NotRequired[int]
+    """Maximum number of active job postings at the organization."""
+    maxRevenueUsd: NotRequired[int]
+    """Maximum organization annual revenue, in whole USD with no symbols."""
+    minHeadcountGrowthPercent: NotRequired[int]
+    """Minimum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 10 for 10%. Negative values are accepted."""
+    minJobs: NotRequired[int]
+    """Minimum number of active job postings at the organization."""
+    minRevenueUsd: NotRequired[int]
+    """Minimum organization annual revenue, in whole USD with no symbols."""
+    organizationDomains: NotRequired[list[str]]
+    """Domains of the person's current or previous employer, without www, at most 1000."""
+    organizationIds: NotRequired[list[str]]
+    """Apollo identifiers of the person's current employer."""
     organizationLocations: NotRequired[list[str]]
     """Organization headquarters locations to match."""
     page: NotRequired[int]
     """One-based result page. Range: 1 to 500. Default: 1."""
     personLocations: NotRequired[list[str]]
     """Person locations to match."""
+    personName: NotRequired[str]
+    """Person name to match; results include people whose name contains every word."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     seniorities: NotRequired[
@@ -155,12 +259,19 @@ class ApolloPeopleSearchInput(TypedDict, total=False):
                 "manager",
                 "senior",
                 "entry",
+                "intern",
             ]
         ]
     ]
     """Seniority levels to match."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    technologySlugAnd: NotRequired[list[str]]
+    """Only people whose current employer uses ALL of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id."""
+    technologySlugNot: NotRequired[list[str]]
+    """Exclude people whose current employer uses any of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id."""
+    technologySlugOr: NotRequired[list[str]]
+    """Only people whose current employer uses ANY of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id."""
     titles: NotRequired[list[str]]
     """Job titles to match."""
 
@@ -174,8 +285,12 @@ class ApolloPersonEnrichInput(TypedDict, total=False):
     """Organization domain used with the person's name."""
     email: NotRequired[str]
     """Work or personal email used to identify the person."""
+    emailHash: NotRequired[str]
+    """MD5 or SHA-256 hash of the person's email, used to identify the person."""
     firstName: NotRequired[str]
     """Person first name, used with lastName and an organization identifier."""
+    fullName: NotRequired[str]
+    """Person full name, used with an organization identifier instead of firstName and lastName."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     lastName: NotRequired[str]
@@ -184,8 +299,12 @@ class ApolloPersonEnrichInput(TypedDict, total=False):
     """LinkedIn profile URL used to identify the person."""
     organizationName: NotRequired[str]
     """Organization name used with the person's name."""
+    personId: NotRequired[str]
+    """Apollo person identifier, such as an id returned by apollo.people_search."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    revealPersonalEmails: NotRequired[bool]
+    """Whether to include personal emails. Apollo withholds them for people in GDPR regions. Default: true."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -198,6 +317,11 @@ class ApolloOrganizationData(BaseModel):
         alias="alexaRanking",
         description="Alexa global traffic rank of the organization website.",
     )
+    angellist_url: str | None = Field(
+        default=None,
+        alias="angellistUrl",
+        description="Canonical AngelList profile URL.",
+    )
     annual_revenue: float | None = Field(
         default=None,
         alias="annualRevenue",
@@ -210,12 +334,22 @@ class ApolloOrganizationData(BaseModel):
     )
     city: str | None = Field(default=None, description="Headquarters city.")
     country: str | None = Field(default=None, description="Headquarters country.")
+    crunchbase_url: str | None = Field(
+        default=None,
+        alias="crunchbaseUrl",
+        description="Canonical Crunchbase profile URL.",
+    )
     description: str | None = Field(default=None, description="Organization summary.")
     domain: str | None = Field(default=None, description="Primary organization domain.")
     employee_count: int | None = Field(
         default=None,
         alias="employeeCount",
         description="Estimated employee count. Minimum: 0.",
+    )
+    employee_metrics: list[ApolloOrganizationEmployeeMetric] | None = Field(
+        default=None,
+        alias="employeeMetrics",
+        description="Monthly headcount flow per department.",
     )
     facebook_url: str | None = Field(
         default=None, alias="facebookUrl", description="Canonical Facebook page URL."
@@ -225,14 +359,37 @@ class ApolloOrganizationData(BaseModel):
         alias="foundedYear",
         description="Year the organization was founded.",
     )
+    funding_events: list[ApolloOrganizationFundingEvent] | None = Field(
+        default=None,
+        alias="fundingEvents",
+        description="Funding rounds Apollo records for the organization.",
+    )
     id: str = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
     )
     industry: str | None = Field(default=None, description="Primary industry.")
+    industry_tag_id: str | None = Field(
+        default=None,
+        alias="industryTagId",
+        description="Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+    )
+    industry_tag_ids: ApolloOrganizationIndustryTagId | None = Field(
+        default=None,
+        alias="industryTagIds",
+        description="Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+    )
     keywords: list[str] | None = Field(
         default=None, description="Keywords associated with the organization."
+    )
+    languages: list[str] | None = Field(
+        default=None, description="Languages the organization operates in."
+    )
+    latest_funding_detected_utc: float | None = Field(
+        default=None,
+        alias="latestFundingDetectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     latest_funding_stage: str | None = Field(
         default=None,
@@ -256,16 +413,61 @@ class ApolloOrganizationData(BaseModel):
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
     name: str = Field(description="Organization name.")
+    org_chart_root_person_ids: list[str] | None = Field(
+        default=None,
+        alias="orgChartRootPersonIds",
+        description="Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.",
+    )
+    parent_organization_id: str | None = Field(
+        default=None,
+        alias="parentOrganizationId",
+        description="Identifier of the organization that owns this one.",
+    )
+    parent_organization_name: str | None = Field(
+        default=None,
+        alias="parentOrganizationName",
+        description="Name of the organization that owns this one.",
+    )
+    parent_organization_website_url: str | None = Field(
+        default=None,
+        alias="parentOrganizationWebsiteUrl",
+        description="Website URL of the organization that owns this one.",
+    )
     phone: str | None = Field(
         default=None, description="Organization phone number in international format."
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Headquarters postal code."
     )
+    publicly_traded_exchange: str | None = Field(
+        default=None,
+        alias="publiclyTradedExchange",
+        description="Exchange the company lists on, such as nyse.",
+    )
+    publicly_traded_symbol: str | None = Field(
+        default=None,
+        alias="publiclyTradedSymbol",
+        description="Stock ticker, for listed companies.",
+    )
     raw_address: str | None = Field(
         default=None,
         alias="rawAddress",
         description="Headquarters address as one display string.",
+    )
+    retail_location_count: int | None = Field(
+        default=None,
+        alias="retailLocationCount",
+        description="Number of retail locations Apollo records for the organization. Minimum: 0.",
+    )
+    sanitized_phone: str | None = Field(
+        default=None,
+        alias="sanitizedPhone",
+        description="Organization phone number in international E.164 form, such as +14152985539.",
+    )
+    secondary_industries: list[str] | None = Field(
+        default=None,
+        alias="secondaryIndustries",
+        description="Industries associated with the organization besides the primary industry.",
     )
     sic_codes: list[str] | None = Field(
         default=None, alias="sicCodes", description="SIC industry codes."
@@ -273,6 +475,19 @@ class ApolloOrganizationData(BaseModel):
     state: str | None = Field(default=None, description="Headquarters state or region.")
     street_address: str | None = Field(
         default=None, alias="streetAddress", description="Street address."
+    )
+    suborganization_count: int | None = Field(
+        default=None,
+        alias="suborganizationCount",
+        description="Number of related organizations Apollo lists under this one. Minimum: 0.",
+    )
+    suborganizations: list[ApolloOrganizationSuborganization] | None = Field(
+        default=None,
+        description="Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.",
+    )
+    technologies: list[ApolloOrganizationTechnologie] | None = Field(
+        default=None,
+        description="Technologies detected at the organization, with their category.",
     )
     technology_names: list[str] | None = Field(
         default=None,
@@ -299,6 +514,110 @@ class ApolloOrganizationData(BaseModel):
         alias="websiteUrl",
         description="Canonical organization website URL.",
     )
+
+
+class ApolloOrganizationEmployeeMetric(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    departments: list[ApolloOrganizationDepartment] | None = Field(
+        default=None, description="Headcount flow per department in the month."
+    )
+    start_utc: float | None = Field(
+        default=None,
+        alias="startUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+
+
+class ApolloOrganizationDepartment(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    churned: int | None = Field(
+        default=None,
+        description="People who left the department in the month. Minimum: 0.",
+    )
+    department: str | None = Field(
+        default=None,
+        description="Apollo department name. Absent on the row Apollo does not attribute to a department.",
+    )
+    new: int | None = Field(
+        default=None,
+        description="People who joined the department in the month. Minimum: 0.",
+    )
+    retained: int | None = Field(
+        default=None,
+        description="People who stayed in the department through the month. Minimum: 0.",
+    )
+
+
+class ApolloOrganizationFundingEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    amount_display: str | None = Field(
+        default=None,
+        alias="amountDisplay",
+        description="Amount raised in this round as Apollo displays it, such as 100M.",
+    )
+    currency: str | None = Field(
+        default=None, description="Currency symbol of the amount, such as $."
+    )
+    detected_utc: float | None = Field(
+        default=None,
+        alias="detectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(default=None, description="Funding round identifier.")
+    investors: str | None = Field(
+        default=None,
+        description="Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+    )
+    news_url: str | None = Field(
+        default=None, alias="newsUrl", description="Article reporting the round."
+    )
+    raised_utc: float | None = Field(
+        default=None,
+        alias="raisedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Funding round type, such as Series D."
+    )
+
+
+class ApolloOrganizationIndustryTagId(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ApolloOrganizationSuborganization(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str | None = Field(default=None, description="Headquarters country.")
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Estimated employee count. Minimum: 0.",
+    )
+    id: str | None = Field(default=None, description="Organization identifier.")
+    industries: list[str] | None = Field(
+        default=None, description="Industries associated with the organization."
+    )
+    name: str | None = Field(default=None, description="Organization name.")
+    website_url: str | None = Field(
+        default=None,
+        alias="websiteUrl",
+        description="Canonical organization website URL.",
+    )
+
+
+class ApolloOrganizationTechnologie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    category: str | None = Field(default=None, description="Technology category.")
+    id: str | None = Field(
+        default=None,
+        description="Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.",
+    )
+    name: str | None = Field(default=None, description="Technology name.")
 
 
 class ApolloOrganizationEnrichData(BaseModel):
@@ -309,6 +628,11 @@ class ApolloOrganizationEnrichData(BaseModel):
         alias="alexaRanking",
         description="Alexa global traffic rank of the organization website.",
     )
+    angellist_url: str | None = Field(
+        default=None,
+        alias="angellistUrl",
+        description="Canonical AngelList profile URL.",
+    )
     annual_revenue: float | None = Field(
         default=None,
         alias="annualRevenue",
@@ -321,12 +645,22 @@ class ApolloOrganizationEnrichData(BaseModel):
     )
     city: str | None = Field(default=None, description="Headquarters city.")
     country: str | None = Field(default=None, description="Headquarters country.")
+    crunchbase_url: str | None = Field(
+        default=None,
+        alias="crunchbaseUrl",
+        description="Canonical Crunchbase profile URL.",
+    )
     description: str | None = Field(default=None, description="Organization summary.")
     domain: str | None = Field(default=None, description="Primary organization domain.")
     employee_count: int | None = Field(
         default=None,
         alias="employeeCount",
         description="Estimated employee count. Minimum: 0.",
+    )
+    employee_growth: ApolloOrganizationEnrichEmployeeGrowth | None = Field(
+        default=None,
+        alias="employeeGrowth",
+        description="Headcount change over trailing windows, in percent.",
     )
     facebook_url: str | None = Field(
         default=None, alias="facebookUrl", description="Canonical Facebook page URL."
@@ -336,14 +670,42 @@ class ApolloOrganizationEnrichData(BaseModel):
         alias="foundedYear",
         description="Year the organization was founded.",
     )
+    funding_events: list[ApolloOrganizationEnrichFundingEvent] | None = Field(
+        default=None,
+        alias="fundingEvents",
+        description="Funding rounds Apollo records for the organization.",
+    )
+    headcount_by_role: ApolloOrganizationEnrichHeadcountByRole | None = Field(
+        default=None,
+        alias="headcountByRole",
+        description="Employee count per department, keyed by Apollo department name.",
+    )
     id: str = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
     )
     industry: str | None = Field(default=None, description="Primary industry.")
+    industry_tag_id: str | None = Field(
+        default=None,
+        alias="industryTagId",
+        description="Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+    )
+    industry_tag_ids: ApolloOrganizationEnrichIndustryTagId | None = Field(
+        default=None,
+        alias="industryTagIds",
+        description="Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+    )
     keywords: list[str] | None = Field(
         default=None, description="Keywords associated with the organization."
+    )
+    languages: list[str] | None = Field(
+        default=None, description="Languages the organization operates in."
+    )
+    latest_funding_detected_utc: float | None = Field(
+        default=None,
+        alias="latestFundingDetectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     latest_funding_stage: str | None = Field(
         default=None,
@@ -367,16 +729,51 @@ class ApolloOrganizationEnrichData(BaseModel):
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
     name: str = Field(description="Organization name.")
+    org_chart_root_person_ids: list[str] | None = Field(
+        default=None,
+        alias="orgChartRootPersonIds",
+        description="Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.",
+    )
+    parent_organization_id: str | None = Field(
+        default=None,
+        alias="parentOrganizationId",
+        description="Identifier of the organization that owns this one.",
+    )
     phone: str | None = Field(
         default=None, description="Organization phone number in international format."
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Headquarters postal code."
     )
+    publicly_traded_exchange: str | None = Field(
+        default=None,
+        alias="publiclyTradedExchange",
+        description="Exchange the company lists on, such as nyse.",
+    )
+    publicly_traded_symbol: str | None = Field(
+        default=None,
+        alias="publiclyTradedSymbol",
+        description="Stock ticker, for listed companies.",
+    )
     raw_address: str | None = Field(
         default=None,
         alias="rawAddress",
         description="Headquarters address as one display string.",
+    )
+    retail_location_count: int | None = Field(
+        default=None,
+        alias="retailLocationCount",
+        description="Number of retail locations Apollo records for the organization. Minimum: 0.",
+    )
+    sanitized_phone: str | None = Field(
+        default=None,
+        alias="sanitizedPhone",
+        description="Organization phone number in international E.164 form, such as +14152985539.",
+    )
+    secondary_industries: list[str] | None = Field(
+        default=None,
+        alias="secondaryIndustries",
+        description="Industries associated with the organization besides the primary industry.",
     )
     sic_codes: list[str] | None = Field(
         default=None, alias="sicCodes", description="SIC industry codes."
@@ -384,6 +781,19 @@ class ApolloOrganizationEnrichData(BaseModel):
     state: str | None = Field(default=None, description="Headquarters state or region.")
     street_address: str | None = Field(
         default=None, alias="streetAddress", description="Street address."
+    )
+    suborganization_count: int | None = Field(
+        default=None,
+        alias="suborganizationCount",
+        description="Number of related organizations Apollo lists under this one. Minimum: 0.",
+    )
+    suborganizations: list[ApolloOrganizationEnrichSuborganization] | None = Field(
+        default=None,
+        description="Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.",
+    )
+    technologies: list[ApolloOrganizationEnrichTechnologie] | None = Field(
+        default=None,
+        description="Technologies detected at the organization, with their category.",
     )
     technology_names: list[str] | None = Field(
         default=None,
@@ -410,6 +820,94 @@ class ApolloOrganizationEnrichData(BaseModel):
         alias="websiteUrl",
         description="Canonical organization website URL.",
     )
+
+
+class ApolloOrganizationEnrichEmployeeGrowth(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    percent12m: float | None = Field(
+        default=None, description="Percent change over the last twelve months."
+    )
+    percent24m: float | None = Field(
+        default=None, description="Percent change over the last twenty-four months."
+    )
+    percent6m: float | None = Field(
+        default=None, description="Percent change over the last six months."
+    )
+
+
+class ApolloOrganizationEnrichFundingEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    amount_display: str | None = Field(
+        default=None,
+        alias="amountDisplay",
+        description="Amount raised in this round as Apollo displays it, such as 100M.",
+    )
+    currency: str | None = Field(
+        default=None, description="Currency symbol of the amount, such as $."
+    )
+    detected_utc: float | None = Field(
+        default=None,
+        alias="detectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(default=None, description="Funding round identifier.")
+    investors: str | None = Field(
+        default=None,
+        description="Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+    )
+    news_url: str | None = Field(
+        default=None, alias="newsUrl", description="Article reporting the round."
+    )
+    raised_utc: float | None = Field(
+        default=None,
+        alias="raisedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Funding round type, such as Series D."
+    )
+
+
+class ApolloOrganizationEnrichHeadcountByRole(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ApolloOrganizationEnrichIndustryTagId(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ApolloOrganizationEnrichSuborganization(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str | None = Field(default=None, description="Headquarters country.")
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Estimated employee count. Minimum: 0.",
+    )
+    id: str | None = Field(default=None, description="Organization identifier.")
+    industries: list[str] | None = Field(
+        default=None, description="Industries associated with the organization."
+    )
+    name: str | None = Field(default=None, description="Organization name.")
+    website_url: str | None = Field(
+        default=None,
+        alias="websiteUrl",
+        description="Canonical organization website URL.",
+    )
+
+
+class ApolloOrganizationEnrichTechnologie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    category: str | None = Field(default=None, description="Technology category.")
+    id: str | None = Field(
+        default=None,
+        description="Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.",
+    )
+    name: str | None = Field(default=None, description="Technology name.")
 
 
 class ApolloOrganizationJobsData(BaseModel):
@@ -505,6 +1003,11 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
         alias="alexaRanking",
         description="Alexa global traffic rank of the organization website.",
     )
+    angellist_url: str | None = Field(
+        default=None,
+        alias="angellistUrl",
+        description="Canonical AngelList profile URL.",
+    )
     annual_revenue: float | None = Field(
         default=None,
         alias="annualRevenue",
@@ -517,12 +1020,22 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
     )
     city: str | None = Field(default=None, description="Headquarters city.")
     country: str | None = Field(default=None, description="Headquarters country.")
+    crunchbase_url: str | None = Field(
+        default=None,
+        alias="crunchbaseUrl",
+        description="Canonical Crunchbase profile URL.",
+    )
     description: str | None = Field(default=None, description="Organization summary.")
     domain: str | None = Field(default=None, description="Primary organization domain.")
     employee_count: int | None = Field(
         default=None,
         alias="employeeCount",
         description="Estimated employee count. Minimum: 0.",
+    )
+    employee_growth: ApolloOrganizationsBulkEnrichEmployeeGrowth | None = Field(
+        default=None,
+        alias="employeeGrowth",
+        description="Headcount change over trailing windows, in percent.",
     )
     facebook_url: str | None = Field(
         default=None, alias="facebookUrl", description="Canonical Facebook page URL."
@@ -532,14 +1045,42 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
         alias="foundedYear",
         description="Year the organization was founded.",
     )
+    funding_events: list[ApolloOrganizationsBulkEnrichFundingEvent] | None = Field(
+        default=None,
+        alias="fundingEvents",
+        description="Funding rounds Apollo records for the organization.",
+    )
+    headcount_by_role: ApolloOrganizationsBulkEnrichHeadcountByRole | None = Field(
+        default=None,
+        alias="headcountByRole",
+        description="Employee count per department, keyed by Apollo department name.",
+    )
     id: str = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
     )
     industry: str | None = Field(default=None, description="Primary industry.")
+    industry_tag_id: str | None = Field(
+        default=None,
+        alias="industryTagId",
+        description="Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+    )
+    industry_tag_ids: ApolloOrganizationsBulkEnrichIndustryTagId | None = Field(
+        default=None,
+        alias="industryTagIds",
+        description="Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+    )
     keywords: list[str] | None = Field(
         default=None, description="Keywords associated with the organization."
+    )
+    languages: list[str] | None = Field(
+        default=None, description="Languages the organization operates in."
+    )
+    latest_funding_detected_utc: float | None = Field(
+        default=None,
+        alias="latestFundingDetectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     latest_funding_stage: str | None = Field(
         default=None,
@@ -563,16 +1104,61 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
     name: str = Field(description="Organization name.")
+    ownership_chain_ids: list[str] | None = Field(
+        default=None,
+        alias="ownershipChainIds",
+        description="Identifiers of the organizations in this organization's ownership chain.",
+    )
+    parent_organization_id: str | None = Field(
+        default=None,
+        alias="parentOrganizationId",
+        description="Identifier of the organization that owns this one.",
+    )
+    parent_organization_name: str | None = Field(
+        default=None,
+        alias="parentOrganizationName",
+        description="Name of the organization that owns this one.",
+    )
+    parent_organization_website_url: str | None = Field(
+        default=None,
+        alias="parentOrganizationWebsiteUrl",
+        description="Website URL of the organization that owns this one.",
+    )
     phone: str | None = Field(
         default=None, description="Organization phone number in international format."
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Headquarters postal code."
     )
+    publicly_traded_exchange: str | None = Field(
+        default=None,
+        alias="publiclyTradedExchange",
+        description="Exchange the company lists on, such as nyse.",
+    )
+    publicly_traded_symbol: str | None = Field(
+        default=None,
+        alias="publiclyTradedSymbol",
+        description="Stock ticker, for listed companies.",
+    )
     raw_address: str | None = Field(
         default=None,
         alias="rawAddress",
         description="Headquarters address as one display string.",
+    )
+    retail_location_count: int | None = Field(
+        default=None,
+        alias="retailLocationCount",
+        description="Number of retail locations Apollo records for the organization. Minimum: 0.",
+    )
+    sanitized_phone: str | None = Field(
+        default=None,
+        alias="sanitizedPhone",
+        description="Organization phone number in international E.164 form, such as +14152985539.",
+    )
+    secondary_industries: list[str] | None = Field(
+        default=None,
+        alias="secondaryIndustries",
+        description="Industries associated with the organization besides the primary industry.",
     )
     sic_codes: list[str] | None = Field(
         default=None, alias="sicCodes", description="SIC industry codes."
@@ -580,6 +1166,26 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
     state: str | None = Field(default=None, description="Headquarters state or region.")
     street_address: str | None = Field(
         default=None, alias="streetAddress", description="Street address."
+    )
+    suborganization_count: int | None = Field(
+        default=None,
+        alias="suborganizationCount",
+        description="Number of related organizations Apollo lists under this one. Minimum: 0.",
+    )
+    subsidiary_countries: list[str] | None = Field(
+        default=None,
+        alias="subsidiaryCountries",
+        description="Countries Apollo rolls up across the organization's corporate family.",
+    )
+    subsidiary_employee_count: int | None = Field(
+        default=None,
+        alias="subsidiaryEmployeeCount",
+        description="Estimated employee count Apollo rolls up across the organization's corporate family. Minimum: 0.",
+    )
+    subsidiary_industries: list[str] | None = Field(
+        default=None,
+        alias="subsidiaryIndustries",
+        description="Industries Apollo rolls up across the organization's corporate family.",
     )
     total_funding: float | None = Field(
         default=None,
@@ -596,11 +1202,82 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
         alias="twitterUrl",
         description="Canonical X or Twitter profile URL.",
     )
+    ultimate_parent_organization_id: str | None = Field(
+        default=None,
+        alias="ultimateParentOrganizationId",
+        description="Identifier of the top organization in this organization's ownership chain.",
+    )
+    ultimate_parent_organization_name: str | None = Field(
+        default=None,
+        alias="ultimateParentOrganizationName",
+        description="Name of the top organization in this organization's ownership chain.",
+    )
+    ultimate_parent_organization_website_url: str | None = Field(
+        default=None,
+        alias="ultimateParentOrganizationWebsiteUrl",
+        description="Website URL of the top organization in this organization's ownership chain.",
+    )
     website_url: str | None = Field(
         default=None,
         alias="websiteUrl",
         description="Canonical organization website URL.",
     )
+
+
+class ApolloOrganizationsBulkEnrichEmployeeGrowth(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    percent12m: float | None = Field(
+        default=None, description="Percent change over the last twelve months."
+    )
+    percent24m: float | None = Field(
+        default=None, description="Percent change over the last twenty-four months."
+    )
+    percent6m: float | None = Field(
+        default=None, description="Percent change over the last six months."
+    )
+
+
+class ApolloOrganizationsBulkEnrichFundingEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    amount_display: str | None = Field(
+        default=None,
+        alias="amountDisplay",
+        description="Amount raised in this round as Apollo displays it, such as 100M.",
+    )
+    currency: str | None = Field(
+        default=None, description="Currency symbol of the amount, such as $."
+    )
+    detected_utc: float | None = Field(
+        default=None,
+        alias="detectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(default=None, description="Funding round identifier.")
+    investors: str | None = Field(
+        default=None,
+        description="Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+    )
+    news_url: str | None = Field(
+        default=None, alias="newsUrl", description="Article reporting the round."
+    )
+    raised_utc: float | None = Field(
+        default=None,
+        alias="raisedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Funding round type, such as Series D."
+    )
+
+
+class ApolloOrganizationsBulkEnrichHeadcountByRole(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ApolloOrganizationsBulkEnrichIndustryTagId(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class ApolloOrganizationsSearchData(BaseModel):
@@ -627,6 +1304,11 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
         alias="alexaRanking",
         description="Alexa global traffic rank of the organization website.",
     )
+    angellist_url: str | None = Field(
+        default=None,
+        alias="angellistUrl",
+        description="Canonical AngelList profile URL.",
+    )
     annual_revenue: float | None = Field(
         default=None,
         alias="annualRevenue",
@@ -637,7 +1319,17 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
         alias="annualRevenueDisplay",
         description="Human-readable estimated annual revenue.",
     )
+    crunchbase_url: str | None = Field(
+        default=None,
+        alias="crunchbaseUrl",
+        description="Canonical Crunchbase profile URL.",
+    )
     domain: str | None = Field(default=None, description="Primary organization domain.")
+    employee_growth: ApolloOrganizationsSearchEmployeeGrowth | None = Field(
+        default=None,
+        alias="employeeGrowth",
+        description="Headcount change over trailing windows, in percent.",
+    )
     facebook_url: str | None = Field(
         default=None, alias="facebookUrl", description="Canonical Facebook page URL."
     )
@@ -648,6 +1340,9 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
     )
     id: str = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
+    languages: list[str] | None = Field(
+        default=None, description="Languages the organization operates in."
+    )
     linkedin_id: str | None = Field(
         default=None,
         alias="linkedinId",
@@ -660,8 +1355,48 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
     name: str = Field(description="Organization name.")
+    ownership_chain_ids: list[str] | None = Field(
+        default=None,
+        alias="ownershipChainIds",
+        description="Identifiers of the organizations in this organization's ownership chain.",
+    )
+    parent_organization_id: str | None = Field(
+        default=None,
+        alias="parentOrganizationId",
+        description="Identifier of the organization that owns this one.",
+    )
+    parent_organization_name: str | None = Field(
+        default=None,
+        alias="parentOrganizationName",
+        description="Name of the organization that owns this one.",
+    )
+    parent_organization_website_url: str | None = Field(
+        default=None,
+        alias="parentOrganizationWebsiteUrl",
+        description="Website URL of the organization that owns this one.",
+    )
     phone: str | None = Field(
         default=None, description="Organization phone number in international format."
+    )
+    publicly_traded_exchange: str | None = Field(
+        default=None,
+        alias="publiclyTradedExchange",
+        description="Exchange the company lists on, such as nyse.",
+    )
+    publicly_traded_symbol: str | None = Field(
+        default=None,
+        alias="publiclyTradedSymbol",
+        description="Stock ticker, for listed companies.",
+    )
+    retail_location_count: int | None = Field(
+        default=None,
+        alias="retailLocationCount",
+        description="Number of retail locations Apollo records for the organization. Minimum: 0.",
+    )
+    sanitized_phone: str | None = Field(
+        default=None,
+        alias="sanitizedPhone",
+        description="Organization phone number in international E.164 form, such as +14152985539.",
     )
     sic_codes: list[str] | None = Field(
         default=None, alias="sicCodes", description="SIC industry codes."
@@ -675,6 +1410,20 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
         default=None,
         alias="websiteUrl",
         description="Canonical organization website URL.",
+    )
+
+
+class ApolloOrganizationsSearchEmployeeGrowth(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    percent12m: float | None = Field(
+        default=None, description="Percent change over the last twelve months."
+    )
+    percent24m: float | None = Field(
+        default=None, description="Percent change over the last twenty-four months."
+    )
+    percent6m: float | None = Field(
+        default=None, description="Percent change over the last six months."
     )
 
 
@@ -786,6 +1535,11 @@ class ApolloPersonEnrichData(BaseModel):
     catch_all: bool | None = Field(
         default=None, alias="catchAll", description="Domain accepts all addresses."
     )
+    catch_all_verdict: str | None = Field(
+        default=None,
+        alias="catchAllVerdict",
+        description="Apollo's verdict on the catch-all email domain, such as allow.",
+    )
     city: str | None = Field(default=None, description="City.")
     confidence: str | None = Field(
         default=None,
@@ -824,6 +1578,11 @@ class ApolloPersonEnrichData(BaseModel):
     name: str = Field(description="Full person name.")
     organization: ApolloPersonEnrichOrganization | None = Field(
         default=None, description="Current organization summary."
+    )
+    organization_id: str | None = Field(
+        default=None,
+        alias="organizationId",
+        description="Identifier of the person's current organization.",
     )
     personal_emails: list[str] | None = Field(
         default=None,
@@ -888,6 +1647,11 @@ class ApolloPersonEnrichOrganization(BaseModel):
         alias="alexaRanking",
         description="Alexa global traffic rank of the organization website.",
     )
+    angellist_url: str | None = Field(
+        default=None,
+        alias="angellistUrl",
+        description="Canonical AngelList profile URL.",
+    )
     annual_revenue: float | None = Field(
         default=None,
         alias="annualRevenue",
@@ -900,12 +1664,22 @@ class ApolloPersonEnrichOrganization(BaseModel):
     )
     city: str | None = Field(default=None, description="Headquarters city.")
     country: str | None = Field(default=None, description="Headquarters country.")
+    crunchbase_url: str | None = Field(
+        default=None,
+        alias="crunchbaseUrl",
+        description="Canonical Crunchbase profile URL.",
+    )
     description: str | None = Field(default=None, description="Organization summary.")
     domain: str | None = Field(default=None, description="Primary organization domain.")
     employee_count: int | None = Field(
         default=None,
         alias="employeeCount",
         description="Estimated employee count. Minimum: 0.",
+    )
+    employee_growth: ApolloPersonEnrichEmployeeGrowth | None = Field(
+        default=None,
+        alias="employeeGrowth",
+        description="Headcount change over trailing windows, in percent.",
     )
     facebook_url: str | None = Field(
         default=None, alias="facebookUrl", description="Canonical Facebook page URL."
@@ -915,14 +1689,37 @@ class ApolloPersonEnrichOrganization(BaseModel):
         alias="foundedYear",
         description="Year the organization was founded.",
     )
+    funding_events: list[ApolloPersonEnrichFundingEvent] | None = Field(
+        default=None,
+        alias="fundingEvents",
+        description="Funding rounds Apollo records for the organization.",
+    )
     id: str = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
     )
     industry: str | None = Field(default=None, description="Primary industry.")
+    industry_tag_id: str | None = Field(
+        default=None,
+        alias="industryTagId",
+        description="Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+    )
+    industry_tag_ids: ApolloPersonEnrichIndustryTagId | None = Field(
+        default=None,
+        alias="industryTagIds",
+        description="Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+    )
     keywords: list[str] | None = Field(
         default=None, description="Keywords associated with the organization."
+    )
+    languages: list[str] | None = Field(
+        default=None, description="Languages the organization operates in."
+    )
+    latest_funding_detected_utc: float | None = Field(
+        default=None,
+        alias="latestFundingDetectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     latest_funding_stage: str | None = Field(
         default=None,
@@ -946,16 +1743,51 @@ class ApolloPersonEnrichOrganization(BaseModel):
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
     name: str = Field(description="Organization name.")
+    org_chart_root_person_ids: list[str] | None = Field(
+        default=None,
+        alias="orgChartRootPersonIds",
+        description="Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.",
+    )
+    parent_organization_id: str | None = Field(
+        default=None,
+        alias="parentOrganizationId",
+        description="Identifier of the organization that owns this one.",
+    )
     phone: str | None = Field(
         default=None, description="Organization phone number in international format."
     )
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Headquarters postal code."
     )
+    publicly_traded_exchange: str | None = Field(
+        default=None,
+        alias="publiclyTradedExchange",
+        description="Exchange the company lists on, such as nyse.",
+    )
+    publicly_traded_symbol: str | None = Field(
+        default=None,
+        alias="publiclyTradedSymbol",
+        description="Stock ticker, for listed companies.",
+    )
     raw_address: str | None = Field(
         default=None,
         alias="rawAddress",
         description="Headquarters address as one display string.",
+    )
+    retail_location_count: int | None = Field(
+        default=None,
+        alias="retailLocationCount",
+        description="Number of retail locations Apollo records for the organization. Minimum: 0.",
+    )
+    sanitized_phone: str | None = Field(
+        default=None,
+        alias="sanitizedPhone",
+        description="Organization phone number in international E.164 form, such as +14152985539.",
+    )
+    secondary_industries: list[str] | None = Field(
+        default=None,
+        alias="secondaryIndustries",
+        description="Industries associated with the organization besides the primary industry.",
     )
     sic_codes: list[str] | None = Field(
         default=None, alias="sicCodes", description="SIC industry codes."
@@ -963,6 +1795,19 @@ class ApolloPersonEnrichOrganization(BaseModel):
     state: str | None = Field(default=None, description="Headquarters state or region.")
     street_address: str | None = Field(
         default=None, alias="streetAddress", description="Street address."
+    )
+    suborganization_count: int | None = Field(
+        default=None,
+        alias="suborganizationCount",
+        description="Number of related organizations Apollo lists under this one. Minimum: 0.",
+    )
+    suborganizations: list[ApolloPersonEnrichSuborganization] | None = Field(
+        default=None,
+        description="Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.",
+    )
+    technologies: list[ApolloPersonEnrichTechnologie] | None = Field(
+        default=None,
+        description="Technologies detected at the organization, with their category.",
     )
     technology_names: list[str] | None = Field(
         default=None,
@@ -991,6 +1836,90 @@ class ApolloPersonEnrichOrganization(BaseModel):
     )
 
 
+class ApolloPersonEnrichEmployeeGrowth(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    percent12m: float | None = Field(
+        default=None, description="Percent change over the last twelve months."
+    )
+    percent24m: float | None = Field(
+        default=None, description="Percent change over the last twenty-four months."
+    )
+    percent6m: float | None = Field(
+        default=None, description="Percent change over the last six months."
+    )
+
+
+class ApolloPersonEnrichFundingEvent(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    amount_display: str | None = Field(
+        default=None,
+        alias="amountDisplay",
+        description="Amount raised in this round as Apollo displays it, such as 100M.",
+    )
+    currency: str | None = Field(
+        default=None, description="Currency symbol of the amount, such as $."
+    )
+    detected_utc: float | None = Field(
+        default=None,
+        alias="detectedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    id: str | None = Field(default=None, description="Funding round identifier.")
+    investors: str | None = Field(
+        default=None,
+        description="Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+    )
+    news_url: str | None = Field(
+        default=None, alias="newsUrl", description="Article reporting the round."
+    )
+    raised_utc: float | None = Field(
+        default=None,
+        alias="raisedUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Funding round type, such as Series D."
+    )
+
+
+class ApolloPersonEnrichIndustryTagId(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ApolloPersonEnrichSuborganization(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str | None = Field(default=None, description="Headquarters country.")
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Estimated employee count. Minimum: 0.",
+    )
+    id: str | None = Field(default=None, description="Organization identifier.")
+    industries: list[str] | None = Field(
+        default=None, description="Industries associated with the organization."
+    )
+    name: str | None = Field(default=None, description="Organization name.")
+    website_url: str | None = Field(
+        default=None,
+        alias="websiteUrl",
+        description="Canonical organization website URL.",
+    )
+
+
+class ApolloPersonEnrichTechnologie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    category: str | None = Field(default=None, description="Technology category.")
+    id: str | None = Field(
+        default=None,
+        description="Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.",
+    )
+    name: str | None = Field(default=None, description="Technology name.")
+
+
 class ApolloNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -1006,12 +1935,13 @@ class ApolloNamespace:
         """Apollo Organization
 
         Get a complete organization profile by ID including company, industry,
-        employee, revenue, funding, location, and technology data.
+        employee, monthly headcount flow, revenue, funding rounds, ownership,
+        location, and technology data.
 
         Price: $0.012 per request.
 
         Example:
-            res = client.apollo.organization(organizationId="5e66b6381e05b4008c8331b8")
+            res = client.apollo.organization(organizationId="5fc8de5191bd9400bfc52051")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "apollo.organization", dict(input), options
@@ -1026,8 +1956,9 @@ class ApolloNamespace:
     ) -> RunResult[ApolloOrganizationEnrichData]:
         """Apollo Organization Enrichment
 
-        Enrich an organization by domain with company profile, industry, employee,
-        revenue, funding, location, and technology data.
+        Enrich an organization by domain, optionally with its LinkedIn URL, website,
+        or name, with company profile, industry, headcount growth, department
+        headcount, revenue, funding rounds, location, and technology data.
 
         Price: $0.012 per request.
 
@@ -1048,7 +1979,7 @@ class ApolloNamespace:
         """Apollo Organization Jobs
 
         Get current job postings for an organization by ID with title, location,
-        source URL, and timestamps.
+        source URL, and timestamps, one page at a time.
 
         Price: $0.012 per request.
 
@@ -1068,8 +1999,8 @@ class ApolloNamespace:
     ) -> RunResult[ApolloOrganizationNewsData]:
         """Apollo Organization News
 
-        Search news related to one or more organizations with article details,
-        categories, and pagination totals.
+        Search news related to one or more organizations, optionally by category and
+        publish date range, with article details, categories, and pagination totals.
 
         Price: $0.012 per request.
 
@@ -1113,8 +2044,10 @@ class ApolloNamespace:
     ) -> RunResult[ApolloOrganizationsSearchData]:
         """Apollo Organization Search
 
-        Search organizations by location, employee range, industry, and keywords
-        with normalized company records and pagination totals.
+        Search organizations by location, employee range, industry, keywords,
+        domain, name, revenue, funding, technology, hiring activity, headcount
+        growth, or lookalike seeds, with normalized company records and pagination
+        totals.
 
         Price: $0.012 per request.
 
@@ -1134,8 +2067,9 @@ class ApolloNamespace:
     ) -> RunResult[ApolloPeopleSearchData]:
         """Apollo People Search
 
-        Search people by title, seniority, person or organization location, employee
-        range, and keywords with normalized profile summaries.
+        Search people by title, seniority, name, location, employer domain or id,
+        email status, and employer revenue, technology, hiring, and headcount
+        growth, with normalized profile summaries.
 
         Price: $0.01 per request.
 
@@ -1155,8 +2089,8 @@ class ApolloNamespace:
     ) -> RunResult[ApolloPersonEnrichData]:
         """Apollo Person Enrichment
 
-        Enrich a person by email, LinkedIn URL, or name and organization with
-        contact, role, location, and company data.
+        Enrich a person by email, email hash, LinkedIn URL, Apollo person id, or
+        name and organization with contact, role, location, and company data.
 
         Price: $0.012 per request.
 
@@ -1184,12 +2118,13 @@ class AsyncApolloNamespace:
         """Apollo Organization
 
         Get a complete organization profile by ID including company, industry,
-        employee, revenue, funding, location, and technology data.
+        employee, monthly headcount flow, revenue, funding rounds, ownership,
+        location, and technology data.
 
         Price: $0.012 per request.
 
         Example:
-            res = client.apollo.organization(organizationId="5e66b6381e05b4008c8331b8")
+            res = client.apollo.organization(organizationId="5fc8de5191bd9400bfc52051")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "apollo.organization", dict(input), options
@@ -1204,8 +2139,9 @@ class AsyncApolloNamespace:
     ) -> RunResult[ApolloOrganizationEnrichData]:
         """Apollo Organization Enrichment
 
-        Enrich an organization by domain with company profile, industry, employee,
-        revenue, funding, location, and technology data.
+        Enrich an organization by domain, optionally with its LinkedIn URL, website,
+        or name, with company profile, industry, headcount growth, department
+        headcount, revenue, funding rounds, location, and technology data.
 
         Price: $0.012 per request.
 
@@ -1226,7 +2162,7 @@ class AsyncApolloNamespace:
         """Apollo Organization Jobs
 
         Get current job postings for an organization by ID with title, location,
-        source URL, and timestamps.
+        source URL, and timestamps, one page at a time.
 
         Price: $0.012 per request.
 
@@ -1246,8 +2182,8 @@ class AsyncApolloNamespace:
     ) -> RunResult[ApolloOrganizationNewsData]:
         """Apollo Organization News
 
-        Search news related to one or more organizations with article details,
-        categories, and pagination totals.
+        Search news related to one or more organizations, optionally by category and
+        publish date range, with article details, categories, and pagination totals.
 
         Price: $0.012 per request.
 
@@ -1291,8 +2227,10 @@ class AsyncApolloNamespace:
     ) -> RunResult[ApolloOrganizationsSearchData]:
         """Apollo Organization Search
 
-        Search organizations by location, employee range, industry, and keywords
-        with normalized company records and pagination totals.
+        Search organizations by location, employee range, industry, keywords,
+        domain, name, revenue, funding, technology, hiring activity, headcount
+        growth, or lookalike seeds, with normalized company records and pagination
+        totals.
 
         Price: $0.012 per request.
 
@@ -1312,8 +2250,9 @@ class AsyncApolloNamespace:
     ) -> RunResult[ApolloPeopleSearchData]:
         """Apollo People Search
 
-        Search people by title, seniority, person or organization location, employee
-        range, and keywords with normalized profile summaries.
+        Search people by title, seniority, name, location, employer domain or id,
+        email status, and employer revenue, technology, hiring, and headcount
+        growth, with normalized profile summaries.
 
         Price: $0.01 per request.
 
@@ -1333,8 +2272,8 @@ class AsyncApolloNamespace:
     ) -> RunResult[ApolloPersonEnrichData]:
         """Apollo Person Enrichment
 
-        Enrich a person by email, LinkedIn URL, or name and organization with
-        contact, role, location, and company data.
+        Enrich a person by email, email hash, LinkedIn URL, Apollo person id, or
+        name and organization with contact, role, location, and company data.
 
         Price: $0.012 per request.
 

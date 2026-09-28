@@ -34,6 +34,124 @@ export interface ApolloOrganizationInput {
   source?: string[];
 }
 
+export interface ApolloOrganizationEmployeeMetric {
+  /**
+   * Headcount flow per department in the month.
+   */
+  departments?: ApolloOrganizationDepartment[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  startUtc?: number;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationDepartment {
+  /**
+   * People who left the department in the month.
+   * Range: minimum 0.
+   */
+  churned?: number;
+  /**
+   * Apollo department name. Absent on the row Apollo does not attribute to a department.
+   */
+  department?: string;
+  /**
+   * People who joined the department in the month.
+   * Range: minimum 0.
+   */
+  new?: number;
+  /**
+   * People who stayed in the department through the month.
+   * Range: minimum 0.
+   */
+  retained?: number;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationFundingEvent {
+  /**
+   * Amount raised in this round as Apollo displays it, such as 100M.
+   */
+  amountDisplay?: string;
+  /**
+   * Currency symbol of the amount, such as $.
+   */
+  currency?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  detectedUtc?: number;
+  /**
+   * Funding round identifier.
+   */
+  id?: string;
+  /**
+   * Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.
+   */
+  investors?: string;
+  /**
+   * Article reporting the round.
+   * Format: uri.
+   */
+  newsUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  raisedUtc?: number;
+  /**
+   * Funding round type, such as Series D.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationSuborganization {
+  /**
+   * Headquarters country.
+   */
+  country?: string;
+  /**
+   * Estimated employee count.
+   * Range: minimum 0.
+   */
+  employeeCount?: number;
+  /**
+   * Organization identifier.
+   */
+  id?: string;
+  /**
+   * Industries associated with the organization.
+   */
+  industries?: string[];
+  /**
+   * Organization name.
+   */
+  name?: string;
+  /**
+   * Canonical organization website URL.
+   * Format: uri.
+   */
+  websiteUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationTechnologie {
+  /**
+   * Technology category.
+   */
+  category?: string;
+  /**
+   * Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.
+   */
+  id?: string;
+  /**
+   * Technology name.
+   */
+  name?: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Apollo Organization (apollo.organization).
  */
@@ -42,6 +160,11 @@ export interface ApolloOrganizationData {
    * Alexa global traffic rank of the organization website.
    */
   alexaRanking?: number;
+  /**
+   * Canonical AngelList profile URL.
+   * Format: uri.
+   */
+  angellistUrl?: string;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
@@ -60,6 +183,11 @@ export interface ApolloOrganizationData {
    */
   country?: string;
   /**
+   * Canonical Crunchbase profile URL.
+   * Format: uri.
+   */
+  crunchbaseUrl?: string;
+  /**
    * Organization summary.
    */
   description?: string;
@@ -73,6 +201,10 @@ export interface ApolloOrganizationData {
    */
   employeeCount?: number;
   /**
+   * Monthly headcount flow per department.
+   */
+  employeeMetrics?: ApolloOrganizationEmployeeMetric[];
+  /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
@@ -81,6 +213,10 @@ export interface ApolloOrganizationData {
    * Year the organization was founded.
    */
   foundedYear?: number;
+  /**
+   * Funding rounds Apollo records for the organization.
+   */
+  fundingEvents?: ApolloOrganizationFundingEvent[];
   /**
    * Stable organization identifier.
    */
@@ -99,9 +235,25 @@ export interface ApolloOrganizationData {
    */
   industry?: string;
   /**
+   * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
+   */
+  industryTagId?: string;
+  /**
+   * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
+   */
+  industryTagIds?: {};
+  /**
    * Keywords associated with the organization.
    */
   keywords?: string[];
+  /**
+   * Languages the organization operates in.
+   */
+  languages?: string[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  latestFundingDetectedUtc?: number;
   /**
    * Latest disclosed funding stage.
    */
@@ -128,6 +280,23 @@ export interface ApolloOrganizationData {
    */
   name: string;
   /**
+   * Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.
+   */
+  orgChartRootPersonIds?: string[];
+  /**
+   * Identifier of the organization that owns this one.
+   */
+  parentOrganizationId?: string;
+  /**
+   * Name of the organization that owns this one.
+   */
+  parentOrganizationName?: string;
+  /**
+   * Website URL of the organization that owns this one.
+   * Format: uri.
+   */
+  parentOrganizationWebsiteUrl?: string;
+  /**
    * Organization phone number in international format.
    */
   phone?: string;
@@ -136,9 +305,30 @@ export interface ApolloOrganizationData {
    */
   postalCode?: string;
   /**
+   * Exchange the company lists on, such as nyse.
+   */
+  publiclyTradedExchange?: string;
+  /**
+   * Stock ticker, for listed companies.
+   */
+  publiclyTradedSymbol?: string;
+  /**
    * Headquarters address as one display string.
    */
   rawAddress?: string;
+  /**
+   * Number of retail locations Apollo records for the organization.
+   * Range: minimum 0.
+   */
+  retailLocationCount?: number;
+  /**
+   * Organization phone number in international E.164 form, such as +14152985539.
+   */
+  sanitizedPhone?: string;
+  /**
+   * Industries associated with the organization besides the primary industry.
+   */
+  secondaryIndustries?: string[];
   /**
    * SIC industry codes.
    */
@@ -151,6 +341,19 @@ export interface ApolloOrganizationData {
    * Street address.
    */
   streetAddress?: string;
+  /**
+   * Number of related organizations Apollo lists under this one.
+   * Range: minimum 0.
+   */
+  suborganizationCount?: number;
+  /**
+   * Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.
+   */
+  suborganizations?: ApolloOrganizationSuborganization[];
+  /**
+   * Technologies detected at the organization, with their category.
+   */
+  technologies?: ApolloOrganizationTechnologie[];
   /**
    * Technologies detected at the organization.
    */
@@ -195,6 +398,15 @@ export interface ApolloOrganizationEnrichInput {
    */
   ignoreSources?: string[];
   /**
+   * LinkedIn company page URL, which Apollo also matches on.
+   * Format: uri.
+   */
+  linkedinUrl?: string;
+  /**
+   * Organization name, which improves match accuracy.
+   */
+  name?: string;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -203,6 +415,93 @@ export interface ApolloOrganizationEnrichInput {
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
+  /**
+   * Full website URL, which Apollo also matches on.
+   */
+  website?: string;
+}
+
+export interface ApolloOrganizationEnrichFundingEvent {
+  /**
+   * Amount raised in this round as Apollo displays it, such as 100M.
+   */
+  amountDisplay?: string;
+  /**
+   * Currency symbol of the amount, such as $.
+   */
+  currency?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  detectedUtc?: number;
+  /**
+   * Funding round identifier.
+   */
+  id?: string;
+  /**
+   * Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.
+   */
+  investors?: string;
+  /**
+   * Article reporting the round.
+   * Format: uri.
+   */
+  newsUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  raisedUtc?: number;
+  /**
+   * Funding round type, such as Series D.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationEnrichSuborganization {
+  /**
+   * Headquarters country.
+   */
+  country?: string;
+  /**
+   * Estimated employee count.
+   * Range: minimum 0.
+   */
+  employeeCount?: number;
+  /**
+   * Organization identifier.
+   */
+  id?: string;
+  /**
+   * Industries associated with the organization.
+   */
+  industries?: string[];
+  /**
+   * Organization name.
+   */
+  name?: string;
+  /**
+   * Canonical organization website URL.
+   * Format: uri.
+   */
+  websiteUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationEnrichTechnologie {
+  /**
+   * Technology category.
+   */
+  category?: string;
+  /**
+   * Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.
+   */
+  id?: string;
+  /**
+   * Technology name.
+   */
+  name?: string;
+  [extra: string]: unknown;
 }
 
 /**
@@ -213,6 +512,11 @@ export interface ApolloOrganizationEnrichData {
    * Alexa global traffic rank of the organization website.
    */
   alexaRanking?: number;
+  /**
+   * Canonical AngelList profile URL.
+   * Format: uri.
+   */
+  angellistUrl?: string;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
@@ -231,6 +535,11 @@ export interface ApolloOrganizationEnrichData {
    */
   country?: string;
   /**
+   * Canonical Crunchbase profile URL.
+   * Format: uri.
+   */
+  crunchbaseUrl?: string;
+  /**
    * Organization summary.
    */
   description?: string;
@@ -244,6 +553,23 @@ export interface ApolloOrganizationEnrichData {
    */
   employeeCount?: number;
   /**
+   * Headcount change over trailing windows, in percent.
+   */
+  employeeGrowth?: {
+    /**
+     * Percent change over the last twelve months.
+     */
+    percent12m?: number;
+    /**
+     * Percent change over the last twenty-four months.
+     */
+    percent24m?: number;
+    /**
+     * Percent change over the last six months.
+     */
+    percent6m?: number;
+  };
+  /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
@@ -252,6 +578,14 @@ export interface ApolloOrganizationEnrichData {
    * Year the organization was founded.
    */
   foundedYear?: number;
+  /**
+   * Funding rounds Apollo records for the organization.
+   */
+  fundingEvents?: ApolloOrganizationEnrichFundingEvent[];
+  /**
+   * Employee count per department, keyed by Apollo department name.
+   */
+  headcountByRole?: {};
   /**
    * Stable organization identifier.
    */
@@ -270,9 +604,25 @@ export interface ApolloOrganizationEnrichData {
    */
   industry?: string;
   /**
+   * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
+   */
+  industryTagId?: string;
+  /**
+   * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
+   */
+  industryTagIds?: {};
+  /**
    * Keywords associated with the organization.
    */
   keywords?: string[];
+  /**
+   * Languages the organization operates in.
+   */
+  languages?: string[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  latestFundingDetectedUtc?: number;
   /**
    * Latest disclosed funding stage.
    */
@@ -299,6 +649,14 @@ export interface ApolloOrganizationEnrichData {
    */
   name: string;
   /**
+   * Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.
+   */
+  orgChartRootPersonIds?: string[];
+  /**
+   * Identifier of the organization that owns this one.
+   */
+  parentOrganizationId?: string;
+  /**
    * Organization phone number in international format.
    */
   phone?: string;
@@ -307,9 +665,30 @@ export interface ApolloOrganizationEnrichData {
    */
   postalCode?: string;
   /**
+   * Exchange the company lists on, such as nyse.
+   */
+  publiclyTradedExchange?: string;
+  /**
+   * Stock ticker, for listed companies.
+   */
+  publiclyTradedSymbol?: string;
+  /**
    * Headquarters address as one display string.
    */
   rawAddress?: string;
+  /**
+   * Number of retail locations Apollo records for the organization.
+   * Range: minimum 0.
+   */
+  retailLocationCount?: number;
+  /**
+   * Organization phone number in international E.164 form, such as +14152985539.
+   */
+  sanitizedPhone?: string;
+  /**
+   * Industries associated with the organization besides the primary industry.
+   */
+  secondaryIndustries?: string[];
   /**
    * SIC industry codes.
    */
@@ -322,6 +701,19 @@ export interface ApolloOrganizationEnrichData {
    * Street address.
    */
   streetAddress?: string;
+  /**
+   * Number of related organizations Apollo lists under this one.
+   * Range: minimum 0.
+   */
+  suborganizationCount?: number;
+  /**
+   * Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.
+   */
+  suborganizations?: ApolloOrganizationEnrichSuborganization[];
+  /**
+   * Technologies detected at the organization, with their category.
+   */
+  technologies?: ApolloOrganizationEnrichTechnologie[];
   /**
    * Technologies detected at the organization.
    */
@@ -362,9 +754,20 @@ export interface ApolloOrganizationJobsInput {
    */
   ignoreSources?: string[];
   /**
+   * Maximum job postings returned on this page.
+   * Range: minimum 1.
+   */
+  limit?: number;
+  /**
    * Organization identifier returned by an Apollo organization endpoint.
    */
   organizationId: string;
+  /**
+   * One-based result page.
+   * Range: minimum 1.
+   * Default: 1.
+   */
+  page?: number;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -453,6 +856,10 @@ export interface ApolloOrganizationNewsInput {
    */
   allowFallbacks?: boolean;
   /**
+   * News categories or sub-categories to match, such as hires, investment or contract.
+   */
+  categories?: string[];
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
@@ -481,6 +888,16 @@ export interface ApolloOrganizationNewsInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Only articles published on or after this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  publishedAtGte?: string;
+  /**
+   * Only articles published on or before this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  publishedAtLte?: string;
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -591,6 +1008,11 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   alexaRanking?: number;
   /**
+   * Canonical AngelList profile URL.
+   * Format: uri.
+   */
+  angellistUrl?: string;
+  /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
    */
@@ -608,6 +1030,11 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   country?: string;
   /**
+   * Canonical Crunchbase profile URL.
+   * Format: uri.
+   */
+  crunchbaseUrl?: string;
+  /**
    * Organization summary.
    */
   description?: string;
@@ -621,6 +1048,23 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   employeeCount?: number;
   /**
+   * Headcount change over trailing windows, in percent.
+   */
+  employeeGrowth?: {
+    /**
+     * Percent change over the last twelve months.
+     */
+    percent12m?: number;
+    /**
+     * Percent change over the last twenty-four months.
+     */
+    percent24m?: number;
+    /**
+     * Percent change over the last six months.
+     */
+    percent6m?: number;
+  };
+  /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
@@ -629,6 +1073,14 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    * Year the organization was founded.
    */
   foundedYear?: number;
+  /**
+   * Funding rounds Apollo records for the organization.
+   */
+  fundingEvents?: ApolloOrganizationsBulkEnrichFundingEvent[];
+  /**
+   * Employee count per department, keyed by Apollo department name.
+   */
+  headcountByRole?: {};
   /**
    * Stable organization identifier.
    */
@@ -647,9 +1099,25 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   industry?: string;
   /**
+   * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
+   */
+  industryTagId?: string;
+  /**
+   * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
+   */
+  industryTagIds?: {};
+  /**
    * Keywords associated with the organization.
    */
   keywords?: string[];
+  /**
+   * Languages the organization operates in.
+   */
+  languages?: string[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  latestFundingDetectedUtc?: number;
   /**
    * Latest disclosed funding stage.
    */
@@ -676,6 +1144,23 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   name: string;
   /**
+   * Identifiers of the organizations in this organization's ownership chain.
+   */
+  ownershipChainIds?: string[];
+  /**
+   * Identifier of the organization that owns this one.
+   */
+  parentOrganizationId?: string;
+  /**
+   * Name of the organization that owns this one.
+   */
+  parentOrganizationName?: string;
+  /**
+   * Website URL of the organization that owns this one.
+   * Format: uri.
+   */
+  parentOrganizationWebsiteUrl?: string;
+  /**
    * Organization phone number in international format.
    */
   phone?: string;
@@ -684,9 +1169,30 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   postalCode?: string;
   /**
+   * Exchange the company lists on, such as nyse.
+   */
+  publiclyTradedExchange?: string;
+  /**
+   * Stock ticker, for listed companies.
+   */
+  publiclyTradedSymbol?: string;
+  /**
    * Headquarters address as one display string.
    */
   rawAddress?: string;
+  /**
+   * Number of retail locations Apollo records for the organization.
+   * Range: minimum 0.
+   */
+  retailLocationCount?: number;
+  /**
+   * Organization phone number in international E.164 form, such as +14152985539.
+   */
+  sanitizedPhone?: string;
+  /**
+   * Industries associated with the organization besides the primary industry.
+   */
+  secondaryIndustries?: string[];
   /**
    * SIC industry codes.
    */
@@ -699,6 +1205,24 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    * Street address.
    */
   streetAddress?: string;
+  /**
+   * Number of related organizations Apollo lists under this one.
+   * Range: minimum 0.
+   */
+  suborganizationCount?: number;
+  /**
+   * Countries Apollo rolls up across the organization's corporate family.
+   */
+  subsidiaryCountries?: string[];
+  /**
+   * Estimated employee count Apollo rolls up across the organization's corporate family.
+   * Range: minimum 0.
+   */
+  subsidiaryEmployeeCount?: number;
+  /**
+   * Industries Apollo rolls up across the organization's corporate family.
+   */
+  subsidiaryIndustries?: string[];
   /**
    * Total disclosed funding in USD.
    * Range: minimum 0.
@@ -714,10 +1238,60 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
    */
   twitterUrl?: string;
   /**
+   * Identifier of the top organization in this organization's ownership chain.
+   */
+  ultimateParentOrganizationId?: string;
+  /**
+   * Name of the top organization in this organization's ownership chain.
+   */
+  ultimateParentOrganizationName?: string;
+  /**
+   * Website URL of the top organization in this organization's ownership chain.
+   * Format: uri.
+   */
+  ultimateParentOrganizationWebsiteUrl?: string;
+  /**
    * Canonical organization website URL.
    * Format: uri.
    */
   websiteUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloOrganizationsBulkEnrichFundingEvent {
+  /**
+   * Amount raised in this round as Apollo displays it, such as 100M.
+   */
+  amountDisplay?: string;
+  /**
+   * Currency symbol of the amount, such as $.
+   */
+  currency?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  detectedUtc?: number;
+  /**
+   * Funding round identifier.
+   */
+  id?: string;
+  /**
+   * Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.
+   */
+  investors?: string;
+  /**
+   * Article reporting the round.
+   * Format: uri.
+   */
+  newsUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  raisedUtc?: number;
+  /**
+   * Funding round type, such as Series D.
+   */
+  type?: string;
   [extra: string]: unknown;
 }
 
@@ -756,9 +1330,25 @@ export interface ApolloOrganizationsSearchInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Organization domains to match, without www, at most 1000.
+   */
+  domains?: string[];
+  /**
    * Employee-count ranges in Apollo notation, such as 51,200.
    */
   employeeRanges?: string[];
+  /**
+   * Exclude organizations matching any of these domains. Every domain Apollo holds for that organization is excluded.
+   */
+  excludeDomains?: string[];
+  /**
+   * Headquarters locations to exclude, such as ireland.
+   */
+  excludeLocations?: string[];
+  /**
+   * Trailing window in months for the headcount growth filter. Takes effect only together with minHeadcountGrowthPercent or maxHeadcountGrowthPercent.
+   */
+  headcountGrowthMonths?: number;
   /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
@@ -768,9 +1358,41 @@ export interface ApolloOrganizationsSearchInput {
    */
   industryIds?: string[];
   /**
+   * Only organizations with a job posted on or after this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  jobPostedAtGte?: string;
+  /**
+   * Only organizations with a job posted on or before this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  jobPostedAtLte?: string;
+  /**
+   * Locations of the organization's active job postings, such as japan.
+   */
+  jobPostingLocations?: string[];
+  /**
+   * Job titles listed in the organization's active job postings, such as sales manager.
+   */
+  jobPostingTitles?: string[];
+  /**
+   * Keywords associated with the organization, such as mining or consulting.
+   */
+  keywordTags?: string[];
+  /**
    * Keywords to match across organization records.
    */
   keywords?: string;
+  /**
+   * Only organizations whose most recent funding round is on or after this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  lastFundingRoundDateGte?: string;
+  /**
+   * Only organizations whose most recent funding round is on or before this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  lastFundingRoundDateLte?: string;
   /**
    * Maximum organizations returned on this page.
    * Range: minimum 1, maximum 100.
@@ -781,6 +1403,58 @@ export interface ApolloOrganizationsSearchInput {
    * Headquarters locations to match.
    */
   locations?: string[];
+  /**
+   * Apollo organization identifiers to use as lookalike seeds, at most five. Results are narrowed to organizations similar to the seeds, and the seeds themselves are excluded. A seed Apollo holds no lookalike data for returns no results.
+   */
+  lookalikeOrganizationIds?: string[];
+  /**
+   * Maximum total funding across all rounds, in whole USD.
+   */
+  maxFundingUsd?: number;
+  /**
+   * Maximum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 100 for 100%.
+   */
+  maxHeadcountGrowthPercent?: number;
+  /**
+   * Maximum number of active job postings at the organization.
+   */
+  maxJobs?: number;
+  /**
+   * Maximum amount raised in the most recent funding round, in whole USD.
+   */
+  maxLatestFundingUsd?: number;
+  /**
+   * Maximum organization annual revenue, in whole USD with no symbols.
+   */
+  maxRevenueUsd?: number;
+  /**
+   * Minimum total funding across all rounds, in whole USD.
+   */
+  minFundingUsd?: number;
+  /**
+   * Minimum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 10 for 10%. Negative values are accepted.
+   */
+  minHeadcountGrowthPercent?: number;
+  /**
+   * Minimum number of active job postings at the organization.
+   */
+  minJobs?: number;
+  /**
+   * Minimum amount raised in the most recent funding round, in whole USD.
+   */
+  minLatestFundingUsd?: number;
+  /**
+   * Minimum organization annual revenue, in whole USD with no symbols.
+   */
+  minRevenueUsd?: number;
+  /**
+   * Organization name to match; partial matches count.
+   */
+  name?: string;
+  /**
+   * Apollo organization identifiers to match.
+   */
+  organizationIds?: string[];
   /**
    * One-based result page.
    * Range: minimum 1, maximum 500.
@@ -796,6 +1470,10 @@ export interface ApolloOrganizationsSearchInput {
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
+  /**
+   * Only organizations that use ANY of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.
+   */
+  technologySlugOr?: string[];
 }
 
 export interface ApolloOrganizationsSearchOrganization {
@@ -803,6 +1481,11 @@ export interface ApolloOrganizationsSearchOrganization {
    * Alexa global traffic rank of the organization website.
    */
   alexaRanking?: number;
+  /**
+   * Canonical AngelList profile URL.
+   * Format: uri.
+   */
+  angellistUrl?: string;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
@@ -813,9 +1496,31 @@ export interface ApolloOrganizationsSearchOrganization {
    */
   annualRevenueDisplay?: string;
   /**
+   * Canonical Crunchbase profile URL.
+   * Format: uri.
+   */
+  crunchbaseUrl?: string;
+  /**
    * Primary organization domain.
    */
   domain?: string;
+  /**
+   * Headcount change over trailing windows, in percent.
+   */
+  employeeGrowth?: {
+    /**
+     * Percent change over the last twelve months.
+     */
+    percent12m?: number;
+    /**
+     * Percent change over the last twenty-four months.
+     */
+    percent24m?: number;
+    /**
+     * Percent change over the last six months.
+     */
+    percent6m?: number;
+  };
   /**
    * Canonical Facebook page URL.
    * Format: uri.
@@ -835,6 +1540,10 @@ export interface ApolloOrganizationsSearchOrganization {
    */
   image?: string;
   /**
+   * Languages the organization operates in.
+   */
+  languages?: string[];
+  /**
    * Organization LinkedIn numeric id.
    */
   linkedinId?: string;
@@ -852,9 +1561,43 @@ export interface ApolloOrganizationsSearchOrganization {
    */
   name: string;
   /**
+   * Identifiers of the organizations in this organization's ownership chain.
+   */
+  ownershipChainIds?: string[];
+  /**
+   * Identifier of the organization that owns this one.
+   */
+  parentOrganizationId?: string;
+  /**
+   * Name of the organization that owns this one.
+   */
+  parentOrganizationName?: string;
+  /**
+   * Website URL of the organization that owns this one.
+   * Format: uri.
+   */
+  parentOrganizationWebsiteUrl?: string;
+  /**
    * Organization phone number in international format.
    */
   phone?: string;
+  /**
+   * Exchange the company lists on, such as nyse.
+   */
+  publiclyTradedExchange?: string;
+  /**
+   * Stock ticker, for listed companies.
+   */
+  publiclyTradedSymbol?: string;
+  /**
+   * Number of retail locations Apollo records for the organization.
+   * Range: minimum 0.
+   */
+  retailLocationCount?: number;
+  /**
+   * Organization phone number in international E.164 form, such as +14152985539.
+   */
+  sanitizedPhone?: string;
   /**
    * SIC industry codes.
    */
@@ -912,13 +1655,49 @@ export interface ApolloPeopleSearchInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Email statuses to match.
+   */
+  emailStatuses?: (
+    "verified" | "unverified" | "likely to engage" | "unavailable"
+  )[];
+  /**
    * Organization employee-count ranges in Apollo notation, such as 51,200.
    */
   employeeRanges?: string[];
   /**
+   * Exclude people whose current employer matches any of these domains. Every domain Apollo holds for that employer is excluded.
+   */
+  excludeOrganizationDomains?: string[];
+  /**
+   * Trailing window in months for the headcount growth filter. Takes effect only together with minHeadcountGrowthPercent or maxHeadcountGrowthPercent.
+   */
+  headcountGrowthMonths?: number;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
+  /**
+   * Whether titles similar to the ones in titles also match. Set false for strict title matches only.
+   */
+  includeSimilarTitles?: boolean;
+  /**
+   * Only organizations with a job posted on or after this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  jobPostedAtGte?: string;
+  /**
+   * Only organizations with a job posted on or before this date. Format: YYYY-MM-DD.
+   * Format: date.
+   */
+  jobPostedAtLte?: string;
+  /**
+   * Locations of the organization's active job postings, such as japan.
+   */
+  jobPostingLocations?: string[];
+  /**
+   * Job titles listed in the organization's active job postings, such as sales manager.
+   */
+  jobPostingTitles?: string[];
   /**
    * Keywords to match across people records.
    */
@@ -929,6 +1708,42 @@ export interface ApolloPeopleSearchInput {
    * Default: 25.
    */
   limit?: number;
+  /**
+   * Apollo organization identifiers to use as lookalike seeds, at most five. Results are narrowed to organizations similar to the seeds, and the seeds themselves are excluded. A seed Apollo holds no lookalike data for returns no results.
+   */
+  lookalikeOrganizationIds?: string[];
+  /**
+   * Maximum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 100 for 100%.
+   */
+  maxHeadcountGrowthPercent?: number;
+  /**
+   * Maximum number of active job postings at the organization.
+   */
+  maxJobs?: number;
+  /**
+   * Maximum organization annual revenue, in whole USD with no symbols.
+   */
+  maxRevenueUsd?: number;
+  /**
+   * Minimum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 10 for 10%. Negative values are accepted.
+   */
+  minHeadcountGrowthPercent?: number;
+  /**
+   * Minimum number of active job postings at the organization.
+   */
+  minJobs?: number;
+  /**
+   * Minimum organization annual revenue, in whole USD with no symbols.
+   */
+  minRevenueUsd?: number;
+  /**
+   * Domains of the person's current or previous employer, without www, at most 1000.
+   */
+  organizationDomains?: string[];
+  /**
+   * Apollo identifiers of the person's current employer.
+   */
+  organizationIds?: string[];
   /**
    * Organization headquarters locations to match.
    */
@@ -943,6 +1758,10 @@ export interface ApolloPeopleSearchInput {
    * Person locations to match.
    */
   personLocations?: string[];
+  /**
+   * Person name to match; results include people whose name contains every word.
+   */
+  personName?: string;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -962,11 +1781,24 @@ export interface ApolloPeopleSearchInput {
     | "manager"
     | "senior"
     | "entry"
+    | "intern"
   )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
+  /**
+   * Only people whose current employer uses ALL of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.
+   */
+  technologySlugAnd?: string[];
+  /**
+   * Exclude people whose current employer uses any of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.
+   */
+  technologySlugNot?: string[];
+  /**
+   * Only people whose current employer uses ANY of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.
+   */
+  technologySlugOr?: string[];
   /**
    * Job titles to match.
    */
@@ -1092,9 +1924,17 @@ export interface ApolloPersonEnrichInput {
    */
   email?: string;
   /**
+   * MD5 or SHA-256 hash of the person's email, used to identify the person.
+   */
+  emailHash?: string;
+  /**
    * Person first name, used with lastName and an organization identifier.
    */
   firstName?: string;
+  /**
+   * Person full name, used with an organization identifier instead of firstName and lastName.
+   */
+  fullName?: string;
   /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
@@ -1113,10 +1953,19 @@ export interface ApolloPersonEnrichInput {
    */
   organizationName?: string;
   /**
+   * Apollo person identifier, such as an id returned by apollo.people_search.
+   */
+  personId?: string;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Whether to include personal emails. Apollo withholds them for people in GDPR regions.
+   * Default: true.
+   */
+  revealPersonalEmails?: boolean;
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1155,6 +2004,89 @@ export interface ApolloPersonEnrichEmploymentHistory {
   [extra: string]: unknown;
 }
 
+export interface ApolloPersonEnrichFundingEvent {
+  /**
+   * Amount raised in this round as Apollo displays it, such as 100M.
+   */
+  amountDisplay?: string;
+  /**
+   * Currency symbol of the amount, such as $.
+   */
+  currency?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  detectedUtc?: number;
+  /**
+   * Funding round identifier.
+   */
+  id?: string;
+  /**
+   * Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.
+   */
+  investors?: string;
+  /**
+   * Article reporting the round.
+   * Format: uri.
+   */
+  newsUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  raisedUtc?: number;
+  /**
+   * Funding round type, such as Series D.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloPersonEnrichSuborganization {
+  /**
+   * Headquarters country.
+   */
+  country?: string;
+  /**
+   * Estimated employee count.
+   * Range: minimum 0.
+   */
+  employeeCount?: number;
+  /**
+   * Organization identifier.
+   */
+  id?: string;
+  /**
+   * Industries associated with the organization.
+   */
+  industries?: string[];
+  /**
+   * Organization name.
+   */
+  name?: string;
+  /**
+   * Canonical organization website URL.
+   * Format: uri.
+   */
+  websiteUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface ApolloPersonEnrichTechnologie {
+  /**
+   * Technology category.
+   */
+  category?: string;
+  /**
+   * Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.
+   */
+  id?: string;
+  /**
+   * Technology name.
+   */
+  name?: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Apollo Person Enrichment (apollo.person_enrich).
  */
@@ -1167,6 +2099,10 @@ export interface ApolloPersonEnrichData {
    * Domain accepts all addresses.
    */
   catchAll?: boolean;
+  /**
+   * Apollo's verdict on the catch-all email domain, such as allow.
+   */
+  catchAllVerdict?: string;
   /**
    * City.
    */
@@ -1249,6 +2185,11 @@ export interface ApolloPersonEnrichData {
      */
     alexaRanking?: number;
     /**
+     * Canonical AngelList profile URL.
+     * Format: uri.
+     */
+    angellistUrl?: string;
+    /**
      * Estimated annual revenue in USD.
      * Range: minimum 0.
      */
@@ -1266,6 +2207,11 @@ export interface ApolloPersonEnrichData {
      */
     country?: string;
     /**
+     * Canonical Crunchbase profile URL.
+     * Format: uri.
+     */
+    crunchbaseUrl?: string;
+    /**
      * Organization summary.
      */
     description?: string;
@@ -1279,6 +2225,23 @@ export interface ApolloPersonEnrichData {
      */
     employeeCount?: number;
     /**
+     * Headcount change over trailing windows, in percent.
+     */
+    employeeGrowth?: {
+      /**
+       * Percent change over the last twelve months.
+       */
+      percent12m?: number;
+      /**
+       * Percent change over the last twenty-four months.
+       */
+      percent24m?: number;
+      /**
+       * Percent change over the last six months.
+       */
+      percent6m?: number;
+    };
+    /**
      * Canonical Facebook page URL.
      * Format: uri.
      */
@@ -1287,6 +2250,10 @@ export interface ApolloPersonEnrichData {
      * Year the organization was founded.
      */
     foundedYear?: number;
+    /**
+     * Funding rounds Apollo records for the organization.
+     */
+    fundingEvents?: ApolloPersonEnrichFundingEvent[];
     /**
      * Stable organization identifier.
      */
@@ -1305,9 +2272,25 @@ export interface ApolloPersonEnrichData {
      */
     industry?: string;
     /**
+     * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
+     */
+    industryTagId?: string;
+    /**
+     * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
+     */
+    industryTagIds?: {};
+    /**
      * Keywords associated with the organization.
      */
     keywords?: string[];
+    /**
+     * Languages the organization operates in.
+     */
+    languages?: string[];
+    /**
+     * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+     */
+    latestFundingDetectedUtc?: number;
     /**
      * Latest disclosed funding stage.
      */
@@ -1334,6 +2317,14 @@ export interface ApolloPersonEnrichData {
      */
     name: string;
     /**
+     * Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.
+     */
+    orgChartRootPersonIds?: string[];
+    /**
+     * Identifier of the organization that owns this one.
+     */
+    parentOrganizationId?: string;
+    /**
      * Organization phone number in international format.
      */
     phone?: string;
@@ -1342,9 +2333,30 @@ export interface ApolloPersonEnrichData {
      */
     postalCode?: string;
     /**
+     * Exchange the company lists on, such as nyse.
+     */
+    publiclyTradedExchange?: string;
+    /**
+     * Stock ticker, for listed companies.
+     */
+    publiclyTradedSymbol?: string;
+    /**
      * Headquarters address as one display string.
      */
     rawAddress?: string;
+    /**
+     * Number of retail locations Apollo records for the organization.
+     * Range: minimum 0.
+     */
+    retailLocationCount?: number;
+    /**
+     * Organization phone number in international E.164 form, such as +14152985539.
+     */
+    sanitizedPhone?: string;
+    /**
+     * Industries associated with the organization besides the primary industry.
+     */
+    secondaryIndustries?: string[];
     /**
      * SIC industry codes.
      */
@@ -1357,6 +2369,19 @@ export interface ApolloPersonEnrichData {
      * Street address.
      */
     streetAddress?: string;
+    /**
+     * Number of related organizations Apollo lists under this one.
+     * Range: minimum 0.
+     */
+    suborganizationCount?: number;
+    /**
+     * Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.
+     */
+    suborganizations?: ApolloPersonEnrichSuborganization[];
+    /**
+     * Technologies detected at the organization, with their category.
+     */
+    technologies?: ApolloPersonEnrichTechnologie[];
     /**
      * Technologies detected at the organization.
      */
@@ -1381,6 +2406,10 @@ export interface ApolloPersonEnrichData {
      */
     websiteUrl?: string;
   };
+  /**
+   * Identifier of the person's current organization.
+   */
+  organizationId?: string;
   /**
    * Available personal email addresses, included automatically.
    */
@@ -1431,12 +2460,12 @@ export class ApolloNamespace {
   /**
    * Apollo Organization
    *
-   * Get a complete organization profile by ID including company, industry, employee, revenue, funding, location, and technology data.
+   * Get a complete organization profile by ID including company, industry, employee, monthly headcount flow, revenue, funding rounds, ownership, location, and technology data.
    *
    * Price: $0.012 per request.
    *
    * @example
-   * const res = await client.apollo.organization({ organizationId: "5e66b6381e05b4008c8331b8" });
+   * const res = await client.apollo.organization({ organizationId: "5fc8de5191bd9400bfc52051" });
    */
   organization(
     input: ApolloOrganizationInput,
@@ -1448,7 +2477,7 @@ export class ApolloNamespace {
   /**
    * Apollo Organization Enrichment
    *
-   * Enrich an organization by domain with company profile, industry, employee, revenue, funding, location, and technology data.
+   * Enrich an organization by domain, optionally with its LinkedIn URL, website, or name, with company profile, industry, headcount growth, department headcount, revenue, funding rounds, location, and technology data.
    *
    * Price: $0.012 per request.
    *
@@ -1465,7 +2494,7 @@ export class ApolloNamespace {
   /**
    * Apollo Organization Jobs
    *
-   * Get current job postings for an organization by ID with title, location, source URL, and timestamps.
+   * Get current job postings for an organization by ID with title, location, source URL, and timestamps, one page at a time.
    *
    * Price: $0.012 per request.
    *
@@ -1482,7 +2511,7 @@ export class ApolloNamespace {
   /**
    * Apollo Organization News
    *
-   * Search news related to one or more organizations with article details, categories, and pagination totals.
+   * Search news related to one or more organizations, optionally by category and publish date range, with article details, categories, and pagination totals.
    *
    * Price: $0.012 per request.
    *
@@ -1516,7 +2545,7 @@ export class ApolloNamespace {
   /**
    * Apollo Organization Search
    *
-   * Search organizations by location, employee range, industry, and keywords with normalized company records and pagination totals.
+   * Search organizations by location, employee range, industry, keywords, domain, name, revenue, funding, technology, hiring activity, headcount growth, or lookalike seeds, with normalized company records and pagination totals.
    *
    * Price: $0.012 per request.
    *
@@ -1533,7 +2562,7 @@ export class ApolloNamespace {
   /**
    * Apollo People Search
    *
-   * Search people by title, seniority, person or organization location, employee range, and keywords with normalized profile summaries.
+   * Search people by title, seniority, name, location, employer domain or id, email status, and employer revenue, technology, hiring, and headcount growth, with normalized profile summaries.
    *
    * Price: $0.01 per request.
    *
@@ -1550,7 +2579,7 @@ export class ApolloNamespace {
   /**
    * Apollo Person Enrichment
    *
-   * Enrich a person by email, LinkedIn URL, or name and organization with contact, role, location, and company data.
+   * Enrich a person by email, email hash, LinkedIn URL, Apollo person id, or name and organization with contact, role, location, and company data.
    *
    * Price: $0.012 per request.
    *

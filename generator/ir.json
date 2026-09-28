@@ -3031,7 +3031,7 @@
       "operationId": "apollo_organization",
       "name": "Apollo Organization",
       "category": "data",
-      "description": "Get a complete organization profile by ID including company, industry, employee, revenue, funding, location, and technology data.",
+      "description": "Get a complete organization profile by ID including company, industry, employee, monthly headcount flow, revenue, funding rounds, ownership, location, and technology data.",
       "pricing": {
         "priceUsd": 0.012,
         "baseUsd": null,
@@ -3047,7 +3047,7 @@
       "inputTypeName": "ApolloOrganizationInput",
       "outputTypeName": "ApolloOrganizationData",
       "example": {
-        "organizationId": "5e66b6381e05b4008c8331b8"
+        "organizationId": "5fc8de5191bd9400bfc52051"
       },
       "input": {
         "kind": "object",
@@ -3111,6 +3111,13 @@
               "maximum": null,
               "default": null
             },
+            "angellistUrl": {
+              "kind": "string",
+              "description": "Canonical AngelList profile URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
             "annualRevenue": {
               "kind": "number",
               "description": "Estimated annual revenue in USD.",
@@ -3139,6 +3146,13 @@
               "default": null,
               "format": null
             },
+            "crunchbaseUrl": {
+              "kind": "string",
+              "description": "Canonical Crunchbase profile URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
             "description": {
               "kind": "string",
               "description": "Organization summary.",
@@ -3160,6 +3174,65 @@
               "maximum": null,
               "default": null
             },
+            "employeeMetrics": {
+              "kind": "array",
+              "description": "Monthly headcount flow per department.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "departments": {
+                    "kind": "array",
+                    "description": "Headcount flow per department in the month.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "churned": {
+                          "kind": "integer",
+                          "description": "People who left the department in the month.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "department": {
+                          "kind": "string",
+                          "description": "Apollo department name. Absent on the row Apollo does not attribute to a department.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "new": {
+                          "kind": "integer",
+                          "description": "People who joined the department in the month.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "retained": {
+                          "kind": "integer",
+                          "description": "People who stayed in the department through the month.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "startUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
             "facebookUrl": {
               "kind": "string",
               "description": "Canonical Facebook page URL.",
@@ -3173,6 +3246,74 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "fundingEvents": {
+              "kind": "array",
+              "description": "Funding rounds Apollo records for the organization.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "amountDisplay": {
+                    "kind": "string",
+                    "description": "Amount raised in this round as Apollo displays it, such as 100M.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Currency symbol of the amount, such as $.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "detectedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Funding round identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "investors": {
+                    "kind": "string",
+                    "description": "Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "newsUrl": {
+                    "kind": "string",
+                    "description": "Article reporting the round.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "raisedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Funding round type, such as Series D.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
             },
             "id": {
               "kind": "string",
@@ -3206,6 +3347,20 @@
               "default": null,
               "format": null
             },
+            "industryTagId": {
+              "kind": "string",
+              "description": "Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "industryTagIds": {
+              "kind": "object",
+              "description": "Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
             "keywords": {
               "kind": "array",
               "description": "Keywords associated with the organization.",
@@ -3216,6 +3371,24 @@
                 "format": null
               },
               "mustPopulate": false
+            },
+            "languages": {
+              "kind": "array",
+              "description": "Languages the organization operates in.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "latestFundingDetectedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
             },
             "latestFundingStage": {
               "kind": "string",
@@ -3263,6 +3436,38 @@
               "default": null,
               "format": null
             },
+            "orgChartRootPersonIds": {
+              "kind": "array",
+              "description": "Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "parentOrganizationId": {
+              "kind": "string",
+              "description": "Identifier of the organization that owns this one.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "parentOrganizationName": {
+              "kind": "string",
+              "description": "Name of the organization that owns this one.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "parentOrganizationWebsiteUrl": {
+              "kind": "string",
+              "description": "Website URL of the organization that owns this one.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
             "phone": {
               "kind": "string",
               "description": "Organization phone number in international format.",
@@ -3277,12 +3482,51 @@
               "default": null,
               "format": null
             },
+            "publiclyTradedExchange": {
+              "kind": "string",
+              "description": "Exchange the company lists on, such as nyse.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "publiclyTradedSymbol": {
+              "kind": "string",
+              "description": "Stock ticker, for listed companies.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "rawAddress": {
               "kind": "string",
               "description": "Headquarters address as one display string.",
               "enum": null,
               "default": null,
               "format": null
+            },
+            "retailLocationCount": {
+              "kind": "integer",
+              "description": "Number of retail locations Apollo records for the organization.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "sanitizedPhone": {
+              "kind": "string",
+              "description": "Organization phone number in international E.164 form, such as +14152985539.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "secondaryIndustries": {
+              "kind": "array",
+              "description": "Industries associated with the organization besides the primary industry.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
             },
             "sicCodes": {
               "kind": "array",
@@ -3308,6 +3552,104 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "suborganizationCount": {
+              "kind": "integer",
+              "description": "Number of related organizations Apollo lists under this one.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "suborganizations": {
+              "kind": "array",
+              "description": "Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "country": {
+                    "kind": "string",
+                    "description": "Headquarters country.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "employeeCount": {
+                    "kind": "integer",
+                    "description": "Estimated employee count.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Organization identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "industries": {
+                    "kind": "array",
+                    "description": "Industries associated with the organization.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Organization name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "websiteUrl": {
+                    "kind": "string",
+                    "description": "Canonical organization website URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "technologies": {
+              "kind": "array",
+              "description": "Technologies detected at the organization, with their category.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "category": {
+                    "kind": "string",
+                    "description": "Technology category.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Technology name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
             },
             "technologyNames": {
               "kind": "array",
@@ -3370,7 +3712,7 @@
       "operationId": "apollo_organization_enrich",
       "name": "Apollo Organization Enrichment",
       "category": "data",
-      "description": "Enrich an organization by domain with company profile, industry, employee, revenue, funding, location, and technology data.",
+      "description": "Enrich an organization by domain, optionally with its LinkedIn URL, website, or name, with company profile, industry, headcount growth, department headcount, revenue, funding rounds, location, and technology data.",
       "pricing": {
         "priceUsd": 0.012,
         "baseUsd": null,
@@ -3414,6 +3756,20 @@
             },
             "mustPopulate": false
           },
+          "linkedinUrl": {
+            "kind": "string",
+            "description": "LinkedIn company page URL, which Apollo also matches on.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          },
+          "name": {
+            "kind": "string",
+            "description": "Organization name, which improves match accuracy.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -3431,6 +3787,13 @@
               "format": null
             },
             "mustPopulate": false
+          },
+          "website": {
+            "kind": "string",
+            "description": "Full website URL, which Apollo also matches on.",
+            "enum": null,
+            "default": null,
+            "format": null
           }
         },
         "required": [
@@ -3449,6 +3812,13 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "angellistUrl": {
+              "kind": "string",
+              "description": "Canonical AngelList profile URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
             },
             "annualRevenue": {
               "kind": "number",
@@ -3478,6 +3848,13 @@
               "default": null,
               "format": null
             },
+            "crunchbaseUrl": {
+              "kind": "string",
+              "description": "Canonical Crunchbase profile URL.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
             "description": {
               "kind": "string",
               "description": "Organization summary.",
@@ -3499,6 +3876,35 @@
               "maximum": null,
               "default": null
             },
+            "employeeGrowth": {
+              "kind": "object",
+              "description": "Headcount change over trailing windows, in percent.",
+              "properties": {
+                "percent12m": {
+                  "kind": "number",
+                  "description": "Percent change over the last twelve months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "percent24m": {
+                  "kind": "number",
+                  "description": "Percent change over the last twenty-four months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "percent6m": {
+                  "kind": "number",
+                  "description": "Percent change over the last six months.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
             "facebookUrl": {
               "kind": "string",
               "description": "Canonical Facebook page URL.",
@@ -3512,6 +3918,81 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "fundingEvents": {
+              "kind": "array",
+              "description": "Funding rounds Apollo records for the organization.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "amountDisplay": {
+                    "kind": "string",
+                    "description": "Amount raised in this round as Apollo displays it, such as 100M.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Currency symbol of the amount, such as $.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "detectedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Funding round identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "investors": {
+                    "kind": "string",
+                    "description": "Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "newsUrl": {
+                    "kind": "string",
+                    "description": "Article reporting the round.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "raisedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Funding round type, such as Series D.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "headcountByRole": {
+              "kind": "object",
+              "description": "Employee count per department, keyed by Apollo department name.",
+              "properties": {},
+              "required": [],
+              "open": true
             },
             "id": {
               "kind": "string",
@@ -3545,6 +4026,20 @@
               "default": null,
               "format": null
             },
+            "industryTagId": {
+              "kind": "string",
+              "description": "Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "industryTagIds": {
+              "kind": "object",
+              "description": "Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+              "properties": {},
+              "required": [],
+              "open": true
+            },
             "keywords": {
               "kind": "array",
               "description": "Keywords associated with the organization.",
@@ -3555,6 +4050,24 @@
                 "format": null
               },
               "mustPopulate": false
+            },
+            "languages": {
+              "kind": "array",
+              "description": "Languages the organization operates in.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "latestFundingDetectedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
             },
             "latestFundingStage": {
               "kind": "string",
@@ -3602,6 +4115,24 @@
               "default": null,
               "format": null
             },
+            "orgChartRootPersonIds": {
+              "kind": "array",
+              "description": "Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "parentOrganizationId": {
+              "kind": "string",
+              "description": "Identifier of the organization that owns this one.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "phone": {
               "kind": "string",
               "description": "Organization phone number in international format.",
@@ -3616,12 +4147,51 @@
               "default": null,
               "format": null
             },
+            "publiclyTradedExchange": {
+              "kind": "string",
+              "description": "Exchange the company lists on, such as nyse.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "publiclyTradedSymbol": {
+              "kind": "string",
+              "description": "Stock ticker, for listed companies.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "rawAddress": {
               "kind": "string",
               "description": "Headquarters address as one display string.",
               "enum": null,
               "default": null,
               "format": null
+            },
+            "retailLocationCount": {
+              "kind": "integer",
+              "description": "Number of retail locations Apollo records for the organization.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "sanitizedPhone": {
+              "kind": "string",
+              "description": "Organization phone number in international E.164 form, such as +14152985539.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "secondaryIndustries": {
+              "kind": "array",
+              "description": "Industries associated with the organization besides the primary industry.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
             },
             "sicCodes": {
               "kind": "array",
@@ -3647,6 +4217,104 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "suborganizationCount": {
+              "kind": "integer",
+              "description": "Number of related organizations Apollo lists under this one.",
+              "minimum": 0,
+              "maximum": null,
+              "default": null
+            },
+            "suborganizations": {
+              "kind": "array",
+              "description": "Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "country": {
+                    "kind": "string",
+                    "description": "Headquarters country.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "employeeCount": {
+                    "kind": "integer",
+                    "description": "Estimated employee count.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Organization identifier.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "industries": {
+                    "kind": "array",
+                    "description": "Industries associated with the organization.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Organization name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "websiteUrl": {
+                    "kind": "string",
+                    "description": "Canonical organization website URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "technologies": {
+              "kind": "array",
+              "description": "Technologies detected at the organization, with their category.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "category": {
+                    "kind": "string",
+                    "description": "Technology category.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Technology name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
             },
             "technologyNames": {
               "kind": "array",
@@ -3709,7 +4377,7 @@
       "operationId": "apollo_organization_jobs",
       "name": "Apollo Organization Jobs",
       "category": "data",
-      "description": "Get current job postings for an organization by ID with title, location, source URL, and timestamps.",
+      "description": "Get current job postings for an organization by ID with title, location, source URL, and timestamps, one page at a time.",
       "pricing": {
         "priceUsd": 0.012,
         "baseUsd": null,
@@ -3746,12 +4414,26 @@
             },
             "mustPopulate": false
           },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum job postings returned on this page.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
           "organizationId": {
             "kind": "string",
             "description": "Organization identifier returned by an Apollo organization endpoint.",
             "enum": null,
             "default": null,
             "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "One-based result page.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -3907,7 +4589,7 @@
       "operationId": "apollo_organization_news",
       "name": "Apollo Organization News",
       "category": "data",
-      "description": "Search news related to one or more organizations with article details, categories, and pagination totals.",
+      "description": "Search news related to one or more organizations, optionally by category and publish date range, with article details, categories, and pagination totals.",
       "pricing": {
         "priceUsd": 0.012,
         "baseUsd": null,
@@ -3936,6 +4618,17 @@
             "kind": "boolean",
             "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
+          },
+          "categories": {
+            "kind": "array",
+            "description": "News categories or sub-categories to match, such as hires, investment or contract.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "ignoreSources": {
             "kind": "array",
@@ -3986,6 +4679,20 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "publishedAtGte": {
+            "kind": "string",
+            "description": "Only articles published on or after this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "publishedAtLte": {
+            "kind": "string",
+            "description": "Only articles published on or before this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
           },
           "source": {
             "kind": "array",
@@ -4251,6 +4958,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "angellistUrl": {
+                    "kind": "string",
+                    "description": "Canonical AngelList profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "annualRevenue": {
                     "kind": "number",
                     "description": "Estimated annual revenue in USD.",
@@ -4279,6 +4993,13 @@
                     "default": null,
                     "format": null
                   },
+                  "crunchbaseUrl": {
+                    "kind": "string",
+                    "description": "Canonical Crunchbase profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "description": {
                     "kind": "string",
                     "description": "Organization summary.",
@@ -4300,6 +5021,35 @@
                     "maximum": null,
                     "default": null
                   },
+                  "employeeGrowth": {
+                    "kind": "object",
+                    "description": "Headcount change over trailing windows, in percent.",
+                    "properties": {
+                      "percent12m": {
+                        "kind": "number",
+                        "description": "Percent change over the last twelve months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent24m": {
+                        "kind": "number",
+                        "description": "Percent change over the last twenty-four months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent6m": {
+                        "kind": "number",
+                        "description": "Percent change over the last six months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
                   "facebookUrl": {
                     "kind": "string",
                     "description": "Canonical Facebook page URL.",
@@ -4313,6 +5063,81 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "fundingEvents": {
+                    "kind": "array",
+                    "description": "Funding rounds Apollo records for the organization.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "amountDisplay": {
+                          "kind": "string",
+                          "description": "Amount raised in this round as Apollo displays it, such as 100M.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "currency": {
+                          "kind": "string",
+                          "description": "Currency symbol of the amount, such as $.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "detectedUtc": {
+                          "kind": "number",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "id": {
+                          "kind": "string",
+                          "description": "Funding round identifier.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "investors": {
+                          "kind": "string",
+                          "description": "Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "newsUrl": {
+                          "kind": "string",
+                          "description": "Article reporting the round.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "raisedUtc": {
+                          "kind": "number",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "type": {
+                          "kind": "string",
+                          "description": "Funding round type, such as Series D.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "headcountByRole": {
+                    "kind": "object",
+                    "description": "Employee count per department, keyed by Apollo department name.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
                   },
                   "id": {
                     "kind": "string",
@@ -4346,6 +5171,20 @@
                     "default": null,
                     "format": null
                   },
+                  "industryTagId": {
+                    "kind": "string",
+                    "description": "Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "industryTagIds": {
+                    "kind": "object",
+                    "description": "Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
                   "keywords": {
                     "kind": "array",
                     "description": "Keywords associated with the organization.",
@@ -4356,6 +5195,24 @@
                       "format": null
                     },
                     "mustPopulate": false
+                  },
+                  "languages": {
+                    "kind": "array",
+                    "description": "Languages the organization operates in.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "latestFundingDetectedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "latestFundingStage": {
                     "kind": "string",
@@ -4403,6 +5260,38 @@
                     "default": null,
                     "format": null
                   },
+                  "ownershipChainIds": {
+                    "kind": "array",
+                    "description": "Identifiers of the organizations in this organization's ownership chain.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "parentOrganizationId": {
+                    "kind": "string",
+                    "description": "Identifier of the organization that owns this one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "parentOrganizationName": {
+                    "kind": "string",
+                    "description": "Name of the organization that owns this one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "parentOrganizationWebsiteUrl": {
+                    "kind": "string",
+                    "description": "Website URL of the organization that owns this one.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "phone": {
                     "kind": "string",
                     "description": "Organization phone number in international format.",
@@ -4417,12 +5306,51 @@
                     "default": null,
                     "format": null
                   },
+                  "publiclyTradedExchange": {
+                    "kind": "string",
+                    "description": "Exchange the company lists on, such as nyse.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publiclyTradedSymbol": {
+                    "kind": "string",
+                    "description": "Stock ticker, for listed companies.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "rawAddress": {
                     "kind": "string",
                     "description": "Headquarters address as one display string.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "retailLocationCount": {
+                    "kind": "integer",
+                    "description": "Number of retail locations Apollo records for the organization.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sanitizedPhone": {
+                    "kind": "string",
+                    "description": "Organization phone number in international E.164 form, such as +14152985539.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "secondaryIndustries": {
+                    "kind": "array",
+                    "description": "Industries associated with the organization besides the primary industry.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "sicCodes": {
                     "kind": "array",
@@ -4449,6 +5377,42 @@
                     "default": null,
                     "format": null
                   },
+                  "suborganizationCount": {
+                    "kind": "integer",
+                    "description": "Number of related organizations Apollo lists under this one.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "subsidiaryCountries": {
+                    "kind": "array",
+                    "description": "Countries Apollo rolls up across the organization's corporate family.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "subsidiaryEmployeeCount": {
+                    "kind": "integer",
+                    "description": "Estimated employee count Apollo rolls up across the organization's corporate family.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "subsidiaryIndustries": {
+                    "kind": "array",
+                    "description": "Industries Apollo rolls up across the organization's corporate family.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "totalFunding": {
                     "kind": "number",
                     "description": "Total disclosed funding in USD.",
@@ -4466,6 +5430,27 @@
                   "twitterUrl": {
                     "kind": "string",
                     "description": "Canonical X or Twitter profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "ultimateParentOrganizationId": {
+                    "kind": "string",
+                    "description": "Identifier of the top organization in this organization's ownership chain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ultimateParentOrganizationName": {
+                    "kind": "string",
+                    "description": "Name of the top organization in this organization's ownership chain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ultimateParentOrganizationWebsiteUrl": {
+                    "kind": "string",
+                    "description": "Website URL of the top organization in this organization's ownership chain.",
                     "enum": null,
                     "default": null,
                     "format": "uri"
@@ -4517,7 +5502,7 @@
       "operationId": "apollo_organizations_search",
       "name": "Apollo Organization Search",
       "category": "data",
-      "description": "Search organizations by location, employee range, industry, and keywords with normalized company records and pagination totals.",
+      "description": "Search organizations by location, employee range, industry, keywords, domain, name, revenue, funding, technology, hiring activity, headcount growth, or lookalike seeds, with normalized company records and pagination totals.",
       "pricing": {
         "priceUsd": 0.012,
         "baseUsd": null,
@@ -4545,6 +5530,17 @@
             "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
           },
+          "domains": {
+            "kind": "array",
+            "description": "Organization domains to match, without www, at most 1000.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "employeeRanges": {
             "kind": "array",
             "description": "Employee-count ranges in Apollo notation, such as 51,200.",
@@ -4555,6 +5551,35 @@
               "format": null
             },
             "mustPopulate": false
+          },
+          "excludeDomains": {
+            "kind": "array",
+            "description": "Exclude organizations matching any of these domains. Every domain Apollo holds for that organization is excluded.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "excludeLocations": {
+            "kind": "array",
+            "description": "Headquarters locations to exclude, such as ireland.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "headcountGrowthMonths": {
+            "kind": "integer",
+            "description": "Trailing window in months for the headcount growth filter. Takes effect only together with minHeadcountGrowthPercent or maxHeadcountGrowthPercent.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
           },
           "ignoreSources": {
             "kind": "array",
@@ -4578,12 +5603,73 @@
             },
             "mustPopulate": false
           },
+          "jobPostedAtGte": {
+            "kind": "string",
+            "description": "Only organizations with a job posted on or after this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "jobPostedAtLte": {
+            "kind": "string",
+            "description": "Only organizations with a job posted on or before this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "jobPostingLocations": {
+            "kind": "array",
+            "description": "Locations of the organization's active job postings, such as japan.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "jobPostingTitles": {
+            "kind": "array",
+            "description": "Job titles listed in the organization's active job postings, such as sales manager.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "keywordTags": {
+            "kind": "array",
+            "description": "Keywords associated with the organization, such as mining or consulting.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "keywords": {
             "kind": "string",
             "description": "Keywords to match across organization records.",
             "enum": null,
             "default": null,
             "format": null
+          },
+          "lastFundingRoundDateGte": {
+            "kind": "string",
+            "description": "Only organizations whose most recent funding round is on or after this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "lastFundingRoundDateLte": {
+            "kind": "string",
+            "description": "Only organizations whose most recent funding round is on or before this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
           },
           "limit": {
             "kind": "integer",
@@ -4595,6 +5681,105 @@
           "locations": {
             "kind": "array",
             "description": "Headquarters locations to match.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "lookalikeOrganizationIds": {
+            "kind": "array",
+            "description": "Apollo organization identifiers to use as lookalike seeds, at most five. Results are narrowed to organizations similar to the seeds, and the seeds themselves are excluded. A seed Apollo holds no lookalike data for returns no results.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxFundingUsd": {
+            "kind": "integer",
+            "description": "Maximum total funding across all rounds, in whole USD.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "maxHeadcountGrowthPercent": {
+            "kind": "integer",
+            "description": "Maximum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 100 for 100%.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "maxJobs": {
+            "kind": "integer",
+            "description": "Maximum number of active job postings at the organization.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "maxLatestFundingUsd": {
+            "kind": "integer",
+            "description": "Maximum amount raised in the most recent funding round, in whole USD.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "maxRevenueUsd": {
+            "kind": "integer",
+            "description": "Maximum organization annual revenue, in whole USD with no symbols.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minFundingUsd": {
+            "kind": "integer",
+            "description": "Minimum total funding across all rounds, in whole USD.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minHeadcountGrowthPercent": {
+            "kind": "integer",
+            "description": "Minimum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 10 for 10%. Negative values are accepted.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minJobs": {
+            "kind": "integer",
+            "description": "Minimum number of active job postings at the organization.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minLatestFundingUsd": {
+            "kind": "integer",
+            "description": "Minimum amount raised in the most recent funding round, in whole USD.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minRevenueUsd": {
+            "kind": "integer",
+            "description": "Minimum organization annual revenue, in whole USD with no symbols.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "name": {
+            "kind": "string",
+            "description": "Organization name to match; partial matches count.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "organizationIds": {
+            "kind": "array",
+            "description": "Apollo organization identifiers to match.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -4620,6 +5805,17 @@
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "technologySlugOr": {
+            "kind": "array",
+            "description": "Only organizations that use ANY of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -4657,6 +5853,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "angellistUrl": {
+                    "kind": "string",
+                    "description": "Canonical AngelList profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "annualRevenue": {
                     "kind": "number",
                     "description": "Estimated annual revenue in USD.",
@@ -4671,12 +5874,48 @@
                     "default": null,
                     "format": null
                   },
+                  "crunchbaseUrl": {
+                    "kind": "string",
+                    "description": "Canonical Crunchbase profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "domain": {
                     "kind": "string",
                     "description": "Primary organization domain.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "employeeGrowth": {
+                    "kind": "object",
+                    "description": "Headcount change over trailing windows, in percent.",
+                    "properties": {
+                      "percent12m": {
+                        "kind": "number",
+                        "description": "Percent change over the last twelve months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent24m": {
+                        "kind": "number",
+                        "description": "Percent change over the last twenty-four months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "percent6m": {
+                        "kind": "number",
+                        "description": "Percent change over the last six months.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
                   },
                   "facebookUrl": {
                     "kind": "string",
@@ -4705,6 +5944,17 @@
                     "enum": null,
                     "default": null,
                     "format": "uri"
+                  },
+                  "languages": {
+                    "kind": "array",
+                    "description": "Languages the organization operates in.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "linkedinId": {
                     "kind": "string",
@@ -4738,9 +5988,69 @@
                     "default": null,
                     "format": null
                   },
+                  "ownershipChainIds": {
+                    "kind": "array",
+                    "description": "Identifiers of the organizations in this organization's ownership chain.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "parentOrganizationId": {
+                    "kind": "string",
+                    "description": "Identifier of the organization that owns this one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "parentOrganizationName": {
+                    "kind": "string",
+                    "description": "Name of the organization that owns this one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "parentOrganizationWebsiteUrl": {
+                    "kind": "string",
+                    "description": "Website URL of the organization that owns this one.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
                   "phone": {
                     "kind": "string",
                     "description": "Organization phone number in international format.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publiclyTradedExchange": {
+                    "kind": "string",
+                    "description": "Exchange the company lists on, such as nyse.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publiclyTradedSymbol": {
+                    "kind": "string",
+                    "description": "Stock ticker, for listed companies.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "retailLocationCount": {
+                    "kind": "integer",
+                    "description": "Number of retail locations Apollo records for the organization.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sanitizedPhone": {
+                    "kind": "string",
+                    "description": "Organization phone number in international E.164 form, such as +14152985539.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -4825,7 +6135,7 @@
       "operationId": "apollo_people_search",
       "name": "Apollo People Search",
       "category": "data",
-      "description": "Search people by title, seniority, person or organization location, employee range, and keywords with normalized profile summaries.",
+      "description": "Search people by title, seniority, name, location, employer domain or id, email status, and employer revenue, technology, hiring, and headcount growth, with normalized profile summaries.",
       "pricing": {
         "priceUsd": 0.01,
         "baseUsd": null,
@@ -4855,6 +6165,22 @@
             "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
           },
+          "emailStatuses": {
+            "kind": "array",
+            "description": "Email statuses to match.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "verified",
+                "unverified",
+                "likely to engage",
+                "unavailable"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "employeeRanges": {
             "kind": "array",
             "description": "Organization employee-count ranges in Apollo notation, such as 51,200.",
@@ -4866,9 +6192,68 @@
             },
             "mustPopulate": false
           },
+          "excludeOrganizationDomains": {
+            "kind": "array",
+            "description": "Exclude people whose current employer matches any of these domains. Every domain Apollo holds for that employer is excluded.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "headcountGrowthMonths": {
+            "kind": "integer",
+            "description": "Trailing window in months for the headcount growth filter. Takes effect only together with minHeadcountGrowthPercent or maxHeadcountGrowthPercent.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
           "ignoreSources": {
             "kind": "array",
             "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "includeSimilarTitles": {
+            "kind": "boolean",
+            "description": "Whether titles similar to the ones in titles also match. Set false for strict title matches only.",
+            "default": null
+          },
+          "jobPostedAtGte": {
+            "kind": "string",
+            "description": "Only organizations with a job posted on or after this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "jobPostedAtLte": {
+            "kind": "string",
+            "description": "Only organizations with a job posted on or before this date. Format: YYYY-MM-DD.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "jobPostingLocations": {
+            "kind": "array",
+            "description": "Locations of the organization's active job postings, such as japan.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "jobPostingTitles": {
+            "kind": "array",
+            "description": "Job titles listed in the organization's active job postings, such as sales manager.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -4890,6 +6275,81 @@
             "minimum": 1,
             "maximum": 100,
             "default": 25
+          },
+          "lookalikeOrganizationIds": {
+            "kind": "array",
+            "description": "Apollo organization identifiers to use as lookalike seeds, at most five. Results are narrowed to organizations similar to the seeds, and the seeds themselves are excluded. A seed Apollo holds no lookalike data for returns no results.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxHeadcountGrowthPercent": {
+            "kind": "integer",
+            "description": "Maximum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 100 for 100%.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "maxJobs": {
+            "kind": "integer",
+            "description": "Maximum number of active job postings at the organization.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "maxRevenueUsd": {
+            "kind": "integer",
+            "description": "Maximum organization annual revenue, in whole USD with no symbols.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minHeadcountGrowthPercent": {
+            "kind": "integer",
+            "description": "Minimum organization headcount growth over headcountGrowthMonths, as a whole percentage such as 10 for 10%. Negative values are accepted.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minJobs": {
+            "kind": "integer",
+            "description": "Minimum number of active job postings at the organization.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "minRevenueUsd": {
+            "kind": "integer",
+            "description": "Minimum organization annual revenue, in whole USD with no symbols.",
+            "minimum": null,
+            "maximum": null,
+            "default": null
+          },
+          "organizationDomains": {
+            "kind": "array",
+            "description": "Domains of the person's current or previous employer, without www, at most 1000.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "organizationIds": {
+            "kind": "array",
+            "description": "Apollo identifiers of the person's current employer.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "organizationLocations": {
             "kind": "array",
@@ -4920,6 +6380,13 @@
             },
             "mustPopulate": false
           },
+          "personName": {
+            "kind": "string",
+            "description": "Person name to match; results include people whose name contains every word.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -4942,7 +6409,8 @@
                 "director",
                 "manager",
                 "senior",
-                "entry"
+                "entry",
+                "intern"
               ],
               "default": null,
               "format": null
@@ -4952,6 +6420,39 @@
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "technologySlugAnd": {
+            "kind": "array",
+            "description": "Only people whose current employer uses ALL of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "technologySlugNot": {
+            "kind": "array",
+            "description": "Exclude people whose current employer uses any of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "technologySlugOr": {
+            "kind": "array",
+            "description": "Only people whose current employer uses ANY of these technologies. Apollo technology identifiers, such as salesforce or google_analytics (spaces and periods become underscores). The technologies output of the Apollo organization SKUs returns them as id.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -5139,7 +6640,7 @@
       "operationId": "apollo_person_enrich",
       "name": "Apollo Person Enrichment",
       "category": "data",
-      "description": "Enrich a person by email, LinkedIn URL, or name and organization with contact, role, location, and company data.",
+      "description": "Enrich a person by email, email hash, LinkedIn URL, Apollo person id, or name and organization with contact, role, location, and company data.",
       "pricing": {
         "priceUsd": 0.012,
         "baseUsd": null,
@@ -5181,9 +6682,23 @@
             "default": null,
             "format": "email"
           },
+          "emailHash": {
+            "kind": "string",
+            "description": "MD5 or SHA-256 hash of the person's email, used to identify the person.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "firstName": {
             "kind": "string",
             "description": "Person first name, used with lastName and an organization identifier.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "fullName": {
+            "kind": "string",
+            "description": "Person full name, used with an organization identifier instead of firstName and lastName.",
             "enum": null,
             "default": null,
             "format": null
@@ -5220,12 +6735,24 @@
             "default": null,
             "format": null
           },
+          "personId": {
+            "kind": "string",
+            "description": "Apollo person identifier, such as an id returned by apollo.people_search.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "revealPersonalEmails": {
+            "kind": "boolean",
+            "description": "Whether to include personal emails. Apollo withholds them for people in GDPR regions.",
+            "default": true
           },
           "source": {
             "kind": "array",
@@ -5258,6 +6785,13 @@
               "kind": "boolean",
               "description": "Domain accepts all addresses.",
               "default": null
+            },
+            "catchAllVerdict": {
+              "kind": "string",
+              "description": "Apollo's verdict on the catch-all email domain, such as allow.",
+              "enum": null,
+              "default": null,
+              "format": null
             },
             "city": {
               "kind": "string",
@@ -5451,6 +6985,13 @@
                   "maximum": null,
                   "default": null
                 },
+                "angellistUrl": {
+                  "kind": "string",
+                  "description": "Canonical AngelList profile URL.",
+                  "enum": null,
+                  "default": null,
+                  "format": "uri"
+                },
                 "annualRevenue": {
                   "kind": "number",
                   "description": "Estimated annual revenue in USD.",
@@ -5479,6 +7020,13 @@
                   "default": null,
                   "format": null
                 },
+                "crunchbaseUrl": {
+                  "kind": "string",
+                  "description": "Canonical Crunchbase profile URL.",
+                  "enum": null,
+                  "default": null,
+                  "format": "uri"
+                },
                 "description": {
                   "kind": "string",
                   "description": "Organization summary.",
@@ -5500,6 +7048,35 @@
                   "maximum": null,
                   "default": null
                 },
+                "employeeGrowth": {
+                  "kind": "object",
+                  "description": "Headcount change over trailing windows, in percent.",
+                  "properties": {
+                    "percent12m": {
+                      "kind": "number",
+                      "description": "Percent change over the last twelve months.",
+                      "minimum": null,
+                      "maximum": null,
+                      "default": null
+                    },
+                    "percent24m": {
+                      "kind": "number",
+                      "description": "Percent change over the last twenty-four months.",
+                      "minimum": null,
+                      "maximum": null,
+                      "default": null
+                    },
+                    "percent6m": {
+                      "kind": "number",
+                      "description": "Percent change over the last six months.",
+                      "minimum": null,
+                      "maximum": null,
+                      "default": null
+                    }
+                  },
+                  "required": [],
+                  "open": true
+                },
                 "facebookUrl": {
                   "kind": "string",
                   "description": "Canonical Facebook page URL.",
@@ -5513,6 +7090,74 @@
                   "minimum": null,
                   "maximum": null,
                   "default": null
+                },
+                "fundingEvents": {
+                  "kind": "array",
+                  "description": "Funding rounds Apollo records for the organization.",
+                  "items": {
+                    "kind": "object",
+                    "properties": {
+                      "amountDisplay": {
+                        "kind": "string",
+                        "description": "Amount raised in this round as Apollo displays it, such as 100M.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "currency": {
+                        "kind": "string",
+                        "description": "Currency symbol of the amount, such as $.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "detectedUtc": {
+                        "kind": "number",
+                        "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "Funding round identifier.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "investors": {
+                        "kind": "string",
+                        "description": "Investors in this round as one comma-separated string, exactly as Apollo returns it. A single investor name can itself contain a comma.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "newsUrl": {
+                        "kind": "string",
+                        "description": "Article reporting the round.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "raisedUtc": {
+                        "kind": "number",
+                        "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "type": {
+                        "kind": "string",
+                        "description": "Funding round type, such as Series D.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "mustPopulate": false
                 },
                 "id": {
                   "kind": "string",
@@ -5546,6 +7191,20 @@
                   "default": null,
                   "format": null
                 },
+                "industryTagId": {
+                  "kind": "string",
+                  "description": "Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "industryTagIds": {
+                  "kind": "object",
+                  "description": "Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.",
+                  "properties": {},
+                  "required": [],
+                  "open": true
+                },
                 "keywords": {
                   "kind": "array",
                   "description": "Keywords associated with the organization.",
@@ -5556,6 +7215,24 @@
                     "format": null
                   },
                   "mustPopulate": false
+                },
+                "languages": {
+                  "kind": "array",
+                  "description": "Languages the organization operates in.",
+                  "items": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mustPopulate": false
+                },
+                "latestFundingDetectedUtc": {
+                  "kind": "number",
+                  "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
                 },
                 "latestFundingStage": {
                   "kind": "string",
@@ -5603,6 +7280,24 @@
                   "default": null,
                   "format": null
                 },
+                "orgChartRootPersonIds": {
+                  "kind": "array",
+                  "description": "Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.",
+                  "items": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mustPopulate": false
+                },
+                "parentOrganizationId": {
+                  "kind": "string",
+                  "description": "Identifier of the organization that owns this one.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
                 "phone": {
                   "kind": "string",
                   "description": "Organization phone number in international format.",
@@ -5617,12 +7312,51 @@
                   "default": null,
                   "format": null
                 },
+                "publiclyTradedExchange": {
+                  "kind": "string",
+                  "description": "Exchange the company lists on, such as nyse.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "publiclyTradedSymbol": {
+                  "kind": "string",
+                  "description": "Stock ticker, for listed companies.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
                 "rawAddress": {
                   "kind": "string",
                   "description": "Headquarters address as one display string.",
                   "enum": null,
                   "default": null,
                   "format": null
+                },
+                "retailLocationCount": {
+                  "kind": "integer",
+                  "description": "Number of retail locations Apollo records for the organization.",
+                  "minimum": 0,
+                  "maximum": null,
+                  "default": null
+                },
+                "sanitizedPhone": {
+                  "kind": "string",
+                  "description": "Organization phone number in international E.164 form, such as +14152985539.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "secondaryIndustries": {
+                  "kind": "array",
+                  "description": "Industries associated with the organization besides the primary industry.",
+                  "items": {
+                    "kind": "string",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mustPopulate": false
                 },
                 "sicCodes": {
                   "kind": "array",
@@ -5648,6 +7382,104 @@
                   "enum": null,
                   "default": null,
                   "format": null
+                },
+                "suborganizationCount": {
+                  "kind": "integer",
+                  "description": "Number of related organizations Apollo lists under this one.",
+                  "minimum": 0,
+                  "maximum": null,
+                  "default": null
+                },
+                "suborganizations": {
+                  "kind": "array",
+                  "description": "Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.",
+                  "items": {
+                    "kind": "object",
+                    "properties": {
+                      "country": {
+                        "kind": "string",
+                        "description": "Headquarters country.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "employeeCount": {
+                        "kind": "integer",
+                        "description": "Estimated employee count.",
+                        "minimum": 0,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "Organization identifier.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "industries": {
+                        "kind": "array",
+                        "description": "Industries associated with the organization.",
+                        "items": {
+                          "kind": "string",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "mustPopulate": false
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Organization name.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "websiteUrl": {
+                        "kind": "string",
+                        "description": "Canonical organization website URL.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "mustPopulate": false
+                },
+                "technologies": {
+                  "kind": "array",
+                  "description": "Technologies detected at the organization, with their category.",
+                  "items": {
+                    "kind": "object",
+                    "properties": {
+                      "category": {
+                        "kind": "string",
+                        "description": "Technology category.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "Technology identifier, accepted by the technologySlug filters of apollo.organizations_search and apollo.people_search.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Technology name.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "mustPopulate": false
                 },
                 "technologyNames": {
                   "kind": "array",
@@ -5694,6 +7526,13 @@
                 "name"
               ],
               "open": true
+            },
+            "organizationId": {
+              "kind": "string",
+              "description": "Identifier of the person's current organization.",
+              "enum": null,
+              "default": null,
+              "format": null
             },
             "personalEmails": {
               "kind": "array",
