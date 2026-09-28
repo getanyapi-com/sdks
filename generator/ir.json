@@ -77878,7 +77878,8 @@
                   },
                   "taxAssessedValue": {
                     "kind": "number",
-                    "description": "Most recent assessed value from the county tax authority, in US dollars.",
+                    "description": "Most recent assessed value from the county tax authority, in US dollars, or null when none is published (common on new construction).",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -81317,7 +81318,8 @@
                   },
                   "lotSize": {
                     "kind": "number",
-                    "description": "Lot size in square feet.",
+                    "description": "Lot size in square feet, or null when the listing has no lot size (common on condos).",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -103214,6 +103216,22 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "comments",
+                "likes",
+                "shares",
+                "views"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -103278,6 +103296,7 @@
             },
             "comments": {
               "kind": "integer",
+              "description": "Number of comments. Some sources round large counts (48.5K instead of 48,536); name `comments` in requireFields to be served only by a source that returns the exact count.",
               "minimum": null,
               "maximum": null,
               "default": null
@@ -103312,6 +103331,7 @@
             },
             "likes": {
               "kind": "integer",
+              "description": "Number of likes. Some sources round large counts (2.9M instead of 2,884,604); name `likes` in requireFields to be served only by a source that returns the exact count.",
               "minimum": null,
               "maximum": null,
               "default": null
@@ -103330,6 +103350,7 @@
             },
             "shares": {
               "kind": "integer",
+              "description": "Number of shares. Some sources round large counts (35.9K instead of 35,923); name `shares` in requireFields to be served only by a source that returns the exact count.",
               "minimum": null,
               "maximum": null,
               "default": null
@@ -103350,6 +103371,7 @@
             },
             "views": {
               "kind": "integer",
+              "description": "Number of plays. Some sources round large counts (32.7M instead of 32,736,400); name `views` in requireFields to be served only by a source that returns the exact count.",
               "minimum": null,
               "maximum": null,
               "default": null
@@ -105677,6 +105699,8 @@
                   },
                   "originalPrice": {
                     "kind": "number",
+                    "description": "Pre-discount list price, or null when the product is not on sale.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -105696,6 +105720,8 @@
                   },
                   "rating": {
                     "kind": "number",
+                    "description": "Average review score out of 5, or null when the product has no rating yet.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -105913,6 +105939,8 @@
                   },
                   "originalPrice": {
                     "kind": "string",
+                    "description": "Pre-discount list price, or null when the product is not on sale.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -105932,6 +105960,8 @@
                   },
                   "rating": {
                     "kind": "number",
+                    "description": "Average review score out of 5, or null when the product has no rating yet.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -115947,6 +115977,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded or shortened value for a field does not count as returning it.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "views"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sort": {
             "kind": "string",
             "description": "Sort order.",
@@ -116041,6 +116084,7 @@
                   },
                   "views": {
                     "kind": "integer",
+                    "description": "Number of views. Some sources round large counts (6.4M instead of 6,474,059); name `views` in requireFields to be served only by a source that returns the exact count.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -117318,7 +117362,7 @@
                   },
                   "views": {
                     "kind": "integer",
-                    "description": "View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0.",
+                    "description": "View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0. Rounded as YouTube shows it on Shorts (8.9M, 875K), so counts of 1,000 or more are approximate.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -117475,7 +117519,7 @@
                   },
                   "comments": {
                     "kind": "integer",
-                    "description": "Number of comments on the short.",
+                    "description": "Number of comments on the short. Rounded as YouTube shows it on Shorts (1.2K, 15K), so counts of 1,000 or more are approximate.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -120331,7 +120375,8 @@
                   },
                   "rentZestimate": {
                     "kind": "number",
-                    "description": "Zillow estimated monthly rent.",
+                    "description": "Zillow estimated monthly rent, or null when Zillow shows no rent Zestimate for the property.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -120366,7 +120411,8 @@
                   },
                   "zestimate": {
                     "kind": "number",
-                    "description": "Zillow estimated market value.",
+                    "description": "Zillow estimated market value, or null when Zillow shows no Zestimate for the property.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null

@@ -221,7 +221,9 @@ class RedfinSearchItem(BaseModel):
         default=None, description="Longitude of the home in decimal degrees."
     )
     lot_size: float | None = Field(
-        default=None, alias="lotSize", description="Lot size in square feet."
+        default=None,
+        alias="lotSize",
+        description="Lot size in square feet, or null when the listing has no lot size (common on condos).",
     )
     mls_id: str | None = Field(
         default=None, alias="mlsId", description="MLS number for the listing."

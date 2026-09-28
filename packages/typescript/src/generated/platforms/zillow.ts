@@ -207,9 +207,9 @@ export interface ZillowPropertyItem {
    */
   propertyTaxRate?: number;
   /**
-   * Zillow estimated monthly rent.
+   * Zillow estimated monthly rent, or null when Zillow shows no rent Zestimate for the property.
    */
-  rentZestimate?: number;
+  rentZestimate?: number | null;
   /**
    * Interior living area in square feet.
    */
@@ -227,9 +227,9 @@ export interface ZillowPropertyItem {
    */
   url: string;
   /**
-   * Zillow estimated market value.
+   * Zillow estimated market value, or null when Zillow shows no Zestimate for the property.
    */
-  zestimate?: number;
+  zestimate?: number | null;
   /**
    * Zillow property id (zpid), the stable identifier for the property. Populated whenever the provider has data for the entity.
    */

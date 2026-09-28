@@ -493,6 +493,10 @@ export interface YoutubeChannelVideosInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded or shortened value for a field does not count as returning it.
+   */
+  requireFields?: "views"[];
+  /**
    * Sort order.
    * One of: latest, popular.
    */
@@ -529,6 +533,9 @@ export interface YoutubeChannelVideosVideo {
    * Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Number of views. Some sources round large counts (6.4M instead of 6,474,059); name `views` in requireFields to be served only by a source that returns the exact count.
+   */
   views: number;
   [extra: string]: unknown;
 }
@@ -1056,7 +1063,7 @@ export interface YoutubeSearchShortsShort {
    */
   url: string;
   /**
-   * View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0.
+   * View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0. Rounded as YouTube shows it on Shorts (8.9M, 875K), so counts of 1,000 or more are approximate.
    */
   views: number;
   /**
@@ -1126,7 +1133,7 @@ export interface YoutubeTrendingShortsShort {
    */
   channelTitle: string;
   /**
-   * Number of comments on the short.
+   * Number of comments on the short. Rounded as YouTube shows it on Shorts (1.2K, 15K), so counts of 1,000 or more are approximate.
    */
   comments?: number;
   /**

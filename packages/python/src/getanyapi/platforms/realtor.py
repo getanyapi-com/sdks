@@ -217,7 +217,7 @@ class RealtorSearchItem(BaseModel):
     tax_assessed_value: float | None = Field(
         default=None,
         alias="taxAssessedValue",
-        description="Most recent assessed value from the county tax authority, in US dollars.",
+        description="Most recent assessed value from the county tax authority, in US dollars, or null when none is published (common on new construction).",
     )
     title: str | None = Field(
         default=None,

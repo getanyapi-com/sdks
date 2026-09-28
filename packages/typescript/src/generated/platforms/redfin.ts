@@ -266,9 +266,9 @@ export interface RedfinSearchItem {
    */
   longitude?: number;
   /**
-   * Lot size in square feet.
+   * Lot size in square feet, or null when the listing has no lot size (common on condos).
    */
-  lotSize?: number;
+  lotSize?: number | null;
   /**
    * MLS number for the listing.
    */

@@ -244,9 +244,9 @@ export interface RealtorSearchItem {
    */
   taxAmount?: number;
   /**
-   * Most recent assessed value from the county tax authority, in US dollars.
+   * Most recent assessed value from the county tax authority, in US dollars, or null when none is published (common on new construction).
    */
-  taxAssessedValue?: number;
+  taxAssessedValue?: number | null;
   /**
    * Human-readable street address line used as the listing title.
    */

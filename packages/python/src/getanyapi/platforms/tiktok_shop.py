@@ -550,13 +550,18 @@ class TiktokShopShopProductsProduct(BaseModel):
 
     currency: str
     image: str | None = Field(default=None, description="Product image URL.")
-    original_price: float = Field(alias="originalPrice")
+    original_price: float | None = Field(
+        alias="originalPrice",
+        description="Pre-discount list price, or null when the product is not on sale.",
+    )
     price: float
     product_id: str = Field(
         alias="productId",
         description="Populated whenever the provider has data for the entity.",
     )
-    rating: float
+    rating: float | None = Field(
+        description="Average review score out of 5, or null when the product has no rating yet."
+    )
     review_count: int = Field(alias="reviewCount")
     sold_count: int = Field(alias="soldCount")
     title: str = Field(
@@ -587,13 +592,18 @@ class TiktokShopUserShowcaseProduct(BaseModel):
         alias="imageUrl",
         description="Populated whenever the provider has data for the entity.",
     )
-    original_price: str = Field(alias="originalPrice")
+    original_price: str | None = Field(
+        alias="originalPrice",
+        description="Pre-discount list price, or null when the product is not on sale.",
+    )
     price: str
     product_id: str = Field(
         alias="productId",
         description="Populated whenever the provider has data for the entity.",
     )
-    rating: float
+    rating: float | None = Field(
+        description="Average review score out of 5, or null when the product has no rating yet."
+    )
     review_count: int = Field(alias="reviewCount")
     seller_id: str | None = Field(
         default=None,

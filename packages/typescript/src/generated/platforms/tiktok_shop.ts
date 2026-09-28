@@ -686,13 +686,19 @@ export interface TiktokShopShopProductsProduct {
    * Product image URL.
    */
   image?: string;
-  originalPrice: number;
+  /**
+   * Pre-discount list price, or null when the product is not on sale.
+   */
+  originalPrice: number | null;
   price: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   productId: string;
-  rating: number;
+  /**
+   * Average review score out of 5, or null when the product has no rating yet.
+   */
+  rating: number | null;
   reviewCount: number;
   soldCount: number;
   /**
@@ -770,13 +776,19 @@ export interface TiktokShopUserShowcaseProduct {
    * Populated whenever the provider has data for the entity.
    */
   imageUrl: string;
-  originalPrice: string;
+  /**
+   * Pre-discount list price, or null when the product is not on sale.
+   */
+  originalPrice: string | null;
   price: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
   productId: string;
-  rating: number;
+  /**
+   * Average review score out of 5, or null when the product has no rating yet.
+   */
+  rating: number | null;
   reviewCount: number;
   /**
    * Identifier of the seller listing the product.

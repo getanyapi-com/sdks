@@ -279,7 +279,7 @@ class ZillowPropertyItem(BaseModel):
     rent_zestimate: float | None = Field(
         default=None,
         alias="rentZestimate",
-        description="Zillow estimated monthly rent.",
+        description="Zillow estimated monthly rent, or null when Zillow shows no rent Zestimate for the property.",
     )
     sqft: float | None = Field(
         default=None, description="Interior living area in square feet."
@@ -294,7 +294,8 @@ class ZillowPropertyItem(BaseModel):
         description="Canonical Zillow property detail page URL. Populated whenever the provider has data for the entity."
     )
     zestimate: float | None = Field(
-        default=None, description="Zillow estimated market value."
+        default=None,
+        description="Zillow estimated market value, or null when Zillow shows no Zestimate for the property.",
     )
     zpid: str = Field(
         description="Zillow property id (zpid), the stable identifier for the property. Populated whenever the provider has data for the entity."

@@ -18294,44 +18294,6 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 28.68217054263566,
-            "latencyP50Ms": 7126,
-            "uptimeSample": 129,
-            "latencySample": 37,
-            "requests": 311,
-            "servedRequests": 37
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyUrl",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "location",
-            "name",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
             "id": "anonymous-giraffe",
             "name": "Giraffe",
             "kind": "anonymous",
@@ -18368,6 +18330,46 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 28.68217054263566,
+            "latencyP50Ms": 7126,
+            "uptimeSample": 129,
+            "latencySample": 37,
+            "requests": 311,
+            "servedRequests": 37
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyUrl",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "location",
+            "name",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
@@ -31582,18 +31584,14 @@
             "authorName",
             "authorUserId",
             "caption",
-            "comments",
             "createdUtc",
             "durationSeconds",
             "id",
             "image",
-            "likes",
             "region",
             "saves",
-            "shares",
             "url",
-            "videoUrl",
-            "views"
+            "videoUrl"
           ]
         },
         {
@@ -37661,8 +37659,7 @@
             "publishedTime",
             "title",
             "url",
-            "videos",
-            "views"
+            "videos"
           ]
         },
         {
@@ -38212,7 +38209,6 @@
             "shorts",
             "title",
             "url",
-            "views",
             "viewsAvailable"
           ]
         }
@@ -38272,7 +38268,6 @@
             "authorUrl",
             "category",
             "channelTitle",
-            "comments",
             "createdUtc",
             "duration",
             "durationMs",

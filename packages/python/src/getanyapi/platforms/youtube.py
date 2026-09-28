@@ -148,6 +148,8 @@ class YoutubeChannelVideosInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["views"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded or shortened value for a field does not count as returning it."""
     sort: NotRequired[Literal["latest", "popular"]]
     """Sort order."""
     source: NotRequired[list[str]]
@@ -631,7 +633,9 @@ class YoutubeChannelVideosVideo(BaseModel):
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    views: int
+    views: int = Field(
+        description="Number of views. Some sources round large counts (6.4M instead of 6,474,059); name `views` in requireFields to be served only by a source that returns the exact count."
+    )
 
 
 class YoutubeCommentRepliesData(BaseModel):
@@ -933,7 +937,7 @@ class YoutubeSearchShortsShort(BaseModel):
         description="Watch URL for the Short. Populated whenever the provider has data for the entity."
     )
     views: int = Field(
-        description="View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0."
+        description="View count, or 0 when the source did not publish one. Read viewsAvailable before trusting a 0. Rounded as YouTube shows it on Shorts (8.9M, 875K), so counts of 1,000 or more are approximate."
     )
     views_available: bool = Field(
         alias="viewsAvailable",
@@ -973,7 +977,8 @@ class YoutubeTrendingShortsShort(BaseModel):
         description="Populated whenever the provider has data for the entity.",
     )
     comments: int | None = Field(
-        default=None, description="Number of comments on the short."
+        default=None,
+        description="Number of comments on the short. Rounded as YouTube shows it on Shorts (1.2K, 15K), so counts of 1,000 or more are approximate.",
     )
     created_utc: float | None = Field(
         default=None,
