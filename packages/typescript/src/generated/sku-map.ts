@@ -280,6 +280,8 @@ import type {
   GoogleAiModeInput,
   GoogleAiOverviewData,
   GoogleAiOverviewInput,
+  GoogleAiOverviewPreviewData,
+  GoogleAiOverviewPreviewInput,
   GoogleAutocompleteData,
   GoogleAutocompleteInput,
   GoogleImagesData,
@@ -1524,6 +1526,11 @@ export interface SkuMap {
     input: GoogleAiOverviewInput;
     data: GoogleAiOverviewData;
     result: RunResult<GoogleAiOverviewData>;
+  };
+  "google.ai_overview_preview": {
+    input: GoogleAiOverviewPreviewInput;
+    data: GoogleAiOverviewPreviewData;
+    result: RunResult<GoogleAiOverviewPreviewData>;
   };
   "google.autocomplete": {
     input: GoogleAutocompleteInput;

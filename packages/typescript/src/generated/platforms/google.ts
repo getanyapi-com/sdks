@@ -145,6 +145,68 @@ export interface GoogleAiOverviewData {
 }
 
 /**
+ * Input for Google AI Overview Preview (google.ai_overview_preview).
+ */
+export interface GoogleAiOverviewPreviewInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * The question or prompt to search Google for.
+   */
+  prompt: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface GoogleAiOverviewPreviewCitation {
+  /**
+   * The link's position in the visible overview, starting at 1.
+   */
+  index?: number;
+  /**
+   * The link text or source name Google showed. Empty when Google showed the link without text.
+   */
+  title: string;
+  /**
+   * The linked source URL.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google AI Overview Preview (google.ai_overview_preview).
+ */
+export interface GoogleAiOverviewPreviewData {
+  /**
+   * The overview text visible before Show more, as plain text. Google cuts the preview where the fold falls, so it often ends mid-sentence. When Google shows the whole overview with no Show more button, this is the whole overview. Populated whenever the provider has data for the entity.
+   */
+  answer: string;
+  /**
+   * The sources linked in the visible part of the overview, in page order. This is only what shows before Show more, so it is usually shorter than the full source list google.ai_overview returns. Populated whenever the provider has data for the entity.
+   */
+  citations: GoogleAiOverviewPreviewCitation[];
+  /**
+   * The prompt Google answered. Populated whenever the provider has data for the entity.
+   */
+  prompt: string;
+}
+
+/**
  * Input for Google Autocomplete (google.autocomplete).
  */
 export interface GoogleAutocompleteInput {
@@ -963,7 +1025,7 @@ export class GoogleNamespace {
    *
    * Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.
    *
-   * Price: $0.0048 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.google.aiOverview({ prompt: "How does photosynthesis work?" });
@@ -973,6 +1035,23 @@ export class GoogleNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<GoogleAiOverviewData>> {
     return this._core.run("google.ai_overview", input, options);
+  }
+
+  /**
+   * Google AI Overview Preview
+   *
+   * Ask Google Search a prompt and receive the AI Overview as a searcher first sees it, before selecting Show more: the opening text and the sources linked inside it. When Google shows the whole overview without a Show more button, that is what you receive. For the complete expanded overview with every source Google listed, use google.ai_overview.
+   *
+   * Price: $0.0007 per request.
+   *
+   * @example
+   * const res = await client.google.aiOverviewPreview({ prompt: "How does photosynthesis work?" });
+   */
+  aiOverviewPreview(
+    input: GoogleAiOverviewPreviewInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleAiOverviewPreviewData>> {
+    return this._core.run("google.ai_overview_preview", input, options);
   }
 
   /**

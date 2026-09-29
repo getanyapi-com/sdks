@@ -9764,13 +9764,38 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0048,
-          "maxPer1kUsd": 4.8
+          "maxUsd": 0.0015,
+          "maxPer1kUsd": 1.5
         },
         "failoverMaxUsd": 0.0048,
         "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -9837,6 +9862,56 @@
             "language",
             "prompt",
             "scrapedAt",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
+      "id": "google.ai_overview_preview",
+      "slug": "google.ai_overview_preview",
+      "category": "search",
+      "name": "Google AI Overview Preview",
+      "description": "Ask Google Search a prompt and receive the AI Overview as a searcher first sees it, before selecting Show more: the opening text and the sources linked inside it. When Google shows the whole overview without a Show more button, that is what you receive. For the complete expanded overview with every source Google listed, use google.ai_overview.",
+      "method": "POST",
+      "path": "/v1/run/google.ai_overview_preview",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.0007,
+          "maxPer1kUsd": 0.7
+        },
+        "failoverMaxUsd": 0.0007,
+        "failoverMaxPer1kUsd": 0.7
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0007,
+            "maxPer1kUsd": 0.7
+          },
+          "source": {
+            "id": "anonymous-chameleon-ee237f60",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "fields": [
+            "answer",
+            "citations",
+            "index",
+            "prompt",
             "title",
             "url"
           ]
@@ -13681,8 +13756,8 @@
           "maxUsd": 0.0011,
           "maxPer1kUsd": 1.1
         },
-        "failoverMaxUsd": 0.0024,
-        "failoverMaxPer1kUsd": 2.4
+        "failoverMaxUsd": 0.0015,
+        "failoverMaxPer1kUsd": 1.5
       },
       "lanes": [
         {
@@ -13776,7 +13851,9 @@
             "videoUrl",
             "views"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",

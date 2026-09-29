@@ -2131,6 +2131,26 @@
     "items": 1,
     "replayed": false
   },
+  "google.ai_overview_preview": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "citations": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google.autocomplete": {
     "output": {
       "found": true,
