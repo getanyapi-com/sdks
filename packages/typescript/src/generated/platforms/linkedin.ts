@@ -3659,7 +3659,7 @@ export interface LinkedinProfileThinInput {
    */
   source?: string[];
   /**
-   * Full LinkedIn profile URL.
+   * Full LinkedIn person profile URL, carrying the profile id after /in/, for example https://www.linkedin.com/in/williamhgates. Any other LinkedIn URL names no person, so it is rejected instead of charged: send a company page to linkedin.company_thin or linkedin.company, and a post to linkedin.post.
    */
   url: string;
 }
