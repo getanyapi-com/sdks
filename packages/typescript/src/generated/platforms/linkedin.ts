@@ -5603,7 +5603,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts with rich author, engagement, attachment, and poll details.
    *
-   * Price: $0.004 per request.
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.searchPostsFull({ query: "artificial intelligence", datePosted: "last-week", limit: 10, sort: "relevance" });
