@@ -957,7 +957,7 @@ export class EmailFindingNamespace {
    *
    * Find named contacts and their work email addresses at a company domain, filtered by job title, seniority or department. Priced per returned contact, so limit is the cost control.
    *
-   * Price: $0 per request plus $0.036 per result (maximum $3.6).
+   * Price: $0.025 per request.
    *
    * @example
    * const res = await client.emailFinding.hunterDomain({ domain: "stripe.com", limit: 2, type: "personal" });
