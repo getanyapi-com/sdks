@@ -109,6 +109,7 @@ class LinkedinCompanyInput(TypedDict, total=False):
             Literal[
                 "city",
                 "companyType",
+                "foundedOn",
                 "fundingData",
                 "line1",
                 "pageVerified",
@@ -4168,7 +4169,7 @@ class LinkedinNamespace:
         employee count and range, follower count, founded year, headquarters and
         office locations, funding data, tagline, logo, website, and specialities.
 
-        Price: $0.00143 per request plus $0 per result (maximum $0.00143).
+        Price: $0.0011 per request.
 
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
@@ -4862,7 +4863,7 @@ class AsyncLinkedinNamespace:
         employee count and range, follower count, founded year, headquarters and
         office locations, funding data, tagline, logo, website, and specialities.
 
-        Price: $0.00143 per request plus $0 per result (maximum $0.00143).
+        Price: $0.0011 per request.
 
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")

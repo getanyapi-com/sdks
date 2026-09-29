@@ -383,6 +383,7 @@ export interface LinkedinCompanyInput {
   requireFields?: (
     | "city"
     | "companyType"
+    | "foundedOn"
     | "fundingData"
     | "line1"
     | "pageVerified"
@@ -5222,7 +5223,7 @@ export class LinkedinNamespace {
    *
    * Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.
    *
-   * Price: $0.00143 per request plus $0 per result (maximum $0.00143).
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.linkedin.company({ url: "https://www.linkedin.com/company/stripe" });
