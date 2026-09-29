@@ -541,6 +541,10 @@ import type {
   PersonEnrichmentQuickenrichInput,
 } from "./platforms/person_enrichment.js";
 import type {
+  PexelsSearchPhotosData,
+  PexelsSearchPhotosInput,
+} from "./platforms/pexels.js";
+import type {
   PinterestSearchData,
   PinterestSearchInput,
 } from "./platforms/pinterest.js";
@@ -853,6 +857,10 @@ import type {
   TwitterUserTweetsData,
   TwitterUserTweetsInput,
 } from "./platforms/twitter.js";
+import type {
+  UnsplashSearchPhotosData,
+  UnsplashSearchPhotosInput,
+} from "./platforms/unsplash.js";
 import type { UpworkJobsData, UpworkJobsInput } from "./platforms/upwork.js";
 import type {
   WalmartProductData,
@@ -2092,6 +2100,11 @@ export interface SkuMap {
     data: PersonEnrichmentQuickenrichData;
     result: RunResult<PersonEnrichmentQuickenrichData>;
   };
+  "pexels.search_photos": {
+    input: PexelsSearchPhotosInput;
+    data: PexelsSearchPhotosData;
+    result: RunResult<PexelsSearchPhotosData>;
+  };
   "pinterest.search": {
     input: PinterestSearchInput;
     data: PinterestSearchData;
@@ -2761,6 +2774,11 @@ export interface SkuMap {
     input: TwitterUserTweetsInput;
     data: TwitterUserTweetsData;
     result: RunResult<TwitterUserTweetsData>;
+  };
+  "unsplash.search_photos": {
+    input: UnsplashSearchPhotosInput;
+    data: UnsplashSearchPhotosData;
+    result: RunResult<UnsplashSearchPhotosData>;
   };
   "upwork.jobs": {
     input: UpworkJobsInput;

@@ -51,6 +51,7 @@ import { PeopleSearchNamespace } from "./platforms/people_search.js";
 import { PerplexityNamespace } from "./platforms/perplexity.js";
 import { PersonNamespace } from "./platforms/person.js";
 import { PersonEnrichmentNamespace } from "./platforms/person_enrichment.js";
+import { PexelsNamespace } from "./platforms/pexels.js";
 import { PinterestNamespace } from "./platforms/pinterest.js";
 import { PlaystoreNamespace } from "./platforms/playstore.js";
 import { PolymarketNamespace } from "./platforms/polymarket.js";
@@ -75,6 +76,7 @@ import { TripadvisorNamespace } from "./platforms/tripadvisor.js";
 import { TrustpilotNamespace } from "./platforms/trustpilot.js";
 import { TruthsocialNamespace } from "./platforms/truthsocial.js";
 import { TwitterNamespace } from "./platforms/twitter.js";
+import { UnsplashNamespace } from "./platforms/unsplash.js";
 import { UpworkNamespace } from "./platforms/upwork.js";
 import { WalmartNamespace } from "./platforms/walmart.js";
 import { WebNamespace } from "./platforms/web.js";
@@ -517,6 +519,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the pexels platform.
+   */
+  get pexels(): PexelsNamespace {
+    return (this._namespaces["pexels"] ??= new PexelsNamespace(
+      this._core,
+    )) as PexelsNamespace;
+  }
+
+  /**
    * Typed methods for the pinterest platform.
    */
   get pinterest(): PinterestNamespace {
@@ -729,6 +740,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["twitter"] ??= new TwitterNamespace(
       this._core,
     )) as TwitterNamespace;
+  }
+
+  /**
+   * Typed methods for the unsplash platform.
+   */
+  get unsplash(): UnsplashNamespace {
+    return (this._namespaces["unsplash"] ??= new UnsplashNamespace(
+      this._core,
+    )) as UnsplashNamespace;
   }
 
   /**

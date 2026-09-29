@@ -21950,6 +21950,120 @@
       "failover": false
     },
     {
+      "id": "pexels.search_photos",
+      "slug": "pexels.search_photos",
+      "category": "search",
+      "name": "Pexels Photo Search",
+      "description": "Search Pexels for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Pexels page.",
+      "method": "POST",
+      "path": "/v1/run/pexels.search_photos",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "linear",
+          "unit": "result",
+          "baseUsd": 0.00055,
+          "perUnitUsd": 0.0033,
+          "maxUsd": 0.0666,
+          "maxPer1kUsd": 66.6
+        },
+        "failoverMaxUsd": 0.0933,
+        "failoverMaxPer1kUsd": 93.3
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00055,
+            "perUnitUsd": 0.0033,
+            "maxUsd": 0.0666,
+            "maxPer1kUsd": 66.6
+          },
+          "source": {
+            "id": "anonymous-octopus",
+            "name": "Octopus",
+            "kind": "anonymous",
+            "artworkKey": "octopus"
+          },
+          "fields": [
+            "alt",
+            "color",
+            "colors",
+            "createdUtc",
+            "downloadUrl",
+            "height",
+            "id",
+            "image",
+            "imageMedium",
+            "imageOriginal",
+            "license",
+            "orientation",
+            "photographer",
+            "photographerAvatarUrl",
+            "photographerInstagramUsername",
+            "photographerLocation",
+            "photographerUrl",
+            "photographerUsername",
+            "photos",
+            "publishedUtc",
+            "tags",
+            "thumbnail",
+            "title",
+            "url",
+            "width"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.0125,
+            "perUnitUsd": 0.00404,
+            "maxUsd": 0.0933,
+            "maxPer1kUsd": 93.3
+          },
+          "source": {
+            "id": "anonymous-gecko",
+            "name": "Gecko",
+            "kind": "anonymous",
+            "artworkKey": "gecko"
+          },
+          "fields": [
+            "alt",
+            "color",
+            "colors",
+            "createdUtc",
+            "downloadUrl",
+            "height",
+            "id",
+            "image",
+            "imageMedium",
+            "imageOriginal",
+            "license",
+            "orientation",
+            "photographer",
+            "photographerAvatarUrl",
+            "photographerInstagramUsername",
+            "photographerLocation",
+            "photographerUrl",
+            "photographerUsername",
+            "photos",
+            "publishedUtc",
+            "thumbnail",
+            "title",
+            "url",
+            "width"
+          ]
+        }
+      ],
+      "tryEligible": false,
+      "failover": true
+    },
+    {
       "id": "pinterest.search",
       "slug": "pinterest.search",
       "category": "social",
@@ -36179,6 +36293,85 @@
       "tryEligible": true,
       "tryMaxItems": 3,
       "failover": true
+    },
+    {
+      "id": "unsplash.search_photos",
+      "slug": "unsplash.search_photos",
+      "category": "search",
+      "name": "Unsplash Photo Search",
+      "description": "Search Unsplash for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Unsplash page.",
+      "method": "POST",
+      "path": "/v1/run/unsplash.search_photos",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "linear",
+          "unit": "result",
+          "baseUsd": 0.00055,
+          "perUnitUsd": 0.00165,
+          "maxUsd": 0.0336,
+          "maxPer1kUsd": 33.6
+        },
+        "failoverMaxUsd": 0.0336,
+        "failoverMaxPer1kUsd": 33.6
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00055,
+            "perUnitUsd": 0.00165,
+            "maxUsd": 0.0336,
+            "maxPer1kUsd": 33.6
+          },
+          "source": {
+            "id": "anonymous-octopus",
+            "name": "Octopus",
+            "kind": "anonymous",
+            "artworkKey": "octopus"
+          },
+          "fields": [
+            "alt",
+            "blurHash",
+            "color",
+            "createdUtc",
+            "description",
+            "downloadUrl",
+            "height",
+            "id",
+            "image",
+            "imageFull",
+            "imageOriginal",
+            "imageSmall",
+            "likes",
+            "photographer",
+            "photographerAvatarUrl",
+            "photographerBio",
+            "photographerForHire",
+            "photographerInstagramUsername",
+            "photographerLocation",
+            "photographerTotalLikes",
+            "photographerTotalPhotos",
+            "photographerTwitterUsername",
+            "photographerUrl",
+            "photographerUsername",
+            "photographerWebsite",
+            "photos",
+            "sponsored",
+            "thumbnail",
+            "updatedUtc",
+            "url",
+            "width"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": false
     },
     {
       "id": "upwork.jobs",

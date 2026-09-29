@@ -4358,6 +4358,25 @@
     "items": 1,
     "replayed": false
   },
+  "pexels.search_photos": {
+    "output": {
+      "found": true,
+      "data": {
+        "photos": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "image": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "pinterest.search": {
     "output": {
       "found": true,
@@ -7111,6 +7130,25 @@
             "views": 1,
             "bookmarks": 1,
             "isPinned": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "unsplash.search_photos": {
+    "output": {
+      "found": true,
+      "data": {
+        "photos": [
+          {
+            "id": "sample",
+            "url": "https://example.com/x",
+            "image": "https://example.com/x",
             "_extra": "passthrough"
           }
         ]
