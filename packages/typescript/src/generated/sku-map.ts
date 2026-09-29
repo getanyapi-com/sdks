@@ -898,6 +898,8 @@ import type {
   YoutubeChannelLivesInput,
   YoutubeChannelPlaylistsData,
   YoutubeChannelPlaylistsInput,
+  YoutubeChannelPublicEmailData,
+  YoutubeChannelPublicEmailInput,
   YoutubeChannelShortsData,
   YoutubeChannelShortsInput,
   YoutubeChannelVideosData,
@@ -2854,6 +2856,11 @@ export interface SkuMap {
     input: YoutubeChannelPlaylistsInput;
     data: YoutubeChannelPlaylistsData;
     result: RunResult<YoutubeChannelPlaylistsData>;
+  };
+  "youtube.channel_public_email": {
+    input: YoutubeChannelPublicEmailInput;
+    data: YoutubeChannelPublicEmailData;
+    result: RunResult<YoutubeChannelPublicEmailData>;
   };
   "youtube.channel_shorts": {
     input: YoutubeChannelShortsInput;

@@ -116,6 +116,23 @@ class YoutubeChannelPlaylistsInput(TypedDict, total=False):
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class YoutubeChannelPublicEmailInput(TypedDict, total=False):
+    """Input for YouTube Channel Public Email."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    channelId: NotRequired[str]
+    """YouTube channel ID (UC...)."""
+    handle: NotRequired[str]
+    """YouTube channel handle, with or without the leading @."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class YoutubeChannelShortsInput(TypedDict, total=False):
     """Input for YouTube Channel Shorts."""
 
@@ -550,6 +567,14 @@ class YoutubeChannelPlaylistsPlaylist(BaseModel):
         default=None,
         alias="videoUrl",
         description="Watch URL of the playlist's lead video.",
+    )
+
+
+class YoutubeChannelPublicEmailData(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    email: str = Field(
+        description="The email address written in the channel's public description. A description holding several addresses returns one of them."
     )
 
 
@@ -1468,6 +1493,29 @@ class YoutubeNamespace:
             options=options,
         )
 
+    def channel_public_email(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeChannelPublicEmailInput],
+    ) -> RunResult[YoutubeChannelPublicEmailData]:
+        """YouTube Channel Public Email
+
+        Get the email address a YouTube creator writes in the channel's public
+        description, the text anyone can read on the About tab. It never returns the
+        business email YouTube hides behind the View email address button;
+        youtube.channel_contact reveals that one.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.youtube.channel_public_email(handle="@mkbhd")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "youtube.channel_public_email", dict(input), options
+        )
+        return RunResult[YoutubeChannelPublicEmailData].model_validate(raw)
+
     def channel_shorts(
         self,
         *,
@@ -2084,6 +2132,29 @@ class AsyncYoutubeNamespace:
             bare=False,
             options=options,
         )
+
+    async def channel_public_email(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubeChannelPublicEmailInput],
+    ) -> RunResult[YoutubeChannelPublicEmailData]:
+        """YouTube Channel Public Email
+
+        Get the email address a YouTube creator writes in the channel's public
+        description, the text anyone can read on the About tab. It never returns the
+        business email YouTube hides behind the View email address button;
+        youtube.channel_contact reveals that one.
+
+        Price: $0.0012 per request.
+
+        Example:
+            res = client.youtube.channel_public_email(handle="@mkbhd")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "youtube.channel_public_email", dict(input), options
+        )
+        return RunResult[YoutubeChannelPublicEmailData].model_validate(raw)
 
     async def channel_shorts(
         self,

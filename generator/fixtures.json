@@ -7464,6 +7464,19 @@
     "items": 1,
     "replayed": false
   },
+  "youtube.channel_public_email": {
+    "output": {
+      "found": true,
+      "data": {
+        "email": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "youtube.channel_shorts": {
     "output": {
       "found": true,
