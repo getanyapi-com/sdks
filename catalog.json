@@ -39041,6 +39041,50 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "fields": [
+            "durationSeconds",
+            "language",
+            "segments",
+            "startSeconds",
+            "text",
+            "transcript"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "fields": [
+            "durationSeconds",
+            "language",
+            "segments",
+            "startSeconds",
+            "text",
+            "transcript"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },

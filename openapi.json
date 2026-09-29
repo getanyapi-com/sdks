@@ -227633,7 +227633,11 @@
                   },
                   "region": {
                     "default": "us",
-                    "description": "Lowercase two-letter country code of the TikTok Shop market (e.g. us).",
+                    "description": "Country code of the TikTok Shop market. Only the US market is served; creators in other markets are not available.",
+                    "enum": [
+                      "us",
+                      "US"
+                    ],
                     "type": "string"
                   },
                   "source": {
@@ -265331,7 +265335,7 @@
     },
     "/v1/run/youtube.video_transcript": {
       "post": {
-        "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript pricing and uptime](https://getanyapi.com/api/youtube/video-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript pricing and uptime](https://getanyapi.com/api/youtube/video-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_video_transcript",
         "parameters": [
           {
