@@ -1682,6 +1682,10 @@ class InstagramReelTranscriptItem(BaseModel):
         default=None,
         description="The reel's short code, the part of its instagram.com URL after /reel/. Empty when the request supplied a CDN media URL.",
     )
+    source: Literal["audio_asr", "no_audio", "transcript_unavailable"] | None = Field(
+        default=None,
+        description='Why the transcript reads the way it does. "audio_asr" means the words come from speech recognition over the reel\'s audio; a reel with only music in it transcribes to an empty text this way, and its audio time is charged. "no_audio" means there was nothing to listen to: the video has no audio track, or the post is a photo with no video. The transcript is empty because that is the answer, and only the request price is charged, with no audio time. "transcript_unavailable" means recognition did not complete for this reel, so the transcript is empty for that reason rather than because the reel has no speech in it; the rest of the record is still what we resolved, and no audio time is charged.',
+    )
     text: str = Field(
         description="The full speech transcript. Empty when the reel has no detectable spoken audio, or when the post is a photo with no video to transcribe. Populated whenever the provider has data for the entity."
     )
@@ -3912,7 +3916,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0008 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -5088,7 +5092,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0008 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")

@@ -3319,10 +3319,10 @@ export interface TiktokVideoTranscriptFullData {
    */
   segments?: TiktokVideoTranscriptFullSegment[];
   /**
-   * How the text was produced. "audio_asr" means the words come from speech recognition over the video's audio, never from a caption track TikTok published - for TikTok's own captions, use tiktok.video_transcript. "transcript_unavailable" means recognition did not complete for this video, so the transcript is empty for that reason rather than because the video has no speech in it; the rest of the record is still what we resolved, and no audio time is charged. Populated whenever the provider has data for the entity.
-   * One of: audio_asr, transcript_unavailable.
+   * How the text was produced. "audio_asr" means the words come from speech recognition over the video's audio, never from a caption track TikTok published - for TikTok's own captions, use tiktok.video_transcript. "transcript_unavailable" means recognition did not complete for this video, so the transcript is empty for that reason rather than because the video has no speech in it; the rest of the record is still what we resolved, and no audio time is charged. "no_audio" means there was nothing to listen to: the video has no audio track, or the post has no video. The transcript is empty because that is the answer, the rest of the record is still what we resolved, and only the request price is charged, with no audio time. Populated whenever the provider has data for the entity.
+   * One of: audio_asr, no_audio, transcript_unavailable.
    */
-  source: "audio_asr" | "transcript_unavailable";
+  source: "audio_asr" | "no_audio" | "transcript_unavailable";
   /**
    * Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.
    * Format: uri.
