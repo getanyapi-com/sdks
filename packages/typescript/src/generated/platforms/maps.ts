@@ -584,6 +584,7 @@ export interface MapsSearchInput {
     | "cid"
     | "city"
     | "countryCode"
+    | "hours"
     | "permanentlyClosed"
     | "phone"
     | "postalCode"
@@ -627,6 +628,10 @@ export interface MapsSearchItem {
    * Two-letter country code.
    */
   countryCode?: string;
+  /**
+   * Opening hours by day: each element is an object with the day name and its hours.
+   */
+  hours?: MapsSearchHour[];
   /**
    * Primary place photo URL.
    */
@@ -687,6 +692,10 @@ export interface MapsSearchItem {
    * The place's own website URL, when listed.
    */
   website?: string;
+  [extra: string]: unknown;
+}
+
+export interface MapsSearchHour {
   [extra: string]: unknown;
 }
 

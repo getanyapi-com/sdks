@@ -63005,6 +63005,7 @@
                 "cid",
                 "city",
                 "countryCode",
+                "hours",
                 "permanentlyClosed",
                 "phone",
                 "postalCode",
@@ -63102,6 +63103,17 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "hours": {
+                    "kind": "array",
+                    "description": "Opening hours by day: each element is an object with the day name and its hours.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {},
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "image": {
                     "kind": "string",

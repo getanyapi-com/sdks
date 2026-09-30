@@ -167,6 +167,7 @@ class MapsSearchInput(TypedDict, total=False):
                 "cid",
                 "city",
                 "countryCode",
+                "hours",
                 "permanentlyClosed",
                 "phone",
                 "postalCode",
@@ -501,6 +502,10 @@ class MapsSearchItem(BaseModel):
     country_code: str | None = Field(
         default=None, alias="countryCode", description="Two-letter country code."
     )
+    hours: list[MapsSearchHour] | None = Field(
+        default=None,
+        description="Opening hours by day: each element is an object with the day name and its hours.",
+    )
     image: str | None = Field(default=None, description="Primary place photo URL.")
     latitude: float | None = Field(
         default=None, description="Latitude of the place in decimal degrees."
@@ -547,6 +552,10 @@ class MapsSearchItem(BaseModel):
     website: str | None = Field(
         default=None, description="The place's own website URL, when listed."
     )
+
+
+class MapsSearchHour(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class MapsSearchNearbyData(BaseModel):
