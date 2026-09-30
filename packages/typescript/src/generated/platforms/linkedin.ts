@@ -3890,6 +3890,352 @@ export interface LinkedinSearchCompaniesData {
 }
 
 /**
+ * Input for LinkedIn Fast Leads List (linkedin.search_leads).
+ */
+export interface LinkedinSearchLeadsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Filter by current company size (employee count). Codes: A=Self-Employed, B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+.
+   */
+  companyHeadcount?: ("A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I")[];
+  /**
+   * Filter by the location of the person's current company headquarters, by place name (e.g. ['United States']). Commas are not allowed in a value. Up to 70 values.
+   */
+  companyHeadquarterLocations?: string[];
+  /**
+   * Filter to people who currently work at any of these companies, by name (e.g. ['Google','Meta']). Multiple names widen the match (OR). Commas are not allowed in a value. Up to 50 values.
+   */
+  currentCompanies?: string[];
+  /**
+   * Exclude people whose current company is headquartered in any of these locations. Commas are not allowed in a value. Up to 70 values.
+   */
+  excludeCompanyHeadquarterLocations?: string[];
+  /**
+   * Exclude people who currently work at any of these companies, by name. Commas are not allowed in a value. Up to 50 values.
+   */
+  excludeCurrentCompanies?: string[];
+  /**
+   * Exclude people whose current job title matches any of these. Commas are not allowed in a value. Up to 70 values.
+   */
+  excludeCurrentJobTitles?: string[];
+  /**
+   * Exclude these job functions (same codes as functionIds). Up to 30 values.
+   */
+  excludeFunctionIds?: (
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20"
+    | "21"
+    | "22"
+    | "23"
+    | "24"
+    | "25"
+    | "26"
+  )[];
+  /**
+   * Exclude people in any of these locations, by place name. Commas are not allowed in a value. Up to 70 values.
+   */
+  excludeLocations?: string[];
+  /**
+   * Exclude people who previously worked at any of these companies, by name. Commas are not allowed in a value. Up to 50 values.
+   */
+  excludePastCompanies?: string[];
+  /**
+   * Exclude people who held any of these past job titles. Commas are not allowed in a value. Up to 70 values.
+   */
+  excludePastJobTitles?: string[];
+  /**
+   * Exclude people who attended any of these schools, by name. Commas are not allowed in a value. Up to 50 values.
+   */
+  excludeSchools?: string[];
+  /**
+   * Exclude these seniority levels (same codes as seniorityLevelIds). Up to 20 values.
+   */
+  excludeSeniorityLevelIds?: (
+    | "100"
+    | "110"
+    | "120"
+    | "130"
+    | "200"
+    | "210"
+    | "220"
+    | "300"
+    | "310"
+    | "320"
+  )[];
+  /**
+   * Filter to people whose first name matches any of these. Commas are not allowed in a value. Up to 70 values.
+   */
+  firstNames?: string[];
+  /**
+   * Filter by job function. Codes: 1=Accounting, 2=Administrative, 3=Arts and Design, 4=Business Development, 5=Community and Social Services, 6=Consulting, 7=Education, 8=Engineering, 9=Entrepreneurship, 10=Finance, 11=Healthcare Services, 12=Human Resources, 13=Information Technology, 14=Legal, 15=Marketing, 16=Media and Communication, 17=Military and Protective Services, 18=Operations, 19=Product Management, 20=Program and Project Management, 21=Purchasing, 22=Quality Assurance, 23=Real Estate, 24=Research, 25=Sales, 26=Customer Success and Support.
+   */
+  functionIds?: (
+    | "1"
+    | "2"
+    | "3"
+    | "4"
+    | "5"
+    | "6"
+    | "7"
+    | "8"
+    | "9"
+    | "10"
+    | "11"
+    | "12"
+    | "13"
+    | "14"
+    | "15"
+    | "16"
+    | "17"
+    | "18"
+    | "19"
+    | "20"
+    | "21"
+    | "22"
+    | "23"
+    | "24"
+    | "25"
+    | "26"
+  )[];
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional current job title filter (e.g. 'Software Engineer'). Commas are not allowed in a value.
+   */
+  jobTitle?: string;
+  /**
+   * Filter to people whose last name matches any of these. Commas are not allowed in a value. Up to 70 values.
+   */
+  lastNames?: string[];
+  /**
+   * Optional location filter (e.g. 'San Francisco'). Commas are not allowed in a value.
+   */
+  location?: string;
+  /**
+   * Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Each page is billed as one request.
+   * Range: minimum 1, maximum 100.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Filter to people who previously worked at any of these companies, by name. Commas are not allowed in a value. Up to 50 values.
+   */
+  pastCompanies?: string[];
+  /**
+   * Filter by a past job title the person held (e.g. ['Product Manager']). Commas are not allowed in a value. Up to 70 values.
+   */
+  pastJobTitles?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Filter by the profile's primary language.
+   */
+  profileLanguages?: (
+    | "Arabic"
+    | "English"
+    | "Spanish"
+    | "Portuguese"
+    | "Chinese"
+    | "French"
+    | "Italian"
+    | "Russian"
+    | "German"
+    | "Dutch"
+    | "Turkish"
+    | "Tagalog"
+    | "Polish"
+    | "Korean"
+    | "Japanese"
+    | "Malay"
+    | "Norwegian"
+    | "Danish"
+    | "Romanian"
+    | "Swedish"
+    | "Bahasa Indonesia"
+    | "Czech"
+  )[];
+  /**
+   * Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager').
+   */
+  query: string;
+  /**
+   * When true, only return people who recently changed jobs (a strong sales/recruiting signal).
+   */
+  recentlyChangedJobs?: boolean;
+  /**
+   * When true, only return people who recently posted on LinkedIn (an activity signal).
+   */
+  recentlyPostedOnLinkedIn?: boolean;
+  /**
+   * Filter to people who attended any of these schools, by name. Commas are not allowed in a value. Up to 50 values.
+   */
+  schools?: string[];
+  /**
+   * Filter by seniority level. Codes: 100=In Training, 110=Entry Level, 120=Senior, 130=Strategic, 200=Entry Level Manager, 210=Experienced Manager, 220=Director, 300=Vice President, 310=CXO, 320=Owner/Partner.
+   */
+  seniorityLevelIds?: (
+    | "100"
+    | "110"
+    | "120"
+    | "130"
+    | "200"
+    | "210"
+    | "220"
+    | "300"
+    | "310"
+    | "320"
+  )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Filter by tenure at the current company. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
+   */
+  yearsAtCurrentCompanyIds?: ("1" | "2" | "3" | "4" | "5")[];
+  /**
+   * Filter by total years of experience. Codes: 1=Less than 1 year, 2=1 to 2 years, 3=3 to 5 years, 4=6 to 10 years, 5=More than 10 years.
+   */
+  yearsOfExperienceIds?: ("1" | "2" | "3" | "4" | "5")[];
+}
+
+/**
+ * A LinkedIn lead: name, current positions, location, summary, and photo, plus a profile URL you can pass to linkedin.profile for the full record.
+ */
+export interface LinkedinSearchLeadsItem {
+  /**
+   * Profile summary text, when the member wrote one.
+   */
+  about?: string;
+  /**
+   * Current roles. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  currentPositions?: LinkedinSearchLeadsCurrentPosition[];
+  /**
+   * Member's first name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  firstName?: string;
+  /**
+   * LinkedIn member id, the last segment of `url`.
+   */
+  id?: string;
+  /**
+   * Profile picture URL. The query string is a signed token, so keep the URL intact. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Member's last name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  lastName?: string;
+  /**
+   * Member's location as a single string (city, region, country). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  location?: string;
+  /**
+   * Whether the member accepts messages from people outside their network.
+   */
+  openProfile?: boolean;
+  /**
+   * Whether the member has a LinkedIn Premium subscription.
+   */
+  premium?: boolean;
+  /**
+   * LinkedIn profile URL in its member-id form (https://www.linkedin.com/in/ACwAAA...). It opens the profile on LinkedIn, and passing it as `url` to linkedin.profile returns the full record. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * One current role.
+ */
+export interface LinkedinSearchLeadsCurrentPosition {
+  /**
+   * LinkedIn company id.
+   */
+  companyId?: string;
+  /**
+   * LinkedIn company page URL.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Company name.
+   */
+  companyName?: string;
+  /**
+   * When the role started, as `month` (1-12, when shown) and `year`.
+   */
+  startedOn?: {};
+  /**
+   * Time at this company, as `numYears` and `numMonths`.
+   */
+  tenureAtCompany?: {};
+  /**
+   * Time in this role, as `numYears` and `numMonths`.
+   */
+  tenureAtPosition?: {};
+  /**
+   * Job title.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Fast Leads List (linkedin.search_leads).
+ */
+export interface LinkedinSearchLeadsData {
+  /**
+   * Matching leads, up to 25 per page. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinSearchLeadsItem[];
+  /**
+   * The page this response holds, starting at 1.
+   */
+  page?: number;
+  /**
+   * How many pages of up to 25 leads the search has.
+   */
+  totalPages?: number;
+  /**
+   * How many leads match the search in total, across every page.
+   */
+  totalResults?: number;
+}
+
+/**
  * Input for LinkedIn Post Search (linkedin.search_posts).
  */
 export interface LinkedinSearchPostsInput {
@@ -5559,6 +5905,23 @@ export class LinkedinNamespace {
   }
 
   /**
+   * LinkedIn Fast Leads List
+   *
+   * Fast LinkedIn leads list: one call returns a page of up to 25 people matching a keyword and optional filters (location, job title, company, school, seniority, function, company size, and more), each with name, current positions, location, summary, and photo. Each lead's url opens the profile and can be passed to linkedin.profile for the full record. For full profiles in one call use linkedin.search_profiles.
+   *
+   * Price: $0.07 per request.
+   *
+   * @example
+   * const res = await client.linkedin.searchLeads({ query: "engineer", currentCompanies: ["Google"] });
+   */
+  searchLeads(
+    input: LinkedinSearchLeadsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinSearchLeadsData>> {
+    return this._core.run("linkedin.search_leads", input, options);
+  }
+
+  /**
    * LinkedIn Post Search
    *
    * Search public LinkedIn posts by keyword (text, link, publish date). Results come from search-engine matches over public LinkedIn posts and work best with English keywords.
@@ -5620,7 +5983,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.
    *
-   * Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
+   * Price: $0.08 per request plus $0.004 per result (maximum $0.18).
    *
    * @example
    * const res = await client.linkedin.searchProfiles({ query: "engineer", currentCompanies: ["Google"], limit: 3 });

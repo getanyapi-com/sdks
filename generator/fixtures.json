@@ -3778,6 +3778,23 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.search_leads": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.search_posts": {
     "output": {
       "found": true,
