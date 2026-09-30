@@ -38114,7 +38114,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -111309,7 +111309,7 @@
       "category": "social",
       "description": "List recent tweets posted in a Twitter/X community by URL.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -111511,7 +111511,7 @@
       "category": "social",
       "description": "Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -111737,7 +111737,7 @@
       "category": "social",
       "description": "List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; follow the response's nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -112179,7 +112179,7 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -112467,7 +112467,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00065,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -114280,7 +114280,7 @@
       "category": "social",
       "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -114614,7 +114614,7 @@
       "category": "social",
       "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -121632,7 +121632,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
