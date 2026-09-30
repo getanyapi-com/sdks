@@ -2,9 +2,11 @@
 
 import type {
   ClientCore,
+  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for App Store Reviews (appstore.reviews).
@@ -25,6 +27,10 @@ export interface AppstoreReviewsInput {
    */
   country?: string;
   /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of reviews.
+   */
+  cursor?: string;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
@@ -39,9 +45,11 @@ export interface AppstoreReviewsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `helpfulVotes` or `version`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `helpfulVotes` or `version`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: ("appId" | "helpfulVotes" | "url" | "version")[];
+  requireFields?: (
+    "appId" | "helpfulVotes" | "nextCursor" | "url" | "version"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -104,6 +112,10 @@ export interface AppstoreReviewsData {
    * Review records: star rating, review title and text, reviewer nickname, app version, and review date. Populated whenever the provider has data for the entity.
    */
   items: AppstoreReviewsItem[];
+  /**
+   * Opaque cursor for the next page of reviews, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -128,5 +140,25 @@ export class AppstoreNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<AppstoreReviewsData>> {
     return this._core.run("appstore.reviews", input, options);
+  }
+
+  /**
+   * Iterate every result of App Store Reviews across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterReviews(
+    input: AppstoreReviewsInput,
+    options?: RequestOptions,
+  ): Paginator<AppstoreReviewsItem, RunResult<AppstoreReviewsData>> {
+    return paginate<AppstoreReviewsItem, RunResult<AppstoreReviewsData>>(
+      this._core,
+      "appstore.reviews",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 }

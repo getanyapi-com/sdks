@@ -680,6 +680,10 @@ export interface TwitterRepliesInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of replies.
+   */
+  cursor?: string;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
@@ -693,6 +697,10 @@ export interface TwitterRepliesInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: "nextCursor"[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -793,6 +801,10 @@ export interface TwitterRepliesData {
    * Reply records for the requested post. Populated whenever the provider has data for the entity.
    */
   items: TwitterRepliesItem[];
+  /**
+   * Opaque cursor for the next page of replies, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -2054,6 +2066,26 @@ export class TwitterNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TwitterRepliesData>> {
     return this._core.run("twitter.replies", input, options);
+  }
+
+  /**
+   * Iterate every result of X / Twitter Post Replies across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterReplies(
+    input: TwitterRepliesInput,
+    options?: RequestOptions,
+  ): Paginator<TwitterRepliesItem, RunResult<TwitterRepliesData>> {
+    return paginate<TwitterRepliesItem, RunResult<TwitterRepliesData>>(
+      this._core,
+      "twitter.replies",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**

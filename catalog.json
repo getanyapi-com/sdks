@@ -1812,6 +1812,7 @@
             "helpfulVotes",
             "id",
             "items",
+            "nextCursor",
             "rating",
             "text",
             "title",
@@ -13783,8 +13784,8 @@
           "maxUsd": 0.0011,
           "maxPer1kUsd": 1.1
         },
-        "failoverMaxUsd": 0.0015,
-        "failoverMaxPer1kUsd": 1.5
+        "failoverMaxUsd": 0.0024,
+        "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
         {
@@ -13878,9 +13879,7 @@
             "videoUrl",
             "views"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -18599,6 +18598,44 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 36.23853211009175,
+            "latencyP50Ms": 7126,
+            "uptimeSample": 218,
+            "latencySample": 79,
+            "requests": 577,
+            "servedRequests": 79
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyUrl",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "location",
+            "name",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
             "id": "anonymous-giraffe",
             "name": "Giraffe",
             "kind": "anonymous",
@@ -18635,46 +18672,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 36.23853211009175,
-            "latencyP50Ms": 7126,
-            "uptimeSample": 218,
-            "latencySample": 79,
-            "requests": 577,
-            "servedRequests": 79
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyUrl",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "location",
-            "name",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
@@ -29210,6 +29207,7 @@
             "id",
             "image",
             "items",
+            "nextCursor",
             "text",
             "url",
             "videoUrl"
@@ -35201,6 +35199,7 @@
             "items",
             "likeCount",
             "media",
+            "nextCursor",
             "quoteCount",
             "replyCount",
             "repostCount",
@@ -37008,6 +37007,36 @@
             "maxPer1kUsd": 1
           },
           "source": {
+            "id": "anonymous-heron",
+            "name": "Heron",
+            "kind": "anonymous",
+            "artworkKey": "heron"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 93.44729344729345,
+            "latencyP50Ms": 4138,
+            "uptimeSample": 351,
+            "latencySample": 328,
+            "requests": 374,
+            "servedRequests": 328
+          },
+          "fields": [
+            "description",
+            "language",
+            "markdown",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00125,
+            "maxPer1kUsd": 1.25
+          },
+          "source": {
             "id": "anonymous-salamander",
             "name": "Salamander",
             "kind": "anonymous",
@@ -37028,36 +37057,6 @@
             "language",
             "markdown",
             "rawHtml",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
-          },
-          "source": {
-            "id": "anonymous-heron",
-            "name": "Heron",
-            "kind": "anonymous",
-            "artworkKey": "heron"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 93.44729344729345,
-            "latencyP50Ms": 4138,
-            "uptimeSample": 351,
-            "latencySample": 328,
-            "requests": 374,
-            "servedRequests": 328
-          },
-          "fields": [
-            "description",
-            "language",
-            "markdown",
             "title",
             "url"
           ]

@@ -165,6 +165,8 @@ class TiktokHashtagVideosInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of videos."""
     hashtag: Required[str]
     """TikTok hashtag to fetch videos for, without the # prefix (e.g. booktok)."""
     ignoreSources: NotRequired[list[str]]
@@ -174,9 +176,13 @@ class TiktokHashtagVideosInput(TypedDict, total=False):
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
-        list[Literal["commentCount", "likeCount", "playCount", "shareCount"]]
+        list[
+            Literal[
+                "commentCount", "likeCount", "nextCursor", "playCount", "shareCount"
+            ]
+        ]
     ]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `playCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it."""
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `playCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -1052,8 +1058,15 @@ class TiktokFollowingFollowing(BaseModel):
 
 
 class TiktokHashtagVideosData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[TiktokHashtagVideosItem] = Field(
         description="Recent TikTok video records for the hashtag. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -2863,6 +2876,29 @@ class TiktokNamespace:
         )
         return RunResult[TiktokHashtagVideosData].model_validate(raw)
 
+    def iter_hashtag_videos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokHashtagVideosInput],
+    ) -> Paginator[TiktokHashtagVideosItem, TiktokHashtagVideosData]:
+        """Iterate TikTok Hashtag Videos results, following pagination cursors.
+
+        Yields validated `TiktokHashtagVideosItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "tiktok.hashtag_videos",
+            dict(input),
+            "items",
+            item_model=TiktokHashtagVideosItem,
+            data_model=TiktokHashtagVideosData,
+            bare=False,
+            options=options,
+        )
+
     def live(
         self, *, options: RequestOptions | None = None, **input: Unpack[TiktokLiveInput]
     ) -> RunResult[TiktokLiveData]:
@@ -3950,6 +3986,29 @@ class AsyncTiktokNamespace:
             "tiktok.hashtag_videos", dict(input), options
         )
         return RunResult[TiktokHashtagVideosData].model_validate(raw)
+
+    def iter_hashtag_videos(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[TiktokHashtagVideosInput],
+    ) -> AsyncPaginator[TiktokHashtagVideosItem, TiktokHashtagVideosData]:
+        """Iterate TikTok Hashtag Videos results, following pagination cursors.
+
+        Yields validated `TiktokHashtagVideosItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "tiktok.hashtag_videos",
+            dict(input),
+            "items",
+            item_model=TiktokHashtagVideosItem,
+            data_model=TiktokHashtagVideosData,
+            bare=False,
+            options=options,
+        )
 
     async def live(
         self, *, options: RequestOptions | None = None, **input: Unpack[TiktokLiveInput]

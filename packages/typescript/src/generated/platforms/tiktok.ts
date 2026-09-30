@@ -655,6 +655,10 @@ export interface TiktokHashtagVideosInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of videos.
+   */
+  cursor?: string;
+  /**
    * TikTok hashtag to fetch videos for, without the # prefix (e.g. booktok).
    */
   hashtag: string;
@@ -673,9 +677,11 @@ export interface TiktokHashtagVideosInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `playCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `playCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: ("commentCount" | "likeCount" | "playCount" | "shareCount")[];
+  requireFields?: (
+    "commentCount" | "likeCount" | "nextCursor" | "playCount" | "shareCount"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -762,6 +768,10 @@ export interface TiktokHashtagVideosData {
    * Recent TikTok video records for the hashtag. Populated whenever the provider has data for the entity.
    */
   items: TiktokHashtagVideosItem[];
+  /**
+   * Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -3586,6 +3596,29 @@ export class TiktokNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TiktokHashtagVideosData>> {
     return this._core.run("tiktok.hashtag_videos", input, options);
+  }
+
+  /**
+   * Iterate every result of TikTok Hashtag Videos across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterHashtagVideos(
+    input: TiktokHashtagVideosInput,
+    options?: RequestOptions,
+  ): Paginator<TiktokHashtagVideosItem, RunResult<TiktokHashtagVideosData>> {
+    return paginate<
+      TiktokHashtagVideosItem,
+      RunResult<TiktokHashtagVideosData>
+    >(
+      this._core,
+      "tiktok.hashtag_videos",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**
