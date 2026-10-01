@@ -22516,7 +22516,7 @@
       "category": "shop",
       "description": "Retrieve recently sold eBay listings for any keyword with optional price-range, condition, category, sold-date, and sort filters, page by page (sold price, sale date, condition, seller, item details); ideal for pricing research.",
       "pricing": {
-        "priceUsd": 0.0135,
+        "priceUsd": 0.003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -22585,10 +22585,10 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25).",
+            "description": "Maximum number of results to return (1-60, default 25).",
             "minimum": 1,
-            "maximum": 25,
-            "default": null
+            "maximum": 60,
+            "default": 25
           },
           "listingType": {
             "kind": "string",
@@ -22881,7 +22881,7 @@
       "category": "shop",
       "description": "Retrieve recently sold eBay listings for any keyword with the sold price, sale date, condition, format, bids, and whether a Best Offer was accepted, without seller details; the lighter sibling of eBay Sold Listings for price comps.",
       "pricing": {
-        "priceUsd": 0.0135,
+        "priceUsd": 0.003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -22931,10 +22931,10 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25).",
+            "description": "Maximum number of results to return (1-60, default 25).",
             "minimum": 1,
-            "maximum": 25,
-            "default": null
+            "maximum": 60,
+            "default": 25
           },
           "listingType": {
             "kind": "string",

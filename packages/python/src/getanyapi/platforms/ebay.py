@@ -105,7 +105,7 @@ class EbaySoldListingsInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
+    """Maximum number of results to return (1-60, default 25). Range: 1 to 60. Default: 25."""
     listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
     """Restrict to a listing format; omit or use all for both (e.g. auction for auction sales only)."""
     maxPrice: NotRequired[float]
@@ -142,7 +142,7 @@ class EbaySoldListingsThinInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
+    """Maximum number of results to return (1-60, default 25). Range: 1 to 60. Default: 25."""
     listingType: NotRequired[Literal["all", "auction", "buy_it_now"]]
     """Restrict to a listing format; omit or use all for both (e.g. auction for auction sales only)."""
     maxPrice: NotRequired[float]
@@ -742,7 +742,7 @@ class EbayNamespace:
         (sold price, sale date, condition, seller, item details); ideal for pricing
         research.
 
-        Price: $0.0135 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.ebay.sold_listings(limit=10, query="iphone 13 pro", sort="ended_recently")
@@ -765,7 +765,7 @@ class EbayNamespace:
         without seller details; the lighter sibling of eBay Sold Listings for price
         comps.
 
-        Price: $0.0135 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.ebay.sold_listings_thin(limit=10, query="iphone 13 pro", sort="ended_recently")
@@ -859,7 +859,7 @@ class AsyncEbayNamespace:
         (sold price, sale date, condition, seller, item details); ideal for pricing
         research.
 
-        Price: $0.0135 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.ebay.sold_listings(limit=10, query="iphone 13 pro", sort="ended_recently")
@@ -882,7 +882,7 @@ class AsyncEbayNamespace:
         without seller details; the lighter sibling of eBay Sold Listings for price
         comps.
 
-        Price: $0.0135 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.ebay.sold_listings_thin(limit=10, query="iphone 13 pro", sort="ended_recently")

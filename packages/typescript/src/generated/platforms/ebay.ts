@@ -520,8 +520,9 @@ export interface EbaySoldListingsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-25, default 25).
-   * Range: minimum 1, maximum 25.
+   * Maximum number of results to return (1-60, default 25).
+   * Range: minimum 1, maximum 60.
+   * Default: 25.
    */
   limit?: number;
   /**
@@ -697,8 +698,9 @@ export interface EbaySoldListingsThinInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-25, default 25).
-   * Range: minimum 1, maximum 25.
+   * Maximum number of results to return (1-60, default 25).
+   * Range: minimum 1, maximum 60.
+   * Default: 25.
    */
   limit?: number;
   /**
@@ -868,7 +870,7 @@ export class EbayNamespace {
    *
    * Retrieve recently sold eBay listings for any keyword with optional price-range, condition, category, sold-date, and sort filters, page by page (sold price, sale date, condition, seller, item details); ideal for pricing research.
    *
-   * Price: $0.0135 per request.
+   * Price: $0.003 per request.
    *
    * @example
    * const res = await client.ebay.soldListings({ query: "iphone 13 pro", limit: 10, sort: "ended_recently" });
@@ -885,7 +887,7 @@ export class EbayNamespace {
    *
    * Retrieve recently sold eBay listings for any keyword with the sold price, sale date, condition, format, bids, and whether a Best Offer was accepted, without seller details; the lighter sibling of eBay Sold Listings for price comps.
    *
-   * Price: $0.0135 per request.
+   * Price: $0.003 per request.
    *
    * @example
    * const res = await client.ebay.soldListingsThin({ query: "iphone 13 pro", limit: 10, sort: "ended_recently" });
