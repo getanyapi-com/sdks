@@ -130,7 +130,7 @@ class WalmartNamespace:
         Fetch a Walmart product page by URL and get full product details (title,
         price, availability, ratings, images, and specs) in one normalized response.
 
-        Price: $0.0018 per request.
+        Price: $0.001 per request.
 
         Example:
             res = client.walmart.product(url="https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121")
@@ -158,7 +158,7 @@ class AsyncWalmartNamespace:
         Fetch a Walmart product page by URL and get full product details (title,
         price, availability, ratings, images, and specs) in one normalized response.
 
-        Price: $0.0018 per request.
+        Price: $0.001 per request.
 
         Example:
             res = client.walmart.product(url="https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121")
