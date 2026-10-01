@@ -3890,7 +3890,7 @@ export interface LinkedinSearchCompaniesData {
 }
 
 /**
- * Input for LinkedIn Fast Leads List (linkedin.search_leads).
+ * Input for LinkedIn Sales Navigator Lead Search (linkedin.search_leads).
  */
 export interface LinkedinSearchLeadsInput {
   /**
@@ -4036,7 +4036,7 @@ export interface LinkedinSearchLeadsInput {
    */
   location?: string;
   /**
-   * Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Each page is billed as one request.
+   * Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Also pages through a salesNavUrl search. Each page is billed as one request.
    * Range: minimum 1, maximum 100.
    * Default: 1.
    */
@@ -4082,9 +4082,9 @@ export interface LinkedinSearchLeadsInput {
     | "Czech"
   )[];
   /**
-   * Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager').
+   * Search keywords for LinkedIn leads: a role, name, or keywords (e.g. 'Marketing Manager'). Provide this or salesNavUrl.
    */
-  query: string;
+  query?: string;
   /**
    * When true, only return people who recently changed jobs (a strong sales/recruiting signal).
    */
@@ -4093,6 +4093,10 @@ export interface LinkedinSearchLeadsInput {
    * When true, only return people who recently posted on LinkedIn (an activity signal).
    */
   recentlyPostedOnLinkedIn?: boolean;
+  /**
+   * Alternatively, a LinkedIn Sales Navigator lead-search URL you built in Sales Navigator (e.g. https://www.linkedin.com/sales/search/people?query=(keywords%3Aengineer)). When set it overrides query and every other filter on this request; only page still applies.
+   */
+  salesNavUrl?: string;
   /**
    * Filter to people who attended any of these schools, by name. Commas are not allowed in a value. Up to 50 values.
    */
@@ -4214,7 +4218,7 @@ export interface LinkedinSearchLeadsCurrentPosition {
 }
 
 /**
- * The `data` payload of LinkedIn Fast Leads List (linkedin.search_leads).
+ * The `data` payload of LinkedIn Sales Navigator Lead Search (linkedin.search_leads).
  */
 export interface LinkedinSearchLeadsData {
   /**
@@ -5905,14 +5909,14 @@ export class LinkedinNamespace {
   }
 
   /**
-   * LinkedIn Fast Leads List
+   * LinkedIn Sales Navigator Lead Search
    *
-   * Fast LinkedIn leads list: one call returns a page of up to 25 people matching a keyword and optional filters (location, job title, company, school, seniority, function, company size, and more), each with name, current positions, location, summary, and photo. Each lead's url opens the profile and can be passed to linkedin.profile for the full record. For full profiles in one call use linkedin.search_profiles.
+   * LinkedIn lead search with Sales Navigator's search and filters: one call returns a page of up to 25 people matching a keyword and Sales Navigator lead filters (location, job title, current and past company, school, seniority, function, company size, and more), or the results of a Sales Navigator lead-search URL you built yourself. Each lead comes with name, current positions, location, summary, and photo, and its url opens the profile and can be passed to linkedin.profile for the full record. For full profiles in one call use linkedin.search_profiles.
    *
    * Price: $0.07 per request.
    *
    * @example
-   * const res = await client.linkedin.searchLeads({ query: "engineer", currentCompanies: ["Google"] });
+   * const res = await client.linkedin.searchLeads({ currentCompanies: ["Google"], query: "engineer" });
    */
   searchLeads(
     input: LinkedinSearchLeadsInput,

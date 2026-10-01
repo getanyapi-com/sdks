@@ -48308,7 +48308,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00095,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -58749,9 +58749,9 @@
       "platform": "linkedin",
       "action": "search_leads",
       "operationId": "linkedin_search_leads",
-      "name": "LinkedIn Fast Leads List",
+      "name": "LinkedIn Sales Navigator Lead Search",
       "category": "social",
-      "description": "Fast LinkedIn leads list: one call returns a page of up to 25 people matching a keyword and optional filters (location, job title, company, school, seniority, function, company size, and more), each with name, current positions, location, summary, and photo. Each lead's url opens the profile and can be passed to linkedin.profile for the full record. For full profiles in one call use linkedin.search_profiles.",
+      "description": "LinkedIn lead search with Sales Navigator's search and filters: one call returns a page of up to 25 people matching a keyword and Sales Navigator lead filters (location, job title, current and past company, school, seniority, function, company size, and more), or the results of a Sales Navigator lead-search URL you built yourself. Each lead comes with name, current positions, location, summary, and photo, and its url opens the profile and can be passed to linkedin.profile for the full record. For full profiles in one call use linkedin.search_profiles.",
       "pricing": {
         "priceUsd": 0.07,
         "baseUsd": null,
@@ -59047,7 +59047,7 @@
           },
           "page": {
             "kind": "integer",
-            "description": "Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Each page is billed as one request.",
+            "description": "Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Also pages through a salesNavUrl search. Each page is billed as one request.",
             "minimum": 1,
             "maximum": 100,
             "default": 1
@@ -59117,7 +59117,7 @@
           },
           "query": {
             "kind": "string",
-            "description": "Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager').",
+            "description": "Search keywords for LinkedIn leads: a role, name, or keywords (e.g. 'Marketing Manager'). Provide this or salesNavUrl.",
             "enum": null,
             "default": null,
             "format": null
@@ -59131,6 +59131,13 @@
             "kind": "boolean",
             "description": "When true, only return people who recently posted on LinkedIn (an activity signal).",
             "default": null
+          },
+          "salesNavUrl": {
+            "kind": "string",
+            "description": "Alternatively, a LinkedIn Sales Navigator lead-search URL you built in Sales Navigator (e.g. https://www.linkedin.com/sales/search/people?query=(keywords%3Aengineer)). When set it overrides query and every other filter on this request; only page still applies.",
+            "enum": null,
+            "default": null,
+            "format": null
           },
           "schools": {
             "kind": "array",
@@ -59211,9 +59218,7 @@
             "mustPopulate": false
           }
         },
-        "required": [
-          "query"
-        ],
+        "required": [],
         "open": false
       },
       "output": {

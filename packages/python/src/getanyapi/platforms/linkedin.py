@@ -563,7 +563,7 @@ class LinkedinSearchCompaniesInput(TypedDict, total=False):
 
 
 class LinkedinSearchLeadsInput(TypedDict, total=False):
-    """Input for LinkedIn Fast Leads List."""
+    """Input for LinkedIn Sales Navigator Lead Search."""
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
@@ -674,7 +674,7 @@ class LinkedinSearchLeadsInput(TypedDict, total=False):
     location: NotRequired[str]
     """Optional location filter (e.g. 'San Francisco'). Commas are not allowed in a value."""
     page: NotRequired[int]
-    """Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Each page is billed as one request. Range: 1 to 100. Default: 1."""
+    """Which page of up to 25 leads to return, starting at 1 (1-100, default 1). Also pages through a salesNavUrl search. Each page is billed as one request. Range: 1 to 100. Default: 1."""
     pastCompanies: NotRequired[list[str]]
     """Filter to people who previously worked at any of these companies, by name. Commas are not allowed in a value. Up to 50 values."""
     pastJobTitles: NotRequired[list[str]]
@@ -710,12 +710,14 @@ class LinkedinSearchLeadsInput(TypedDict, total=False):
         ]
     ]
     """Filter by the profile's primary language."""
-    query: Required[str]
-    """Search query for LinkedIn profiles: a role, name, or keywords (e.g. 'Marketing Manager')."""
+    query: NotRequired[str]
+    """Search keywords for LinkedIn leads: a role, name, or keywords (e.g. 'Marketing Manager'). Provide this or salesNavUrl."""
     recentlyChangedJobs: NotRequired[bool]
     """When true, only return people who recently changed jobs (a strong sales/recruiting signal)."""
     recentlyPostedOnLinkedIn: NotRequired[bool]
     """When true, only return people who recently posted on LinkedIn (an activity signal)."""
+    salesNavUrl: NotRequired[str]
+    """Alternatively, a LinkedIn Sales Navigator lead-search URL you built in Sales Navigator (e.g. https://www.linkedin.com/sales/search/people?query=(keywords%3Aengineer)). When set it overrides query and every other filter on this request; only page still applies."""
     schools: NotRequired[list[str]]
     """Filter to people who attended any of these schools, by name. Commas are not allowed in a value. Up to 50 values."""
     seniorityLevelIds: NotRequired[
@@ -4881,12 +4883,14 @@ class LinkedinNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchLeadsInput],
     ) -> RunResult[LinkedinSearchLeadsData]:
-        """LinkedIn Fast Leads List
+        """LinkedIn Sales Navigator Lead Search
 
-        Fast LinkedIn leads list: one call returns a page of up to 25 people
-        matching a keyword and optional filters (location, job title, company,
-        school, seniority, function, company size, and more), each with name,
-        current positions, location, summary, and photo. Each lead's url opens the
+        LinkedIn lead search with Sales Navigator's search and filters: one call
+        returns a page of up to 25 people matching a keyword and Sales Navigator
+        lead filters (location, job title, current and past company, school,
+        seniority, function, company size, and more), or the results of a Sales
+        Navigator lead-search URL you built yourself. Each lead comes with name,
+        current positions, location, summary, and photo, and its url opens the
         profile and can be passed to linkedin.profile for the full record. For full
         profiles in one call use linkedin.search_profiles.
 
@@ -5600,12 +5604,14 @@ class AsyncLinkedinNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[LinkedinSearchLeadsInput],
     ) -> RunResult[LinkedinSearchLeadsData]:
-        """LinkedIn Fast Leads List
+        """LinkedIn Sales Navigator Lead Search
 
-        Fast LinkedIn leads list: one call returns a page of up to 25 people
-        matching a keyword and optional filters (location, job title, company,
-        school, seniority, function, company size, and more), each with name,
-        current positions, location, summary, and photo. Each lead's url opens the
+        LinkedIn lead search with Sales Navigator's search and filters: one call
+        returns a page of up to 25 people matching a keyword and Sales Navigator
+        lead filters (location, job title, current and past company, school,
+        seniority, function, company size, and more), or the results of a Sales
+        Navigator lead-search URL you built yourself. Each lead comes with name,
+        current positions, location, summary, and photo, and its url opens the
         profile and can be passed to linkedin.profile for the full record. For full
         profiles in one call use linkedin.search_profiles.
 
