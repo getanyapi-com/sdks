@@ -37,6 +37,7 @@ import { GlassdoorNamespace } from "./platforms/glassdoor.js";
 import { GoogleNamespace } from "./platforms/google.js";
 import { GoogleAdsNamespace } from "./platforms/google_ads.js";
 import { GoogleFinanceNamespace } from "./platforms/google_finance.js";
+import { GoogleHotelsNamespace } from "./platforms/google_hotels.js";
 import { GoogleShoppingNamespace } from "./platforms/google_shopping.js";
 import { HackernewsNamespace } from "./platforms/hackernews.js";
 import { IndeedNamespace } from "./platforms/indeed.js";
@@ -391,6 +392,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["googleFinance"] ??= new GoogleFinanceNamespace(
       this._core,
     )) as GoogleFinanceNamespace;
+  }
+
+  /**
+   * Typed methods for the google_hotels platform.
+   */
+  get googleHotels(): GoogleHotelsNamespace {
+    return (this._namespaces["googleHotels"] ??= new GoogleHotelsNamespace(
+      this._core,
+    )) as GoogleHotelsNamespace;
   }
 
   /**

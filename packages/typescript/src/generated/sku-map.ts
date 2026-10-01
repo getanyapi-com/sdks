@@ -284,10 +284,6 @@ import type {
   GoogleAiOverviewPreviewInput,
   GoogleAutocompleteData,
   GoogleAutocompleteInput,
-  GoogleHotelDetailsData,
-  GoogleHotelDetailsInput,
-  GoogleHotelsData,
-  GoogleHotelsInput,
   GoogleImagesData,
   GoogleImagesInput,
   GoogleLensData,
@@ -319,6 +315,12 @@ import type {
   GoogleFinanceQuoteData,
   GoogleFinanceQuoteInput,
 } from "./platforms/google_finance.js";
+import type {
+  GoogleHotelsDetailsData,
+  GoogleHotelsDetailsInput,
+  GoogleHotelsSearchData,
+  GoogleHotelsSearchInput,
+} from "./platforms/google_hotels.js";
 import type {
   GoogleShoppingSearchData,
   GoogleShoppingSearchInput,
@@ -1543,16 +1545,6 @@ export interface SkuMap {
     data: GoogleAutocompleteData;
     result: RunResult<GoogleAutocompleteData>;
   };
-  "google.hotel_details": {
-    input: GoogleHotelDetailsInput;
-    data: GoogleHotelDetailsData;
-    result: RunResult<GoogleHotelDetailsData>;
-  };
-  "google.hotels": {
-    input: GoogleHotelsInput;
-    data: GoogleHotelsData;
-    result: RunResult<GoogleHotelsData>;
-  };
   "google.images": {
     input: GoogleImagesInput;
     data: GoogleImagesData;
@@ -1617,6 +1609,16 @@ export interface SkuMap {
     input: GoogleFinanceQuoteInput;
     data: GoogleFinanceQuoteData;
     result: RunResult<GoogleFinanceQuoteData>;
+  };
+  "google_hotels.details": {
+    input: GoogleHotelsDetailsInput;
+    data: GoogleHotelsDetailsData;
+    result: RunResult<GoogleHotelsDetailsData>;
+  };
+  "google_hotels.search": {
+    input: GoogleHotelsSearchInput;
+    data: GoogleHotelsSearchData;
+    result: RunResult<GoogleHotelsSearchData>;
   };
   "google_shopping.search": {
     input: GoogleShoppingSearchInput;

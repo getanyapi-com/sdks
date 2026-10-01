@@ -10080,208 +10080,6 @@
       "failover": false
     },
     {
-      "id": "google.hotel_details",
-      "slug": "google.hotel_details",
-      "category": "travel",
-      "name": "Google Hotel Details",
-      "description": "Get one hotel from Google Hotels by its property ID: address, phone, website, rating, nightly price, prices from each booking site, amenities and check-in times as normalized JSON.",
-      "method": "POST",
-      "path": "/v1/run/google.hotel_details",
-      "provider": "AnyAPI",
-      "execution": {
-        "mode": "sync"
-      },
-      "pricing": {
-        "from": {
-          "model": "flat",
-          "unit": "request",
-          "maxUsd": 0.0015,
-          "maxPer1kUsd": 1.5
-        },
-        "failoverMaxUsd": 0.0048,
-        "failoverMaxPer1kUsd": 4.8
-      },
-      "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 100,
-            "latencyP50Ms": 2646,
-            "uptimeSample": 1,
-            "latencySample": 1,
-            "requests": 1,
-            "servedRequests": 1
-          },
-          "fields": [
-            "address",
-            "amenities",
-            "available",
-            "checkInTime",
-            "checkOutTime",
-            "currency",
-            "latitude",
-            "longitude",
-            "name",
-            "phone",
-            "pricePerNight",
-            "prices",
-            "propertyToken",
-            "rating",
-            "reviewsCount",
-            "site",
-            "totalPrice",
-            "url",
-            "website"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
-          },
-          "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          },
-          "fields": [
-            "address",
-            "amenities",
-            "available",
-            "checkInTime",
-            "checkOutTime",
-            "currency",
-            "images",
-            "latitude",
-            "longitude",
-            "name",
-            "phone",
-            "pricePerNight",
-            "prices",
-            "propertyToken",
-            "rating",
-            "reviewsCount",
-            "site",
-            "stars",
-            "url",
-            "website"
-          ]
-        }
-      ],
-      "tryEligible": true,
-      "tryMaxItems": 3,
-      "failover": true
-    },
-    {
-      "id": "google.hotels",
-      "slug": "google.hotels",
-      "category": "travel",
-      "name": "Google Hotels Search",
-      "description": "Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.",
-      "method": "POST",
-      "path": "/v1/run/google.hotels",
-      "provider": "AnyAPI",
-      "execution": {
-        "mode": "sync"
-      },
-      "pricing": {
-        "from": {
-          "model": "flat",
-          "unit": "request",
-          "maxUsd": 0.0015,
-          "maxPer1kUsd": 1.5
-        },
-        "failoverMaxUsd": 0.0048,
-        "failoverMaxPer1kUsd": 4.8
-      },
-      "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 100,
-            "latencyP50Ms": 1328,
-            "uptimeSample": 2,
-            "latencySample": 2,
-            "requests": 2,
-            "servedRequests": 2
-          },
-          "fields": [
-            "amenities",
-            "currency",
-            "description",
-            "hotels",
-            "images",
-            "latitude",
-            "longitude",
-            "name",
-            "pricePerNight",
-            "propertyToken",
-            "rating",
-            "reviewsCount",
-            "stars",
-            "totalPrice"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
-          },
-          "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          },
-          "fields": [
-            "currency",
-            "hotels",
-            "images",
-            "latitude",
-            "longitude",
-            "name",
-            "pricePerNight",
-            "propertyToken",
-            "rating",
-            "reviewsCount",
-            "stars"
-          ]
-        }
-      ],
-      "tryEligible": true,
-      "tryMaxItems": 3,
-      "failover": true
-    },
-    {
       "id": "google.images",
       "slug": "google.images",
       "category": "search",
@@ -11202,6 +11000,190 @@
       "tryEligible": true,
       "tryMaxItems": 3,
       "failover": false
+    },
+    {
+      "id": "google_hotels.details",
+      "slug": "google_hotels.details",
+      "category": "travel",
+      "name": "Google Hotel Details",
+      "description": "Get one hotel from Google Hotels by its property ID: address, phone, website, rating, nightly price, prices from each booking site, amenities and check-in times as normalized JSON.",
+      "method": "POST",
+      "path": "/v1/run/google_hotels.details",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.0015,
+          "maxPer1kUsd": 1.5
+        },
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "fields": [
+            "address",
+            "amenities",
+            "available",
+            "checkInTime",
+            "checkOutTime",
+            "currency",
+            "latitude",
+            "longitude",
+            "name",
+            "phone",
+            "pricePerNight",
+            "prices",
+            "propertyToken",
+            "rating",
+            "reviewsCount",
+            "site",
+            "totalPrice",
+            "url",
+            "website"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
+          },
+          "source": {
+            "id": "anonymous-owl",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          },
+          "fields": [
+            "address",
+            "amenities",
+            "available",
+            "checkInTime",
+            "checkOutTime",
+            "currency",
+            "images",
+            "latitude",
+            "longitude",
+            "name",
+            "phone",
+            "pricePerNight",
+            "prices",
+            "propertyToken",
+            "rating",
+            "reviewsCount",
+            "site",
+            "stars",
+            "url",
+            "website"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
+      "id": "google_hotels.search",
+      "slug": "google_hotels.search",
+      "category": "travel",
+      "name": "Google Hotels Search",
+      "description": "Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.",
+      "method": "POST",
+      "path": "/v1/run/google_hotels.search",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.0015,
+          "maxPer1kUsd": 1.5
+        },
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "fields": [
+            "amenities",
+            "currency",
+            "description",
+            "hotels",
+            "images",
+            "latitude",
+            "longitude",
+            "name",
+            "pricePerNight",
+            "propertyToken",
+            "rating",
+            "reviewsCount",
+            "stars",
+            "totalPrice"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
+          },
+          "source": {
+            "id": "anonymous-owl",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          },
+          "fields": [
+            "currency",
+            "hotels",
+            "images",
+            "latitude",
+            "longitude",
+            "name",
+            "pricePerNight",
+            "propertyToken",
+            "rating",
+            "reviewsCount",
+            "stars"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
     },
     {
       "id": "google_shopping.search",

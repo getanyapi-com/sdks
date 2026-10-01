@@ -38,6 +38,7 @@ export * from "./platforms/glassdoor.js";
 export * from "./platforms/google.js";
 export * from "./platforms/google_ads.js";
 export * from "./platforms/google_finance.js";
+export * from "./platforms/google_hotels.js";
 export * from "./platforms/google_shopping.js";
 export * from "./platforms/hackernews.js";
 export * from "./platforms/indeed.js";

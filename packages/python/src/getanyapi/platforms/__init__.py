@@ -72,6 +72,11 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
         "GoogleFinanceNamespace",
         "AsyncGoogleFinanceNamespace",
     ),
+    "google_hotels": (
+        "google_hotels",
+        "GoogleHotelsNamespace",
+        "AsyncGoogleHotelsNamespace",
+    ),
     "google_shopping": (
         "google_shopping",
         "GoogleShoppingNamespace",
