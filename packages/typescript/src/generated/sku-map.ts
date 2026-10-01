@@ -284,6 +284,10 @@ import type {
   GoogleAiOverviewPreviewInput,
   GoogleAutocompleteData,
   GoogleAutocompleteInput,
+  GoogleHotelDetailsData,
+  GoogleHotelDetailsInput,
+  GoogleHotelsData,
+  GoogleHotelsInput,
   GoogleImagesData,
   GoogleImagesInput,
   GoogleLensData,
@@ -1538,6 +1542,16 @@ export interface SkuMap {
     input: GoogleAutocompleteInput;
     data: GoogleAutocompleteData;
     result: RunResult<GoogleAutocompleteData>;
+  };
+  "google.hotel_details": {
+    input: GoogleHotelDetailsInput;
+    data: GoogleHotelDetailsData;
+    result: RunResult<GoogleHotelDetailsData>;
+  };
+  "google.hotels": {
+    input: GoogleHotelsInput;
+    data: GoogleHotelsData;
+    result: RunResult<GoogleHotelsData>;
   };
   "google.images": {
     input: GoogleImagesInput;

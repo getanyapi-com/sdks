@@ -2169,6 +2169,37 @@
     "items": 1,
     "replayed": false
   },
+  "google.hotel_details": {
+    "output": {
+      "found": true,
+      "data": {
+        "propertyToken": "sample",
+        "name": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "google.hotels": {
+    "output": {
+      "found": true,
+      "data": {
+        "hotels": [
+          {
+            "propertyToken": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google.images": {
     "output": {
       "found": true,
