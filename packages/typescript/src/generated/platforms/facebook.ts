@@ -3232,7 +3232,7 @@ export class FacebookNamespace {
    *
    * Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.001 per request.
    *
    * @example
    * const res = await client.facebook.adsSearch({ query: "nike", country: "US", searchType: "keyword_exact_phrase" });
@@ -3312,10 +3312,10 @@ export class FacebookNamespace {
    *
    * List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.facebook.companyAds({ companyName: "nike", sortBy: "recent" });
+   * const res = await client.facebook.companyAds({ pageId: "15087023444", sortBy: "recent" });
    */
   companyAds(
     input: FacebookCompanyAdsInput,

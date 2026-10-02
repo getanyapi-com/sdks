@@ -27079,7 +27079,7 @@
       "category": "social",
       "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -27782,7 +27782,7 @@
       "category": "social",
       "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -27796,7 +27796,7 @@
       "inputTypeName": "FacebookCompanyAdsInput",
       "outputTypeName": "FacebookCompanyAdsData",
       "example": {
-        "companyName": "nike",
+        "pageId": "15087023444",
         "sortBy": "recent"
       },
       "input": {
@@ -39114,7 +39114,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
