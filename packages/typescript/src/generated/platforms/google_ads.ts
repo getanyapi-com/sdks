@@ -422,7 +422,7 @@ export class GoogleAdsNamespace {
    *
    * List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.googleAds.companyAds({ domain: "lululemon.com" });

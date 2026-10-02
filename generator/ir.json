@@ -27079,7 +27079,7 @@
       "category": "social",
       "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -27782,7 +27782,7 @@
       "category": "social",
       "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39114,7 +39114,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -100056,7 +100056,7 @@
       "category": "social",
       "description": "Fetch a Threads user's public profile (bio, follower count, verification, profile picture) by username.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -108073,7 +108073,7 @@
       "category": "social",
       "description": "Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

@@ -6273,8 +6273,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0011,
+          "maxPer1kUsd": 1.1
         },
         "failoverMaxUsd": 0.018,
         "failoverMaxPer1kUsd": 18
@@ -6284,8 +6284,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
           },
           "source": {
             "id": "anonymous-lemur",
@@ -6577,8 +6577,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0011,
+          "maxPer1kUsd": 1.1
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
@@ -6588,8 +6588,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
           },
           "source": {
             "id": "anonymous-lemur",
@@ -10974,8 +10974,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0011,
+          "maxPer1kUsd": 1.1
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
@@ -10985,8 +10985,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
           },
           "source": {
             "id": "anonymous-lemur",
@@ -15724,46 +15724,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00095,
-            "maxPer1kUsd": 0.95
-          },
-          "source": {
-            "id": "anonymous-pangolin",
-            "name": "Pangolin",
-            "kind": "anonymous",
-            "artworkKey": "pangolin"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 72.19730941704036,
-            "latencyP50Ms": 1270,
-            "uptimeSample": 2899,
-            "latencySample": 2093,
-            "requests": 2899,
-            "servedRequests": 2093
-          },
-          "fields": [
-            "avatarUrl",
-            "caption",
-            "comments",
-            "createdUtc",
-            "displayName",
-            "durationSeconds",
-            "id",
-            "likes",
-            "media",
-            "nextCursor",
-            "posts",
-            "url",
-            "userId",
-            "username",
-            "verified"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -15883,6 +15843,48 @@
             "name": "Fox",
             "kind": "anonymous",
             "artworkKey": "fox"
+          },
+          "fields": [
+            "avatarUrl",
+            "caption",
+            "comments",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "id",
+            "likes",
+            "media",
+            "nextCursor",
+            "posts",
+            "url",
+            "userId",
+            "username",
+            "verified"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00095,
+            "maxPer1kUsd": 0.95
+          },
+          "source": {
+            "id": "anonymous-pangolin",
+            "name": "Pangolin",
+            "kind": "anonymous",
+            "artworkKey": "pangolin"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 72.19730941704036,
+            "latencyP50Ms": 1270,
+            "uptimeSample": 2899,
+            "latencySample": 2093,
+            "requests": 2899,
+            "servedRequests": 2093
           },
           "fields": [
             "avatarUrl",
@@ -28587,8 +28589,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0011,
+          "maxPer1kUsd": 1.1
         },
         "failoverMaxUsd": 0.0036,
         "failoverMaxPer1kUsd": 3.6
@@ -28598,8 +28600,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
           },
           "source": {
             "id": "anonymous-walrus",
@@ -33244,8 +33246,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0011,
+          "maxPer1kUsd": 1.1
         },
         "failoverMaxUsd": 0.036,
         "failoverMaxPer1kUsd": 36
@@ -33255,8 +33257,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
           },
           "source": {
             "id": "anonymous-flamingo",

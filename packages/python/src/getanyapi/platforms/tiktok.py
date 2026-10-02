@@ -3657,7 +3657,7 @@ class TiktokNamespace:
         track to read, tiktok.video_transcript_full transcribes the audio with
         AnyAPI's own speech-to-text instead.
 
-        Price: $0.001 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.tiktok.video_transcript(url="https://www.tiktok.com/@washingtonpost/video/7609177768793787679")
@@ -4768,7 +4768,7 @@ class AsyncTiktokNamespace:
         track to read, tiktok.video_transcript_full transcribes the audio with
         AnyAPI's own speech-to-text instead.
 
-        Price: $0.001 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.tiktok.video_transcript(url="https://www.tiktok.com/@washingtonpost/video/7609177768793787679")
