@@ -8398,8 +8398,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-10-31",
-        "checkOut": "2026-11-02",
+        "checkIn": "2026-11-01",
+        "checkOut": "2026-11-03",
         "limit": 3,
         "query": "New York"
       },
@@ -39885,8 +39885,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-10-31",
-        "checkOut": "2026-11-02",
+        "checkIn": "2026-11-01",
+        "checkOut": "2026-11-03",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40484,8 +40484,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-10-31",
-        "checkOut": "2026-11-02",
+        "checkIn": "2026-11-01",
+        "checkOut": "2026-11-03",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -47983,7 +47983,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.027,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
