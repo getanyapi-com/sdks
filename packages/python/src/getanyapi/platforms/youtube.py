@@ -27,14 +27,14 @@ class YoutubeChannelInput(TypedDict, total=False):
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     channelId: NotRequired[str]
-    """YouTube channel ID (UC...)."""
+    """YouTube channel ID (UC...). Pass it directly when you have it: some sources accept only the ID and otherwise look up the handle first, which adds a step."""
     handle: NotRequired[str]
     """YouTube channel handle."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["views"]]]
+    requireFields: NotRequired[list[Literal["handle", "links", "videos", "views"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -413,6 +413,10 @@ class YoutubeChannelData(BaseModel):
     handle: str | None = Field(
         default=None, description='The channel\'s @handle, for example "@mkbhd".'
     )
+    links: list[YoutubeChannelLink] | None = Field(
+        default=None,
+        description="The links the channel lists in the Links section of its About page, in the order shown. Empty when the channel lists none, and absent when the serving source does not report links; name `links` in requireFields to be served only by a source that does.",
+    )
     subscribers: int
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -425,6 +429,16 @@ class YoutubeChannelData(BaseModel):
     views: int | None = Field(
         description="Lifetime view count across the channel's videos, or null when the serving source does not report it."
     )
+
+
+class YoutubeChannelLink(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None,
+        description="The label the channel gave the link, when the serving source reports it.",
+    )
+    url: str = Field(description="The link's address, starting with https://.")
 
 
 class YoutubeChannelCommunityPostsData(BaseModel):
@@ -1326,7 +1340,7 @@ class YoutubeNamespace:
         """YouTube Channel
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
-        description) by handle or channel ID.
+        description) and the links on its About page, by handle or channel ID.
 
         Price: $0.0005 per request.
 
@@ -1831,7 +1845,7 @@ class YoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1964,7 +1978,7 @@ class AsyncYoutubeNamespace:
         """YouTube Channel
 
         Fetch a YouTube channel's stats (subscribers, video count, total views,
-        description) by handle or channel ID.
+        description) and the links on its About page, by handle or channel ID.
 
         Price: $0.0005 per request.
 
@@ -2471,7 +2485,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.0012 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")

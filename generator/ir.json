@@ -38114,7 +38114,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -119561,7 +119561,7 @@
       "operationId": "youtube_channel",
       "name": "YouTube Channel",
       "category": "video",
-      "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.",
+      "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
         "priceUsd": 0.0005,
         "baseUsd": null,
@@ -119589,7 +119589,7 @@
           },
           "channelId": {
             "kind": "string",
-            "description": "YouTube channel ID (UC...).",
+            "description": "YouTube channel ID (UC...). Pass it directly when you have it: some sources accept only the ID and otherwise look up the handle first, which adds a step.",
             "enum": null,
             "default": null,
             "format": null
@@ -119625,6 +119625,9 @@
             "items": {
               "kind": "string",
               "enum": [
+                "handle",
+                "links",
+                "videos",
                 "views"
               ],
               "default": null,
@@ -119678,6 +119681,34 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "links": {
+              "kind": "array",
+              "description": "The links the channel lists in the Links section of its About page, in the order shown. Empty when the channel lists none, and absent when the serving source does not report links; name `links` in requireFields to be served only by a source that does.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "The label the channel gave the link, when the serving source reports it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The link's address, starting with https://.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
             },
             "subscribers": {
               "kind": "integer",
@@ -122522,7 +122553,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

@@ -18,7 +18,7 @@ export interface YoutubeChannelInput {
    */
   allowFallbacks?: boolean;
   /**
-   * YouTube channel ID (UC...).
+   * YouTube channel ID (UC...). Pass it directly when you have it: some sources accept only the ID and otherwise look up the handle first, which adds a step.
    */
   channelId?: string;
   /**
@@ -37,11 +37,23 @@ export interface YoutubeChannelInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "views"[];
+  requireFields?: ("handle" | "links" | "videos" | "views")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
+}
+
+export interface YoutubeChannelLink {
+  /**
+   * The label the channel gave the link, when the serving source reports it.
+   */
+  title?: string;
+  /**
+   * The link's address, starting with https://.
+   */
+  url: string;
+  [extra: string]: unknown;
 }
 
 /**
@@ -61,6 +73,10 @@ export interface YoutubeChannelData {
    * The channel's @handle, for example "@mkbhd".
    */
   handle?: string;
+  /**
+   * The links the channel lists in the Links section of its About page, in the order shown. Empty when the channel lists none, and absent when the serving source does not report links; name `links` in requireFields to be served only by a source that does.
+   */
+  links?: YoutubeChannelLink[];
   subscribers: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -1741,7 +1757,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Channel
    *
-   * Fetch a YouTube channel's stats (subscribers, video count, total views, description) by handle or channel ID.
+   * Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.
    *
    * Price: $0.0005 per request.
    *
@@ -2185,7 +2201,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.youtube.video({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
