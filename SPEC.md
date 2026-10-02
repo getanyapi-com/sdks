@@ -422,8 +422,9 @@ export interface RunResult<T> {
  *  accepted and kept as sent (Python: `Literal[...] | str`). `not_found`: the source states
  *  the target does not exist, or returned nothing for it. `suspended`: the platform has
  *  suspended the account. `unavailable`: the platform did not show this to the source: it may
- *  not exist, or it may be visible only to signed-in users. */
-export type NotFoundReason = "not_found" | "suspended" | "unavailable" | (string & {});
+ *  not exist, or it may be visible only to signed-in users. `too_long`: the video is too long
+ *  to transcribe. */
+export type NotFoundReason = "not_found" | "suspended" | "unavailable" | "too_long" | (string & {});
 
 /** Discriminated union on `found`. When found is false, data is null and `reason` says why
  *  (absent only on a response from a gateway older than the field). */
