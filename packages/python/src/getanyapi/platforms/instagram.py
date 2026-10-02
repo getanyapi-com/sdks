@@ -3288,7 +3288,7 @@ class InstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -3723,7 +3723,7 @@ class InstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.00175 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -4464,7 +4464,7 @@ class AsyncInstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -4899,7 +4899,7 @@ class AsyncInstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.00175 per request.
+        Price: $0.0024 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
