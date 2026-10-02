@@ -74,8 +74,9 @@ class OutputFound(BaseModel, Generic[T]):
 # as the gateway sent it. ``not_found``: the source states the target does not
 # exist, or returned nothing for it. ``suspended``: the platform has suspended the
 # account. ``unavailable``: the platform did not show this to the source: it may not
-# exist, or it may be visible only to signed-in users.
-NotFoundReason = Literal["not_found", "suspended", "unavailable"] | str
+# exist, or it may be visible only to signed-in users. ``too_long``: the video is
+# too long to transcribe.
+NotFoundReason = Literal["not_found", "suspended", "unavailable", "too_long"] | str
 
 
 class OutputNotFound(BaseModel):
