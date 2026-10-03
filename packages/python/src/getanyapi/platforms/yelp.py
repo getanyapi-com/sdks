@@ -138,7 +138,7 @@ class YelpNamespace:
         Price: $0.0035 per request.
 
         Example:
-            res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")
+            res = client.yelp.search(limit=20, location="Chicago, IL", query="pizza")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "yelp.search", dict(input), options
@@ -163,7 +163,7 @@ class AsyncYelpNamespace:
         Price: $0.0035 per request.
 
         Example:
-            res = client.yelp.search(limit=5, location="Chicago, IL", query="pizza")
+            res = client.yelp.search(limit=20, location="Chicago, IL", query="pizza")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "yelp.search", dict(input), options

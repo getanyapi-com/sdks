@@ -195,7 +195,7 @@ export class YelpNamespace {
    * Price: $0.0035 per request.
    *
    * @example
-   * const res = await client.yelp.search({ location: "Chicago, IL", query: "pizza", limit: 5 });
+   * const res = await client.yelp.search({ location: "Chicago, IL", query: "pizza", limit: 20 });
    */
   search(
     input: YelpSearchInput,

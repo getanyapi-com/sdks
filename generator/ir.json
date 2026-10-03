@@ -119211,7 +119211,7 @@
       "inputTypeName": "YelpSearchInput",
       "outputTypeName": "YelpSearchData",
       "example": {
-        "limit": 5,
+        "limit": 20,
         "location": "Chicago, IL",
         "query": "pizza"
       },
