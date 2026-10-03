@@ -8398,8 +8398,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-01",
-        "checkOut": "2026-11-03",
+        "checkIn": "2026-11-02",
+        "checkOut": "2026-11-04",
         "limit": 3,
         "query": "New York"
       },
@@ -33833,7 +33833,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38114,7 +38114,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39885,8 +39885,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-01",
-        "checkOut": "2026-11-03",
+        "checkIn": "2026-11-02",
+        "checkOut": "2026-11-04",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40484,8 +40484,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-01",
-        "checkOut": "2026-11-03",
+        "checkIn": "2026-11-02",
+        "checkOut": "2026-11-04",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -47983,7 +47983,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
