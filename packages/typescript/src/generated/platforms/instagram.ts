@@ -4567,7 +4567,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.
    *
-   * Price: $0.00095 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.instagram.userPosts({ handle: "nasa" });
