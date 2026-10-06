@@ -23147,7 +23147,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -119563,7 +119563,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -122553,7 +122553,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
