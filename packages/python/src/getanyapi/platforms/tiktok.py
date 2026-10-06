@@ -2734,7 +2734,7 @@ class TiktokNamespace:
         List the replies to a TikTok comment with cursor pagination (text, author,
         likes).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.comment_replies(commentId="7623828115408274207", url="https://www.tiktok.com/@stoolpresidente/video/7623818255903329566")
@@ -2778,7 +2778,7 @@ class TiktokNamespace:
         List the followers of a TikTok account by username, returning each
         follower's profile basics.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.followers(handle="stoolpresidente")
@@ -2822,7 +2822,7 @@ class TiktokNamespace:
         List the accounts a TikTok user follows (handle, display name, follower
         count, bio) by username.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.following(handle="stoolpresidente")
@@ -2994,7 +2994,7 @@ class TiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.00045 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -3146,7 +3146,7 @@ class TiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -3234,7 +3234,7 @@ class TiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy="relevance")
@@ -3323,7 +3323,7 @@ class TiktokNamespace:
         Get the search terms TikTok suggests for a keyword, each with its language
         and relative weight - the queries real TikTok users type around your topic.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.search_suggestions(query="protein powder")
@@ -3344,7 +3344,7 @@ class TiktokNamespace:
         Search TikTok's top results for a keyword (caption, views, likes, comments,
         shares) with cursor pagination.
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.search_top(query="funny")
@@ -3388,7 +3388,7 @@ class TiktokNamespace:
         Search TikTok accounts by keyword (handle, nickname, follower count) with
         cursor pagination.
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.search_users(query="chef")
@@ -3429,7 +3429,7 @@ class TiktokNamespace:
         Fetch details for a TikTok song or sound (title, author, duration, cover
         art, and how many videos use it).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.song(clipId="7439295283975702544")
@@ -3450,7 +3450,7 @@ class TiktokNamespace:
         List TikTok videos that use a given song or sound (with descriptions,
         authors, and engagement stats).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.song_videos(clipId="7439295283975702544")
@@ -3516,7 +3516,7 @@ class TiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -3564,7 +3564,7 @@ class TiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.00045 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -3585,7 +3585,7 @@ class TiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -3631,7 +3631,7 @@ class TiktokNamespace:
         the cover image, with duration and pixel dimensions. Photo-mode posts carry
         no video file - use tiktok.photos for those.
 
-        Price: $0.0009 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.video_download(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287")
@@ -3845,7 +3845,7 @@ class AsyncTiktokNamespace:
         List the replies to a TikTok comment with cursor pagination (text, author,
         likes).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.comment_replies(commentId="7623828115408274207", url="https://www.tiktok.com/@stoolpresidente/video/7623818255903329566")
@@ -3889,7 +3889,7 @@ class AsyncTiktokNamespace:
         List the followers of a TikTok account by username, returning each
         follower's profile basics.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.followers(handle="stoolpresidente")
@@ -3933,7 +3933,7 @@ class AsyncTiktokNamespace:
         List the accounts a TikTok user follows (handle, display name, follower
         count, bio) by username.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.following(handle="stoolpresidente")
@@ -4105,7 +4105,7 @@ class AsyncTiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.00045 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -4257,7 +4257,7 @@ class AsyncTiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -4345,7 +4345,7 @@ class AsyncTiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy="relevance")
@@ -4434,7 +4434,7 @@ class AsyncTiktokNamespace:
         Get the search terms TikTok suggests for a keyword, each with its language
         and relative weight - the queries real TikTok users type around your topic.
 
-        Price: $0.00095 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.search_suggestions(query="protein powder")
@@ -4455,7 +4455,7 @@ class AsyncTiktokNamespace:
         Search TikTok's top results for a keyword (caption, views, likes, comments,
         shares) with cursor pagination.
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.search_top(query="funny")
@@ -4499,7 +4499,7 @@ class AsyncTiktokNamespace:
         Search TikTok accounts by keyword (handle, nickname, follower count) with
         cursor pagination.
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.search_users(query="chef")
@@ -4540,7 +4540,7 @@ class AsyncTiktokNamespace:
         Fetch details for a TikTok song or sound (title, author, duration, cover
         art, and how many videos use it).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.song(clipId="7439295283975702544")
@@ -4561,7 +4561,7 @@ class AsyncTiktokNamespace:
         List TikTok videos that use a given song or sound (with descriptions,
         authors, and engagement stats).
 
-        Price: $0.0009 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.song_videos(clipId="7439295283975702544")
@@ -4627,7 +4627,7 @@ class AsyncTiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -4675,7 +4675,7 @@ class AsyncTiktokNamespace:
         Fetch a single TikTok video by URL with its caption and engagement counts
         (views, likes, comments, shares, saves).
 
-        Price: $0.00045 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.video(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m")
@@ -4696,7 +4696,7 @@ class AsyncTiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0007 per request.
+        Price: $0.0006 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -4742,7 +4742,7 @@ class AsyncTiktokNamespace:
         the cover image, with duration and pixel dimensions. Photo-mode posts carry
         no video file - use tiktok.photos for those.
 
-        Price: $0.0009 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.video_download(url="https://www.tiktok.com/@mrbeast/video/7654638524729216287")

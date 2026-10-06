@@ -8398,8 +8398,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-04",
-        "checkOut": "2026-11-06",
+        "checkIn": "2026-11-05",
+        "checkOut": "2026-11-07",
         "limit": 3,
         "query": "New York"
       },
@@ -39885,8 +39885,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-04",
-        "checkOut": "2026-11-06",
+        "checkIn": "2026-11-05",
+        "checkOut": "2026-11-07",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40484,8 +40484,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-04",
-        "checkOut": "2026-11-06",
+        "checkIn": "2026-11-05",
+        "checkOut": "2026-11-07",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -47983,7 +47983,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49147,7 +49147,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00095,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49417,7 +49417,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00095,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60743,7 +60743,7 @@
       "category": "social",
       "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -101690,7 +101690,7 @@
       "category": "social",
       "description": "List the replies to a TikTok comment with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -101886,7 +101886,7 @@
       "category": "social",
       "description": "List the followers of a TikTok account by username, returning each follower's profile basics.",
       "pricing": {
-        "priceUsd": 0.00095,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -102101,7 +102101,7 @@
       "category": "social",
       "description": "List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.",
       "pricing": {
-        "priceUsd": 0.00095,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -103346,7 +103346,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -104418,7 +104418,7 @@
       "category": "social",
       "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -104926,7 +104926,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -105463,7 +105463,7 @@
       "category": "social",
       "description": "Get the search terms TikTok suggests for a keyword, each with its language and relative weight - the queries real TikTok users type around your topic.",
       "pricing": {
-        "priceUsd": 0.00095,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -105595,7 +105595,7 @@
       "category": "social",
       "description": "Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -105898,7 +105898,7 @@
       "category": "social",
       "description": "Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -106107,7 +106107,7 @@
       "category": "social",
       "description": "Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -106277,7 +106277,7 @@
       "category": "social",
       "description": "List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -106842,7 +106842,7 @@
       "category": "social",
       "description": "Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -107425,7 +107425,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -107668,7 +107668,7 @@
       "category": "social",
       "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -107862,7 +107862,7 @@
       "category": "social",
       "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -114122,7 +114122,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0007,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -122553,7 +122553,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

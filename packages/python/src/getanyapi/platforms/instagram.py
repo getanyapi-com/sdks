@@ -3723,7 +3723,7 @@ class InstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.0024 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -3872,7 +3872,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.0008 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -3916,7 +3916,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0008 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -4899,7 +4899,7 @@ class AsyncInstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.0024 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -5048,7 +5048,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.0008 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -5092,7 +5092,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0008 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")

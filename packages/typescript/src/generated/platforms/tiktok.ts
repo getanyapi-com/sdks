@@ -3469,7 +3469,7 @@ export class TiktokNamespace {
    *
    * List the replies to a TikTok comment with cursor pagination (text, author, likes).
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.commentReplies({ commentId: "7623828115408274207", url: "https://www.tiktok.com/@stoolpresidente/video/7623818255903329566" });
@@ -3512,7 +3512,7 @@ export class TiktokNamespace {
    *
    * List the followers of a TikTok account by username, returning each follower's profile basics.
    *
-   * Price: $0.00095 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.followers({ handle: "stoolpresidente" });
@@ -3549,7 +3549,7 @@ export class TiktokNamespace {
    *
    * List the accounts a TikTok user follows (handle, display name, follower count, bio) by username.
    *
-   * Price: $0.00095 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.following({ handle: "stoolpresidente" });
@@ -3700,7 +3700,7 @@ export class TiktokNamespace {
    *
    * Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0004 per request.
    *
    * @example
    * const res = await client.tiktok.profile({ handle: "zachking" });
@@ -3834,7 +3834,7 @@ export class TiktokNamespace {
    *
    * List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.
    *
-   * Price: $0.0007 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.profileVideos({ handle: "zachking" });
@@ -3914,7 +3914,7 @@ export class TiktokNamespace {
    *
    * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
-   * Price: $0.0007 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: "relevance" });
@@ -3991,7 +3991,7 @@ export class TiktokNamespace {
    *
    * Get the search terms TikTok suggests for a keyword, each with its language and relative weight - the queries real TikTok users type around your topic.
    *
-   * Price: $0.00095 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.searchSuggestions({ query: "protein powder" });
@@ -4008,7 +4008,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's top results for a keyword (caption, views, likes, comments, shares) with cursor pagination.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.searchTop({ query: "funny" });
@@ -4045,7 +4045,7 @@ export class TiktokNamespace {
    *
    * Search TikTok accounts by keyword (handle, nickname, follower count) with cursor pagination.
    *
-   * Price: $0.0007 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.searchUsers({ query: "chef" });
@@ -4082,7 +4082,7 @@ export class TiktokNamespace {
    *
    * Fetch details for a TikTok song or sound (title, author, duration, cover art, and how many videos use it).
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.song({ clipId: "7439295283975702544" });
@@ -4099,7 +4099,7 @@ export class TiktokNamespace {
    *
    * List TikTok videos that use a given song or sound (with descriptions, authors, and engagement stats).
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.songVideos({ clipId: "7439295283975702544" });
@@ -4153,7 +4153,7 @@ export class TiktokNamespace {
    *
    * Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.
    *
-   * Price: $0.0008 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.trendingFeed({ region: "US" });
@@ -4187,7 +4187,7 @@ export class TiktokNamespace {
    *
    * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).
    *
-   * Price: $0.00045 per request.
+   * Price: $0.0004 per request.
    *
    * @example
    * const res = await client.tiktok.video({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m" });
@@ -4204,7 +4204,7 @@ export class TiktokNamespace {
    *
    * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.0007 per request.
+   * Price: $0.0006 per request.
    *
    * @example
    * const res = await client.tiktok.videoComments({ url: "https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m" });
@@ -4244,7 +4244,7 @@ export class TiktokNamespace {
    *
    * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.videoDownload({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287" });
