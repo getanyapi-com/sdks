@@ -197,7 +197,7 @@ class MapsSearchNearbyInput(TypedDict, total=False):
     language: NotRequired[str]
     """Two-letter language code for the results (e.g. en). Default: en."""
     limit: NotRequired[int]
-    """Maximum number of places to return in this response (1-20). Google Maps returns one viewport of about 20 places per call; page with cursor for more. Price is flat per request. Range: 1 to 20. Default: 20."""
+    """Accepted but does not change the page: every call returns one full Google Maps viewport of about 20 places, never trimmed, so nextCursor continues exactly where this response ended. Price is flat per request. Range: 1 to 20. Default: 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]

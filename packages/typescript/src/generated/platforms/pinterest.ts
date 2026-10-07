@@ -26,7 +26,7 @@ export interface PinterestSearchInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return from this page (1-20).
+   * Page size to ask for (1-20). Some sources return their whole page of about 20 pins whatever limit says: a page is never trimmed after the call, so nextCursor continues exactly where this response ended.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;

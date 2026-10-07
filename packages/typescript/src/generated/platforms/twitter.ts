@@ -404,7 +404,7 @@ export interface TwitterFollowersInput {
    */
   ignoreSources?: string[];
   /**
-   * Per-page maximum number of followers to return (default 200). A native page holds up to 200 accounts, so a larger limit still returns at most one native page; follow the response's nextCursor for more.
+   * Accepted but does not change the page: every call returns one full native page of followers (up to 200, depending on the source), never trimmed, so follow nextCursor to continue exactly where this response ended.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
@@ -504,7 +504,7 @@ export interface TwitterFollowingInput {
    */
   ignoreSources?: string[];
   /**
-   * Per-page maximum number of followed accounts to return (default 200). A limit larger than the native page still returns at most one native page; follow the response's nextCursor for more.
+   * Accepted but does not change the page: every call returns one full native page of followed accounts (about 50), never trimmed, so follow nextCursor to continue exactly where this response ended.
    * Range: minimum 1, maximum 100000.
    * Default: 200.
    */
@@ -825,7 +825,7 @@ export interface TwitterSearchInput {
    */
   ignoreSources?: string[];
   /**
-   * Per-page maximum number of results to return (1-50, default 20). A provider may return a smaller native page; follow nextCursor for more.
+   * Page size to ask for (1-50, default 20). Some sources honor it; others always return their whole native page of about 20. A page is never trimmed after the call, so follow nextCursor to continue exactly where this response ended.
    * Range: minimum 1, maximum 50.
    * Default: 20.
    */
@@ -1784,7 +1784,7 @@ export interface TwitterUserTweetsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of authored tweets and replies to return in THIS page (1-100). Sources return fewer - most cap at 20 - so read `nextCursor` and pass it back as `cursor` to walk further rather than asking for one large page.
+   * Page size to ask for (1-100, default 20). Some sources honor it; others always return their whole native page of about 20 authored tweets and replies. A page is never trimmed after the call, so follow nextCursor and pass it back as cursor to continue exactly where this response ended.
    * Range: minimum 1, maximum 100.
    * Default: 20.
    */
@@ -2173,7 +2173,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.twitter.searchUsers({ query: "ai agents" });

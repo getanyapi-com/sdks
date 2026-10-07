@@ -746,7 +746,7 @@ export interface MapsSearchNearbyInput {
    */
   language?: string;
   /**
-   * Maximum number of places to return in this response (1-20). Google Maps returns one viewport of about 20 places per call; page with cursor for more. Price is flat per request.
+   * Accepted but does not change the page: every call returns one full Google Maps viewport of about 20 places, never trimmed, so nextCursor continues exactly where this response ended. Price is flat per request.
    * Range: minimum 1, maximum 20.
    * Default: 20.
    */

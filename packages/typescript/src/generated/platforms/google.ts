@@ -745,7 +745,7 @@ export interface GoogleSearchInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of organic results to return in this response. Google stopped honoring bulk result counts in September 2025, so one page is about 10 results and a limit above 10 is accepted but will not return more than that. To go deeper, send page (about 10 results per page, each billed as a request) or use google.search_100, which returns up to 100 ranked results in a single call for one flat charge and is cheaper past roughly 20 results. Price is flat per request.
+   * Page size to ask for. Google returns about 10 organic results per page and stopped honoring larger counts in September 2025, so a limit above 10 still returns about 10. Some sources return their whole page of about 10 whatever limit says: a page is never trimmed after the call, so nextCursor always continues exactly where this response ended. To go deeper, send page (about 10 results per page, each billed as a request) or use google.search_100, which returns up to 100 ranked results in a single call for one flat charge and is cheaper past roughly 20 results. Price is flat per request.
    * Range: minimum 1, maximum 100.
    * Default: 10.
    */

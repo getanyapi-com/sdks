@@ -699,7 +699,7 @@ export interface RedditSubredditPostsInput {
    */
   ignoreSources?: string[];
   /**
-   * Requested number of posts. Note: the upstream returns one page (about 25 posts) per call; values larger than a page are not delivered in a single response. To fetch more, pass `nextCursor` back as `cursor`.
+   * Page size to ask for (up to 100). Some sources honor it; others always return their whole page of about 25 posts. A page is never trimmed after the call, so pass nextCursor back as cursor to continue exactly where this response ended.
    * Range: minimum 1, maximum 100.
    * Default: 25.
    */
@@ -1072,7 +1072,7 @@ export interface RedditUserCommentsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of comments to return in this response (a page cap, not a total). Defaults to 25.
+   * Page size to ask for (up to 100, default 25). Some sources honor it; others always return their whole page of about 25 comments. A page is never trimmed after the call, so pass nextCursor back as cursor to continue exactly where this response ended.
    * Range: minimum 1, maximum 100.
    * Default: 25.
    */
