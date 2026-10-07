@@ -457,6 +457,8 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     contextCountry: NotRequired[Literal["any", "US", "GB", "DE", "FR"]]
     """Regional LinkedIn context used when retrieving posts."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     includeQuotePosts: NotRequired[bool]
@@ -464,7 +466,7 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
     includeReposts: NotRequired[bool]
     """Whether to include reposts that share content without added commentary. Default: true."""
     limit: NotRequired[int]
-    """Maximum number of posts to return (1-100, default 10). Range: 1 to 100. Default: 10."""
+    """Most posts to return (1-100, default 10). Ignored on sources that page: each call returns one full page of 50 posts; follow nextCursor for more. Sources that cannot page return up to `limit` posts in one call with no nextCursor. Range: 1 to 100. Default: 10."""
     postedLimit: NotRequired[
         Literal["any", "1h", "24h", "week", "month", "3months", "6months", "year"]
     ]
@@ -473,6 +475,8 @@ class LinkedinProfilePostsFullInput(TypedDict, total=False):
     """Only return posts published on or after this date or timestamp, using a JavaScript-compatible date-time string."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["nextCursor"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -484,12 +488,16 @@ class LinkedinProfilePostsThinInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Pagination cursor from a previous response's nextCursor."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of posts to return (10-100, default 10). Range: 10 to 100. Default: 10."""
+    """Most posts to return (10-100, default 10). Ignored on sources that page: each call returns one full page of 50 posts; follow nextCursor for more. Sources that cannot page return up to `limit` posts in one call with no nextCursor. Range: 10 to 100. Default: 10."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["nextCursor"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -2844,8 +2852,15 @@ class LinkedinProfileCommentsAuthor(BaseModel):
 
 
 class LinkedinProfilePostsFullData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[LinkedinProfilePostsFullItem] = Field(
         description="Recent enriched posts published by the profile. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -3302,8 +3317,15 @@ class LinkedinProfilePostsFullSocialContent(BaseModel):
 
 
 class LinkedinProfilePostsThinData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[LinkedinProfilePostsThinItem] = Field(
         description="Recent posts published by the profile. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -4790,6 +4812,29 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinProfilePostsFullData].model_validate(raw)
 
+    def iter_profile_posts_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsFullInput],
+    ) -> Paginator[LinkedinProfilePostsFullItem, LinkedinProfilePostsFullData]:
+        """Iterate LinkedIn Profile Posts (full) results, following pagination cursors.
+
+        Yields validated `LinkedinProfilePostsFullItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "linkedin.profile_posts_full",
+            dict(input),
+            "items",
+            item_model=LinkedinProfilePostsFullItem,
+            data_model=LinkedinProfilePostsFullData,
+            bare=False,
+            options=options,
+        )
+
     def profile_posts_thin(
         self,
         *,
@@ -4810,6 +4855,29 @@ class LinkedinNamespace:
             "linkedin.profile_posts_thin", dict(input), options
         )
         return RunResult[LinkedinProfilePostsThinData].model_validate(raw)
+
+    def iter_profile_posts_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsThinInput],
+    ) -> Paginator[LinkedinProfilePostsThinItem, LinkedinProfilePostsThinData]:
+        """Iterate LinkedIn Profile Posts (basic) results, following pagination cursors.
+
+        Yields validated `LinkedinProfilePostsThinItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "linkedin.profile_posts_thin",
+            dict(input),
+            "items",
+            item_model=LinkedinProfilePostsThinItem,
+            data_model=LinkedinProfilePostsThinData,
+            bare=False,
+            options=options,
+        )
 
     def profile_reactions(
         self,
@@ -5511,6 +5579,29 @@ class AsyncLinkedinNamespace:
         )
         return RunResult[LinkedinProfilePostsFullData].model_validate(raw)
 
+    def iter_profile_posts_full(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsFullInput],
+    ) -> AsyncPaginator[LinkedinProfilePostsFullItem, LinkedinProfilePostsFullData]:
+        """Iterate LinkedIn Profile Posts (full) results, following pagination cursors.
+
+        Yields validated `LinkedinProfilePostsFullItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "linkedin.profile_posts_full",
+            dict(input),
+            "items",
+            item_model=LinkedinProfilePostsFullItem,
+            data_model=LinkedinProfilePostsFullData,
+            bare=False,
+            options=options,
+        )
+
     async def profile_posts_thin(
         self,
         *,
@@ -5531,6 +5622,29 @@ class AsyncLinkedinNamespace:
             "linkedin.profile_posts_thin", dict(input), options
         )
         return RunResult[LinkedinProfilePostsThinData].model_validate(raw)
+
+    def iter_profile_posts_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinProfilePostsThinInput],
+    ) -> AsyncPaginator[LinkedinProfilePostsThinItem, LinkedinProfilePostsThinData]:
+        """Iterate LinkedIn Profile Posts (basic) results, following pagination cursors.
+
+        Yields validated `LinkedinProfilePostsThinItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "linkedin.profile_posts_thin",
+            dict(input),
+            "items",
+            item_model=LinkedinProfilePostsThinItem,
+            data_model=LinkedinProfilePostsThinData,
+            bare=False,
+            options=options,
+        )
 
     async def profile_reactions(
         self,

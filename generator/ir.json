@@ -57747,10 +57747,10 @@
       },
       "tsNamespace": "linkedin",
       "tsMethod": "profilePostsFull",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterProfilePostsFull",
       "pyNamespace": "linkedin",
       "pyMethod": "profile_posts_full",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_profile_posts_full",
       "inputTypeName": "LinkedinProfilePostsFullInput",
       "outputTypeName": "LinkedinProfilePostsFullData",
       "example": {
@@ -57778,6 +57778,13 @@
             "default": null,
             "format": null
           },
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "ignoreSources": {
             "kind": "array",
             "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
@@ -57801,7 +57808,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of posts to return (1-100, default 10).",
+            "description": "Most posts to return (1-100, default 10). Ignored on sources that page: each call returns one full page of 50 posts; follow nextCursor for more. Sources that cannot page return up to `limit` posts in one call with no nextCursor.",
             "minimum": 1,
             "maximum": 100,
             "default": 10
@@ -57835,6 +57842,19 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "nextCursor"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -58563,6 +58583,14 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
             }
           },
           "required": [
@@ -58575,10 +58603,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "items",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -58597,10 +58625,10 @@
       },
       "tsNamespace": "linkedin",
       "tsMethod": "profilePostsThin",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterProfilePostsThin",
       "pyNamespace": "linkedin",
       "pyMethod": "profile_posts_thin",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_profile_posts_thin",
       "inputTypeName": "LinkedinProfilePostsThinInput",
       "outputTypeName": "LinkedinProfilePostsThinData",
       "example": {
@@ -58615,6 +58643,13 @@
             "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
           },
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "ignoreSources": {
             "kind": "array",
             "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
@@ -58628,7 +58663,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of posts to return (10-100, default 10).",
+            "description": "Most posts to return (10-100, default 10). Ignored on sources that page: each call returns one full page of 50 posts; follow nextCursor for more. Sources that cannot page return up to `limit` posts in one call with no nextCursor.",
             "minimum": 10,
             "maximum": 100,
             "default": 10
@@ -58639,6 +58674,19 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "nextCursor"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -58937,6 +58985,14 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
             }
           },
           "required": [
@@ -58949,10 +59005,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "items",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -114122,7 +114178,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

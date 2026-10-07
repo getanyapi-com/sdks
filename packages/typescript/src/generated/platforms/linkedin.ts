@@ -2717,6 +2717,10 @@ export interface LinkedinProfilePostsFullInput {
    */
   contextCountry?: "any" | "US" | "GB" | "DE" | "FR";
   /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
@@ -2731,7 +2735,7 @@ export interface LinkedinProfilePostsFullInput {
    */
   includeReposts?: boolean;
   /**
-   * Maximum number of posts to return (1-100, default 10).
+   * Most posts to return (1-100, default 10). Ignored on sources that page: each call returns one full page of 50 posts; follow nextCursor for more. Sources that cannot page return up to `limit` posts in one call with no nextCursor.
    * Range: minimum 1, maximum 100.
    * Default: 10.
    */
@@ -2751,6 +2755,10 @@ export interface LinkedinProfilePostsFullInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: "nextCursor"[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3216,6 +3224,10 @@ export interface LinkedinProfilePostsFullData {
    * Recent enriched posts published by the profile. Populated whenever the provider has data for the entity.
    */
   items: LinkedinProfilePostsFullItem[];
+  /**
+   * Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -3228,11 +3240,15 @@ export interface LinkedinProfilePostsThinInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of posts to return (10-100, default 10).
+   * Most posts to return (10-100, default 10). Ignored on sources that page: each call returns one full page of 50 posts; follow nextCursor for more. Sources that cannot page return up to `limit` posts in one call with no nextCursor.
    * Range: minimum 10, maximum 100.
    * Default: 10.
    */
@@ -3242,6 +3258,10 @@ export interface LinkedinProfilePostsThinInput {
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: "nextCursor"[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3422,6 +3442,10 @@ export interface LinkedinProfilePostsThinData {
    * Recent posts published by the profile. Populated whenever the provider has data for the entity.
    */
   items: LinkedinProfilePostsThinItem[];
+  /**
+   * Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -5841,6 +5865,32 @@ export class LinkedinNamespace {
   }
 
   /**
+   * Iterate every result of LinkedIn Profile Posts (full) across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterProfilePostsFull(
+    input: LinkedinProfilePostsFullInput,
+    options?: RequestOptions,
+  ): Paginator<
+    LinkedinProfilePostsFullItem,
+    RunResult<LinkedinProfilePostsFullData>
+  > {
+    return paginate<
+      LinkedinProfilePostsFullItem,
+      RunResult<LinkedinProfilePostsFullData>
+    >(
+      this._core,
+      "linkedin.profile_posts_full",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
+  }
+
+  /**
    * LinkedIn Profile Posts (basic)
    *
    * Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.
@@ -5855,6 +5905,32 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinProfilePostsThinData>> {
     return this._core.run("linkedin.profile_posts_thin", input, options);
+  }
+
+  /**
+   * Iterate every result of LinkedIn Profile Posts (basic) across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterProfilePostsThin(
+    input: LinkedinProfilePostsThinInput,
+    options?: RequestOptions,
+  ): Paginator<
+    LinkedinProfilePostsThinItem,
+    RunResult<LinkedinProfilePostsThinData>
+  > {
+    return paginate<
+      LinkedinProfilePostsThinItem,
+      RunResult<LinkedinProfilePostsThinData>
+    >(
+      this._core,
+      "linkedin.profile_posts_thin",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**
