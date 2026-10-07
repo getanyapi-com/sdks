@@ -117657,10 +117657,10 @@
       "category": "search",
       "description": "Capture a real-browser screenshot of any web page URL.",
       "pricing": {
-        "priceUsd": 0.00174,
-        "baseUsd": 0.00174,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.0013,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "web",
       "tsMethod": "screenshot",

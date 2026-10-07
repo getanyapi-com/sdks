@@ -342,7 +342,7 @@ export class WebNamespace {
    *
    * Capture a real-browser screenshot of any web page URL.
    *
-   * Price: $0.00174 per request plus $0 per result (maximum $0.00174).
+   * Price: $0.0013 per request.
    *
    * @example
    * const res = await client.web.screenshot({ url: "https://example.com" });
