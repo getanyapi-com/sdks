@@ -3108,7 +3108,7 @@ class InstagramNamespace:
         instagram.hashtag_top_posts; for older relevance-ranked results use
         instagram.search_hashtag.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.hashtag_recent_posts(hashtag="skincare")
@@ -4282,7 +4282,7 @@ class AsyncInstagramNamespace:
         instagram.hashtag_top_posts; for older relevance-ranked results use
         instagram.search_hashtag.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.hashtag_recent_posts(hashtag="skincare")

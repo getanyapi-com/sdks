@@ -3914,7 +3914,7 @@ export class InstagramNamespace {
    *
    * Instagram posts published under a hashtag, newest first, read from its live chronological feed rather than a web search index. Built for monitoring: results arrive within a couple of minutes of posting, so engagement counts are usually still zero and reels do not appear (Instagram keeps those on a separate tab). For engagement-ranked results use instagram.hashtag_top_posts; for older relevance-ranked results use instagram.search_hashtag.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.instagram.hashtagRecentPosts({ hashtag: "skincare" });
