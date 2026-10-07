@@ -257,6 +257,8 @@ class LinkedinJobsInput(TypedDict, total=False):
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     company: NotRequired[str]
     """Filter to a specific company by name (e.g. Google)."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of job listings."""
     easyApply: NotRequired[bool]
     """When true, only return jobs offering LinkedIn Easy Apply."""
     employmentType: NotRequired[
@@ -272,7 +274,7 @@ class LinkedinJobsInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less. Range: 1 to 25."""
+    """Accepted for compatibility and ignored: each call returns one full page of up to 25 jobs at one flat price per call; follow nextCursor for more. Range: 1 to 25."""
     location: NotRequired[str]
     """City, region, or country to search within (e.g. United States, San Francisco)."""
     postedLimit: NotRequired[Literal["1h", "24h", "week", "month"]]
@@ -304,6 +306,8 @@ class LinkedinJobsThinInput(TypedDict, total=False):
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     companyId: NotRequired[str]
     """Filter to a specific company by its LinkedIn numeric company id."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of job listings."""
     employmentType: NotRequired[
         Literal["full-time", "part-time", "contract", "internship", "temporary"]
     ]
@@ -319,7 +323,7 @@ class LinkedinJobsThinInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-25, default 25). Range: 1 to 25."""
+    """Accepted for compatibility and ignored: each call returns one full source page (10 or 25 jobs depending on source); follow nextCursor for more. Range: 1 to 25."""
     location: NotRequired[str]
     """City, region, or country to search within."""
     postedLimit: NotRequired[Literal["24h", "week", "month"]]
@@ -2105,8 +2109,15 @@ class LinkedinJobSalary(BaseModel):
 
 
 class LinkedinJobsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[LinkedinJobsItem] = Field(
         description="Full job listing records for the search. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of job listings, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -2248,8 +2259,15 @@ class LinkedinJobsSalary(BaseModel):
 
 
 class LinkedinJobsThinData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
     items: list[LinkedinJobsThinItem] = Field(
         description="Job listing index records for the search. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of job listings, or null when there are no more. Pass it back as cursor to continue.",
     )
 
 
@@ -4630,7 +4648,7 @@ class LinkedinNamespace:
         description, salary, applicant count, seniority, company details, and
         benefits. Up to 25 jobs per request.
 
-        Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
+        Price: $0.0286 per request plus $0 per result (maximum $0.0286).
 
         Example:
             res = client.linkedin.jobs(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -4639,6 +4657,29 @@ class LinkedinNamespace:
             "linkedin.jobs", dict(input), options
         )
         return RunResult[LinkedinJobsData].model_validate(raw)
+
+    def iter_jobs(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobsInput],
+    ) -> Paginator[LinkedinJobsItem, LinkedinJobsData]:
+        """Iterate LinkedIn Jobs results, following pagination cursors.
+
+        Yields validated `LinkedinJobsItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "linkedin.jobs",
+            dict(input),
+            "items",
+            item_model=LinkedinJobsItem,
+            data_model=LinkedinJobsData,
+            bare=False,
+            options=options,
+        )
 
     def jobs_thin(
         self,
@@ -4660,6 +4701,29 @@ class LinkedinNamespace:
             "linkedin.jobs_thin", dict(input), options
         )
         return RunResult[LinkedinJobsThinData].model_validate(raw)
+
+    def iter_jobs_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobsThinInput],
+    ) -> Paginator[LinkedinJobsThinItem, LinkedinJobsThinData]:
+        """Iterate LinkedIn Jobs (index) results, following pagination cursors.
+
+        Yields validated `LinkedinJobsThinItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "linkedin.jobs_thin",
+            dict(input),
+            "items",
+            item_model=LinkedinJobsThinItem,
+            data_model=LinkedinJobsThinData,
+            bare=False,
+            options=options,
+        )
 
     def post(
         self,
@@ -5397,7 +5461,7 @@ class AsyncLinkedinNamespace:
         description, salary, applicant count, seniority, company details, and
         benefits. Up to 25 jobs per request.
 
-        Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
+        Price: $0.0286 per request plus $0 per result (maximum $0.0286).
 
         Example:
             res = client.linkedin.jobs(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -5406,6 +5470,29 @@ class AsyncLinkedinNamespace:
             "linkedin.jobs", dict(input), options
         )
         return RunResult[LinkedinJobsData].model_validate(raw)
+
+    def iter_jobs(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobsInput],
+    ) -> AsyncPaginator[LinkedinJobsItem, LinkedinJobsData]:
+        """Iterate LinkedIn Jobs results, following pagination cursors.
+
+        Yields validated `LinkedinJobsItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "linkedin.jobs",
+            dict(input),
+            "items",
+            item_model=LinkedinJobsItem,
+            data_model=LinkedinJobsData,
+            bare=False,
+            options=options,
+        )
 
     async def jobs_thin(
         self,
@@ -5427,6 +5514,29 @@ class AsyncLinkedinNamespace:
             "linkedin.jobs_thin", dict(input), options
         )
         return RunResult[LinkedinJobsThinData].model_validate(raw)
+
+    def iter_jobs_thin(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinJobsThinInput],
+    ) -> AsyncPaginator[LinkedinJobsThinItem, LinkedinJobsThinData]:
+        """Iterate LinkedIn Jobs (index) results, following pagination cursors.
+
+        Yields validated `LinkedinJobsThinItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "linkedin.jobs_thin",
+            dict(input),
+            "items",
+            item_model=LinkedinJobsThinItem,
+            data_model=LinkedinJobsThinData,
+            bare=False,
+            options=options,
+        )
 
     async def post(
         self,

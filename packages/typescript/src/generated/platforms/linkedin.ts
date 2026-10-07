@@ -1426,6 +1426,10 @@ export interface LinkedinJobsInput {
    */
   company?: string;
   /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of job listings.
+   */
+  cursor?: string;
+  /**
    * When true, only return jobs offering LinkedIn Easy Apply.
    */
   easyApply?: boolean;
@@ -1451,7 +1455,7 @@ export interface LinkedinJobsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.
+   * Accepted for compatibility and ignored: each call returns one full page of up to 25 jobs at one flat price per call; follow nextCursor for more.
    * Range: minimum 1, maximum 25.
    */
   limit?: number;
@@ -1674,6 +1678,10 @@ export interface LinkedinJobsData {
    * Full job listing records for the search. Populated whenever the provider has data for the entity.
    */
   items: LinkedinJobsItem[];
+  /**
+   * Opaque cursor for the next page of job listings, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -1689,6 +1697,10 @@ export interface LinkedinJobsThinInput {
    * Filter to a specific company by its LinkedIn numeric company id.
    */
   companyId?: string;
+  /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of job listings.
+   */
+  cursor?: string;
   /**
    * Filter by employment type.
    * One of: full-time, part-time, contract, internship, temporary.
@@ -1715,7 +1727,7 @@ export interface LinkedinJobsThinInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-25, default 25).
+   * Accepted for compatibility and ignored: each call returns one full source page (10 or 25 jobs depending on source); follow nextCursor for more.
    * Range: minimum 1, maximum 25.
    */
   limit?: number;
@@ -1801,6 +1813,10 @@ export interface LinkedinJobsThinData {
    * Job listing index records for the search. Populated whenever the provider has data for the entity.
    */
   items: LinkedinJobsThinItem[];
+  /**
+   * Opaque cursor for the next page of job listings, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -5716,7 +5732,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.
    *
-   * Price: $0.0011 per request plus $0.0011 per result (maximum $0.0286).
+   * Price: $0.0286 per request plus $0 per result (maximum $0.0286).
    *
    * @example
    * const res = await client.linkedin.jobs({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
@@ -5726,6 +5742,26 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinJobsData>> {
     return this._core.run("linkedin.jobs", input, options);
+  }
+
+  /**
+   * Iterate every result of LinkedIn Jobs across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterJobs(
+    input: LinkedinJobsInput,
+    options?: RequestOptions,
+  ): Paginator<LinkedinJobsItem, RunResult<LinkedinJobsData>> {
+    return paginate<LinkedinJobsItem, RunResult<LinkedinJobsData>>(
+      this._core,
+      "linkedin.jobs",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**
@@ -5743,6 +5779,26 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinJobsThinData>> {
     return this._core.run("linkedin.jobs_thin", input, options);
+  }
+
+  /**
+   * Iterate every result of LinkedIn Jobs (index) across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterJobsThin(
+    input: LinkedinJobsThinInput,
+    options?: RequestOptions,
+  ): Paginator<LinkedinJobsThinItem, RunResult<LinkedinJobsThinData>> {
+    return paginate<LinkedinJobsThinItem, RunResult<LinkedinJobsThinData>>(
+      this._core,
+      "linkedin.jobs_thin",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**

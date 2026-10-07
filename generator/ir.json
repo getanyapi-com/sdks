@@ -55174,16 +55174,16 @@
       "description": "Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.",
       "pricing": {
         "priceUsd": 0.0286,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0011,
+        "baseUsd": 0.0286,
+        "perItemUsd": 0,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
       "tsMethod": "jobs",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterJobs",
       "pyNamespace": "linkedin",
       "pyMethod": "jobs",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_jobs",
       "inputTypeName": "LinkedinJobsInput",
       "outputTypeName": "LinkedinJobsData",
       "example": {
@@ -55203,6 +55203,13 @@
           "company": {
             "kind": "string",
             "description": "Filter to a specific company by name (e.g. Google).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of job listings.",
             "enum": null,
             "default": null,
             "format": null
@@ -55252,7 +55259,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25). You are billed per result returned, so a lower limit costs less.",
+            "description": "Accepted for compatibility and ignored: each call returns one full page of up to 25 jobs at one flat price per call; follow nextCursor for more.",
             "minimum": 1,
             "maximum": 25,
             "default": null
@@ -55643,6 +55650,14 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of job listings, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
             }
           },
           "required": [
@@ -55655,10 +55670,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "items",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -55677,10 +55692,10 @@
       },
       "tsNamespace": "linkedin",
       "tsMethod": "jobsThin",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterJobsThin",
       "pyNamespace": "linkedin",
       "pyMethod": "jobs_thin",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_jobs_thin",
       "inputTypeName": "LinkedinJobsThinInput",
       "outputTypeName": "LinkedinJobsThinData",
       "example": {
@@ -55700,6 +55715,13 @@
           "companyId": {
             "kind": "string",
             "description": "Filter to a specific company by its LinkedIn numeric company id.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of job listings.",
             "enum": null,
             "default": null,
             "format": null
@@ -55751,7 +55773,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-25, default 25).",
+            "description": "Accepted for compatibility and ignored: each call returns one full source page (10 or 25 jobs depending on source); follow nextCursor for more.",
             "minimum": 1,
             "maximum": 25,
             "default": null
@@ -55911,6 +55933,14 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of job listings, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
             }
           },
           "required": [
@@ -55923,10 +55953,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "items",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
