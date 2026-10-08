@@ -176,7 +176,7 @@ export interface WebScrapeInput {
    */
   source?: string[];
   /**
-   * The URL of the page to scrape.
+   * The full web address of the page to scrape, including its domain, for example https://example.com. The https:// prefix is optional.
    * Format: uri.
    */
   url: string;
