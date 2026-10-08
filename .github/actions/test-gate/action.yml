@@ -14,9 +14,9 @@ description: >-
 runs:
   using: composite
   steps:
-    - name: install pinned ruff (generated-Python formatting is part of byte determinism)
+    - name: install Python emitter test dependencies and pinned formatter
       shell: bash
-      run: pip install ruff==0.15.20
+      run: pip install 'pydantic>=2.5' ruff==0.15.20
     - name: generator typecheck + vitest
       shell: bash
       run: pnpm --filter @anyapi/generator run check
