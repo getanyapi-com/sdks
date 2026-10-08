@@ -64,8 +64,8 @@ export function titleCase(part: string): string {
  * snake_case a wire output field name for a Pythonic pydantic attribute (SPEC S3). Handles
  * camelCase (`reviewsCount` -> `reviews_count`), PascalCase, acronym runs (`URL` -> `url`,
  * `htmlURL` -> `html_url`), and existing snake_case (returned unchanged). Digits attach to
- * the preceding run. The result is lower_snake_case; a leading digit gets an underscore
- * prefix, and a Python keyword collision gets a trailing underscore (via escapePyKeyword).
+ * the preceding run. A leading digit gets a `field_` prefix: pydantic forbids attributes
+ * starting with an underscore. Python keywords get a trailing underscore.
  */
 export function snakeCaseField(wire: string): string {
   // Insert an underscore at lower->Upper and Upper->Upper+lower (acronym) boundaries.
@@ -77,7 +77,7 @@ export function snakeCaseField(wire: string): string {
   s = s.replace(/_+/g, "_").replace(/^_+|_+$/g, "");
   s = s.toLowerCase();
   if (s.length === 0) s = "field";
-  if (/^[0-9]/.test(s)) s = "_" + s;
+  if (/^[0-9]/.test(s)) s = "field_" + s;
   return escapePyKeyword(s);
 }
 
