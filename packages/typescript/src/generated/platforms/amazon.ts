@@ -499,7 +499,7 @@ export interface AmazonSearchInput {
    */
   source?: string[];
   /**
-   * Amazon search or category URL to pull results from (e.g. https://www.amazon.com/s?k=gaming+mouse).
+   * Amazon search or category URL. For U.S. URLs, include page to select an Amazon results page; limit caps that page. Supported keyword, category, price, brand, rating and Prime selectors and standard Amazon sort orders are preserved. Unsupported selectors are rejected.
    */
   url: string;
 }
@@ -595,7 +595,7 @@ export class AmazonNamespace {
    *
    * List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.amazon.bestsellers({ url: "https://www.amazon.com/gp/bestsellers/electronics", limit: 3 });
@@ -646,7 +646,7 @@ export class AmazonNamespace {
    *
    * Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.amazon.search({ url: "https://www.amazon.com/s?k=laptop", limit: 3 });

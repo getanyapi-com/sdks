@@ -142,7 +142,7 @@ class AmazonSearchInput(TypedDict, total=False):
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """Amazon search or category URL to pull results from (e.g. https://www.amazon.com/s?k=gaming+mouse)."""
+    """Amazon search or category URL. For U.S. URLs, include page to select an Amazon results page; limit caps that page. Supported keyword, category, price, brand, rating and Prime selectors and standard Amazon sort orders are preserved. Unsupported selectors are rejected."""
 
 
 class AmazonAsinsData(BaseModel):
@@ -467,7 +467,7 @@ class AmazonNamespace:
         List the top-ranked products of any Amazon Best Sellers category (rank,
         title, price, and rating) in one normalized request.
 
-        Price: $0.0005 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
@@ -530,7 +530,7 @@ class AmazonNamespace:
         Search Amazon from any search or category URL and get up to 20 matching
         products (title, price, rating, and thumbnail) in one normalized response.
 
-        Price: $0.0005 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.amazon.search(limit=3, url="https://www.amazon.com/s?k=laptop")
@@ -579,7 +579,7 @@ class AsyncAmazonNamespace:
         List the top-ranked products of any Amazon Best Sellers category (rank,
         title, price, and rating) in one normalized request.
 
-        Price: $0.0005 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
@@ -642,7 +642,7 @@ class AsyncAmazonNamespace:
         Search Amazon from any search or category URL and get up to 20 matching
         products (title, price, rating, and thumbnail) in one normalized response.
 
-        Price: $0.0005 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.amazon.search(limit=3, url="https://www.amazon.com/s?k=laptop")
