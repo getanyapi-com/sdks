@@ -1952,7 +1952,7 @@ class YoutubeNamespace:
         provenance: whether the words are creator-written captions or machine speech
         recognition.
 
-        Price: $0.001 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2592,7 +2592,7 @@ class AsyncYoutubeNamespace:
         provenance: whether the words are creator-written captions or machine speech
         recognition.
 
-        Price: $0.001 per request.
+        Price: $0.003 per request.
 
         Example:
             res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")

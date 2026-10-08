@@ -2295,7 +2295,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.
    *
-   * Price: $0.001 per request.
+   * Price: $0.003 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscriptFull({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
