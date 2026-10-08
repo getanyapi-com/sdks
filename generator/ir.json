@@ -18,11 +18,6 @@
       "kind": "dead-cursor",
       "slug": "douyin.video_comments",
       "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
-    },
-    {
-      "kind": "dead-cursor",
-      "slug": "zhihu.question_answers",
-      "message": "accepts a cursor input but our pagination rules do not wire it (no string cursor + nextCursor pair)"
     }
   ],
   "skus": [
@@ -8398,8 +8393,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-06",
-        "checkOut": "2026-11-08",
+        "checkIn": "2026-11-07",
+        "checkOut": "2026-11-09",
         "limit": 3,
         "query": "New York"
       },
@@ -23147,7 +23142,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -36764,7 +36759,7 @@
             },
             "citations": {
               "kind": "array",
-              "description": "Every source Google listed for this overview, in Google's own order. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance.",
+              "description": "Every source Google listed with a usable URL for this overview, in Google's own order. References without a URL are omitted. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -38114,7 +38109,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39885,8 +39880,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-06",
-        "checkOut": "2026-11-08",
+        "checkIn": "2026-11-07",
+        "checkOut": "2026-11-09",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40484,8 +40479,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-06",
-        "checkOut": "2026-11-08",
+        "checkIn": "2026-11-07",
+        "checkOut": "2026-11-09",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -52634,6 +52629,7 @@
       },
       "input": {
         "kind": "object",
+        "description": "LinkedIn accepts dates from one year ago through yesterday in UTC. Dates outside that window are adjusted only when your range overlaps it; the response hint names the adjusted dates. Reversed ranges and ranges with no accepted day are rejected before the search.",
         "properties": {
           "allowFallbacks": {
             "kind": "boolean",
@@ -52663,7 +52659,7 @@
           },
           "endDate": {
             "kind": "string",
-            "description": "Search end date in YYYY-MM-DD format.",
+            "description": "Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates.",
             "enum": null,
             "default": null,
             "format": null
@@ -52713,7 +52709,7 @@
           },
           "startDate": {
             "kind": "string",
-            "description": "Search start date in YYYY-MM-DD format.",
+            "description": "Search start date in YYYY-MM-DD format. An earlier date is moved up to one year ago in UTC when your range overlaps LinkedIn's accepted dates.",
             "enum": null,
             "default": null,
             "format": null
@@ -116545,10 +116541,10 @@
       "category": "data",
       "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.",
       "pricing": {
-        "priceUsd": 0.007,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0286,
+        "baseUsd": 0.0011,
+        "perItemUsd": 0.0011,
+        "perItemUnit": "result"
       },
       "tsNamespace": "upwork",
       "tsMethod": "jobs",
@@ -117113,6 +117109,594 @@
                 ]
               },
               "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "walmart.reviews",
+      "platform": "walmart",
+      "action": "reviews",
+      "operationId": "walmart_reviews",
+      "name": "Walmart Reviews",
+      "category": "shop",
+      "description": "Pull a page of 10 customer reviews for any Walmart product by URL, newest first or by relevance, helpfulness, or rating: rating, title, text, date, reviewer, and verified-purchase badge.",
+      "pricing": {
+        "priceUsd": 0.00125,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "walmart",
+      "tsMethod": "reviews",
+      "tsIterMethod": null,
+      "pyNamespace": "walmart",
+      "pyMethod": "reviews",
+      "pyIterMethod": null,
+      "inputTypeName": "WalmartReviewsInput",
+      "outputTypeName": "WalmartReviewsData",
+      "example": {
+        "url": "https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of 10 reviews, Walmart's fixed page size; Walmart serves at most 100 pages. Each page is billed as one request; keep url and sort the same while walking pages.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalPages`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "totalPages"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Review order: recent (newest first, the default), oldest, relevancy, helpful, rating_high, or rating_low (e.g. helpful).",
+            "enum": [
+              "recent",
+              "oldest",
+              "relevancy",
+              "helpful",
+              "rating_high",
+              "rating_low"
+            ],
+            "default": "recent",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Walmart product page URL (e.g. https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Customer review records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Walmart publishes the review date only, so this is midnight UTC of that date; null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "helpfulVotes": {
+                    "kind": "integer",
+                    "description": "Number of \"helpful\" votes the review received, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Star rating the reviewer gave, 1-5.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewId": {
+                    "kind": "string",
+                    "description": "Walmart review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reviewer": {
+                    "kind": "string",
+                    "description": "Reviewer display name as Walmart shows it, e.g. \"anonymous\"; empty when withheld.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Full review body text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Review headline; empty when the review has none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "verifiedPurchase": {
+                    "kind": "boolean",
+                    "description": "True when Walmart marks the review a verified purchase; null when the serving source reports no badge either way.",
+                    "nullable": true,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "reviewId",
+                  "rating",
+                  "text"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "reviewId",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Overall product score (1-5), or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingDistribution": {
+              "kind": "object",
+              "description": "Number of reviews at each star rating, keyed \"1\" through \"5\".",
+              "properties": {
+                "1": {
+                  "kind": "integer",
+                  "description": "Number of 1-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "2": {
+                  "kind": "integer",
+                  "description": "Number of 2-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "3": {
+                  "kind": "integer",
+                  "description": "Number of 3-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "4": {
+                  "kind": "integer",
+                  "description": "Number of 4-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "5": {
+                  "kind": "integer",
+                  "description": "Number of 5-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Number of 10-review pages Walmart reports for the product (it can exceed the 100 pages this SKU serves), or absent or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalReviews": {
+              "kind": "integer",
+              "description": "Total number of reviews for the product, or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "walmart.search",
+      "platform": "walmart",
+      "action": "search",
+      "operationId": "walmart_search",
+      "name": "Walmart Search",
+      "category": "shop",
+      "description": "Search Walmart by keyword with optional sort, price-range, facet, and page filters and get title, price, rating, seller, and availability for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.0009,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "walmart",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "walmart",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "WalmartSearchInput",
+      "outputTypeName": "WalmartSearchData",
+      "example": {
+        "query": "airpods",
+        "sort": "best_seller"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "facet": {
+            "kind": "string",
+            "description": "Optional Walmart facet filter token, e.g. brand:HP to keep only HP products.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum product price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum product price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of about 40 to 60 products; Walmart serves no products past page 10. Each page is billed as one request. Walmart re-ranks between requests, so consecutive pages can repeat a product: deduplicate on itemId.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"airpods\" or \"paper towels\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalPages`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "totalPages"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result sort order; omit for Walmart's Best Match (e.g. price_low sorts by lowest price first).",
+            "enum": [
+              "best_match",
+              "best_seller",
+              "price_low",
+              "price_high",
+              "rating_high",
+              "new"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching Walmart product records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "availability": {
+                    "kind": "string",
+                    "description": "Stock status as Walmart reports it, e.g. \"IN_STOCK\" or \"OUT_OF_STOCK\".",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when Walmart omits it from the search grid (it publishes brand on clothing-style grids and on no row elsewhere; the Walmart Product SKU always carries it).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\"; empty when no price is shown.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when the product is in stock, false when it is not, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "True when the result is a sponsored placement.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "itemId": {
+                    "kind": "string",
+                    "description": "Walmart US item id (usItemId), the number in a walmart.com/ip/ URL; use the product URL with the Walmart Product or Walmart Reviews SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Pre-discount \"was\" price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the result in this page.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in USD as a number, or null when the result shows no current price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer ratings, or null when the product has none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "Identifier of the seller fulfilling the shown offer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerName": {
+                    "kind": "string",
+                    "description": "Name of the seller fulfilling the shown offer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Walmart product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "itemId",
+                  "price",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Highest page number available for the query; request pages 1 through this value. Absent or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total number of matching products Walmart reports for the query, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             }
           },
           "required": [
@@ -124327,7 +124911,7 @@
       "operationId": "zhihu_question_answers",
       "name": "Zhihu Question Answers",
       "category": "social",
-      "description": "List public answers to a Zhihu question with normalized authors and engagement data.",
+      "description": "List the first page of public answers to a Zhihu question with normalized authors and engagement data. Pagination is not supported.",
       "pricing": {
         "priceUsd": 0.0012,
         "baseUsd": null,
@@ -124344,7 +124928,6 @@
       "outputTypeName": "ZhihuQuestionAnswersData",
       "example": {
         "limit": 5,
-        "offset": 0,
         "order": "default",
         "questionId": "37811449"
       },
@@ -124355,13 +124938,6 @@
             "kind": "boolean",
             "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
-          },
-          "cursor": {
-            "kind": "string",
-            "description": "Pagination cursor from an answer item in the previous response.",
-            "enum": null,
-            "default": "",
-            "format": null
           },
           "ignoreSources": {
             "kind": "array",
@@ -124376,17 +124952,10 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Number of answers requested per page.",
+            "description": "Number of answers requested on the first page. Pagination is not supported.",
             "minimum": null,
             "maximum": null,
             "default": 5
-          },
-          "offset": {
-            "kind": "integer",
-            "description": "Pagination offset.",
-            "minimum": null,
-            "maximum": null,
-            "default": 0
           },
           "order": {
             "kind": "string",
@@ -124410,13 +124979,6 @@
             "description": "Zhihu question identifier.",
             "enum": null,
             "default": null,
-            "format": null
-          },
-          "sessionId": {
-            "kind": "string",
-            "description": "Pagination session identifier returned in the previous response.",
-            "enum": null,
-            "default": "",
             "format": null
           },
           "source": {
@@ -124503,13 +125065,6 @@
                     "maximum": null,
                     "default": null
                   },
-                  "cursor": {
-                    "kind": "string",
-                    "description": "Cursor associated with this answer; use the final item cursor for the next page.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
                   "excerpt": {
                     "kind": "string",
                     "description": "Answer excerpt. Populated whenever the provider has data for the entity.",
@@ -124595,23 +125150,9 @@
                 ]
               },
               "mustPopulate": true
-            },
-            "isEnd": {
-              "kind": "boolean",
-              "description": "Whether the result set has reached its final page.",
-              "default": null
-            },
-            "sessionId": {
-              "kind": "string",
-              "description": "Session identifier to pass when requesting another page.",
-              "enum": null,
-              "default": null,
-              "format": null
             }
           },
           "required": [
-            "isEnd",
-            "sessionId",
             "answers"
           ],
           "open": false,

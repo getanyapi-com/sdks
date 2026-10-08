@@ -299,7 +299,7 @@ class GoogleAiOverviewData(BaseModel):
         description="The same answer in Markdown, preserving the headings and lists Google rendered. Populated whenever the provider has data for the entity.",
     )
     citations: list[GoogleAiOverviewCitation] = Field(
-        description="Every source Google listed for this overview, in Google's own order. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance."
+        description="Every source Google listed with a usable URL for this overview, in Google's own order. References without a URL are omitted. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance."
     )
     language: str | None = Field(
         default=None,
@@ -852,7 +852,7 @@ class GoogleNamespace:
         further, or use google.search_100 for up to 100 ranked results in one call,
         which is cheaper past roughly 20 results.
 
-        Price: $0.0004 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
@@ -1141,7 +1141,7 @@ class AsyncGoogleNamespace:
         further, or use google.search_100 for up to 100 ranked results in one call,
         which is cheaper past roughly 20 results.
 
-        Price: $0.0004 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")

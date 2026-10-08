@@ -285,24 +285,14 @@ export interface ZhihuQuestionAnswersInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Pagination cursor from an answer item in the previous response.
-   * Default: .
-   */
-  cursor?: string;
-  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
-   * Number of answers requested per page.
+   * Number of answers requested on the first page. Pagination is not supported.
    * Default: 5.
    */
   limit?: number;
-  /**
-   * Pagination offset.
-   * Default: 0.
-   */
-  offset?: number;
   /**
    * Answer ordering: default ranking or recently updated.
    * One of: default, updated.
@@ -318,11 +308,6 @@ export interface ZhihuQuestionAnswersInput {
    * Zhihu question identifier.
    */
   questionId: string;
-  /**
-   * Pagination session identifier returned in the previous response.
-   * Default: .
-   */
-  sessionId?: string;
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -365,10 +350,6 @@ export interface ZhihuQuestionAnswersAnswer {
    * Present whenever the upstream returns this record.
    */
   createdUtc?: number;
-  /**
-   * Cursor associated with this answer; use the final item cursor for the next page.
-   */
-  cursor?: string;
   /**
    * Answer excerpt. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -422,14 +403,6 @@ export interface ZhihuQuestionAnswersData {
    * Normalized answers. Populated whenever the provider has data for the entity.
    */
   answers: ZhihuQuestionAnswersAnswer[];
-  /**
-   * Whether the result set has reached its final page.
-   */
-  isEnd: boolean;
-  /**
-   * Session identifier to pass when requesting another page.
-   */
-  sessionId: string;
 }
 
 /**
@@ -660,12 +633,12 @@ export class ZhihuNamespace {
   /**
    * Zhihu Question Answers
    *
-   * List public answers to a Zhihu question with normalized authors and engagement data.
+   * List the first page of public answers to a Zhihu question with normalized authors and engagement data. Pagination is not supported.
    *
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.zhihu.questionAnswers({ questionId: "37811449", limit: 5, offset: 0, order: "default" });
+   * const res = await client.zhihu.questionAnswers({ questionId: "37811449", limit: 5, order: "default" });
    */
   questionAnswers(
     input: ZhihuQuestionAnswersInput,

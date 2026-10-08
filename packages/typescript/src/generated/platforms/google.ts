@@ -127,7 +127,7 @@ export interface GoogleAiOverviewData {
    */
   answerMarkdown: string;
   /**
-   * Every source Google listed for this overview, in Google's own order. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance.
+   * Every source Google listed with a usable URL for this overview, in Google's own order. References without a URL are omitted. This is the full list behind the overview, not only the few sources Google renders inline before the list is expanded, so it is routinely longer than what a reader sees at a glance.
    */
   citations: GoogleAiOverviewCitation[];
   /**
@@ -1161,7 +1161,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });

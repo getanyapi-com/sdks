@@ -7264,6 +7264,43 @@
     "items": 1,
     "replayed": false
   },
+  "walmart.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reviewId": "sample",
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "walmart.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "web.crawl": {
     "output": {
       "found": true,
@@ -7929,8 +7966,6 @@
     "output": {
       "found": true,
       "data": {
-        "isEnd": true,
-        "sessionId": "sample",
         "answers": [
           {
             "id": "sample",

@@ -875,6 +875,10 @@ import type { UpworkJobsData, UpworkJobsInput } from "./platforms/upwork.js";
 import type {
   WalmartProductData,
   WalmartProductInput,
+  WalmartReviewsData,
+  WalmartReviewsInput,
+  WalmartSearchData,
+  WalmartSearchInput,
 } from "./platforms/walmart.js";
 import type {
   WebCrawlData,
@@ -2819,6 +2823,16 @@ export interface SkuMap {
     input: WalmartProductInput;
     data: WalmartProductData;
     result: RunResult<WalmartProductData>;
+  };
+  "walmart.reviews": {
+    input: WalmartReviewsInput;
+    data: WalmartReviewsData;
+    result: RunResult<WalmartReviewsData>;
+  };
+  "walmart.search": {
+    input: WalmartSearchInput;
+    data: WalmartSearchData;
+    result: RunResult<WalmartSearchData>;
   };
   "web.crawl": {
     input: WebCrawlInput;
