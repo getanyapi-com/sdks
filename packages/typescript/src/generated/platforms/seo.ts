@@ -1406,7 +1406,7 @@ export interface SeoDomainsByTechnologyInput {
    */
   source?: string[];
   /**
-   * Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; an unindexed name returns found false, so use keyword instead when a product is not matched by name.
+   * Exact technology name to match, for example Nginx or HubSpot. Only technologies present in the detection index are accepted; any other name is rejected with a 400 error and no charge, so use keyword instead when a product is not matched by name.
    */
   technology?: string;
 }
