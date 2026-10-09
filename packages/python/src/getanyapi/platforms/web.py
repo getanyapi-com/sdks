@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Literal, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -23,13 +23,30 @@ class WebCrawlInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less. Range: 1 to 10."""
+    """Maximum number of pages to crawl and return (1-10, default 10). You are billed per page returned, so a lower limit costs less. Range: 1 to 10."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "author",
+                "canonicalUrl",
+                "contentType",
+                "headings",
+                "jsonLd",
+                "language",
+                "modifiedUtc",
+                "publishedUtc",
+                "robots",
+                "siteName",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged. Name the output fields this request must be able to return, for example `language`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. Every source charges the same per page, so this never changes your price. A named field can still be empty on a page that genuinely lacks it."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """The website URL or domain to crawl."""
+    """The website URL or domain to crawl. Pages linked from it on the same site are crawled too."""
 
 
 class WebMapInput(TypedDict, total=False):
@@ -102,19 +119,132 @@ class WebScreenshotInput(TypedDict, total=False):
 
 
 class WebCrawlData(BaseModel):
-    items: list[WebCrawlItem] = Field(
-        description="Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider has data for the entity."
+    issues: list[WebCrawlIssue] | None = Field(
+        default=None,
+        description="Pages the crawl reported as failed or skipped. They are never in items and never billed. The list holds what the crawl reported, not every page of the site.",
     )
+    items: list[WebCrawlItem] = Field(
+        description="One record per crawled page: its URL and domain, page title, meta description, language, HTTP status, the page content as Markdown text, and the page metadata the source reports. You are billed for these pages only. Populated whenever the provider has data for the entity."
+    )
+    summary: WebCrawlSummary | None = Field(
+        default=None,
+        description="Counts for this crawl. They describe the pages this crawl visited and reported, not the whole website, and are not added together into a total.",
+    )
+
+
+class WebCrawlIssue(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    outcome: Literal["failed", "robots_disallowed", "skipped"] = Field(
+        description="failed: the page could not be fetched or answered with an HTTP error. robots_disallowed: the site's robots.txt does not allow crawling it. skipped: the crawl did not fetch it, for example because it is outside the crawled site."
+    )
+    status_code: int | None = Field(
+        default=None,
+        alias="statusCode",
+        description="The HTTP status code the page answered with, or null when unknown.",
+    )
+    url: str = Field(description="The page's URL.")
 
 
 class WebCrawlItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author: str | None = Field(
+        default=None, description="The author the page declares, or null when unknown."
+    )
+    canonical_url: str | None = Field(
+        default=None,
+        alias="canonicalUrl",
+        description="The canonical URL the page declares in its own markup, or null when it declares none or the source does not report it.",
+    )
+    content_type: str | None = Field(
+        default=None,
+        alias="contentType",
+        description="The content type the page was served with (for example text/html;charset=utf-8), or null when unknown.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="The page's meta description, empty when the page has none.",
+    )
     domain: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="The page's host name, without a leading www. Populated whenever the provider has data for the entity."
+    )
+    headings: list[WebCrawlHeading] | None = Field(
+        default=None,
+        description="The page's headings in document order, each with its level (1 for an h1) and text, or null when the source does not report them.",
+    )
+    json_ld: list[Any] | None = Field(
+        default=None,
+        alias="jsonLd",
+        description="The JSON-LD structured data blocks the page publishes (schema.org Organization, LocalBusiness, BreadcrumbList and so on), as parsed JSON, or null when the source does not report them. They are the publisher's own claims, not verified facts.",
+    )
+    language: str | None = Field(
+        default=None,
+        description="The page's declared language code (for example en-US), or null when unknown.",
+    )
+    modified_utc: int | None = Field(
+        default=None,
+        alias="modifiedUtc",
+        description="When the page says it was last modified, as a UTC epoch timestamp in seconds (Unix time), or null when unknown. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    published_utc: int | None = Field(
+        default=None,
+        alias="publishedUtc",
+        description="When the page says it was published, as a UTC epoch timestamp in seconds (Unix time), or null when unknown. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    robots: str | None = Field(
+        default=None,
+        description="The page's robots meta directives (for example noindex, nofollow), or null when it declares none or the source does not report them.",
+    )
+    site_name: str | None = Field(
+        default=None,
+        alias="siteName",
+        description="The site name the page declares (its og:site_name), or null when unknown.",
+    )
+    source_url: str | None = Field(
+        default=None,
+        alias="sourceUrl",
+        description="The URL the crawler requested for this page, before any redirect, or null when unknown.",
+    )
+    status_code: int | None = Field(
+        default=None,
+        alias="statusCode",
+        description="The HTTP status code the page answered with, or null when unknown.",
     )
     text: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="The page content as Markdown. Populated whenever the provider has data for the entity."
+    )
+    title: str | None = Field(
+        default=None,
+        description="The page title, empty when the page has none (a PDF, for example).",
+    )
+    url: str | None = Field(
+        default=None,
+        description="The crawled page's URL, after any redirect. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class WebCrawlHeading(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    level: int | None = Field(default=None, description="The heading level, 1 to 6.")
+    text: str | None = Field(default=None, description="The heading text.")
+
+
+class WebCrawlSummary(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    pages_returned: int = Field(
+        alias="pagesReturned",
+        description="The number of pages in items, which is the number you are billed for.",
+    )
+    reported_failed: int | None = Field(
+        alias="reportedFailed",
+        description="The number of pages the crawl reported as failed, or null when the source does not report a complete count.",
+    )
+    reported_skipped: int | None = Field(
+        alias="reportedSkipped",
+        description="The number of pages the crawl reported as skipped, including those robots.txt disallows, or null when the source does not report a complete count.",
     )
 
 
@@ -190,10 +320,13 @@ class WebNamespace:
     ) -> RunResult[WebCrawlData]:
         """Website Crawl
 
-        Crawl a website and get clean text content from up to 10 pages in one
-        normalized response, ideal for feeding sites into LLMs and search indexes.
+        Crawl a website and get up to 10 of its pages as separate items, each with
+        its URL, title, description, language, HTTP status, clean Markdown text and
+        page metadata such as headings and structured data, ideal for feeding sites
+        into LLMs and search indexes. Pages that failed or were skipped are listed
+        separately and never billed.
 
-        Price: $0.00165 per request plus $0.0033 per result (maximum $0.0347).
+        Price: $0 per request plus $0.00125 per result (maximum $0.0125).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")
@@ -271,10 +404,13 @@ class AsyncWebNamespace:
     ) -> RunResult[WebCrawlData]:
         """Website Crawl
 
-        Crawl a website and get clean text content from up to 10 pages in one
-        normalized response, ideal for feeding sites into LLMs and search indexes.
+        Crawl a website and get up to 10 of its pages as separate items, each with
+        its URL, title, description, language, HTTP status, clean Markdown text and
+        page metadata such as headings and structured data, ideal for feeding sites
+        into LLMs and search indexes. Pages that failed or were skipped are listed
+        separately and never billed.
 
-        Price: $0.00165 per request plus $0.0033 per result (maximum $0.0347).
+        Price: $0 per request plus $0.00125 per result (maximum $0.0125).
 
         Example:
             res = client.web.crawl(limit=3, url="https://example.com")

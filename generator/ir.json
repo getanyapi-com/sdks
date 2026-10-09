@@ -23142,7 +23142,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -117722,11 +117722,11 @@
       "operationId": "web_crawl",
       "name": "Website Crawl",
       "category": "search",
-      "description": "Crawl a website and get clean text content from up to 10 pages in one normalized response, ideal for feeding sites into LLMs and search indexes.",
+      "description": "Crawl a website and get up to 10 of its pages as separate items, each with its URL, title, description, language, HTTP status, clean Markdown text and page metadata such as headings and structured data, ideal for feeding sites into LLMs and search indexes. Pages that failed or were skipped are listed separately and never billed.",
       "pricing": {
-        "priceUsd": 0.0347,
-        "baseUsd": 0.00165,
-        "perItemUsd": 0.0033,
+        "priceUsd": 0.0125,
+        "baseUsd": 0,
+        "perItemUsd": 0.00125,
         "perItemUnit": "result"
       },
       "tsNamespace": "web",
@@ -117762,7 +117762,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-10, default 10). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of pages to crawl and return (1-10, default 10). You are billed per page returned, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 10,
             "default": null
@@ -117773,6 +117773,28 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged. Name the output fields this request must be able to return, for example `language`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. Every source charges the same per page, so this never changes your price. A named field can still be empty on a page that genuinely lacks it.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "author",
+                "canonicalUrl",
+                "contentType",
+                "headings",
+                "jsonLd",
+                "language",
+                "modifiedUtc",
+                "publishedUtc",
+                "robots",
+                "siteName"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -117787,7 +117809,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "The website URL or domain to crawl.",
+            "description": "The website URL or domain to crawl. Pages linked from it on the same site are crawled too.",
             "enum": null,
             "default": null,
             "format": null
@@ -117803,22 +117825,200 @@
         "data": {
           "kind": "object",
           "properties": {
-            "items": {
+            "issues": {
               "kind": "array",
-              "description": "Crawled page records: URL, page title, and extracted text content for each page. Populated whenever the provider has data for the entity.",
+              "description": "Pages the crawl reported as failed or skipped. They are never in items and never billed. The list holds what the crawl reported, not every page of the site.",
               "items": {
                 "kind": "object",
                 "properties": {
-                  "domain": {
+                  "outcome": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "failed: the page could not be fetched or answered with an HTTP error. robots_disallowed: the site's robots.txt does not allow crawling it. skipped: the crawl did not fetch it, for example because it is outside the crawled site.",
+                    "enum": [
+                      "failed",
+                      "robots_disallowed",
+                      "skipped"
+                    ],
+                    "default": null,
+                    "format": null
+                  },
+                  "statusCode": {
+                    "kind": "integer",
+                    "description": "The HTTP status code the page answered with, or null when unknown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The page's URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "url",
+                  "outcome"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "items": {
+              "kind": "array",
+              "description": "One record per crawled page: its URL and domain, page title, meta description, language, HTTP status, the page content as Markdown text, and the page metadata the source reports. You are billed for these pages only. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "The author the page declares, or null when unknown.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
                   },
+                  "canonicalUrl": {
+                    "kind": "string",
+                    "description": "The canonical URL the page declares in its own markup, or null when it declares none or the source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "contentType": {
+                    "kind": "string",
+                    "description": "The content type the page was served with (for example text/html;charset=utf-8), or null when unknown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "The page's meta description, empty when the page has none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "The page's host name, without a leading www. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "headings": {
+                    "kind": "array",
+                    "description": "The page's headings in document order, each with its level (1 for an h1) and text, or null when the source does not report them.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "level": {
+                          "kind": "integer",
+                          "description": "The heading level, 1 to 6.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "text": {
+                          "kind": "string",
+                          "description": "The heading text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "jsonLd": {
+                    "kind": "array",
+                    "description": "The JSON-LD structured data blocks the page publishes (schema.org Organization, LocalBusiness, BreadcrumbList and so on), as parsed JSON, or null when the source does not report them. They are the publisher's own claims, not verified facts.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "unknown"
+                    },
+                    "mustPopulate": false
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "The page's declared language code (for example en-US), or null when unknown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "modifiedUtc": {
+                    "kind": "integer",
+                    "description": "When the page says it was last modified, as a UTC epoch timestamp in seconds (Unix time), or null when unknown. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "publishedUtc": {
+                    "kind": "integer",
+                    "description": "When the page says it was published, as a UTC epoch timestamp in seconds (Unix time), or null when unknown. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "robots": {
+                    "kind": "string",
+                    "description": "The page's robots meta directives (for example noindex, nofollow), or null when it declares none or the source does not report them.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "siteName": {
+                    "kind": "string",
+                    "description": "The site name the page declares (its og:site_name), or null when unknown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sourceUrl": {
+                    "kind": "string",
+                    "description": "The URL the crawler requested for this page, before any redirect, or null when unknown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "statusCode": {
+                    "kind": "integer",
+                    "description": "The HTTP status code the page answered with, or null when unknown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "text": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "The page content as Markdown. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "The page title, empty when the page has none (a PDF, for example).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The crawled page's URL, after any redirect. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -117831,10 +118031,46 @@
                 "open": true,
                 "mustPopulate": [
                   "domain",
-                  "text"
+                  "text",
+                  "url"
                 ]
               },
               "mustPopulate": true
+            },
+            "summary": {
+              "kind": "object",
+              "description": "Counts for this crawl. They describe the pages this crawl visited and reported, not the whole website, and are not added together into a total.",
+              "properties": {
+                "pagesReturned": {
+                  "kind": "integer",
+                  "description": "The number of pages in items, which is the number you are billed for.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "reportedFailed": {
+                  "kind": "integer",
+                  "description": "The number of pages the crawl reported as failed, or null when the source does not report a complete count.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "reportedSkipped": {
+                  "kind": "integer",
+                  "description": "The number of pages the crawl reported as skipped, including those robots.txt disallows, or null when the source does not report a complete count.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [
+                "pagesReturned",
+                "reportedFailed",
+                "reportedSkipped"
+              ],
+              "open": true
             }
           },
           "required": [
@@ -120670,8 +120906,8 @@
       "category": "video",
       "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.",
       "pricing": {
-        "priceUsd": 0.132,
-        "baseUsd": 0.132,
+        "priceUsd": 0.0718,
+        "baseUsd": 0.0718,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
