@@ -116541,10 +116541,10 @@
       "category": "data",
       "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.",
       "pricing": {
-        "priceUsd": 0.0286,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0011,
-        "perItemUnit": "result"
+        "priceUsd": 0.007,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "upwork",
       "tsMethod": "jobs",

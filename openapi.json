@@ -65928,7 +65928,7 @@
     },
     "/v1/run/facebook.profile_posts": {
       "post": {
-        "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Profile Posts pricing and uptime](https://getanyapi.com/api/facebook/profile-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Profile Posts pricing and uptime](https://getanyapi.com/api/facebook/profile-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_profile_posts",
         "parameters": [
           {
@@ -251088,7 +251088,7 @@
     },
     "/v1/run/upwork.jobs": {
       "post": {
-        "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.\n\n**Price:** billed per result - \\$1.10 per 1,000 requests base + \\$1.10 per 1,000 results, capped at \\$28.60 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Upwork Jobs pricing and uptime](https://getanyapi.com/api/upwork/jobs) - live USD price, lane routing, and measured 30-day uptime. [Every Upwork endpoint](https://getanyapi.com/api/upwork).",
+        "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.\n\n**Price:** \\$7.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Upwork Jobs pricing and uptime](https://getanyapi.com/api/upwork/jobs) - live USD price, lane routing, and measured 30-day uptime. [Every Upwork endpoint](https://getanyapi.com/api/upwork).",
         "operationId": "upwork_jobs",
         "parameters": [
           {
@@ -251684,10 +251684,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.007000",
             "currency": "USD",
-            "max": "0.028600",
-            "min": "0.001100",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -251727,11 +251726,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.007000",
                 "currency": "USD",
-                "max": "0.028600",
-                "min": "0.001100",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -251760,11 +251758,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.007000",
                 "currency": "USD",
-                "max": "0.028600",
-                "min": "0.001100",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
