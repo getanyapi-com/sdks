@@ -1819,7 +1819,7 @@ export class YoutubeNamespace {
    *
    * Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.
    *
-   * Price: $0.0718 per request plus $0 per result (maximum $0.0718).
+   * Price: $0.132 per request plus $0 per result (maximum $0.132).
    *
    * @example
    * const res = await client.youtube.channelContact({ handle: "@mkbhd" });
