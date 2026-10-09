@@ -65,7 +65,7 @@ class LinkedinAdsSearchInput(TypedDict, total=False):
     countries: NotRequired[str]
     """Comma-separated two-letter country codes (e.g. "US,CA,MX")."""
     endDate: NotRequired[str]
-    """Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates."""
+    """Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates. When you send startDate without endDate, the search ends yesterday in UTC, the latest day LinkedIn accepts."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: NotRequired[str]

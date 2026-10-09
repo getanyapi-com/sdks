@@ -192,7 +192,7 @@ export interface LinkedinAdsSearchInput {
    */
   countries?: string;
   /**
-   * Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates.
+   * Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates. When you send startDate without endDate, the search ends yesterday in UTC, the latest day LinkedIn accepts.
    */
   endDate?: string;
   /**
