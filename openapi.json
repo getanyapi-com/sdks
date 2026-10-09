@@ -19124,8 +19124,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-11-07",
-                "checkOut": "2026-11-09",
+                "checkIn": "2026-11-08",
+                "checkOut": "2026-11-10",
                 "limit": 3,
                 "query": "New York"
               },
@@ -19133,8 +19133,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-11-07",
-                  "checkOut": "2026-11-09",
+                  "checkIn": "2026-11-08",
+                  "checkOut": "2026-11-10",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -87980,16 +87980,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-07",
-                "checkOut": "2026-11-09",
+                "checkIn": "2026-11-08",
+                "checkOut": "2026-11-10",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-07",
-                  "checkOut": "2026-11-09",
+                  "checkIn": "2026-11-08",
+                  "checkOut": "2026-11-10",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -88964,16 +88964,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-07",
-                "checkOut": "2026-11-09",
+                "checkIn": "2026-11-08",
+                "checkOut": "2026-11-10",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-07",
-                  "checkOut": "2026-11-09",
+                  "checkIn": "2026-11-08",
+                  "checkOut": "2026-11-10",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
