@@ -4203,7 +4203,7 @@ export class InstagramNamespace {
   /**
    * Instagram Reels Search
    *
-   * Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological, and a page can repeat reels from the page before it. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.
+   * Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological. We remove overlap with recent pages, but older reels may reappear during a long search. nextCursor is null when a page contains only reels seen in recent pages. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.
    *
    * Price: $0.0011 per request.
    *
