@@ -23142,7 +23142,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -36520,10 +36520,10 @@
       "category": "search",
       "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.",
       "pricing": {
-        "priceUsd": 0.00336,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.0033,
-        "perItemUnit": "result"
+        "priceUsd": 0.0007,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "google",
       "tsMethod": "aiMode",
