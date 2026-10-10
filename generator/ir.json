@@ -8393,8 +8393,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-08",
-        "checkOut": "2026-11-10",
+        "checkIn": "2026-11-09",
+        "checkOut": "2026-11-11",
         "limit": 3,
         "query": "New York"
       },
@@ -39880,8 +39880,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-08",
-        "checkOut": "2026-11-10",
+        "checkIn": "2026-11-09",
+        "checkOut": "2026-11-11",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40479,8 +40479,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-08",
-        "checkOut": "2026-11-10",
+        "checkIn": "2026-11-09",
+        "checkOut": "2026-11-11",
         "country": "us",
         "query": "hotels near times square new york"
       },
