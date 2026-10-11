@@ -94206,14 +94206,14 @@
       "platform": "seo",
       "action": "local_pack",
       "operationId": "seo_local_pack",
-      "name": "SEO Local Pack",
+      "name": "Google Local Pack",
       "category": "search",
-      "description": "Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.",
+      "description": "Get the Google local pack for a keyword in a city: the short list of businesses Google shows in the map box on its normal search results page, in pack order, with rating, review count, address, category, opening hours, phone, website, booking link, and Google listing ids. Sponsored listings are left out. For the full Google Maps results list, use maps.search.",
       "pricing": {
-        "priceUsd": 0.0024,
-        "baseUsd": 0.0024,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.0015,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "seo",
       "tsMethod": "localPack",
@@ -94226,7 +94226,6 @@
       "example": {
         "keyword": "coffee shop",
         "language": "en",
-        "limit": 5,
         "location": "New York,New York,United States"
       },
       "input": {
@@ -94250,35 +94249,28 @@
           },
           "keyword": {
             "kind": "string",
-            "description": "SEO local pack search keyword.",
+            "description": "Search keyword, for example coffee shop or plumber.",
             "enum": null,
             "default": null,
             "format": null
           },
           "language": {
             "kind": "string",
-            "description": "Language code for SEO local pack results.",
+            "description": "Language code for the search results.",
             "enum": null,
             "default": "en",
             "format": null
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of local pack places to return. Billing is flat per request.",
+            "description": "Maximum number of local pack businesses to return. Google usually shows three. Billing is flat per request.",
             "minimum": 1,
             "maximum": 100,
-            "default": 20
+            "default": null
           },
           "location": {
             "kind": "string",
-            "description": "Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States. Supply either location or locationCoordinate, not both.",
-            "enum": null,
-            "default": null,
-            "format": null
-          },
-          "locationCoordinate": {
-            "kind": "string",
-            "description": "Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both.",
+            "description": "Location to search from, formatted like City,Region,Country; for example, New York,New York,United States.",
             "enum": null,
             "default": null,
             "format": null
@@ -94289,6 +94281,29 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `address` or `cid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a business that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "address",
+                "bookingUrl",
+                "category",
+                "cid",
+                "description",
+                "directionsUrl",
+                "hours",
+                "image",
+                "knowledgeGraphId",
+                "priceLevel",
+                "rankGroup"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -94303,7 +94318,8 @@
           }
         },
         "required": [
-          "keyword"
+          "keyword",
+          "location"
         ],
         "open": false
       },
@@ -94314,159 +94330,154 @@
           "properties": {
             "places": {
               "kind": "array",
-              "description": "SEO local pack place records. Populated whenever the provider has data for the entity.",
+              "description": "Businesses in the Google local pack, in the order Google shows them. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
                   "address": {
                     "kind": "string",
-                    "description": "Full formatted street address. Populated whenever the provider has data for the entity.",
+                    "description": "The address line Google shows for the business in the pack. For a business that serves an area rather than a storefront, Google shows years in business and the city here instead.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "bookingUrl": {
+                    "kind": "string",
+                    "description": "Booking link Google shows for the business, when it has one. The query string carries the booking session, so it is kept.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "category": {
                     "kind": "string",
-                    "description": "Primary place category.",
+                    "description": "Business category Google shows, such as Coffee shop or Plumber.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "city": {
+                  "cid": {
                     "kind": "string",
-                    "description": "City the place is in.",
+                    "description": "Google customer id (CID) of the business listing.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "claimed": {
-                    "kind": "boolean",
-                    "description": "True when the place listing is claimed.",
-                    "default": null
-                  },
-                  "countryCode": {
+                  "description": {
                     "kind": "string",
-                    "description": "Two-letter country code.",
+                    "description": "The text Google prints under the business name in the pack. Usually it is every line: the street address or years in business, opening hours, and a review quote. On some responses it is only the review quote, with the address and hours in their own fields.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "directionsUrl": {
+                    "kind": "string",
+                    "description": "Google Maps directions link to the business, with tracking query parameters removed.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "domain": {
                     "kind": "string",
-                    "description": "Registrable domain of the place website.",
+                    "description": "Host name of the business website, such as www.example.com.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "hours": {
+                    "kind": "string",
+                    "description": "Opening hours text Google shows, such as Open 24 hours or Closed - Opens 7 AM.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "image": {
                     "kind": "string",
-                    "description": "Primary photo URL for the place. The query string carries the image identity, so it is kept.",
+                    "description": "Thumbnail photo URL Google shows for the business.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "latitude": {
-                    "kind": "number",
-                    "description": "Latitude of the place in decimal degrees.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
-                  },
-                  "longitude": {
-                    "kind": "number",
-                    "description": "Longitude of the place in decimal degrees.",
-                    "minimum": null,
-                    "maximum": null,
-                    "default": null
+                  "knowledgeGraphId": {
+                    "kind": "string",
+                    "description": "Google Knowledge Graph id of the business, such as /g/11vb1r7rlr.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "name": {
                     "kind": "string",
-                    "description": "Place name. Populated whenever the provider has data for the entity.",
+                    "description": "Business name. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "phone": {
                     "kind": "string",
-                    "description": "Business phone number, when listed.",
+                    "description": "Business phone number, when Google shows one, as Google prints it: national format such as (512) 890-2933 or international format such as +1 512-890-2933.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
-                  "placeId": {
-                    "kind": "string",
-                    "description": "Place identifier.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
-                  "postalCode": {
-                    "kind": "string",
-                    "description": "Postal code of the place.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
+                  "position": {
+                    "kind": "integer",
+                    "description": "One-based position of the business in the local pack, counting only unpaid listings. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "priceLevel": {
                     "kind": "string",
-                    "description": "Price level indicator Google shows for the place.",
+                    "description": "Price range Google shows for the business, such as $10-20.",
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "rankAbsolute": {
                     "kind": "integer",
-                    "description": "Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.",
+                    "description": "Position of the business among every element of the Google results page, counting from the top.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "rankGroup": {
                     "kind": "integer",
-                    "description": "Grouped ranking position within the local pack.",
+                    "description": "Position Google gives the business inside the local pack, counting sponsored listings, so it can be higher than position when an ad sits above it.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "rating": {
                     "kind": "number",
-                    "description": "Average star rating out of 5. Populated whenever the provider has data for the entity.",
+                    "description": "Average Google star rating out of 5. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
-                  "region": {
-                    "kind": "string",
-                    "description": "State or region the place is in.",
-                    "enum": null,
-                    "default": null,
-                    "format": null
-                  },
                   "reviewsCount": {
                     "kind": "integer",
-                    "description": "Total number of reviews.",
+                    "description": "Number of Google reviews behind the rating. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "url": {
                     "kind": "string",
-                    "description": "Canonical place URL.",
+                    "description": "Business website URL, when listed, with tracking query parameters removed.",
                     "enum": null,
                     "default": null,
                     "format": null
                   }
                 },
                 "required": [
-                  "name",
-                  "rankAbsolute"
+                  "position",
+                  "name"
                 ],
                 "open": true,
                 "mustPopulate": [
-                  "address",
                   "name",
-                  "rankAbsolute",
-                  "rating"
+                  "position",
+                  "rating",
+                  "reviewsCount"
                 ]
               },
               "mustPopulate": true

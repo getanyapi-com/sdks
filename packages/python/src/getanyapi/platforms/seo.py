@@ -449,24 +449,40 @@ class SeoLlmTopPagesInput(TypedDict, total=False):
 
 
 class SeoLocalPackInput(TypedDict, total=False):
-    """Input for SEO Local Pack."""
+    """Input for Google Local Pack."""
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     keyword: Required[str]
-    """SEO local pack search keyword."""
+    """Search keyword, for example coffee shop or plumber."""
     language: NotRequired[str]
-    """Language code for SEO local pack results. Default: en."""
+    """Language code for the search results. Default: en."""
     limit: NotRequired[int]
-    """Maximum number of local pack places to return. Billing is flat per request. Range: 1 to 100. Default: 20."""
-    location: NotRequired[str]
-    """Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States. Supply either location or locationCoordinate, not both."""
-    locationCoordinate: NotRequired[str]
-    """Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both."""
+    """Maximum number of local pack businesses to return. Google usually shows three. Billing is flat per request. Range: 1 to 100."""
+    location: Required[str]
+    """Location to search from, formatted like City,Region,Country; for example, New York,New York,United States."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "address",
+                "bookingUrl",
+                "category",
+                "cid",
+                "description",
+                "directionsUrl",
+                "hours",
+                "image",
+                "knowledgeGraphId",
+                "priceLevel",
+                "rankGroup",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `address` or `cid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a business that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -2991,7 +3007,7 @@ class SeoLlmTopPagesSearchResultDomain(BaseModel):
 
 class SeoLocalPackData(BaseModel):
     places: list[SeoLocalPackPlace] = Field(
-        description="SEO local pack place records. Populated whenever the provider has data for the entity."
+        description="Businesses in the Google local pack, in the order Google shows them. Populated whenever the provider has data for the entity."
     )
 
 
@@ -3000,66 +3016,83 @@ class SeoLocalPackPlace(BaseModel):
 
     address: str | None = Field(
         default=None,
-        description="Full formatted street address. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="The address line Google shows for the business in the pack. For a business that serves an area rather than a storefront, Google shows years in business and the city here instead.",
     )
-    category: str | None = Field(default=None, description="Primary place category.")
-    city: str | None = Field(default=None, description="City the place is in.")
-    claimed: bool | None = Field(
-        default=None, description="True when the place listing is claimed."
+    booking_url: str | None = Field(
+        default=None,
+        alias="bookingUrl",
+        description="Booking link Google shows for the business, when it has one. The query string carries the booking session, so it is kept.",
     )
-    country_code: str | None = Field(
-        default=None, alias="countryCode", description="Two-letter country code."
+    category: str | None = Field(
+        default=None,
+        description="Business category Google shows, such as Coffee shop or Plumber.",
+    )
+    cid: str | None = Field(
+        default=None, description="Google customer id (CID) of the business listing."
+    )
+    description: str | None = Field(
+        default=None,
+        description="The text Google prints under the business name in the pack. Usually it is every line: the street address or years in business, opening hours, and a review quote. On some responses it is only the review quote, with the address and hours in their own fields.",
+    )
+    directions_url: str | None = Field(
+        default=None,
+        alias="directionsUrl",
+        description="Google Maps directions link to the business, with tracking query parameters removed.",
     )
     domain: str | None = Field(
-        default=None, description="Registrable domain of the place website."
+        default=None,
+        description="Host name of the business website, such as www.example.com.",
+    )
+    hours: str | None = Field(
+        default=None,
+        description="Opening hours text Google shows, such as Open 24 hours or Closed - Opens 7 AM.",
     )
     image: str | None = Field(
+        default=None, description="Thumbnail photo URL Google shows for the business."
+    )
+    knowledge_graph_id: str | None = Field(
         default=None,
-        description="Primary photo URL for the place. The query string carries the image identity, so it is kept.",
-    )
-    latitude: float | None = Field(
-        default=None, description="Latitude of the place in decimal degrees."
-    )
-    longitude: float | None = Field(
-        default=None, description="Longitude of the place in decimal degrees."
+        alias="knowledgeGraphId",
+        description="Google Knowledge Graph id of the business, such as /g/11vb1r7rlr.",
     )
     name: str = Field(
-        description="Place name. Populated whenever the provider has data for the entity."
+        description="Business name. Populated whenever the provider has data for the entity."
     )
     phone: str | None = Field(
-        default=None, description="Business phone number, when listed."
+        default=None,
+        description="Business phone number, when Google shows one, as Google prints it: national format such as (512) 890-2933 or international format such as +1 512-890-2933.",
     )
-    place_id: str | None = Field(
-        default=None, alias="placeId", description="Place identifier."
-    )
-    postal_code: str | None = Field(
-        default=None, alias="postalCode", description="Postal code of the place."
+    position: int = Field(
+        description="One-based position of the business in the local pack, counting only unpaid listings. Populated whenever the provider has data for the entity."
     )
     price_level: str | None = Field(
         default=None,
         alias="priceLevel",
-        description="Price level indicator Google shows for the place.",
+        description="Price range Google shows for the business, such as $10-20.",
     )
-    rank_absolute: int = Field(
+    rank_absolute: int | None = Field(
+        default=None,
         alias="rankAbsolute",
-        description="Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.",
+        description="Position of the business among every element of the Google results page, counting from the top.",
     )
     rank_group: int | None = Field(
         default=None,
         alias="rankGroup",
-        description="Grouped ranking position within the local pack.",
+        description="Position Google gives the business inside the local pack, counting sponsored listings, so it can be higher than position when an ad sits above it.",
     )
     rating: float | None = Field(
         default=None,
-        description="Average star rating out of 5. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
-    )
-    region: str | None = Field(
-        default=None, description="State or region the place is in."
+        description="Average Google star rating out of 5. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     reviews_count: int | None = Field(
-        default=None, alias="reviewsCount", description="Total number of reviews."
+        default=None,
+        alias="reviewsCount",
+        description="Number of Google reviews behind the rating. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    url: str | None = Field(default=None, description="Canonical place URL.")
+    url: str | None = Field(
+        default=None,
+        description="Business website URL, when listed, with tracking query parameters removed.",
+    )
 
 
 class SeoRankedKeywordsData(BaseModel):
@@ -4076,15 +4109,18 @@ class SeoNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[SeoLocalPackInput],
     ) -> RunResult[SeoLocalPackData]:
-        """SEO Local Pack
+        """Google Local Pack
 
-        Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
-        contact basics as normalized JSON.
+        Get the Google local pack for a keyword in a city: the short list of
+        businesses Google shows in the map box on its normal search results page, in
+        pack order, with rating, review count, address, category, opening hours,
+        phone, website, booking link, and Google listing ids. Sponsored listings are
+        left out. For the full Google Maps results list, use maps.search.
 
-        Price: $0.0024 per request plus $0 per result (maximum $0.0024).
+        Price: $0.0015 per request.
 
         Example:
-            res = client.seo.local_pack(keyword="coffee shop", language="en", limit=5, location="New York,New York,United States")
+            res = client.seo.local_pack(keyword="coffee shop", language="en", location="New York,New York,United States")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.local_pack", dict(input), options
@@ -4639,15 +4675,18 @@ class AsyncSeoNamespace:
         options: RequestOptions | None = None,
         **input: Unpack[SeoLocalPackInput],
     ) -> RunResult[SeoLocalPackData]:
-        """SEO Local Pack
+        """Google Local Pack
 
-        Search AnyAPI SEO local pack results with rankings, ratings, addresses, and
-        contact basics as normalized JSON.
+        Get the Google local pack for a keyword in a city: the short list of
+        businesses Google shows in the map box on its normal search results page, in
+        pack order, with rating, review count, address, category, opening hours,
+        phone, website, booking link, and Google listing ids. Sponsored listings are
+        left out. For the full Google Maps results list, use maps.search.
 
-        Price: $0.0024 per request plus $0 per result (maximum $0.0024).
+        Price: $0.0015 per request.
 
         Example:
-            res = client.seo.local_pack(keyword="coffee shop", language="en", limit=5, location="New York,New York,United States")
+            res = client.seo.local_pack(keyword="coffee shop", language="en", location="New York,New York,United States")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "seo.local_pack", dict(input), options

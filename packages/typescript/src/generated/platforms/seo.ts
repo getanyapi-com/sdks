@@ -3202,7 +3202,7 @@ export interface SeoLlmTopPagesData {
 }
 
 /**
- * Input for SEO Local Pack (seo.local_pack).
+ * Input for Google Local Pack (seo.local_pack).
  */
 export interface SeoLocalPackInput {
   /**
@@ -3215,33 +3215,44 @@ export interface SeoLocalPackInput {
    */
   ignoreSources?: string[];
   /**
-   * SEO local pack search keyword.
+   * Search keyword, for example coffee shop or plumber.
    */
   keyword: string;
   /**
-   * Language code for SEO local pack results.
+   * Language code for the search results.
    * Default: en.
    */
   language?: string;
   /**
-   * Maximum number of local pack places to return. Billing is flat per request.
+   * Maximum number of local pack businesses to return. Google usually shows three. Billing is flat per request.
    * Range: minimum 1, maximum 100.
-   * Default: 20.
    */
   limit?: number;
   /**
-   * Local pack search location name, formatted like City,Region,Country; for example, New York,New York,United States. Supply either location or locationCoordinate, not both.
+   * Location to search from, formatted like City,Region,Country; for example, New York,New York,United States.
    */
-  location?: string;
-  /**
-   * Precise geo target as latitude,longitude or latitude,longitude,radius (radius in meters); for example, 40.7580,-73.9855 or 40.7580,-73.9855,1000. Supply either location or locationCoordinate, not both.
-   */
-  locationCoordinate?: string;
+  location: string;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
   preferLatencyUnderMs?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `address` or `cid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a business that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "address"
+    | "bookingUrl"
+    | "category"
+    | "cid"
+    | "description"
+    | "directionsUrl"
+    | "hours"
+    | "image"
+    | "knowledgeGraphId"
+    | "priceLevel"
+    | "rankGroup"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3250,96 +3261,92 @@ export interface SeoLocalPackInput {
 
 export interface SeoLocalPackPlace {
   /**
-   * Full formatted street address. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * The address line Google shows for the business in the pack. For a business that serves an area rather than a storefront, Google shows years in business and the city here instead.
    */
   address?: string;
   /**
-   * Primary place category.
+   * Booking link Google shows for the business, when it has one. The query string carries the booking session, so it is kept.
+   */
+  bookingUrl?: string;
+  /**
+   * Business category Google shows, such as Coffee shop or Plumber.
    */
   category?: string;
   /**
-   * City the place is in.
+   * Google customer id (CID) of the business listing.
    */
-  city?: string;
+  cid?: string;
   /**
-   * True when the place listing is claimed.
+   * The text Google prints under the business name in the pack. Usually it is every line: the street address or years in business, opening hours, and a review quote. On some responses it is only the review quote, with the address and hours in their own fields.
    */
-  claimed?: boolean;
+  description?: string;
   /**
-   * Two-letter country code.
+   * Google Maps directions link to the business, with tracking query parameters removed.
    */
-  countryCode?: string;
+  directionsUrl?: string;
   /**
-   * Registrable domain of the place website.
+   * Host name of the business website, such as www.example.com.
    */
   domain?: string;
   /**
-   * Primary photo URL for the place. The query string carries the image identity, so it is kept.
+   * Opening hours text Google shows, such as Open 24 hours or Closed - Opens 7 AM.
+   */
+  hours?: string;
+  /**
+   * Thumbnail photo URL Google shows for the business.
    */
   image?: string;
   /**
-   * Latitude of the place in decimal degrees.
+   * Google Knowledge Graph id of the business, such as /g/11vb1r7rlr.
    */
-  latitude?: number;
+  knowledgeGraphId?: string;
   /**
-   * Longitude of the place in decimal degrees.
-   */
-  longitude?: number;
-  /**
-   * Place name. Populated whenever the provider has data for the entity.
+   * Business name. Populated whenever the provider has data for the entity.
    */
   name: string;
   /**
-   * Business phone number, when listed.
+   * Business phone number, when Google shows one, as Google prints it: national format such as (512) 890-2933 or international format such as +1 512-890-2933.
    */
   phone?: string;
   /**
-   * Place identifier.
+   * One-based position of the business in the local pack, counting only unpaid listings. Populated whenever the provider has data for the entity.
    */
-  placeId?: string;
+  position: number;
   /**
-   * Postal code of the place.
-   */
-  postalCode?: string;
-  /**
-   * Price level indicator Google shows for the place.
+   * Price range Google shows for the business, such as $10-20.
    */
   priceLevel?: string;
   /**
-   * Absolute ranking position in the local pack results. Populated whenever the provider has data for the entity.
+   * Position of the business among every element of the Google results page, counting from the top.
    */
-  rankAbsolute: number;
+  rankAbsolute?: number;
   /**
-   * Grouped ranking position within the local pack.
+   * Position Google gives the business inside the local pack, counting sponsored listings, so it can be higher than position when an ad sits above it.
    */
   rankGroup?: number;
   /**
-   * Average star rating out of 5. Populated whenever the provider has data for the entity.
+   * Average Google star rating out of 5. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   rating?: number;
   /**
-   * State or region the place is in.
-   */
-  region?: string;
-  /**
-   * Total number of reviews.
+   * Number of Google reviews behind the rating. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
    */
   reviewsCount?: number;
   /**
-   * Canonical place URL.
+   * Business website URL, when listed, with tracking query parameters removed.
    */
   url?: string;
   [extra: string]: unknown;
 }
 
 /**
- * The `data` payload of SEO Local Pack (seo.local_pack).
+ * The `data` payload of Google Local Pack (seo.local_pack).
  */
 export interface SeoLocalPackData {
   /**
-   * SEO local pack place records. Populated whenever the provider has data for the entity.
+   * Businesses in the Google local pack, in the order Google shows them. Populated whenever the provider has data for the entity.
    */
   places: SeoLocalPackPlace[];
 }
@@ -4497,14 +4504,14 @@ export class SeoNamespace {
   }
 
   /**
-   * SEO Local Pack
+   * Google Local Pack
    *
-   * Search AnyAPI SEO local pack results with rankings, ratings, addresses, and contact basics as normalized JSON.
+   * Get the Google local pack for a keyword in a city: the short list of businesses Google shows in the map box on its normal search results page, in pack order, with rating, review count, address, category, opening hours, phone, website, booking link, and Google listing ids. Sponsored listings are left out. For the full Google Maps results list, use maps.search.
    *
-   * Price: $0.0024 per request plus $0 per result (maximum $0.0024).
+   * Price: $0.0015 per request.
    *
    * @example
-   * const res = await client.seo.localPack({ keyword: "coffee shop", language: "en", limit: 5, location: "New York,New York,United States" });
+   * const res = await client.seo.localPack({ keyword: "coffee shop", location: "New York,New York,United States", language: "en" });
    */
   localPack(
     input: SeoLocalPackInput,
