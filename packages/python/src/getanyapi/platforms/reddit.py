@@ -48,7 +48,7 @@ class RedditPostInput(TypedDict, total=False):
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """Full Reddit post URL in the /r/<subreddit>/comments/<id>/<slug>/ form, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The short "reddit.com/comments/<id>" form is not accepted."""
+    """Reddit post URL on reddit.com, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The /r/<subreddit>/comments/<id>/, /user/<name>/comments/<id>/, /comments/<id>/ and /gallery/<id> forms are accepted. A link to any other site is refused as invalid input, with no charge."""
 
 
 class RedditPostCommentsInput(TypedDict, total=False):

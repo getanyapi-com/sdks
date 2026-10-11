@@ -2993,7 +2993,7 @@ export interface TiktokVideoCommentsInput {
    */
   source?: string[];
   /**
-   * Full TikTok video URL.
+   * TikTok post URL on tiktok.com: a video or photo post (https://www.tiktok.com/@<user>/video/<id> or /photo/<id>) or a vm.tiktok.com or vt.tiktok.com short link. A profile link (https://www.tiktok.com/@<user>), a video file link (tiktokcdn.com) or a link to any other site is refused as invalid input, with no charge.
    */
   url: string;
 }

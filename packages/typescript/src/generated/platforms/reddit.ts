@@ -106,7 +106,7 @@ export interface RedditPostInput {
    */
   source?: string[];
   /**
-   * Full Reddit post URL in the /r/<subreddit>/comments/<id>/<slug>/ form, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The short "reddit.com/comments/<id>" form is not accepted.
+   * Reddit post URL on reddit.com, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The /r/<subreddit>/comments/<id>/, /user/<name>/comments/<id>/, /comments/<id>/ and /gallery/<id> forms are accepted. A link to any other site is refused as invalid input, with no charge.
    */
   url: string;
 }

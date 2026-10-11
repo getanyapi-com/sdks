@@ -470,7 +470,7 @@ class FacebookProfileEventsInput(TypedDict, total=False):
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """The Facebook page URL."""
+    """The Facebook page URL whose events to list, e.g. https://www.facebook.com/brickyardoldtown. A single event link (https://www.facebook.com/events/<id>) is refused as invalid input, with no charge; facebook.event_details reads one event."""
 
 
 class FacebookProfilePostsInput(TypedDict, total=False):
@@ -489,7 +489,7 @@ class FacebookProfilePostsInput(TypedDict, total=False):
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
-    """Full Facebook page/profile URL."""
+    """Full Facebook page or profile URL, e.g. https://www.facebook.com/nike. A single event link (https://www.facebook.com/events/<id>) is refused as invalid input, with no charge; facebook.event_details reads one event."""
 
 
 class FacebookProfileReelsInput(TypedDict, total=False):

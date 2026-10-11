@@ -2527,7 +2527,7 @@ export interface FacebookProfileEventsInput {
    */
   source?: string[];
   /**
-   * The Facebook page URL.
+   * The Facebook page URL whose events to list, e.g. https://www.facebook.com/brickyardoldtown. A single event link (https://www.facebook.com/events/<id>) is refused as invalid input, with no charge; facebook.event_details reads one event.
    */
   url: string;
 }
@@ -2606,7 +2606,7 @@ export interface FacebookProfilePostsInput {
    */
   source?: string[];
   /**
-   * Full Facebook page/profile URL.
+   * Full Facebook page or profile URL, e.g. https://www.facebook.com/nike. A single event link (https://www.facebook.com/events/<id>) is refused as invalid input, with no charge; facebook.event_details reads one event.
    */
   url?: string;
 }
