@@ -94506,7 +94506,7 @@
       "operationId": "seo_ranked_keywords",
       "name": "SEO Ranked Keywords",
       "category": "search",
-      "description": "Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON.",
+      "description": "Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON. One call returns up to 1,000 keywords; use offset to page further.",
       "pricing": {
         "priceUsd": 0.17496,
         "baseUsd": 0.01496,
@@ -94555,7 +94555,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of ranked keywords to return. You are billed per returned result, so a lower limit costs less.",
+            "description": "Maximum number of ranked keywords to return. 1,000 is the per-call maximum; use offset to fetch more. You are billed per returned result, so a lower limit costs less.",
             "minimum": 1,
             "maximum": 1000,
             "default": 10
@@ -94566,6 +94566,13 @@
             "minimum": null,
             "maximum": null,
             "default": 2840
+          },
+          "offset": {
+            "kind": "integer",
+            "description": "Number of ranked keywords to skip in the chosen sort order. To fetch the next page, set offset to the previous offset plus limit, and keep the same orderBy, location, and language across pages. You are billed only for the keywords returned.",
+            "minimum": 0,
+            "maximum": null,
+            "default": 0
           },
           "orderBy": {
             "kind": "string",

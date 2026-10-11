@@ -3370,7 +3370,7 @@ export interface SeoRankedKeywordsInput {
    */
   language?: string;
   /**
-   * Maximum number of ranked keywords to return. You are billed per returned result, so a lower limit costs less.
+   * Maximum number of ranked keywords to return. 1,000 is the per-call maximum; use offset to fetch more. You are billed per returned result, so a lower limit costs less.
    * Range: minimum 1, maximum 1000.
    * Default: 10.
    */
@@ -3380,6 +3380,12 @@ export interface SeoRankedKeywordsInput {
    * Default: 2840.
    */
   location?: number;
+  /**
+   * Number of ranked keywords to skip in the chosen sort order. To fetch the next page, set offset to the previous offset plus limit, and keep the same orderBy, location, and language across pages. You are billed only for the keywords returned.
+   * Range: minimum 0.
+   * Default: 0.
+   */
+  offset?: number;
   /**
    * Sort order for the returned ranked keywords: by SERP position (ascending for best rankings first), search volume, or estimated traffic value (etv). Omit for the default order.
    * One of: position_asc, position_desc, volume_desc, etv_desc.
@@ -4523,7 +4529,7 @@ export class SeoNamespace {
   /**
    * SEO Ranked Keywords
    *
-   * Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON.
+   * Get AnyAPI SEO ranked keywords for a domain with rankings, traffic estimates, volume, CPC, difficulty, and intent as normalized JSON. One call returns up to 1,000 keywords; use offset to page further.
    *
    * Price: $0.01496 per request plus $0.00016 per result (maximum $0.17496).
    *
