@@ -83321,11 +83321,9 @@
             "items": {
               "kind": "string",
               "enum": [
-                "authorId",
                 "isArchived",
                 "isLocked",
-                "media",
-                "nsfw"
+                "media"
               ],
               "default": null,
               "format": null
@@ -83827,12 +83825,9 @@
             "items": {
               "kind": "string",
               "enum": [
-                "authorId",
                 "isArchived",
                 "isLocked",
-                "nsfw",
-                "selftext",
-                "upvoteRatio"
+                "selftext"
               ],
               "default": null,
               "format": null
@@ -84121,7 +84116,6 @@
             "items": {
               "kind": "string",
               "enum": [
-                "authorId",
                 "isArchived",
                 "isLocked",
                 "selftext"
