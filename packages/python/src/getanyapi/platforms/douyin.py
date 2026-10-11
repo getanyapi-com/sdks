@@ -459,7 +459,7 @@ class DouyinNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.douyin.profile(secUserId="MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y")
+            res = client.douyin.profile(secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.profile", dict(input), options
@@ -570,7 +570,7 @@ class AsyncDouyinNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.douyin.profile(secUserId="MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y")
+            res = client.douyin.profile(secUserId="MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "douyin.profile", dict(input), options

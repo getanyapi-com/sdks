@@ -672,7 +672,7 @@ export class DouyinNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.douyin.profile({ secUserId: "MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y" });
+   * const res = await client.douyin.profile({ secUserId: "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE" });
    */
   profile(
     input: DouyinProfileInput,

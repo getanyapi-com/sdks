@@ -37016,12 +37016,12 @@
           "content": {
             "application/json": {
               "example": {
-                "secUserId": "MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y"
+                "secUserId": "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "secUserId": "MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y"
+                  "secUserId": "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE"
                 },
                 "properties": {
                   "allowFallbacks": {
@@ -43540,7 +43540,7 @@
     },
     "/v1/run/email.find": {
       "post": {
-        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$30.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
+        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$15.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
         "operationId": "email_find",
         "parameters": [
           {
@@ -44009,7 +44009,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.030800",
+            "amount": "0.015400",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -44051,7 +44051,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.030800",
+                "amount": "0.015400",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -44083,7 +44083,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.030800",
+                "amount": "0.015400",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -65928,7 +65928,7 @@
     },
     "/v1/run/facebook.profile_posts": {
       "post": {
-        "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Profile Posts pricing and uptime](https://getanyapi.com/api/facebook/profile-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Profile Posts pricing and uptime](https://getanyapi.com/api/facebook/profile-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_profile_posts",
         "parameters": [
           {
@@ -253777,7 +253777,7 @@
     },
     "/v1/run/web.crawl": {
       "post": {
-        "description": "Crawl a website and get up to 10 of its pages as separate items, each with its URL, title, description, language, HTTP status, clean Markdown text and page metadata such as headings and structured data, ideal for feeding sites into LLMs and search indexes. Pages that failed or were skipped are listed separately and never billed.\n\n**Price:** billed per result - \\$1.25 per 1,000 results, capped at \\$12.50 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Website Crawl pricing and uptime](https://getanyapi.com/api/web/crawl) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Crawl a website and get up to 10 of its pages as separate items, each with its URL, title, description, language, HTTP status, clean Markdown text and page metadata such as headings and structured data, ideal for feeding sites into LLMs and search indexes. Pages that failed or were skipped are listed separately and never billed.\n\n**Price:** billed per result - \\$1.25 per 1,000 results, capped at \\$12.50 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Website Crawl pricing and uptime](https://getanyapi.com/api/web/crawl) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_crawl",
         "parameters": [
           {

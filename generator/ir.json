@@ -20246,7 +20246,7 @@
       "inputTypeName": "DouyinProfileInput",
       "outputTypeName": "DouyinProfileData",
       "example": {
-        "secUserId": "MS4wLjABAAAAW9FWcqS7RdQAWPd2AA5fL_ilmqsIFUCQ_Iym6Yh9_cUa6ZRqVLjVQSUjlHrfXY1Y"
+        "secUserId": "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE"
       },
       "input": {
         "kind": "object",
@@ -23142,7 +23142,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
