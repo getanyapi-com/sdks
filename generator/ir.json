@@ -8393,8 +8393,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-10",
-        "checkOut": "2026-11-12",
+        "checkIn": "2026-11-11",
+        "checkOut": "2026-11-13",
         "limit": 3,
         "query": "New York"
       },
@@ -39880,8 +39880,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-10",
-        "checkOut": "2026-11-12",
+        "checkIn": "2026-11-11",
+        "checkOut": "2026-11-13",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40479,8 +40479,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-10",
-        "checkOut": "2026-11-12",
+        "checkIn": "2026-11-11",
+        "checkOut": "2026-11-13",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -60825,7 +60825,7 @@
       "category": "social",
       "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
