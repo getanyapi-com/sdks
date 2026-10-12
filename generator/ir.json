@@ -19800,7 +19800,7 @@
       "operationId": "congress_trades",
       "name": "Congress Stock Trades",
       "category": "fin",
-      "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range.",
+      "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range. Results come newest filing first (by reportedUtc, not tradedUtc), so a recent filing can list trades made years earlier.",
       "pricing": {
         "priceUsd": 0.0534,
         "baseUsd": 0.0011,

@@ -128,7 +128,8 @@ class CongressNamespace:
 
         Get US Congress members' financial disclosures and stock trades (member,
         ticker, transaction type, amount range, and dates), filterable by member,
-        ticker, or date range.
+        ticker, or date range. Results come newest filing first (by reportedUtc, not
+        tradedUtc), so a recent filing can list trades made years earlier.
 
         Price: $0.0011 per request plus $0.00209 per result (maximum $0.0534).
 
@@ -157,7 +158,8 @@ class AsyncCongressNamespace:
 
         Get US Congress members' financial disclosures and stock trades (member,
         ticker, transaction type, amount range, and dates), filterable by member,
-        ticker, or date range.
+        ticker, or date range. Results come newest filing first (by reportedUtc, not
+        tradedUtc), so a recent filing can list trades made years earlier.
 
         Price: $0.0011 per request plus $0.00209 per result (maximum $0.0534).
 
