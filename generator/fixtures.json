@@ -2305,6 +2305,32 @@
     "items": 1,
     "replayed": false
   },
+  "google.trends": {
+    "output": {
+      "found": true,
+      "data": {
+        "geo": "sample",
+        "timeframe": "sample",
+        "series": [
+          {
+            "keyword": "sample",
+            "points": [
+              {
+                "startUtc": 1.5,
+                "value": 1,
+                "_extra": "passthrough"
+              }
+            ],
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google.videos": {
     "output": {
       "found": true,

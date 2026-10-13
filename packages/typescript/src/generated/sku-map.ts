@@ -298,6 +298,8 @@ import type {
   GoogleSearch100Input,
   GoogleSearchData,
   GoogleSearchInput,
+  GoogleTrendsData,
+  GoogleTrendsInput,
   GoogleVideosData,
   GoogleVideosInput,
 } from "./platforms/google.js";
@@ -1583,6 +1585,11 @@ export interface SkuMap {
     input: GoogleSearch100Input;
     data: GoogleSearch100Data;
     result: RunResult<GoogleSearch100Data>;
+  };
+  "google.trends": {
+    input: GoogleTrendsInput;
+    data: GoogleTrendsData;
+    result: RunResult<GoogleTrendsData>;
   };
   "google.videos": {
     input: GoogleVideosInput;

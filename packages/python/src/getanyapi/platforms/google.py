@@ -238,6 +238,27 @@ class GoogleSearch100Input(TypedDict, total=False):
     """Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction)."""
 
 
+class GoogleTrendsInput(TypedDict, total=False):
+    """Input for Google Trends."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    geo: NotRequired[str]
+    """Where the searches came from: an uppercase ISO country code (US, GB, DE) or a country subdivision (US-CA, GB-ENG). Omit it, or send worldwide, for worldwide interest. Default: worldwide."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    keywords: Required[list[str]]
+    """Search terms to compare, 1 to 5, each 2 to 100 characters and without commas (e.g. ["coffee", "tea"]). Values are relative across the whole set, so the same term scores differently next to different terms."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    timeframe: NotRequired[
+        Literal["1h", "4h", "1d", "7d", "1m", "3m", "12m", "5y", "all"]
+    ]
+    """The window to chart, ending now: 1h, 4h, 1d or 7d (hours and days), 1m or 3m (months), 12m, 5y, or all (back to January 2004). Buckets grow with the window: minutes up to 1d, hours for 7d, days for 1m and 3m, weeks for 12m and 5y, months for all. Default: 12m."""
+
+
 class GoogleVideosInput(TypedDict, total=False):
     """Input for Google Videos."""
 
@@ -615,6 +636,45 @@ class GoogleSearch100Result(BaseModel):
     )
 
 
+class GoogleTrendsData(BaseModel):
+    geo: str = Field(
+        description="The place the series cover: the country or subdivision code you sent, or worldwide."
+    )
+    series: list[GoogleTrendsSerie] = Field(
+        description="One series per search term, in the order you sent the terms. All series share one 0-100 scale. Populated whenever the provider has data for the entity."
+    )
+    timeframe: str = Field(
+        description="The window the series cover: the timeframe you sent, or 12m when you sent none."
+    )
+
+
+class GoogleTrendsSerie(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    keyword: str = Field(
+        description="The search term this series charts. Populated whenever the provider has data for the entity."
+    )
+    points: list[GoogleTrendsPoint] = Field(
+        description="One point per time bucket, oldest first. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleTrendsPoint(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    partial: bool | None = Field(
+        default=None,
+        description="True when Google is still counting this bucket, normally the newest one, so it reads lower than it will end. Present only when the source reports it.",
+    )
+    start_utc: float = Field(
+        alias="startUtc",
+        description="Start of the time bucket. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    value: int = Field(
+        description="Search interest in this bucket on Google's 0-100 scale, where 100 is the peak of any term in the response and 0 means there was not enough data. Populated whenever the provider has data for the entity. Range: 0 to 100."
+    )
+
+
 class GoogleVideosData(BaseModel):
     query: str = Field(description="The query that was searched.")
     results: list[GoogleVideosResult] = Field(
@@ -910,6 +970,32 @@ class GoogleNamespace:
         )
         return RunResult[GoogleSearch100Data].model_validate(raw)
 
+    def trends(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleTrendsInput],
+    ) -> RunResult[GoogleTrendsData]:
+        """Google Trends
+
+        Google Trends interest over time for up to 5 search terms compared on one
+        0-100 scale, where 100 is the peak search interest of any term in the
+        window. Returns one series per term, in the order you sent them, with a
+        value for every time bucket. Choose the country or region with geo
+        (worldwide when omitted) and the window with timeframe (the past 12 months
+        when omitted); both are echoed in the response. Interest over time only, not
+        related queries or regions.
+
+        Price: $0.0007 per request.
+
+        Example:
+            res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.trends", dict(input), options
+        )
+        return RunResult[GoogleTrendsData].model_validate(raw)
+
     def videos(
         self,
         *,
@@ -1198,6 +1284,32 @@ class AsyncGoogleNamespace:
             "google.search_100", dict(input), options
         )
         return RunResult[GoogleSearch100Data].model_validate(raw)
+
+    async def trends(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleTrendsInput],
+    ) -> RunResult[GoogleTrendsData]:
+        """Google Trends
+
+        Google Trends interest over time for up to 5 search terms compared on one
+        0-100 scale, where 100 is the peak search interest of any term in the
+        window. Returns one series per term, in the order you sent them, with a
+        value for every time bucket. Choose the country or region with geo
+        (worldwide when omitted) and the window with timeframe (the past 12 months
+        when omitted); both are echoed in the response. Interest over time only, not
+        related queries or regions.
+
+        Price: $0.0007 per request.
+
+        Example:
+            res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.trends", dict(input), options
+        )
+        return RunResult[GoogleTrendsData].model_validate(raw)
 
     async def videos(
         self,
