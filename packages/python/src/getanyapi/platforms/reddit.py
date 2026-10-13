@@ -1009,7 +1009,7 @@ class RedditNamespace:
         The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and
         post and comment counts.
 
-        Price: $0.00038 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.avatar(username="spez")
@@ -1196,7 +1196,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00038 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1239,7 +1239,7 @@ class RedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.00038 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")
@@ -1404,7 +1404,7 @@ class AsyncRedditNamespace:
         The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and
         post and comment counts.
 
-        Price: $0.00038 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.avatar(username="spez")
@@ -1591,7 +1591,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00038 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1634,7 +1634,7 @@ class AsyncRedditNamespace:
 
         Search posts within a single subreddit by query, sort, and timeframe.
 
-        Price: $0.00038 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.reddit.subreddit_search(query="push ups", subreddit="Fitness")

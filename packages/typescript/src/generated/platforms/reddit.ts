@@ -1304,7 +1304,7 @@ export class RedditNamespace {
    *
    * Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.
    *
-   * Price: $0.00038 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.avatar({ username: "spez" });
@@ -1466,7 +1466,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top).
    *
-   * Price: $0.00038 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.subredditPosts({ subreddit: "programming", limit: 5 });
@@ -1506,7 +1506,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
    *
-   * Price: $0.00038 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });
