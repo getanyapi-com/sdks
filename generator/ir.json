@@ -8393,8 +8393,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-12",
-        "checkOut": "2026-11-14",
+        "checkIn": "2026-11-13",
+        "checkOut": "2026-11-15",
         "limit": 3,
         "query": "New York"
       },
@@ -23142,7 +23142,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -36672,7 +36672,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38109,7 +38109,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40090,8 +40090,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-12",
-        "checkOut": "2026-11-14",
+        "checkIn": "2026-11-13",
+        "checkOut": "2026-11-15",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -40689,8 +40689,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-12",
-        "checkOut": "2026-11-14",
+        "checkIn": "2026-11-13",
+        "checkOut": "2026-11-15",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -53628,10 +53628,10 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.006,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0512,
+        "baseUsd": 0.0032,
+        "perItemUsd": 0.0048,
+        "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
       "tsMethod": "companyEmployees",
@@ -82466,7 +82466,7 @@
       "category": "social",
       "description": "Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83965,7 +83965,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -84263,7 +84263,7 @@
       "category": "social",
       "description": "Search posts within a single subreddit by query, sort, and timeframe.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -103863,8 +103863,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00116,
-        "baseUsd": 0.00116,
+        "priceUsd": 0.00187,
+        "baseUsd": 0.00187,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -107729,7 +107729,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -120691,7 +120691,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -123681,7 +123681,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
