@@ -2157,7 +2157,7 @@ export interface SeoLlmTopBrandsBrand {
   /**
    * Brands most often named in answers mentioning this brand.
    */
-  brands?: SeoLlmTopBrandsBrand[];
+  brands?: SeoLlmTopBrandsBrand2[];
   /**
    * Domains most often cited as sources in answers mentioning this brand.
    */
@@ -2195,6 +2195,22 @@ export interface SeoLlmTopBrandsBrandCategorie {
    * Category of the named brand.
    */
   category: string;
+  /**
+   * AI answers counted in this group.
+   */
+  mentions?: number;
+  [extra: string]: unknown;
+}
+
+export interface SeoLlmTopBrandsBrand2 {
+  /**
+   * Estimated monthly AI search volume of those answers.
+   */
+  aiSearchVolume?: number;
+  /**
+   * Brand named in the answer.
+   */
+  brand: string;
   /**
    * AI answers counted in this group.
    */

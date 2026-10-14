@@ -2983,7 +2983,7 @@ class PeopleSearchProspeoCompany(BaseModel):
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Company LinkedIn page URL."
     )
-    location: PeopleSearchProspeoLocation | None = Field(
+    location: PeopleSearchProspeoLocation2 | None = Field(
         default=None, description="Company headquarters."
     )
     naics_codes: list[str] | None = Field(
@@ -3133,7 +3133,7 @@ class PeopleSearchProspeoJobPosting(BaseModel):
     )
 
 
-class PeopleSearchProspeoLocation(BaseModel):
+class PeopleSearchProspeoLocation2(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     city: str | None = Field(default=None, description="City.")
@@ -3244,6 +3244,29 @@ class PeopleSearchProspeoJobHistory(BaseModel):
         default=None, alias="startYear", description="Year the role started."
     )
     title: str | None = Field(default=None, description="Job title held.")
+
+
+class PeopleSearchProspeoLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    city: str | None = Field(default=None, description="City.")
+    country: str | None = Field(default=None, description="Country name.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="ISO 3166-1 alpha-2 country code.",
+    )
+    state: str | None = Field(default=None, description="State or region.")
+    time_zone: str | None = Field(
+        default=None,
+        alias="timeZone",
+        description="IANA time zone, e.g. America/New_York.",
+    )
+    time_zone_offset: float | None = Field(
+        default=None,
+        alias="timeZoneOffset",
+        description="Current offset from UTC in hours.",
+    )
 
 
 class PeopleSearchProspeoMobile(BaseModel):

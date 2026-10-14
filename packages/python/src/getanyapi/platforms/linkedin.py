@@ -2819,7 +2819,7 @@ class LinkedinProfileCommentsPost(BaseModel):
     author: LinkedinProfileCommentsAuthor | None = Field(
         default=None, description="Author of the post that was commented on."
     )
-    engagement: LinkedinProfileCommentsEngagement | None = Field(
+    engagement: LinkedinProfileCommentsEngagement2 | None = Field(
         default=None,
         description="Public engagement totals on the post that was commented on.",
     )
@@ -2866,6 +2866,20 @@ class LinkedinProfileCommentsAuthor(BaseModel):
         default=None,
         alias="publicIdentifier",
         description='LinkedIn public identifier (vanity slug) of the post author, for example "williamhgates". Stable across lanes, unlike the raw id.',
+    )
+
+
+class LinkedinProfileCommentsEngagement2(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Total comment count on the post. Minimum: 0."
+    )
+    reactions: int | None = Field(
+        default=None, description="Total reaction count on the post. Minimum: 0."
+    )
+    reposts: int | None = Field(
+        default=None, description="Total repost or share count on the post. Minimum: 0."
     )
 
 
