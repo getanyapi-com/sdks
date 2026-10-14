@@ -307,7 +307,7 @@ export interface WebScrapeInput {
    */
   url: string;
   /**
-   * Milliseconds to wait for the page to finish rendering before capture. Use this for JavaScript-heavy pages or single-page apps whose content loads after the initial paint. Capped at 15000 to stay within the request timeout. This wait is time you asked us to spend, so your response takes this much longer, and it is excluded from the latency published for this endpoint.
+   * Milliseconds to wait for the page to finish rendering before capture. Use this for JavaScript-heavy pages or single-page apps whose content loads after the initial paint. Capped at 15000 to stay within the request timeout. This wait is time you asked us to spend, so your response takes this much longer, and it is excluded from the latency published for this endpoint. If every provider that can wait fails, the page may still be returned, captured without the wait.
    * Range: minimum 0, maximum 15000.
    */
   waitFor?: number;
