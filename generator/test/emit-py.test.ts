@@ -7,7 +7,15 @@ import { describe, expect, it, beforeAll } from "vitest";
 
 import { emitPython } from "../src/emit-py.js";
 import { ruffAvailable, formatPy } from "../src/py-format.js";
-import { arr, ir, nullableFieldsSku, obj, sku, str } from "./factories.js";
+import {
+  arr,
+  ir,
+  nullableFieldsSku,
+  obj,
+  sameNameShapesSku,
+  sku,
+  str,
+} from "./factories.js";
 import type { IR } from "../src/py-ir.js";
 
 const SAMPLE_IR: IR = JSON.parse(
@@ -542,5 +550,16 @@ describe("ruff formatting", () => {
     for (const content of Object.values(files)) {
       expect(formatPy(content)).toBe(content);
     }
+  });
+});
+
+describe("same-name nested models", () => {
+  it("gives a different shape its own model instead of reusing the first", () => {
+    const platform = emitDeterministic(ir([sameNameShapesSku()]))["platforms/same.py"]!;
+
+    expect(platform).toContain("contacts: list[SameNameContact] | None");
+    expect(platform).toContain("contacts: list[SameNameContact2] | None");
+    expect(platform).toContain("class SameNameContact(BaseModel):");
+    expect(platform).toContain("class SameNameContact2(BaseModel):");
   });
 });

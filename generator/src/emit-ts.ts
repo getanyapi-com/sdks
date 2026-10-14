@@ -18,6 +18,7 @@ import { dirname, join } from "node:path";
 import * as prettier from "prettier";
 
 import {
+  claimTypeName,
   docComment,
   doubleQuote,
   GENERATED_HEADER_TS,
@@ -28,6 +29,7 @@ import {
   pascalCase,
   priceLine,
   titleCase,
+  type TypeNameClaims,
 } from "./emit-shared.js";
 import type {
   ArrayNode,
@@ -64,9 +66,15 @@ interface NestedType {
   source: string;
 }
 
+/** Hoisted interfaces for one declaration, plus the type names claimed across the SKU. */
+interface Hoist {
+  types: NestedType[];
+  claims: TypeNameClaims;
+}
+
 /**
  * Render a SchemaNode as an inline TS type expression. Objects nested directly inside an
- * ARRAY get hoisted to a named interface (via `collect`) and referenced by name; other
+ * ARRAY get hoisted to a named interface (via `hoist`) and referenced by name; other
  * objects render as inline `{ ... }` literals. `path` seeds hoisted-type names for arrays
  * whose element is an object.
  */
@@ -74,7 +82,7 @@ function renderType(
   node: SchemaNode,
   operationId: string,
   arrayPropName: string | null,
-  collect: NestedType[],
+  hoist: Hoist,
 ): string {
   let rendered: string;
   switch (node.kind) {
@@ -96,10 +104,10 @@ function renderType(
       rendered = "unknown";
       break;
     case "array":
-      rendered = renderArrayType(node, operationId, arrayPropName, collect);
+      rendered = renderArrayType(node, operationId, arrayPropName, hoist);
       break;
     case "object":
-      rendered = renderInlineObject(node, operationId, collect);
+      rendered = renderInlineObject(node, operationId, hoist);
       break;
   }
   return node.nullable && rendered !== "null" ? `${rendered} | null` : rendered;
@@ -116,16 +124,20 @@ function renderArrayType(
   node: ArrayNode,
   operationId: string,
   arrayPropName: string | null,
-  collect: NestedType[],
+  hoist: Hoist,
 ): string {
   const items = node.items;
   let inner: string;
   if (items.kind === "object") {
-    const name = itemTypeName(operationId, arrayPropName ?? "item");
-    hoistItemInterface(name, items, operationId, collect);
+    const { name, fresh } = claimTypeName(
+      hoist.claims,
+      itemTypeName(operationId, arrayPropName ?? "item"),
+      items,
+    );
+    if (fresh) hoistItemInterface(name, items, operationId, hoist);
     inner = items.nullable ? `${name} | null` : name;
   } else {
-    inner = renderType(items, operationId, null, collect);
+    inner = renderType(items, operationId, null, hoist);
   }
   // Parenthesize union element types so the `[]` binds correctly.
   return /[ |]/.test(inner) ? `(${inner})[]` : `${inner}[]`;
@@ -135,29 +147,28 @@ function renderArrayType(
 function renderInlineObject(
   node: ObjectNode,
   operationId: string,
-  collect: NestedType[],
+  hoist: Hoist,
 ): string {
-  const members = renderObjectMembers(node, operationId, collect, false);
+  const members = renderObjectMembers(node, operationId, hoist, false);
   return `{\n${members}\n}`;
 }
 
 /**
- * Hoist an array-element object to a top-level named interface, once per name. Deduped so a
- * repeated item shape (same name) is emitted a single time. Recurses so nested arrays of
- * objects inside the item are hoisted too.
+ * Hoist an array-element object to a top-level named interface under a freshly claimed name
+ * (`claimTypeName`), so a repeated shape is emitted once and a different shape never shares
+ * its name. Recurses so nested arrays of objects inside the item are hoisted too.
  */
 function hoistItemInterface(
   name: string,
   node: ObjectNode,
   operationId: string,
-  collect: NestedType[],
+  hoist: Hoist,
 ): void {
-  if (collect.some((t) => t.name === name)) return;
-  // Reserve the name first (push a placeholder) so a self-similar nested shape does not
-  // recurse forever; then fill in the real body.
+  // The name is already claimed, so a self-similar nested shape reuses it instead of
+  // recursing forever. Push a placeholder first to keep parent-before-child order.
   const entry: NestedType = { name, source: "" };
-  collect.push(entry);
-  const members = renderObjectMembers(node, operationId, collect, false);
+  hoist.types.push(entry);
+  const members = renderObjectMembers(node, operationId, hoist, false);
   const index = node.open ? "\n  [extra: string]: unknown;" : "";
   const doc = node.description
     ? docComment([normalizeDashes(node.description)])
@@ -173,7 +184,7 @@ function hoistItemInterface(
 function renderObjectMembers(
   node: ObjectNode,
   operationId: string,
-  collect: NestedType[],
+  hoist: Hoist,
   topLevelInput: boolean,
 ): string {
   const required = new Set(node.required);
@@ -191,7 +202,7 @@ function renderObjectMembers(
       optional && mustPopulate.has(key),
       2,
     );
-    const type = renderType(child, operationId, key, collect);
+    const type = renderType(child, operationId, key, hoist);
     if (doc) lines.push(doc.trimEnd());
     lines.push(`  ${objectKey(key)}${optional ? "?" : ""}: ${type};`);
   }
@@ -294,18 +305,20 @@ function emitSkuTypes(sku: SkuEntry): string {
   const parts: string[] = [];
 
   // Input interface. Input schema is always an object in this catalog; guard anyway.
-  const inputCollect: NestedType[] = [];
+  // One claim map across input and data: their hoisted interfaces share the module scope.
+  const claims: TypeNameClaims = new Map();
+  const inputHoist: Hoist = { types: [], claims };
   if (sku.input.kind === "object") {
     const members = renderObjectMembers(
       sku.input,
       sku.operationId,
-      inputCollect,
+      inputHoist,
       true,
     );
     const index = sku.input.open ? "\n  [extra: string]: unknown;" : "";
     const inputDoc = docComment([`Input for ${sku.name} (${sku.slug}).`]);
     // Any nested item interfaces discovered in the input come first.
-    for (const t of inputCollect) parts.push(t.source);
+    for (const t of inputHoist.types) parts.push(t.source);
     parts.push(
       `${inputDoc}export interface ${sku.inputTypeName} {\n${members}${index}\n}`,
     );
@@ -315,32 +328,32 @@ function emitSkuTypes(sku: SkuEntry): string {
         sku.input,
         sku.operationId,
         null,
-        inputCollect,
+        inputHoist,
       )};`,
     );
   }
 
   // Data payload type. Hoist item interfaces first, then the data type itself.
-  const dataCollect: NestedType[] = [];
+  const dataHoist: Hoist = { types: [], claims };
   const data = sku.output.data;
   if (data.kind === "object") {
     const members = renderObjectMembers(
       data,
       sku.operationId,
-      dataCollect,
+      dataHoist,
       false,
     );
     const index = data.open ? "\n  [extra: string]: unknown;" : "";
     const dataDoc = docComment([
       `The \`data\` payload of ${sku.name} (${sku.slug}).`,
     ]);
-    for (const t of dataCollect) parts.push(t.source);
+    for (const t of dataHoist.types) parts.push(t.source);
     parts.push(
       `${dataDoc}export interface ${sku.outputTypeName} {\n${members}${index}\n}`,
     );
   } else {
-    const rendered = renderType(data, sku.operationId, null, dataCollect);
-    for (const t of dataCollect) parts.push(t.source);
+    const rendered = renderType(data, sku.operationId, null, dataHoist);
+    for (const t of dataHoist.types) parts.push(t.source);
     parts.push(`export type ${sku.outputTypeName} = ${rendered};`);
   }
 

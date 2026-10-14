@@ -23,7 +23,11 @@
 
 import type { IR, SchemaNode, ObjectNode, SkuEntry } from "./py-ir.js";
 import { DASH_RE, isObjectNode, isArrayNode } from "./py-ir.js";
-import { priceLine as sharedPriceLine } from "./emit-shared.js";
+import {
+  claimTypeName,
+  priceLine as sharedPriceLine,
+  type TypeNameClaims,
+} from "./emit-shared.js";
 import { formatPy } from "./py-format.js";
 import {
   GENERATED_HEADER_PY,
@@ -96,10 +100,16 @@ interface EmitCtx {
   models: string[];
   /** Names already emitted this module (dedupe identical nested models). */
   emittedModelNames: Set<string>;
+  /** Nested model names claimed this module, so two different shapes never share one. */
+  modelNameClaims: TypeNameClaims;
 }
 
 function emitPlatformModule(platform: string, skus: SkuEntry[]): string {
-  const ctx: EmitCtx = { models: [], emittedModelNames: new Set() };
+  const ctx: EmitCtx = {
+    models: [],
+    emittedModelNames: new Set(),
+    modelNameClaims: new Map(),
+  };
 
   const inputBlocks: string[] = [];
   const outputRootModels: string[] = [];
@@ -535,7 +545,11 @@ function pyOutputType(
     }
     case "object": {
       if (isObjectNode(node)) {
-        const nestedName = itemModelName(prefix, propKey);
+        const nestedName = claimTypeName(
+          ctx.modelNameClaims,
+          itemModelName(prefix, propKey),
+          node,
+        ).name;
         const register = () =>
           emitObjectModel(nestedName, node, prefix, ctx, sku);
         resolved = { type: nestedName, register };

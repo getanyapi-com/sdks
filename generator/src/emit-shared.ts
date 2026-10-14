@@ -126,6 +126,38 @@ export function itemTypeName(
   return pascalCase(operationId) + suffix;
 }
 
+/** Hoisted type names claimed in one emitted scope, each mapped to the shape that owns it. */
+export type TypeNameClaims = Map<string, string>;
+
+/**
+ * Claim a hoisted type name for a schema node. Derived names are not unique per shape: an
+ * input `contacts[]` item and an output `contacts[]` item both derive `<Op>Contact`, and
+ * TypeScript would merge the two interfaces while either emitter would otherwise reuse the
+ * first shape for the second. The first shape keeps `base`; a different shape takes the
+ * first free `base2`, `base3`, ... Shape identity ignores descriptions and the node's own
+ * nullability (both emitters apply that at the reference, not in the declaration).
+ * `fresh` is false when the name already belongs to this shape and was emitted.
+ */
+export function claimTypeName(
+  claims: TypeNameClaims,
+  base: string,
+  node: object,
+): { name: string; fresh: boolean } {
+  // A doc description is a string; a property NAMED "description" is a node and is kept.
+  const shape = JSON.stringify({ ...node, nullable: undefined }, (k, v) =>
+    k === "description" && typeof v === "string" ? undefined : v,
+  );
+  for (let n = 1; ; n++) {
+    const name = n === 1 ? base : `${base}${n}`;
+    const owner = claims.get(name);
+    if (owner === undefined) {
+      claims.set(name, shape);
+      return { name, fresh: true };
+    }
+    if (owner === shape) return { name, fresh: false };
+  }
+}
+
 /**
  * Format a USD amount for a doc comment: a fixed-decimal string with trailing zeros
  * trimmed, so a sub-1e-6 price never renders in exponential form (`String(1e-7)` would be

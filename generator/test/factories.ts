@@ -96,3 +96,28 @@ export function nullableFieldsSku(): SkuEntry {
     },
   });
 }
+
+/**
+ * Same-name collision fixture for both emitters: every `contacts[]` item derives the name
+ * SameNameContact, but the output row's `custom` is nullable while the input's and the
+ * owner's are not.
+ */
+export function sameNameShapesSku(): SkuEntry {
+  const contact = () => obj({ custom: obj({}) });
+  const nullableCustom = obj({});
+  nullableCustom.nullable = true;
+  return sku({
+    slug: "same.name",
+    operationId: "same_name",
+    inputTypeName: "SameNameInput",
+    outputTypeName: "SameNameData",
+    input: obj({ contacts: arr(contact()) }, ["contacts"]),
+    output: {
+      envelope: "found-data",
+      data: obj({
+        contacts: arr(obj({ custom: nullableCustom })),
+        owner: obj({ contacts: arr(contact()) }),
+      }),
+    },
+  });
+}

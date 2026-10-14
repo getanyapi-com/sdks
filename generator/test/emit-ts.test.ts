@@ -15,7 +15,7 @@ import {
 } from "../src/emit-shared.js";
 import { emitTypescript, namespaceClassName } from "../src/emit-ts.js";
 import type { IR, SkuEntry } from "../src/ir-types.js";
-import { ir, nullableFieldsSku } from "./factories.js";
+import { ir, nullableFieldsSku, sameNameShapesSku } from "./factories.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -157,6 +157,21 @@ describe("nullable SchemaNode emission", () => {
     expect(platform).not.toContain(
       "organizations: NullableFieldsOrganization[] | null;",
     );
+  });
+});
+
+describe("same-name hoisted shapes", () => {
+  it("gives a different shape its own interface instead of merging it", async () => {
+    const platform = (await emitRelative(ir([sameNameShapesSku()])))[
+      "platforms/same.ts"
+    ]!;
+
+    expect(platform.match(/^export interface SameNameContact /gm)).toHaveLength(1);
+    expect(platform).toContain("export interface SameNameContact2 {");
+    expect(platform).toContain("custom?: {} | null;");
+    // Input and the owner's identical item share the first name; the data row takes the second.
+    expect(platform.match(/contacts\??: SameNameContact\[\];/g)).toHaveLength(2);
+    expect(platform).toContain("contacts?: SameNameContact2[];");
   });
 });
 

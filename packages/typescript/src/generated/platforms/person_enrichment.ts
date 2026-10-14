@@ -682,7 +682,7 @@ export interface PersonEnrichmentFullenrichBulkInput {
   source?: string[];
 }
 
-export interface PersonEnrichmentFullenrichBulkContact {
+export interface PersonEnrichmentFullenrichBulkContact2 {
   /**
    * Company domain as you supplied it.
    */
@@ -1084,7 +1084,7 @@ export interface PersonEnrichmentFullenrichBulkData {
   /**
    * One row per contact the waterfall resolved, in the order you sent them. Contacts it could not resolve are left out and are not billed, so match your rows back by the tags you set in custom, or by name and company.
    */
-  contacts: PersonEnrichmentFullenrichBulkContact[];
+  contacts: PersonEnrichmentFullenrichBulkContact2[];
 }
 
 export interface PersonEnrichmentFullenrichReverseEmailContact {
@@ -1126,7 +1126,7 @@ export interface PersonEnrichmentFullenrichReverseEmailInput {
   source?: string[];
 }
 
-export interface PersonEnrichmentFullenrichReverseEmailContact {
+export interface PersonEnrichmentFullenrichReverseEmailContact2 {
   /**
    * The tags you attached to this entry, echoed back so you can join rows to your own records.
    */
@@ -1472,7 +1472,7 @@ export interface PersonEnrichmentFullenrichReverseEmailData {
   /**
    * One row per address resolved to a person, in the order you sent them. Addresses that resolved to nobody are left out and are not billed; queriedEmail on each row tells you which address it answers.
    */
-  contacts: PersonEnrichmentFullenrichReverseEmailContact[];
+  contacts: PersonEnrichmentFullenrichReverseEmailContact2[];
 }
 
 /**

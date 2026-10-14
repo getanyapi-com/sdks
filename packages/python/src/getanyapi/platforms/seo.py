@@ -2184,7 +2184,7 @@ class SeoLlmTopBrandsBrand(BaseModel):
         alias="brandCategories",
         description="Categories of the brands named in answers mentioning this brand.",
     )
-    brands: list[SeoLlmTopBrandsBrand] | None = Field(
+    brands: list[SeoLlmTopBrandsBrand2] | None = Field(
         default=None,
         description="Brands most often named in answers mentioning this brand.",
     )
@@ -2222,6 +2222,20 @@ class SeoLlmTopBrandsBrandCategorie(BaseModel):
         description="Estimated monthly AI search volume of those answers.",
     )
     category: str = Field(description="Category of the named brand.")
+    mentions: int | None = Field(
+        default=None, description="AI answers counted in this group."
+    )
+
+
+class SeoLlmTopBrandsBrand2(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    ai_search_volume: int | None = Field(
+        default=None,
+        alias="aiSearchVolume",
+        description="Estimated monthly AI search volume of those answers.",
+    )
+    brand: str = Field(description="Brand named in the answer.")
     mentions: int | None = Field(
         default=None, description="AI answers counted in this group."
     )
