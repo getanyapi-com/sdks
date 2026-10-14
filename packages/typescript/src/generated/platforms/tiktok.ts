@@ -4153,7 +4153,7 @@ export class TiktokNamespace {
    *
    * Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.trendingFeed({ region: "US" });
