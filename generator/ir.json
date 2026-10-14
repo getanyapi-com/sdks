@@ -54669,10 +54669,10 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.0512,
-        "baseUsd": 0.0032,
-        "perItemUsd": 0.0048,
-        "perItemUnit": "result"
+        "priceUsd": 0.006,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "companyEmployees",
@@ -125291,7 +125291,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
