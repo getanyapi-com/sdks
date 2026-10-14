@@ -59,19 +59,19 @@ export interface CompanyIdentifyCrustdataV3Data {
   /**
    * Crustdata company id. Send it as companyId to identify the same company again.
    */
-  companyId: string;
+  companyId: string | null;
   /**
    * Ownership type, e.g. Privately Held or Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Match confidence from 0 to 1. Treat a low score on a name match as a guess.
    */
-  confidenceScore?: number;
+  confidenceScore?: number | null;
   /**
    * Company description.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary website domain, or null when Crustdata holds none for this company.
    */
@@ -79,54 +79,54 @@ export interface CompanyIdentifyCrustdataV3Data {
   /**
    * Every website domain Crustdata links to the company.
    */
-  domains?: string[];
+  domains?: string[] | null;
   /**
    * Employee count band, e.g. 5001-10000.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Industries the company operates in.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * LinkedIn numeric company id.
    */
-  linkedinCompanyId?: string;
+  linkedinCompanyId?: string | null;
   /**
    * Company name as shown on its LinkedIn page.
    */
-  linkedinProfileName?: string;
+  linkedinProfileName?: string | null;
   /**
    * LinkedIn company page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Markets the company is listed in, e.g. PRIVATE or NASDAQ.
    */
-  markets?: string[];
+  markets?: string[] | null;
   /**
    * Which kind of identifier produced the match, e.g. domain.
    */
-  matchType?: string;
+  matchType?: string | null;
   /**
    * Company name.
    */
-  name?: string;
+  name?: string | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 

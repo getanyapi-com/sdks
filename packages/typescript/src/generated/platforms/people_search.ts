@@ -60,228 +60,228 @@ export interface PeopleSearchAiArkPeople {
   /**
    * Birthday as published on the profile, in YYYY-MM-DD form. LinkedIn lets a member hide the year, and the source encodes that as the placeholder year 1600 - treat the year as unknown when it reads 1600 rather than as a real date.
    */
-  birthDate?: string;
+  birthDate?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  careerStartUtc?: number;
+  careerStartUtc?: number | null;
   /**
    * Location city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Number of acquisitions the source records for the current company.
    * Range: minimum 0.
    */
-  companyAcquisitionCount?: number;
+  companyAcquisitionCount?: number | null;
   /**
    * Acquisitions the source records for the current company, with the role telling you which side the company was on.
    */
-  companyAcquisitions?: PeopleSearchAiArkCompanyAcquisition[];
+  companyAcquisitions?: PeopleSearchAiArkCompanyAcquisition[] | null;
   /**
    * Current company headquarters address as published by the source.
    */
-  companyAddress?: string;
+  companyAddress?: string | null;
   /**
    * Current company headquarters city.
    */
-  companyCity?: string;
+  companyCity?: string | null;
   /**
    * Current company headquarters continent.
    */
-  companyContinent?: string;
+  companyContinent?: string | null;
   /**
    * Current company headquarters country.
    */
-  companyCountry?: string;
+  companyCountry?: string | null;
   /**
    * Current company's Crunchbase URL.
    * Format: uri.
    */
-  companyCrunchbaseUrl?: string;
+  companyCrunchbaseUrl?: string | null;
   /**
    * Current company description.
    */
-  companyDescription?: string;
+  companyDescription?: string | null;
   /**
    * Current company domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * The source's second copy of the current company's domain. Usually identical to companyDomain; it can differ when the source resolves a redirect or a country domain differently, so compare the two rather than assuming they match.
    */
-  companyDomainLtd?: string;
+  companyDomainLtd?: string | null;
   /**
    * Estimated employees at the current company.
    * Range: minimum 0.
    */
-  companyEmployeeCount?: number;
+  companyEmployeeCount?: number | null;
   /**
    * Lower bound of the current company's published employee range.
    * Range: minimum 0.
    */
-  companyEmployeeRangeMin?: number;
+  companyEmployeeRangeMin?: number | null;
   /**
    * Current company's canonical Facebook URL.
    * Format: uri.
    */
-  companyFacebookUrl?: string;
+  companyFacebookUrl?: string | null;
   /**
    * Year the current company was founded.
    */
-  companyFoundedYear?: number;
+  companyFoundedYear?: number | null;
   /**
    * The source's own record identifier for the current company, exposed so you can trace a result back to the record it came from.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Current company logo URL. This is a SIGNED, EXPIRING image-proxy URL - the path carries an exp: epoch roughly five days out - so fetch and store the image promptly rather than storing this URL.
    * Format: uri.
    */
-  companyImage?: string;
+  companyImage?: string | null;
   /**
    * Additional industries for the current company.
    */
-  companyIndustries?: string[];
+  companyIndustries?: string[] | null;
   /**
    * Current company's primary industry.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Keywords describing the current company.
    */
-  companyKeywords?: string[];
+  companyKeywords?: string[] | null;
   /**
    * Languages the current company publishes in.
    */
-  companyLanguages?: string[];
+  companyLanguages?: string[] | null;
   /**
    * Current company headquarters latitude in decimal degrees.
    */
-  companyLatitude?: number;
+  companyLatitude?: number | null;
   /**
    * Current company's registered legal name.
    */
-  companyLegalName?: string;
+  companyLegalName?: string | null;
   /**
    * Current company's canonical LinkedIn URL.
    * Format: uri.
    */
-  companyLinkedinUrl?: string;
+  companyLinkedinUrl?: string | null;
   /**
    * Every office the source lists for the current company, including the headquarters already reported in the companyCountry/companyCity fields.
    */
-  companyLocations?: PeopleSearchAiArkCompanyLocation[];
+  companyLocations?: PeopleSearchAiArkCompanyLocation[] | null;
   /**
    * Current company headquarters longitude in decimal degrees.
    */
-  companyLongitude?: number;
+  companyLongitude?: number | null;
   /**
    * NAICS codes for the current company.
    */
-  companyNaics?: string[];
+  companyNaics?: string[] | null;
   /**
    * Current company name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Longer overview of the current company. Overlaps companyDescription but is a separately maintained blurb and is often longer or more current.
    */
-  companyOverview?: string;
+  companyOverview?: string | null;
   /**
    * Current company headquarters postal code.
    */
-  companyPostalCode?: string;
+  companyPostalCode?: string | null;
   /**
    * Upper bound of the current company's estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  companyRevenueMax?: number;
+  companyRevenueMax?: number | null;
   /**
    * Lower bound of the current company's estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  companyRevenueMin?: number;
+  companyRevenueMin?: number | null;
   /**
    * The same annual revenue estimate as a single hyphenated range string, for example 500000000-1000000000. It duplicates companyRevenueMin and companyRevenueMax; use those for arithmetic.
    */
-  companyRevenueRange?: string;
+  companyRevenueRange?: string | null;
   /**
    * The meta description the source scraped from the current company's website. It is site copy, not the source's own writing, so it may be in another language or out of date.
    */
-  companySeoDescription?: string;
+  companySeoDescription?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  companyStartUtc?: number;
+  companyStartUtc?: number | null;
   /**
    * Current company headquarters state or region.
    */
-  companyState?: string;
+  companyState?: string | null;
   /**
    * Current company headquarters street or neighbourhood line.
    */
-  companyStreet?: string;
+  companyStreet?: string | null;
   /**
    * The source's own record identifiers for the current company's sub-organizations, exposed so you can look each one up in the company endpoints.
    */
-  companySubOrganizations?: string[];
+  companySubOrganizations?: string[] | null;
   /**
    * Technologies detected on the current company's web presence.
    */
-  companyTechnologies?: PeopleSearchAiArkCompanyTechnologie[];
+  companyTechnologies?: PeopleSearchAiArkCompanyTechnologie[] | null;
   /**
    * Current company's canonical X (Twitter) URL.
    * Format: uri.
    */
-  companyTwitterUrl?: string;
+  companyTwitterUrl?: string | null;
   /**
    * Current company's organization type.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  companyUpdatedUtc?: number;
+  companyUpdatedUtc?: number | null;
   /**
    * Current company website URL.
    * Format: uri.
    */
-  companyWebsiteUrl?: string;
+  companyWebsiteUrl?: string | null;
   /**
    * LinkedIn connection count.
    * Range: minimum 0.
    */
-  connectionCount?: number;
+  connectionCount?: number | null;
   /**
    * Location country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Whether the profile is in LinkedIn creator mode.
    */
-  creator?: boolean;
+  creator?: boolean | null;
   /**
    * Departments the current role belongs to.
    */
-  departments?: string[];
+  departments?: string[] | null;
   /**
    * Education history listed on the profile.
    */
-  educations?: PeopleSearchAiArkEducation[];
+  educations?: PeopleSearchAiArkEducation[] | null;
   /**
    * Work history grouped by company, most recent first.
    */
-  experience?: PeopleSearchAiArkExperience[];
+  experience?: PeopleSearchAiArkExperience[] | null;
   /**
    * Canonical Facebook profile URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Person's first name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Whether the profile can be followed without connecting. Untyped passthrough: the source returns null for most profiles, so its populated shape is not yet proven and this field carries whatever the source sends without reshaping it.
    */
@@ -290,58 +290,58 @@ export interface PeopleSearchAiArkPeople {
    * LinkedIn follower count.
    * Range: minimum 0.
    */
-  followerCount?: number;
+  followerCount?: number | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * Job functions the current role covers.
    */
-  functions?: string[];
+  functions?: string[] | null;
   /**
    * Canonical GitHub profile URL.
    * Format: uri.
    */
-  githubUrl?: string;
+  githubUrl?: string | null;
   /**
    * Professional profile headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * Whether the profile is flagged as hiring.
    */
-  hiring?: boolean;
+  hiring?: boolean | null;
   /**
    * Profile photo URL. This is a SIGNED, EXPIRING image-proxy URL - the path carries an exp: epoch roughly five days out - so fetch and store the image promptly rather than storing this URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Industry the person works in.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Whether the profile carries a LinkedIn influencer badge.
    */
-  influencer?: boolean;
+  influencer?: boolean | null;
   /**
    * Person's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn public profile handle, the trailing segment of the profile URL.
    */
-  linkedinHandle?: string;
+  linkedinHandle?: string | null;
   /**
    * Canonical LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl: string;
+  linkedinUrl: string | null;
   /**
    * Formatted location.
    */
-  location?: string;
+  location?: string | null;
   /**
    * Coordinates for the person's location as the source returns them. Untyped passthrough: the source returns null for most profiles, so its populated shape is not yet proven and this field carries whatever the source sends without reshaping it.
    */
@@ -349,23 +349,23 @@ export interface PeopleSearchAiArkPeople {
   /**
    * Shorter form of the same location, usually city and state without country or continent. It duplicates part of location.
    */
-  locationShort?: string;
+  locationShort?: string | null;
   /**
    * Person's middle name.
    */
-  middleName?: string;
+  middleName?: string | null;
   /**
    * The same influencer flag as the badge above, carried on the source's network statistics instead of its badge block. Expected to agree with influencer; compare them if the distinction matters to you.
    */
-  networkInfluencer?: boolean;
+  networkInfluencer?: boolean | null;
   /**
    * Whether the profile is flagged open to work.
    */
-  openToWork?: boolean;
+  openToWork?: boolean | null;
   /**
    * Whether the profile carries a LinkedIn premium badge.
    */
-  premium?: boolean;
+  premium?: boolean | null;
   /**
    * Job titles the person held before the current one, as the source returns them. Untyped passthrough: the source returns null for most profiles, so its populated shape is not yet proven and this field carries whatever the source sends without reshaping it. The experience array carries the same history in a typed form.
    */
@@ -373,11 +373,11 @@ export interface PeopleSearchAiArkPeople {
   /**
    * Primary profile language code.
    */
-  primaryLanguage?: string;
+  primaryLanguage?: string | null;
   /**
    * Country code paired with the primary profile language, for example US.
    */
-  primaryLanguageCountry?: string;
+  primaryLanguageCountry?: string | null;
   /**
    * The profile background or cover image as the source returns it. Untyped passthrough: the source returns null for most profiles, so its populated shape is not yet proven and this field carries whatever the source sends without reshaping it.
    */
@@ -385,7 +385,7 @@ export interface PeopleSearchAiArkPeople {
   /**
    * The source's own record identifier for this person, exposed so you can trace a result back to the record it came from.
    */
-  profileId?: string;
+  profileId?: string | null;
   /**
    * Languages the person lists on the profile, as the source returns them. Untyped passthrough: the source returns null for most profiles, so its populated shape is not yet proven and this field carries whatever the source sends without reshaping it.
    */
@@ -393,48 +393,48 @@ export interface PeopleSearchAiArkPeople {
   /**
    * Seniority level inferred for the current role.
    */
-  seniority?: string;
+  seniority?: string | null;
   /**
    * Skills listed on the profile.
    */
-  skills?: string[];
+  skills?: string[] | null;
   /**
    * Location state or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Sub-departments the current role belongs to.
    */
-  subDepartments?: string[];
+  subDepartments?: string[] | null;
   /**
    * Profile summary or about section.
    */
-  summary?: string;
+  summary?: string | null;
   /**
    * Every locale the profile is available in. The first entry usually repeats primaryLanguage and primaryLanguageCountry.
    */
-  supportedLocales?: PeopleSearchAiArkSupportedLocale[];
+  supportedLocales?: PeopleSearchAiArkSupportedLocale[] | null;
   /**
    * Current job title.
    */
-  title?: string;
+  title?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  titleStartUtc?: number;
+  titleStartUtc?: number | null;
   /**
    * Canonical X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  updatedUtc?: number;
+  updatedUtc?: number | null;
   /**
    * Whether LinkedIn has verified the profile.
    */
-  verified?: boolean;
+  verified?: boolean | null;
   [extra: string]: unknown;
 }
 
@@ -591,7 +591,7 @@ export interface PeopleSearchAiArkExperience {
   /**
    * Individual roles held at this company.
    */
-  positions?: PeopleSearchAiArkPosition[];
+  positions?: PeopleSearchAiArkPosition[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -722,19 +722,19 @@ export interface PeopleSearchCrustdataProfile {
   /**
    * City of residence.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Continent of residence.
    */
-  continent?: string;
+  continent?: string | null;
   /**
    * Country of residence.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Positions the person currently holds.
    */
-  currentEmployers?: PeopleSearchCrustdataCurrentEmployer[];
+  currentEmployers?: PeopleSearchCrustdataCurrentEmployer[] | null;
   /**
    * Education history exactly as Crustdata returns it (school, degree, years, location). Untyped passthrough: the structure ships verbatim and is not validated.
    */
@@ -743,49 +743,49 @@ export interface PeopleSearchCrustdataProfile {
    * LinkedIn flagship profile URL. Usually the same value as linkedinUrl; Crustdata returns both and they can differ when the profile has a vanity URL.
    * Format: uri.
    */
-  flagshipProfileUrl?: string;
+  flagshipProfileUrl?: string | null;
   /**
    * LinkedIn headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * Profile picture URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Full name of the person.
    */
-  name: string;
+  name: string | null;
   /**
    * Positions the person previously held.
    */
-  pastEmployers?: PeopleSearchCrustdataPastEmployer[];
+  pastEmployers?: PeopleSearchCrustdataPastEmployer[] | null;
   /**
    * Crustdata identifier for this person.
    */
-  personId?: string;
+  personId?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last wrote the record. Differs from updatedUtc, which reports the profile's own last-updated stamp.
    */
-  recordUpdatedUtc?: number;
+  recordUpdatedUtc?: number | null;
   /**
    * Region string as published on the profile.
    */
-  region?: string;
+  region?: string | null;
   /**
    * State or province of residence.
    */
-  state?: string;
+  state?: string | null;
   /**
    * X (Twitter) handle listed on the profile.
    */
-  twitterHandle?: string;
+  twitterHandle?: string | null;
   [extra: string]: unknown;
 }
 
@@ -817,7 +817,7 @@ export interface PeopleSearchCrustdataCurrentEmployer {
   /**
    * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
    */
-  companyHqLocationAddressComponents?: string[];
+  companyHqLocationAddressComponents?: string[] | null;
   /**
    * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
    */
@@ -825,7 +825,7 @@ export interface PeopleSearchCrustdataCurrentEmployer {
   /**
    * All LinkedIn industries listed for the employer.
    */
-  companyIndustries?: string[];
+  companyIndustries?: string[] | null;
   /**
    * Primary LinkedIn industry of the employer.
    */
@@ -927,7 +927,7 @@ export interface PeopleSearchCrustdataPastEmployer {
   /**
    * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
    */
-  companyHqLocationAddressComponents?: string[];
+  companyHqLocationAddressComponents?: string[] | null;
   /**
    * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
    */
@@ -935,7 +935,7 @@ export interface PeopleSearchCrustdataPastEmployer {
   /**
    * All LinkedIn industries listed for the employer.
    */
-  companyIndustries?: string[];
+  companyIndustries?: string[] | null;
   /**
    * Primary LinkedIn industry of the employer.
    */
@@ -1081,35 +1081,35 @@ export interface PeopleSearchCrustdataV3Profile {
   /**
    * Every employer on the profile, current and past. Duplicates the contents of currentEmployers and pastEmployers in one combined list.
    */
-  allEmployers?: PeopleSearchCrustdataV3AllEmployer[];
+  allEmployers?: PeopleSearchCrustdataV3AllEmployer[] | null;
   /**
    * Certifications listed on the profile.
    */
-  certifications?: PeopleSearchCrustdataV3Certification[];
+  certifications?: PeopleSearchCrustdataV3Certification[] | null;
   /**
    * City of residence.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Number of LinkedIn connections.
    */
-  connectionCount?: number;
+  connectionCount?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Last time the contact section was refreshed.
    */
-  contactUpdatedUtc?: number;
+  contactUpdatedUtc?: number | null;
   /**
    * Continent of residence.
    */
-  continent?: string;
+  continent?: string | null;
   /**
    * Country of residence.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Positions the person currently holds.
    */
-  currentEmployers?: PeopleSearchCrustdataV3CurrentEmployer[];
+  currentEmployers?: PeopleSearchCrustdataV3CurrentEmployer[] | null;
   /**
    * Education history exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every profile we captured.
    */
@@ -1117,32 +1117,32 @@ export interface PeopleSearchCrustdataV3Profile {
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Last time the education section was refreshed.
    */
-  educationUpdatedUtc?: number;
+  educationUpdatedUtc?: number | null;
   /**
    * Email addresses found for the person.
    */
-  emails?: string[];
+  emails?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Last time the employment section was refreshed.
    */
-  employerUpdatedUtc?: number;
+  employerUpdatedUtc?: number | null;
   /**
    * Given name of the person.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * LinkedIn flagship profile URL. Usually the same value as linkedinUrl; Crustdata returns both and they can differ when the profile has a vanity URL.
    * Format: uri.
    */
-  flagshipProfileUrl?: string;
+  flagshipProfileUrl?: string | null;
   /**
    * Number of LinkedIn followers.
    */
-  followerCount?: number;
+  followerCount?: number | null;
   /**
    * LinkedIn headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * Honors and awards exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every profile we captured.
    */
@@ -1151,28 +1151,28 @@ export interface PeopleSearchCrustdataV3Profile {
    * Profile picture URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last indexed the record for search, which is usually just after recordUpdatedUtc.
    */
-  indexedUtc?: number;
+  indexedUtc?: number | null;
   /**
    * Languages listed on the profile.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * Family name of the person.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Full name of the person.
    */
-  name: string;
+  name: string | null;
   /**
    * LinkedIn open-to cards (open to work, hiring, providing services) exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every profile we captured.
    */
@@ -1180,68 +1180,68 @@ export interface PeopleSearchCrustdataV3Profile {
   /**
    * Positions the person previously held.
    */
-  pastEmployers?: PeopleSearchCrustdataV3PastEmployer[];
+  pastEmployers?: PeopleSearchCrustdataV3PastEmployer[] | null;
   /**
    * Crustdata identifier for this person.
    */
-  personId?: string;
+  personId?: string | null;
   /**
    * Language the profile itself is written in.
    */
-  profileLanguage?: string;
+  profileLanguage?: string | null;
   /**
    * Profile photo URL as LinkedIn serves it, query string intact because LinkedIn signs these URLs. The image field carries Crustdata's cached copy of the same photo, which does not expire.
    * Format: uri.
    */
-  profilePictureUrl?: string;
+  profilePictureUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Last time the profile section was refreshed.
    */
-  profileUpdatedUtc?: number;
+  profileUpdatedUtc?: number | null;
   /**
    * True when the person changed employer recently.
    */
-  recentlyChangedJobs?: boolean;
+  recentlyChangedJobs?: boolean | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last wrote the record. Differs from updatedUtc, which reports the profile's own last-updated stamp.
    */
-  recordUpdatedUtc?: number;
+  recordUpdatedUtc?: number | null;
   /**
    * Region string as published on the profile.
    */
-  region?: string;
+  region?: string | null;
   /**
    * The region string split into address components (city, county, state, country). Restates region in parts.
    */
-  regionAddressComponents?: string[];
+  regionAddressComponents?: string[] | null;
   /**
    * Skills listed on the profile.
    */
-  skills?: string[];
+  skills?: string[] | null;
   /**
    * State or province of residence.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Profile summary or About section text.
    */
-  summary?: string;
+  summary?: string | null;
   /**
    * X (Twitter) handle listed on the profile.
    */
-  twitterHandle?: string;
+  twitterHandle?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Last time any part of this profile record was refreshed.
    */
-  updatedUtc?: number;
+  updatedUtc?: number | null;
   /**
    * Total whole years of professional experience.
    */
-  yearsOfExperience?: number;
+  yearsOfExperience?: number | null;
   /**
    * Human-readable experience band, e.g. More than 10 years.
    */
-  yearsOfExperienceRange?: string;
+  yearsOfExperienceRange?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1273,7 +1273,7 @@ export interface PeopleSearchCrustdataV3AllEmployer {
   /**
    * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
    */
-  companyHqLocationAddressComponents?: string[];
+  companyHqLocationAddressComponents?: string[] | null;
   /**
    * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
    */
@@ -1281,7 +1281,7 @@ export interface PeopleSearchCrustdataV3AllEmployer {
   /**
    * All LinkedIn industries listed for the employer.
    */
-  companyIndustries?: string[];
+  companyIndustries?: string[] | null;
   /**
    * Primary LinkedIn industry of the employer.
    */
@@ -1428,7 +1428,7 @@ export interface PeopleSearchCrustdataV3CurrentEmployer {
   /**
    * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
    */
-  companyHqLocationAddressComponents?: string[];
+  companyHqLocationAddressComponents?: string[] | null;
   /**
    * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
    */
@@ -1436,7 +1436,7 @@ export interface PeopleSearchCrustdataV3CurrentEmployer {
   /**
    * All LinkedIn industries listed for the employer.
    */
-  companyIndustries?: string[];
+  companyIndustries?: string[] | null;
   /**
    * Primary LinkedIn industry of the employer.
    */
@@ -1546,7 +1546,7 @@ export interface PeopleSearchCrustdataV3PastEmployer {
   /**
    * The employer's headquarters location split into address components (city, county, state, country). Restates companyHqLocation in parts.
    */
-  companyHqLocationAddressComponents?: string[];
+  companyHqLocationAddressComponents?: string[] | null;
   /**
    * Crustdata company identifier for this employer, accepted by the Company Enrichment endpoint.
    */
@@ -1554,7 +1554,7 @@ export interface PeopleSearchCrustdataV3PastEmployer {
   /**
    * All LinkedIn industries listed for the employer.
    */
-  companyIndustries?: string[];
+  companyIndustries?: string[] | null;
   /**
    * Primary LinkedIn industry of the employer.
    */
@@ -2087,7 +2087,7 @@ export interface PeopleSearchFullenrichPeople {
   /**
    * City the person is in.
    */
-  city?: string;
+  city?: string | null;
   /**
    * The person's current employer, with FullEnrich's full firmographic record.
    */
@@ -2178,11 +2178,11 @@ export interface PeopleSearchFullenrichPeople {
     /**
      * Company name.
      */
-    name?: string;
+    name?: string | null;
     /**
      * Every other office FullEnrich holds for the company.
      */
-    offices?: PeopleSearchFullenrichOffice[];
+    offices?: PeopleSearchFullenrichOffice[] | null;
     /**
      * Specialties the company lists for itself.
      */
@@ -2192,92 +2192,92 @@ export interface PeopleSearchFullenrichPeople {
      * Format: uri.
      */
     website?: string;
-  };
+  } | null;
   /**
    * Country name.
    */
-  country?: string;
+  country?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code.
    */
-  countryCode?: string;
+  countryCode?: string | null;
   /**
    * Profile summary text.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Education history.
    */
-  educations?: PeopleSearchFullenrichEducation[];
+  educations?: PeopleSearchFullenrichEducation[] | null;
   /**
    * Known employment history.
    */
-  experience?: PeopleSearchFullenrichExperience[];
+  experience?: PeopleSearchFullenrichExperience[] | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * LinkedIn headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * True while FullEnrich treats the role as current.
    */
-  isCurrent?: boolean;
+  isCurrent?: boolean | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the current role started. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobStartUtc?: number;
+  jobStartUtc?: number | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Languages the person speaks.
    */
-  languages?: PeopleSearchFullenrichLanguage[];
+  languages?: PeopleSearchFullenrichLanguage[] | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn connection count.
    */
-  linkedinConnections?: number;
+  linkedinConnections?: number | null;
   /**
    * LinkedIn vanity handle.
    */
-  linkedinHandle?: string;
+  linkedinHandle?: string | null;
   /**
    * LinkedIn numeric member id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * FullEnrich's own person identifier.
    */
-  personId?: string;
+  personId?: string | null;
   /**
    * State or region.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Seniority band for the current role, e.g. Manager, C-level.
    */
-  seniority?: string;
+  seniority?: string | null;
   /**
    * Skills the person lists.
    */
-  skills?: string[];
+  skills?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -2305,7 +2305,7 @@ export interface PeopleSearchFullenrichEducation {
   /**
    * School name.
    */
-  schoolName: string;
+  schoolName: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) study started. Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -2409,7 +2409,7 @@ export interface PeopleSearchFullenrichLanguage {
   /**
    * Language name.
    */
-  language: string;
+  language: string | null;
   /**
    * Proficiency band, e.g. FULL_PROFESSIONAL.
    */
@@ -2582,48 +2582,48 @@ export interface PeopleSearchLushaPeople {
      * A work email address is available.
      */
     workEmail?: boolean;
-  };
+  } | null;
   /**
    * Employer description.
    */
-  companyDescription?: string;
+  companyDescription?: string | null;
   /**
    * Fully qualified host for the employer's website.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Lusha's own company identifier for the employer.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Employer name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Lusha's contact identifier for this search row.
    */
-  contactId?: string;
+  contactId?: string | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * Employer logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * True when this contact has already been revealed on the Lusha account.
    */
-  isShown?: boolean;
+  isShown?: boolean | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Lusha's own person identifier.
    */
-  personId?: string;
+  personId?: string | null;
   [extra: string]: unknown;
 }
 
@@ -2703,7 +2703,7 @@ export interface PeopleSearchPeopledatalabsPeople {
   /**
    * People Data Labs' qualitative score for how recently the profile showed activity.
    */
-  activityScore?: string;
+  activityScore?: string | null;
   /**
    * What People Data Labs holds for this person but does not return in search. Each flag is true when Person Enrichment - People Data Labs would return that field for this profile.
    */
@@ -2776,251 +2776,251 @@ export interface PeopleSearchPeopledatalabsPeople {
      * A work email address is available.
      */
     workEmail?: boolean;
-  };
+  } | null;
   /**
    * Second line of the current employer's headquarters address.
    */
-  companyAddressLine2?: string;
+  companyAddressLine2?: string | null;
   /**
    * Current employer headquarters continent.
    */
-  companyContinent?: string;
+  companyContinent?: string | null;
   /**
    * Current employer Facebook page URL.
    * Format: uri.
    */
-  companyFacebookUrl?: string;
+  companyFacebookUrl?: string | null;
   /**
    * Year the current employer was founded.
    */
-  companyFounded?: number;
+  companyFounded?: number | null;
   /**
    * Current employer headquarters coordinates as "lat,lon".
    */
-  companyGeo?: string;
+  companyGeo?: string | null;
   /**
    * People Data Labs company id for the current employer.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Current employer industry.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Current employer industry on People Data Labs' newer taxonomy.
    */
-  companyIndustryV2?: string;
+  companyIndustryV2?: string | null;
   /**
    * Current employer LinkedIn numeric id.
    */
-  companyLinkedinId?: string;
+  companyLinkedinId?: string | null;
   /**
    * Current employer LinkedIn page URL.
    * Format: uri.
    */
-  companyLinkedinUrl?: string;
+  companyLinkedinUrl?: string | null;
   /**
    * Current employer headquarters city.
    */
-  companyLocality?: string;
+  companyLocality?: string | null;
   /**
    * Current employer headquarters country.
    */
-  companyLocationCountry?: string;
+  companyLocationCountry?: string | null;
   /**
    * Current employer headquarters as one display string.
    */
-  companyLocationName?: string;
+  companyLocationName?: string | null;
   /**
    * Current employer headquarters metro area.
    */
-  companyMetro?: string;
+  companyMetro?: string | null;
   /**
    * Current employer name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Current employer headquarters postal code.
    */
-  companyPostalCode?: string;
+  companyPostalCode?: string | null;
   /**
    * Current employer headquarters state or region.
    */
-  companyRegion?: string;
+  companyRegion?: string | null;
   /**
    * Current employer headcount band.
    */
-  companySize?: string;
+  companySize?: string | null;
   /**
    * Current employer headquarters street address.
    */
-  companyStreetAddress?: string;
+  companyStreetAddress?: string | null;
   /**
    * Current employer X (Twitter) profile URL.
    * Format: uri.
    */
-  companyTwitterUrl?: string;
+  companyTwitterUrl?: string | null;
   /**
    * Current employer website domain.
    */
-  companyWebsite?: string;
+  companyWebsite?: string | null;
   /**
    * Continent.
    */
-  continent?: string;
+  continent?: string | null;
   /**
    * Every country associated with the person.
    */
-  countries?: string[];
+  countries?: string[] | null;
   /**
    * Country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Education history.
    */
-  education?: PeopleSearchPeopledatalabsEducation[];
+  education?: PeopleSearchPeopledatalabsEducation[] | null;
   /**
    * One entry per email address People Data Labs holds for the person. Search returns the kind only; the address itself comes from Person Enrichment - People Data Labs.
    */
-  emails?: PeopleSearchPeopledatalabsEmail[];
+  emails?: PeopleSearchPeopledatalabsEmail[] | null;
   /**
    * Work history.
    */
-  experience?: PeopleSearchPeopledatalabsExperience[];
+  experience?: PeopleSearchPeopledatalabsExperience[] | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * Coordinates as "lat,lon".
    */
-  geo?: string;
+  geo?: string | null;
   /**
    * Industry the person works in.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Interests the person lists.
    */
-  interests?: string[];
+  interests?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the person last changed jobs. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobChangedUtc?: number;
+  jobChangedUtc?: number | null;
   /**
    * When the current role started: YYYY, YYYY-MM or YYYY-MM-DD.
    */
-  jobStartDate?: string;
+  jobStartDate?: string | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Normalized title class.
    */
-  jobTitleClass?: string;
+  jobTitleClass?: string | null;
   /**
    * Seniority levels for the current title.
    */
-  jobTitleLevels?: string[];
+  jobTitleLevels?: string[] | null;
   /**
    * Normalized role for the current title.
    */
-  jobTitleRole?: string;
+  jobTitleRole?: string | null;
   /**
    * Normalized sub-role for the current title.
    */
-  jobTitleSubRole?: string;
+  jobTitleSubRole?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the current role was last verified. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobVerifiedUtc?: number;
+  jobVerifiedUtc?: number | null;
   /**
    * Last initial.
    */
-  lastInitial?: string;
+  lastInitial?: string | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn numeric member id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * LinkedIn vanity handle.
    */
-  linkedinUsername?: string;
+  linkedinUsername?: string | null;
   /**
    * City.
    */
-  locality?: string;
+  locality?: string | null;
   /**
    * Where the person lives, as one display string.
    */
-  locationName?: string;
+  locationName?: string | null;
   /**
    * Every location People Data Labs has associated with the person.
    */
-  locationNames?: string[];
+  locationNames?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the person's location was last updated. Multiply by 1000 for a JS Date in milliseconds.
    */
-  locationUpdatedUtc?: number;
+  locationUpdatedUtc?: number | null;
   /**
    * Metro area.
    */
-  metro?: string;
+  metro?: string | null;
   /**
    * Middle initial.
    */
-  middleInitial?: string;
+  middleInitial?: string | null;
   /**
    * Middle name.
    */
-  middleName?: string;
+  middleName?: string | null;
   /**
    * People Data Labs persistent person id. Send it to Person Enrichment - People Data Labs to re-pull this record.
    */
-  pdlId?: string;
+  pdlId?: string | null;
   /**
    * Postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * People Data Labs' qualitative score for how complete the profile is.
    */
-  profileScore?: string;
+  profileScore?: string | null;
   /**
    * Networks People Data Labs has a profile for. Search returns the network name only; profile URLs and handles come from Person Enrichment - People Data Labs.
    */
-  profiles?: PeopleSearchPeopledatalabsProfile[];
+  profiles?: PeopleSearchPeopledatalabsProfile[] | null;
   /**
    * State or region.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Every region associated with the person.
    */
-  regions?: string[];
+  regions?: string[] | null;
   /**
    * Sex recorded for the person.
    */
-  sex?: string;
+  sex?: string | null;
   /**
    * Skills the person lists.
    */
-  skills?: string[];
+  skills?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -3200,7 +3200,7 @@ export interface PeopleSearchPeopledatalabsProfile {
   /**
    * Network name, e.g. linkedin, facebook, twitter.
    */
-  network: string;
+  network: string | null;
   [extra: string]: unknown;
 }
 
@@ -3482,7 +3482,7 @@ export interface PeopleSearchProspeoPeople {
       /**
        * One entry per funding round.
        */
-      events?: PeopleSearchProspeoEvent[];
+      events?: PeopleSearchProspeoEvent[] | null;
       /**
        * Most recent funding stage.
        */
@@ -3650,7 +3650,7 @@ export interface PeopleSearchProspeoPeople {
      * Format: uri.
      */
     youtubeUrl?: string;
-  };
+  } | null;
   /**
    * Work email address. Prospeo returns the address only once it is revealed; status says why it is absent otherwise.
    */
@@ -3671,48 +3671,48 @@ export interface PeopleSearchProspeoPeople {
      * Prospeo's verdict for the address, e.g. VERIFIED or UNAVAILABLE.
      */
     status?: string;
-  };
+  } | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * LinkedIn headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) Prospeo last detected a job change. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobChangeDetectedUtc?: number;
+  jobChangeDetectedUtc?: number | null;
   /**
    * Every role Prospeo holds for the person, most recent first.
    */
-  jobHistory?: PeopleSearchProspeoJobHistory[];
+  jobHistory?: PeopleSearchProspeoJobHistory[] | null;
   /**
    * Prospeo's identifier for the current role.
    */
-  jobKey?: string;
+  jobKey?: string | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn numeric member id.
    */
-  linkedinMemberId?: string;
+  linkedinMemberId?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Where the person is located.
    */
@@ -3741,7 +3741,7 @@ export interface PeopleSearchProspeoPeople {
      * Current offset from UTC in hours.
      */
     timeZoneOffset?: number;
-  };
+  } | null;
   /**
    * Mobile phone number. Digits are masked until the number is revealed; send enrichMobile to reveal it.
    */
@@ -3774,15 +3774,15 @@ export interface PeopleSearchProspeoPeople {
      * Prospeo's verdict for the number, e.g. VERIFIED or UNAVAILABLE.
      */
     status?: string;
-  };
+  } | null;
   /**
    * Prospeo's own person identifier. Send it back as this SKU's personId input.
    */
-  personId?: string;
+  personId?: string | null;
   /**
    * Skills the person lists.
    */
-  skills?: string[];
+  skills?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -4128,99 +4128,99 @@ export interface PeopleSearchQuickenrichPeople {
   /**
    * Street address on the employer record.
    */
-  address?: string;
+  address?: string | null;
   /**
    * Second address line on the employer record.
    */
-  addressLine2?: string;
+  addressLine2?: string | null;
   /**
    * City on the employer record.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Employer website domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Public address published on the employer home page.
    */
-  companyEmail?: string;
+  companyEmail?: string | null;
   /**
    * Employer headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyEmployeeCount?: string;
+  companyEmployeeCount?: string | null;
   /**
    * Employer industry label.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Employer LinkedIn company URL.
    */
-  companyLinkedinUrl?: string;
+  companyLinkedinUrl?: string | null;
   /**
    * Employer name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Employer main phone line.
    */
-  companyPhone?: string;
+  companyPhone?: string | null;
   /**
    * Employer revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyRevenue?: string;
+  companyRevenue?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code on the employer record.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Domain the work email resolves to.
    */
-  emailDomain?: string;
+  emailDomain?: string | null;
   /**
    * QuickEnrich's stable record id for this person, for de-duplicating across pages.
    */
-  empId?: string;
+  empId?: string | null;
   /**
    * Person's first name.
    */
-  firstName: string;
+  firstName: string | null;
   /**
    * Whether a work email is held for this person. The address itself is masked on this SKU.
    */
-  hasEmail: boolean;
+  hasEmail: boolean | null;
   /**
    * Whether a LinkedIn profile is held for this person.
    */
-  hasLinkedin: boolean;
+  hasLinkedin: boolean | null;
   /**
    * Whether a phone is held for this person. The number itself is masked on this SKU.
    */
-  hasPhone: boolean;
+  hasPhone: boolean | null;
   /**
    * Person's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Person's LinkedIn profile URL.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Locality on the employer record.
    */
-  locality?: string;
+  locality?: string | null;
   /**
    * Postal code on the employer record.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * State or region code on the employer record.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Person's job title.
    */
-  title?: string;
+  title?: string | null;
   [extra: string]: unknown;
 }
 
@@ -4296,87 +4296,87 @@ export interface PeopleSearchQuickenrichCompanyPeople {
   /**
    * Street address on the employer record.
    */
-  address?: string;
+  address?: string | null;
   /**
    * City on the employer record.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Employer website domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Employer headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyEmployeeCount?: string;
+  companyEmployeeCount?: string | null;
   /**
    * Employer industry label.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Employer LinkedIn company URL.
    */
-  companyLinkedinUrl?: string;
+  companyLinkedinUrl?: string | null;
   /**
    * Employer name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Employer main phone line.
    */
-  companyPhone?: string;
+  companyPhone?: string | null;
   /**
    * Employer revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyRevenue?: string;
+  companyRevenue?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code on the employer record.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Work email address.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Domain the work email resolves to.
    */
-  emailDomain?: string;
+  emailDomain?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  emailVerifiedUtc?: number;
+  emailVerifiedUtc?: number | null;
   /**
    * Person's first name.
    */
-  firstName: string;
+  firstName: string | null;
   /**
    * Person's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Person's LinkedIn profile URL.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Line type reported upstream, e.g. "mobile" or "landline".
    */
-  phoneType?: string;
+  phoneType?: string | null;
   /**
    * Postal code on the employer record.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * State or region code on the employer record.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Person's job title.
    */
-  title?: string;
+  title?: string | null;
   [extra: string]: unknown;
 }
 

@@ -50,143 +50,143 @@ export interface PropertyRecordsEnformionRecord {
   /**
    * Assessor's parcel number (APN) the county files this parcel under.
    */
-  apn?: string;
+  apn?: string | null;
   /**
    * Total appraised value, in US dollars.
    */
-  appraisedValue?: number;
+  appraisedValue?: number | null;
   /**
    * Assessed value of the buildings and other improvements, in US dollars.
    */
-  assessedImprovementValue?: number;
+  assessedImprovementValue?: number | null;
   /**
    * Assessed value of the land alone, in US dollars.
    */
-  assessedLandValue?: number;
+  assessedLandValue?: number | null;
   /**
    * Total assessed value for property tax, in US dollars.
    */
-  assessedValue?: number;
+  assessedValue?: number | null;
   /**
    * Year of the assessment.
    */
-  assessedYear?: number;
+  assessedYear?: number | null;
   /**
    * Number of bathrooms. Absent when the county records none.
    */
-  baths?: number;
+  baths?: number | null;
   /**
    * Number of bedrooms. Absent when the county records none.
    */
-  beds?: number;
+  beds?: number | null;
   /**
    * City of the property.
    */
-  city?: string;
+  city?: string | null;
   /**
    * County the parcel is recorded in.
    */
-  county?: string;
+  county?: string | null;
   /**
    * Owners on the current county record.
    */
-  currentOwners?: PropertyRecordsEnformionCurrentOwner[];
+  currentOwners?: PropertyRecordsEnformionCurrentOwner[] | null;
   /**
    * Five-digit FIPS code of the county. Pair it with apn to identify the parcel nationally.
    */
-  fipsCode?: string;
+  fipsCode?: string | null;
   /**
    * Foreclosure stage code, when the parcel is in foreclosure.
    */
-  foreclosureStage?: string;
+  foreclosureStage?: string | null;
   /**
    * Land use as the county describes it, e.g. CONDOMINIUM or LABORATORY.
    */
-  landUse?: string;
+  landUse?: string | null;
   /**
    * Price of the most recent recorded sale, in US dollars.
    */
-  lastSalePrice?: number;
+  lastSalePrice?: number | null;
   /**
    * Date of the most recent recorded sale, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastSaleUtc?: number;
+  lastSaleUtc?: number | null;
   /**
    * Latitude of the parcel.
    */
-  latitude?: number;
+  latitude?: number | null;
   /**
    * Living area in square feet. Absent when the county records none.
    */
-  livingAreaSqft?: number;
+  livingAreaSqft?: number | null;
   /**
    * Longitude of the parcel.
    */
-  longitude?: number;
+  longitude?: number | null;
   /**
    * Lot size as the county records it, usually in square feet.
    */
-  lotSize?: number;
+  lotSize?: number | null;
   /**
    * Market value of the buildings and other improvements, in US dollars.
    */
-  marketImprovementValue?: number;
+  marketImprovementValue?: number | null;
   /**
    * Market value of the land alone, in US dollars.
    */
-  marketLandValue?: number;
+  marketLandValue?: number | null;
   /**
    * Total market value the county records, in US dollars.
    */
-  marketValue?: number;
+  marketValue?: number | null;
   /**
    * Where the current owner receives mail, when the county records it.
    */
-  ownerMailingAddress?: string;
+  ownerMailingAddress?: string | null;
   /**
    * True when the owner lives at the property.
    */
-  ownerOccupied?: boolean;
+  ownerOccupied?: boolean | null;
   /**
    * Earlier owners of the parcel, most recent first.
    */
-  previousOwners?: PropertyRecordsEnformionPreviousOwner[];
+  previousOwners?: PropertyRecordsEnformionPreviousOwner[] | null;
   /**
    * Property type, e.g. SINGLE FAMILY RESIDENCE, INDUSTRIAL, or EXEMPT.
    */
-  propertyType?: string;
+  propertyType?: string | null;
   /**
    * Two-letter US state code.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Street line of the property address, e.g. 4510 Secure LN.
    */
-  street: string;
+  street: string | null;
   /**
    * The county tax account number for the parcel.
    */
-  taxAccountNumber?: string;
+  taxAccountNumber?: string | null;
   /**
    * Annual property tax billed, in US dollars.
    */
-  taxAmount?: number;
+  taxAmount?: number | null;
   /**
    * Year the tax amount was billed for.
    */
-  taxYear?: number;
+  taxYear?: number | null;
   /**
    * Year the main building was built.
    */
-  yearBuilt?: number;
+  yearBuilt?: number | null;
   /**
    * Five-digit ZIP code.
    */
-  zip?: string;
+  zip?: string | null;
   /**
    * Zoning code or zoning description on the county record.
    */
-  zoning?: string;
+  zoning?: string | null;
   [extra: string]: unknown;
 }
 
@@ -198,7 +198,7 @@ export interface PropertyRecordsEnformionCurrentOwner {
   /**
    * Owner name, a person or a business.
    */
-  name: string;
+  name: string | null;
   /**
    * Date the ownership record was captured, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. It is not necessarily the purchase date; see lastSaleUtc.
    */
@@ -210,7 +210,7 @@ export interface PropertyRecordsEnformionPreviousOwner {
   /**
    * Owner name, a person or a business.
    */
-  name: string;
+  name: string | null;
   /**
    * Date the ownership record was captured, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */

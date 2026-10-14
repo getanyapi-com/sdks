@@ -56,10 +56,10 @@ class EmailFindData(BaseModel):
 class EmailFindItem(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    email: str = Field(
+    email: str | None = Field(
         description="The discovered work email address. Populated whenever the provider has data for the entity."
     )
-    status: str = Field(
+    status: str | None = Field(
         description='Lookup status. Always "found": a lookup that finds nothing returns found:false with a null data instead of an item, and is not charged. Populated whenever the provider has data for the entity.'
     )
 
@@ -78,7 +78,7 @@ class EmailVerifyItem(BaseModel):
     )
     disposable: bool | None = None
     domain: str | None = None
-    email: str = Field(
+    email: str | None = Field(
         description="Populated whenever the provider has data for the entity."
     )
     free: bool | None = Field(default=None, description="Free email provider.")
@@ -103,7 +103,7 @@ class EmailVerifyItem(BaseModel):
         default=None,
         description="Confidence in the verdict, 0-100. Coarse rather than graded on most calls: it tracks the status rather than ranking addresses within one.",
     )
-    status: str = Field(
+    status: str | None = Field(
         description="Deliverability verdict: good (the mailbox accepted), bad (it was refused), or risky (no source could settle it - usually a catch-all domain that accepts every address, sometimes a receiving server that declined to answer at all). Populated whenever the provider has data for the entity."
     )
 

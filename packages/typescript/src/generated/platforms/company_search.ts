@@ -64,41 +64,41 @@ export interface CompanySearchAiArkCompanie {
   /**
    * Headquarters address as published by the source.
    */
-  address?: string;
+  address?: string | null;
   /**
    * Headquarters city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * The source's own record identifier for this company, exposed so you can trace a result back to the record it came from.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Headquarters continent.
    */
-  continent?: string;
+  continent?: string | null;
   /**
    * Headquarters country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Company Crunchbase URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Company description when available.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Number of diversity-flagged investments the source records for the company.
    * Range: minimum 0.
    */
-  diversityInvestmentCount?: number;
+  diversityInvestmentCount?: number | null;
   /**
    * Investments the source has flagged with a diversity spotlight.
    */
-  diversityInvestments?: CompanySearchAiArkDiversityInvestment[];
+  diversityInvestments?: CompanySearchAiArkDiversityInvestment[] | null;
   /**
    * Company website domain, or null when the upstream holds none for this company.
    */
@@ -106,186 +106,186 @@ export interface CompanySearchAiArkCompanie {
   /**
    * The source's second copy of the company domain. Usually identical to domain; it can differ when the source resolves a redirect or a country domain differently, so compare the two rather than assuming they match.
    */
-  domainLtd?: string;
+  domainLtd?: string | null;
   /**
    * Public company contact email.
    * Format: email.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Estimated total employees.
    * Range: minimum 0.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Upper bound of the published employee range.
    * Range: minimum 0.
    */
-  employeeRangeMax?: number;
+  employeeRangeMax?: number | null;
   /**
    * Lower bound of the published employee range.
    * Range: minimum 0.
    */
-  employeeRangeMin?: number;
+  employeeRangeMin?: number | null;
   /**
    * Canonical company Facebook URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  fundedUtc?: number;
+  fundedUtc?: number | null;
   /**
    * Amount raised in the most recent round in USD.
    * Range: minimum 0.
    */
-  fundingLastAmount?: number;
+  fundingLastAmount?: number | null;
   /**
    * Type of the most recent funding round.
    */
-  fundingLastType?: string;
+  fundingLastType?: string | null;
   /**
    * Number of funding rounds raised.
    * Range: minimum 0.
    */
-  fundingRoundCount?: number;
+  fundingRoundCount?: number | null;
   /**
    * Funding rounds the company has raised.
    */
-  fundingRounds?: CompanySearchAiArkFundingRound[];
+  fundingRounds?: CompanySearchAiArkFundingRound[] | null;
   /**
    * Total capital raised across all rounds in USD.
    * Range: minimum 0.
    */
-  fundingTotalAmount?: number;
+  fundingTotalAmount?: number | null;
   /**
    * Hashtags the company publishes under.
    */
-  hashtags?: string[];
+  hashtags?: string[] | null;
   /**
    * Company logo URL. This is a SIGNED, EXPIRING image-proxy URL - the path carries an exp: epoch roughly five days out - so fetch and store the image promptly rather than storing this URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Additional company industries.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary company industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Number of distinct investors.
    * Range: minimum 0.
    */
-  investorCount?: number;
+  investorCount?: number | null;
   /**
    * Keywords describing the company.
    */
-  keywords?: string[];
+  keywords?: string[] | null;
   /**
    * Languages the company publishes in.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * Headquarters latitude in decimal degrees.
    */
-  latitude?: number;
+  latitude?: number | null;
   /**
    * Registered company name when available.
    */
-  legalName?: string;
+  legalName?: string | null;
   /**
    * Canonical company LinkedIn URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Every office location the source lists for the company.
    */
-  locations?: CompanySearchAiArkLocation[];
+  locations?: CompanySearchAiArkLocation[] | null;
   /**
    * Headquarters longitude in decimal degrees.
    */
-  longitude?: number;
+  longitude?: number | null;
   /**
    * NAICS codes for the company.
    */
-  naics?: string[];
+  naics?: string[] | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Longer company overview written by the source. Overlaps description but is a separately maintained blurb and is often longer or more current.
    */
-  overview?: string;
+  overview?: string | null;
   /**
    * Sanitized public company phone number.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * The same phone number in the source's unsanitized spelling, keeping spaces, dashes and brackets. Use phone for dialing and this for display fidelity.
    */
-  phoneRaw?: string;
+  phoneRaw?: string | null;
   /**
    * Headquarters postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Upper bound of estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  revenueMax?: number;
+  revenueMax?: number | null;
   /**
    * Lower bound of estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  revenueMin?: number;
+  revenueMin?: number | null;
   /**
    * The same annual revenue estimate as a single hyphenated range string, for example 500000000-1000000000. It duplicates revenueMin and revenueMax; use those for arithmetic.
    */
-  revenueRange?: string;
+  revenueRange?: string | null;
   /**
    * The meta description the source scraped from the company website. It is site copy, not the source's own writing, so it may be in another language or out of date.
    */
-  seoDescription?: string;
+  seoDescription?: string | null;
   /**
    * SIC codes for the company.
    */
-  sic?: string[];
+  sic?: string[] | null;
   /**
    * Headquarters state or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Technologies detected on the company's web presence.
    */
-  technologies?: CompanySearchAiArkTechnologie[];
+  technologies?: CompanySearchAiArkTechnologie[] | null;
   /**
    * Canonical company X (Twitter) URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Company organization type.
    */
-  type?: string;
+  type?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  updatedUtc?: number;
+  updatedUtc?: number | null;
   /**
    * Canonical company website URL.
    * Format: uri.
    */
-  websiteUrl?: string;
+  websiteUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -330,7 +330,7 @@ export interface CompanySearchAiArkDiversityInvestment {
   /**
    * Diversity spotlights the source attached to this investment.
    */
-  spotlights?: CompanySearchAiArkSpotlight[];
+  spotlights?: CompanySearchAiArkSpotlight[] | null;
   [extra: string]: unknown;
 }
 
@@ -354,7 +354,7 @@ export interface CompanySearchAiArkFundingRound {
   /**
    * Investors named in this round.
    */
-  investors?: string[];
+  investors?: string[] | null;
   /**
    * Amount raised in this round in USD.
    * Range: minimum 0.
@@ -501,27 +501,27 @@ export interface CompanySearchCrustdataCompanie {
   /**
    * Acquisition status, when the company has been acquired.
    */
-  acquisitionStatus?: string;
+  acquisitionStatus?: string | null;
   /**
    * Crustdata identifier for the company, accepted by the Company Enrichment endpoint.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Company type, e.g. Privately Held or Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Publicly listed contact email address.
    */
-  contactEmail?: string;
+  contactEmail?: string | null;
   /**
    * Crunchbase category tags, followed by the broader category groups they belong to.
    */
-  crunchbaseCategories?: string[];
+  crunchbaseCategories?: string[] | null;
   /**
    * Company description from its LinkedIn page.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary website domain, or null when the upstream holds none for this company.
    */
@@ -529,11 +529,11 @@ export interface CompanySearchCrustdataCompanie {
   /**
    * All domains associated with the company.
    */
-  domains?: string[];
+  domains?: string[] | null;
   /**
    * Latest observed employee count.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Headcount change over trailing windows, absolute and percent.
    */
@@ -570,27 +570,27 @@ export interface CompanySearchCrustdataCompanie {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Employee count band, e.g. 51-200.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Upper bound of estimated annual revenue in USD.
    */
-  estimatedRevenueHigherUsd?: number;
+  estimatedRevenueHigherUsd?: number | null;
   /**
    * Lower bound of estimated annual revenue in USD.
    */
-  estimatedRevenueLowerUsd?: number;
+  estimatedRevenueLowerUsd?: number | null;
   /**
    * Fiscal year end.
    */
-  fiscalYearEnd?: string;
+  fiscalYearEnd?: string | null;
   /**
    * Latest LinkedIn follower count.
    */
-  followerCount?: number;
+  followerCount?: number | null;
   /**
    * LinkedIn follower change over trailing windows, in percent.
    */
@@ -611,93 +611,93 @@ export interface CompanySearchCrustdataCompanie {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the growth metrics on this record were last calculated.
    */
-  growthCalculatedUtc?: number;
+  growthCalculatedUtc?: number | null;
   /**
    * Headquarters location.
    */
-  headquarters?: string;
+  headquarters?: string | null;
   /**
    * Country of the headquarters.
    */
-  hqCountry?: string;
+  hqCountry?: string | null;
   /**
    * Headquarters street address and city. Crustdata returns the same string as headquarters for most companies.
    */
-  hqStreetAddressAndCity?: string;
+  hqStreetAddressAndCity?: string | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last indexed the record for search, which is usually just after updatedUtc.
    */
-  indexedUtc?: number;
+  indexedUtc?: number | null;
   /**
    * All LinkedIn industries listed for the company.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary LinkedIn industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Investors named on the Crunchbase profile.
    */
-  investors?: string[];
+  investors?: string[] | null;
   /**
    * True when the company itself invests in other companies.
    */
-  isInvestor?: boolean;
+  isInvestor?: boolean | null;
   /**
    * Country holding the largest share of employees.
    */
-  largestHeadcountCountry?: string;
+  largestHeadcountCountry?: string | null;
   /**
    * Type of the most recent funding round, e.g. series_e.
    */
-  lastFundingType?: string;
+  lastFundingType?: string | null;
   /**
    * Amount raised in the most recent funding round, in USD.
    */
-  lastFundingUsd?: number;
+  lastFundingUsd?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date of the most recent funding round.
    */
-  lastFundingUtc?: number;
+  lastFundingUtc?: number | null;
   /**
    * LinkedIn speciality tags listed by the company.
    */
-  linkedinCategories?: string[];
+  linkedinCategories?: string[] | null;
   /**
    * LinkedIn's own numeric identifier for the company page.
    */
-  linkedinCompanyId?: string;
+  linkedinCompanyId?: string | null;
   /**
    * Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.
    */
-  linkedinProfileName?: string;
+  linkedinProfileName?: string | null;
   /**
    * LinkedIn company page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Markets the company trades in, e.g. PRIVATE or NASDAQ.
    */
-  markets?: string[];
+  markets?: string[] | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Office addresses exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every company we captured.
    */
@@ -705,29 +705,29 @@ export interface CompanySearchCrustdataCompanie {
   /**
    * Publicly listed phone number.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Stock ticker symbols.
    */
-  stockSymbols?: string[];
+  stockSymbols?: string[] | null;
   /**
    * Total investment raised to date, in USD.
    */
-  totalFundingUsd?: number;
+  totalFundingUsd?: number | null;
   /**
    * X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When this company record was last refreshed.
    */
-  updatedUtc?: number;
+  updatedUtc?: number | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -799,44 +799,44 @@ export interface CompanySearchCrustdataV3Companie {
   /**
    * Acquisition status, when the company has been acquired.
    */
-  acquisitionStatus?: string;
+  acquisitionStatus?: string | null;
   /**
    * Crustdata identifier for the company, accepted by the Company Enrichment endpoint.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Company type, e.g. Privately Held or Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Crustdata identifiers for the companies Crustdata lists as competitors. These are the same identifiers companyId reports, returned here as numbers, and line up positionally with competitorWebsites.
    */
-  competitorIds?: number[];
+  competitorIds?: number[] | null;
   /**
    * Websites of companies Crustdata considers competitors.
    */
-  competitorWebsites?: string[];
+  competitorWebsites?: string[] | null;
   /**
    * Publicly listed contact email address.
    */
-  contactEmail?: string;
+  contactEmail?: string | null;
   /**
    * Crunchbase category tags.
    */
-  crunchbaseCategories?: string[];
+  crunchbaseCategories?: string[] | null;
   /**
    * Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Crunchbase organization UUID.
    */
-  crunchbaseUuid?: string;
+  crunchbaseUuid?: string | null;
   /**
    * Company description from its LinkedIn page.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary website domain, or null when the upstream holds none for this company.
    */
@@ -844,11 +844,11 @@ export interface CompanySearchCrustdataV3Companie {
   /**
    * All domains associated with the company.
    */
-  domains?: string[];
+  domains?: string[] | null;
   /**
    * Latest observed employee count.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Headcount change over trailing windows, absolute and percent.
    */
@@ -885,27 +885,27 @@ export interface CompanySearchCrustdataV3Companie {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Employee count band, e.g. 51-200.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Upper bound of estimated annual revenue in USD.
    */
-  estimatedRevenueHigherUsd?: number;
+  estimatedRevenueHigherUsd?: number | null;
   /**
    * Lower bound of estimated annual revenue in USD.
    */
-  estimatedRevenueLowerUsd?: number;
+  estimatedRevenueLowerUsd?: number | null;
   /**
    * Fiscal year end.
    */
-  fiscalYearEnd?: string;
+  fiscalYearEnd?: string | null;
   /**
    * Latest LinkedIn follower count.
    */
-  followerCount?: number;
+  followerCount?: number | null;
   /**
    * LinkedIn follower change over trailing windows, absolute and percent.
    */
@@ -942,117 +942,117 @@ export interface CompanySearchCrustdataV3Companie {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the growth metrics on this record were last calculated.
    */
-  growthCalculatedUtc?: number;
+  growthCalculatedUtc?: number | null;
   /**
    * Employee count per region, keyed by LinkedIn region name.
    */
-  headcountByRegion?: {};
+  headcountByRegion?: {} | null;
   /**
    * Employee count per job function, keyed by LinkedIn function name.
    */
-  headcountByRole?: {};
+  headcountByRole?: {} | null;
   /**
    * Share of employees per job function as a percent, keyed by LinkedIn function name.
    */
-  headcountByRolePercent?: {};
+  headcountByRolePercent?: {} | null;
   /**
    * Employee count per listed skill, keyed by skill name.
    */
-  headcountBySkill?: {};
+  headcountBySkill?: {} | null;
   /**
    * Share of employees per listed skill as a percent, keyed by skill name.
    */
-  headcountBySkillPercent?: {};
+  headcountBySkillPercent?: {} | null;
   /**
    * Headquarters location.
    */
-  headquarters?: string;
+  headquarters?: string | null;
   /**
    * Country of the headquarters.
    */
-  hqCountry?: string;
+  hqCountry?: string | null;
   /**
    * The headquarters location split into address components (city, state, country). Restates headquarters in parts.
    */
-  hqLocationAddressComponents?: string[];
+  hqLocationAddressComponents?: string[] | null;
   /**
    * Headquarters street address and city. Crustdata returns the same string as headquarters for most companies.
    */
-  hqStreetAddressAndCity?: string;
+  hqStreetAddressAndCity?: string | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When Crustdata last indexed the record for search, which is usually just after updatedUtc.
    */
-  indexedUtc?: number;
+  indexedUtc?: number | null;
   /**
    * All LinkedIn industries listed for the company.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary LinkedIn industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Investors named on the Crunchbase profile.
    */
-  investors?: string[];
+  investors?: string[] | null;
   /**
    * True when the company itself invests in other companies.
    */
-  isInvestor?: boolean;
+  isInvestor?: boolean | null;
   /**
    * Country holding the largest share of employees.
    */
-  largestHeadcountCountry?: string;
+  largestHeadcountCountry?: string | null;
   /**
    * Type of the most recent funding round, e.g. series_e.
    */
-  lastFundingType?: string;
+  lastFundingType?: string | null;
   /**
    * Amount raised in the most recent funding round, in USD.
    */
-  lastFundingUsd?: number;
+  lastFundingUsd?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date of the most recent funding round.
    */
-  lastFundingUtc?: number;
+  lastFundingUtc?: number | null;
   /**
    * LinkedIn speciality tags listed by the company.
    */
-  linkedinCategories?: string[];
+  linkedinCategories?: string[] | null;
   /**
    * LinkedIn's own numeric identifier for the company page.
    */
-  linkedinCompanyId?: string;
+  linkedinCompanyId?: string | null;
   /**
    * Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.
    */
-  linkedinProfileName?: string;
+  linkedinProfileName?: string | null;
   /**
    * LinkedIn company page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Markets the company trades in, e.g. PRIVATE or NASDAQ.
    */
-  markets?: string[];
+  markets?: string[] | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Office addresses exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every company we captured.
    */
@@ -1060,23 +1060,23 @@ export interface CompanySearchCrustdataV3Companie {
   /**
    * Publicly listed phone number.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Six-month percent headcount change per job function, keyed by LinkedIn function name.
    */
-  roleGrowth6mPercent?: {};
+  roleGrowth6mPercent?: {} | null;
   /**
    * Year-over-year percent headcount change per job function, keyed by LinkedIn function name.
    */
-  roleGrowthYoyPercent?: {};
+  roleGrowthYoyPercent?: {} | null;
   /**
    * Stock ticker symbols.
    */
-  stockSymbols?: string[];
+  stockSymbols?: string[] | null;
   /**
    * Total investment raised to date, in USD.
    */
-  totalFundingUsd?: number;
+  totalFundingUsd?: number | null;
   /**
    * Investors sourced from Tracxn, exactly as Crustdata returns them. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for every company we captured.
    */
@@ -1085,24 +1085,24 @@ export interface CompanySearchCrustdataV3Companie {
    * X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When this company record was last refreshed.
    */
-  updatedUtc?: number;
+  updatedUtc?: number | null;
   /**
    * Lower bound of the reported valuation in USD.
    */
-  valuationLowerUsd?: number;
+  valuationLowerUsd?: number | null;
   /**
    * Reported valuation in USD.
    */
-  valuationUsd?: number;
+  valuationUsd?: number | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1349,31 +1349,31 @@ export interface CompanySearchFullenrichCompanie {
   /**
    * FullEnrich's own company identifier.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Ownership type, e.g. Public Company, Privately Held.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Company description.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary company domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Year the company was founded. Zero when FullEnrich holds none.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Employees FullEnrich currently counts.
    */
-  headcount?: number;
+  headcount?: number | null;
   /**
    * Employee headcount band, e.g. 5001-10000.
    */
-  headcountRange?: string;
+  headcountRange?: string | null;
   /**
    * Headquarters address.
    */
@@ -1402,50 +1402,50 @@ export interface CompanySearchFullenrichCompanie {
      * State or region.
      */
     region?: string;
-  };
+  } | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Main industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * LinkedIn follower count.
    */
-  linkedinFollowers?: number;
+  linkedinFollowers?: number | null;
   /**
    * Company LinkedIn vanity handle.
    */
-  linkedinHandle?: string;
+  linkedinHandle?: string | null;
   /**
    * Company LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Every other office FullEnrich holds for the company.
    */
-  offices?: CompanySearchFullenrichOffice[];
+  offices?: CompanySearchFullenrichOffice[] | null;
   /**
    * Specialties the company lists for itself.
    */
-  specialties?: string[];
+  specialties?: string[] | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1533,157 +1533,157 @@ export interface CompanySearchPeopledatalabsCompanie {
   /**
    * People Data Labs company ids of affiliated entities.
    */
-  affiliatedEntities?: string[];
+  affiliatedEntities?: (string | null)[] | null;
   /**
    * People Data Labs company ids of affiliated profiles.
    */
-  affiliatedProfiles?: string[];
+  affiliatedProfiles?: string[] | null;
   /**
    * People Data Labs company ids of every subsidiary, at any depth.
    */
-  allSubsidiaries?: string[];
+  allSubsidiaries?: string[] | null;
   /**
    * Other domains the company owns.
    */
-  alternativeDomains?: string[];
+  alternativeDomains?: string[] | null;
   /**
    * Other names the company trades under.
    */
-  alternativeNames?: string[];
+  alternativeNames?: string[] | null;
   /**
    * Average employee tenure in years.
    */
-  averageEmployeeTenure?: number;
+  averageEmployeeTenure?: number | null;
   /**
    * Average tenure in years, keyed by seniority level.
    */
-  averageTenureByLevel?: {};
+  averageTenureByLevel?: {} | null;
   /**
    * Average tenure in years, keyed by role.
    */
-  averageTenureByRole?: {};
+  averageTenureByRole?: {} | null;
   /**
    * People Data Labs company ids of direct subsidiaries.
    */
-  directSubsidiaries?: string[];
+  directSubsidiaries?: string[] | null;
   /**
    * Churn rate keyed by window, e.g. 12_month.
    */
-  employeeChurnRate?: {};
+  employeeChurnRate?: {} | null;
   /**
    * Employees People Data Labs currently counts.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Headcount keyed by job class.
    */
-  employeeCountByClass?: {};
+  employeeCountByClass?: {} | null;
   /**
    * Headcount keyed by country.
    */
-  employeeCountByCountry?: {};
+  employeeCountByCountry?: {} | null;
   /**
    * Headcount keyed by YYYY-MM month.
    */
-  employeeCountByMonth?: {};
+  employeeCountByMonth?: {} | null;
   /**
    * Headcount keyed by role.
    */
-  employeeCountByRole?: {};
+  employeeCountByRole?: {} | null;
   /**
    * Headcount keyed by sub-role.
    */
-  employeeCountBySubRole?: {};
+  employeeCountBySubRole?: {} | null;
   /**
    * Headcount growth rate keyed by window.
    */
-  employeeGrowthRate?: {};
+  employeeGrowthRate?: {} | null;
   /**
    * Twelve-month headcount growth rate keyed by job class.
    */
-  employeeGrowthRate12MonthByClass?: {};
+  employeeGrowthRate12MonthByClass?: {} | null;
   /**
    * Twelve-month headcount growth keyed by country, each entry carrying current and prior headcount.
    */
-  employeeGrowthRate12MonthByCountry?: {};
+  employeeGrowthRate12MonthByCountry?: {} | null;
   /**
    * Twelve-month headcount growth rate keyed by role.
    */
-  employeeGrowthRate12MonthByRole?: {};
+  employeeGrowthRate12MonthByRole?: {} | null;
   /**
    * Turnover rate keyed by window, e.g. 3_month, 12_month.
    */
-  employeeTurnoverRate?: {};
+  employeeTurnoverRate?: {} | null;
   /**
    * Company Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the company was founded.
    */
-  founded?: number;
+  founded?: number | null;
   /**
    * Number of funding rounds raised.
    */
-  fundingRounds?: number;
+  fundingRounds?: number | null;
   /**
    * Every funding stage the company has raised.
    */
-  fundingStages?: string[];
+  fundingStages?: string[] | null;
   /**
    * Employees joined, keyed by YYYY-MM month.
    */
-  grossAdditionsByMonth?: {};
+  grossAdditionsByMonth?: {} | null;
   /**
    * Employees departed, keyed by YYYY-MM month.
    */
-  grossDeparturesByMonth?: {};
+  grossDeparturesByMonth?: {} | null;
   /**
    * One-line company tagline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * People Data Labs company id of the immediate parent company.
    */
-  immediateParent?: string;
+  immediateParent?: string | null;
   /**
    * Company industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Company industry on People Data Labs' newer taxonomy.
    */
-  industryV2?: string;
+  industryV2?: string | null;
   /**
    * Inferred annual revenue band, e.g. $50M-$100M.
    */
-  inferredRevenue?: string;
+  inferredRevenue?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) of the most recent funding round. Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastFundingUtc?: number;
+  lastFundingUtc?: number | null;
   /**
    * Most recent funding stage, e.g. series_e.
    */
-  latestFundingStage?: string;
+  latestFundingStage?: string | null;
   /**
    * LinkedIn follower count.
    */
-  linkedinFollowers?: number;
+  linkedinFollowers?: number | null;
   /**
    * Company LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Company LinkedIn vanity slug.
    */
-  linkedinSlug?: string;
+  linkedinSlug?: string | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company headquarters.
    */
@@ -1728,84 +1728,84 @@ export interface CompanySearchPeopledatalabsCompanie {
      * Street address.
      */
     streetAddress?: string;
-  };
+  } | null;
   /**
    * Median employee tenure in years.
    */
-  medianEmployeeTenure?: number;
+  medianEmployeeTenure?: number | null;
   /**
    * Median tenure in years, keyed by seniority level.
    */
-  medianTenureByLevel?: {};
+  medianTenureByLevel?: {} | null;
   /**
    * Median tenure in years, keyed by role.
    */
-  medianTenureByRole?: {};
+  medianTenureByRole?: {} | null;
   /**
    * MIC code of the exchange the company lists on.
    */
-  micExchange?: string;
+  micExchange?: string | null;
   /**
    * NAICS classification for the company.
    */
-  naicsCodes?: CompanySearchPeopledatalabsNaicsCode[];
+  naicsCodes?: CompanySearchPeopledatalabsNaicsCode[] | null;
   /**
    * Company name as People Data Labs displays it.
    */
-  name: string;
+  name: string | null;
   /**
    * Lowercase normalized company name, the form People Data Labs matches on.
    */
-  nameNormalized?: string;
+  nameNormalized?: string | null;
   /**
    * People Data Labs persistent company id.
    */
-  pdlId?: string;
+  pdlId?: string | null;
   /**
    * Every social profile People Data Labs links to the company.
    */
-  profiles?: string[];
+  profiles?: string[] | null;
   /**
    * SIC classification for the company.
    */
-  sicCodes?: CompanySearchPeopledatalabsSicCode[];
+  sicCodes?: CompanySearchPeopledatalabsSicCode[] | null;
   /**
    * Employee headcount band, e.g. 11-50.
    */
-  size?: string;
+  size?: string | null;
   /**
    * Long company description.
    */
-  summary?: string;
+  summary?: string | null;
   /**
    * Descriptive tags for the company.
    */
-  tags?: string[];
+  tags?: string[] | null;
   /**
    * Stock ticker, for listed companies.
    */
-  ticker?: string;
+  ticker?: string | null;
   /**
    * Total capital raised, in USD.
    */
-  totalFundingRaised?: number;
+  totalFundingRaised?: number | null;
   /**
    * Company X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Ownership type, e.g. private, public.
    */
-  type?: string;
+  type?: string | null;
   /**
    * People Data Labs company id of the ultimate parent company.
    */
-  ultimateParent?: string;
+  ultimateParent?: string | null;
   /**
    * Company website domain.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1813,7 +1813,7 @@ export interface CompanySearchPeopledatalabsNaicsCode {
   /**
    * NAICS code.
    */
-  code: string;
+  code: string | null;
   /**
    * NAICS industry group.
    */
@@ -1841,7 +1841,7 @@ export interface CompanySearchPeopledatalabsSicCode {
   /**
    * SIC code.
    */
-  code: string;
+  code: string | null;
   /**
    * SIC industry group.
    */
@@ -2015,32 +2015,32 @@ export interface CompanySearchProspeoCompanie {
      * The company sells to businesses.
      */
     isB2b?: boolean;
-  };
+  } | null;
   /**
    * Prospeo's own company identifier. Send it back as this SKU's companyId input.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Company Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Company description as the company writes it.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Prospeo's own AI-written company summary.
    */
-  descriptionAi?: string;
+  descriptionAi?: string | null;
   /**
    * Meta description from the company's website.
    */
-  descriptionSeo?: string;
+  descriptionSeo?: string | null;
   /**
    * Primary company domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * How the company's email is hosted.
    */
@@ -2053,28 +2053,28 @@ export interface CompanySearchProspeoCompanie {
      * Mail provider behind the domain's MX records.
      */
     mxProvider?: string;
-  };
+  } | null;
   /**
    * Employees Prospeo currently counts.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Employees of this company that Prospeo holds a profile for.
    */
-  employeeCountOnProspeo?: number;
+  employeeCountOnProspeo?: number | null;
   /**
    * Employee headcount band, e.g. 10000+.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Company Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the company was founded.
    */
-  founded?: number;
+  founded?: number | null;
   /**
    * Funding history.
    */
@@ -2082,7 +2082,7 @@ export interface CompanySearchProspeoCompanie {
     /**
      * One entry per funding round.
      */
-    events?: CompanySearchProspeoEvent[];
+    events?: CompanySearchProspeoEvent[] | null;
     /**
      * Most recent funding stage.
      */
@@ -2103,21 +2103,21 @@ export interface CompanySearchProspeoCompanie {
      * Total capital raised as a display string.
      */
     totalRaisedPrinted?: string;
-  };
+  } | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Company industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Company Instagram profile URL.
    * Format: uri.
    */
-  instagramUrl?: string;
+  instagramUrl?: string | null;
   /**
    * Open roles Prospeo currently sees for the company.
    */
@@ -2130,20 +2130,20 @@ export interface CompanySearchProspeoCompanie {
      * Titles of the open roles.
      */
     activeTitles?: string[];
-  };
+  } | null;
   /**
    * Keywords Prospeo assigns the company.
    */
-  keywords?: string[];
+  keywords?: string[] | null;
   /**
    * Company LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company headquarters.
    */
@@ -2168,19 +2168,19 @@ export interface CompanySearchProspeoCompanie {
      * State or region.
      */
     state?: string;
-  };
+  } | null;
   /**
    * NAICS classification codes for the company.
    */
-  naicsCodes?: string[];
+  naicsCodes?: string[] | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Other domains the company owns.
    */
-  otherWebsites?: string[];
+  otherWebsites?: string[] | null;
   /**
    * Headquarters switchboard number.
    */
@@ -2205,7 +2205,7 @@ export interface CompanySearchProspeoCompanie {
      * Phone number as Prospeo stores it.
      */
     phone?: string;
-  };
+  } | null;
   /**
    * Annual revenue band in USD.
    */
@@ -2218,38 +2218,38 @@ export interface CompanySearchProspeoCompanie {
      * Lower bound in USD.
      */
     min?: number;
-  };
+  } | null;
   /**
    * Annual revenue band as a display string.
    */
-  revenueRangePrinted?: string;
+  revenueRangePrinted?: string | null;
   /**
    * SIC classification codes for the company.
    */
-  sicCodes?: string[];
+  sicCodes?: string[] | null;
   /**
    * Technologies Prospeo detects in the company's stack.
    */
-  technologies?: string[];
+  technologies?: string[] | null;
   /**
    * Company X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Ownership type, e.g. Private, Public, Non Profit.
    */
-  type?: string;
+  type?: string | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   /**
    * Company YouTube channel URL.
    * Format: uri.
    */
-  youtubeUrl?: string;
+  youtubeUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -2522,67 +2522,67 @@ export interface CompanySearchQuickenrichCompanie {
   /**
    * City on the employer record.
    */
-  city?: string;
+  city?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code on the employer record.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Company website domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Work email address.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Domain the work email resolves to.
    */
-  emailDomain?: string;
+  emailDomain?: string | null;
   /**
    * Headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  employeeCount?: string;
+  employeeCount?: string | null;
   /**
    * Domain the company's email addresses finally resolve to after redirects.
    */
-  finalEmailDomain?: string;
+  finalEmailDomain?: string | null;
   /**
    * Home page text. A snippet unless includeFullText was set.
    */
-  homePageText?: string;
+  homePageText?: string | null;
   /**
    * Industry label.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Company LinkedIn bio snippet.
    */
-  linkedinBio?: string;
+  linkedinBio?: string | null;
   /**
    * Person's LinkedIn profile URL.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * State or region code on the employer record.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  revenue?: string;
+  revenue?: string | null;
   /**
    * How many services the company lists.
    */
-  serviceCount?: number;
+  serviceCount?: number | null;
   /**
    * Services the company lists. Passed through untyped: every captured response so far has this empty, so the element shape is unverified.
    */
@@ -2887,190 +2887,190 @@ export interface CompanySearchTheirstackCompanie {
   /**
    * Alexa traffic rank for the company website.
    */
-  alexaRanking?: number;
+  alexaRanking?: number | null;
   /**
    * Estimated annual revenue as a display string, e.g. 4.2M.
    */
-  annualRevenueReadable?: string;
+  annualRevenueReadable?: string | null;
   /**
    * Estimated annual revenue in USD.
    */
-  annualRevenueUsd?: number;
+  annualRevenueUsd?: number | null;
   /**
    * Apollo's identifier for the same company.
    */
-  apolloId?: string;
+  apolloId?: string | null;
   /**
    * Headquarters city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * TheirStack's own company identifier.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Keywords TheirStack assigns the company.
    */
-  companyKeywords?: string[];
+  companyKeywords?: string[] | null;
   /**
    * Tags TheirStack assigns the company.
    */
-  companyTags?: string[];
+  companyTags?: string[] | null;
   /**
    * Headquarters country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code.
    */
-  countryCode?: string;
+  countryCode?: string | null;
   /**
    * Primary company domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Employees TheirStack currently counts.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Employee headcount band, e.g. 201-500.
    */
-  employeeCountRange?: string;
+  employeeCountRange?: string | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Most recent funding stage, e.g. series_b.
    */
-  fundingStage?: string;
+  fundingStage?: string | null;
   /**
    * True when TheirStack redacted part of the record on this plan.
    */
-  hasBlurredData?: boolean;
+  hasBlurredData?: boolean | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Company industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * TheirStack's identifier for that industry.
    */
-  industryId?: string;
+  industryId?: string | null;
   /**
    * Investors TheirStack records for the company.
    */
-  investors?: string[];
+  investors?: string[] | null;
   /**
    * True when TheirStack classifies the company as a recruiting agency rather than a direct employer.
    */
-  isRecruitingAgency?: boolean;
+  isRecruitingAgency?: boolean | null;
   /**
    * Keyword slugs found in the company's job posts. These are the values the keyword filters take.
    */
-  keywordSlugs?: string[];
+  keywordSlugs?: string[] | null;
   /**
    * Most recent round size as a display string, e.g. $15M.
    */
-  lastFundingRoundReadable?: string;
+  lastFundingRoundReadable?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) of the most recent funding round. Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastFundingRoundUtc?: number;
+  lastFundingRoundUtc?: number | null;
   /**
    * Company LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company description as the company writes it.
    */
-  longDescription?: string;
+  longDescription?: string | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Distinct buying-intent topics detected in the company's job posts.
    */
-  numBuyingIntentTopics?: number;
+  numBuyingIntentTopics?: number | null;
   /**
    * Job posts TheirStack holds for the company, all time.
    */
-  numJobs?: number;
+  numJobs?: number | null;
   /**
    * Job posts of this company that matched your job filters, when you sent any.
    */
-  numJobsFound?: number;
+  numJobsFound?: number | null;
   /**
    * Job posts published in the last 30 days.
    */
-  numJobsLast30Days?: number;
+  numJobsLast30Days?: number | null;
   /**
    * Distinct keywords detected in the company's job posts.
    */
-  numKeywords?: number;
+  numKeywords?: number | null;
   /**
    * Distinct technologies detected in the company's job posts.
    */
-  numTechnologies?: number;
+  numTechnologies?: number | null;
   /**
    * Every domain TheirStack associates with the company.
    */
-  possibleDomains?: string[];
+  possibleDomains?: string[] | null;
   /**
    * Headquarters postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Exchange the company lists on.
    */
-  publiclyTradedExchange?: string;
+  publiclyTradedExchange?: string | null;
   /**
    * Stock ticker, for listed companies.
    */
-  publiclyTradedSymbol?: string;
+  publiclyTradedSymbol?: string | null;
   /**
    * Meta description from the company's website.
    */
-  seoDescription?: string;
+  seoDescription?: string | null;
   /**
    * The technologies from your technology filters that this company was matched on. Empty unless you filtered by technology.
    */
-  technologiesFound?: CompanySearchTheirstackTechnologiesFound[];
+  technologiesFound?: CompanySearchTheirstackTechnologiesFound[] | null;
   /**
    * Human-readable names for those technologies.
    */
-  technologyNames?: string[];
+  technologyNames?: string[] | null;
   /**
    * Technology slugs found in the company's job posts. These are the values the technology filters take.
    */
-  technologySlugs?: string[];
+  technologySlugs?: string[] | null;
   /**
    * Total capital raised, in USD.
    */
-  totalFundingUsd?: number;
+  totalFundingUsd?: number | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  url?: string;
+  url?: string | null;
   /**
    * Where TheirStack sourced the company website URL.
    */
-  urlSource?: string;
+  urlSource?: string | null;
   /**
    * Y Combinator batch, e.g. W20, for companies that went through it.
    */
-  ycBatch?: string;
+  ycBatch?: string | null;
   [extra: string]: unknown;
 }
 
@@ -3119,7 +3119,7 @@ export interface CompanySearchTheirstackTechnologiesFound {
   /**
    * Technology name.
    */
-  name: string;
+  name: string | null;
   /**
    * Parent category.
    */

@@ -164,7 +164,7 @@ class PropertyRecordsEnformionRecord(BaseModel):
         description="Property type, e.g. SINGLE FAMILY RESIDENCE, INDUSTRIAL, or EXEMPT.",
     )
     state: str | None = Field(default=None, description="Two-letter US state code.")
-    street: str = Field(
+    street: str | None = Field(
         description="Street line of the property address, e.g. 4510 Secure LN."
     )
     tax_account_number: str | None = Field(
@@ -198,7 +198,7 @@ class PropertyRecordsEnformionCurrentOwner(BaseModel):
         alias="isBusiness",
         description="True when the owner is a company or other organization rather than a person.",
     )
-    name: str = Field(description="Owner name, a person or a business.")
+    name: str | None = Field(description="Owner name, a person or a business.")
     recorded_utc: float | None = Field(
         default=None,
         alias="recordedUtc",
@@ -209,7 +209,7 @@ class PropertyRecordsEnformionCurrentOwner(BaseModel):
 class PropertyRecordsEnformionPreviousOwner(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    name: str = Field(description="Owner name, a person or a business.")
+    name: str | None = Field(description="Owner name, a person or a business.")
     recorded_utc: float | None = Field(
         default=None,
         alias="recordedUtc",

@@ -51,11 +51,11 @@ export interface EmailFindItem {
   /**
    * The discovered work email address. Populated whenever the provider has data for the entity.
    */
-  email: string;
+  email: string | null;
   /**
    * Lookup status. Always "found": a lookup that finds nothing returns found:false with a null data instead of an item, and is not charged. Populated whenever the provider has data for the entity.
    */
-  status: string;
+  status: string | null;
   [extra: string]: unknown;
 }
 
@@ -105,17 +105,17 @@ export interface EmailVerifyItem {
   /**
    * Domain accepts all addresses.
    */
-  catchAll?: boolean;
-  disposable?: boolean;
-  domain?: string;
+  catchAll?: boolean | null;
+  disposable?: boolean | null;
+  domain?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
-  email: string;
+  email: string | null;
   /**
    * Free email provider.
    */
-  free?: boolean;
+  free?: boolean | null;
   /**
    * Mail provider behind the address domain, e.g. Google. Null when the serving source does not report one.
    */
@@ -123,23 +123,23 @@ export interface EmailVerifyItem {
   /**
    * MX record hosts published by the address domain.
    */
-  mxRecords?: string[];
+  mxRecords?: string[] | null;
   /**
    * Why the verdict was reached. Published by only one of the two sources, so it is absent on most calls; never treat it as required.
    */
-  reason?: string;
+  reason?: string | null;
   /**
    * Role-based address (e.g. info@).
    */
-  role?: boolean;
+  role?: boolean | null;
   /**
    * Confidence in the verdict, 0-100. Coarse rather than graded on most calls: it tracks the status rather than ranking addresses within one.
    */
-  score?: number;
+  score?: number | null;
   /**
    * Deliverability verdict: good (the mailbox accepted), bad (it was refused), or risky (no source could settle it - usually a catch-all domain that accepts every address, sometimes a receiving server that declined to answer at all). Populated whenever the provider has data for the entity.
    */
-  status: string;
+  status: string | null;
   [extra: string]: unknown;
 }
 

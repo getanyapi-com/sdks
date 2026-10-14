@@ -48,11 +48,11 @@ export interface SocialFinderItem {
    * The name that was searched for. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
-  inputProfileName?: string;
+  inputProfileName?: string | null;
   /**
    * The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity.
    */
-  social: string;
+  social: string | null;
   /**
    * URL of the matching profile, or null when no account was found on that network.
    */

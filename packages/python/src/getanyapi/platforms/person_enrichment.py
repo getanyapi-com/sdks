@@ -279,7 +279,7 @@ class PersonEnrichmentBettercontactData(BaseModel):
         alias="emailStatus",
         description="Deliverability verdict for the address, e.g. valid, catch_all_safe, catch_all_not_safe, undeliverable, not_found.",
     )
-    enriched: bool = Field(
+    enriched: bool | None = Field(
         description="True when the waterfall matched a contact. A false answer is a legitimate miss and is not billed."
     )
     first_name: str | None = Field(
@@ -465,7 +465,7 @@ class PersonEnrichmentCrustdataV3Data(BaseModel):
     past_positions: list[PersonEnrichmentCrustdataV3PastPosition] | None = Field(
         default=None, alias="pastPositions", description="Roles the person held before."
     )
-    person_id: str = Field(alias="personId", description="Crustdata person id.")
+    person_id: str | None = Field(alias="personId", description="Crustdata person id.")
     skills: list[str] | None = Field(
         default=None, description="Skills the person lists on LinkedIn."
     )
@@ -1304,7 +1304,7 @@ class PersonEnrichmentLushaData(BaseModel):
     first_name: str | None = Field(
         default=None, alias="firstName", description="Person's first name."
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     job_start_utc: float | None = Field(
         default=None,
         alias="jobStartUtc",
@@ -1431,7 +1431,7 @@ class PersonEnrichmentLushaCompany(BaseModel):
 class PersonEnrichmentLushaNaicsCode(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: str = Field(description="NAICS code.")
+    code: str | None = Field(description="NAICS code.")
     description: str | None = Field(
         default=None, description="What the NAICS code covers."
     )
@@ -1440,7 +1440,7 @@ class PersonEnrichmentLushaNaicsCode(BaseModel):
 class PersonEnrichmentLushaSicCode(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: str = Field(description="SIC code.")
+    code: str | None = Field(description="SIC code.")
     description: str | None = Field(
         default=None, description="What the SIC code covers."
     )
@@ -1452,7 +1452,7 @@ class PersonEnrichmentLushaEmail(BaseModel):
     confidence: str | None = Field(
         default=None, description="Lusha's confidence grade for the address, e.g. A+."
     )
-    email: str = Field(description="Email address.")
+    email: str | None = Field(description="Email address.")
     type_: str | None = Field(
         default=None, alias="type", description="Address kind, e.g. work or personal."
     )
@@ -1499,7 +1499,7 @@ class PersonEnrichmentLushaPhone(BaseModel):
         alias="doNotCall",
         description="True when the number is on a do-not-call list.",
     )
-    number: str = Field(description="Phone number in international format.")
+    number: str | None = Field(description="Phone number in international format.")
     type_: str | None = Field(
         default=None, alias="type", description="Line kind, e.g. mobile or direct."
     )
@@ -1554,7 +1554,7 @@ class PersonEnrichmentPeopledatalabsData(BaseModel):
     first_name: str | None = Field(
         default=None, alias="firstName", description="First name."
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     github_url: str | None = Field(
         default=None, alias="githubUrl", description="GitHub profile URL."
     )
@@ -1792,7 +1792,7 @@ class PersonEnrichmentPeopledatalabsEducation(BaseModel):
 class PersonEnrichmentPeopledatalabsEmail(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    address: str = Field(description="Email address.")
+    address: str | None = Field(description="Email address.")
     type_: str | None = Field(
         default=None,
         alias="type",
@@ -1961,7 +1961,9 @@ class PersonEnrichmentPeopledatalabsLocation(BaseModel):
 class PersonEnrichmentPeopledatalabsProfile(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    network: str = Field(description="Network name, e.g. linkedin, github, twitter.")
+    network: str | None = Field(
+        description="Network name, e.g. linkedin, github, twitter."
+    )
     profile_id: str | None = Field(
         default=None, alias="profileId", description="Network's own id for the profile."
     )
@@ -2011,7 +2013,7 @@ class PersonEnrichmentProspeoData(BaseModel):
         alias="freeEnrichment",
         description="True when Prospeo served this record from cache and did not charge for it.",
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     headline: str | None = Field(default=None, description="LinkedIn headline.")
     job_change_detected_utc: float | None = Field(
         default=None,
@@ -2495,7 +2497,9 @@ class PersonEnrichmentQuickenrichData(BaseModel):
         alias="emailVerifiedUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    first_name: str = Field(alias="firstName", description="Person's first name.")
+    first_name: str | None = Field(
+        alias="firstName", description="Person's first name."
+    )
     last_name: str | None = Field(
         default=None, alias="lastName", description="Person's last name."
     )

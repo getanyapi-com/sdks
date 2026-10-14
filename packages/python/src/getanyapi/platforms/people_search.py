@@ -615,7 +615,7 @@ class PeopleSearchAiArkPeople(BaseModel):
         alias="followerCount",
         description="LinkedIn follower count. Minimum: 0.",
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     functions: list[str] | None = Field(
         default=None, description="Job functions the current role covers."
     )
@@ -647,7 +647,7 @@ class PeopleSearchAiArkPeople(BaseModel):
         alias="linkedinHandle",
         description="LinkedIn public profile handle, the trailing segment of the profile URL.",
     )
-    linkedin_url: str = Field(
+    linkedin_url: str | None = Field(
         alias="linkedinUrl", description="Canonical LinkedIn profile URL."
     )
     location: str | None = Field(default=None, description="Formatted location.")
@@ -978,7 +978,7 @@ class PeopleSearchCrustdataProfile(BaseModel):
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="LinkedIn profile URL."
     )
-    name: str = Field(description="Full name of the person.")
+    name: str | None = Field(description="Full name of the person.")
     past_employers: list[PeopleSearchCrustdataPastEmployer] | None = Field(
         default=None,
         alias="pastEmployers",
@@ -1352,7 +1352,7 @@ class PeopleSearchCrustdataV3Profile(BaseModel):
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="LinkedIn profile URL."
     )
-    name: str = Field(description="Full name of the person.")
+    name: str | None = Field(description="Full name of the person.")
     open_to_cards: Any | None = Field(
         default=None,
         alias="openToCards",
@@ -1905,7 +1905,7 @@ class PeopleSearchFullenrichPeople(BaseModel):
     first_name: str | None = Field(
         default=None, alias="firstName", description="First name."
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     headline: str | None = Field(default=None, description="LinkedIn headline.")
     is_current: bool | None = Field(
         default=None,
@@ -2049,7 +2049,7 @@ class PeopleSearchFullenrichEducation(BaseModel):
         alias="endUtc",
         description="UTC epoch timestamp in seconds (Unix time) study ended. Multiply by 1000 for a JS Date in milliseconds.",
     )
-    school_name: str = Field(alias="schoolName", description="School name.")
+    school_name: str | None = Field(alias="schoolName", description="School name.")
     start_utc: float | None = Field(
         default=None,
         alias="startUtc",
@@ -2148,7 +2148,7 @@ class PeopleSearchFullenrichExperience(BaseModel):
 class PeopleSearchFullenrichLanguage(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    language: str = Field(description="Language name.")
+    language: str | None = Field(description="Language name.")
     proficiency: str | None = Field(
         default=None, description="Proficiency band, e.g. FULL_PROFESSIONAL."
     )
@@ -2203,7 +2203,7 @@ class PeopleSearchLushaPeople(BaseModel):
         alias="contactId",
         description="Lusha's contact identifier for this search row.",
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     image: str | None = Field(default=None, description="Employer logo URL.")
     is_shown: bool | None = Field(
         default=None,
@@ -2452,7 +2452,7 @@ class PeopleSearchPeopledatalabsPeople(BaseModel):
     first_name: str | None = Field(
         default=None, alias="firstName", description="First name."
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     geo: str | None = Field(default=None, description='Coordinates as "lat,lon".')
     industry: str | None = Field(
         default=None, description="Industry the person works in."
@@ -2812,7 +2812,9 @@ class PeopleSearchPeopledatalabsExperience(BaseModel):
 class PeopleSearchPeopledatalabsProfile(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    network: str = Field(description="Network name, e.g. linkedin, facebook, twitter.")
+    network: str | None = Field(
+        description="Network name, e.g. linkedin, facebook, twitter."
+    )
 
 
 class PeopleSearchProspeoData(BaseModel):
@@ -2857,7 +2859,7 @@ class PeopleSearchProspeoPeople(BaseModel):
     first_name: str | None = Field(
         default=None, alias="firstName", description="First name."
     )
-    full_name: str = Field(alias="fullName", description="Person's full name.")
+    full_name: str | None = Field(alias="fullName", description="Person's full name.")
     headline: str | None = Field(default=None, description="LinkedIn headline.")
     job_change_detected_utc: float | None = Field(
         default=None,
@@ -3373,16 +3375,18 @@ class PeopleSearchQuickenrichPeople(BaseModel):
         alias="empId",
         description="QuickEnrich's stable record id for this person, for de-duplicating across pages.",
     )
-    first_name: str = Field(alias="firstName", description="Person's first name.")
-    has_email: bool = Field(
+    first_name: str | None = Field(
+        alias="firstName", description="Person's first name."
+    )
+    has_email: bool | None = Field(
         alias="hasEmail",
         description="Whether a work email is held for this person. The address itself is masked on this SKU.",
     )
-    has_linkedin: bool = Field(
+    has_linkedin: bool | None = Field(
         alias="hasLinkedin",
         description="Whether a LinkedIn profile is held for this person.",
     )
-    has_phone: bool = Field(
+    has_phone: bool | None = Field(
         alias="hasPhone",
         description="Whether a phone is held for this person. The number itself is masked on this SKU.",
     )
@@ -3469,7 +3473,9 @@ class PeopleSearchQuickenrichCompanyPeople(BaseModel):
         alias="emailVerifiedUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    first_name: str = Field(alias="firstName", description="Person's first name.")
+    first_name: str | None = Field(
+        alias="firstName", description="Person's first name."
+    )
     last_name: str | None = Field(
         default=None, alias="lastName", description="Person's last name."
     )

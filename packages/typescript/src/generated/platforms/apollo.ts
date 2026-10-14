@@ -38,7 +38,7 @@ export interface ApolloOrganizationEmployeeMetric {
   /**
    * Headcount flow per department in the month.
    */
-  departments?: ApolloOrganizationDepartment[];
+  departments?: ApolloOrganizationDepartment[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -123,7 +123,7 @@ export interface ApolloOrganizationSuborganization {
   /**
    * Industries associated with the organization.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Organization name.
    */
@@ -159,224 +159,224 @@ export interface ApolloOrganizationData {
   /**
    * Alexa global traffic rank of the organization website.
    */
-  alexaRanking?: number;
+  alexaRanking?: number | null;
   /**
    * Canonical AngelList profile URL.
    * Format: uri.
    */
-  angellistUrl?: string;
+  angellistUrl?: string | null;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  annualRevenue?: number;
+  annualRevenue?: number | null;
   /**
    * Human-readable estimated annual revenue.
    */
-  annualRevenueDisplay?: string;
+  annualRevenueDisplay?: string | null;
   /**
    * Headquarters city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Headquarters country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Canonical Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Organization summary.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary organization domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Estimated employee count.
    * Range: minimum 0.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Monthly headcount flow per department.
    */
-  employeeMetrics?: ApolloOrganizationEmployeeMetric[];
+  employeeMetrics?: ApolloOrganizationEmployeeMetric[] | null;
   /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the organization was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Funding rounds Apollo records for the organization.
    */
-  fundingEvents?: ApolloOrganizationFundingEvent[];
+  fundingEvents?: ApolloOrganizationFundingEvent[] | null;
   /**
    * Stable organization identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Organization logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Industries associated with the organization.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
    */
-  industryTagId?: string;
+  industryTagId?: string | null;
   /**
    * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
    */
-  industryTagIds?: {};
+  industryTagIds?: {} | null;
   /**
    * Keywords associated with the organization.
    */
-  keywords?: string[];
+  keywords?: string[] | null;
   /**
    * Languages the organization operates in.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  latestFundingDetectedUtc?: number;
+  latestFundingDetectedUtc?: number | null;
   /**
    * Latest disclosed funding stage.
    */
-  latestFundingStage?: string;
+  latestFundingStage?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  latestFundingUtc?: number;
+  latestFundingUtc?: number | null;
   /**
    * Organization LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Canonical LinkedIn company URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * NAICS industry codes.
    */
-  naicsCodes?: string[];
+  naicsCodes?: string[] | null;
   /**
    * Organization name.
    */
-  name: string;
+  name: string | null;
   /**
    * Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.
    */
-  orgChartRootPersonIds?: string[];
+  orgChartRootPersonIds?: string[] | null;
   /**
    * Identifier of the organization that owns this one.
    */
-  parentOrganizationId?: string;
+  parentOrganizationId?: string | null;
   /**
    * Name of the organization that owns this one.
    */
-  parentOrganizationName?: string;
+  parentOrganizationName?: string | null;
   /**
    * Website URL of the organization that owns this one.
    * Format: uri.
    */
-  parentOrganizationWebsiteUrl?: string;
+  parentOrganizationWebsiteUrl?: string | null;
   /**
    * Organization phone number in international format.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Headquarters postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Exchange the company lists on, such as nyse.
    */
-  publiclyTradedExchange?: string;
+  publiclyTradedExchange?: string | null;
   /**
    * Stock ticker, for listed companies.
    */
-  publiclyTradedSymbol?: string;
+  publiclyTradedSymbol?: string | null;
   /**
    * Headquarters address as one display string.
    */
-  rawAddress?: string;
+  rawAddress?: string | null;
   /**
    * Number of retail locations Apollo records for the organization.
    * Range: minimum 0.
    */
-  retailLocationCount?: number;
+  retailLocationCount?: number | null;
   /**
    * Organization phone number in international E.164 form, such as +14152985539.
    */
-  sanitizedPhone?: string;
+  sanitizedPhone?: string | null;
   /**
    * Industries associated with the organization besides the primary industry.
    */
-  secondaryIndustries?: string[];
+  secondaryIndustries?: string[] | null;
   /**
    * SIC industry codes.
    */
-  sicCodes?: string[];
+  sicCodes?: string[] | null;
   /**
    * Headquarters state or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Street address.
    */
-  streetAddress?: string;
+  streetAddress?: string | null;
   /**
    * Number of related organizations Apollo lists under this one.
    * Range: minimum 0.
    */
-  suborganizationCount?: number;
+  suborganizationCount?: number | null;
   /**
    * Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.
    */
-  suborganizations?: ApolloOrganizationSuborganization[];
+  suborganizations?: ApolloOrganizationSuborganization[] | null;
   /**
    * Technologies detected at the organization, with their category.
    */
-  technologies?: ApolloOrganizationTechnologie[];
+  technologies?: ApolloOrganizationTechnologie[] | null;
   /**
    * Technologies detected at the organization.
    */
-  technologyNames?: string[];
+  technologyNames?: string[] | null;
   /**
    * Total disclosed funding in USD.
    * Range: minimum 0.
    */
-  totalFunding?: number;
+  totalFunding?: number | null;
   /**
    * Human-readable total disclosed funding.
    */
-  totalFundingDisplay?: string;
+  totalFundingDisplay?: string | null;
   /**
    * Canonical X or Twitter profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Canonical organization website URL.
    * Format: uri.
    */
-  websiteUrl?: string;
+  websiteUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -475,7 +475,7 @@ export interface ApolloOrganizationEnrichSuborganization {
   /**
    * Industries associated with the organization.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Organization name.
    */
@@ -511,47 +511,47 @@ export interface ApolloOrganizationEnrichData {
   /**
    * Alexa global traffic rank of the organization website.
    */
-  alexaRanking?: number;
+  alexaRanking?: number | null;
   /**
    * Canonical AngelList profile URL.
    * Format: uri.
    */
-  angellistUrl?: string;
+  angellistUrl?: string | null;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  annualRevenue?: number;
+  annualRevenue?: number | null;
   /**
    * Human-readable estimated annual revenue.
    */
-  annualRevenueDisplay?: string;
+  annualRevenueDisplay?: string | null;
   /**
    * Headquarters city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Headquarters country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Canonical Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Organization summary.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary organization domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Estimated employee count.
    * Range: minimum 0.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Headcount change over trailing windows, in percent.
    */
@@ -568,175 +568,175 @@ export interface ApolloOrganizationEnrichData {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the organization was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Funding rounds Apollo records for the organization.
    */
-  fundingEvents?: ApolloOrganizationEnrichFundingEvent[];
+  fundingEvents?: ApolloOrganizationEnrichFundingEvent[] | null;
   /**
    * Employee count per department, keyed by Apollo department name.
    */
-  headcountByRole?: {};
+  headcountByRole?: {} | null;
   /**
    * Stable organization identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Organization logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Industries associated with the organization.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
    */
-  industryTagId?: string;
+  industryTagId?: string | null;
   /**
    * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
    */
-  industryTagIds?: {};
+  industryTagIds?: {} | null;
   /**
    * Keywords associated with the organization.
    */
-  keywords?: string[];
+  keywords?: string[] | null;
   /**
    * Languages the organization operates in.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  latestFundingDetectedUtc?: number;
+  latestFundingDetectedUtc?: number | null;
   /**
    * Latest disclosed funding stage.
    */
-  latestFundingStage?: string;
+  latestFundingStage?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  latestFundingUtc?: number;
+  latestFundingUtc?: number | null;
   /**
    * Organization LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Canonical LinkedIn company URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * NAICS industry codes.
    */
-  naicsCodes?: string[];
+  naicsCodes?: string[] | null;
   /**
    * Organization name.
    */
-  name: string;
+  name: string | null;
   /**
    * Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.
    */
-  orgChartRootPersonIds?: string[];
+  orgChartRootPersonIds?: string[] | null;
   /**
    * Identifier of the organization that owns this one.
    */
-  parentOrganizationId?: string;
+  parentOrganizationId?: string | null;
   /**
    * Organization phone number in international format.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Headquarters postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Exchange the company lists on, such as nyse.
    */
-  publiclyTradedExchange?: string;
+  publiclyTradedExchange?: string | null;
   /**
    * Stock ticker, for listed companies.
    */
-  publiclyTradedSymbol?: string;
+  publiclyTradedSymbol?: string | null;
   /**
    * Headquarters address as one display string.
    */
-  rawAddress?: string;
+  rawAddress?: string | null;
   /**
    * Number of retail locations Apollo records for the organization.
    * Range: minimum 0.
    */
-  retailLocationCount?: number;
+  retailLocationCount?: number | null;
   /**
    * Organization phone number in international E.164 form, such as +14152985539.
    */
-  sanitizedPhone?: string;
+  sanitizedPhone?: string | null;
   /**
    * Industries associated with the organization besides the primary industry.
    */
-  secondaryIndustries?: string[];
+  secondaryIndustries?: string[] | null;
   /**
    * SIC industry codes.
    */
-  sicCodes?: string[];
+  sicCodes?: string[] | null;
   /**
    * Headquarters state or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Street address.
    */
-  streetAddress?: string;
+  streetAddress?: string | null;
   /**
    * Number of related organizations Apollo lists under this one.
    * Range: minimum 0.
    */
-  suborganizationCount?: number;
+  suborganizationCount?: number | null;
   /**
    * Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.
    */
-  suborganizations?: ApolloOrganizationEnrichSuborganization[];
+  suborganizations?: ApolloOrganizationEnrichSuborganization[] | null;
   /**
    * Technologies detected at the organization, with their category.
    */
-  technologies?: ApolloOrganizationEnrichTechnologie[];
+  technologies?: ApolloOrganizationEnrichTechnologie[] | null;
   /**
    * Technologies detected at the organization.
    */
-  technologyNames?: string[];
+  technologyNames?: string[] | null;
   /**
    * Total disclosed funding in USD.
    * Range: minimum 0.
    */
-  totalFunding?: number;
+  totalFunding?: number | null;
   /**
    * Human-readable total disclosed funding.
    */
-  totalFundingDisplay?: string;
+  totalFundingDisplay?: string | null;
   /**
    * Canonical X or Twitter profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Canonical organization website URL.
    * Format: uri.
    */
-  websiteUrl?: string;
+  websiteUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -783,36 +783,36 @@ export interface ApolloOrganizationJobsJob {
   /**
    * Job city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Job country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Stable job posting identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastSeenUtc?: number;
+  lastSeenUtc?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  postedUtc?: number;
+  postedUtc?: number | null;
   /**
    * Job state or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Job title.
    */
-  title: string;
+  title: string | null;
   /**
    * Canonical job posting URL.
    * Format: uri.
    */
-  url: string;
+  url: string | null;
   [extra: string]: unknown;
 }
 
@@ -908,36 +908,36 @@ export interface ApolloOrganizationNewsArticle {
   /**
    * Publishing domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Detected business event categories.
    */
-  eventCategories?: string[];
+  eventCategories?: string[] | null;
   /**
    * Stable article identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Organization identifiers associated with the article.
    */
-  organizationIds?: string[];
+  organizationIds?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  publishedUtc?: number;
+  publishedUtc?: number | null;
   /**
    * Article summary or excerpt.
    */
-  snippet?: string;
+  snippet?: string | null;
   /**
    * Article title.
    */
-  title: string;
+  title: string | null;
   /**
    * Canonical article URL.
    * Format: uri.
    */
-  url: string;
+  url: string | null;
   [extra: string]: unknown;
 }
 
@@ -1006,47 +1006,47 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
   /**
    * Alexa global traffic rank of the organization website.
    */
-  alexaRanking?: number;
+  alexaRanking?: number | null;
   /**
    * Canonical AngelList profile URL.
    * Format: uri.
    */
-  angellistUrl?: string;
+  angellistUrl?: string | null;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  annualRevenue?: number;
+  annualRevenue?: number | null;
   /**
    * Human-readable estimated annual revenue.
    */
-  annualRevenueDisplay?: string;
+  annualRevenueDisplay?: string | null;
   /**
    * Headquarters city.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Headquarters country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Canonical Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Organization summary.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary organization domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Estimated employee count.
    * Range: minimum 0.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Headcount change over trailing windows, in percent.
    */
@@ -1063,198 +1063,198 @@ export interface ApolloOrganizationsBulkEnrichOrganization {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the organization was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Funding rounds Apollo records for the organization.
    */
-  fundingEvents?: ApolloOrganizationsBulkEnrichFundingEvent[];
+  fundingEvents?: ApolloOrganizationsBulkEnrichFundingEvent[] | null;
   /**
    * Employee count per department, keyed by Apollo department name.
    */
-  headcountByRole?: {};
+  headcountByRole?: {} | null;
   /**
    * Stable organization identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Organization logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Industries associated with the organization.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Apollo industry tag identifier of the primary industry, accepted by apollo.organizations_search industryIds.
    */
-  industryTagId?: string;
+  industryTagId?: string | null;
   /**
    * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
    */
-  industryTagIds?: {};
+  industryTagIds?: {} | null;
   /**
    * Keywords associated with the organization.
    */
-  keywords?: string[];
+  keywords?: string[] | null;
   /**
    * Languages the organization operates in.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  latestFundingDetectedUtc?: number;
+  latestFundingDetectedUtc?: number | null;
   /**
    * Latest disclosed funding stage.
    */
-  latestFundingStage?: string;
+  latestFundingStage?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  latestFundingUtc?: number;
+  latestFundingUtc?: number | null;
   /**
    * Organization LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Canonical LinkedIn company URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * NAICS industry codes.
    */
-  naicsCodes?: string[];
+  naicsCodes?: string[] | null;
   /**
    * Organization name.
    */
-  name: string;
+  name: string | null;
   /**
    * Identifiers of the organizations in this organization's ownership chain.
    */
-  ownershipChainIds?: string[];
+  ownershipChainIds?: string[] | null;
   /**
    * Identifier of the organization that owns this one.
    */
-  parentOrganizationId?: string;
+  parentOrganizationId?: string | null;
   /**
    * Name of the organization that owns this one.
    */
-  parentOrganizationName?: string;
+  parentOrganizationName?: string | null;
   /**
    * Website URL of the organization that owns this one.
    * Format: uri.
    */
-  parentOrganizationWebsiteUrl?: string;
+  parentOrganizationWebsiteUrl?: string | null;
   /**
    * Organization phone number in international format.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Headquarters postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Exchange the company lists on, such as nyse.
    */
-  publiclyTradedExchange?: string;
+  publiclyTradedExchange?: string | null;
   /**
    * Stock ticker, for listed companies.
    */
-  publiclyTradedSymbol?: string;
+  publiclyTradedSymbol?: string | null;
   /**
    * Headquarters address as one display string.
    */
-  rawAddress?: string;
+  rawAddress?: string | null;
   /**
    * Number of retail locations Apollo records for the organization.
    * Range: minimum 0.
    */
-  retailLocationCount?: number;
+  retailLocationCount?: number | null;
   /**
    * Organization phone number in international E.164 form, such as +14152985539.
    */
-  sanitizedPhone?: string;
+  sanitizedPhone?: string | null;
   /**
    * Industries associated with the organization besides the primary industry.
    */
-  secondaryIndustries?: string[];
+  secondaryIndustries?: string[] | null;
   /**
    * SIC industry codes.
    */
-  sicCodes?: string[];
+  sicCodes?: string[] | null;
   /**
    * Headquarters state or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Street address.
    */
-  streetAddress?: string;
+  streetAddress?: string | null;
   /**
    * Number of related organizations Apollo lists under this one.
    * Range: minimum 0.
    */
-  suborganizationCount?: number;
+  suborganizationCount?: number | null;
   /**
    * Countries Apollo rolls up across the organization's corporate family.
    */
-  subsidiaryCountries?: string[];
+  subsidiaryCountries?: string[] | null;
   /**
    * Estimated employee count Apollo rolls up across the organization's corporate family.
    * Range: minimum 0.
    */
-  subsidiaryEmployeeCount?: number;
+  subsidiaryEmployeeCount?: number | null;
   /**
    * Industries Apollo rolls up across the organization's corporate family.
    */
-  subsidiaryIndustries?: string[];
+  subsidiaryIndustries?: string[] | null;
   /**
    * Total disclosed funding in USD.
    * Range: minimum 0.
    */
-  totalFunding?: number;
+  totalFunding?: number | null;
   /**
    * Human-readable total disclosed funding.
    */
-  totalFundingDisplay?: string;
+  totalFundingDisplay?: string | null;
   /**
    * Canonical X or Twitter profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Identifier of the top organization in this organization's ownership chain.
    */
-  ultimateParentOrganizationId?: string;
+  ultimateParentOrganizationId?: string | null;
   /**
    * Name of the top organization in this organization's ownership chain.
    */
-  ultimateParentOrganizationName?: string;
+  ultimateParentOrganizationName?: string | null;
   /**
    * Website URL of the top organization in this organization's ownership chain.
    * Format: uri.
    */
-  ultimateParentOrganizationWebsiteUrl?: string;
+  ultimateParentOrganizationWebsiteUrl?: string | null;
   /**
    * Canonical organization website URL.
    * Format: uri.
    */
-  websiteUrl?: string;
+  websiteUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1480,30 +1480,30 @@ export interface ApolloOrganizationsSearchOrganization {
   /**
    * Alexa global traffic rank of the organization website.
    */
-  alexaRanking?: number;
+  alexaRanking?: number | null;
   /**
    * Canonical AngelList profile URL.
    * Format: uri.
    */
-  angellistUrl?: string;
+  angellistUrl?: string | null;
   /**
    * Estimated annual revenue in USD.
    * Range: minimum 0.
    */
-  annualRevenue?: number;
+  annualRevenue?: number | null;
   /**
    * Human-readable estimated annual revenue.
    */
-  annualRevenueDisplay?: string;
+  annualRevenueDisplay?: string | null;
   /**
    * Canonical Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Primary organization domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Headcount change over trailing windows, in percent.
    */
@@ -1520,98 +1520,98 @@ export interface ApolloOrganizationsSearchOrganization {
      * Percent change over the last six months.
      */
     percent6m?: number;
-  };
+  } | null;
   /**
    * Canonical Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the organization was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Stable organization identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Organization logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Languages the organization operates in.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * Organization LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Canonical LinkedIn company URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * NAICS industry codes.
    */
-  naicsCodes?: string[];
+  naicsCodes?: string[] | null;
   /**
    * Organization name.
    */
-  name: string;
+  name: string | null;
   /**
    * Identifiers of the organizations in this organization's ownership chain.
    */
-  ownershipChainIds?: string[];
+  ownershipChainIds?: string[] | null;
   /**
    * Identifier of the organization that owns this one.
    */
-  parentOrganizationId?: string;
+  parentOrganizationId?: string | null;
   /**
    * Name of the organization that owns this one.
    */
-  parentOrganizationName?: string;
+  parentOrganizationName?: string | null;
   /**
    * Website URL of the organization that owns this one.
    * Format: uri.
    */
-  parentOrganizationWebsiteUrl?: string;
+  parentOrganizationWebsiteUrl?: string | null;
   /**
    * Organization phone number in international format.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Exchange the company lists on, such as nyse.
    */
-  publiclyTradedExchange?: string;
+  publiclyTradedExchange?: string | null;
   /**
    * Stock ticker, for listed companies.
    */
-  publiclyTradedSymbol?: string;
+  publiclyTradedSymbol?: string | null;
   /**
    * Number of retail locations Apollo records for the organization.
    * Range: minimum 0.
    */
-  retailLocationCount?: number;
+  retailLocationCount?: number | null;
   /**
    * Organization phone number in international E.164 form, such as +14152985539.
    */
-  sanitizedPhone?: string;
+  sanitizedPhone?: string | null;
   /**
    * SIC industry codes.
    */
-  sicCodes?: string[];
+  sicCodes?: string[] | null;
   /**
    * Canonical X or Twitter profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Canonical organization website URL.
    * Format: uri.
    */
-  websiteUrl?: string;
+  websiteUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1809,39 +1809,39 @@ export interface ApolloPeopleSearchPeople {
   /**
    * Person first name.
    */
-  firstName: string;
+  firstName: string | null;
   /**
    * Whether city data is available through enrichment.
    */
-  hasCity?: boolean;
+  hasCity?: boolean | null;
   /**
    * Whether country data is available through enrichment.
    */
-  hasCountry?: boolean;
+  hasCountry?: boolean | null;
   /**
    * Whether direct phone data is available through asynchronous enrichment.
    */
-  hasDirectPhone?: boolean;
+  hasDirectPhone?: boolean | null;
   /**
    * Whether an email is available through enrichment.
    */
-  hasEmail?: boolean;
+  hasEmail?: boolean | null;
   /**
    * Whether state or region data is available through enrichment.
    */
-  hasState?: boolean;
+  hasState?: boolean | null;
   /**
    * Stable person identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Obfuscated last-name initial.
    */
-  lastNameInitial?: string;
+  lastNameInitial?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastRefreshedUtc?: number;
+  lastRefreshedUtc?: number | null;
   /**
    * Availability summary for the current organization.
    */
@@ -1882,11 +1882,11 @@ export interface ApolloPeopleSearchPeople {
      * Current organization name.
      */
     name?: string;
-  };
+  } | null;
   /**
    * Current job title.
    */
-  title?: string;
+  title?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1984,7 +1984,7 @@ export interface ApolloPersonEnrichEmploymentHistory {
   /**
    * Stable employment record identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Organization identifier.
    */
@@ -2058,7 +2058,7 @@ export interface ApolloPersonEnrichSuborganization {
   /**
    * Industries associated with the organization.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Organization name.
    */
@@ -2094,88 +2094,88 @@ export interface ApolloPersonEnrichData {
   /**
    * Full address as one display string.
    */
-  address?: string;
+  address?: string | null;
   /**
    * Domain accepts all addresses.
    */
-  catchAll?: boolean;
+  catchAll?: boolean | null;
   /**
    * Apollo's verdict on the catch-all email domain, such as allow.
    */
-  catchAllVerdict?: string;
+  catchAllVerdict?: string | null;
   /**
    * City.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Apollo match confidence for this person: high, medium or low.
    */
-  confidence?: string;
+  confidence?: string | null;
   /**
    * Country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Current departments.
    */
-  departments?: string[];
+  departments?: string[] | null;
   /**
    * Available work email.
    * Format: email.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Verification status of the work email.
    */
-  emailStatus?: string;
+  emailStatus?: string | null;
   /**
    * Known employment history.
    */
-  employmentHistory?: ApolloPersonEnrichEmploymentHistory[];
+  employmentHistory?: ApolloPersonEnrichEmploymentHistory[] | null;
   /**
    * Canonical Facebook profile URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Person first name.
    */
-  firstName: string;
+  firstName: string | null;
   /**
    * Current business functions.
    */
-  functions?: string[];
+  functions?: string[] | null;
   /**
    * Canonical GitHub profile URL.
    * Format: uri.
    */
-  githubUrl?: string;
+  githubUrl?: string | null;
   /**
    * Professional headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * Stable person identifier.
    */
-  id: string;
+  id: string | null;
   /**
    * Profile image URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Person last name.
    */
-  lastName: string;
+  lastName: string | null;
   /**
    * Canonical LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Full person name.
    */
-  name: string;
+  name: string | null;
   /**
    * Current organization summary.
    */
@@ -2253,7 +2253,7 @@ export interface ApolloPersonEnrichData {
     /**
      * Funding rounds Apollo records for the organization.
      */
-    fundingEvents?: ApolloPersonEnrichFundingEvent[];
+    fundingEvents?: ApolloPersonEnrichFundingEvent[] | null;
     /**
      * Stable organization identifier.
      */
@@ -2266,7 +2266,7 @@ export interface ApolloPersonEnrichData {
     /**
      * Industries associated with the organization.
      */
-    industries?: string[];
+    industries?: string[] | null;
     /**
      * Primary industry.
      */
@@ -2278,15 +2278,15 @@ export interface ApolloPersonEnrichData {
     /**
      * Apollo industry tag identifier for each industry, keyed by industry name. The identifiers are accepted by apollo.organizations_search industryIds.
      */
-    industryTagIds?: {};
+    industryTagIds?: {} | null;
     /**
      * Keywords associated with the organization.
      */
-    keywords?: string[];
+    keywords?: string[] | null;
     /**
      * Languages the organization operates in.
      */
-    languages?: string[];
+    languages?: string[] | null;
     /**
      * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
      */
@@ -2311,7 +2311,7 @@ export interface ApolloPersonEnrichData {
     /**
      * NAICS industry codes.
      */
-    naicsCodes?: string[];
+    naicsCodes?: string[] | null;
     /**
      * Organization name.
      */
@@ -2319,7 +2319,7 @@ export interface ApolloPersonEnrichData {
     /**
      * Apollo person identifiers at the top of the organization's org chart, accepted by apollo.person_enrich personId.
      */
-    orgChartRootPersonIds?: string[];
+    orgChartRootPersonIds?: string[] | null;
     /**
      * Identifier of the organization that owns this one.
      */
@@ -2356,11 +2356,11 @@ export interface ApolloPersonEnrichData {
     /**
      * Industries associated with the organization besides the primary industry.
      */
-    secondaryIndustries?: string[];
+    secondaryIndustries?: string[] | null;
     /**
      * SIC industry codes.
      */
-    sicCodes?: string[];
+    sicCodes?: string[] | null;
     /**
      * Headquarters state or region.
      */
@@ -2377,15 +2377,15 @@ export interface ApolloPersonEnrichData {
     /**
      * Related organizations Apollo lists under this one, usually subsidiaries or acquisitions.
      */
-    suborganizations?: ApolloPersonEnrichSuborganization[];
+    suborganizations?: ApolloPersonEnrichSuborganization[] | null;
     /**
      * Technologies detected at the organization, with their category.
      */
-    technologies?: ApolloPersonEnrichTechnologie[];
+    technologies?: ApolloPersonEnrichTechnologie[] | null;
     /**
      * Technologies detected at the organization.
      */
-    technologyNames?: string[];
+    technologyNames?: string[] | null;
     /**
      * Total disclosed funding in USD.
      * Range: minimum 0.
@@ -2405,48 +2405,48 @@ export interface ApolloPersonEnrichData {
      * Format: uri.
      */
     websiteUrl?: string;
-  };
+  } | null;
   /**
    * Identifier of the person's current organization.
    */
-  organizationId?: string;
+  organizationId?: string | null;
   /**
    * Available personal email addresses, included automatically.
    */
-  personalEmails?: string[];
+  personalEmails?: string[] | null;
   /**
    * Postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Current seniority classification.
    */
-  seniority?: string;
+  seniority?: string | null;
   /**
    * State or region.
    */
-  state?: string;
+  state?: string | null;
   /**
    * Street address.
    */
-  streetAddress?: string;
+  streetAddress?: string | null;
   /**
    * Current subdepartments.
    */
-  subdepartments?: string[];
+  subdepartments?: string[] | null;
   /**
    * IANA time-zone identifier.
    */
-  timeZone?: string;
+  timeZone?: string | null;
   /**
    * Current job title.
    */
-  title?: string;
+  title?: string | null;
   /**
    * Canonical X or Twitter profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   [extra: string]: unknown;
 }
 

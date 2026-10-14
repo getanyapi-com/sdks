@@ -42,39 +42,39 @@ export interface EmailVerificationAllegrowData {
   /**
    * The Allegrow dataset's own verdict field, returned verbatim as the source spells it (safe in the captured response). It duplicates status in the same response and is not remapped into the good/risky/bad vocabulary email.verify uses.
    */
-  allegrowStatus?: string;
+  allegrowStatus?: string | null;
   /**
    * Email domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Validated email address.
    * Format: email.
    */
-  email: string;
+  email: string | null;
   /**
    * Whether the domain accepts mail for arbitrary recipients.
    */
-  isCatchAll?: boolean;
+  isCatchAll?: boolean | null;
   /**
    * Whether the mailbox appears to be a role account.
    */
-  isRoleAccount?: boolean;
+  isRoleAccount?: boolean | null;
   /**
    * Detected mail provider.
    */
-  mxProvider?: string;
+  mxProvider?: string | null;
   /**
    * MX record hosts published by the email domain.
    */
-  mxRecords?: string[];
+  mxRecords?: string[] | null;
   /**
    * The source's own identifier for this validation, surfaced so a result can be traced back to the record the source created.
    */
-  providerRequestId?: string;
+  providerRequestId?: string | null;
   /**
    * Deliverability verdict; negative verdicts are successful billable results.
-   * One of: safe, do_not_mail_abuse, some_risk, block_bounce_risk, dead_email, spamtrap, more_time_required, missing_email.
+   * One of: safe, do_not_mail_abuse, some_risk, block_bounce_risk, dead_email, spamtrap, more_time_required, missing_email, null.
    */
   status:
     | "safe"
@@ -84,15 +84,17 @@ export interface EmailVerificationAllegrowData {
     | "dead_email"
     | "spamtrap"
     | "more_time_required"
-    | "missing_email";
+    | "missing_email"
+    | "null"
+    | null;
   /**
    * More specific validation result when available.
    */
-  subStatus?: string;
+  subStatus?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  validatedUtc?: number;
+  validatedUtc?: number | null;
   [extra: string]: unknown;
 }
 
@@ -133,21 +135,21 @@ export interface EmailVerificationBouncebanInput {
  * The `data` payload of Email Verification - BounceBan (email_verification.bounceban).
  */
 export interface EmailVerificationBouncebanData {
-  email: string;
-  isCatchAll?: boolean;
-  isDisposable?: boolean;
-  isFree?: boolean;
-  isRole?: boolean;
-  mode?: string;
-  mxRecords?: string[];
-  reason?: string;
+  email: string | null;
+  isCatchAll?: boolean | null;
+  isDisposable?: boolean | null;
+  isFree?: boolean | null;
+  isRole?: boolean | null;
+  mode?: string | null;
+  mxRecords?: string[] | null;
+  reason?: string | null;
   /**
    * Deliverability verdict; negative verdicts are successful results.
    */
-  result: string;
-  score?: number;
-  smtpProvider?: string;
-  verifiedAt?: string;
+  result: string | null;
+  score?: number | null;
+  smtpProvider?: string | null;
+  verifiedAt?: string | null;
   [extra: string]: unknown;
 }
 
@@ -186,48 +188,48 @@ export interface EmailVerificationIcypeasData {
   /**
    * Confidence rating for the address, returned verbatim as the source spells it (ultra_sure in the captured response). It is not remapped to another verdict vocabulary.
    */
-  certainty?: string;
+  certainty?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  createdUtc?: number;
+  createdUtc?: number | null;
   /**
    * The verified email address as the source returned it.
    * Format: email.
    */
-  email?: string;
+  email?: string | null;
   /**
    * First name carried by the source's scan record. Present only when that record holds identity data, which the verification path usually does not.
    */
-  firstname?: string;
+  firstname?: string | null;
   /**
    * Full name carried by the source's scan record. Present only when that record holds identity data, which the verification path usually does not.
    */
-  fullname?: string;
+  fullname?: string | null;
   /**
    * Gender carried by the source's scan record, returned verbatim. Present only when that record holds identity data, which the verification path usually does not; the source's UNKNOWN sentinel is reported as absent.
    */
-  gender?: string;
+  gender?: string | null;
   /**
    * Last name carried by the source's scan record. Present only when that record holds identity data, which the verification path usually does not.
    */
-  lastname?: string;
+  lastname?: string | null;
   /**
    * LinkedIn profile URL carried by the source's scan record. Present only when that record holds identity data, which the verification path usually does not.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  modifiedUtc?: number;
+  modifiedUtc?: number | null;
   /**
    * Mail provider detected from the address domain's MX records.
    */
-  mxProvider?: string;
+  mxProvider?: string | null;
   /**
    * MX record hosts published by the address domain.
    */
-  mxRecords?: string[];
+  mxRecords?: string[] | null;
   /**
    * Phone numbers carried by the source's scan record, passed through in whatever shape the source returns them. Empty in the captured response and absent when the source holds none, so this field is not type-constrained.
    */
@@ -239,23 +241,23 @@ export interface EmailVerificationIcypeasData {
   /**
    * The source's own identifier for the scan record behind this verification, surfaced so a result can be traced back to it at the source.
    */
-  scanId?: string;
+  scanId?: string | null;
   /**
    * The source's own label for the kind of scan record it created, returned verbatim (__icypeas__individual in the captured response). It is not a person's name.
    */
-  scanName?: string;
+  scanName?: string | null;
   /**
    * Position the source assigned to this record within the scan it belongs to; 0 for a single-address verification.
    */
-  scanOrder?: number;
+  scanOrder?: number | null;
   /**
    * The source's own identifier for the account that ran the scan.
    */
-  scanUser?: string;
+  scanUser?: string | null;
   /**
    * Scan outcome for the address, returned verbatim as the source spells it (FOUND in the captured response; the scan also reports NOT_FOUND). This is not the good/risky/bad vocabulary used by email.verify.
    */
-  status: string;
+  status: string | null;
   [extra: string]: unknown;
 }
 
@@ -299,83 +301,83 @@ export interface EmailVerificationZerobounceData {
   /**
    * Local part of the address, before the @.
    */
-  account?: string;
+  account?: string | null;
   /**
    * True when the domain accepts mail to any local part, so no address on it can be individually confirmed.
    */
-  catchallDomain?: boolean;
+  catchallDomain?: boolean | null;
   /**
    * City from the supplied signup IP.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Country from the supplied signup IP.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Corrected address when ZeroBounce spots a likely typo.
    */
-  didYouMean?: string;
+  didYouMean?: string | null;
   /**
    * Domain part of the address.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * How long the domain has been registered, in days.
    */
-  domainAgeDays?: number;
+  domainAgeDays?: number | null;
   /**
    * The address that was validated.
    */
-  email: string;
+  email: string | null;
   /**
    * First name ZeroBounce associates with the address.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * True for a free consumer mailbox such as gmail.com.
    */
-  freeEmail?: boolean;
+  freeEmail?: boolean | null;
   /**
    * Gender ZeroBounce associates with the address.
    */
-  gender?: string;
+  gender?: string | null;
   /**
    * Last name ZeroBounce associates with the address.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * True when the domain publishes MX records.
    */
-  mxFound?: boolean;
+  mxFound?: boolean | null;
   /**
    * The domain's primary MX host.
    */
-  mxRecord?: string;
+  mxRecord?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) ZeroBounce ran the check. Multiply by 1000 for a JS Date in milliseconds.
    */
-  processedUtc?: number;
+  processedUtc?: number | null;
   /**
    * Region from the supplied signup IP.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Mailbox provider behind the domain, e.g. g-suite.
    */
-  smtpProvider?: string;
+  smtpProvider?: string | null;
   /**
    * Deliverability verdict: valid, invalid, catch-all, unknown, spamtrap, abuse or do_not_mail.
    */
-  status: string;
+  status: string | null;
   /**
    * Why that verdict was reached, e.g. mailbox_not_found, role_based, disposable.
    */
-  subStatus?: string;
+  subStatus?: string | null;
   /**
    * Postal code from the supplied signup IP.
    */
-  zipcode?: string;
+  zipcode?: string | null;
   [extra: string]: unknown;
 }
 
@@ -415,19 +417,19 @@ export interface EmailVerificationZerobounceActivityData {
   /**
    * How recently the address was active, in days. ZeroBounce buckets this rather than giving an exact figure.
    */
-  activeInDays?: number;
+  activeInDays?: number | null;
   /**
    * The address that was checked.
    */
-  email: string;
+  email: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) ZeroBounce first saw activity from the address. Multiply by 1000 for a JS Date in milliseconds.
    */
-  firstSeenUtc?: number;
+  firstSeenUtc?: number | null;
   /**
    * True when ZeroBounce has seen engagement from this address.
    */
-  hasActivity: boolean;
+  hasActivity: boolean | null;
   [extra: string]: unknown;
 }
 

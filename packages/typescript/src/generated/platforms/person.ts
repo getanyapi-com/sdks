@@ -53,27 +53,27 @@ export interface PersonSkipTraceItem {
   /**
    * Current city.
    */
-  addressLocality?: string;
+  addressLocality?: string | null;
   /**
    * Current state.
    */
-  addressRegion?: string;
+  addressRegion?: string | null;
   /**
    * Reported age.
    */
-  age?: string;
+  age?: string | null;
   /**
    * Reported associates. Each entry is an open object with name and age.
    */
-  associates?: PersonSkipTraceAssociate[];
+  associates?: PersonSkipTraceAssociate[] | null;
   /**
    * Reported birth month and year.
    */
-  born?: string;
+  born?: string | null;
   /**
    * Current county.
    */
-  county?: string;
+  county?: string | null;
   /**
    * Up to five known email addresses, most-recent first. Absent slots are empty strings.
    */
@@ -83,19 +83,19 @@ export interface PersonSkipTraceItem {
     email3?: string;
     email4?: string;
     email5?: string;
-  };
+  } | null;
   /**
    * First name of the matched person.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Last name of the matched person.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Current city and state (e.g. Brook Park, OH).
    */
-  location?: string;
+  location?: string | null;
   /**
    * Up to five known phone numbers with line type, most-recent first. Absent slots are empty strings.
    */
@@ -110,27 +110,27 @@ export interface PersonSkipTraceItem {
     phone4Type?: string;
     phone5?: string;
     phone5Type?: string;
-  };
+  } | null;
   /**
    * Current ZIP code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Prior addresses. Each entry is an open object with street, locality, region, postal code, county, and timespan.
    */
-  previousAddresses?: PersonSkipTracePreviousAddresse[];
+  previousAddresses?: PersonSkipTracePreviousAddresse[] | null;
   /**
    * Reported relatives. Each entry is an open object with name and age.
    */
-  relatives?: PersonSkipTraceRelative[];
+  relatives?: PersonSkipTraceRelative[] | null;
   /**
    * Current street address.
    */
-  streetAddress?: string;
+  streetAddress?: string | null;
   /**
    * Source record URL for the matched person. Populated whenever the provider has data for the entity.
    */
-  url: string;
+  url: string | null;
   [extra: string]: unknown;
 }
 

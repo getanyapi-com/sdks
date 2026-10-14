@@ -525,7 +525,7 @@ class CompanySearchAiArkCompanie(BaseModel):
     naics: list[str] | None = Field(
         default=None, description="NAICS codes for the company."
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     overview: str | None = Field(
         default=None,
         description="Longer company overview written by the source. Overlaps description but is a separately maintained blurb and is often longer or more current.",
@@ -876,7 +876,7 @@ class CompanySearchCrustdataCompanie(BaseModel):
         default=None,
         description="Markets the company trades in, e.g. PRIVATE or NASDAQ.",
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     office_addresses: Any | None = Field(
         default=None,
         alias="officeAddresses",
@@ -1176,7 +1176,7 @@ class CompanySearchCrustdataV3Companie(BaseModel):
         default=None,
         description="Markets the company trades in, e.g. PRIVATE or NASDAQ.",
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     office_addresses: Any | None = Field(
         default=None,
         alias="officeAddresses",
@@ -1379,7 +1379,7 @@ class CompanySearchFullenrichCompanie(BaseModel):
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Company LinkedIn page URL."
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     offices: list[CompanySearchFullenrichOffice] | None = Field(
         default=None, description="Every other office FullEnrich holds for the company."
     )
@@ -1437,7 +1437,7 @@ class CompanySearchPeopledatalabsData(BaseModel):
 class CompanySearchPeopledatalabsCompanie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    affiliated_entities: list[str] | None = Field(
+    affiliated_entities: list[str | None] | None = Field(
         default=None,
         alias="affiliatedEntities",
         description="People Data Labs company ids of affiliated entities.",
@@ -1663,7 +1663,9 @@ class CompanySearchPeopledatalabsCompanie(BaseModel):
         alias="naicsCodes",
         description="NAICS classification for the company.",
     )
-    name: str = Field(description="Company name as People Data Labs displays it.")
+    name: str | None = Field(
+        description="Company name as People Data Labs displays it."
+    )
     name_normalized: str | None = Field(
         default=None,
         alias="nameNormalized",
@@ -1806,7 +1808,7 @@ class CompanySearchPeopledatalabsMedianTenureByRole(BaseModel):
 class CompanySearchPeopledatalabsNaicsCode(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str = Field(description="NAICS code.")
+    code: str | None = Field(description="NAICS code.")
     industry_group: str | None = Field(
         default=None, alias="industryGroup", description="NAICS industry group."
     )
@@ -1825,7 +1827,7 @@ class CompanySearchPeopledatalabsNaicsCode(BaseModel):
 class CompanySearchPeopledatalabsSicCode(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str = Field(description="SIC code.")
+    code: str | None = Field(description="SIC code.")
     industry_group: str | None = Field(
         default=None, alias="industryGroup", description="SIC industry group."
     )
@@ -1951,7 +1953,7 @@ class CompanySearchProspeoCompanie(BaseModel):
         alias="naicsCodes",
         description="NAICS classification codes for the company.",
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     other_websites: list[str] | None = Field(
         default=None,
         alias="otherWebsites",
@@ -2193,7 +2195,7 @@ class CompanySearchQuickenrichCompanie(BaseModel):
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Person's LinkedIn profile URL."
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     phone: str | None = Field(
         default=None,
         description="Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.",
@@ -2354,7 +2356,7 @@ class CompanySearchTheirstackCompanie(BaseModel):
         alias="longDescription",
         description="Company description as the company writes it.",
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     num_buying_intent_topics: int | None = Field(
         default=None,
         alias="numBuyingIntentTopics",
@@ -2483,7 +2485,7 @@ class CompanySearchTheirstackTechnologiesFound(BaseModel):
         alias="lastFoundUtc",
         description="UTC epoch timestamp in seconds (Unix time) the technology was last seen. Multiply by 1000 for a JS Date in milliseconds.",
     )
-    name: str = Field(description="Technology name.")
+    name: str | None = Field(description="Technology name.")
     parent_category: str | None = Field(
         default=None, alias="parentCategory", description="Parent category."
     )

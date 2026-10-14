@@ -429,15 +429,15 @@ export interface JobSearchTheirstackJob {
   /**
    * Midpoint of the posted annual salary, converted to USD.
    */
-  avgAnnualSalaryUsd?: number;
+  avgAnnualSalaryUsd?: number | null;
   /**
    * Every city the post covers.
    */
-  cities?: string[];
+  cities?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the post closed. Multiply by 1000 for a JS Date in milliseconds.
    */
-  closedUtc?: number;
+  closedUtc?: number | null;
   /**
    * The hiring company's full TheirStack firmographic record.
    */
@@ -617,182 +617,182 @@ export interface JobSearchTheirstackJob {
      * Y Combinator batch, e.g. W20, for companies that went through it.
      */
     ycBatch?: string;
-  };
+  } | null;
   /**
    * Hiring company domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Hiring company name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Every continent the post covers.
    */
-  continents?: string[];
+  continents?: string[] | null;
   /**
    * Every country the post covers.
    */
-  countries?: string[];
+  countries?: string[] | null;
   /**
    * Country name.
    */
-  country?: string;
+  country?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code.
    */
-  countryCode?: string;
+  countryCode?: string | null;
   /**
    * Every country code the post covers.
    */
-  countryCodes?: string[];
+  countryCodes?: string[] | null;
   /**
    * Full job description text.
    */
-  description?: string;
+  description?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) TheirStack first saw the post. Multiply by 1000 for a JS Date in milliseconds.
    */
-  discoveredUtc?: number;
+  discoveredUtc?: number | null;
   /**
    * True when the post supports one-click apply.
    */
-  easyApply?: boolean;
+  easyApply?: boolean | null;
   /**
    * Employment types, e.g. full_time.
    */
-  employmentStatuses?: string[];
+  employmentStatuses?: string[] | null;
   /**
    * URL the post redirects to, when it does.
    * Format: uri.
    */
-  finalUrl?: string;
+  finalUrl?: string | null;
   /**
    * True when TheirStack redacted part of the record on this plan.
    */
-  hasBlurredData?: boolean;
+  hasBlurredData?: boolean | null;
   /**
    * True for a hybrid role.
    */
-  hybrid?: boolean;
+  hybrid?: boolean | null;
   /**
    * TheirStack's own identifier for the post.
    */
-  jobId: string;
+  jobId: string | null;
   /**
    * Keyword slugs found in the post.
    */
-  keywordSlugs?: string[];
+  keywordSlugs?: string[] | null;
   /**
    * Latitude of the posted location.
    */
-  latitude?: number;
+  latitude?: number | null;
   /**
    * Location as posted.
    */
-  location?: string;
+  location?: string | null;
   /**
    * Every resolved location the post covers, with TheirStack's geographic breakdown.
    */
-  locations?: JobSearchTheirstackLocation[];
+  locations?: JobSearchTheirstackLocation[] | null;
   /**
    * Long form of the location.
    */
-  longLocation?: string;
+  longLocation?: string | null;
   /**
    * Longitude of the posted location.
    */
-  longitude?: number;
+  longitude?: number | null;
   /**
    * Manager roles TheirStack extracted from the post.
    */
-  managerRoles?: string[];
+  managerRoles?: string[] | null;
   /**
    * Phrases from your pattern filters that matched this post.
    */
-  matchingPhrases?: string[];
+  matchingPhrases?: string[] | null;
   /**
    * Words from your pattern filters that matched this post.
    */
-  matchingWords?: string[];
+  matchingWords?: string[] | null;
   /**
    * Upper bound of the posted annual salary, in the posted currency.
    */
-  maxAnnualSalary?: number;
+  maxAnnualSalary?: number | null;
   /**
    * Upper bound of the posted annual salary, converted to USD.
    */
-  maxAnnualSalaryUsd?: number;
+  maxAnnualSalaryUsd?: number | null;
   /**
    * Lower bound of the posted annual salary, in the posted currency.
    */
-  minAnnualSalary?: number;
+  minAnnualSalary?: number | null;
   /**
    * Lower bound of the posted annual salary, converted to USD.
    */
-  minAnnualSalaryUsd?: number;
+  minAnnualSalaryUsd?: number | null;
   /**
    * TheirStack's normalized form of the title.
    */
-  normalizedTitle?: string;
+  normalizedTitle?: string | null;
   /**
    * Postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the job was posted. Multiply by 1000 for a JS Date in milliseconds.
    */
-  postedUtc?: number;
+  postedUtc?: number | null;
   /**
    * True for a fully remote role.
    */
-  remote?: boolean;
+  remote?: boolean | null;
   /**
    * True when the post is a repost of an earlier one.
    */
-  reposted?: boolean;
+  reposted?: boolean | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the post was last reposted. Multiply by 1000 for a JS Date in milliseconds.
    */
-  repostedUtc?: number;
+  repostedUtc?: number | null;
   /**
    * Currency the posted salary is in.
    */
-  salaryCurrency?: string;
+  salaryCurrency?: string | null;
   /**
    * Salary exactly as the post states it.
    */
-  salaryString?: string;
+  salaryString?: string | null;
   /**
    * Seniority band TheirStack assigns, e.g. mid_level.
    */
-  seniority?: string;
+  seniority?: string | null;
   /**
    * Short form of the location.
    */
-  shortLocation?: string;
+  shortLocation?: string | null;
   /**
    * URL TheirStack found the post at.
    * Format: uri.
    */
-  sourceUrl?: string;
+  sourceUrl?: string | null;
   /**
    * State or region code.
    */
-  stateCode?: string;
+  stateCode?: string | null;
   /**
    * Technology slugs found in the post.
    */
-  technologySlugs?: string[];
+  technologySlugs?: string[] | null;
   /**
    * Job title as posted.
    */
-  title: string;
+  title: string | null;
   /**
    * URL of the job post.
    * Format: uri.
    */
-  url?: string;
+  url?: string | null;
   [extra: string]: unknown;
 }
 
@@ -856,7 +856,7 @@ export interface JobSearchTheirstackLocation {
   /**
    * Location name.
    */
-  name: string;
+  name: string | null;
   /**
    * Postal code.
    */

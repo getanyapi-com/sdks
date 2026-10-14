@@ -90,7 +90,7 @@ class PersonSkipTraceItem(BaseModel):
     street_address: str | None = Field(
         default=None, alias="streetAddress", description="Current street address."
     )
-    url: str = Field(
+    url: str | None = Field(
         description="Source record URL for the matched person. Populated whenever the provider has data for the entity."
     )
 

@@ -48,7 +48,7 @@ class SocialFinderItem(BaseModel):
         alias="inputProfileName",
         description="The name that was searched for. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    social: str = Field(
+    social: str | None = Field(
         description="The social network checked (e.g. discord, facebook, github). Populated whenever the provider has data for the entity."
     )
     social_profile_url: str | None = Field(

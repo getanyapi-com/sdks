@@ -113,7 +113,7 @@ class TechnographicsTheirstackData(BaseModel):
 class TechnographicsTheirstackTechnologie(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    confidence: str = Field(
+    confidence: str | None = Field(
         description="How sure TheirStack is that the company uses it: high, medium or low."
     )
     first_found_utc: float | None = Field(

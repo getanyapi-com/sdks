@@ -144,39 +144,39 @@ export interface TechnographicsTheirstackTechnologie {
   /**
    * How sure TheirStack is that the company uses it: high, medium or low.
    */
-  confidence: string;
+  confidence: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the technology was first seen. Multiply by 1000 for a JS Date in milliseconds.
    */
-  firstFoundUtc?: number;
+  firstFoundUtc?: number | null;
   /**
    * Job posts mentioning the technology, all time.
    */
-  jobs?: number;
+  jobs?: number | null;
   /**
    * Job posts mentioning it in the last 180 days.
    */
-  jobsLast180Days?: number;
+  jobsLast180Days?: number | null;
   /**
    * Job posts mentioning it in the last 30 days.
    */
-  jobsLast30Days?: number;
+  jobsLast30Days?: number | null;
   /**
    * Job posts mentioning it in the last 7 days.
    */
-  jobsLast7Days?: number;
+  jobsLast7Days?: number | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the technology was last seen. Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastFoundUtc?: number;
+  lastFoundUtc?: number | null;
   /**
    * Rank of this technology among the company's technologies in the same category, 1 being the most used.
    */
-  rankWithinCategory?: number;
+  rankWithinCategory?: number | null;
   /**
    * Share of the company's mentions within this category that are of this technology, 0 to 1. A higher value means the company more likely really uses it.
    */
-  relativeOccurrenceWithinCategory?: number;
+  relativeOccurrenceWithinCategory?: number | null;
   /**
    * The technology itself.
    */
@@ -219,7 +219,7 @@ export interface TechnographicsTheirstackTechnologie {
      * Whether the row is a technology or a buying-intent keyword.
      */
     type?: string;
-  };
+  } | null;
   [extra: string]: unknown;
 }
 

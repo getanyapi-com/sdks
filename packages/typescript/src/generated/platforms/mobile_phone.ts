@@ -51,11 +51,11 @@ export interface MobilePhoneAiArkData {
    * Canonical LinkedIn profile URL returned with the match.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Matched mobile phone number.
    */
-  phone: string;
+  phone: string | null;
   /**
    * Every phone group the source returned, in source order: an array of groups where each group is an array of numbers. Untyped passthrough, because the source may return more than one group and this field carries all of them unchanged rather than reshaping them. The phone and phones fields are the first number and the first group of this same structure.
    */
@@ -63,11 +63,11 @@ export interface MobilePhoneAiArkData {
   /**
    * Every mobile phone number returned for the match, in source order. The first entry is the same value as phone.
    */
-  phones?: string[];
+  phones?: string[] | null;
   /**
    * The source's own record identifier for this match, exposed so you can trace a result back to the record it came from.
    */
-  recordId?: string;
+  recordId?: string | null;
   [extra: string]: unknown;
 }
 
@@ -118,16 +118,16 @@ export interface MobilePhoneLeadmagicData {
   /**
    * Source's own description of the match outcome.
    */
-  message?: string;
+  message?: string | null;
   /**
    * Matched mobile phone number.
    */
-  mobile: string;
+  mobile: string | null;
   /**
    * Canonical profile URL the match was resolved against.
    * Format: uri.
    */
-  profileUrl?: string;
+  profileUrl?: string | null;
   [extra: string]: unknown;
 }
 

@@ -43,7 +43,7 @@ class ContactEnrichmentCrustdataV3Data(BaseModel):
         alias="matchConfidence",
         description="Confidence from 0 to 1 that the returned person is the one asked for.",
     )
-    person_id: str = Field(alias="personId", description="Crustdata person id.")
+    person_id: str | None = Field(alias="personId", description="Crustdata person id.")
     personal_emails: list[ContactEnrichmentCrustdataV3PersonalEmail] | None = Field(
         default=None, alias="personalEmails", description="Personal email addresses."
     )
@@ -57,7 +57,7 @@ class ContactEnrichmentCrustdataV3Data(BaseModel):
 class ContactEnrichmentCrustdataV3BusinessEmail(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    email: str = Field(description="Email address.")
+    email: str | None = Field(description="Email address.")
     status: str | None = Field(
         default=None, description="Deliverability status, e.g. deliverable or unknown."
     )
@@ -66,7 +66,7 @@ class ContactEnrichmentCrustdataV3BusinessEmail(BaseModel):
 class ContactEnrichmentCrustdataV3PersonalEmail(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    email: str = Field(description="Email address.")
+    email: str | None = Field(description="Email address.")
     status: str | None = Field(
         default=None, description="Deliverability status, e.g. deliverable or unknown."
     )

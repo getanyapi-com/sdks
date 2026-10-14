@@ -53,11 +53,11 @@ export interface EmailFindingDropleadsData {
   /**
    * Matched company domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Matched company name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Company size when available.
    */
@@ -66,31 +66,31 @@ export interface EmailFindingDropleadsData {
    * Matched email address.
    * Format: email.
    */
-  email: string;
+  email: string | null;
   /**
    * Matched first name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Company industry when available.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Matched last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Detected mail provider.
    */
-  mxProvider?: string;
+  mxProvider?: string | null;
   /**
    * Selected mail exchange record.
    */
-  mxRecord?: string;
+  mxRecord?: string | null;
   /**
    * Source validation status for the matched email.
    */
-  status: string;
+  status: string | null;
   [extra: string]: unknown;
 }
 
@@ -235,21 +235,21 @@ export interface EmailFindingHunterCountData {
      * Range: minimum 0.
      */
     support?: number;
-  };
+  } | null;
   /**
    * The company domain the counts describe.
    */
-  domain: string;
+  domain: string | null;
   /**
    * Contacts that are a shared inbox such as info@ or support@.
    * Range: minimum 0.
    */
-  genericEmails?: number;
+  genericEmails?: number | null;
   /**
    * Contacts that are a named person's mailbox.
    * Range: minimum 0.
    */
-  personalEmails?: number;
+  personalEmails?: number | null;
   /**
    * Contacts per seniority level.
    */
@@ -269,16 +269,16 @@ export interface EmailFindingHunterCountData {
      * Range: minimum 0.
      */
     senior?: number;
-  };
+  } | null;
   /**
    * Contacts known for the domain.
    * Range: minimum 0.
    */
-  total: number;
+  total: number | null;
   /**
    * Mailbox type the counts are limited to when the request filtered by type: personal or generic. Absent when the counts cover both.
    */
-  type?: string;
+  type?: string | null;
   [extra: string]: unknown;
 }
 
@@ -364,72 +364,72 @@ export interface EmailFindingHunterDomainEmail {
    * Upstream confidence in the address, 0 to 100.
    * Range: minimum 0, maximum 100.
    */
-  confidence?: number;
+  confidence?: number | null;
   /**
    * True when the contact is judged a decision maker.
    */
-  decisionMaker?: boolean;
+  decisionMaker?: boolean | null;
   /**
    * Department the contact works in.
    */
-  department?: string;
+  department?: string | null;
   /**
    * The work email address.
    */
-  email: string;
+  email: string | null;
   /**
    * Contact's first name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Contact's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Contact's LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Contact's phone number.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Contact's job title.
    */
-  position?: string;
+  position?: string | null;
   /**
    * Contact's job title exactly as written on the source page, before it was cleaned up.
    */
-  positionRaw?: string;
+  positionRaw?: string | null;
   /**
    * Seniority level: junior, senior or executive.
    */
-  seniority?: string;
+  seniority?: string | null;
   /**
    * How the address was obtained: found when it was seen on a public page, generated when it was inferred from the company's address pattern.
    */
-  sourceType?: string;
+  sourceType?: string | null;
   /**
    * Public pages the address was found on.
    */
-  sources?: EmailFindingHunterDomainSource[];
+  sources?: EmailFindingHunterDomainSource[] | null;
   /**
    * Contact's Twitter/X handle or profile URL, exactly as the source recorded it.
    */
-  twitter?: string;
+  twitter?: string | null;
   /**
    * personal for a named person's mailbox, generic for a shared inbox.
    */
-  type?: string;
+  type?: string | null;
   /**
    * Deliverability verdict recorded for the address.
    */
-  verificationStatus?: string;
+  verificationStatus?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  verifiedUtc?: number;
+  verifiedUtc?: number | null;
   [extra: string]: unknown;
 }
 
@@ -437,7 +437,7 @@ export interface EmailFindingHunterDomainSource {
   /**
    * Domain of the page the address was found on.
    */
-  domain: string;
+  domain: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -545,7 +545,7 @@ export interface EmailFindingIcypeasEmail {
   /**
    * Mail exchange records for this address's domain.
    */
-  mxRecords?: string[];
+  mxRecords?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -556,52 +556,52 @@ export interface EmailFindingIcypeasData {
   /**
    * Confidence label for the best matching address, e.g. ultra_sure.
    */
-  certainty?: string;
+  certainty?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  createdUtc?: number;
+  createdUtc?: number | null;
   /**
    * Best matching email address.
    * Format: email.
    */
-  email: string;
+  email: string | null;
   /**
    * Every candidate address found for the person, best first. The top-level email is the first entry.
    */
-  emails?: EmailFindingIcypeasEmail[];
+  emails?: EmailFindingIcypeasEmail[] | null;
   /**
    * Matched first name.
    */
-  firstname?: string;
+  firstname?: string | null;
   /**
    * Matched full name.
    */
-  fullname?: string;
+  fullname?: string | null;
   /**
    * Gender recorded for the matched person. Absent when the source does not know it.
    */
-  gender?: string;
+  gender?: string | null;
   /**
    * Matched last name.
    */
-  lastname?: string;
+  lastname?: string | null;
   /**
    * LinkedIn profile URL for the matched person, when the source has one.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  modifiedUtc?: number;
+  modifiedUtc?: number | null;
   /**
    * Mail provider behind the domain, e.g. google.
    */
-  mxProvider?: string;
+  mxProvider?: string | null;
   /**
    * Mail exchange records for the domain.
    */
-  mxRecords?: string[];
+  mxRecords?: string[] | null;
   /**
    * Phone numbers Icypeas returned alongside the address. Deliberately untyped: the field is empty in every response we have captured, so the value passes through without a shape guarantee.
    */
@@ -613,23 +613,23 @@ export interface EmailFindingIcypeasData {
   /**
    * Icypeas' identifier for the search that produced this result.
    */
-  scanId?: string;
+  scanId?: string | null;
   /**
    * Icypeas' internal label for the kind of search that ran, e.g. __icypeas__individual.
    */
-  scanName?: string;
+  scanName?: string | null;
   /**
    * Position of this result inside the Icypeas search batch. It is 0 for the single-person search this SKU runs.
    */
-  scanOrder?: number;
+  scanOrder?: number | null;
   /**
    * Icypeas' terminal status for the search, FOUND or NOT_FOUND. It duplicates the envelope's found flag.
    */
-  scanStatus?: string;
+  scanStatus?: string | null;
   /**
    * Icypeas account that ran the search.
    */
-  scanUser?: string;
+  scanUser?: string | null;
   [extra: string]: unknown;
 }
 
@@ -681,87 +681,87 @@ export interface EmailFindingQuickenrichData {
   /**
    * Street address on the employer record.
    */
-  address?: string;
+  address?: string | null;
   /**
    * City on the employer record.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Employer website domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Employer headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyEmployeeCount?: string;
+  companyEmployeeCount?: string | null;
   /**
    * Employer industry label.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Employer LinkedIn company URL.
    */
-  companyLinkedinUrl?: string;
+  companyLinkedinUrl?: string | null;
   /**
    * Employer name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Employer main phone line.
    */
-  companyPhone?: string;
+  companyPhone?: string | null;
   /**
    * Employer revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyRevenue?: string;
+  companyRevenue?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code on the employer record.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Work email address.
    */
-  email: string;
+  email: string | null;
   /**
    * Domain the work email resolves to.
    */
-  emailDomain?: string;
+  emailDomain?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  emailVerifiedUtc?: number;
+  emailVerifiedUtc?: number | null;
   /**
    * Person's first name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Person's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Person's LinkedIn profile URL.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Line type reported upstream, e.g. "mobile" or "landline".
    */
-  phoneType?: string;
+  phoneType?: string | null;
   /**
    * Postal code on the employer record.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * State or region code on the employer record.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Person's job title.
    */
-  title?: string;
+  title?: string | null;
   [extra: string]: unknown;
 }
 
@@ -812,27 +812,27 @@ export interface EmailFindingZerobounceData {
   /**
    * Company ZeroBounce associates with the domain.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * ZeroBounce's confidence in the address: high, medium, low or undetermined.
    */
-  confidence?: string;
+  confidence?: string | null;
   /**
    * Corrected domain when ZeroBounce spots a likely typo.
    */
-  didYouMean?: string;
+  didYouMean?: string | null;
   /**
    * Domain the address belongs to.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * The email address ZeroBounce found.
    */
-  email: string;
+  email: string | null;
   /**
    * Why ZeroBounce could not answer with more confidence.
    */
-  failureReason?: string;
+  failureReason?: string | null;
   [extra: string]: unknown;
 }
 
@@ -872,7 +872,7 @@ export interface EmailFindingZerobounceDomainOtherFormat {
   /**
    * Address format, e.g. last.first.
    */
-  format: string;
+  format: string | null;
   [extra: string]: unknown;
 }
 
@@ -883,31 +883,31 @@ export interface EmailFindingZerobounceDomainData {
   /**
    * Company ZeroBounce associates with the domain.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Confidence in that format: high, medium or low.
    */
-  confidence?: string;
+  confidence?: string | null;
   /**
    * Corrected domain when ZeroBounce spots a likely typo.
    */
-  didYouMean?: string;
+  didYouMean?: string | null;
   /**
    * The domain that was inspected.
    */
-  domain: string;
+  domain: string | null;
   /**
    * Why ZeroBounce could not answer with more confidence.
    */
-  failureReason?: string;
+  failureReason?: string | null;
   /**
    * The address format ZeroBounce is most confident the domain uses, e.g. first.last or flast.
    */
-  format: string;
+  format: string | null;
   /**
    * Every other address format ZeroBounce has seen on this domain, most confident first.
    */
-  otherFormats?: EmailFindingZerobounceDomainOtherFormat[];
+  otherFormats?: EmailFindingZerobounceDomainOtherFormat[] | null;
   [extra: string]: unknown;
 }
 

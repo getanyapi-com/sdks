@@ -59,7 +59,7 @@ class MobilePhoneAiArkData(BaseModel):
         alias="linkedinUrl",
         description="Canonical LinkedIn profile URL returned with the match.",
     )
-    phone: str = Field(description="Matched mobile phone number.")
+    phone: str | None = Field(description="Matched mobile phone number.")
     phone_groups: Any | None = Field(
         default=None,
         alias="phoneGroups",
@@ -82,7 +82,7 @@ class MobilePhoneLeadmagicData(BaseModel):
     message: str | None = Field(
         default=None, description="Source's own description of the match outcome."
     )
-    mobile: str = Field(description="Matched mobile phone number.")
+    mobile: str | None = Field(description="Matched mobile phone number.")
     profile_url: str | None = Field(
         default=None,
         alias="profileUrl",

@@ -907,7 +907,7 @@ class CompanyEnrichmentLushaData(BaseModel):
         alias="naicsCodes",
         description="NAICS classification codes for the company.",
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     offices: list[CompanyEnrichmentLushaOffice] | None = Field(
         default=None, description="Every office location Lusha holds for the company."
     )
@@ -968,7 +968,7 @@ class CompanyEnrichmentLushaLocation(BaseModel):
 class CompanyEnrichmentLushaNaicsCode(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: str = Field(description="NAICS code.")
+    code: str | None = Field(description="NAICS code.")
     description: str | None = Field(
         default=None, description="What the NAICS code covers."
     )
@@ -999,7 +999,7 @@ class CompanyEnrichmentLushaOffice(BaseModel):
 class CompanyEnrichmentLushaSicCode(BaseModel):
     model_config = ConfigDict(extra="allow")
 
-    code: str = Field(description="SIC code.")
+    code: str | None = Field(description="SIC code.")
     description: str | None = Field(
         default=None, description="What the SIC code covers."
     )
@@ -1008,7 +1008,7 @@ class CompanyEnrichmentLushaSicCode(BaseModel):
 class CompanyEnrichmentPeopledatalabsData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    affiliated_entities: list[str] | None = Field(
+    affiliated_entities: list[str | None] | None = Field(
         default=None,
         alias="affiliatedEntities",
         description="People Data Labs company ids of affiliated entities.",
@@ -1249,7 +1249,9 @@ class CompanyEnrichmentPeopledatalabsData(BaseModel):
         alias="naicsCodes",
         description="NAICS classification for the company.",
     )
-    name: str = Field(description="Company name as People Data Labs displays it.")
+    name: str | None = Field(
+        description="Company name as People Data Labs displays it."
+    )
     name_normalized: str | None = Field(
         default=None,
         alias="nameNormalized",
@@ -1392,7 +1394,7 @@ class CompanyEnrichmentPeopledatalabsMedianTenureByRole(BaseModel):
 class CompanyEnrichmentPeopledatalabsNaicsCode(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str = Field(description="NAICS code.")
+    code: str | None = Field(description="NAICS code.")
     industry_group: str | None = Field(
         default=None, alias="industryGroup", description="NAICS industry group."
     )
@@ -1411,7 +1413,7 @@ class CompanyEnrichmentPeopledatalabsNaicsCode(BaseModel):
 class CompanyEnrichmentPeopledatalabsSicCode(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    code: str = Field(description="SIC code.")
+    code: str | None = Field(description="SIC code.")
     industry_group: str | None = Field(
         default=None, alias="industryGroup", description="SIC industry group."
     )
@@ -1514,7 +1516,7 @@ class CompanyEnrichmentProspeoData(BaseModel):
         alias="naicsCodes",
         description="NAICS classification codes for the company.",
     )
-    name: str = Field(description="Company name.")
+    name: str | None = Field(description="Company name.")
     other_websites: list[str] | None = Field(
         default=None,
         alias="otherWebsites",

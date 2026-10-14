@@ -364,7 +364,7 @@ class ApolloOrganizationData(BaseModel):
         alias="fundingEvents",
         description="Funding rounds Apollo records for the organization.",
     )
-    id: str = Field(description="Stable organization identifier.")
+    id: str | None = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
@@ -412,7 +412,7 @@ class ApolloOrganizationData(BaseModel):
     naics_codes: list[str] | None = Field(
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
-    name: str = Field(description="Organization name.")
+    name: str | None = Field(description="Organization name.")
     org_chart_root_person_ids: list[str] | None = Field(
         default=None,
         alias="orgChartRootPersonIds",
@@ -680,7 +680,7 @@ class ApolloOrganizationEnrichData(BaseModel):
         alias="headcountByRole",
         description="Employee count per department, keyed by Apollo department name.",
     )
-    id: str = Field(description="Stable organization identifier.")
+    id: str | None = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
@@ -728,7 +728,7 @@ class ApolloOrganizationEnrichData(BaseModel):
     naics_codes: list[str] | None = Field(
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
-    name: str = Field(description="Organization name.")
+    name: str | None = Field(description="Organization name.")
     org_chart_root_person_ids: list[str] | None = Field(
         default=None,
         alias="orgChartRootPersonIds",
@@ -927,7 +927,7 @@ class ApolloOrganizationJobsJob(BaseModel):
 
     city: str | None = Field(default=None, description="Job city.")
     country: str | None = Field(default=None, description="Job country.")
-    id: str = Field(description="Stable job posting identifier.")
+    id: str | None = Field(description="Stable job posting identifier.")
     last_seen_utc: float | None = Field(
         default=None,
         alias="lastSeenUtc",
@@ -939,8 +939,8 @@ class ApolloOrganizationJobsJob(BaseModel):
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     state: str | None = Field(default=None, description="Job state or region.")
-    title: str = Field(description="Job title.")
-    url: str = Field(description="Canonical job posting URL.")
+    title: str | None = Field(description="Job title.")
+    url: str | None = Field(description="Canonical job posting URL.")
 
 
 class ApolloOrganizationNewsData(BaseModel):
@@ -966,7 +966,7 @@ class ApolloOrganizationNewsArticle(BaseModel):
         alias="eventCategories",
         description="Detected business event categories.",
     )
-    id: str = Field(description="Stable article identifier.")
+    id: str | None = Field(description="Stable article identifier.")
     organization_ids: list[str] | None = Field(
         default=None,
         alias="organizationIds",
@@ -978,8 +978,8 @@ class ApolloOrganizationNewsArticle(BaseModel):
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     snippet: str | None = Field(default=None, description="Article summary or excerpt.")
-    title: str = Field(description="Article title.")
-    url: str = Field(description="Canonical article URL.")
+    title: str | None = Field(description="Article title.")
+    url: str | None = Field(description="Canonical article URL.")
 
 
 class ApolloOrganizationsBulkEnrichData(BaseModel):
@@ -1055,7 +1055,7 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
         alias="headcountByRole",
         description="Employee count per department, keyed by Apollo department name.",
     )
-    id: str = Field(description="Stable organization identifier.")
+    id: str | None = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     industries: list[str] | None = Field(
         default=None, description="Industries associated with the organization."
@@ -1103,7 +1103,7 @@ class ApolloOrganizationsBulkEnrichOrganization(BaseModel):
     naics_codes: list[str] | None = Field(
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
-    name: str = Field(description="Organization name.")
+    name: str | None = Field(description="Organization name.")
     ownership_chain_ids: list[str] | None = Field(
         default=None,
         alias="ownershipChainIds",
@@ -1338,7 +1338,7 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
         alias="foundedYear",
         description="Year the organization was founded.",
     )
-    id: str = Field(description="Stable organization identifier.")
+    id: str | None = Field(description="Stable organization identifier.")
     image: str | None = Field(default=None, description="Organization logo URL.")
     languages: list[str] | None = Field(
         default=None, description="Languages the organization operates in."
@@ -1354,7 +1354,7 @@ class ApolloOrganizationsSearchOrganization(BaseModel):
     naics_codes: list[str] | None = Field(
         default=None, alias="naicsCodes", description="NAICS industry codes."
     )
-    name: str = Field(description="Organization name.")
+    name: str | None = Field(description="Organization name.")
     ownership_chain_ids: list[str] | None = Field(
         default=None,
         alias="ownershipChainIds",
@@ -1437,7 +1437,7 @@ class ApolloPeopleSearchData(BaseModel):
 class ApolloPeopleSearchPeople(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    first_name: str = Field(alias="firstName", description="Person first name.")
+    first_name: str | None = Field(alias="firstName", description="Person first name.")
     has_city: bool | None = Field(
         default=None,
         alias="hasCity",
@@ -1463,7 +1463,7 @@ class ApolloPeopleSearchPeople(BaseModel):
         alias="hasState",
         description="Whether state or region data is available through enrichment.",
     )
-    id: str = Field(description="Stable person identifier.")
+    id: str | None = Field(description="Stable person identifier.")
     last_name_initial: str | None = Field(
         default=None,
         alias="lastNameInitial",
@@ -1561,7 +1561,7 @@ class ApolloPersonEnrichData(BaseModel):
     facebook_url: str | None = Field(
         default=None, alias="facebookUrl", description="Canonical Facebook profile URL."
     )
-    first_name: str = Field(alias="firstName", description="Person first name.")
+    first_name: str | None = Field(alias="firstName", description="Person first name.")
     functions: list[str] | None = Field(
         default=None, description="Current business functions."
     )
@@ -1569,13 +1569,13 @@ class ApolloPersonEnrichData(BaseModel):
         default=None, alias="githubUrl", description="Canonical GitHub profile URL."
     )
     headline: str | None = Field(default=None, description="Professional headline.")
-    id: str = Field(description="Stable person identifier.")
+    id: str | None = Field(description="Stable person identifier.")
     image: str | None = Field(default=None, description="Profile image URL.")
-    last_name: str = Field(alias="lastName", description="Person last name.")
+    last_name: str | None = Field(alias="lastName", description="Person last name.")
     linkedin_url: str | None = Field(
         default=None, alias="linkedinUrl", description="Canonical LinkedIn profile URL."
     )
-    name: str = Field(description="Full person name.")
+    name: str | None = Field(description="Full person name.")
     organization: ApolloPersonEnrichOrganization | None = Field(
         default=None, description="Current organization summary."
     )
@@ -1624,7 +1624,7 @@ class ApolloPersonEnrichEmploymentHistory(BaseModel):
         alias="endUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    id: str = Field(description="Stable employment record identifier.")
+    id: str | None = Field(description="Stable employment record identifier.")
     organization_id: str | None = Field(
         default=None, alias="organizationId", description="Organization identifier."
     )

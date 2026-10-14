@@ -325,7 +325,7 @@ class JobSearchTheirstackJob(BaseModel):
         description="True when TheirStack redacted part of the record on this plan.",
     )
     hybrid: bool | None = Field(default=None, description="True for a hybrid role.")
-    job_id: str = Field(
+    job_id: str | None = Field(
         alias="jobId", description="TheirStack's own identifier for the post."
     )
     keyword_slugs: list[str] | None = Field(
@@ -433,7 +433,7 @@ class JobSearchTheirstackJob(BaseModel):
         alias="technologySlugs",
         description="Technology slugs found in the post.",
     )
-    title: str = Field(description="Job title as posted.")
+    title: str | None = Field(description="Job title as posted.")
     url: str | None = Field(default=None, description="URL of the job post.")
 
 
@@ -668,7 +668,7 @@ class JobSearchTheirstackLocation(BaseModel):
         description="TheirStack's identifier for the place.",
     )
     longitude: float | None = Field(default=None, description="Longitude.")
-    name: str = Field(description="Location name.")
+    name: str | None = Field(description="Location name.")
     postal_code: str | None = Field(
         default=None, alias="postalCode", description="Postal code."
     )

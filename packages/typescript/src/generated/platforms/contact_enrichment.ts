@@ -44,7 +44,7 @@ export interface ContactEnrichmentCrustdataV3BusinessEmail {
   /**
    * Email address.
    */
-  email: string;
+  email: string | null;
   /**
    * Deliverability status, e.g. deliverable or unknown.
    */
@@ -56,7 +56,7 @@ export interface ContactEnrichmentCrustdataV3PersonalEmail {
   /**
    * Email address.
    */
-  email: string;
+  email: string | null;
   /**
    * Deliverability status, e.g. deliverable or unknown.
    */
@@ -71,23 +71,23 @@ export interface ContactEnrichmentCrustdataV3Data {
   /**
    * Work email addresses.
    */
-  businessEmails?: ContactEnrichmentCrustdataV3BusinessEmail[];
+  businessEmails?: ContactEnrichmentCrustdataV3BusinessEmail[] | null;
   /**
    * Confidence from 0 to 1 that the returned person is the one asked for.
    */
-  matchConfidence?: number;
+  matchConfidence?: number | null;
   /**
    * Crustdata person id.
    */
-  personId: string;
+  personId: string | null;
   /**
    * Personal email addresses.
    */
-  personalEmails?: ContactEnrichmentCrustdataV3PersonalEmail[];
+  personalEmails?: ContactEnrichmentCrustdataV3PersonalEmail[] | null;
   /**
    * Phone numbers, as Crustdata stores them.
    */
-  phoneNumbers?: string[];
+  phoneNumbers?: string[] | null;
   [extra: string]: unknown;
 }
 

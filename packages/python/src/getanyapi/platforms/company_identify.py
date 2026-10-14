@@ -41,7 +41,7 @@ class CompanyIdentifyCrustdataV3Input(TypedDict, total=False):
 class CompanyIdentifyCrustdataV3Data(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    company_id: str = Field(
+    company_id: str | None = Field(
         alias="companyId",
         description="Crustdata company id. Send it as companyId to identify the same company again.",
     )

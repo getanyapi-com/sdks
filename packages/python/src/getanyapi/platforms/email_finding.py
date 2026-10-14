@@ -184,7 +184,7 @@ class EmailFindingDropleadsData(BaseModel):
     company_size: Any | None = Field(
         default=None, alias="companySize", description="Company size when available."
     )
-    email: str = Field(description="Matched email address.")
+    email: str | None = Field(description="Matched email address.")
     first_name: str | None = Field(
         default=None, alias="firstName", description="Matched first name."
     )
@@ -200,7 +200,9 @@ class EmailFindingDropleadsData(BaseModel):
     mx_record: str | None = Field(
         default=None, alias="mxRecord", description="Selected mail exchange record."
     )
-    status: str = Field(description="Source validation status for the matched email.")
+    status: str | None = Field(
+        description="Source validation status for the matched email."
+    )
 
 
 class EmailFindingHunterCountData(BaseModel):
@@ -209,7 +211,7 @@ class EmailFindingHunterCountData(BaseModel):
     department_counts: EmailFindingHunterCountDepartmentCount | None = Field(
         default=None, alias="departmentCounts", description="Contacts per department."
     )
-    domain: str = Field(description="The company domain the counts describe.")
+    domain: str | None = Field(description="The company domain the counts describe.")
     generic_emails: int | None = Field(
         default=None,
         alias="genericEmails",
@@ -225,7 +227,7 @@ class EmailFindingHunterCountData(BaseModel):
         alias="seniorityCounts",
         description="Contacts per seniority level.",
     )
-    total: int = Field(description="Contacts known for the domain. Minimum: 0.")
+    total: int | None = Field(description="Contacts known for the domain. Minimum: 0.")
     type_: str | None = Field(
         default=None,
         alias="type",
@@ -369,7 +371,7 @@ class EmailFindingHunterDomainEmail(BaseModel):
     department: str | None = Field(
         default=None, description="Department the contact works in."
     )
-    email: str = Field(description="The work email address.")
+    email: str | None = Field(description="The work email address.")
     first_name: str | None = Field(
         default=None, alias="firstName", description="Contact's first name."
     )
@@ -421,7 +423,9 @@ class EmailFindingHunterDomainEmail(BaseModel):
 class EmailFindingHunterDomainSource(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    domain: str = Field(description="Domain of the page the address was found on.")
+    domain: str | None = Field(
+        description="Domain of the page the address was found on."
+    )
     extracted_utc: float | None = Field(
         default=None,
         alias="extractedUtc",
@@ -454,7 +458,7 @@ class EmailFindingIcypeasData(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
-    email: str = Field(description="Best matching email address.")
+    email: str | None = Field(description="Best matching email address.")
     emails: list[EmailFindingIcypeasEmail] | None = Field(
         default=None,
         description="Every candidate address found for the person, best first. The top-level email is the first entry.",
@@ -579,7 +583,7 @@ class EmailFindingQuickenrichData(BaseModel):
         default=None,
         description="ISO 3166-1 alpha-2 country code on the employer record.",
     )
-    email: str = Field(description="Work email address.")
+    email: str | None = Field(description="Work email address.")
     email_domain: str | None = Field(
         default=None,
         alias="emailDomain",
@@ -639,7 +643,7 @@ class EmailFindingZerobounceData(BaseModel):
     domain: str | None = Field(
         default=None, description="Domain the address belongs to."
     )
-    email: str = Field(description="The email address ZeroBounce found.")
+    email: str | None = Field(description="The email address ZeroBounce found.")
     failure_reason: str | None = Field(
         default=None,
         alias="failureReason",
@@ -663,13 +667,13 @@ class EmailFindingZerobounceDomainData(BaseModel):
         alias="didYouMean",
         description="Corrected domain when ZeroBounce spots a likely typo.",
     )
-    domain: str = Field(description="The domain that was inspected.")
+    domain: str | None = Field(description="The domain that was inspected.")
     failure_reason: str | None = Field(
         default=None,
         alias="failureReason",
         description="Why ZeroBounce could not answer with more confidence.",
     )
-    format: str = Field(
+    format: str | None = Field(
         description="The address format ZeroBounce is most confident the domain uses, e.g. first.last or flast."
     )
     other_formats: list[EmailFindingZerobounceDomainOtherFormat] | None = Field(
@@ -685,7 +689,7 @@ class EmailFindingZerobounceDomainOtherFormat(BaseModel):
     confidence: str | None = Field(
         default=None, description="Confidence in that format: high, medium or low."
     )
-    format: str = Field(description="Address format, e.g. last.first.")
+    format: str | None = Field(description="Address format, e.g. last.first.")
 
 
 class EmailFindingNamespace:

@@ -74,23 +74,23 @@ export interface CompanyEnrichmentCrustdataData {
   /**
    * Acquisition status, when the company has been acquired.
    */
-  acquisitionStatus?: string;
+  acquisitionStatus?: string | null;
   /**
    * Crustdata identifier for the company, accepted back as the companyId input.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Company type, e.g. Privately Held or Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Crunchbase category tags, followed by the broader category groups they belong to.
    */
-  crunchbaseCategories?: string[];
+  crunchbaseCategories?: string[] | null;
   /**
    * Company description from its LinkedIn page.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary website domain, or null when the upstream holds none for this company.
    */
@@ -98,11 +98,11 @@ export interface CompanyEnrichmentCrustdataData {
   /**
    * All domains associated with the company.
    */
-  domains?: string[];
+  domains?: string[] | null;
   /**
    * Latest observed employee count.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Net headcount change over trailing windows.
    */
@@ -127,7 +127,7 @@ export interface CompanyEnrichmentCrustdataData {
      * Change over the last twelve months.
      */
     yoy?: number;
-  };
+  } | null;
   /**
    * Percent headcount change over trailing windows.
    */
@@ -152,31 +152,31 @@ export interface CompanyEnrichmentCrustdataData {
      * Change over the last twelve months.
      */
     yoy?: number;
-  };
+  } | null;
   /**
    * Employee count band, e.g. 51-200.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Upper bound of estimated annual revenue in USD.
    */
-  estimatedRevenueHigherUsd?: number;
+  estimatedRevenueHigherUsd?: number | null;
   /**
    * Lower bound of estimated annual revenue in USD.
    */
-  estimatedRevenueLowerUsd?: number;
+  estimatedRevenueLowerUsd?: number | null;
   /**
    * Fiscal year end.
    */
-  fiscalYearEnd?: string;
+  fiscalYearEnd?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Founding date of the company.
    */
-  foundedUtc?: number;
+  foundedUtc?: number | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * Headcount history broken down by region and by job function. Untyped passthrough: the whole nested structure ships exactly as Crustdata returns it, including its raw grouping keys (GEO_REGION, CURRENT_FUNCTION) and its string observation dates rather than epoch seconds, because the shape cannot be expressed in the canonical field grammar.
    */
@@ -184,19 +184,19 @@ export interface CompanyEnrichmentCrustdataData {
   /**
    * Employee count per region, keyed by LinkedIn region name.
    */
-  headcountByRegion?: {};
+  headcountByRegion?: {} | null;
   /**
    * Share of employees per region as a percent, keyed by LinkedIn region name.
    */
-  headcountByRegionPercent?: {};
+  headcountByRegionPercent?: {} | null;
   /**
    * Employee count per job function, keyed by LinkedIn function name.
    */
-  headcountByRole?: {};
+  headcountByRole?: {} | null;
   /**
    * Share of employees per job function as a percent, keyed by LinkedIn function name.
    */
-  headcountByRolePercent?: {};
+  headcountByRolePercent?: {} | null;
   /**
    * Six-month percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated.
    */
@@ -208,65 +208,65 @@ export interface CompanyEnrichmentCrustdataData {
   /**
    * Employee count per listed skill, keyed by skill name.
    */
-  headcountBySkill?: {};
+  headcountBySkill?: {} | null;
   /**
    * Share of employees per listed skill as a percent, keyed by skill name.
    */
-  headcountBySkillPercent?: {};
+  headcountBySkillPercent?: {} | null;
   /**
    * Historical employee-count observations, oldest first.
    */
-  headcountTimeseries?: CompanyEnrichmentCrustdataHeadcountTimeserie[];
+  headcountTimeseries?: CompanyEnrichmentCrustdataHeadcountTimeserie[] | null;
   /**
    * Country of the headquarters.
    */
-  hqCountry?: string;
+  hqCountry?: string | null;
   /**
    * State or province of the headquarters.
    */
-  hqState?: string;
+  hqState?: string | null;
   /**
    * Headquarters street address. Crustdata returns the same string as location for most companies.
    */
-  hqStreetAddress?: string;
+  hqStreetAddress?: string | null;
   /**
    * Company logo URL. Crustdata's cached copy, which does not expire.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * All LinkedIn industries listed for the company.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary LinkedIn industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the company went public.
    */
-  ipoUtc?: number;
+  ipoUtc?: number | null;
   /**
    * Country holding the largest share of employees.
    */
-  largestHeadcountCountry?: string;
+  largestHeadcountCountry?: string | null;
   /**
    * LinkedIn's own numeric identifier for the company page.
    */
-  linkedinCompanyId?: string;
+  linkedinCompanyId?: string | null;
   /**
    * Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.
    */
-  linkedinProfileName?: string;
+  linkedinProfileName?: string | null;
   /**
    * LinkedIn company page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Headquarters location.
    */
-  location?: string;
+  location?: string | null;
   /**
    * Primary NAICS industry classification.
    */
@@ -295,29 +295,29 @@ export interface CompanyEnrichmentCrustdataData {
      * NAICS revision year the code belongs to.
      */
     year?: number;
-  };
+  } | null;
   /**
    * Company name.
    */
-  name?: string;
+  name?: string | null;
   /**
    * SIC industry classifications assigned to the company.
    */
-  sicCodes?: CompanyEnrichmentCrustdataSicCode[];
+  sicCodes?: CompanyEnrichmentCrustdataSicCode[] | null;
   /**
    * Speciality tags the company lists on LinkedIn.
    */
-  specialities?: string[];
+  specialities?: string[] | null;
   /**
    * X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -389,32 +389,32 @@ export interface CompanyEnrichmentCrustdataV3Data {
   /**
    * Acquisition status, when the company has been acquired.
    */
-  acquisitionStatus?: string;
+  acquisitionStatus?: string | null;
   /**
    * Crustdata identifier for the company, accepted back as the companyId input.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Company type, e.g. Privately Held or Public Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Crunchbase category tags.
    */
-  crunchbaseCategories?: string[];
+  crunchbaseCategories?: string[] | null;
   /**
    * Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Crunchbase organization UUID.
    */
-  crunchbaseUuid?: string;
+  crunchbaseUuid?: string | null;
   /**
    * Company description from its LinkedIn page.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary website domain, or null when the upstream holds none for this company.
    */
@@ -422,11 +422,11 @@ export interface CompanyEnrichmentCrustdataV3Data {
   /**
    * All domains associated with the company.
    */
-  domains?: string[];
+  domains?: string[] | null;
   /**
    * Latest observed employee count.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Net headcount change over trailing windows.
    */
@@ -451,7 +451,7 @@ export interface CompanyEnrichmentCrustdataV3Data {
      * Change over the last twelve months.
      */
     yoy?: number;
-  };
+  } | null;
   /**
    * Percent headcount change over trailing windows.
    */
@@ -476,35 +476,35 @@ export interface CompanyEnrichmentCrustdataV3Data {
      * Change over the last twelve months.
      */
     yoy?: number;
-  };
+  } | null;
   /**
    * Employee count band, e.g. 51-200.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Upper bound of estimated annual revenue in USD.
    */
-  estimatedRevenueHigherUsd?: number;
+  estimatedRevenueHigherUsd?: number | null;
   /**
    * Lower bound of estimated annual revenue in USD.
    */
-  estimatedRevenueLowerUsd?: number;
+  estimatedRevenueLowerUsd?: number | null;
   /**
    * Fiscal year end.
    */
-  fiscalYearEnd?: string;
+  fiscalYearEnd?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Founding date of the company.
    */
-  foundedUtc?: number;
+  foundedUtc?: number | null;
   /**
    * Year the company was founded.
    */
-  foundedYear?: number;
+  foundedYear?: number | null;
   /**
    * True when the matched company's domain is an exact match for the requested one.
    */
-  fullDomainMatch?: boolean;
+  fullDomainMatch?: boolean | null;
   /**
    * Headcount history broken down by region and by job function. Untyped passthrough: the whole nested structure ships exactly as Crustdata returns it, including its raw snake_case grouping keys (GEO_REGION, CURRENT_FUNCTION) and its string observation dates rather than epoch seconds, because the shape cannot be expressed in the canonical field grammar.
    */
@@ -512,19 +512,19 @@ export interface CompanyEnrichmentCrustdataV3Data {
   /**
    * Employee count per region, keyed by LinkedIn region name.
    */
-  headcountByRegion?: {};
+  headcountByRegion?: {} | null;
   /**
    * Share of employees per region as a percent, keyed by LinkedIn region name.
    */
-  headcountByRegionPercent?: {};
+  headcountByRegionPercent?: {} | null;
   /**
    * Employee count per job function, keyed by LinkedIn function name.
    */
-  headcountByRole?: {};
+  headcountByRole?: {} | null;
   /**
    * Share of employees per job function as a percent, keyed by LinkedIn function name.
    */
-  headcountByRolePercent?: {};
+  headcountByRolePercent?: {} | null;
   /**
    * Six-month percent headcount change per job function, exactly as Crustdata returns it. Untyped passthrough: the structure ships verbatim and is not validated, because it was empty for the company we captured.
    */
@@ -536,70 +536,70 @@ export interface CompanyEnrichmentCrustdataV3Data {
   /**
    * Employee count per listed skill, keyed by skill name.
    */
-  headcountBySkill?: {};
+  headcountBySkill?: {} | null;
   /**
    * Share of employees per listed skill as a percent, keyed by skill name.
    */
-  headcountBySkillPercent?: {};
+  headcountBySkillPercent?: {} | null;
   /**
    * Historical employee-count observations, oldest first.
    */
-  headcountTimeseries?: CompanyEnrichmentCrustdataV3HeadcountTimeserie[];
+  headcountTimeseries?: CompanyEnrichmentCrustdataV3HeadcountTimeserie[] | null;
   /**
    * Country of the headquarters.
    */
-  hqCountry?: string;
+  hqCountry?: string | null;
   /**
    * State or province of the headquarters.
    */
-  hqState?: string;
+  hqState?: string | null;
   /**
    * Headquarters street address. Crustdata returns the same string as location for most companies.
    */
-  hqStreetAddress?: string;
+  hqStreetAddress?: string | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * All LinkedIn industries listed for the company.
    */
-  industries?: string[];
+  industries?: string[] | null;
   /**
    * Primary LinkedIn industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Date the company went public.
    */
-  ipoUtc?: number;
+  ipoUtc?: number | null;
   /**
    * Country holding the largest share of employees.
    */
-  largestHeadcountCountry?: string;
+  largestHeadcountCountry?: string | null;
   /**
    * LinkedIn's own numeric identifier for the company page.
    */
-  linkedinCompanyId?: string;
+  linkedinCompanyId?: string | null;
   /**
    * Company logo URL as LinkedIn serves it, including the signed expiry query LinkedIn requires to serve the file. The image field carries Crustdata's cached copy of the same logo, which does not expire.
    * Format: uri.
    */
-  linkedinLogoUrl?: string;
+  linkedinLogoUrl?: string | null;
   /**
    * Company name as it appears on the LinkedIn page. Usually the same value as name; Crustdata returns both.
    */
-  linkedinProfileName?: string;
+  linkedinProfileName?: string | null;
   /**
    * LinkedIn company page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Headquarters location.
    */
-  location?: string;
+  location?: string | null;
   /**
    * Primary NAICS industry classification.
    */
@@ -628,11 +628,11 @@ export interface CompanyEnrichmentCrustdataV3Data {
      * NAICS revision year the code belongs to.
      */
     year?: number;
-  };
+  } | null;
   /**
    * Company name.
    */
-  name?: string;
+  name?: string | null;
   /**
    * Regions bucketed by the share of headcount they represent. Restates headcountByRegionPercent as bands.
    */
@@ -657,7 +657,7 @@ export interface CompanyEnrichmentCrustdataV3Data {
      * Comma separated regions that each account for 71 to 100 percent of headcount.
      */
     share71To100Percent?: string;
-  };
+  } | null;
   /**
    * Job functions bucketed by the share of headcount they represent. Restates headcountByRolePercent as bands.
    */
@@ -686,11 +686,11 @@ export interface CompanyEnrichmentCrustdataV3Data {
      * Comma separated job functions that each account for 71 to 100 percent of headcount.
      */
     share71To100Percent?: string;
-  };
+  } | null;
   /**
    * SIC industry classifications assigned to the company.
    */
-  sicCodes?: CompanyEnrichmentCrustdataV3SicCode[];
+  sicCodes?: CompanyEnrichmentCrustdataV3SicCode[] | null;
   /**
    * Skills bucketed by the share of headcount that lists them. Restates headcountBySkillPercent as bands.
    */
@@ -715,21 +715,21 @@ export interface CompanyEnrichmentCrustdataV3Data {
      * Comma separated skills that each account for 71 to 100 percent of headcount.
      */
     share71To100Percent?: string;
-  };
+  } | null;
   /**
    * Speciality tags the company lists on LinkedIn.
    */
-  specialities?: string[];
+  specialities?: string[] | null;
   /**
    * X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -773,7 +773,7 @@ export interface CompanyEnrichmentLushaNaicsCode {
   /**
    * NAICS code.
    */
-  code: string;
+  code: string | null;
   /**
    * What the NAICS code covers.
    */
@@ -817,7 +817,7 @@ export interface CompanyEnrichmentLushaSicCode {
   /**
    * SIC code.
    */
-  code: string;
+  code: string | null;
   /**
    * What the SIC code covers.
    */
@@ -832,70 +832,70 @@ export interface CompanyEnrichmentLushaData {
   /**
    * Headquarters address as one display string.
    */
-  address?: string;
+  address?: string | null;
   /**
    * Other domains the company owns.
    */
-  alternativeDomains?: string[];
+  alternativeDomains?: string[] | null;
   /**
    * Alternative name Lusha holds for the company.
    */
-  alternativeName?: string;
+  alternativeName?: string | null;
   /**
    * Lusha's own company identifier. Send it back as this SKU's companyId input.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Ownership type, e.g. Private Company.
    */
-  companyType?: string;
+  companyType?: string | null;
   /**
    * Company description.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Primary company domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * Domain the company's work email addresses use.
    */
-  emailDomain?: string;
+  emailDomain?: string | null;
   /**
    * Employee headcount band as Lusha bands it, e.g. 51 - 200.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Employees LinkedIn shows for the company.
    */
-  employeesOnLinkedin?: number;
+  employeesOnLinkedin?: number | null;
   /**
    * Company Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the company was founded.
    */
-  founded?: number;
+  founded?: number | null;
   /**
    * Fully qualified host for the company website.
    */
-  fqdn?: string;
+  fqdn?: string | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * LinkedIn follower count.
    */
-  linkedinFollowers?: number;
+  linkedinFollowers?: number | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Headquarters location.
    */
@@ -928,57 +928,57 @@ export interface CompanyEnrichmentLushaData {
      * State or region code.
      */
     stateCode?: string;
-  };
+  } | null;
   /**
    * Top-level industry.
    */
-  mainIndustry?: string;
+  mainIndustry?: string | null;
   /**
    * NAICS classification codes for the company.
    */
-  naicsCodes?: CompanyEnrichmentLushaNaicsCode[];
+  naicsCodes?: CompanyEnrichmentLushaNaicsCode[] | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Every office location Lusha holds for the company.
    */
-  offices?: CompanyEnrichmentLushaOffice[];
+  offices?: CompanyEnrichmentLushaOffice[] | null;
   /**
    * Lusha's popularity tier for the company, 1 being the most prominent.
    */
-  popularityTier?: number;
+  popularityTier?: number | null;
   /**
    * Lusha's internal record id for the company row.
    */
-  recordId?: string;
+  recordId?: string | null;
   /**
    * Annual revenue band in USD as [min, max].
    */
-  revenueRange?: number[];
+  revenueRange?: number[] | null;
   /**
    * SIC classification codes for the company.
    */
-  sicCodes?: CompanyEnrichmentLushaSicCode[];
+  sicCodes?: CompanyEnrichmentLushaSicCode[] | null;
   /**
    * Specialities the company lists for itself.
    */
-  specialities?: string[];
+  specialities?: string[] | null;
   /**
    * Sub-industry.
    */
-  subIndustry?: string;
+  subIndustry?: string | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   /**
    * Company X (Twitter) profile URL.
    * Format: uri.
    */
-  xUrl?: string;
+  xUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1039,7 +1039,7 @@ export interface CompanyEnrichmentPeopledatalabsNaicsCode {
   /**
    * NAICS code.
    */
-  code: string;
+  code: string | null;
   /**
    * NAICS industry group.
    */
@@ -1067,7 +1067,7 @@ export interface CompanyEnrichmentPeopledatalabsSicCode {
   /**
    * SIC code.
    */
-  code: string;
+  code: string | null;
   /**
    * SIC industry group.
    */
@@ -1090,165 +1090,165 @@ export interface CompanyEnrichmentPeopledatalabsData {
   /**
    * People Data Labs company ids of affiliated entities.
    */
-  affiliatedEntities?: string[];
+  affiliatedEntities?: (string | null)[] | null;
   /**
    * People Data Labs company ids of affiliated profiles.
    */
-  affiliatedProfiles?: string[];
+  affiliatedProfiles?: string[] | null;
   /**
    * People Data Labs company ids of every subsidiary, at any depth.
    */
-  allSubsidiaries?: string[];
+  allSubsidiaries?: string[] | null;
   /**
    * Other domains the company owns.
    */
-  alternativeDomains?: string[];
+  alternativeDomains?: string[] | null;
   /**
    * Other names the company trades under.
    */
-  alternativeNames?: string[];
+  alternativeNames?: string[] | null;
   /**
    * Average employee tenure in years.
    */
-  averageEmployeeTenure?: number;
+  averageEmployeeTenure?: number | null;
   /**
    * Average tenure in years, keyed by seniority level.
    */
-  averageTenureByLevel?: {};
+  averageTenureByLevel?: {} | null;
   /**
    * Average tenure in years, keyed by role.
    */
-  averageTenureByRole?: {};
+  averageTenureByRole?: {} | null;
   /**
    * Version of the People Data Labs dataset this record came from.
    */
-  datasetVersion?: string;
+  datasetVersion?: string | null;
   /**
    * People Data Labs company ids of direct subsidiaries.
    */
-  directSubsidiaries?: string[];
+  directSubsidiaries?: string[] | null;
   /**
    * Churn rate keyed by window, e.g. 12_month.
    */
-  employeeChurnRate?: {};
+  employeeChurnRate?: {} | null;
   /**
    * Employees People Data Labs currently counts.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Headcount keyed by job class.
    */
-  employeeCountByClass?: {};
+  employeeCountByClass?: {} | null;
   /**
    * Headcount keyed by country.
    */
-  employeeCountByCountry?: {};
+  employeeCountByCountry?: {} | null;
   /**
    * Headcount keyed by YYYY-MM month.
    */
-  employeeCountByMonth?: {};
+  employeeCountByMonth?: {} | null;
   /**
    * Headcount keyed by role.
    */
-  employeeCountByRole?: {};
+  employeeCountByRole?: {} | null;
   /**
    * Headcount keyed by sub-role.
    */
-  employeeCountBySubRole?: {};
+  employeeCountBySubRole?: {} | null;
   /**
    * Headcount growth rate keyed by window.
    */
-  employeeGrowthRate?: {};
+  employeeGrowthRate?: {} | null;
   /**
    * Twelve-month headcount growth rate keyed by job class.
    */
-  employeeGrowthRate12MonthByClass?: {};
+  employeeGrowthRate12MonthByClass?: {} | null;
   /**
    * Twelve-month headcount growth keyed by country, each entry carrying current and prior headcount.
    */
-  employeeGrowthRate12MonthByCountry?: {};
+  employeeGrowthRate12MonthByCountry?: {} | null;
   /**
    * Twelve-month headcount growth rate keyed by role.
    */
-  employeeGrowthRate12MonthByRole?: {};
+  employeeGrowthRate12MonthByRole?: {} | null;
   /**
    * Turnover rate keyed by window, e.g. 3_month, 12_month.
    */
-  employeeTurnoverRate?: {};
+  employeeTurnoverRate?: {} | null;
   /**
    * Company Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the company was founded.
    */
-  founded?: number;
+  founded?: number | null;
   /**
    * Number of funding rounds raised.
    */
-  fundingRounds?: number;
+  fundingRounds?: number | null;
   /**
    * Every funding stage the company has raised.
    */
-  fundingStages?: string[];
+  fundingStages?: string[] | null;
   /**
    * Employees joined, keyed by YYYY-MM month.
    */
-  grossAdditionsByMonth?: {};
+  grossAdditionsByMonth?: {} | null;
   /**
    * Employees departed, keyed by YYYY-MM month.
    */
-  grossDeparturesByMonth?: {};
+  grossDeparturesByMonth?: {} | null;
   /**
    * One-line company tagline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * People Data Labs company id of the immediate parent company.
    */
-  immediateParent?: string;
+  immediateParent?: string | null;
   /**
    * Company industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Company industry on People Data Labs' newer taxonomy.
    */
-  industryV2?: string;
+  industryV2?: string | null;
   /**
    * Inferred annual revenue band, e.g. $50M-$100M.
    */
-  inferredRevenue?: string;
+  inferredRevenue?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) of the most recent funding round. Multiply by 1000 for a JS Date in milliseconds.
    */
-  lastFundingUtc?: number;
+  lastFundingUtc?: number | null;
   /**
    * Most recent funding stage, e.g. series_e.
    */
-  latestFundingStage?: string;
+  latestFundingStage?: string | null;
   /**
    * People Data Labs' 1 to 10 confidence that this record is the company you asked for.
    */
-  likelihood?: number;
+  likelihood?: number | null;
   /**
    * LinkedIn follower count.
    */
-  linkedinFollowers?: number;
+  linkedinFollowers?: number | null;
   /**
    * Company LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Company LinkedIn vanity slug.
    */
-  linkedinSlug?: string;
+  linkedinSlug?: string | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company headquarters.
    */
@@ -1293,84 +1293,84 @@ export interface CompanyEnrichmentPeopledatalabsData {
      * Street address.
      */
     streetAddress?: string;
-  };
+  } | null;
   /**
    * Median employee tenure in years.
    */
-  medianEmployeeTenure?: number;
+  medianEmployeeTenure?: number | null;
   /**
    * Median tenure in years, keyed by seniority level.
    */
-  medianTenureByLevel?: {};
+  medianTenureByLevel?: {} | null;
   /**
    * Median tenure in years, keyed by role.
    */
-  medianTenureByRole?: {};
+  medianTenureByRole?: {} | null;
   /**
    * MIC code of the exchange the company lists on.
    */
-  micExchange?: string;
+  micExchange?: string | null;
   /**
    * NAICS classification for the company.
    */
-  naicsCodes?: CompanyEnrichmentPeopledatalabsNaicsCode[];
+  naicsCodes?: CompanyEnrichmentPeopledatalabsNaicsCode[] | null;
   /**
    * Company name as People Data Labs displays it.
    */
-  name: string;
+  name: string | null;
   /**
    * Lowercase normalized company name, the form People Data Labs matches on.
    */
-  nameNormalized?: string;
+  nameNormalized?: string | null;
   /**
    * People Data Labs persistent company id.
    */
-  pdlId?: string;
+  pdlId?: string | null;
   /**
    * Every social profile People Data Labs links to the company.
    */
-  profiles?: string[];
+  profiles?: string[] | null;
   /**
    * SIC classification for the company.
    */
-  sicCodes?: CompanyEnrichmentPeopledatalabsSicCode[];
+  sicCodes?: CompanyEnrichmentPeopledatalabsSicCode[] | null;
   /**
    * Employee headcount band, e.g. 11-50.
    */
-  size?: string;
+  size?: string | null;
   /**
    * Long company description.
    */
-  summary?: string;
+  summary?: string | null;
   /**
    * Descriptive tags for the company.
    */
-  tags?: string[];
+  tags?: string[] | null;
   /**
    * Stock ticker, for listed companies.
    */
-  ticker?: string;
+  ticker?: string | null;
   /**
    * Total capital raised, in USD.
    */
-  totalFundingRaised?: number;
+  totalFundingRaised?: number | null;
   /**
    * Company X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Ownership type, e.g. private, public.
    */
-  type?: string;
+  type?: string | null;
   /**
    * People Data Labs company id of the ultimate parent company.
    */
-  ultimateParent?: string;
+  ultimateParent?: string | null;
   /**
    * Company website domain.
    */
-  website?: string;
+  website?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1476,32 +1476,32 @@ export interface CompanyEnrichmentProspeoData {
      * The company sells to businesses.
      */
     isB2b?: boolean;
-  };
+  } | null;
   /**
    * Prospeo's own company identifier. Send it back as this SKU's companyId input.
    */
-  companyId?: string;
+  companyId?: string | null;
   /**
    * Company Crunchbase profile URL.
    * Format: uri.
    */
-  crunchbaseUrl?: string;
+  crunchbaseUrl?: string | null;
   /**
    * Company description as the company writes it.
    */
-  description?: string;
+  description?: string | null;
   /**
    * Prospeo's own AI-written company summary.
    */
-  descriptionAi?: string;
+  descriptionAi?: string | null;
   /**
    * Meta description from the company's website.
    */
-  descriptionSeo?: string;
+  descriptionSeo?: string | null;
   /**
    * Primary company domain.
    */
-  domain?: string;
+  domain?: string | null;
   /**
    * How the company's email is hosted.
    */
@@ -1514,32 +1514,32 @@ export interface CompanyEnrichmentProspeoData {
      * Mail provider behind the domain's MX records.
      */
     mxProvider?: string;
-  };
+  } | null;
   /**
    * Employees Prospeo currently counts.
    */
-  employeeCount?: number;
+  employeeCount?: number | null;
   /**
    * Employees of this company that Prospeo holds a profile for.
    */
-  employeeCountOnProspeo?: number;
+  employeeCountOnProspeo?: number | null;
   /**
    * Employee headcount band, e.g. 10000+.
    */
-  employeeRange?: string;
+  employeeRange?: string | null;
   /**
    * Company Facebook page URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Year the company was founded.
    */
-  founded?: number;
+  founded?: number | null;
   /**
    * True when Prospeo served this record from cache and did not charge for it.
    */
-  freeEnrichment?: boolean;
+  freeEnrichment?: boolean | null;
   /**
    * Funding history.
    */
@@ -1547,7 +1547,7 @@ export interface CompanyEnrichmentProspeoData {
     /**
      * One entry per funding round.
      */
-    events?: CompanyEnrichmentProspeoEvent[];
+    events?: CompanyEnrichmentProspeoEvent[] | null;
     /**
      * Most recent funding stage.
      */
@@ -1568,21 +1568,21 @@ export interface CompanyEnrichmentProspeoData {
      * Total capital raised as a display string.
      */
     totalRaisedPrinted?: string;
-  };
+  } | null;
   /**
    * Company logo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Company industry.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Company Instagram profile URL.
    * Format: uri.
    */
-  instagramUrl?: string;
+  instagramUrl?: string | null;
   /**
    * Open roles Prospeo currently sees for the company.
    */
@@ -1595,20 +1595,20 @@ export interface CompanyEnrichmentProspeoData {
      * Titles of the open roles.
      */
     activeTitles?: string[];
-  };
+  } | null;
   /**
    * Keywords Prospeo assigns the company.
    */
-  keywords?: string[];
+  keywords?: string[] | null;
   /**
    * Company LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Company LinkedIn page URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Company headquarters.
    */
@@ -1633,19 +1633,19 @@ export interface CompanyEnrichmentProspeoData {
      * State or region.
      */
     state?: string;
-  };
+  } | null;
   /**
    * NAICS classification codes for the company.
    */
-  naicsCodes?: string[];
+  naicsCodes?: string[] | null;
   /**
    * Company name.
    */
-  name: string;
+  name: string | null;
   /**
    * Other domains the company owns.
    */
-  otherWebsites?: string[];
+  otherWebsites?: string[] | null;
   /**
    * Headquarters switchboard number.
    */
@@ -1670,7 +1670,7 @@ export interface CompanyEnrichmentProspeoData {
      * Phone number as Prospeo stores it.
      */
     phone?: string;
-  };
+  } | null;
   /**
    * Annual revenue band in USD.
    */
@@ -1683,38 +1683,38 @@ export interface CompanyEnrichmentProspeoData {
      * Lower bound in USD.
      */
     min?: number;
-  };
+  } | null;
   /**
    * Annual revenue band as a display string.
    */
-  revenueRangePrinted?: string;
+  revenueRangePrinted?: string | null;
   /**
    * SIC classification codes for the company.
    */
-  sicCodes?: string[];
+  sicCodes?: string[] | null;
   /**
    * Technologies Prospeo detects in the company's stack.
    */
-  technologies?: string[];
+  technologies?: string[] | null;
   /**
    * Company X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * Ownership type, e.g. Private, Public, Non Profit.
    */
-  type?: string;
+  type?: string | null;
   /**
    * Company website URL.
    * Format: uri.
    */
-  website?: string;
+  website?: string | null;
   /**
    * Company YouTube channel URL.
    * Format: uri.
    */
-  youtubeUrl?: string;
+  youtubeUrl?: string | null;
   [extra: string]: unknown;
 }
 

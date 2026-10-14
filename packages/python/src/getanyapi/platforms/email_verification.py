@@ -101,7 +101,7 @@ class EmailVerificationAllegrowData(BaseModel):
         description="The Allegrow dataset's own verdict field, returned verbatim as the source spells it (safe in the captured response). It duplicates status in the same response and is not remapped into the good/risky/bad vocabulary email.verify uses.",
     )
     domain: str | None = Field(default=None, description="Email domain.")
-    email: str = Field(description="Validated email address.")
+    email: str | None = Field(description="Validated email address.")
     is_catch_all: bool | None = Field(
         default=None,
         alias="isCatchAll",
@@ -125,16 +125,20 @@ class EmailVerificationAllegrowData(BaseModel):
         alias="providerRequestId",
         description="The source's own identifier for this validation, surfaced so a result can be traced back to the record the source created.",
     )
-    status: Literal[
-        "safe",
-        "do_not_mail_abuse",
-        "some_risk",
-        "block_bounce_risk",
-        "dead_email",
-        "spamtrap",
-        "more_time_required",
-        "missing_email",
-    ] = Field(
+    status: (
+        Literal[
+            "safe",
+            "do_not_mail_abuse",
+            "some_risk",
+            "block_bounce_risk",
+            "dead_email",
+            "spamtrap",
+            "more_time_required",
+            "missing_email",
+            "null",
+        ]
+        | None
+    ) = Field(
         description="Deliverability verdict; negative verdicts are successful billable results."
     )
     sub_status: str | None = Field(
@@ -152,7 +156,7 @@ class EmailVerificationAllegrowData(BaseModel):
 class EmailVerificationBouncebanData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    email: str
+    email: str | None
     is_catch_all: bool | None = Field(default=None, alias="isCatchAll")
     is_disposable: bool | None = Field(default=None, alias="isDisposable")
     is_free: bool | None = Field(default=None, alias="isFree")
@@ -160,7 +164,7 @@ class EmailVerificationBouncebanData(BaseModel):
     mode: str | None = None
     mx_records: list[str] | None = Field(default=None, alias="mxRecords")
     reason: str | None = None
-    result: str = Field(
+    result: str | None = Field(
         description="Deliverability verdict; negative verdicts are successful results."
     )
     score: float | None = None
@@ -249,7 +253,7 @@ class EmailVerificationIcypeasData(BaseModel):
         alias="scanUser",
         description="The source's own identifier for the account that ran the scan.",
     )
-    status: str = Field(
+    status: str | None = Field(
         description="Scan outcome for the address, returned verbatim as the source spells it (FOUND in the captured response; the scan also reports NOT_FOUND). This is not the good/risky/bad vocabulary used by email.verify."
     )
 
@@ -282,7 +286,7 @@ class EmailVerificationZerobounceData(BaseModel):
         alias="domainAgeDays",
         description="How long the domain has been registered, in days.",
     )
-    email: str = Field(description="The address that was validated.")
+    email: str | None = Field(description="The address that was validated.")
     first_name: str | None = Field(
         default=None,
         alias="firstName",
@@ -322,7 +326,7 @@ class EmailVerificationZerobounceData(BaseModel):
         alias="smtpProvider",
         description="Mailbox provider behind the domain, e.g. g-suite.",
     )
-    status: str = Field(
+    status: str | None = Field(
         description="Deliverability verdict: valid, invalid, catch-all, unknown, spamtrap, abuse or do_not_mail."
     )
     sub_status: str | None = Field(
@@ -343,13 +347,13 @@ class EmailVerificationZerobounceActivityData(BaseModel):
         alias="activeInDays",
         description="How recently the address was active, in days. ZeroBounce buckets this rather than giving an exact figure.",
     )
-    email: str = Field(description="The address that was checked.")
+    email: str | None = Field(description="The address that was checked.")
     first_seen_utc: float | None = Field(
         default=None,
         alias="firstSeenUtc",
         description="UTC epoch timestamp in seconds (Unix time) ZeroBounce first saw activity from the address. Multiply by 1000 for a JS Date in milliseconds.",
     )
-    has_activity: bool = Field(
+    has_activity: bool | None = Field(
         alias="hasActivity",
         description="True when ZeroBounce has seen engagement from this address.",
     )

@@ -62,7 +62,7 @@ export interface PersonEnrichmentBettercontactData {
   /**
    * City.
    */
-  city?: string;
+  city?: string | null;
   /**
    * The contact's employer.
    */
@@ -196,97 +196,97 @@ export interface PersonEnrichmentBettercontactData {
      * Format: uri.
      */
     website?: string;
-  };
+  } | null;
   /**
    * LinkedIn connection count.
    */
-  connections?: number;
+  connections?: number | null;
   /**
    * BetterContact's own contact identifier.
    */
-  contactId?: string;
+  contactId?: string | null;
   /**
    * Country.
    */
-  country?: string;
+  country?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code.
    */
-  countryCode?: string;
+  countryCode?: string | null;
   /**
    * Current employer as BetterContact names it.
    */
-  currentCompany?: string;
+  currentCompany?: string | null;
   /**
    * True when the contact is on a do-not-contact list.
    */
-  doNotContact?: boolean;
+  doNotContact?: boolean | null;
   /**
    * The email address the waterfall settled on.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Mailbox provider behind the address, e.g. Google.
    */
-  emailProvider?: string;
+  emailProvider?: string | null;
   /**
    * Deliverability verdict for the address, e.g. valid, catch_all_safe, catch_all_not_safe, undeliverable, not_found.
    */
-  emailStatus?: string;
+  emailStatus?: string | null;
   /**
    * True when the waterfall matched a contact. A false answer is a legitimate miss and is not billed.
    */
-  enriched: boolean;
+  enriched: boolean | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * LinkedIn follower count.
    */
-  followers?: number;
+  followers?: number | null;
   /**
    * Contact's full name.
    */
-  fullName?: string;
+  fullName?: string | null;
   /**
    * Gender recorded for the contact.
    */
-  gender?: string;
+  gender?: string | null;
   /**
    * Contact's profile picture URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Contact's LinkedIn numeric id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * Contact's LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Location as one display string.
    */
-  location?: string;
+  location?: string | null;
   /**
    * Postal code.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * Which data source in the waterfall produced the address.
    */
-  provider?: string;
+  provider?: string | null;
   [extra: string]: unknown;
 }
 
@@ -511,58 +511,58 @@ export interface PersonEnrichmentCrustdataV3Data {
   /**
    * LinkedIn connection count.
    */
-  connections?: number;
+  connections?: number | null;
   /**
    * Roles the person holds now.
    */
-  currentPositions?: PersonEnrichmentCrustdataV3CurrentPosition[];
+  currentPositions?: PersonEnrichmentCrustdataV3CurrentPosition[] | null;
   /**
    * Schools attended.
    */
-  education?: PersonEnrichmentCrustdataV3Education[];
+  education?: PersonEnrichmentCrustdataV3Education[] | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * LinkedIn follower count.
    */
-  followers?: number;
+  followers?: number | null;
   /**
    * GitHub accounts matched to the person, each with its own match confidence.
    */
-  githubProfiles?: PersonEnrichmentCrustdataV3GithubProfile[];
+  githubProfiles?: PersonEnrichmentCrustdataV3GithubProfile[] | null;
   /**
    * GitHub profile URL linked from the profile.
    * Format: uri.
    */
-  githubUrl?: string;
+  githubUrl?: string | null;
   /**
    * LinkedIn headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * Profile photo URL.
    * Format: uri.
    */
-  image?: string;
+  image?: string | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Languages the person lists.
    */
-  languages?: string[];
+  languages?: string[] | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Where the person is based.
    */
@@ -587,39 +587,39 @@ export interface PersonEnrichmentCrustdataV3Data {
      * State or region.
      */
     state?: string;
-  };
+  } | null;
   /**
    * Confidence from 0 to 1 that the returned person is the one asked for.
    */
-  matchConfidence?: number;
+  matchConfidence?: number | null;
   /**
    * Full name.
    */
-  name?: string;
+  name?: string | null;
   /**
    * Roles the person held before.
    */
-  pastPositions?: PersonEnrichmentCrustdataV3PastPosition[];
+  pastPositions?: PersonEnrichmentCrustdataV3PastPosition[] | null;
   /**
    * Crustdata person id.
    */
-  personId: string;
+  personId: string | null;
   /**
    * Skills the person lists on LinkedIn.
    */
-  skills?: string[];
+  skills?: string[] | null;
   /**
    * Profile summary.
    */
-  summary?: string;
+  summary?: string | null;
   /**
    * X (Twitter) handle.
    */
-  twitterHandle?: string;
+  twitterHandle?: string | null;
   /**
    * Total years of work experience.
    */
-  yearsOfExperience?: number;
+  yearsOfExperience?: number | null;
   [extra: string]: unknown;
 }
 
@@ -686,39 +686,39 @@ export interface PersonEnrichmentFullenrichBulkContact2 {
   /**
    * Company domain as you supplied it.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Company name as you supplied it.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * The tags you attached to this entry, echoed back so you can join rows to your own records.
    */
-  custom?: {};
+  custom?: {} | null;
   /**
    * Best work email FullEnrich found for this person.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Deliverability verdict for that address, e.g. DELIVERABLE or HIGH_PROBABILITY.
    */
-  emailStatus?: string;
+  emailStatus?: string | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Full name.
    */
-  fullName?: string;
+  fullName?: string | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Personal addresses found, each with its own deliverability verdict.
    */
-  personalEmails?: PersonEnrichmentFullenrichBulkPersonalEmail[];
+  personalEmails?: PersonEnrichmentFullenrichBulkPersonalEmail[] | null;
   /**
    * The person behind the match: identity, location, current role and employer, history, education, languages and skills. Absent when nothing matched.
    */
@@ -819,7 +819,7 @@ export interface PersonEnrichmentFullenrichBulkContact2 {
       /**
        * Every other office FullEnrich holds for the company.
        */
-      offices?: PersonEnrichmentFullenrichBulkOffice[];
+      offices?: PersonEnrichmentFullenrichBulkOffice[] | null;
       /**
        * Specialties the company lists for itself.
        */
@@ -844,11 +844,12 @@ export interface PersonEnrichmentFullenrichBulkContact2 {
     /**
      * Education history.
      */
-    educations?: PersonEnrichmentFullenrichBulkEducation[];
+    educations?: PersonEnrichmentFullenrichBulkEducation[] | null;
     /**
      * Every role on the record, current and past.
      */
-    employmentHistory?: PersonEnrichmentFullenrichBulkEmploymentHistory[];
+    employmentHistory?:
+      PersonEnrichmentFullenrichBulkEmploymentHistory[] | null;
     /**
      * First name.
      */
@@ -876,7 +877,7 @@ export interface PersonEnrichmentFullenrichBulkContact2 {
     /**
      * Languages the person speaks.
      */
-    languages?: PersonEnrichmentFullenrichBulkLanguage[];
+    languages?: PersonEnrichmentFullenrichBulkLanguage[] | null;
     /**
      * Last name.
      */
@@ -909,11 +910,11 @@ export interface PersonEnrichmentFullenrichBulkContact2 {
      * Skills the person lists.
      */
     skills?: string[];
-  };
+  } | null;
   /**
    * Every work address found, best first, each with its own deliverability verdict.
    */
-  workEmails?: PersonEnrichmentFullenrichBulkWorkEmail[];
+  workEmails?: PersonEnrichmentFullenrichBulkWorkEmail[] | null;
   [extra: string]: unknown;
 }
 
@@ -1130,7 +1131,7 @@ export interface PersonEnrichmentFullenrichReverseEmailContact2 {
   /**
    * The tags you attached to this entry, echoed back so you can join rows to your own records.
    */
-  custom?: {};
+  custom?: {} | null;
   /**
    * The person behind the match: identity, location, current role and employer, history, education, languages and skills. Absent when nothing matched.
    */
@@ -1231,7 +1232,7 @@ export interface PersonEnrichmentFullenrichReverseEmailContact2 {
       /**
        * Every other office FullEnrich holds for the company.
        */
-      offices?: PersonEnrichmentFullenrichReverseEmailOffice[];
+      offices?: PersonEnrichmentFullenrichReverseEmailOffice[] | null;
       /**
        * Specialties the company lists for itself.
        */
@@ -1256,11 +1257,12 @@ export interface PersonEnrichmentFullenrichReverseEmailContact2 {
     /**
      * Education history.
      */
-    educations?: PersonEnrichmentFullenrichReverseEmailEducation[];
+    educations?: PersonEnrichmentFullenrichReverseEmailEducation[] | null;
     /**
      * Every role on the record, current and past.
      */
-    employmentHistory?: PersonEnrichmentFullenrichReverseEmailEmploymentHistory[];
+    employmentHistory?:
+      PersonEnrichmentFullenrichReverseEmailEmploymentHistory[] | null;
     /**
      * First name.
      */
@@ -1288,7 +1290,7 @@ export interface PersonEnrichmentFullenrichReverseEmailContact2 {
     /**
      * Languages the person speaks.
      */
-    languages?: PersonEnrichmentFullenrichReverseEmailLanguage[];
+    languages?: PersonEnrichmentFullenrichReverseEmailLanguage[] | null;
     /**
      * Last name.
      */
@@ -1321,11 +1323,11 @@ export interface PersonEnrichmentFullenrichReverseEmailContact2 {
      * Skills the person lists.
      */
     skills?: string[];
-  };
+  } | null;
   /**
    * The address you asked about, echoed back.
    */
-  queriedEmail?: string;
+  queriedEmail?: string | null;
   [extra: string]: unknown;
 }
 
@@ -1545,7 +1547,7 @@ export interface PersonEnrichmentLushaNaicsCode {
   /**
    * NAICS code.
    */
-  code: string;
+  code: string | null;
   /**
    * What the NAICS code covers.
    */
@@ -1557,7 +1559,7 @@ export interface PersonEnrichmentLushaSicCode {
   /**
    * SIC code.
    */
-  code: string;
+  code: string | null;
   /**
    * What the SIC code covers.
    */
@@ -1573,7 +1575,7 @@ export interface PersonEnrichmentLushaEmail {
   /**
    * Email address.
    */
-  email: string;
+  email: string | null;
   /**
    * Address kind, e.g. work or personal.
    */
@@ -1593,7 +1595,7 @@ export interface PersonEnrichmentLushaPhone {
   /**
    * Phone number in international format.
    */
-  number: string;
+  number: string | null;
   /**
    * Line kind, e.g. mobile or direct.
    */
@@ -1644,7 +1646,7 @@ export interface PersonEnrichmentLushaData {
     /**
      * Employee headcount band as [min, max].
      */
-    employeeRange?: number[];
+    employeeRange?: number[] | null;
     /**
      * Company Facebook page URL.
      * Format: uri.
@@ -1671,7 +1673,7 @@ export interface PersonEnrichmentLushaData {
     /**
      * NAICS classification codes for the company.
      */
-    naicsCodes?: PersonEnrichmentLushaNaicsCode[];
+    naicsCodes?: PersonEnrichmentLushaNaicsCode[] | null;
     /**
      * Company name.
      */
@@ -1679,11 +1681,11 @@ export interface PersonEnrichmentLushaData {
     /**
      * Annual revenue band in USD as [min, max].
      */
-    revenueRange?: number[];
+    revenueRange?: number[] | null;
     /**
      * SIC classification codes for the company.
      */
-    sicCodes?: PersonEnrichmentLushaSicCode[];
+    sicCodes?: PersonEnrichmentLushaSicCode[] | null;
     /**
      * Headquarters state or region.
      */
@@ -1710,56 +1712,56 @@ export interface PersonEnrichmentLushaData {
      * Format: uri.
      */
     xUrl?: string;
-  };
+  } | null;
   /**
    * Tags Lusha attaches to the contact.
    */
-  contactTags?: string[];
+  contactTags?: string[] | null;
   /**
    * Departments Lusha assigns the current role, e.g. General Management.
    */
-  departments?: string[];
+  departments?: string[] | null;
   /**
    * Best email address Lusha holds, the first entry of emails.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Every email address Lusha holds for the person.
    */
-  emails?: PersonEnrichmentLushaEmail[];
+  emails?: PersonEnrichmentLushaEmail[] | null;
   /**
    * Person's first name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the person started the current role. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobStartUtc?: number;
+  jobStartUtc?: number | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Person's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn connection count.
    */
-  linkedinConnections?: number;
+  linkedinConnections?: number | null;
   /**
    * LinkedIn follower count.
    */
-  linkedinFollowers?: number;
+  linkedinFollowers?: number | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Where the person is located.
    */
@@ -1800,31 +1802,31 @@ export interface PersonEnrichmentLushaData {
      * State or region code.
      */
     stateCode?: string;
-  };
+  } | null;
   /**
    * Lusha's own person identifier.
    */
-  personId?: string;
+  personId?: string | null;
   /**
    * Best phone number Lusha holds, the first entry of phones.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Every phone number Lusha holds for the person.
    */
-  phones?: PersonEnrichmentLushaPhone[];
+  phones?: PersonEnrichmentLushaPhone[] | null;
   /**
    * Job title of the previous role Lusha holds.
    */
-  previousJobTitle?: string;
+  previousJobTitle?: string | null;
   /**
    * Seniority band for the current role, e.g. Founder.
    */
-  seniority?: string;
+  seniority?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the record was last refreshed. Multiply by 1000 for a JS Date in milliseconds.
    */
-  updatedUtc?: number;
+  updatedUtc?: number | null;
   [extra: string]: unknown;
 }
 
@@ -2007,7 +2009,7 @@ export interface PersonEnrichmentPeopledatalabsEmail {
   /**
    * Email address.
    */
-  address: string;
+  address: string | null;
   /**
    * Address kind, e.g. professional or personal.
    */
@@ -2142,7 +2144,7 @@ export interface PersonEnrichmentPeopledatalabsProfile {
   /**
    * Network name, e.g. linkedin, github, twitter.
    */
-  network: string;
+  network: string | null;
   /**
    * Network's own id for the profile.
    */
@@ -2210,15 +2212,15 @@ export interface PersonEnrichmentPeopledatalabsData {
   /**
    * People Data Labs' qualitative score for how recently the profile showed activity.
    */
-  activityScore?: string;
+  activityScore?: string | null;
   /**
    * Date of birth as People Data Labs reports it, YYYY-MM-DD.
    */
-  birthDate?: string;
+  birthDate?: string | null;
   /**
    * Year of birth.
    */
-  birthYear?: number;
+  birthYear?: number | null;
   /**
    * The person's current employer.
    */
@@ -2310,118 +2312,118 @@ export interface PersonEnrichmentPeopledatalabsData {
      * Company website domain.
      */
     website?: string;
-  };
+  } | null;
   /**
    * Every country associated with the person.
    */
-  countries?: string[];
+  countries?: string[] | null;
   /**
    * Version of the People Data Labs dataset this record came from.
    */
-  datasetVersion?: string;
+  datasetVersion?: string | null;
   /**
    * Education history.
    */
-  education?: PersonEnrichmentPeopledatalabsEducation[];
+  education?: PersonEnrichmentPeopledatalabsEducation[] | null;
   /**
    * Every email address held for the person, with its kind.
    */
-  emails?: PersonEnrichmentPeopledatalabsEmail[];
+  emails?: PersonEnrichmentPeopledatalabsEmail[] | null;
   /**
    * Work history, most relevant first.
    */
-  experience?: PersonEnrichmentPeopledatalabsExperience[];
+  experience?: PersonEnrichmentPeopledatalabsExperience[] | null;
   /**
    * Facebook numeric id.
    */
-  facebookId?: string;
+  facebookId?: string | null;
   /**
    * Facebook profile URL.
    * Format: uri.
    */
-  facebookUrl?: string;
+  facebookUrl?: string | null;
   /**
    * Facebook handle.
    */
-  facebookUsername?: string;
+  facebookUsername?: string | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * GitHub profile URL.
    * Format: uri.
    */
-  githubUrl?: string;
+  githubUrl?: string | null;
   /**
    * GitHub handle.
    */
-  githubUsername?: string;
+  githubUsername?: string | null;
   /**
    * Industry the person works in.
    */
-  industry?: string;
+  industry?: string | null;
   /**
    * Interests the person lists.
    */
-  interests?: string[];
+  interests?: string[] | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the person last changed jobs. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobChangedUtc?: number;
+  jobChangedUtc?: number | null;
   /**
    * When the current role started, as People Data Labs reports it: YYYY, YYYY-MM or YYYY-MM-DD.
    */
-  jobStartDate?: string;
+  jobStartDate?: string | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Normalized title class, e.g. research_and_development.
    */
-  jobTitleClass?: string;
+  jobTitleClass?: string | null;
   /**
    * Seniority levels for the current title, e.g. cxo, owner.
    */
-  jobTitleLevels?: string[];
+  jobTitleLevels?: string[] | null;
   /**
    * Normalized role for the current title, e.g. engineering.
    */
-  jobTitleRole?: string;
+  jobTitleRole?: string | null;
   /**
    * Normalized sub-role for the current title.
    */
-  jobTitleSubRole?: string;
+  jobTitleSubRole?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) the current role was last verified. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobVerifiedUtc?: number;
+  jobVerifiedUtc?: number | null;
   /**
    * Last initial.
    */
-  lastInitial?: string;
+  lastInitial?: string | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn numeric member id.
    */
-  linkedinId?: string;
+  linkedinId?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * LinkedIn vanity handle.
    */
-  linkedinUsername?: string;
+  linkedinUsername?: string | null;
   /**
    * Where the person lives.
    */
@@ -2470,76 +2472,76 @@ export interface PersonEnrichmentPeopledatalabsData {
      * UTC epoch timestamp in seconds (Unix time) the location was last updated. Multiply by 1000 for a JS Date in milliseconds.
      */
     updatedUtc?: number;
-  };
+  } | null;
   /**
    * Every location People Data Labs has associated with the person.
    */
-  locationNames?: string[];
+  locationNames?: string[] | null;
   /**
    * Middle initial.
    */
-  middleInitial?: string;
+  middleInitial?: string | null;
   /**
    * Middle name.
    */
-  middleName?: string;
+  middleName?: string | null;
   /**
    * Mobile phone number in international form.
    */
-  mobilePhone?: string;
+  mobilePhone?: string | null;
   /**
    * People Data Labs persistent person id. Send it back as this SKU's pdlId input.
    */
-  pdlId?: string;
+  pdlId?: string | null;
   /**
    * Personal email addresses.
    */
-  personalEmails?: string[];
+  personalEmails?: string[] | null;
   /**
    * Every phone number held for the person.
    */
-  phoneNumbers?: string[];
+  phoneNumbers?: string[] | null;
   /**
    * People Data Labs' qualitative score for how complete the profile is.
    */
-  profileScore?: string;
+  profileScore?: string | null;
   /**
    * Every social profile linked to the person.
    */
-  profiles?: PersonEnrichmentPeopledatalabsProfile[];
+  profiles?: PersonEnrichmentPeopledatalabsProfile[] | null;
   /**
    * The personal address People Data Labs recommends reaching the person at.
    */
-  recommendedPersonalEmail?: string;
+  recommendedPersonalEmail?: string | null;
   /**
    * Every region associated with the person.
    */
-  regions?: string[];
+  regions?: string[] | null;
   /**
    * Sex recorded for the person.
    */
-  sex?: string;
+  sex?: string | null;
   /**
    * Skills the person lists.
    */
-  skills?: string[];
+  skills?: string[] | null;
   /**
    * Every street address associated with the person.
    */
-  streetAddresses?: PersonEnrichmentPeopledatalabsStreetAddresse[];
+  streetAddresses?: PersonEnrichmentPeopledatalabsStreetAddresse[] | null;
   /**
    * X (Twitter) profile URL.
    * Format: uri.
    */
-  twitterUrl?: string;
+  twitterUrl?: string | null;
   /**
    * X (Twitter) handle.
    */
-  twitterUsername?: string;
+  twitterUsername?: string | null;
   /**
    * Best work email address.
    */
-  workEmail?: string;
+  workEmail?: string | null;
   [extra: string]: unknown;
 }
 
@@ -2802,7 +2804,7 @@ export interface PersonEnrichmentProspeoData {
       /**
        * One entry per funding round.
        */
-      events?: PersonEnrichmentProspeoEvent[];
+      events?: PersonEnrichmentProspeoEvent[] | null;
       /**
        * Most recent funding stage.
        */
@@ -2970,7 +2972,7 @@ export interface PersonEnrichmentProspeoData {
      * Format: uri.
      */
     youtubeUrl?: string;
-  };
+  } | null;
   /**
    * Work email address. Prospeo returns the address only once it is revealed; status says why it is absent otherwise.
    */
@@ -2987,52 +2989,52 @@ export interface PersonEnrichmentProspeoData {
      * Prospeo's verdict for the address, e.g. VERIFIED or UNAVAILABLE.
      */
     status?: string;
-  };
+  } | null;
   /**
    * First name.
    */
-  firstName?: string;
+  firstName?: string | null;
   /**
    * True when Prospeo served this record from cache and did not charge for it.
    */
-  freeEnrichment?: boolean;
+  freeEnrichment?: boolean | null;
   /**
    * Person's full name.
    */
-  fullName: string;
+  fullName: string | null;
   /**
    * LinkedIn headline.
    */
-  headline?: string;
+  headline?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time) Prospeo last detected a job change. Multiply by 1000 for a JS Date in milliseconds.
    */
-  jobChangeDetectedUtc?: number;
+  jobChangeDetectedUtc?: number | null;
   /**
    * Every role Prospeo holds for the person, most recent first.
    */
-  jobHistory?: PersonEnrichmentProspeoJobHistory[];
+  jobHistory?: PersonEnrichmentProspeoJobHistory[] | null;
   /**
    * Prospeo's identifier for the current role.
    */
-  jobKey?: string;
+  jobKey?: string | null;
   /**
    * Current job title.
    */
-  jobTitle?: string;
+  jobTitle?: string | null;
   /**
    * Last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * LinkedIn numeric member id.
    */
-  linkedinMemberId?: string;
+  linkedinMemberId?: string | null;
   /**
    * LinkedIn profile URL.
    * Format: uri.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Where the person is located.
    */
@@ -3061,7 +3063,7 @@ export interface PersonEnrichmentProspeoData {
      * Current offset from UTC in hours.
      */
     timeZoneOffset?: number;
-  };
+  } | null;
   /**
    * Mobile phone number. Digits are masked until the number is revealed; send enrichMobile to reveal it.
    */
@@ -3094,15 +3096,15 @@ export interface PersonEnrichmentProspeoData {
      * Prospeo's verdict for the number, e.g. VERIFIED or UNAVAILABLE.
      */
     status?: string;
-  };
+  } | null;
   /**
    * Prospeo's own person identifier. Send it back as this SKU's personId input.
    */
-  personId?: string;
+  personId?: string | null;
   /**
    * Skills the person lists.
    */
-  skills?: string[];
+  skills?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -3142,87 +3144,87 @@ export interface PersonEnrichmentQuickenrichData {
   /**
    * Street address on the employer record.
    */
-  address?: string;
+  address?: string | null;
   /**
    * City on the employer record.
    */
-  city?: string;
+  city?: string | null;
   /**
    * Employer website domain.
    */
-  companyDomain?: string;
+  companyDomain?: string | null;
   /**
    * Employer headcount band, e.g. "20 - 99". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyEmployeeCount?: string;
+  companyEmployeeCount?: string | null;
   /**
    * Employer industry label.
    */
-  companyIndustry?: string;
+  companyIndustry?: string | null;
   /**
    * Employer LinkedIn company URL.
    */
-  companyLinkedinUrl?: string;
+  companyLinkedinUrl?: string | null;
   /**
    * Employer name.
    */
-  companyName?: string;
+  companyName?: string | null;
   /**
    * Employer main phone line.
    */
-  companyPhone?: string;
+  companyPhone?: string | null;
   /**
    * Employer revenue band, e.g. "1 - 2.5 Million". Upstream band vocabulary; "Not Available" means the band is unknown.
    */
-  companyRevenue?: string;
+  companyRevenue?: string | null;
   /**
    * ISO 3166-1 alpha-2 country code on the employer record.
    */
-  country?: string;
+  country?: string | null;
   /**
    * Work email address.
    */
-  email?: string;
+  email?: string | null;
   /**
    * Domain the work email resolves to.
    */
-  emailDomain?: string;
+  emailDomain?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
-  emailVerifiedUtc?: number;
+  emailVerifiedUtc?: number | null;
   /**
    * Person's first name.
    */
-  firstName: string;
+  firstName: string | null;
   /**
    * Person's last name.
    */
-  lastName?: string;
+  lastName?: string | null;
   /**
    * Person's LinkedIn profile URL.
    */
-  linkedinUrl?: string;
+  linkedinUrl?: string | null;
   /**
    * Direct business phone line held for the person. Mostly desk lines; read phoneType before treating it as a mobile.
    */
-  phone?: string;
+  phone?: string | null;
   /**
    * Line type reported upstream, e.g. "mobile" or "landline".
    */
-  phoneType?: string;
+  phoneType?: string | null;
   /**
    * Postal code on the employer record.
    */
-  postalCode?: string;
+  postalCode?: string | null;
   /**
    * State or region code on the employer record.
    */
-  region?: string;
+  region?: string | null;
   /**
    * Person's job title.
    */
-  title?: string;
+  title?: string | null;
   [extra: string]: unknown;
 }
 
