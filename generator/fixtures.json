@@ -1428,6 +1428,9 @@
             "commentCount": 1,
             "authorName": "sample",
             "authorId": "sample",
+            "reactions": {
+              "_extra": "passthrough"
+            },
             "_extra": "passthrough"
           }
         ]
@@ -1480,6 +1483,9 @@
         "categoryId": "sample",
         "isSold": true,
         "isLive": true,
+        "seller": {
+          "_extra": "passthrough"
+        },
         "_extra": "passthrough"
       }
     },
@@ -1687,6 +1693,9 @@
             "url": "sample",
             "author": "sample",
             "createdUtc": 1.5,
+            "reactions": {
+              "_extra": "passthrough"
+            },
             "_extra": "passthrough"
           }
         ],
@@ -1710,6 +1719,7 @@
             "views": 1,
             "thumbnail": "sample",
             "createdUtc": 1.5,
+            "videoId": "sample",
             "_extra": "passthrough"
           }
         ]

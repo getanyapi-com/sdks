@@ -40,6 +40,46 @@ export interface FacebookAdDetailsInput {
   url?: string;
 }
 
+export interface FacebookAdDetailsCreative {
+  /**
+   * Card body text.
+   */
+  body?: string;
+  /**
+   * Card display caption, usually the destination domain.
+   */
+  caption?: string;
+  /**
+   * Card call-to-action label (e.g. "Shop Now").
+   */
+  ctaText?: string;
+  /**
+   * Card call-to-action type (e.g. "SHOP_NOW").
+   */
+  ctaType?: string;
+  /**
+   * Card image URL. For a video card this is the poster frame.
+   */
+  image?: string;
+  /**
+   * Card secondary description line.
+   */
+  linkDescription?: string;
+  /**
+   * Card destination URL.
+   */
+  linkUrl?: string;
+  /**
+   * Card headline.
+   */
+  title?: string;
+  /**
+   * Card video file URL (HD when supplied, otherwise SD). Present only on video cards.
+   */
+  videoUrl?: string;
+  [extra: string]: unknown;
+}
+
 export interface FacebookAdDetailsMedia {
   /**
    * Pixel height of the media item, when the lane reports it.
@@ -86,6 +126,10 @@ export interface FacebookAdDetailsData {
    * Ad Library categories the ad is filed under.
    */
   categories?: string[];
+  /**
+   * One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.
+   */
+  creatives?: FacebookAdDetailsCreative[];
   /**
    * Call-to-action label. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -535,6 +579,10 @@ export interface FacebookAdsSearchAd {
    */
   categories?: string[];
   /**
+   * One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.
+   */
+  creatives?: FacebookAdsSearchCreative[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   ctaText: string;
@@ -620,6 +668,46 @@ export interface FacebookAdsSearchAd {
    * Populated whenever the provider has data for the entity.
    */
   title: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookAdsSearchCreative {
+  /**
+   * Card body text.
+   */
+  body?: string;
+  /**
+   * Card display caption, usually the destination domain.
+   */
+  caption?: string;
+  /**
+   * Card call-to-action label (e.g. "Shop Now").
+   */
+  ctaText?: string;
+  /**
+   * Card call-to-action type (e.g. "SHOP_NOW").
+   */
+  ctaType?: string;
+  /**
+   * Card image URL. For a video card this is the poster frame.
+   */
+  image?: string;
+  /**
+   * Card secondary description line.
+   */
+  linkDescription?: string;
+  /**
+   * Card destination URL.
+   */
+  linkUrl?: string;
+  /**
+   * Card headline.
+   */
+  title?: string;
+  /**
+   * Card video file URL (HD when supplied, otherwise SD). Present only on video cards.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -844,6 +932,10 @@ export interface FacebookCompanyAdsAd {
    */
   categories?: string[];
   /**
+   * One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.
+   */
+  creatives?: FacebookCompanyAdsCreative[];
+  /**
    * Call-to-action button label on the ad.
    */
   ctaText?: string;
@@ -925,6 +1017,46 @@ export interface FacebookCompanyAdsAd {
    * Headline of the ad creative.
    */
   title?: string;
+  [extra: string]: unknown;
+}
+
+export interface FacebookCompanyAdsCreative {
+  /**
+   * Card body text.
+   */
+  body?: string;
+  /**
+   * Card display caption, usually the destination domain.
+   */
+  caption?: string;
+  /**
+   * Card call-to-action label (e.g. "Shop Now").
+   */
+  ctaText?: string;
+  /**
+   * Card call-to-action type (e.g. "SHOP_NOW").
+   */
+  ctaType?: string;
+  /**
+   * Card image URL. For a video card this is the poster frame.
+   */
+  image?: string;
+  /**
+   * Card secondary description line.
+   */
+  linkDescription?: string;
+  /**
+   * Card destination URL.
+   */
+  linkUrl?: string;
+  /**
+   * Card headline.
+   */
+  title?: string;
+  /**
+   * Card video file URL (HD when supplied, otherwise SD). Present only on video cards.
+   */
+  videoUrl?: string;
   [extra: string]: unknown;
 }
 
@@ -1385,7 +1517,7 @@ export interface FacebookFollowersItem {
    */
   id: string;
   /**
-   * URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   * URL of the account's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.
    */
   image?: string;
   /**
@@ -1469,10 +1601,47 @@ export interface FacebookGroupPostsPost {
    */
   id: string;
   /**
+   * URL of the post's first image. Absent when the post has no image.
+   */
+  image?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   publishTime: number;
   reactionCount: number;
+  /**
+   * Reaction counts on the post, broken down by reaction type.
+   */
+  reactions: {
+    /**
+     * Angry reactions.
+     */
+    angry?: number;
+    /**
+     * Care reactions.
+     */
+    care?: number;
+    /**
+     * Haha reactions.
+     */
+    haha?: number;
+    /**
+     * Like reactions.
+     */
+    like?: number;
+    /**
+     * Love reactions.
+     */
+    love?: number;
+    /**
+     * Sad reactions.
+     */
+    sad?: number;
+    /**
+     * Wow reactions.
+     */
+    wow?: number;
+  };
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1822,6 +1991,35 @@ export interface FacebookMarketplaceItemData {
    */
   priceFormatted: string;
   /**
+   * The person or business selling the item. Empty when Facebook does not show the seller on the listing.
+   */
+  seller: {
+    /**
+     * Facebook id of the seller, as a string.
+     */
+    id?: string;
+    /**
+     * URL of the seller's profile picture.
+     */
+    image?: string;
+    /**
+     * UTC epoch timestamp in seconds (Unix time) the seller joined Facebook. Multiply by 1000 for a JS Date in milliseconds.
+     */
+    joinedUtc?: number;
+    /**
+     * The seller's display name.
+     */
+    name?: string;
+    /**
+     * The seller's average rating as a seller, out of 5. Absent when the seller has no ratings or keeps them private.
+     */
+    rating?: number;
+    /**
+     * Number of ratings the seller has received as a seller. Absent when the seller has no ratings or keeps them private.
+     */
+    ratingCount?: number;
+  };
+  /**
    * Canonical shareable Marketplace URL of the listing.
    */
   shareUrl?: string;
@@ -1942,6 +2140,10 @@ export interface FacebookPageContactInput {
 
 export interface FacebookPageContactItem {
   /**
+   * The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.
+   */
+  adLibraryPageId?: string;
+  /**
    * The page's public physical address. Empty when the page lists none.
    */
   address?: string;
@@ -1959,9 +2161,13 @@ export interface FacebookPageContactItem {
    */
   followers?: number;
   /**
-   * URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   * URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.
    */
   image?: string;
+  /**
+   * Other social profiles the page links to, such as its Instagram account, as URLs. Empty when the page links none.
+   */
+  links?: string[];
   /**
    * The page's public phone number. Empty when the page lists none.
    */
@@ -2203,7 +2409,14 @@ export interface FacebookPostInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoId` or `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("authorVerified" | "videoId" | "views")[];
+  requireFields?: (
+    | "authorVerified"
+    | "feedbackId"
+    | "reactions"
+    | "videoId"
+    | "videoUrl"
+    | "views"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2244,6 +2457,10 @@ export interface FacebookPostData {
    */
   durationSeconds?: number;
   /**
+   * Facebook feedback id of the post; pass it to facebook.post_comments as feedbackId to fetch its comments. Null when this source cannot read it.
+   */
+  feedbackId?: string | null;
+  /**
    * Facebook post id. For a reel or video post this is NOT the id in the /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -2252,6 +2469,39 @@ export interface FacebookPostData {
    */
   image?: string;
   likes: number;
+  /**
+   * Reaction counts on the post, broken down by reaction type. Null when this source reports only the total.
+   */
+  reactions?: {
+    /**
+     * Angry reactions.
+     */
+    angry?: number;
+    /**
+     * Care reactions.
+     */
+    care?: number;
+    /**
+     * Haha reactions.
+     */
+    haha?: number;
+    /**
+     * Like reactions.
+     */
+    like?: number;
+    /**
+     * Love reactions.
+     */
+    love?: number;
+    /**
+     * Sad reactions.
+     */
+    sad?: number;
+    /**
+     * Wow reactions.
+     */
+    wow?: number;
+  } | null;
   shares: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -2265,6 +2515,10 @@ export interface FacebookPostData {
    * Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.
    */
   videoId?: string | null;
+  /**
+   * Playable video file URL of the post's reel or video. Null when the post carries no video or this source cannot read it.
+   */
+  videoUrl?: string | null;
   /**
    * Number of views on the post's video. Null when the source cannot report an exact count, for example when it gives only a rounded figure such as 14K.
    */
@@ -2407,6 +2661,10 @@ export interface FacebookPostTranscriptInput {
  */
 export interface FacebookPostTranscriptData {
   /**
+   * Length of the video in seconds, with fractional seconds. Absent when the post has no transcribable video.
+   */
+  durationSeconds?: number;
+  /**
    * Numeric Facebook id of the transcribed post, as a string.
    */
   postId?: string;
@@ -2451,6 +2709,14 @@ export interface FacebookProfileInput {
  */
 export interface FacebookProfileData {
   about: string;
+  /**
+   * The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.
+   */
+  adLibraryPageId?: string;
+  /**
+   * Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads. Absent when Facebook shows none.
+   */
+  adStatus?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2602,6 +2868,10 @@ export interface FacebookProfilePostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "shares"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2644,6 +2914,43 @@ export interface FacebookProfilePostsPost {
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: FacebookProfilePostsMedia[];
+  /**
+   * Reaction counts on the post, broken down by reaction type.
+   */
+  reactions: {
+    /**
+     * Angry reactions.
+     */
+    angry?: number;
+    /**
+     * Care reactions.
+     */
+    care?: number;
+    /**
+     * Haha reactions.
+     */
+    haha?: number;
+    /**
+     * Like reactions.
+     */
+    like?: number;
+    /**
+     * Love reactions.
+     */
+    love?: number;
+    /**
+     * Sad reactions.
+     */
+    sad?: number;
+    /**
+     * Wow reactions.
+     */
+    wow?: number;
+  };
+  /**
+   * Number of times the post was shared. Null when this source does not report it.
+   */
+  shares?: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2720,7 +3027,14 @@ export interface FacebookProfileReelsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `feedbackId` or `authorVerified`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("authorVerified" | "feedbackId")[];
+  requireFields?: (
+    | "authorVerified"
+    | "comments"
+    | "feedbackId"
+    | "likes"
+    | "shares"
+    | "videoUrl"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2753,6 +3067,10 @@ export interface FacebookProfileReelsReel {
    */
   caption: string;
   /**
+   * Comment count on the reel. Null when this source does not report it.
+   */
+  comments?: number | null;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
@@ -2765,9 +3083,17 @@ export interface FacebookProfileReelsReel {
    */
   feedbackId?: string;
   /**
-   * Reel identifier. Populated whenever the provider has data for the entity.
+   * Facebook post id of the reel, the same id facebook.post returns for it. This is NOT the id in the reel's /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Total reaction count on the reel. Null when this source does not report it.
+   */
+  likes?: number | null;
+  /**
+   * Number of times the reel was shared. Null when this source does not report it.
+   */
+  shares?: number | null;
   /**
    * URL of the reel thumbnail image. Populated whenever the provider has data for the entity.
    */
@@ -2776,6 +3102,14 @@ export interface FacebookProfileReelsReel {
    * Canonical URL of the reel. Populated whenever the provider has data for the entity.
    */
   url: string;
+  /**
+   * Facebook video id of the reel, the id that appears in its /reel/<id> URL.
+   */
+  videoId: string;
+  /**
+   * Playable video file URL of the reel. Null when this source cannot read it.
+   */
+  videoUrl?: string | null;
   /**
    * Number of views on the reel.
    */
@@ -2925,6 +3259,10 @@ export interface FacebookSearchPagesItem {
    */
   about?: string;
   /**
+   * The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.
+   */
+  adLibraryPageId?: string;
+  /**
    * Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads.
    */
   adStatus?: string;
@@ -2953,7 +3291,7 @@ export interface FacebookSearchPagesItem {
    */
   id: string;
   /**
-   * URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   * URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.
    */
   image?: string;
   /**
@@ -3084,7 +3422,7 @@ export interface FacebookSearchPostsItem {
    */
   id: string;
   /**
-   * URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.
+   * URL of the post's primary image, a signed CDN URL whose query must be kept. Empty for text-only or video posts.
    */
   image?: string;
   /**
@@ -3100,7 +3438,7 @@ export interface FacebookSearchPostsItem {
    */
   text: string;
   /**
-   * Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity.
+   * Canonical URL of the post. A post with no page path keeps the query that identifies it (permalink.php?story_fbid=...&id=...). Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;

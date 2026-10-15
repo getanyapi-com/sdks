@@ -395,7 +395,18 @@ class FacebookPostInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["authorVerified", "videoId", "views"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorVerified",
+                "feedbackId",
+                "reactions",
+                "videoId",
+                "videoUrl",
+                "views",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoId` or `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -486,6 +497,8 @@ class FacebookProfilePostsInput(TypedDict, total=False):
     """Facebook page id."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["shares"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
@@ -503,7 +516,18 @@ class FacebookProfileReelsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["authorVerified", "feedbackId"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorVerified",
+                "comments",
+                "feedbackId",
+                "likes",
+                "shares",
+                "videoUrl",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `feedbackId` or `authorVerified`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -584,6 +608,10 @@ class FacebookAdDetailsData(BaseModel):
     )
     categories: list[str] | None = Field(
         default=None, description="Ad Library categories the ad is filed under."
+    )
+    creatives: list[FacebookAdDetailsCreative] | None = Field(
+        default=None,
+        description="One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.",
     )
     cta_text: str | None = Field(
         default=None,
@@ -674,6 +702,44 @@ class FacebookAdDetailsData(BaseModel):
     title: str | None = Field(
         default=None,
         description="Creative title. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class FacebookAdDetailsCreative(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    body: str | None = Field(default=None, description="Card body text.")
+    caption: str | None = Field(
+        default=None,
+        description="Card display caption, usually the destination domain.",
+    )
+    cta_text: str | None = Field(
+        default=None,
+        alias="ctaText",
+        description='Card call-to-action label (e.g. "Shop Now").',
+    )
+    cta_type: str | None = Field(
+        default=None,
+        alias="ctaType",
+        description='Card call-to-action type (e.g. "SHOP_NOW").',
+    )
+    image: str | None = Field(
+        default=None,
+        description="Card image URL. For a video card this is the poster frame.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Card secondary description line.",
+    )
+    link_url: str | None = Field(
+        default=None, alias="linkUrl", description="Card destination URL."
+    )
+    title: str | None = Field(default=None, description="Card headline.")
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
     )
 
 
@@ -917,6 +983,10 @@ class FacebookAdsSearchAd(BaseModel):
     categories: list[str] | None = Field(
         default=None, description="Ad Library categories the ad is filed under."
     )
+    creatives: list[FacebookAdsSearchCreative] | None = Field(
+        default=None,
+        description="One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.",
+    )
     cta_text: str = Field(
         alias="ctaText",
         description="Populated whenever the provider has data for the entity.",
@@ -1000,6 +1070,44 @@ class FacebookAdsSearchAd(BaseModel):
     )
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class FacebookAdsSearchCreative(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    body: str | None = Field(default=None, description="Card body text.")
+    caption: str | None = Field(
+        default=None,
+        description="Card display caption, usually the destination domain.",
+    )
+    cta_text: str | None = Field(
+        default=None,
+        alias="ctaText",
+        description='Card call-to-action label (e.g. "Shop Now").',
+    )
+    cta_type: str | None = Field(
+        default=None,
+        alias="ctaType",
+        description='Card call-to-action type (e.g. "SHOP_NOW").',
+    )
+    image: str | None = Field(
+        default=None,
+        description="Card image URL. For a video card this is the poster frame.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Card secondary description line.",
+    )
+    link_url: str | None = Field(
+        default=None, alias="linkUrl", description="Card destination URL."
+    )
+    title: str | None = Field(default=None, description="Card headline.")
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
     )
 
 
@@ -1112,6 +1220,10 @@ class FacebookCompanyAdsAd(BaseModel):
     categories: list[str] | None = Field(
         default=None, description="Ad Library categories the ad is filed under."
     )
+    creatives: list[FacebookCompanyAdsCreative] | None = Field(
+        default=None,
+        description="One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.",
+    )
     cta_text: str | None = Field(
         default=None,
         alias="ctaText",
@@ -1192,6 +1304,44 @@ class FacebookCompanyAdsAd(BaseModel):
         description="Ad body text. Populated whenever the provider has data for the entity."
     )
     title: str | None = Field(default=None, description="Headline of the ad creative.")
+
+
+class FacebookCompanyAdsCreative(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    body: str | None = Field(default=None, description="Card body text.")
+    caption: str | None = Field(
+        default=None,
+        description="Card display caption, usually the destination domain.",
+    )
+    cta_text: str | None = Field(
+        default=None,
+        alias="ctaText",
+        description='Card call-to-action label (e.g. "Shop Now").',
+    )
+    cta_type: str | None = Field(
+        default=None,
+        alias="ctaType",
+        description='Card call-to-action type (e.g. "SHOP_NOW").',
+    )
+    image: str | None = Field(
+        default=None,
+        description="Card image URL. For a video card this is the poster frame.",
+    )
+    link_description: str | None = Field(
+        default=None,
+        alias="linkDescription",
+        description="Card secondary description line.",
+    )
+    link_url: str | None = Field(
+        default=None, alias="linkUrl", description="Card destination URL."
+    )
+    title: str | None = Field(default=None, description="Card headline.")
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
+    )
 
 
 class FacebookCompanyAdsMedia(BaseModel):
@@ -1497,7 +1647,7 @@ class FacebookFollowersItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+        description="URL of the account's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.",
     )
     name: str = Field(
         description="The account's public display name. Populated whenever the provider has data for the entity."
@@ -1539,17 +1689,36 @@ class FacebookGroupPostsPost(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(
+        default=None,
+        description="URL of the post's first image. Absent when the post has no image.",
+    )
     publish_time: int = Field(
         alias="publishTime",
         description="Populated whenever the provider has data for the entity.",
     )
     reaction_count: int = Field(alias="reactionCount")
+    reactions: FacebookGroupPostsReaction = Field(
+        description="Reaction counts on the post, broken down by reaction type."
+    )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class FacebookGroupPostsReaction(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    angry: int | None = Field(default=None, description="Angry reactions.")
+    care: int | None = Field(default=None, description="Care reactions.")
+    haha: int | None = Field(default=None, description="Haha reactions.")
+    like: int | None = Field(default=None, description="Like reactions.")
+    love: int | None = Field(default=None, description="Love reactions.")
+    sad: int | None = Field(default=None, description="Sad reactions.")
+    wow: int | None = Field(default=None, description="Wow reactions.")
 
 
 class FacebookMarketplaceData(BaseModel):
@@ -1722,6 +1891,9 @@ class FacebookMarketplaceItemData(BaseModel):
         alias="priceFormatted",
         description="Populated whenever the provider has data for the entity.",
     )
+    seller: FacebookMarketplaceItemSeller = Field(
+        description="The person or business selling the item. Empty when Facebook does not show the seller on the listing."
+    )
     share_url: str | None = Field(
         default=None,
         alias="shareUrl",
@@ -1767,6 +1939,32 @@ class FacebookMarketplaceItemPhoto(BaseModel):
     )
     url: str | None = Field(default=None, description="Image URL of the photo.")
     width: int | None = Field(default=None, description="Pixel width of the photo.")
+
+
+class FacebookMarketplaceItemSeller(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="Facebook id of the seller, as a string."
+    )
+    image: str | None = Field(
+        default=None, description="URL of the seller's profile picture."
+    )
+    joined_utc: float | None = Field(
+        default=None,
+        alias="joinedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the seller joined Facebook. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    name: str | None = Field(default=None, description="The seller's display name.")
+    rating: float | None = Field(
+        default=None,
+        description="The seller's average rating as a seller, out of 5. Absent when the seller has no ratings or keeps them private.",
+    )
+    rating_count: int | None = Field(
+        default=None,
+        alias="ratingCount",
+        description="Number of ratings the seller has received as a seller. Absent when the seller has no ratings or keeps them private.",
+    )
 
 
 class FacebookMarketplaceLocationSearchData(BaseModel):
@@ -1842,8 +2040,13 @@ class FacebookPageContactData(BaseModel):
 
 
 class FacebookPageContactItem(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    ad_library_page_id: str | None = Field(
+        default=None,
+        alias="adLibraryPageId",
+        description="The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+    )
     address: str | None = Field(
         default=None,
         description="The page's public physical address. Empty when the page lists none.",
@@ -1861,7 +2064,11 @@ class FacebookPageContactItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+        description="URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.",
+    )
+    links: list[str] | None = Field(
+        default=None,
+        description="Other social profiles the page links to, such as its Instagram account, as URLs. Empty when the page links none.",
     )
     phone: str | None = Field(
         default=None,
@@ -1991,6 +2198,11 @@ class FacebookPostData(BaseModel):
         alias="durationSeconds",
         description="Length of the post's video in seconds, 0 when the post carries no video.",
     )
+    feedback_id: str | None = Field(
+        default=None,
+        alias="feedbackId",
+        description="Facebook feedback id of the post; pass it to facebook.post_comments as feedbackId to fetch its comments. Null when this source cannot read it.",
+    )
     id: str = Field(
         description="Facebook post id. For a reel or video post this is NOT the id in the /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity."
     )
@@ -1998,6 +2210,10 @@ class FacebookPostData(BaseModel):
         default=None, description="Preview image or video thumbnail URL for the post."
     )
     likes: int
+    reactions: FacebookPostReaction | None = Field(
+        default=None,
+        description="Reaction counts on the post, broken down by reaction type. Null when this source reports only the total.",
+    )
     shares: int
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -2010,9 +2226,26 @@ class FacebookPostData(BaseModel):
         alias="videoId",
         description="Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.",
     )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL of the post's reel or video. Null when the post carries no video or this source cannot read it.",
+    )
     views: int | None = Field(
         description="Number of views on the post's video. Null when the source cannot report an exact count, for example when it gives only a rounded figure such as 14K."
     )
+
+
+class FacebookPostReaction(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    angry: int | None = Field(default=None, description="Angry reactions.")
+    care: int | None = Field(default=None, description="Care reactions.")
+    haha: int | None = Field(default=None, description="Haha reactions.")
+    like: int | None = Field(default=None, description="Like reactions.")
+    love: int | None = Field(default=None, description="Love reactions.")
+    sad: int | None = Field(default=None, description="Sad reactions.")
+    wow: int | None = Field(default=None, description="Wow reactions.")
 
 
 class FacebookPostCommentsData(BaseModel):
@@ -2075,6 +2308,11 @@ class FacebookPostCommentsComment(BaseModel):
 class FacebookPostTranscriptData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Length of the video in seconds, with fractional seconds. Absent when the post has no transcribable video.",
+    )
     post_id: str | None = Field(
         default=None,
         alias="postId",
@@ -2087,6 +2325,16 @@ class FacebookProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     about: str
+    ad_library_page_id: str | None = Field(
+        default=None,
+        alias="adLibraryPageId",
+        description="The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+    )
+    ad_status: str | None = Field(
+        default=None,
+        alias="adStatus",
+        description="Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads. Absent when Facebook shows none.",
+    )
     avatar_url: str = Field(
         alias="avatarUrl",
         description="Populated whenever the provider has data for the entity.",
@@ -2211,6 +2459,13 @@ class FacebookProfilePostsPost(BaseModel):
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
     )
+    reactions: FacebookProfilePostsReaction = Field(
+        description="Reaction counts on the post, broken down by reaction type."
+    )
+    shares: int | None = Field(
+        default=None,
+        description="Number of times the post was shared. Null when this source does not report it.",
+    )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -2239,6 +2494,18 @@ class FacebookProfilePostsMedia(BaseModel):
         default=None,
         description="Pixel width of the media item, when the lane reports it.",
     )
+
+
+class FacebookProfilePostsReaction(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    angry: int | None = Field(default=None, description="Angry reactions.")
+    care: int | None = Field(default=None, description="Care reactions.")
+    haha: int | None = Field(default=None, description="Haha reactions.")
+    like: int | None = Field(default=None, description="Like reactions.")
+    love: int | None = Field(default=None, description="Love reactions.")
+    sad: int | None = Field(default=None, description="Sad reactions.")
+    wow: int | None = Field(default=None, description="Wow reactions.")
 
 
 class FacebookProfileReelsData(BaseModel):
@@ -2280,6 +2547,10 @@ class FacebookProfileReelsReel(BaseModel):
     caption: str = Field(
         description="Reel caption text. Populated whenever the provider has data for the entity."
     )
+    comments: int | None = Field(
+        default=None,
+        description="Comment count on the reel. Null when this source does not report it.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -2295,13 +2566,30 @@ class FacebookProfileReelsReel(BaseModel):
         description="Facebook feedback id of the reel, used to fetch its comments.",
     )
     id: str = Field(
-        description="Reel identifier. Populated whenever the provider has data for the entity."
+        description="Facebook post id of the reel, the same id facebook.post returns for it. This is NOT the id in the reel's /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity."
+    )
+    likes: int | None = Field(
+        default=None,
+        description="Total reaction count on the reel. Null when this source does not report it.",
+    )
+    shares: int | None = Field(
+        default=None,
+        description="Number of times the reel was shared. Null when this source does not report it.",
     )
     thumbnail: str = Field(
         description="URL of the reel thumbnail image. Populated whenever the provider has data for the entity."
     )
     url: str = Field(
         description="Canonical URL of the reel. Populated whenever the provider has data for the entity."
+    )
+    video_id: str = Field(
+        alias="videoId",
+        description="Facebook video id of the reel, the id that appears in its /reel/<id> URL.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video file URL of the reel. Null when this source cannot read it.",
     )
     views: int = Field(description="Number of views on the reel.")
 
@@ -2370,6 +2658,11 @@ class FacebookSearchPagesItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     about: str | None = Field(default=None, description="The page's intro text.")
+    ad_library_page_id: str | None = Field(
+        default=None,
+        alias="adLibraryPageId",
+        description="The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+    )
     ad_status: str | None = Field(
         default=None,
         alias="adStatus",
@@ -2400,7 +2693,7 @@ class FacebookSearchPagesItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+        description="URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.",
     )
     likes: int | None = Field(default=None, description="The page's like count.")
     owner: str | None = Field(
@@ -2507,7 +2800,7 @@ class FacebookSearchPostsItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.",
+        description="URL of the post's primary image, a signed CDN URL whose query must be kept. Empty for text-only or video posts.",
     )
     reaction_count: int | None = Field(
         default=None,
@@ -2523,7 +2816,7 @@ class FacebookSearchPostsItem(BaseModel):
         description="The post's text/message. Empty for media-only posts with no caption."
     )
     url: str = Field(
-        description="Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity."
+        description="Canonical URL of the post. A post with no page path keeps the query that identifies it (permalink.php?story_fbid=...&id=...). Populated whenever the provider has data for the entity."
     )
 
 

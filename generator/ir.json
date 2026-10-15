@@ -27289,6 +27289,81 @@
               },
               "mustPopulate": false
             },
+            "creatives": {
+              "kind": "array",
+              "description": "One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "body": {
+                    "kind": "string",
+                    "description": "Card body text.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "caption": {
+                    "kind": "string",
+                    "description": "Card display caption, usually the destination domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ctaText": {
+                    "kind": "string",
+                    "description": "Card call-to-action label (e.g. \"Shop Now\").",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ctaType": {
+                    "kind": "string",
+                    "description": "Card call-to-action type (e.g. \"SHOP_NOW\").",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Card image URL. For a video card this is the poster frame.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkDescription": {
+                    "kind": "string",
+                    "description": "Card secondary description line.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkUrl": {
+                    "kind": "string",
+                    "description": "Card destination URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Card headline.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
             "ctaText": {
               "kind": "string",
               "description": "Call-to-action label. Populated whenever the provider has data for the entity.",
@@ -28271,6 +28346,81 @@
                     },
                     "mustPopulate": false
                   },
+                  "creatives": {
+                    "kind": "array",
+                    "description": "One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "body": {
+                          "kind": "string",
+                          "description": "Card body text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "caption": {
+                          "kind": "string",
+                          "description": "Card display caption, usually the destination domain.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "ctaText": {
+                          "kind": "string",
+                          "description": "Card call-to-action label (e.g. \"Shop Now\").",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "ctaType": {
+                          "kind": "string",
+                          "description": "Card call-to-action type (e.g. \"SHOP_NOW\").",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "image": {
+                          "kind": "string",
+                          "description": "Card image URL. For a video card this is the poster frame.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkDescription": {
+                          "kind": "string",
+                          "description": "Card secondary description line.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkUrl": {
+                          "kind": "string",
+                          "description": "Card destination URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Card headline.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "videoUrl": {
+                          "kind": "string",
+                          "description": "Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
                   "ctaText": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -28949,6 +29099,81 @@
                       "enum": null,
                       "default": null,
                       "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "creatives": {
+                    "kind": "array",
+                    "description": "One entry per card of a carousel, dynamic-product, or dynamic-creative ad, in the order Meta returns them, each with its own text and destination. Single-creative ads return an empty array. The same card images and videos also appear in media. Meta CDN media URLs are signed and expire.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "body": {
+                          "kind": "string",
+                          "description": "Card body text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "caption": {
+                          "kind": "string",
+                          "description": "Card display caption, usually the destination domain.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "ctaText": {
+                          "kind": "string",
+                          "description": "Card call-to-action label (e.g. \"Shop Now\").",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "ctaType": {
+                          "kind": "string",
+                          "description": "Card call-to-action type (e.g. \"SHOP_NOW\").",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "image": {
+                          "kind": "string",
+                          "description": "Card image URL. For a video card this is the poster frame.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkDescription": {
+                          "kind": "string",
+                          "description": "Card secondary description line.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkUrl": {
+                          "kind": "string",
+                          "description": "Card destination URL.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Card headline.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "videoUrl": {
+                          "kind": "string",
+                          "description": "Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
                     },
                     "mustPopulate": false
                   },
@@ -30178,7 +30403,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the account's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -30376,6 +30601,13 @@
                     "default": null,
                     "format": null
                   },
+                  "image": {
+                    "kind": "string",
+                    "description": "URL of the post's first image. Absent when the post has no image.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "publishTime": {
                     "kind": "integer",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -30388,6 +30620,63 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "reactions": {
+                    "kind": "object",
+                    "description": "Reaction counts on the post, broken down by reaction type.",
+                    "properties": {
+                      "angry": {
+                        "kind": "integer",
+                        "description": "Angry reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "care": {
+                        "kind": "integer",
+                        "description": "Care reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "haha": {
+                        "kind": "integer",
+                        "description": "Haha reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "like": {
+                        "kind": "integer",
+                        "description": "Like reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "love": {
+                        "kind": "integer",
+                        "description": "Love reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "sad": {
+                        "kind": "integer",
+                        "description": "Sad reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "wow": {
+                        "kind": "integer",
+                        "description": "Wow reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
                   },
                   "text": {
                     "kind": "string",
@@ -30412,7 +30701,8 @@
                   "reactionCount",
                   "commentCount",
                   "authorName",
-                  "authorId"
+                  "authorId",
+                  "reactions"
                 ],
                 "open": true,
                 "mustPopulate": [
@@ -31096,6 +31386,56 @@
               "default": null,
               "format": null
             },
+            "seller": {
+              "kind": "object",
+              "description": "The person or business selling the item. Empty when Facebook does not show the seller on the listing.",
+              "properties": {
+                "id": {
+                  "kind": "string",
+                  "description": "Facebook id of the seller, as a string.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "image": {
+                  "kind": "string",
+                  "description": "URL of the seller's profile picture.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "joinedUtc": {
+                  "kind": "number",
+                  "description": "UTC epoch timestamp in seconds (Unix time) the seller joined Facebook. Multiply by 1000 for a JS Date in milliseconds.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "name": {
+                  "kind": "string",
+                  "description": "The seller's display name.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "rating": {
+                  "kind": "number",
+                  "description": "The seller's average rating as a seller, out of 5. Absent when the seller has no ratings or keeps them private.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "ratingCount": {
+                  "kind": "integer",
+                  "description": "Number of ratings the seller has received as a seller. Absent when the seller has no ratings or keeps them private.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
             "shareUrl": {
               "kind": "string",
               "description": "Canonical shareable Marketplace URL of the listing.",
@@ -31137,7 +31477,8 @@
             "currency",
             "categoryId",
             "isSold",
-            "isLive"
+            "isLive",
+            "seller"
           ],
           "open": true,
           "mustPopulate": [
@@ -31460,6 +31801,13 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "adLibraryPageId": {
+                    "kind": "string",
+                    "description": "The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "address": {
                     "kind": "string",
                     "description": "The page's public physical address. Empty when the page lists none.",
@@ -31490,10 +31838,21 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "links": {
+                    "kind": "array",
+                    "description": "Other social profiles the page links to, such as its Instagram account, as URLs. Empty when the page links none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "phone": {
                     "kind": "string",
@@ -32014,7 +32373,10 @@
               "kind": "string",
               "enum": [
                 "authorVerified",
+                "feedbackId",
+                "reactions",
                 "videoId",
+                "videoUrl",
                 "views"
               ],
               "default": null,
@@ -32097,6 +32459,14 @@
               "maximum": null,
               "default": null
             },
+            "feedbackId": {
+              "kind": "string",
+              "description": "Facebook feedback id of the post; pass it to facebook.post_comments as feedbackId to fetch its comments. Null when this source cannot read it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "id": {
               "kind": "string",
               "description": "Facebook post id. For a reel or video post this is NOT the id in the /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity.",
@@ -32116,6 +32486,64 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "reactions": {
+              "kind": "object",
+              "description": "Reaction counts on the post, broken down by reaction type. Null when this source reports only the total.",
+              "nullable": true,
+              "properties": {
+                "angry": {
+                  "kind": "integer",
+                  "description": "Angry reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "care": {
+                  "kind": "integer",
+                  "description": "Care reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "haha": {
+                  "kind": "integer",
+                  "description": "Haha reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "like": {
+                  "kind": "integer",
+                  "description": "Like reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "love": {
+                  "kind": "integer",
+                  "description": "Love reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "sad": {
+                  "kind": "integer",
+                  "description": "Sad reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "wow": {
+                  "kind": "integer",
+                  "description": "Wow reactions.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
             },
             "shares": {
               "kind": "integer",
@@ -32140,6 +32568,14 @@
             "videoId": {
               "kind": "string",
               "description": "Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "videoUrl": {
+              "kind": "string",
+              "description": "Playable video file URL of the post's reel or video. Null when the post carries no video or this source cannot read it.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -32488,6 +32924,13 @@
         "data": {
           "kind": "object",
           "properties": {
+            "durationSeconds": {
+              "kind": "number",
+              "description": "Length of the video in seconds, with fractional seconds. Absent when the post has no transcribable video.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "postId": {
               "kind": "string",
               "description": "Numeric Facebook id of the transcribed post, as a string.",
@@ -32602,6 +33045,20 @@
           "properties": {
             "about": {
               "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "adLibraryPageId": {
+              "kind": "string",
+              "description": "The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "adStatus": {
+              "kind": "string",
+              "description": "Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads. Absent when Facebook shows none.",
               "enum": null,
               "default": null,
               "format": null
@@ -33001,6 +33458,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "shares"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -33141,6 +33611,71 @@
                     },
                     "mustPopulate": false
                   },
+                  "reactions": {
+                    "kind": "object",
+                    "description": "Reaction counts on the post, broken down by reaction type.",
+                    "properties": {
+                      "angry": {
+                        "kind": "integer",
+                        "description": "Angry reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "care": {
+                        "kind": "integer",
+                        "description": "Care reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "haha": {
+                        "kind": "integer",
+                        "description": "Haha reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "like": {
+                        "kind": "integer",
+                        "description": "Like reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "love": {
+                        "kind": "integer",
+                        "description": "Love reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "sad": {
+                        "kind": "integer",
+                        "description": "Sad reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "wow": {
+                        "kind": "integer",
+                        "description": "Wow reactions.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "shares": {
+                    "kind": "integer",
+                    "description": "Number of times the post was shared. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "text": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -33161,7 +33696,8 @@
                   "text",
                   "url",
                   "author",
-                  "createdUtc"
+                  "createdUtc",
+                  "reactions"
                 ],
                 "open": true,
                 "mustPopulate": [
@@ -33257,7 +33793,11 @@
               "kind": "string",
               "enum": [
                 "authorVerified",
-                "feedbackId"
+                "comments",
+                "feedbackId",
+                "likes",
+                "shares",
+                "videoUrl"
               ],
               "default": null,
               "format": null
@@ -33340,6 +33880,14 @@
                     "default": null,
                     "format": null
                   },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count on the reel. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "createdUtc": {
                     "kind": "number",
                     "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -33363,10 +33911,26 @@
                   },
                   "id": {
                     "kind": "string",
-                    "description": "Reel identifier. Populated whenever the provider has data for the entity.",
+                    "description": "Facebook post id of the reel, the same id facebook.post returns for it. This is NOT the id in the reel's /reel/ URL; that one is videoId. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Total reaction count on the reel. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shares": {
+                    "kind": "integer",
+                    "description": "Number of times the reel was shared. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "thumbnail": {
                     "kind": "string",
@@ -33378,6 +33942,21 @@
                   "url": {
                     "kind": "string",
                     "description": "Canonical URL of the reel. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoId": {
+                    "kind": "string",
+                    "description": "Facebook video id of the reel, the id that appears in its /reel/<id> URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Playable video file URL of the reel. Null when this source cannot read it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -33396,7 +33975,8 @@
                   "caption",
                   "views",
                   "thumbnail",
-                  "createdUtc"
+                  "createdUtc",
+                  "videoId"
                 ],
                 "open": true,
                 "mustPopulate": [
@@ -33747,6 +34327,13 @@
                     "default": null,
                     "format": null
                   },
+                  "adLibraryPageId": {
+                    "kind": "string",
+                    "description": "The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "adStatus": {
                     "kind": "string",
                     "description": "Facebook Ad Library status sentence for the page, e.g. whether it is currently running ads.",
@@ -33802,7 +34389,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the page's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34102,7 +34689,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the post's primary image, with tracking query params stripped. Empty for text-only or video posts.",
+                    "description": "URL of the post's primary image, a signed CDN URL whose query must be kept. Empty for text-only or video posts.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -34130,7 +34717,7 @@
                   },
                   "url": {
                     "kind": "string",
-                    "description": "Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity.",
+                    "description": "Canonical URL of the post. A post with no page path keeps the query that identifies it (permalink.php?story_fbid=...&id=...). Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -60662,7 +61249,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -122303,7 +122890,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
