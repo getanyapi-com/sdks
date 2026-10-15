@@ -20,8 +20,8 @@ Releasing:
 Publishing is tag-triggered, not branch-triggered. Bump all three version surfaces together
 with `pnpm --filter @anyapi/generator version:apply <version>`, land the change on `main`,
 then push a matching `v<version>` tag. `.github/workflows/release.yml` re-runs the full gate
-and refuses to publish unless the tag matches the manifests, then publishes to npm with
-provenance and to PyPI via trusted publishing. `regen.yml` uses the same path automatically
+and refuses to publish unless the tag matches the manifests, then publishes to npm and PyPI via
+trusted publishing (OIDC, no token; npm adds provenance). `regen.yml` uses the same path automatically
 for catalog refreshes.
 
 The rule is about the COMMIT, not about who is doing the work: never tag a commit that is not

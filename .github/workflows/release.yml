@@ -9,8 +9,9 @@ name: release
 #
 # Flow: verify -> query both registries -> publish only missing sides -> wait until both
 # serve the exact version -> smoke both exact versions -> GitHub Release -> report the result
-# on the regen incident. npm publishes with provenance (id-token). PyPI uses trusted
-# publishing (OIDC, environment `pypi`) and never falls back to a token.
+# on the regen incident. npm and PyPI both use trusted publishing (OIDC, no token): npm's
+# publisher is release.yml with no environment and adds provenance; PyPI's runs in
+# environment `pypi`. Neither falls back to a token.
 
 on:
   push:
@@ -123,24 +124,28 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # npm provenance
+      id-token: write # npm trusted publishing (OIDC) and provenance
     steps:
       - uses: actions/checkout@v4
         with:
           ref: v${{ needs.verify.outputs.version }}
       - uses: pnpm/action-setup@v4
+      # npm trusted publishing needs Node >= 22.14.0 and npm CLI >= 11.5.1.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
           registry-url: "https://registry.npmjs.org"
+      - name: upgrade npm CLI for trusted publishing
+        run: npm install -g npm@latest
       - run: pnpm install --frozen-lockfile
       - name: build (tsup -> ESM + CJS + d.ts)
         run: pnpm --filter @getanyapi/sdk run build
-      - name: publish
+      - name: publish via trusted publishing
+        # Authorized by the npm trusted publisher (getanyapi-com/sdks, release.yml) in the
+        # package's settings on npmjs.com; there is no token to fall back to.
         working-directory: packages/typescript
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: "true"
         run: npm publish --access public --provenance
 
