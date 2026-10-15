@@ -211,8 +211,12 @@ repairing either missing registry side and smoking both exact versions. Follow t
 cross-repository release order in the main
 repository's `ECOSYSTEM.md`; do not infer it from generator automation.
 
-The npm publish works immediately (the `NPM_TOKEN` secret is set on the repo). The PyPI
-publish requires the trusted publisher to exist first (see next).
+Both registries publish through trusted publishing (OIDC), with no token. The npm trusted
+publisher lives in `@getanyapi/sdk`'s Settings on npmjs.com: GitHub Actions, organization
+`getanyapi-com`, repository `sdks`, workflow `release.yml`, no environment, npm publish
+allowed. An npm publish that fails with `ENEEDAUTH`, or a `404` on the `PUT`, means that
+publisher no longer matches the workflow. The PyPI publish requires its trusted publisher too
+(see next).
 
 ### One-time PyPI trusted-publishing setup
 
