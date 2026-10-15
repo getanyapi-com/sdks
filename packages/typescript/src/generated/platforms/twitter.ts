@@ -2173,7 +2173,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0007 per request.
    *
    * @example
    * const res = await client.twitter.searchUsers({ query: "ai agents" });
