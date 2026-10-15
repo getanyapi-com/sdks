@@ -292,7 +292,7 @@ class RedfinNamespace:
         baths, square feet, address, listing agent, description and photos) as
         normalized JSON.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.redfin.property(url="https://www.redfin.com/TX/Austin/1819-Village-Oak-Ct-78704/home/30981993")
@@ -342,7 +342,7 @@ class AsyncRedfinNamespace:
         baths, square feet, address, listing agent, description and photos) as
         normalized JSON.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.redfin.property(url="https://www.redfin.com/TX/Austin/1819-Village-Oak-Ct-78704/home/30981993")

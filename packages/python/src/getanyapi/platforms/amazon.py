@@ -467,7 +467,7 @@ class AmazonNamespace:
         List the top-ranked products of any Amazon Best Sellers category (rank,
         title, price, and rating) in one normalized request.
 
-        Price: $0.00075 per request.
+        Price: $0.00105 per request.
 
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
@@ -488,7 +488,7 @@ class AmazonNamespace:
         Fetch full Amazon product details (title, brand, price when in stock,
         images, ratings, review count, variants, and attributes) from a product URL.
 
-        Price: $0.001 per request.
+        Price: $0.0013 per request.
 
         Example:
             res = client.amazon.product(url="https://www.amazon.com/dp/B00NTCH52W")
@@ -509,7 +509,7 @@ class AmazonNamespace:
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL:
         rating, title, text, date, and verified-purchase badge.
 
-        Price: $0.001 per request.
+        Price: $0.0013 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
@@ -579,7 +579,7 @@ class AsyncAmazonNamespace:
         List the top-ranked products of any Amazon Best Sellers category (rank,
         title, price, and rating) in one normalized request.
 
-        Price: $0.00075 per request.
+        Price: $0.00105 per request.
 
         Example:
             res = client.amazon.bestsellers(limit=3, url="https://www.amazon.com/gp/bestsellers/electronics")
@@ -600,7 +600,7 @@ class AsyncAmazonNamespace:
         Fetch full Amazon product details (title, brand, price when in stock,
         images, ratings, review count, variants, and attributes) from a product URL.
 
-        Price: $0.001 per request.
+        Price: $0.0013 per request.
 
         Example:
             res = client.amazon.product(url="https://www.amazon.com/dp/B00NTCH52W")
@@ -621,7 +621,7 @@ class AsyncAmazonNamespace:
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL:
         rating, title, text, date, and verified-purchase badge.
 
-        Price: $0.001 per request.
+        Price: $0.0013 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")

@@ -1321,7 +1321,7 @@ export class RedditNamespace {
    *
    * Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.reddit.post({ url: "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/" });
@@ -1549,7 +1549,7 @@ export class RedditNamespace {
    *
    * Get currently trending Reddit posts across all subreddits with stable cursor pagination.
    *
-   * Price: $0.0002 per request.
+   * Price: $0.0003 per request.
    *
    * @example
    * const res = await client.reddit.trendingPosts({ limit: 25 });

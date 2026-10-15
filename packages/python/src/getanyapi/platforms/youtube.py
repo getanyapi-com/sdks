@@ -1585,7 +1585,7 @@ class YoutubeNamespace:
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time).
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -2225,7 +2225,7 @@ class AsyncYoutubeNamespace:
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time).
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")

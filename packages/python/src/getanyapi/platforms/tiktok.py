@@ -2626,7 +2626,7 @@ class TiktokNamespace:
         Search TikTok's public Ads Library by keyword or advertiser (advertiser,
         title, audience band, run dates, library link, and video).
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_library_search(query="spotify")
@@ -2669,7 +2669,7 @@ class TiktokNamespace:
 
         Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_transparency_search(days=30, limit=20, query="nike", region="DE")
@@ -2866,7 +2866,7 @@ class TiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -3737,7 +3737,7 @@ class AsyncTiktokNamespace:
         Search TikTok's public Ads Library by keyword or advertiser (advertiser,
         title, audience band, run dates, library link, and video).
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_library_search(query="spotify")
@@ -3780,7 +3780,7 @@ class AsyncTiktokNamespace:
 
         Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_transparency_search(days=30, limit=20, query="nike", region="DE")
@@ -3977,7 +3977,7 @@ class AsyncTiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)

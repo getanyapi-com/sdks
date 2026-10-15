@@ -721,7 +721,7 @@ class GoogleNamespace:
         Mode composes the answer at search time, so repeat calls on one prompt can
         differ in wording and in which sources are cited.
 
-        Price: $0.0007 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.google.ai_mode(prompt="What is AnyAPI at getanyapi.com, and what does it offer?")
@@ -986,7 +986,7 @@ class GoogleNamespace:
         when omitted); both are echoed in the response. Interest over time only, not
         related queries or regions.
 
-        Price: $0.0007 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
@@ -1036,7 +1036,7 @@ class AsyncGoogleNamespace:
         Mode composes the answer at search time, so repeat calls on one prompt can
         differ in wording and in which sources are cited.
 
-        Price: $0.0007 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.google.ai_mode(prompt="What is AnyAPI at getanyapi.com, and what does it offer?")
@@ -1301,7 +1301,7 @@ class AsyncGoogleNamespace:
         when omitted); both are echoed in the response. Interest over time only, not
         related queries or regions.
 
-        Price: $0.0007 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")

@@ -3369,7 +3369,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.adLibrarySearch({ query: "spotify" });
@@ -3409,7 +3409,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's EU Commercial Content Library by keyword or advertiser ID.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.adTransparencySearch({ days: 30, limit: 20, query: "nike", region: "DE" });
@@ -3586,7 +3586,7 @@ export class TiktokNamespace {
    *
    * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).
    *
-   * Price: $0.0008 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.hashtagVideos({ hashtag: "cooking", limit: 3 });

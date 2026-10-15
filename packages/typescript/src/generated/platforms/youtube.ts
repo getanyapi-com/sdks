@@ -1976,7 +1976,7 @@ export class YoutubeNamespace {
    *
    * List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.youtube.channelVideos({ handle: "@mkbhd" });

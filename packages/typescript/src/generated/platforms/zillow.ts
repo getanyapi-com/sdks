@@ -518,7 +518,7 @@ export class ZillowNamespace {
    *
    * Fetch one Zillow real estate agent's profile by URL: name, phone, email, brokerage, rating, review count, sales, and service areas.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.zillow.agent({ url: "https://www.zillow.com/profile/gregorycarlsonATX/" });
@@ -535,7 +535,7 @@ export class ZillowNamespace {
    *
    * Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.zillow.property({ url: "https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/" });
@@ -552,7 +552,7 @@ export class ZillowNamespace {
    *
    * Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.zillow.search({ location: "Austin, TX", limit: 3, maxPrice: 900000, minBedrooms: 3, operation: "buy" });

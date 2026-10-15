@@ -420,7 +420,7 @@ class ZillowNamespace:
         Fetch one Zillow real estate agent's profile by URL: name, phone, email,
         brokerage, rating, review count, sales, and service areas.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.zillow.agent(url="https://www.zillow.com/profile/gregorycarlsonATX/")
@@ -441,7 +441,7 @@ class ZillowNamespace:
         Fetch full details for a single Zillow property listing by URL (price, facts
         and features, photos, and price/tax history).
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.zillow.property(url="https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/")
@@ -465,7 +465,7 @@ class ZillowNamespace:
         properties (price, address, beds, baths, living area, status, Zestimate) as
         normalized JSON.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")
@@ -493,7 +493,7 @@ class AsyncZillowNamespace:
         Fetch one Zillow real estate agent's profile by URL: name, phone, email,
         brokerage, rating, review count, sales, and service areas.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.zillow.agent(url="https://www.zillow.com/profile/gregorycarlsonATX/")
@@ -514,7 +514,7 @@ class AsyncZillowNamespace:
         Fetch full details for a single Zillow property listing by URL (price, facts
         and features, photos, and price/tax history).
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.zillow.property(url="https://www.zillow.com/homedetails/4510-Secure-Ln-Austin-TX-78725/83126034_zpid/")
@@ -538,7 +538,7 @@ class AsyncZillowNamespace:
         properties (price, address, beds, baths, living area, status, Zestimate) as
         normalized JSON.
 
-        Price: $0.0005 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.zillow.search(limit=3, location="Austin, TX", maxPrice=900000, minBedrooms=3, operation="buy")

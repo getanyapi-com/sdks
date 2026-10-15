@@ -2060,7 +2060,7 @@
       "category": "shop",
       "description": "List the top-ranked products of any Amazon Best Sellers category (rank, title, price, and rating) in one normalized request.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00105,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -2279,7 +2279,7 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -2544,7 +2544,7 @@
       "category": "shop",
       "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -8655,8 +8655,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-13",
-        "checkOut": "2026-11-15",
+        "checkIn": "2026-11-14",
+        "checkOut": "2026-11-16",
         "limit": 3,
         "query": "New York"
       },
@@ -22362,7 +22362,7 @@
       "category": "shop",
       "description": "Fetch one eBay listing by URL and get the full offer record: price, condition, shipping, item location, seller feedback, quantity, watchers, and live auction state (bid count and end time).",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -23048,7 +23048,7 @@
       "category": "shop",
       "description": "Search eBay active listings by keyword with optional price-range, item-condition, listing-type, and sort filters and get title, price, condition, shipping, and seller in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -32945,7 +32945,7 @@
       "category": "social",
       "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).",
       "pricing": {
-        "priceUsd": 0.0011,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -37513,7 +37513,7 @@
       "category": "search",
       "description": "Ask Google AI Mode a prompt and receive the cited answer it generates. AI Mode composes the answer at search time, so repeat calls on one prompt can differ in wording and in which sources are cited.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39528,7 +39528,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -41083,8 +41083,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-13",
-        "checkOut": "2026-11-15",
+        "checkIn": "2026-11-14",
+        "checkOut": "2026-11-16",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -41682,8 +41682,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-13",
-        "checkOut": "2026-11-15",
+        "checkIn": "2026-11-14",
+        "checkOut": "2026-11-16",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -56932,7 +56932,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00066,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57215,7 +57215,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60662,7 +60662,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -84225,7 +84225,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -86146,7 +86146,7 @@
       "category": "reddit",
       "description": "Get currently trending Reddit posts across all subreddits with stable cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0002,
+        "priceUsd": 0.0003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -86917,7 +86917,7 @@
       "category": "data",
       "description": "Fetch full details for a single Redfin home by its listing URL (price, beds, baths, square feet, address, listing agent, description and photos) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -102939,7 +102939,7 @@
       "category": "social",
       "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -103178,7 +103178,7 @@
       "category": "social",
       "description": "Search TikTok's EU Commercial Content Library by keyword or advertiser ID.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -104246,7 +104246,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -123570,7 +123570,7 @@
       "category": "video",
       "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -127562,7 +127562,7 @@
       "category": "data",
       "description": "Fetch one Zillow real estate agent's profile by URL: name, phone, email, brokerage, rating, review count, sales, and service areas.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -127767,7 +127767,7 @@
       "category": "data",
       "description": "Fetch full details for a single Zillow property listing by URL (price, facts and features, photos, and price/tax history).",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -128079,7 +128079,7 @@
       "category": "data",
       "description": "Search Zillow for-sale, rental, or sold listings by region-level location (city, ZIP, county, or neighborhood) with optional price, bedroom, living-area, home-type, recency, and sort filters and get matching properties (price, address, beds, baths, living area, status, Zestimate) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

@@ -576,8 +576,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00075,
-          "maxPer1kUsd": 0.75
+          "maxUsd": 0.00105,
+          "maxPer1kUsd": 1.05
         },
         "failoverMaxUsd": 0.0902,
         "failoverMaxPer1kUsd": 90.2
@@ -587,8 +587,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00075,
-            "maxPer1kUsd": 0.75
+            "maxUsd": 0.00105,
+            "maxPer1kUsd": 1.05
           },
           "source": {
             "id": "anonymous-badger",
@@ -678,8 +678,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0013,
+          "maxPer1kUsd": 1.3
         },
         "failoverMaxUsd": 0.0101,
         "failoverMaxPer1kUsd": 10.1
@@ -689,8 +689,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0013,
+            "maxPer1kUsd": 1.3
           },
           "source": {
             "id": "anonymous-badger",
@@ -833,8 +833,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0013,
+          "maxPer1kUsd": 1.3
         },
         "failoverMaxUsd": 0.226,
         "failoverMaxPer1kUsd": 226
@@ -844,8 +844,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
+            "maxUsd": 0.0013,
+            "maxPer1kUsd": 1.3
           },
           "source": {
             "id": "anonymous-badger",
@@ -967,8 +967,8 @@
           "maxUsd": 0.0013,
           "maxPer1kUsd": 1.3
         },
-        "failoverMaxUsd": 0.0015,
-        "failoverMaxPer1kUsd": 1.5
+        "failoverMaxUsd": 0.0021,
+        "failoverMaxPer1kUsd": 2.1
       },
       "lanes": [
         {
@@ -1012,8 +1012,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
+            "maxUsd": 0.0021,
+            "maxPer1kUsd": 2.1
           },
           "source": {
             "id": "anonymous-badger",
@@ -1243,11 +1243,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1243,
-            "uptimeSample": 656,
-            "latencySample": 656,
-            "requests": 657,
-            "servedRequests": 656
+            "latencyP50Ms": 1245,
+            "uptimeSample": 658,
+            "latencySample": 658,
+            "requests": 659,
+            "servedRequests": 658
           },
           "fields": [
             "alexaRanking",
@@ -1599,11 +1599,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1520,
-            "uptimeSample": 324,
-            "latencySample": 324,
-            "requests": 324,
-            "servedRequests": 324
+            "latencyP50Ms": 1525,
+            "uptimeSample": 327,
+            "latencySample": 327,
+            "requests": 327,
+            "servedRequests": 327
           },
           "fields": [
             "alexaRanking",
@@ -4568,19 +4568,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00075,
-          "maxPer1kUsd": 0.75
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.00075,
-        "failoverMaxPer1kUsd": 0.75
+        "failoverMaxUsd": 0.0012,
+        "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00075,
-            "maxPer1kUsd": 0.75
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -4733,8 +4733,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00075,
-          "maxPer1kUsd": 0.75
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.0655,
         "failoverMaxPer1kUsd": 65.5
@@ -4744,8 +4744,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00075,
-            "maxPer1kUsd": 0.75
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -4755,12 +4755,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.62886764290613,
+            "uptimePct": 99.62889758380058,
             "latencyP50Ms": 3750,
-            "uptimeSample": 24789,
-            "latencySample": 24697,
-            "requests": 24800,
-            "servedRequests": 24697
+            "uptimeSample": 24791,
+            "latencySample": 24699,
+            "requests": 24802,
+            "servedRequests": 24699
           },
           "fields": [
             "bidCount",
@@ -6415,12 +6415,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.79367262723521,
-            "latencyP50Ms": 1574,
-            "uptimeSample": 8724,
-            "latencySample": 8706,
-            "requests": 8724,
-            "servedRequests": 8706
+            "uptimePct": 99.79750253121836,
+            "latencyP50Ms": 1567,
+            "uptimeSample": 8889,
+            "latencySample": 8871,
+            "requests": 8889,
+            "servedRequests": 8871
           },
           "fields": [
             "active",
@@ -6719,12 +6719,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.9661456863962,
+            "uptimePct": 99.96614759647935,
             "latencyP50Ms": 1250,
-            "uptimeSample": 17723,
-            "latencySample": 17717,
-            "requests": 17736,
-            "servedRequests": 17717
+            "uptimeSample": 17724,
+            "latencySample": 17718,
+            "requests": 17737,
+            "servedRequests": 17718
           },
           "fields": [
             "active",
@@ -6772,12 +6772,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.61281545110174,
+            "uptimePct": 98.6130374479889,
             "latencyP50Ms": 2232,
-            "uptimeSample": 18743,
-            "latencySample": 18483,
-            "requests": 18760,
-            "servedRequests": 18483
+            "uptimeSample": 18746,
+            "latencySample": 18486,
+            "requests": 18763,
+            "servedRequests": 18486
           },
           "fields": [
             "active",
@@ -7210,12 +7210,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.88213927855712,
-            "latencyP50Ms": 2520,
-            "uptimeSample": 31936,
-            "latencySample": 31579,
-            "requests": 31936,
-            "servedRequests": 31579
+            "uptimePct": 98.88436558003667,
+            "latencyP50Ms": 2522,
+            "uptimeSample": 32179,
+            "latencySample": 31820,
+            "requests": 32179,
+            "servedRequests": 31820
           },
           "fields": [
             "authorId",
@@ -7634,12 +7634,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.97520138998578,
+            "uptimePct": 96.97663403852226,
             "latencyP50Ms": 2830,
-            "uptimeSample": 25324,
-            "latencySample": 24558,
-            "requests": 25765,
-            "servedRequests": 24558
+            "uptimeSample": 25336,
+            "latencySample": 24570,
+            "requests": 25777,
+            "servedRequests": 24570
           },
           "fields": [
             "about",
@@ -7927,12 +7927,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.5494071146245,
-            "latencyP50Ms": 2112,
-            "uptimeSample": 12650,
-            "latencySample": 12593,
-            "requests": 12650,
-            "servedRequests": 12593
+            "uptimePct": 99.55040227165168,
+            "latencyP50Ms": 2113,
+            "uptimeSample": 12678,
+            "latencySample": 12621,
+            "requests": 12678,
+            "servedRequests": 12621
           },
           "fields": [
             "authorId",
@@ -8074,10 +8074,10 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 3047,
-            "uptimeSample": 1885,
-            "latencySample": 1885,
-            "requests": 1885,
-            "servedRequests": 1885
+            "uptimeSample": 1887,
+            "latencySample": 1887,
+            "requests": 1887,
+            "servedRequests": 1887
           },
           "fields": [
             "author",
@@ -8372,12 +8372,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.25118071091225,
+            "uptimePct": 99.25192450956047,
             "latencyP50Ms": 1458,
-            "uptimeSample": 32184,
-            "latencySample": 31943,
-            "requests": 32216,
-            "servedRequests": 31943
+            "uptimeSample": 32216,
+            "latencySample": 31975,
+            "requests": 32248,
+            "servedRequests": 31975
           },
           "fields": [
             "city",
@@ -8458,8 +8458,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0011,
-          "maxPer1kUsd": 1.1
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.0067,
         "failoverMaxPer1kUsd": 6.7
@@ -8469,23 +8469,23 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0011,
-            "maxPer1kUsd": 1.1
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
+            "id": "anonymous-giraffe",
+            "name": "Giraffe",
             "kind": "anonymous",
-            "artworkKey": "badger"
+            "artworkKey": "giraffe"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 87.50276277983014,
-            "latencyP50Ms": 4949,
-            "uptimeSample": 31671,
-            "latencySample": 27713,
-            "requests": 31671,
-            "servedRequests": 27713
+            "uptimePct": 98.95520224230417,
+            "latencyP50Ms": 2868,
+            "uptimeSample": 103465,
+            "latencySample": 102384,
+            "requests": 103526,
+            "servedRequests": 102384
           },
           "fields": [
             "author",
@@ -8506,23 +8506,23 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
+            "maxUsd": 0.0022,
+            "maxPer1kUsd": 2.2
           },
           "source": {
-            "id": "anonymous-giraffe",
-            "name": "Giraffe",
+            "id": "anonymous-badger",
+            "name": "Badger",
             "kind": "anonymous",
-            "artworkKey": "giraffe"
+            "artworkKey": "badger"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.9551517494684,
-            "latencyP50Ms": 2869,
-            "uptimeSample": 103460,
-            "latencySample": 102379,
-            "requests": 103521,
-            "servedRequests": 102379
+            "uptimePct": 87.5130007248889,
+            "latencyP50Ms": 4950,
+            "uptimeSample": 31729,
+            "latencySample": 27767,
+            "requests": 31729,
+            "servedRequests": 27767
           },
           "fields": [
             "author",
@@ -8656,12 +8656,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.92514970059881,
-            "latencyP50Ms": 2144,
-            "uptimeSample": 13360,
-            "latencySample": 13350,
-            "requests": 13360,
-            "servedRequests": 13350
+            "uptimePct": 99.9253508510003,
+            "latencyP50Ms": 2145,
+            "uptimeSample": 13396,
+            "latencySample": 13386,
+            "requests": 13396,
+            "servedRequests": 13386
           },
           "fields": [
             "authorId",
@@ -8792,10 +8792,10 @@
             "window": "30d",
             "uptimePct": 100,
             "latencyP50Ms": 816,
-            "uptimeSample": 10413,
-            "latencySample": 10413,
-            "requests": 10413,
-            "servedRequests": 10413
+            "uptimeSample": 10415,
+            "latencySample": 10415,
+            "requests": 10415,
+            "servedRequests": 10415
           },
           "fields": [
             "category",
@@ -10089,19 +10089,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0007,
-          "maxPer1kUsd": 0.7
+          "maxUsd": 0.002,
+          "maxPer1kUsd": 2
         },
-        "failoverMaxUsd": 0.0007,
-        "failoverMaxPer1kUsd": 0.7
+        "failoverMaxUsd": 0.002,
+        "failoverMaxPer1kUsd": 2
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0007,
-            "maxPer1kUsd": 0.7
+            "maxUsd": 0.002,
+            "maxPer1kUsd": 2
           },
           "source": {
             "id": "anonymous-badger",
@@ -10205,12 +10205,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 71.51826484018265,
+            "uptimePct": 71.54240182128629,
             "latencyP50Ms": 8252,
-            "uptimeSample": 1752,
-            "latencySample": 1253,
-            "requests": 1752,
-            "servedRequests": 1253
+            "uptimeSample": 1757,
+            "latencySample": 1257,
+            "requests": 1757,
+            "servedRequests": 1257
           },
           "fields": [
             "answer",
@@ -10396,12 +10396,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.99642818873451,
+            "uptimePct": 99.9964292090698,
             "latencyP50Ms": 355,
-            "uptimeSample": 27997,
-            "latencySample": 27996,
-            "requests": 28001,
-            "servedRequests": 27996
+            "uptimeSample": 28005,
+            "latencySample": 28004,
+            "requests": 28009,
+            "servedRequests": 28004
           },
           "fields": [
             "query",
@@ -10578,12 +10578,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.95079681819425,
+            "uptimePct": 99.95080219750184,
             "latencyP50Ms": 628,
-            "uptimeSample": 36583,
-            "latencySample": 36565,
-            "requests": 36583,
-            "servedRequests": 36565
+            "uptimeSample": 36587,
+            "latencySample": 36569,
+            "requests": 36587,
+            "servedRequests": 36569
           },
           "fields": [
             "createdUtc",
@@ -10750,8 +10750,8 @@
           "maxUsd": 0.0005,
           "maxPer1kUsd": 0.5
         },
-        "failoverMaxUsd": 0.0009,
-        "failoverMaxPer1kUsd": 0.9
+        "failoverMaxUsd": 0.002,
+        "failoverMaxPer1kUsd": 2
       },
       "lanes": [
         {
@@ -10769,44 +10769,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.44221796032204,
+            "uptimePct": 97.44238310674729,
             "latencyP50Ms": 6629,
-            "uptimeSample": 882757,
-            "latencySample": 860178,
-            "requests": 897500,
-            "servedRequests": 860178
-          },
-          "fields": [
-            "link",
-            "nextCursor",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0007,
-            "maxPer1kUsd": 0.7
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 87.88260335162035,
-            "latencyP50Ms": 3213,
-            "uptimeSample": 33357,
-            "latencySample": 29315,
-            "requests": 33357,
-            "servedRequests": 29315
+            "uptimeSample": 882814,
+            "latencySample": 860235,
+            "requests": 897557,
+            "servedRequests": 860235
           },
           "fields": [
             "link",
@@ -10839,6 +10807,38 @@
             "latencySample": 63323,
             "requests": 63327,
             "servedRequests": 63323
+          },
+          "fields": [
+            "link",
+            "nextCursor",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.002,
+            "maxPer1kUsd": 2
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 87.88260335162035,
+            "latencyP50Ms": 3213,
+            "uptimeSample": 33357,
+            "latencySample": 29315,
+            "requests": 33357,
+            "servedRequests": 29315
           },
           "fields": [
             "link",
@@ -10965,8 +10965,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0007,
-          "maxPer1kUsd": 0.7
+          "maxUsd": 0.002,
+          "maxPer1kUsd": 2
         },
         "failoverMaxUsd": 0.018,
         "failoverMaxPer1kUsd": 18
@@ -10976,8 +10976,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0007,
-            "maxPer1kUsd": 0.7
+            "maxUsd": 0.002,
+            "maxPer1kUsd": 2
           },
           "source": {
             "id": "anonymous-badger",
@@ -11261,12 +11261,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.8,
-            "latencyP50Ms": 1047,
-            "uptimeSample": 1000,
-            "latencySample": 998,
-            "requests": 1003,
-            "servedRequests": 998
+            "uptimePct": 99.8003992015968,
+            "latencyP50Ms": 1046,
+            "uptimeSample": 1002,
+            "latencySample": 1000,
+            "requests": 1005,
+            "servedRequests": 1000
           },
           "fields": [
             "adUrl",
@@ -13027,12 +13027,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.69245169485859,
+            "uptimePct": 99.69250309168088,
             "latencyP50Ms": 3464,
-            "uptimeSample": 29914,
-            "latencySample": 29822,
-            "requests": 29914,
-            "servedRequests": 29822
+            "uptimeSample": 29919,
+            "latencySample": 29827,
+            "requests": 29919,
+            "servedRequests": 29827
           },
           "fields": [
             "avatarUrl",
@@ -13077,12 +13077,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.91608253529469,
+            "uptimePct": 99.91608667752604,
             "latencyP50Ms": 2982,
-            "uptimeSample": 20258,
-            "latencySample": 20241,
-            "requests": 20258,
-            "servedRequests": 20241
+            "uptimeSample": 20259,
+            "latencySample": 20242,
+            "requests": 20259,
+            "servedRequests": 20242
           },
           "fields": [
             "avatarUrl",
@@ -13639,12 +13639,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 88.54855109303507,
+            "uptimePct": 88.55000635404753,
             "latencyP50Ms": 2690,
-            "uptimeSample": 7868,
-            "latencySample": 6967,
-            "requests": 8031,
-            "servedRequests": 6967
+            "uptimeSample": 7869,
+            "latencySample": 6968,
+            "requests": 8032,
+            "servedRequests": 6968
           },
           "fields": [
             "displayUrl",
@@ -13729,12 +13729,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.4442668797443,
+            "uptimePct": 96.44710578842316,
             "latencyP50Ms": 2513,
-            "uptimeSample": 7509,
-            "latencySample": 7242,
-            "requests": 7569,
-            "servedRequests": 7242
+            "uptimeSample": 7515,
+            "latencySample": 7248,
+            "requests": 7575,
+            "servedRequests": 7248
           },
           "fields": [
             "avatarUrl",
@@ -13781,12 +13781,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.89498004620879,
+            "uptimePct": 99.89511222991399,
             "latencyP50Ms": 2706,
-            "uptimeSample": 4761,
-            "latencySample": 4756,
-            "requests": 4763,
-            "servedRequests": 4756
+            "uptimeSample": 4767,
+            "latencySample": 4762,
+            "requests": 4769,
+            "servedRequests": 4762
           },
           "fields": [
             "avatarUrl",
@@ -13929,40 +13929,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 63.88059701492537,
-            "latencyP50Ms": 3268,
-            "uptimeSample": 3685,
-            "latencySample": 2354,
-            "requests": 3685,
-            "servedRequests": 2354
-          },
-          "fields": [
-            "author",
-            "avatarUrl",
-            "comments",
-            "createdUtc",
-            "id",
-            "likes",
-            "nextCursor",
-            "text",
-            "verified"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0011,
             "maxPer1kUsd": 1.1
           },
@@ -13980,6 +13946,40 @@
             "latencySample": 386,
             "requests": 456,
             "servedRequests": 386
+          },
+          "fields": [
+            "author",
+            "avatarUrl",
+            "comments",
+            "createdUtc",
+            "id",
+            "likes",
+            "nextCursor",
+            "text",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 63.88059701492537,
+            "latencyP50Ms": 3268,
+            "uptimeSample": 3685,
+            "latencySample": 2354,
+            "requests": 3685,
+            "servedRequests": 2354
           },
           "fields": [
             "author",
@@ -14200,12 +14200,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.90644166464534,
+            "uptimePct": 99.90645009285694,
             "latencyP50Ms": 642,
-            "uptimeSample": 144295,
-            "latencySample": 144160,
-            "requests": 144295,
-            "servedRequests": 144160
+            "uptimeSample": 144308,
+            "latencySample": 144173,
+            "requests": 144308,
+            "servedRequests": 144173
           },
           "fields": [
             "avatarUrl",
@@ -14435,12 +14435,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.82899542055533,
-            "latencyP50Ms": 1287,
-            "uptimeSample": 34502,
-            "latencySample": 34443,
-            "requests": 34507,
-            "servedRequests": 34443
+            "uptimePct": 99.82930216410138,
+            "latencyP50Ms": 1286,
+            "uptimeSample": 34564,
+            "latencySample": 34505,
+            "requests": 34569,
+            "servedRequests": 34505
           },
           "fields": [
             "bio",
@@ -14700,12 +14700,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.27257071286922,
+            "uptimePct": 96.2735430688162,
             "latencyP50Ms": 4992,
-            "uptimeSample": 76648,
-            "latencySample": 73791,
-            "requests": 76648,
-            "servedRequests": 73791
+            "uptimeSample": 76668,
+            "latencySample": 73811,
+            "requests": 76668,
+            "servedRequests": 73811
           },
           "fields": [
             "avatarUrl",
@@ -14746,12 +14746,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 93.84357166834508,
-            "latencyP50Ms": 5976,
-            "uptimeSample": 14895,
-            "latencySample": 13978,
-            "requests": 14895,
-            "servedRequests": 13978
+            "uptimePct": 93.84439820098007,
+            "latencyP50Ms": 5978,
+            "uptimeSample": 14897,
+            "latencySample": 13980,
+            "requests": 14897,
+            "servedRequests": 13980
           },
           "fields": [
             "avatarUrl",
@@ -14792,12 +14792,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 88.38034415469221,
+            "uptimePct": 88.3844653307324,
             "latencyP50Ms": 4262,
-            "uptimeSample": 5637,
-            "latencySample": 4982,
-            "requests": 5721,
-            "servedRequests": 4982
+            "uptimeSample": 5639,
+            "latencySample": 4984,
+            "requests": 5723,
+            "servedRequests": 4984
           },
           "fields": [
             "avatarUrl",
@@ -15973,12 +15973,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 72.8476821192053,
-            "latencyP50Ms": 4372,
-            "uptimeSample": 453,
-            "latencySample": 330,
-            "requests": 453,
-            "servedRequests": 330
+            "uptimePct": 72.90748898678414,
+            "latencyP50Ms": 4442,
+            "uptimeSample": 454,
+            "latencySample": 331,
+            "requests": 454,
+            "servedRequests": 331
           },
           "fields": [
             "avatarUrl",
@@ -16159,12 +16159,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.65775858256806,
+            "uptimePct": 97.65657220291051,
             "latencyP50Ms": 2410,
-            "uptimeSample": 67841,
-            "latencySample": 66252,
-            "requests": 67866,
-            "servedRequests": 66252
+            "uptimeSample": 67892,
+            "latencySample": 66301,
+            "requests": 67917,
+            "servedRequests": 66301
           },
           "fields": [
             "avatarUrl",
@@ -16199,12 +16199,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 95.97151244971187,
+            "uptimePct": 95.9667337065826,
             "latencyP50Ms": 2162,
-            "uptimeSample": 18394,
-            "latencySample": 17653,
-            "requests": 18394,
-            "servedRequests": 17653
+            "uptimeSample": 18397,
+            "latencySample": 17655,
+            "requests": 18397,
+            "servedRequests": 17655
           },
           "fields": [
             "avatarUrl",
@@ -16239,12 +16239,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.99499165275459,
-            "latencyP50Ms": 5381,
-            "uptimeSample": 599,
-            "latencySample": 581,
-            "requests": 599,
-            "servedRequests": 581
+            "uptimePct": 97,
+            "latencyP50Ms": 5374,
+            "uptimeSample": 600,
+            "latencySample": 582,
+            "requests": 600,
+            "servedRequests": 582
           },
           "fields": [
             "avatarUrl",
@@ -16469,12 +16469,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 93.29474405143274,
+            "uptimePct": 93.29622512314182,
             "latencyP50Ms": 3870,
-            "uptimeSample": 45263,
-            "latencySample": 42228,
-            "requests": 45284,
-            "servedRequests": 42228
+            "uptimeSample": 45273,
+            "latencySample": 42238,
+            "requests": 45294,
+            "servedRequests": 42238
           },
           "fields": [
             "avatarUrl",
@@ -17138,12 +17138,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 92.88888888888889,
-            "latencyP50Ms": 27530,
-            "uptimeSample": 450,
-            "latencySample": 418,
-            "requests": 450,
-            "servedRequests": 418
+            "uptimePct": 92.92035398230088,
+            "latencyP50Ms": 27488,
+            "uptimeSample": 452,
+            "latencySample": 420,
+            "requests": 452,
+            "servedRequests": 420
           },
           "fields": [
             "advertiser",
@@ -17703,12 +17703,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.67213114754098,
-            "latencyP50Ms": 2227,
-            "uptimeSample": 1220,
-            "latencySample": 1216,
-            "requests": 1220,
-            "servedRequests": 1216
+            "uptimePct": 99.67320261437908,
+            "latencyP50Ms": 2225,
+            "uptimeSample": 1224,
+            "latencySample": 1220,
+            "requests": 1224,
+            "servedRequests": 1220
           },
           "fields": [
             "articleImage",
@@ -18320,48 +18320,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.00066,
+          "maxPer1kUsd": 0.66
         },
-        "failoverMaxUsd": 0.00066,
-        "failoverMaxPer1kUsd": 0.66
+        "failoverMaxUsd": 0.0008,
+        "failoverMaxPer1kUsd": 0.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 97.97660068915779,
-            "latencyP50Ms": 1997,
-            "uptimeSample": 74874,
-            "latencySample": 73359,
-            "requests": 74874,
-            "servedRequests": 73359
-          },
-          "fields": [
-            "company",
-            "companyUrl",
-            "createdUtc",
-            "id",
-            "items",
-            "location",
-            "logoUrl",
-            "nextCursor",
-            "title",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -18391,6 +18356,41 @@
             "id",
             "items",
             "location",
+            "nextCursor",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 97.97660068915779,
+            "latencyP50Ms": 1997,
+            "uptimeSample": 74874,
+            "latencySample": 73359,
+            "requests": 74874,
+            "servedRequests": 73359
+          },
+          "fields": [
+            "company",
+            "companyUrl",
+            "createdUtc",
+            "id",
+            "items",
+            "location",
+            "logoUrl",
             "nextCursor",
             "title",
             "url"
@@ -18454,8 +18454,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.00253,
         "failoverMaxPer1kUsd": 2.53
@@ -18465,8 +18465,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -18915,12 +18915,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.97736757769711,
+            "uptimePct": 99.97736798747091,
             "latencyP50Ms": 1545,
-            "uptimeSample": 220922,
-            "latencySample": 220872,
-            "requests": 221313,
-            "servedRequests": 220872
+            "uptimeSample": 220926,
+            "latencySample": 220876,
+            "requests": 221317,
+            "servedRequests": 220876
           },
           "fields": [
             "about",
@@ -19612,8 +19612,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
@@ -19623,8 +19623,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -19634,12 +19634,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.69368600682594,
-            "latencyP50Ms": 8038,
-            "uptimeSample": 135952,
-            "latencySample": 131457,
-            "requests": 161965,
-            "servedRequests": 131457
+            "uptimePct": 96.69418449934942,
+            "latencyP50Ms": 8037,
+            "uptimeSample": 136033,
+            "latencySample": 131536,
+            "requests": 162049,
+            "servedRequests": 131536
           },
           "fields": [
             "about",
@@ -19673,12 +19673,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.98651382333108,
+            "uptimePct": 99.98651564185545,
             "latencyP50Ms": 1283,
-            "uptimeSample": 37075,
-            "latencySample": 37070,
-            "requests": 38246,
-            "servedRequests": 37070
+            "uptimeSample": 37080,
+            "latencySample": 37075,
+            "requests": 38251,
+            "servedRequests": 37075
           },
           "fields": [
             "about",
@@ -19953,12 +19953,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 92.67499019177956,
-            "latencyP50Ms": 4152,
-            "uptimeSample": 86662,
-            "latencySample": 80314,
-            "requests": 86662,
-            "servedRequests": 80314
+            "uptimePct": 92.66984299112859,
+            "latencyP50Ms": 4153,
+            "uptimeSample": 86683,
+            "latencySample": 80329,
+            "requests": 86683,
+            "servedRequests": 80329
           },
           "fields": [
             "authorName",
@@ -19989,12 +19989,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.58683193389311,
+            "uptimePct": 99.58716207218005,
             "latencyP50Ms": 1998,
-            "uptimeSample": 7503,
-            "latencySample": 7472,
-            "requests": 7503,
-            "servedRequests": 7472
+            "uptimeSample": 7509,
+            "latencySample": 7478,
+            "requests": 7509,
+            "servedRequests": 7478
           },
           "fields": [
             "authorName",
@@ -20089,12 +20089,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 90.45245398773007,
-            "latencyP50Ms": 8778,
-            "uptimeSample": 2608,
-            "latencySample": 2359,
-            "requests": 2608,
-            "servedRequests": 2359
+            "uptimePct": 90.48892284186402,
+            "latencyP50Ms": 8779,
+            "uptimeSample": 2618,
+            "latencySample": 2369,
+            "requests": 2618,
+            "servedRequests": 2369
           },
           "fields": [
             "author",
@@ -23447,12 +23447,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.95918367346938,
-            "latencyP50Ms": 2058,
-            "uptimeSample": 441,
-            "latencySample": 432,
-            "requests": 442,
-            "servedRequests": 432
+            "uptimePct": 97.96380090497738,
+            "latencyP50Ms": 2059,
+            "uptimeSample": 442,
+            "latencySample": 433,
+            "requests": 443,
+            "servedRequests": 433
           },
           "fields": [
             "author",
@@ -23940,12 +23940,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.52526021832952,
+            "uptimePct": 99.52532047214113,
             "latencyP50Ms": 679,
-            "uptimeSample": 39390,
-            "latencySample": 39203,
-            "requests": 39390,
-            "servedRequests": 39203
+            "uptimeSample": 39395,
+            "latencySample": 39208,
+            "requests": 39395,
+            "servedRequests": 39208
           },
           "fields": [
             "avatarUrl",
@@ -24012,8 +24012,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.00225,
         "failoverMaxPer1kUsd": 2.25
@@ -24023,23 +24023,23 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
+            "id": "anonymous-seahorse",
+            "name": "Seahorse",
             "kind": "anonymous",
-            "artworkKey": "badger"
+            "artworkKey": "seahorse"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.82846701719059,
-            "latencyP50Ms": 1508,
-            "uptimeSample": 107268,
-            "latencySample": 107084,
-            "requests": 107273,
-            "servedRequests": 107084
+            "uptimePct": 79.91071428571429,
+            "latencyP50Ms": 2504,
+            "uptimeSample": 224,
+            "latencySample": 179,
+            "requests": 264,
+            "servedRequests": 179
           },
           "fields": [
             "author",
@@ -24070,19 +24070,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-seahorse",
-            "name": "Seahorse",
+            "id": "anonymous-badger",
+            "name": "Badger",
             "kind": "anonymous",
-            "artworkKey": "seahorse"
+            "artworkKey": "badger"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 79.91071428571429,
-            "latencyP50Ms": 2504,
-            "uptimeSample": 224,
-            "latencySample": 179,
-            "requests": 264,
-            "servedRequests": 179
+            "uptimePct": 99.82853415338738,
+            "latencyP50Ms": 1508,
+            "uptimeSample": 107310,
+            "latencySample": 107126,
+            "requests": 107315,
+            "servedRequests": 107126
           },
           "fields": [
             "author",
@@ -24236,12 +24236,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.69025304592314,
+            "uptimePct": 98.69040646597165,
             "latencyP50Ms": 812,
-            "uptimeSample": 42680,
-            "latencySample": 42121,
-            "requests": 42680,
-            "servedRequests": 42121
+            "uptimeSample": 42685,
+            "latencySample": 42126,
+            "requests": 42685,
+            "servedRequests": 42126
           },
           "fields": [
             "author",
@@ -24503,12 +24503,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.96597502337896,
+            "uptimePct": 98.96610411316294,
             "latencyP50Ms": 1060,
-            "uptimeSample": 392447,
-            "latencySample": 388389,
-            "requests": 392447,
-            "servedRequests": 388389
+            "uptimeSample": 392496,
+            "latencySample": 388438,
+            "requests": 392496,
+            "servedRequests": 388438
           },
           "fields": [
             "author",
@@ -24531,8 +24531,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -24642,12 +24642,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.32279909706546,
+            "uptimePct": 99.32318104906938,
             "latencyP50Ms": 682,
-            "uptimeSample": 1772,
-            "latencySample": 1760,
-            "requests": 1772,
-            "servedRequests": 1760
+            "uptimeSample": 1773,
+            "latencySample": 1761,
+            "requests": 1773,
+            "servedRequests": 1761
           },
           "fields": [
             "createdUtc",
@@ -24754,12 +24754,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.57049292365521,
+            "uptimePct": 98.57061503416857,
             "latencyP50Ms": 1678,
-            "uptimeSample": 35117,
-            "latencySample": 34615,
-            "requests": 35117,
-            "servedRequests": 34615
+            "uptimeSample": 35120,
+            "latencySample": 34618,
+            "requests": 35120,
+            "servedRequests": 34618
           },
           "fields": [
             "author",
@@ -24783,8 +24783,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -24903,12 +24903,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.06698410655684,
+            "uptimePct": 99.06728418885886,
             "latencyP50Ms": 1081,
-            "uptimeSample": 15541,
-            "latencySample": 15396,
-            "requests": 15541,
-            "servedRequests": 15396
+            "uptimeSample": 15546,
+            "latencySample": 15401,
+            "requests": 15546,
+            "servedRequests": 15401
           },
           "fields": [
             "author",
@@ -24931,8 +24931,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -25059,19 +25059,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0002,
-          "maxPer1kUsd": 0.2
+          "maxUsd": 0.0003,
+          "maxPer1kUsd": 0.3
         },
-        "failoverMaxUsd": 0.0002,
-        "failoverMaxPer1kUsd": 0.2
+        "failoverMaxUsd": 0.0003,
+        "failoverMaxPer1kUsd": 0.3
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0002,
-            "maxPer1kUsd": 0.2
+            "maxUsd": 0.0003,
+            "maxPer1kUsd": 0.3
           },
           "source": {
             "id": "anonymous-badger",
@@ -25280,8 +25280,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -25383,19 +25383,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.0005,
-        "failoverMaxPer1kUsd": 0.5
+        "failoverMaxUsd": 0.0008,
+        "failoverMaxPer1kUsd": 0.8
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -29757,8 +29757,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
@@ -29768,8 +29768,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -29865,19 +29865,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.0005,
-        "failoverMaxPer1kUsd": 0.5
+        "failoverMaxUsd": 0.0008,
+        "failoverMaxPer1kUsd": 0.8
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -30432,8 +30432,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.0066,
         "failoverMaxPer1kUsd": 6.6
@@ -30443,8 +30443,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -30894,12 +30894,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.92180594274835,
+            "uptimePct": 99.9218192324688,
             "latencyP50Ms": 853,
-            "uptimeSample": 88242,
-            "latencySample": 88173,
-            "requests": 88242,
-            "servedRequests": 88173
+            "uptimeSample": 88257,
+            "latencySample": 88188,
+            "requests": 88257,
+            "servedRequests": 88188
           },
           "fields": [
             "avatarUrl",
@@ -30999,8 +30999,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -31010,12 +31010,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.17880317231435,
-            "latencyP50Ms": 9594,
-            "uptimeSample": 1387,
-            "latencySample": 1334,
-            "requests": 1407,
-            "servedRequests": 1334
+            "uptimePct": 96.12289685442575,
+            "latencyP50Ms": 9535,
+            "uptimeSample": 1367,
+            "latencySample": 1314,
+            "requests": 1387,
+            "servedRequests": 1314
           },
           "fields": [
             "avatarUrl",
@@ -31532,12 +31532,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.15067151079724,
+            "uptimePct": 97.12746858168761,
             "latencyP50Ms": 1035,
-            "uptimeSample": 24497,
-            "latencySample": 23799,
-            "requests": 24497,
-            "servedRequests": 23799
+            "uptimeSample": 24508,
+            "latencySample": 23804,
+            "requests": 24508,
+            "servedRequests": 23804
           },
           "fields": [
             "authorHandle",
@@ -31579,7 +31579,7 @@
             "latencyP50Ms": 2695,
             "uptimeSample": 39,
             "latencySample": 37,
-            "requests": 502,
+            "requests": 508,
             "servedRequests": 37
           },
           "fields": [
@@ -31617,12 +31617,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.83766233766234,
-            "latencyP50Ms": 1608,
-            "uptimeSample": 1232,
-            "latencySample": 1230,
-            "requests": 1232,
-            "servedRequests": 1230
+            "uptimePct": 99.83844911147011,
+            "latencyP50Ms": 1605,
+            "uptimeSample": 1238,
+            "latencySample": 1236,
+            "requests": 1238,
+            "servedRequests": 1236
           },
           "fields": [
             "authorHandle",
@@ -31924,12 +31924,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.9320029898752,
+            "uptimePct": 97.93209666825213,
             "latencyP50Ms": 1335,
-            "uptimeSample": 44149,
-            "latencySample": 43236,
-            "requests": 44149,
-            "servedRequests": 43236
+            "uptimeSample": 44151,
+            "latencySample": 43238,
+            "requests": 44151,
+            "servedRequests": 43238
           },
           "fields": [
             "author",
@@ -32034,12 +32034,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 90.76923076923077,
-            "latencyP50Ms": 1510,
-            "uptimeSample": 325,
-            "latencySample": 295,
-            "requests": 325,
-            "servedRequests": 295
+            "uptimePct": 90.74074074074075,
+            "latencyP50Ms": 1509,
+            "uptimeSample": 324,
+            "latencySample": 294,
+            "requests": 324,
+            "servedRequests": 294
           },
           "fields": [
             "author",
@@ -33115,12 +33115,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 80.72100313479623,
-            "latencyP50Ms": 5485,
-            "uptimeSample": 638,
-            "latencySample": 515,
-            "requests": 638,
-            "servedRequests": 515
+            "uptimePct": 80.75117370892019,
+            "latencyP50Ms": 5484,
+            "uptimeSample": 639,
+            "latencySample": 516,
+            "requests": 639,
+            "servedRequests": 516
           },
           "fields": [
             "author",
@@ -33229,12 +33229,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.8468606431853,
+            "uptimePct": 99.84709480122324,
             "latencyP50Ms": 697,
-            "uptimeSample": 653,
-            "latencySample": 652,
-            "requests": 653,
-            "servedRequests": 652
+            "uptimeSample": 654,
+            "latencySample": 653,
+            "requests": 654,
+            "servedRequests": 653
           },
           "fields": [
             "hashtag",
@@ -33398,8 +33398,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -33559,12 +33559,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.46313603322949,
+            "uptimePct": 98.4653670676068,
             "latencyP50Ms": 315,
-            "uptimeSample": 4815,
-            "latencySample": 4741,
-            "requests": 4815,
-            "servedRequests": 4741
+            "uptimeSample": 4822,
+            "latencySample": 4748,
+            "requests": 4822,
+            "servedRequests": 4748
           },
           "fields": [
             "author",
@@ -33656,8 +33656,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -33794,12 +33794,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.12624914979334,
+            "uptimePct": 99.12675172558042,
             "latencyP50Ms": 518,
-            "uptimeSample": 19113,
-            "latencySample": 18946,
-            "requests": 19113,
-            "servedRequests": 18946
+            "uptimeSample": 19124,
+            "latencySample": 18957,
+            "requests": 19124,
+            "servedRequests": 18957
           },
           "fields": [
             "authorHandle",
@@ -34536,12 +34536,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.62711206059429,
-            "latencyP50Ms": 2286,
-            "uptimeSample": 25745,
-            "latencySample": 25649,
-            "requests": 25745,
-            "servedRequests": 25649
+            "uptimePct": 99.62779156327544,
+            "latencyP50Ms": 2287,
+            "uptimeSample": 25792,
+            "latencySample": 25696,
+            "requests": 25792,
+            "servedRequests": 25696
           },
           "fields": [
             "discountPct",
@@ -35203,12 +35203,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.61239592969473,
-            "latencyP50Ms": 5878,
-            "uptimeSample": 1081,
-            "latencySample": 1066,
-            "requests": 1133,
-            "servedRequests": 1066
+            "uptimePct": 98.61367837338263,
+            "latencyP50Ms": 5885,
+            "uptimeSample": 1082,
+            "latencySample": 1067,
+            "requests": 1134,
+            "servedRequests": 1067
           },
           "fields": [
             "author",
@@ -35321,12 +35321,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.99497487437186,
+            "uptimePct": 99.0049751243781,
             "latencyP50Ms": 39933,
-            "uptimeSample": 199,
-            "latencySample": 197,
-            "requests": 199,
-            "servedRequests": 197
+            "uptimeSample": 201,
+            "latencySample": 199,
+            "requests": 201,
+            "servedRequests": 199
           },
           "fields": [
             "author",
@@ -36243,12 +36243,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.99521270327598,
+            "uptimePct": 99.9952136550739,
             "latencyP50Ms": 739,
-            "uptimeSample": 271552,
-            "latencySample": 271539,
-            "requests": 271552,
-            "servedRequests": 271539
+            "uptimeSample": 271606,
+            "latencySample": 271593,
+            "requests": 271606,
+            "servedRequests": 271593
           },
           "fields": [
             "avatarUrl",
@@ -36284,12 +36284,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.89738951981774,
+            "uptimePct": 99.89738773522558,
             "latencyP50Ms": 333,
-            "uptimeSample": 57499,
-            "latencySample": 57440,
-            "requests": 57509,
-            "servedRequests": 57440
+            "uptimeSample": 57498,
+            "latencySample": 57439,
+            "requests": 57508,
+            "servedRequests": 57439
           },
           "fields": [
             "avatarUrl",
@@ -36449,12 +36449,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.65736923818191,
+            "uptimePct": 99.65740592045394,
             "latencyP50Ms": 1442,
-            "uptimeSample": 18679,
-            "latencySample": 18615,
-            "requests": 18679,
-            "servedRequests": 18615
+            "uptimeSample": 18681,
+            "latencySample": 18617,
+            "requests": 18681,
+            "servedRequests": 18617
           },
           "fields": [
             "authorHandle",
@@ -36638,12 +36638,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.95027892659962,
+            "uptimePct": 99.95028897526326,
             "latencyP50Ms": 1198,
-            "uptimeSample": 1043823,
-            "latencySample": 1043304,
-            "requests": 1043823,
-            "servedRequests": 1043304
+            "uptimeSample": 1044034,
+            "latencySample": 1043515,
+            "requests": 1044034,
+            "servedRequests": 1043515
           },
           "fields": [
             "authorFollowers",
@@ -36736,12 +36736,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.08102345415779,
+            "uptimePct": 98.08917197452229,
             "latencyP50Ms": 588,
-            "uptimeSample": 938,
-            "latencySample": 920,
-            "requests": 938,
-            "servedRequests": 920
+            "uptimeSample": 942,
+            "latencySample": 924,
+            "requests": 942,
+            "servedRequests": 924
           },
           "fields": [
             "authorFollowers",
@@ -37253,12 +37253,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.95207859111058,
+            "uptimePct": 99.95212447636146,
             "latencyP50Ms": 1407,
-            "uptimeSample": 58429,
-            "latencySample": 58401,
-            "requests": 58429,
-            "servedRequests": 58401
+            "uptimeSample": 58485,
+            "latencySample": 58457,
+            "requests": 58485,
+            "servedRequests": 58457
           },
           "fields": [
             "authorHandle",
@@ -37516,12 +37516,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.6195067532571,
+            "uptimePct": 99.61960526577842,
             "latencyP50Ms": 1718,
-            "uptimeSample": 50198,
-            "latencySample": 50007,
-            "requests": 50198,
-            "servedRequests": 50007
+            "uptimeSample": 50211,
+            "latencySample": 50020,
+            "requests": 50211,
+            "servedRequests": 50020
           },
           "fields": [
             "authorHandle",
@@ -37675,12 +37675,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.5924855745163,
+            "uptimePct": 99.59252494028382,
             "latencyP50Ms": 1286,
-            "uptimeSample": 113861,
-            "latencySample": 113397,
-            "requests": 113861,
-            "servedRequests": 113397
+            "uptimeSample": 113872,
+            "latencySample": 113408,
+            "requests": 113872,
+            "servedRequests": 113408
           },
           "fields": [
             "authorHandle",
@@ -38626,12 +38626,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.97610921501706,
-            "latencyP50Ms": 6324,
-            "uptimeSample": 293,
-            "latencySample": 290,
-            "requests": 294,
-            "servedRequests": 290
+            "uptimePct": 98.64406779661017,
+            "latencyP50Ms": 6343,
+            "uptimeSample": 295,
+            "latencySample": 291,
+            "requests": 296,
+            "servedRequests": 291
           },
           "fields": [
             "description",
@@ -38683,13 +38683,13 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 96.87291871491549,
+            "uptimePct": 96.87298483006501,
             "latencyP50Ms": 2512,
-            "uptimeSample": 94593,
-            "latencySample": 91635,
-            "requests": 97547,
-            "servedRequests": 91635,
-            "blockedPct": 8.313463216051177
+            "uptimeSample": 94595,
+            "latencySample": 91637,
+            "requests": 97549,
+            "servedRequests": 91637,
+            "blockedPct": 8.315968015507632
           },
           "fields": [
             "description",
@@ -38747,13 +38747,13 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 88.30047401950424,
+            "uptimePct": 88.30153363120397,
             "latencyP50Ms": 1732,
-            "uptimeSample": 33121,
-            "latencySample": 29246,
-            "requests": 34046,
-            "servedRequests": 29246,
-            "blockedPct": 2.0465501434359568
+            "uptimeSample": 33124,
+            "latencySample": 29249,
+            "requests": 34050,
+            "servedRequests": 29249,
+            "blockedPct": 2.046368582919328
           },
           "fields": [
             "description",
@@ -38786,7 +38786,7 @@
             "latencySample": 5486,
             "requests": 9853,
             "servedRequests": 5486,
-            "blockedPct": 11.236370356680835
+            "blockedPct": 11.24457174535711
           },
           "fields": [
             "description",
@@ -38819,7 +38819,7 @@
             "latencySample": 2925,
             "requests": 3505,
             "servedRequests": 2925,
-            "blockedPct": 48.3085250338295
+            "blockedPct": 48.31629585087192
           },
           "fields": [
             "description",
@@ -39560,11 +39560,11 @@
           "health": {
             "window": "30d",
             "uptimePct": 100,
-            "latencyP50Ms": 1800,
-            "uptimeSample": 4029,
-            "latencySample": 4029,
-            "requests": 4029,
-            "servedRequests": 4029
+            "latencyP50Ms": 1802,
+            "uptimeSample": 4032,
+            "latencySample": 4032,
+            "requests": 4032,
+            "servedRequests": 4032
           },
           "fields": [
             "avatarUrl",
@@ -39583,8 +39583,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -39594,12 +39594,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 97.7764177886577,
-            "latencyP50Ms": 1401,
-            "uptimeSample": 4902,
-            "latencySample": 4793,
-            "requests": 4909,
-            "servedRequests": 4793
+            "uptimePct": 97.77777777777777,
+            "latencyP50Ms": 1402,
+            "uptimeSample": 4905,
+            "latencySample": 4796,
+            "requests": 4912,
+            "servedRequests": 4796
           },
           "fields": [
             "avatarUrl",
@@ -40156,12 +40156,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.12362030905078,
+            "uptimePct": 98.12465526751241,
             "latencyP50Ms": 5474,
-            "uptimeSample": 1812,
-            "latencySample": 1778,
-            "requests": 1812,
-            "servedRequests": 1778
+            "uptimeSample": 1813,
+            "latencySample": 1779,
+            "requests": 1813,
+            "servedRequests": 1779
           },
           "fields": [
             "contentType",
@@ -40236,8 +40236,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0036,
         "failoverMaxPer1kUsd": 3.6
@@ -40247,8 +40247,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -40258,12 +40258,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.72108044627129,
+            "uptimePct": 99.72132590202405,
             "latencyP50Ms": 1727,
-            "uptimeSample": 6812,
-            "latencySample": 6793,
-            "requests": 6814,
-            "servedRequests": 6793
+            "uptimeSample": 6818,
+            "latencySample": 6799,
+            "requests": 6820,
+            "servedRequests": 6799
           },
           "fields": [
             "createdUtc",
@@ -40600,12 +40600,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.99533418873206,
+            "uptimePct": 99.99533462408733,
             "latencyP50Ms": 1889,
-            "uptimeSample": 42865,
-            "latencySample": 42863,
-            "requests": 42865,
-            "servedRequests": 42863
+            "uptimeSample": 42869,
+            "latencySample": 42867,
+            "requests": 42869,
+            "servedRequests": 42867
           },
           "fields": [
             "authorAvatarUrl",
@@ -40627,8 +40627,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -40869,12 +40869,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 93.51851851851852,
-            "latencyP50Ms": 9437,
-            "uptimeSample": 108,
-            "latencySample": 101,
-            "requests": 108,
-            "servedRequests": 101
+            "uptimePct": 93.57798165137615,
+            "latencyP50Ms": 9492,
+            "uptimeSample": 109,
+            "latencySample": 102,
+            "requests": 109,
+            "servedRequests": 102
           },
           "fields": [
             "authorHandle",
@@ -40937,12 +40937,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 60.869565217391305,
-            "latencyP50Ms": 2860,
-            "uptimeSample": 12995,
-            "latencySample": 7910,
-            "requests": 12995,
-            "servedRequests": 7910
+            "uptimePct": 60.86355255070682,
+            "latencyP50Ms": 2862,
+            "uptimeSample": 13016,
+            "latencySample": 7922,
+            "requests": 13016,
+            "servedRequests": 7922
           },
           "fields": [
             "authorAvatarUrl",
@@ -40975,12 +40975,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 98.96519285042334,
+            "uptimePct": 98.96577660774727,
             "latencyP50Ms": 1652,
-            "uptimeSample": 15945,
-            "latencySample": 15780,
-            "requests": 15945,
-            "servedRequests": 15780
+            "uptimeSample": 15954,
+            "latencySample": 15789,
+            "requests": 15954,
+            "servedRequests": 15789
           },
           "fields": [
             "authorAvatarUrl",
@@ -41082,12 +41082,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 71.11801242236025,
-            "latencyP50Ms": 2263,
-            "uptimeSample": 12236,
-            "latencySample": 8702,
-            "requests": 12236,
-            "servedRequests": 8702
+            "uptimePct": 71.12745098039215,
+            "latencyP50Ms": 2262,
+            "uptimeSample": 12240,
+            "latencySample": 8706,
+            "requests": 12240,
+            "servedRequests": 8706
           },
           "fields": [
             "author",
@@ -41118,12 +41118,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.06033891147126,
+            "uptimePct": 99.06028930419174,
             "latencyP50Ms": 2156,
-            "uptimeSample": 18943,
-            "latencySample": 18765,
-            "requests": 18943,
-            "servedRequests": 18765
+            "uptimeSample": 18942,
+            "latencySample": 18764,
+            "requests": 18942,
+            "servedRequests": 18764
           },
           "fields": [
             "author",
@@ -41285,12 +41285,12 @@
           },
           "health": {
             "window": "30d",
-            "uptimePct": 91.19305367613893,
+            "uptimePct": 91.1910669975186,
             "latencyP50Ms": 8921,
-            "uptimeSample": 8868,
-            "latencySample": 8087,
-            "requests": 8868,
-            "servedRequests": 8087
+            "uptimeSample": 8866,
+            "latencySample": 8085,
+            "requests": 8866,
+            "servedRequests": 8085
           },
           "fields": [
             "durationSeconds",
@@ -41336,8 +41336,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0011,
-            "maxPer1kUsd": 1.1
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-badger",
@@ -41908,8 +41908,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.00869,
         "failoverMaxPer1kUsd": 8.69
@@ -41919,8 +41919,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -42007,8 +42007,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.00264,
         "failoverMaxPer1kUsd": 2.64
@@ -42018,8 +42018,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
@@ -42196,8 +42196,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0831,
         "failoverMaxPer1kUsd": 83.1
@@ -42207,8 +42207,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
           },
           "source": {
             "id": "anonymous-badger",
