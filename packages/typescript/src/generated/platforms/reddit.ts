@@ -476,7 +476,7 @@ export interface RedditSearchInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of results.
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; pass it to fetch the next page of results. Include `nextCursor` in requireFields on the first request to make sure a source that supports pagination serves it.
    */
   cursor?: string;
   /**
@@ -493,9 +493,9 @@ export interface RedditSearchInput {
    */
   query: string;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `media`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Name `nextCursor` only if you will fetch more than the first page: when you leave it out, a cheaper source that cannot paginate may serve the request, and its nextCursor is null, so there is no next page to ask for. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: ("isArchived" | "isLocked" | "media")[];
+  requireFields?: ("isArchived" | "isLocked" | "media" | "nextCursor")[];
   /**
    * Result sort order.
    * One of: relevance, hot, top, new, comments.
@@ -822,7 +822,7 @@ export interface RedditSubredditSearchInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Optional pagination token from a previous response.
+   * Optional pagination token from a previous response. Include `nextCursor` in requireFields on the first request to make sure a source that supports pagination serves it.
    */
   cursor?: string;
   /**
@@ -839,9 +839,9 @@ export interface RedditSubredditSearchInput {
    */
   query?: string;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Name `nextCursor` only if you will fetch more than the first page: when you leave it out, a cheaper source that cannot paginate may serve the request, and its nextCursor is null, so there is no next page to ask for. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: ("isArchived" | "isLocked" | "selftext")[];
+  requireFields?: ("isArchived" | "isLocked" | "nextCursor" | "selftext")[];
   /**
    * Optional sort order: relevance, hot, top, new, comments.
    * One of: relevance, hot, top, new, comments.
@@ -1412,7 +1412,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.00038 per request.
+   * Price: $0.00035 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
@@ -1506,7 +1506,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
    *
-   * Price: $0.00038 per request.
+   * Price: $0.00035 per request.
    *
    * @example
    * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });
