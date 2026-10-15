@@ -84225,7 +84225,7 @@
       "category": "social",
       "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -84830,7 +84830,7 @@
       "category": "social",
       "description": "Fetch a Reddit user's public profile (karma split, post and comment counts, bio, avatar, account age) by username.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
