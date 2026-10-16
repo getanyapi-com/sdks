@@ -38934,6 +38934,484 @@
       }
     },
     {
+      "slug": "google.job",
+      "platform": "google",
+      "action": "job",
+      "operationId": "google_job",
+      "name": "Google Job",
+      "category": "data",
+      "description": "Fetch one Google Jobs listing by the listingToken that google.jobs returns: title, company, location, the site it was found on, the full description, apply links on every board that carries it, the posting details Google shows (posted, pay, job type, benefits), and the employer's ratings on review sites such as Glassdoor and Indeed when Google shows them.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "job",
+      "tsIterMethod": null,
+      "pyNamespace": "google",
+      "pyMethod": "job",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleJobInput",
+      "outputTypeName": "GoogleJobData",
+      "example": {
+        "listingToken": "gcb1.eyJ2IjoxLCJvcCI6Imdvb2dsZV9qb2JzX2xpc3RpbmciLCJzY29wZSI6InctN2lTM2lzV09LSUhqZTMwaVR5NkEiLCJxIjoicmVnaXN0ZXJlZCBudXJzZSIsImZjIjoiRXN3QkNvd0JRVXBwVkRSMFRGVnBlamxoVFdaQ2FVZHpiMWh4Y0cxVE1TMDBlV2c1UWxWSFZpMWpjelpYVmtOaFpUSjBXbmRQT0ZCQ01VWXlURFl5TWs0NFgyOVFTM1pEVjFSaU5VRkZhR1JzYTBGTU1IUnRPR0Z2V1ZaemFGUk5XRlJRVTFSU2JETkZSaTFOVUV4eVkwcDJTbGd0YkZWUlZXTktjMHhMYjBWdWFHWjFPRFpZUldoUFFtVnlaRk5tYlhVU0YzbHNYMU5oZEdvM1FYRmhjbWt0WjFBME9UTlJMVkZ6R2lKQlJITnlPV1pVV2pGS05XbENSMnRyUTJkelNqbGhkelpIVnkxT1RscE1NbU5CIiwiZWkiOiJ5bF9TYXRqN0FxYXJpLWdQNDkzUS1RcyIsImlkIjoiMFRHZ0p6WW1XT0drWFZCR0FBQUFBQT09IiwidmVkIjoiMmFoVUtFd2pZaUlQeGlMLVhBeFdtMVFJSEhlTXVOTDhRcDR3Q2VnUUlKUkFCIn0"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "listingToken": {
+            "kind": "string",
+            "description": "The listingToken of one listing in a google.jobs response.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "listingToken"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "description": "One Google Jobs listing with apply links and employer ratings.",
+          "properties": {
+            "applyOptions": {
+              "kind": "array",
+              "description": "Where the job can be applied for. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "Label, e.g. Apply on LinkedIn.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Apply link with Google's tracking parameters removed.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "companyName": {
+              "kind": "string",
+              "description": "Hiring company. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "companyRatings": {
+              "kind": "array",
+              "description": "The employer's ratings on review sites, as Google shows them; empty when Google shows none.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "rating": {
+                    "kind": "number",
+                    "description": "Employer star rating on that site.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviews": {
+                    "kind": "integer",
+                    "description": "Number of reviews on that site. Rounded when Google shows an abbreviated count: 8.9K becomes 8900.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "source": {
+                    "kind": "string",
+                    "description": "Review site, e.g. Glassdoor or Indeed.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The employer's page on that site, with Google's tracking parameters removed.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "description": {
+              "kind": "string",
+              "description": "The whole job description Google holds, as plain text. A few postings reach Google already shortened by the job board and end in [...]. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "extensions": {
+              "kind": "array",
+              "description": "The posting details Google shows, in its order and wording, e.g. [\"7 days ago\", \"Full-time\", \"Health insurance\"]: when it was posted, pay, job type and benefits, each only when Google shows it.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "jobId": {
+              "kind": "string",
+              "description": "Google's id for the listing.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "location": {
+              "kind": "string",
+              "description": "Job location as Google shows it, e.g. Chicago, IL.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "Job title. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "via": {
+              "kind": "string",
+              "description": "The site Google found the listing on, e.g. LinkedIn or Indeed.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "title"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "applyOptions",
+            "companyName",
+            "description",
+            "title"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google.jobs",
+      "platform": "google",
+      "action": "jobs",
+      "operationId": "google_jobs",
+      "name": "Google Jobs",
+      "category": "data",
+      "description": "Search Google Jobs, the job listings Google gathers from LinkedIn, Indeed, ZipRecruiter, company career sites and other boards, and get about 10 listings per call: title, company, location, the site it was found on, the full description, apply links on every board that carries it, and the posting details Google shows (posted, pay, job type, benefits). Each listing carries a listingToken you can pass to google.job for employer ratings. Send nextCursor back as cursor to walk further pages.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "google",
+      "tsMethod": "jobs",
+      "tsIterMethod": "iterJobs",
+      "pyNamespace": "google",
+      "pyMethod": "jobs",
+      "pyIterMethod": "iter_jobs",
+      "inputTypeName": "GoogleJobsInput",
+      "outputTypeName": "GoogleJobsData",
+      "example": {
+        "gl": "us",
+        "hl": "en",
+        "location": "Chicago, IL",
+        "query": "registered nurse"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque cursor from a previous response's nextCursor. Send it with the same query, location, gl and hl to get the next page of about 10 listings; it expires about an hour after it was issued, after which you start again from page 1.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "gl": {
+            "kind": "string",
+            "description": "Two-letter country code to search in (e.g. us, gb, de).",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "hl": {
+            "kind": "string",
+            "description": "Language code for the listings and their details (e.g. en, de, es).",
+            "enum": null,
+            "default": "en",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "location": {
+            "kind": "string",
+            "description": "City, region or country to search around, e.g. Chicago, IL or London. Google may include nearby places.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Job title or keywords to search, e.g. registered nurse. A place written into the query (\"barista in Austin, TX\") also localizes the search.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Job listings in Google's order. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "description": "One Google Jobs listing.",
+                "properties": {
+                  "applyOptions": {
+                    "kind": "array",
+                    "description": "Where the job can be applied for. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "title": {
+                          "kind": "string",
+                          "description": "Label, e.g. Apply on LinkedIn.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "Apply link with Google's tracking parameters removed.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "companyName": {
+                    "kind": "string",
+                    "description": "Hiring company. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Job description as plain text. Usually the full text, but for some listings (seen on German searches) Google shows only an excerpt of about 400 characters that can stop mid-word; google.job with this listing's listingToken returns the whole description Google holds. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "extensions": {
+                    "kind": "array",
+                    "description": "The posting details Google shows, in its order and wording, e.g. [\"2 days ago\", \"36.50-58.40 an hour\", \"Full-time\", \"Health insurance\"]: when it was posted, pay, job type and benefits, each only when Google shows it. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "jobId": {
+                    "kind": "string",
+                    "description": "Google's id for the listing. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listingToken": {
+                    "kind": "string",
+                    "description": "Token for this listing; pass it to google.job as listingToken for the listing with employer ratings. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "location": {
+                    "kind": "string",
+                    "description": "Job location as Google shows it, e.g. Chicago, IL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based rank of the listing across pages (page 2 starts at 11).",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Job title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "via": {
+                    "kind": "string",
+                    "description": "The site Google found the listing on, e.g. LinkedIn or Indeed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "applyOptions",
+                  "companyName",
+                  "description",
+                  "extensions",
+                  "jobId",
+                  "listingToken",
+                  "location",
+                  "title",
+                  "via"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of listings, or null when there are no more. Pass it back as cursor with the same query, location, gl and hl.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "items",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "google.lens",
       "platform": "google",
       "action": "lens",

@@ -2197,6 +2197,36 @@
     "items": 1,
     "replayed": false
   },
+  "google.job": {
+    "output": {
+      "found": true,
+      "data": {
+        "title": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "google.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google.lens": {
     "output": {
       "found": true,

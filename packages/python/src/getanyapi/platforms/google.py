@@ -112,6 +112,44 @@ class GoogleImagesInput(TypedDict, total=False):
     """Restrict results to a recent time window: 1h, 1d, 7d, 1y, or all. Default all (no time restriction)."""
 
 
+class GoogleJobInput(TypedDict, total=False):
+    """Input for Google Job."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    listingToken: Required[str]
+    """The listingToken of one listing in a google.jobs response."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class GoogleJobsInput(TypedDict, total=False):
+    """Input for Google Jobs."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Opaque cursor from a previous response's nextCursor. Send it with the same query, location, gl and hl to get the next page of about 10 listings; it expires about an hour after it was issued, after which you start again from page 1."""
+    gl: NotRequired[str]
+    """Two-letter country code to search in (e.g. us, gb, de). Default: us."""
+    hl: NotRequired[str]
+    """Language code for the listings and their details (e.g. en, de, es). Default: en."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    location: NotRequired[str]
+    """City, region or country to search around, e.g. Chicago, IL or London. Google may include nearby places."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Job title or keywords to search, e.g. registered nurse. A place written into the query ("barista in Austin, TX") also localizes the search."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class GoogleLensInput(TypedDict, total=False):
     """Input for Google Lens."""
 
@@ -460,6 +498,151 @@ class GoogleImagesItem(BaseModel):
         description="Direct URL to the full-size image. Populated whenever the provider has data for the entity."
     )
     width: int | None = Field(default=None, description="Full image width in pixels.")
+
+
+class GoogleJobData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    apply_options: list[GoogleJobApplyOption] | None = Field(
+        default=None,
+        alias="applyOptions",
+        description="Where the job can be applied for. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    company_name: str | None = Field(
+        default=None,
+        alias="companyName",
+        description="Hiring company. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    company_ratings: list[GoogleJobCompanyRating] | None = Field(
+        default=None,
+        alias="companyRatings",
+        description="The employer's ratings on review sites, as Google shows them; empty when Google shows none.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="The whole job description Google holds, as plain text. A few postings reach Google already shortened by the job board and end in [...]. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    extensions: list[str] | None = Field(
+        default=None,
+        description='The posting details Google shows, in its order and wording, e.g. ["7 days ago", "Full-time", "Health insurance"]: when it was posted, pay, job type and benefits, each only when Google shows it.',
+    )
+    job_id: str | None = Field(
+        default=None, alias="jobId", description="Google's id for the listing."
+    )
+    location: str | None = Field(
+        default=None, description="Job location as Google shows it, e.g. Chicago, IL."
+    )
+    title: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    via: str | None = Field(
+        default=None,
+        description="The site Google found the listing on, e.g. LinkedIn or Indeed.",
+    )
+
+
+class GoogleJobApplyOption(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None, description="Label, e.g. Apply on LinkedIn."
+    )
+    url: str | None = Field(
+        default=None,
+        description="Apply link with Google's tracking parameters removed.",
+    )
+
+
+class GoogleJobCompanyRating(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    rating: float | None = Field(
+        default=None, description="Employer star rating on that site."
+    )
+    reviews: int | None = Field(
+        default=None,
+        description="Number of reviews on that site. Rounded when Google shows an abbreviated count: 8.9K becomes 8900.",
+    )
+    source: str | None = Field(
+        default=None, description="Review site, e.g. Glassdoor or Indeed."
+    )
+    url: str | None = Field(
+        default=None,
+        description="The employer's page on that site, with Google's tracking parameters removed.",
+    )
+
+
+class GoogleJobsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    items: list[GoogleJobsItem] = Field(
+        description="Job listings in Google's order. Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of listings, or null when there are no more. Pass it back as cursor with the same query, location, gl and hl.",
+    )
+
+
+class GoogleJobsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    apply_options: list[GoogleJobsApplyOption] | None = Field(
+        default=None,
+        alias="applyOptions",
+        description="Where the job can be applied for. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    company_name: str | None = Field(
+        default=None,
+        alias="companyName",
+        description="Hiring company. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    description: str | None = Field(
+        default=None,
+        description="Job description as plain text. Usually the full text, but for some listings (seen on German searches) Google shows only an excerpt of about 400 characters that can stop mid-word; google.job with this listing's listingToken returns the whole description Google holds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    extensions: list[str] | None = Field(
+        default=None,
+        description='The posting details Google shows, in its order and wording, e.g. ["2 days ago", "36.50-58.40 an hour", "Full-time", "Health insurance"]: when it was posted, pay, job type and benefits, each only when Google shows it. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
+    job_id: str | None = Field(
+        default=None,
+        alias="jobId",
+        description="Google's id for the listing. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    listing_token: str | None = Field(
+        default=None,
+        alias="listingToken",
+        description="Token for this listing; pass it to google.job as listingToken for the listing with employer ratings. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    location: str | None = Field(
+        default=None,
+        description="Job location as Google shows it, e.g. Chicago, IL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    position: int | None = Field(
+        default=None,
+        description="1-based rank of the listing across pages (page 2 starts at 11).",
+    )
+    title: str = Field(
+        description="Job title. Populated whenever the provider has data for the entity."
+    )
+    via: str | None = Field(
+        default=None,
+        description="The site Google found the listing on, e.g. LinkedIn or Indeed. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class GoogleJobsApplyOption(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None, description="Label, e.g. Apply on LinkedIn."
+    )
+    url: str | None = Field(
+        default=None,
+        description="Apply link with Google's tracking parameters removed.",
+    )
 
 
 class GoogleLensData(BaseModel):
@@ -940,6 +1123,70 @@ class GoogleNamespace:
         )
         return RunResult[GoogleImagesData].model_validate(raw)
 
+    def job(
+        self, *, options: RequestOptions | None = None, **input: Unpack[GoogleJobInput]
+    ) -> RunResult[GoogleJobData]:
+        """Google Job
+
+        Fetch one Google Jobs listing by the listingToken that google.jobs returns:
+        title, company, location, the site it was found on, the full description,
+        apply links on every board that carries it, the posting details Google shows
+        (posted, pay, job type, benefits), and the employer's ratings on review
+        sites such as Glassdoor and Indeed when Google shows them.
+
+        Price: $0.00085 per request.
+
+        Example:
+            res = client.google.job(listingToken="gcb1.eyJ2IjoxLCJvcCI6Imdvb2dsZV9qb2JzX2xpc3RpbmciLCJzY29wZSI6InctN2lTM2lzV09LSUhqZTMwaVR5NkEiLCJxIjoicmVnaXN0ZXJlZCBudXJzZSIsImZjIjoiRXN3QkNvd0JRVXBwVkRSMFRGVnBlamxoVFdaQ2FVZHpiMWh4Y0cxVE1TMDBlV2c1UWxWSFZpMWpjelpYVmtOaFpUSjBXbmRQT0ZCQ01VWXlURFl5TWs0NFgyOVFTM1pEVjFSaU5VRkZhR1JzYTBGTU1IUnRPR0Z2V1ZaemFGUk5XRlJRVTFSU2JETkZSaTFOVUV4eVkwcDJTbGd0YkZWUlZXTktjMHhMYjBWdWFHWjFPRFpZUldoUFFtVnlaRk5tYlhVU0YzbHNYMU5oZEdvM1FYRmhjbWt0WjFBME9UTlJMVkZ6R2lKQlJITnlPV1pVV2pGS05XbENSMnRyUTJkelNqbGhkelpIVnkxT1RscE1NbU5CIiwiZWkiOiJ5bF9TYXRqN0FxYXJpLWdQNDkzUS1RcyIsImlkIjoiMFRHZ0p6WW1XT0drWFZCR0FBQUFBQT09IiwidmVkIjoiMmFoVUtFd2pZaUlQeGlMLVhBeFdtMVFJSEhlTXVOTDhRcDR3Q2VnUUlKUkFCIn0")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.job", dict(input), options
+        )
+        return RunResult[GoogleJobData].model_validate(raw)
+
+    def jobs(
+        self, *, options: RequestOptions | None = None, **input: Unpack[GoogleJobsInput]
+    ) -> RunResult[GoogleJobsData]:
+        """Google Jobs
+
+        Search Google Jobs, the job listings Google gathers from LinkedIn, Indeed,
+        ZipRecruiter, company career sites and other boards, and get about 10
+        listings per call: title, company, location, the site it was found on, the
+        full description, apply links on every board that carries it, and the
+        posting details Google shows (posted, pay, job type, benefits). Each listing
+        carries a listingToken you can pass to google.job for employer ratings. Send
+        nextCursor back as cursor to walk further pages.
+
+        Price: $0.00085 per request.
+
+        Example:
+            res = client.google.jobs(gl="us", hl="en", location="Chicago, IL", query="registered nurse")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.jobs", dict(input), options
+        )
+        return RunResult[GoogleJobsData].model_validate(raw)
+
+    def iter_jobs(
+        self, *, options: RequestOptions | None = None, **input: Unpack[GoogleJobsInput]
+    ) -> Paginator[GoogleJobsItem, GoogleJobsData]:
+        """Iterate Google Jobs results, following pagination cursors.
+
+        Yields validated `GoogleJobsItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "google.jobs",
+            dict(input),
+            "items",
+            item_model=GoogleJobsItem,
+            data_model=GoogleJobsData,
+            bare=False,
+            options=options,
+        )
+
     def lens(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleLensInput]
     ) -> RunResult[GoogleLensData]:
@@ -1277,6 +1524,70 @@ class AsyncGoogleNamespace:
             "google.images", dict(input), options
         )
         return RunResult[GoogleImagesData].model_validate(raw)
+
+    async def job(
+        self, *, options: RequestOptions | None = None, **input: Unpack[GoogleJobInput]
+    ) -> RunResult[GoogleJobData]:
+        """Google Job
+
+        Fetch one Google Jobs listing by the listingToken that google.jobs returns:
+        title, company, location, the site it was found on, the full description,
+        apply links on every board that carries it, the posting details Google shows
+        (posted, pay, job type, benefits), and the employer's ratings on review
+        sites such as Glassdoor and Indeed when Google shows them.
+
+        Price: $0.00085 per request.
+
+        Example:
+            res = client.google.job(listingToken="gcb1.eyJ2IjoxLCJvcCI6Imdvb2dsZV9qb2JzX2xpc3RpbmciLCJzY29wZSI6InctN2lTM2lzV09LSUhqZTMwaVR5NkEiLCJxIjoicmVnaXN0ZXJlZCBudXJzZSIsImZjIjoiRXN3QkNvd0JRVXBwVkRSMFRGVnBlamxoVFdaQ2FVZHpiMWh4Y0cxVE1TMDBlV2c1UWxWSFZpMWpjelpYVmtOaFpUSjBXbmRQT0ZCQ01VWXlURFl5TWs0NFgyOVFTM1pEVjFSaU5VRkZhR1JzYTBGTU1IUnRPR0Z2V1ZaemFGUk5XRlJRVTFSU2JETkZSaTFOVUV4eVkwcDJTbGd0YkZWUlZXTktjMHhMYjBWdWFHWjFPRFpZUldoUFFtVnlaRk5tYlhVU0YzbHNYMU5oZEdvM1FYRmhjbWt0WjFBME9UTlJMVkZ6R2lKQlJITnlPV1pVV2pGS05XbENSMnRyUTJkelNqbGhkelpIVnkxT1RscE1NbU5CIiwiZWkiOiJ5bF9TYXRqN0FxYXJpLWdQNDkzUS1RcyIsImlkIjoiMFRHZ0p6WW1XT0drWFZCR0FBQUFBQT09IiwidmVkIjoiMmFoVUtFd2pZaUlQeGlMLVhBeFdtMVFJSEhlTXVOTDhRcDR3Q2VnUUlKUkFCIn0")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.job", dict(input), options
+        )
+        return RunResult[GoogleJobData].model_validate(raw)
+
+    async def jobs(
+        self, *, options: RequestOptions | None = None, **input: Unpack[GoogleJobsInput]
+    ) -> RunResult[GoogleJobsData]:
+        """Google Jobs
+
+        Search Google Jobs, the job listings Google gathers from LinkedIn, Indeed,
+        ZipRecruiter, company career sites and other boards, and get about 10
+        listings per call: title, company, location, the site it was found on, the
+        full description, apply links on every board that carries it, and the
+        posting details Google shows (posted, pay, job type, benefits). Each listing
+        carries a listingToken you can pass to google.job for employer ratings. Send
+        nextCursor back as cursor to walk further pages.
+
+        Price: $0.00085 per request.
+
+        Example:
+            res = client.google.jobs(gl="us", hl="en", location="Chicago, IL", query="registered nurse")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.jobs", dict(input), options
+        )
+        return RunResult[GoogleJobsData].model_validate(raw)
+
+    def iter_jobs(
+        self, *, options: RequestOptions | None = None, **input: Unpack[GoogleJobsInput]
+    ) -> AsyncPaginator[GoogleJobsItem, GoogleJobsData]:
+        """Iterate Google Jobs results, following pagination cursors.
+
+        Yields validated `GoogleJobsItem` items from the `items` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "google.jobs",
+            dict(input),
+            "items",
+            item_model=GoogleJobsItem,
+            data_model=GoogleJobsData,
+            bare=False,
+            options=options,
+        )
 
     async def lens(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleLensInput]

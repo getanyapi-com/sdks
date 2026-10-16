@@ -372,6 +372,239 @@ export interface GoogleImagesData {
 }
 
 /**
+ * Input for Google Job (google.job).
+ */
+export interface GoogleJobInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * The listingToken of one listing in a google.jobs response.
+   */
+  listingToken: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface GoogleJobApplyOption {
+  /**
+   * Label, e.g. Apply on LinkedIn.
+   */
+  title?: string;
+  /**
+   * Apply link with Google's tracking parameters removed.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+export interface GoogleJobCompanyRating {
+  /**
+   * Employer star rating on that site.
+   */
+  rating?: number | null;
+  /**
+   * Number of reviews on that site. Rounded when Google shows an abbreviated count: 8.9K becomes 8900.
+   */
+  reviews?: number | null;
+  /**
+   * Review site, e.g. Glassdoor or Indeed.
+   */
+  source?: string;
+  /**
+   * The employer's page on that site, with Google's tracking parameters removed.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Job (google.job).
+ */
+export interface GoogleJobData {
+  /**
+   * Where the job can be applied for. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  applyOptions?: GoogleJobApplyOption[];
+  /**
+   * Hiring company. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  companyName?: string;
+  /**
+   * The employer's ratings on review sites, as Google shows them; empty when Google shows none.
+   */
+  companyRatings?: GoogleJobCompanyRating[];
+  /**
+   * The whole job description Google holds, as plain text. A few postings reach Google already shortened by the job board and end in [...]. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  description?: string;
+  /**
+   * The posting details Google shows, in its order and wording, e.g. ["7 days ago", "Full-time", "Health insurance"]: when it was posted, pay, job type and benefits, each only when Google shows it.
+   */
+  extensions?: string[];
+  /**
+   * Google's id for the listing.
+   */
+  jobId?: string;
+  /**
+   * Job location as Google shows it, e.g. Chicago, IL.
+   */
+  location?: string;
+  /**
+   * Job title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * The site Google found the listing on, e.g. LinkedIn or Indeed.
+   */
+  via?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Google Jobs (google.jobs).
+ */
+export interface GoogleJobsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Opaque cursor from a previous response's nextCursor. Send it with the same query, location, gl and hl to get the next page of about 10 listings; it expires about an hour after it was issued, after which you start again from page 1.
+   */
+  cursor?: string;
+  /**
+   * Two-letter country code to search in (e.g. us, gb, de).
+   * Default: us.
+   */
+  gl?: string;
+  /**
+   * Language code for the listings and their details (e.g. en, de, es).
+   * Default: en.
+   */
+  hl?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * City, region or country to search around, e.g. Chicago, IL or London. Google may include nearby places.
+   */
+  location?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Job title or keywords to search, e.g. registered nurse. A place written into the query ("barista in Austin, TX") also localizes the search.
+   */
+  query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+/**
+ * One Google Jobs listing.
+ */
+export interface GoogleJobsItem {
+  /**
+   * Where the job can be applied for. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  applyOptions?: GoogleJobsApplyOption[];
+  /**
+   * Hiring company. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  companyName?: string;
+  /**
+   * Job description as plain text. Usually the full text, but for some listings (seen on German searches) Google shows only an excerpt of about 400 characters that can stop mid-word; google.job with this listing's listingToken returns the whole description Google holds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  description?: string;
+  /**
+   * The posting details Google shows, in its order and wording, e.g. ["2 days ago", "36.50-58.40 an hour", "Full-time", "Health insurance"]: when it was posted, pay, job type and benefits, each only when Google shows it. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  extensions?: string[];
+  /**
+   * Google's id for the listing. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  jobId?: string;
+  /**
+   * Token for this listing; pass it to google.job as listingToken for the listing with employer ratings. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  listingToken?: string;
+  /**
+   * Job location as Google shows it, e.g. Chicago, IL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  location?: string;
+  /**
+   * 1-based rank of the listing across pages (page 2 starts at 11).
+   */
+  position?: number | null;
+  /**
+   * Job title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * The site Google found the listing on, e.g. LinkedIn or Indeed. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  via?: string;
+  [extra: string]: unknown;
+}
+
+export interface GoogleJobsApplyOption {
+  /**
+   * Label, e.g. Apply on LinkedIn.
+   */
+  title?: string;
+  /**
+   * Apply link with Google's tracking parameters removed.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Google Jobs (google.jobs).
+ */
+export interface GoogleJobsData {
+  /**
+   * Job listings in Google's order. Populated whenever the provider has data for the entity.
+   */
+  items: GoogleJobsItem[];
+  /**
+   * Opaque cursor for the next page of listings, or null when there are no more. Pass it back as cursor with the same query, location, gl and hl.
+   */
+  nextCursor?: string | null;
+}
+
+/**
  * Input for Google Lens (google.lens).
  */
 export interface GoogleLensInput {
@@ -1321,6 +1554,60 @@ export class GoogleNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<GoogleImagesData>> {
     return this._core.run("google.images", input, options);
+  }
+
+  /**
+   * Google Job
+   *
+   * Fetch one Google Jobs listing by the listingToken that google.jobs returns: title, company, location, the site it was found on, the full description, apply links on every board that carries it, the posting details Google shows (posted, pay, job type, benefits), and the employer's ratings on review sites such as Glassdoor and Indeed when Google shows them.
+   *
+   * Price: $0.00085 per request.
+   *
+   * @example
+   * const res = await client.google.job({ listingToken: "gcb1.eyJ2IjoxLCJvcCI6Imdvb2dsZV9qb2JzX2xpc3RpbmciLCJzY29wZSI6InctN2lTM2lzV09LSUhqZTMwaVR5NkEiLCJxIjoicmVnaXN0ZXJlZCBudXJzZSIsImZjIjoiRXN3QkNvd0JRVXBwVkRSMFRGVnBlamxoVFdaQ2FVZHpiMWh4Y0cxVE1TMDBlV2c1UWxWSFZpMWpjelpYVmtOaFpUSjBXbmRQT0ZCQ01VWXlURFl5TWs0NFgyOVFTM1pEVjFSaU5VRkZhR1JzYTBGTU1IUnRPR0Z2V1ZaemFGUk5XRlJRVTFSU2JETkZSaTFOVUV4eVkwcDJTbGd0YkZWUlZXTktjMHhMYjBWdWFHWjFPRFpZUldoUFFtVnlaRk5tYlhVU0YzbHNYMU5oZEdvM1FYRmhjbWt0WjFBME9UTlJMVkZ6R2lKQlJITnlPV1pVV2pGS05XbENSMnRyUTJkelNqbGhkelpIVnkxT1RscE1NbU5CIiwiZWkiOiJ5bF9TYXRqN0FxYXJpLWdQNDkzUS1RcyIsImlkIjoiMFRHZ0p6WW1XT0drWFZCR0FBQUFBQT09IiwidmVkIjoiMmFoVUtFd2pZaUlQeGlMLVhBeFdtMVFJSEhlTXVOTDhRcDR3Q2VnUUlKUkFCIn0" });
+   */
+  job(
+    input: GoogleJobInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleJobData>> {
+    return this._core.run("google.job", input, options);
+  }
+
+  /**
+   * Google Jobs
+   *
+   * Search Google Jobs, the job listings Google gathers from LinkedIn, Indeed, ZipRecruiter, company career sites and other boards, and get about 10 listings per call: title, company, location, the site it was found on, the full description, apply links on every board that carries it, and the posting details Google shows (posted, pay, job type, benefits). Each listing carries a listingToken you can pass to google.job for employer ratings. Send nextCursor back as cursor to walk further pages.
+   *
+   * Price: $0.00085 per request.
+   *
+   * @example
+   * const res = await client.google.jobs({ query: "registered nurse", gl: "us", hl: "en", location: "Chicago, IL" });
+   */
+  jobs(
+    input: GoogleJobsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<GoogleJobsData>> {
+    return this._core.run("google.jobs", input, options);
+  }
+
+  /**
+   * Iterate every result of Google Jobs across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterJobs(
+    input: GoogleJobsInput,
+    options?: RequestOptions,
+  ): Paginator<GoogleJobsItem, RunResult<GoogleJobsData>> {
+    return paginate<GoogleJobsItem, RunResult<GoogleJobsData>>(
+      this._core,
+      "google.jobs",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**

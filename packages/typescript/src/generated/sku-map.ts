@@ -286,6 +286,10 @@ import type {
   GoogleAutocompleteInput,
   GoogleImagesData,
   GoogleImagesInput,
+  GoogleJobData,
+  GoogleJobInput,
+  GoogleJobsData,
+  GoogleJobsInput,
   GoogleLensData,
   GoogleLensInput,
   GoogleLocalServicesData,
@@ -1557,6 +1561,16 @@ export interface SkuMap {
     input: GoogleImagesInput;
     data: GoogleImagesData;
     result: RunResult<GoogleImagesData>;
+  };
+  "google.job": {
+    input: GoogleJobInput;
+    data: GoogleJobData;
+    result: RunResult<GoogleJobData>;
+  };
+  "google.jobs": {
+    input: GoogleJobsInput;
+    data: GoogleJobsData;
+    result: RunResult<GoogleJobsData>;
   };
   "google.lens": {
     input: GoogleLensInput;
