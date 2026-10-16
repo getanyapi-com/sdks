@@ -52,6 +52,11 @@ export interface TiktokAdLibraryAdData {
   comments: number;
   cost: number;
   /**
+   * Countries the ad ran in, as two-letter country codes. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  countries?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   coverUrl: string;
@@ -419,6 +424,10 @@ export interface TiktokCommentRepliesInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorUserId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reply that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: "authorUserId"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -441,6 +450,10 @@ export interface TiktokCommentRepliesComment {
    * Reply author's display name.
    */
   authorName?: string;
+  /**
+   * Reply author's numeric TikTok user id. Null when the serving source does not report it.
+   */
+  authorUserId?: string | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -499,9 +512,9 @@ export interface TiktokFollowersInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoCount` or `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: "nextCursor"[];
+  requireFields?: ("likeCount" | "nextCursor" | "secUid" | "videoCount")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -521,6 +534,10 @@ export interface TiktokFollowersFollower {
   followerCount: number;
   followingCount: number;
   /**
+   * Total likes the account has received. Null when the serving source does not report it.
+   */
+  likeCount?: number | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   nickname: string;
@@ -529,6 +546,10 @@ export interface TiktokFollowersFollower {
    */
   region: string;
   /**
+   * TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.
+   */
+  secUid?: string | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   userId: string;
@@ -536,6 +557,10 @@ export interface TiktokFollowersFollower {
    * Populated whenever the provider has data for the entity.
    */
   username: string;
+  /**
+   * Number of videos the account has posted. Null when the serving source does not report it.
+   */
+  videoCount?: number | null;
   [extra: string]: unknown;
 }
 
@@ -582,9 +607,9 @@ export interface TiktokFollowingInput {
    */
   requireCursor?: boolean;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid` or `instagramUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: "nextCursor"[];
+  requireFields?: ("instagramUrl" | "nextCursor" | "secUid" | "youtubeUrl")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -619,6 +644,10 @@ export interface TiktokFollowingFollowing {
    */
   id: string;
   /**
+   * Instagram profile the account links on TikTok. Null when it links none or the serving source does not report it.
+   */
+  instagramUrl?: string | null;
+  /**
    * Total likes the account has received.
    */
   likes?: number;
@@ -630,7 +659,15 @@ export interface TiktokFollowingFollowing {
    * Populated whenever the provider has data for the entity.
    */
   region: string;
+  /**
+   * TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.
+   */
+  secUid?: string | null;
   videos: number;
+  /**
+   * YouTube channel the account links on TikTok. Null when it links none or the serving source does not report it.
+   */
+  youtubeUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -680,7 +717,14 @@ export interface TiktokHashtagVideosInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `playCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
   requireFields?: (
-    "commentCount" | "likeCount" | "nextCursor" | "playCount" | "shareCount"
+    | "commentCount"
+    | "likeCount"
+    | "nextCursor"
+    | "playCount"
+    | "shareCount"
+    | "soundAuthor"
+    | "soundClipId"
+    | "soundTitle"
   )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
@@ -689,6 +733,10 @@ export interface TiktokHashtagVideosInput {
 }
 
 export interface TiktokHashtagVideosItem {
+  /**
+   * The author's follower count at the time of the request; the serving source may round large counts. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
   /**
    * Username of the video's creator, without the @ prefix. Empty when the upstream omits it.
    */
@@ -726,6 +774,11 @@ export interface TiktokHashtagVideosItem {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -745,6 +798,18 @@ export interface TiktokHashtagVideosItem {
    * Number of shares of the video. Some sources round large counts (27.7M instead of 27,712,408); name the field in requireFields to be served only by a source that returns the exact count.
    */
   shareCount?: number;
+  /**
+   * Credited author of the sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Null when the serving source does not report it.
+   */
+  soundClipId?: string | null;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
   /**
    * The video caption text. Empty for videos with no caption.
    */
@@ -884,6 +949,10 @@ export interface TiktokPhotosInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorFollowers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "authorFollowers"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -920,6 +989,10 @@ export interface TiktokPhotosImage {
  */
 export interface TiktokPhotosData {
   /**
+   * The author's follower count at the time of the request. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
+  /**
    * Author's TikTok handle, without the leading @.
    */
   authorHandle?: string;
@@ -948,6 +1021,10 @@ export interface TiktokPhotosData {
    */
   createdUtc?: number;
   /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
+  /**
    * TikTok post id. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -971,6 +1048,21 @@ export interface TiktokPhotosData {
    * Share count.
    */
   shares?: number;
+  /**
+   * Credited author of the sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundTitle?: string;
   /**
    * Canonical TikTok URL of the photo post.
    */
@@ -1033,6 +1125,11 @@ export interface TiktokPlaylistVideosVideo {
    */
   authorFollowers?: number;
   /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorImage?: string;
+  /**
    * The author's display name, which is not the handle and can contain any characters.
    */
   authorName?: string;
@@ -1040,6 +1137,11 @@ export interface TiktokPlaylistVideosVideo {
    * The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.
    */
   authorSecUid?: string;
+  /**
+   * Author's numeric TikTok user id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
   authorVerified?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
@@ -1067,6 +1169,10 @@ export interface TiktokPlaylistVideosVideo {
    */
   image?: string;
   likes: number;
+  /**
+   * Accounts @mentioned in the caption, each as the handle with its leading @. Empty when the post mentions none.
+   */
+  mentions?: string[];
   saves?: number;
   shares: number;
   /**
@@ -1081,6 +1187,15 @@ export interface TiktokPlaylistVideosVideo {
    * Name of the sound. "original sound" means the creator's own audio rather than a licensed track.
    */
   soundTitle?: string;
+  /**
+   * Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Playable video URL, or null when TikTok returns none. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string | null;
   views: number;
   [extra: string]: unknown;
 }
@@ -1204,11 +1319,9 @@ export interface TiktokProfileContactInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `domain` or `sourceUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: (
-    "domain" | "platform" | "socialLinks" | "sourceUrl" | "url"
-  )[];
+  requireFields?: ("domain" | "sourceUrl")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1221,7 +1334,7 @@ export interface TiktokProfileContactEmail {
    */
   domain?: string;
   /**
-   * The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request.
+   * The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request. Absent when the source gives no verdict for the address.
    */
   domainHealth?: string;
   /**
@@ -1229,7 +1342,7 @@ export interface TiktokProfileContactEmail {
    */
   email: string;
   /**
-   * Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request.
+   * Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request. Absent when the source lists the address without its origin.
    */
   sourceType?: string;
   /**
@@ -1308,7 +1421,7 @@ export interface TiktokProfileContactData {
    */
   seller?: boolean;
   /**
-   * Other social accounts found for the creator on the page their profile links to. Empty when none were found.
+   * Other social accounts found for the creator. Empty when none were found.
    */
   socialLinks?: TiktokProfileContactSocialLink[];
   /**
@@ -1494,6 +1607,11 @@ export interface TiktokProfileRepostsVideo {
    */
   authorFollowers?: number;
   /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorImage?: string;
+  /**
    * The author's display name, which is not the handle and can contain any characters.
    */
   authorName?: string;
@@ -1501,6 +1619,11 @@ export interface TiktokProfileRepostsVideo {
    * The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.
    */
   authorSecUid?: string;
+  /**
+   * Author's numeric TikTok user id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
   authorVerified?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
@@ -1528,6 +1651,14 @@ export interface TiktokProfileRepostsVideo {
    */
   image?: string;
   likes: number;
+  /**
+   * Name of the place the post is tagged at, or null when it has no location tag.
+   */
+  locationName?: string | null;
+  /**
+   * Accounts @mentioned in the caption, each as the handle with its leading @. Empty when the post mentions none.
+   */
+  mentions?: string[];
   saves?: number;
   shares: number;
   /**
@@ -1542,6 +1673,15 @@ export interface TiktokProfileRepostsVideo {
    * Name of the sound. "original sound" means the creator's own audio rather than a licensed track.
    */
   soundTitle?: string;
+  /**
+   * Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Playable video URL, or null when TikTok returns none. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string | null;
   views: number;
   [extra: string]: unknown;
 }
@@ -1589,7 +1729,15 @@ export interface TiktokProfileVideosInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: "nextCursor"[];
+  requireFields?: (
+    | "authorFollowers"
+    | "authorVerified"
+    | "locationName"
+    | "nextCursor"
+    | "paidPartnership"
+    | "soundAuthor"
+    | "soundTitle"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1597,6 +1745,10 @@ export interface TiktokProfileVideosInput {
 }
 
 export interface TiktokProfileVideosVideo {
+  /**
+   * The author's follower count at the time of the request. Some sources round large counts; name `authorFollowers` in requireFields to be served only by a source that returns the exact count. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
   /**
    * Author's TikTok handle, without the leading @.
    */
@@ -1614,6 +1766,10 @@ export interface TiktokProfileVideosVideo {
    */
   authorUserId?: string;
   /**
+   * Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.
+   */
+  authorVerified?: boolean | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
@@ -1627,6 +1783,10 @@ export interface TiktokProfileVideosVideo {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -1634,12 +1794,37 @@ export interface TiktokProfileVideosVideo {
    * URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.
    */
   image?: string;
+  /**
+   * Whether the video is pinned to the top of the creator's profile grid.
+   */
+  isPinned?: boolean;
   likes: number;
+  /**
+   * Name of the place the video is tagged at. Absent when the video has no location tag. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Whether the video is labeled as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
   saves?: number;
   /**
    * Share count.
    */
   shares?: number;
+  /**
+   * Credited author of the sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1690,6 +1875,10 @@ export interface TiktokSearchHashtagInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle` or `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: ("locationName" | "soundAuthor" | "soundTitle")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1730,6 +1919,11 @@ export interface TiktokSearchHashtagVideo {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -1739,10 +1933,27 @@ export interface TiktokSearchHashtagVideo {
   image?: string;
   likes: number;
   /**
+   * Name of the place the video is tagged at, or null when it has no location tag or the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
    * Save count.
    */
   saves?: number;
   shares: number;
+  /**
+   * Credited author of the sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
   /**
    * Canonical TikTok URL of the video.
    */
@@ -1806,7 +2017,15 @@ export interface TiktokSearchKeywordInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "nextCursor"[];
+  requireFields?: (
+    | "authorFollowers"
+    | "authorVerified"
+    | "locationName"
+    | "nextCursor"
+    | "paidPartnership"
+    | "soundAuthor"
+    | "soundTitle"
+  )[];
   /**
    * Sort order: relevance, most-liked, date-posted.
    * One of: relevance, most-liked, date-posted.
@@ -1825,6 +2044,29 @@ export interface TiktokSearchKeywordVideo {
    */
   author?: string;
   /**
+   * The author's follower count at the time of the request. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorImage?: string;
+  /**
+   * Author's display name. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorName?: string;
+  /**
+   * Author's numeric TikTok user id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
+  /**
+   * Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.
+   */
+  authorVerified?: boolean | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
@@ -1834,13 +2076,57 @@ export interface TiktokSearchKeywordVideo {
    */
   createdUtc?: number;
   /**
+   * Video duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
   likes: number;
+  /**
+   * Name of the place the video is tagged at. Absent when the video has no location tag. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Whether the video is labeled as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
   region: string;
   saves?: number;
   shares: number;
+  /**
+   * Credited author of the sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  /**
+   * Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.
+   */
+  videoUrl?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -1907,6 +2193,11 @@ export interface TiktokSearchPhotosPost {
    */
   authorFollowers?: number;
   /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorImage?: string;
+  /**
    * The author's display name, which is not the handle and can contain any characters.
    */
   authorName?: string;
@@ -1914,6 +2205,11 @@ export interface TiktokSearchPhotosPost {
    * The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.
    */
   authorSecUid?: string;
+  /**
+   * Author's numeric TikTok user id. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorUserId?: string;
   authorVerified?: boolean;
   /**
    * Populated whenever the provider has data for the entity.
@@ -1937,6 +2233,10 @@ export interface TiktokSearchPhotosPost {
    */
   images?: TiktokSearchPhotosImage[];
   likes: number;
+  /**
+   * Name of the place the post is tagged at, or null when it has no location tag.
+   */
+  locationName?: string | null;
   saves?: number;
   shares: number;
   /**
@@ -1955,6 +2255,11 @@ export interface TiktokSearchPhotosPost {
    * The slideshow's own title, which TikTok stores separately from the caption. Absent when the creator set none.
    */
   title?: string;
+  /**
+   * Canonical TikTok URL of the photo post. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
   views: number;
   [extra: string]: unknown;
 }
@@ -2079,9 +2384,16 @@ export interface TiktokSearchTopInput {
    */
   region?: string;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundClipId` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("contentType" | "nextCursor")[];
+  requireFields?: (
+    | "authorFollowers"
+    | "contentType"
+    | "nextCursor"
+    | "soundAuthor"
+    | "soundClipId"
+    | "soundTitle"
+  )[];
   /**
    * Sort order: relevance, most-liked, date-posted.
    * One of: relevance, most-liked, date-posted.
@@ -2098,6 +2410,10 @@ export interface TiktokSearchTopItem {
    * Populated whenever the provider has data for the entity.
    */
   author: string;
+  /**
+   * The author's follower count at the time of the request. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
   /**
    * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
    */
@@ -2129,6 +2445,11 @@ export interface TiktokSearchTopItem {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -2139,6 +2460,18 @@ export interface TiktokSearchTopItem {
   likes: number;
   saves?: number;
   shares: number;
+  /**
+   * Credited author of the sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Null when the serving source does not report it.
+   */
+  soundClipId?: string | null;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2192,9 +2525,11 @@ export interface TiktokSearchUsersInput {
    */
   query: string;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid` or `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "nextCursor"[];
+  requireFields?: (
+    "bio" | "instagramUrl" | "nextCursor" | "region" | "secUid" | "youtubeUrl"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2206,12 +2541,20 @@ export interface TiktokSearchUsersUser {
    * Account avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.
    */
   avatarUrl?: string;
+  /**
+   * Profile biography text. Null when the serving source does not report it.
+   */
+  bio?: string | null;
   followers: number;
   following: number;
   /**
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Instagram profile the account links on TikTok. Null when it links none or the serving source does not report it.
+   */
+  instagramUrl?: string | null;
   /**
    * Total likes the account has received.
    */
@@ -2220,6 +2563,14 @@ export interface TiktokSearchUsersUser {
    * Populated whenever the provider has data for the entity.
    */
   nickname: string;
+  /**
+   * Two-letter country code TikTok assigns the account. Null when the serving source does not report it.
+   */
+  region?: string | null;
+  /**
+   * TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.
+   */
+  secUid?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2232,6 +2583,10 @@ export interface TiktokSearchUsersUser {
    * Number of videos the account has posted.
    */
   videos?: number;
+  /**
+   * YouTube channel the account links on TikTok. Null when it links none or the serving source does not report it.
+   */
+  youtubeUrl?: string | null;
   [extra: string]: unknown;
 }
 
@@ -2378,6 +2733,11 @@ export interface TiktokSongVideosVideo {
    * Video duration in seconds.
    */
   durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
   /**
    * URL of the video's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.
    */
@@ -2633,6 +2993,11 @@ export interface TiktokTrendingFeedVideo {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -2650,6 +3015,21 @@ export interface TiktokTrendingFeedVideo {
    */
   saves?: number;
   shares: number;
+  /**
+   * Credited author of the sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundTitle?: string;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2886,7 +3266,14 @@ export interface TiktokVideoInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it.
    */
-  requireFields?: ("comments" | "likes" | "shares" | "views")[];
+  requireFields?: (
+    | "authorFollowers"
+    | "authorVerified"
+    | "comments"
+    | "likes"
+    | "shares"
+    | "views"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2901,6 +3288,10 @@ export interface TiktokVideoInput {
  * The `data` payload of TikTok Video (tiktok.video).
  */
 export interface TiktokVideoData {
+  /**
+   * The author's follower count at the time of the request. Some sources round large counts; name `authorFollowers` in requireFields to be served only by a source that returns the exact count. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
   /**
    * Author's TikTok handle, without the leading @.
    */
@@ -2918,6 +3309,10 @@ export interface TiktokVideoData {
    */
   authorUserId?: string;
   /**
+   * Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.
+   */
+  authorVerified?: boolean | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
@@ -2933,6 +3328,10 @@ export interface TiktokVideoData {
    * Video duration in seconds.
    */
   durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2951,6 +3350,21 @@ export interface TiktokVideoData {
    * Number of shares. Some sources round large counts (35.9K instead of 35,923); name `shares` in requireFields to be served only by a source that returns the exact count.
    */
   shares: number;
+  /**
+   * Credited author of the sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundTitle?: string;
   /**
    * Canonical TikTok URL of the video.
    */
@@ -2989,6 +3403,10 @@ export interface TiktokVideoCommentsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorUserId` or `language`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: ("authorUserId" | "language")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -3012,6 +3430,10 @@ export interface TiktokVideoCommentsComment {
    */
   authorName?: string;
   /**
+   * Comment author's numeric TikTok user id. Null when the serving source does not report it.
+   */
+  authorUserId?: string | null;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
@@ -3019,6 +3441,10 @@ export interface TiktokVideoCommentsComment {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Language TikTok detected for the comment text, as a code such as en. Null when the serving source does not report it.
+   */
+  language?: string | null;
   likes: number;
   replies: number;
   /**
@@ -3064,7 +3490,7 @@ export interface TiktokVideoDownloadInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `height` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("height" | "width")[];
+  requireFields?: ("authorFollowers" | "authorVerified" | "height" | "width")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3080,9 +3506,18 @@ export interface TiktokVideoDownloadInput {
  */
 export interface TiktokVideoDownloadData {
   /**
+   * The author's follower count at the time of the request. Null when the serving source does not report it.
+   */
+  authorFollowers?: number | null;
+  /**
    * Author's TikTok handle, without the leading @.
    */
   authorHandle?: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  authorImage?: string;
   /**
    * Author's display name.
    */
@@ -3091,6 +3526,10 @@ export interface TiktokVideoDownloadData {
    * Author's numeric TikTok user id.
    */
   authorUserId?: string;
+  /**
+   * Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.
+   */
+  authorVerified?: boolean | null;
   /**
    * Post caption.
    */
@@ -3103,6 +3542,10 @@ export interface TiktokVideoDownloadData {
    * Length of the video in seconds.
    */
   durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.
+   */
+  hashtags?: string[];
   /**
    * Pixel height of the video file.
    */
@@ -3121,16 +3564,31 @@ export interface TiktokVideoDownloadData {
    */
   region?: string;
   /**
+   * Credited author of the sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundAuthor?: string;
+  /**
+   * Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundClipId?: string;
+  /**
+   * Name of the sound. "original sound" means the creator's own audio rather than a licensed track. Some sources answer in another language ("原声" for original sound). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundTitle?: string;
+  /**
    * Canonical TikTok URL of the video.
    */
   url?: string;
   /**
-   * Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Populated whenever the provider has data for the entity.
+   * Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.
    * Format: uri.
    */
   videoUrl: string;
   /**
-   * Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl.
+   * Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.
    * Format: uri.
    */
   watermarkedUrl?: string;
@@ -3369,7 +3827,7 @@ export class TiktokNamespace {
    *
    * Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.tiktok.adLibrarySearch({ query: "spotify" });

@@ -319,7 +319,14 @@ export interface TiktokShopProductInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerLocation`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "sellerLocation"[];
+  requireFields?: (
+    | "brand"
+    | "category"
+    | "name"
+    | "sellerLocation"
+    | "specifications"
+    | "value"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -330,14 +337,39 @@ export interface TiktokShopProductInput {
   url: string;
 }
 
+export interface TiktokShopProductSpecification {
+  /**
+   * Attribute name, e.g. Brand.
+   */
+  name: string;
+  /**
+   * Attribute value as the seller entered it.
+   */
+  value: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of TikTok Shop Product (tiktok_shop.product).
  */
 export interface TiktokShopProductData {
   /**
+   * Brand as the seller listed it. Omitted when not listed or when the serving source does not report it.
+   */
+  brand?: string;
+  /**
+   * Top-level TikTok Shop category, e.g. "Health". Omitted when the serving source does not report it.
+   */
+  category?: string;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   currency: string;
+  /**
+   * Product photo URLs, main photo first. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  images?: string[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -353,6 +385,11 @@ export interface TiktokShopProductData {
   rating: number;
   reviewCount: number;
   /**
+   * TikTok Shop seller id, for joining to the seller's other products. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  sellerId?: string;
+  /**
    * Where the seller is based, or null when the serving source does not report it.
    */
   sellerLocation: string | null;
@@ -362,9 +399,18 @@ export interface TiktokShopProductData {
   sellerName: string;
   soldCount: number;
   /**
+   * The product's attribute table as the seller filled it in (brand, flavor, manufacturer and so on); the set of names varies by category. Omitted when the serving source does not report it.
+   */
+  specifications?: TiktokShopProductSpecification[];
+  /**
    * Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Product detail page URL. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -397,6 +443,10 @@ export interface TiktokShopProductReviewsInput {
    */
   region?: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `images`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be empty on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "images"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -423,6 +473,10 @@ export interface TiktokShopProductReviewsReview {
    * Review identifier. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Photos the reviewer attached, as image URLs; empty when the review has none. Some are signed and short-lived, so the query string is kept intact. Omitted when the serving source does not report review photos.
+   */
+  images?: string[];
   /**
    * Identifier of the reviewed product.
    */
@@ -695,6 +749,10 @@ export interface TiktokShopShopProductsInput {
 export interface TiktokShopShopProductsProduct {
   currency: string;
   /**
+   * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
+   */
+  discountPct?: number;
+  /**
    * Product image URL.
    */
   image?: string;
@@ -712,6 +770,11 @@ export interface TiktokShopShopProductsProduct {
    */
   rating: number | null;
   reviewCount: number;
+  /**
+   * TikTok Shop seller id, for joining to the seller's other products. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  sellerId?: string;
   soldCount: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -793,6 +856,10 @@ export interface TiktokShopUserShowcaseInput {
 
 export interface TiktokShopUserShowcaseProduct {
   currency: string;
+  /**
+   * Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.
+   */
+  discountPct?: number;
   /**
    * Populated whenever the provider has data for the entity.
    */

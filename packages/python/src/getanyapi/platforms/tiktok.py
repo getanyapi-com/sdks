@@ -114,6 +114,8 @@ class TiktokCommentRepliesInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["authorUserId"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorUserId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reply that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -133,8 +135,10 @@ class TiktokFollowersInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["nextCursor"]]]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    requireFields: NotRequired[
+        list[Literal["likeCount", "nextCursor", "secUid", "videoCount"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoCount` or `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -154,8 +158,10 @@ class TiktokFollowingInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireCursor: NotRequired[bool]
     """Deprecated; send `requireFields: ["nextCursor"]` instead, which does exactly the same thing. Set true if you intend to page through results, so the request is only served by a source that can return a nextCursor. Omit it and routing is unchanged, with the cheapest source serving. This can raise your price: when the cheapest source cannot page, a source that can serves, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
-    requireFields: NotRequired[list[Literal["nextCursor"]]]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    requireFields: NotRequired[
+        list[Literal["instagramUrl", "nextCursor", "secUid", "youtubeUrl"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid` or `instagramUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -178,7 +184,14 @@ class TiktokHashtagVideosInput(TypedDict, total=False):
     requireFields: NotRequired[
         list[
             Literal[
-                "commentCount", "likeCount", "nextCursor", "playCount", "shareCount"
+                "commentCount",
+                "likeCount",
+                "nextCursor",
+                "playCount",
+                "shareCount",
+                "soundAuthor",
+                "soundClipId",
+                "soundTitle",
             ]
         ]
     ]
@@ -211,6 +224,8 @@ class TiktokPhotosInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["authorFollowers"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorFollowers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -266,10 +281,8 @@ class TiktokProfileContactInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[
-        list[Literal["domain", "platform", "socialLinks", "sourceUrl", "url"]]
-    ]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    requireFields: NotRequired[list[Literal["domain", "sourceUrl"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `domain` or `sourceUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -340,7 +353,19 @@ class TiktokProfileVideosInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["nextCursor"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorFollowers",
+                "authorVerified",
+                "locationName",
+                "nextCursor",
+                "paidPartnership",
+                "soundAuthor",
+                "soundTitle",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -359,6 +384,10 @@ class TiktokSearchHashtagInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Hashtag or keyword to search for (without the leading #)."""
+    requireFields: NotRequired[
+        list[Literal["locationName", "soundAuthor", "soundTitle"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle` or `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -380,7 +409,19 @@ class TiktokSearchKeywordInput(TypedDict, total=False):
     """The keyword to search TikTok for."""
     requireCursor: NotRequired[bool]
     """Deprecated: name `nextCursor` in `requireFields` instead, which is the field this flag is translated into. It stays accepted so callers that already send it keep working. Sending it routes you to a source that returns a pagination cursor, which can raise your price when the cheapest source cannot page."""
-    requireFields: NotRequired[list[Literal["nextCursor"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorFollowers",
+                "authorVerified",
+                "locationName",
+                "nextCursor",
+                "paidPartnership",
+                "soundAuthor",
+                "soundTitle",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["relevance", "most-liked", "date-posted"]]
     """Sort order: relevance, most-liked, date-posted. Default: relevance."""
@@ -448,8 +489,19 @@ class TiktokSearchTopInput(TypedDict, total=False):
     """Keyword to search for (e.g. "funny")."""
     region: NotRequired[str]
     """2-letter country code for the proxy location (e.g. US, GB, FR)."""
-    requireFields: NotRequired[list[Literal["contentType", "nextCursor"]]]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorFollowers",
+                "contentType",
+                "nextCursor",
+                "soundAuthor",
+                "soundClipId",
+                "soundTitle",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundClipId` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sortBy: NotRequired[Literal["relevance", "most-liked", "date-posted"]]
     """Sort order: relevance, most-liked, date-posted."""
     source: NotRequired[list[str]]
@@ -469,8 +521,14 @@ class TiktokSearchUsersInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """The keyword to search TikTok accounts for."""
-    requireFields: NotRequired[list[Literal["nextCursor"]]]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "bio", "instagramUrl", "nextCursor", "region", "secUid", "youtubeUrl"
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid` or `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -645,7 +703,18 @@ class TiktokVideoInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["comments", "likes", "shares", "views"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "authorFollowers",
+                "authorVerified",
+                "comments",
+                "likes",
+                "shares",
+                "views",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. A source that returns only a rounded or shortened value for a field does not count as returning it."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -664,6 +733,8 @@ class TiktokVideoCommentsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["authorUserId", "language"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorUserId` or `language`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -679,7 +750,9 @@ class TiktokVideoDownloadInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["height", "width"]]]
+    requireFields: NotRequired[
+        list[Literal["authorFollowers", "authorVerified", "height", "width"]]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `height` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -735,6 +808,10 @@ class TiktokAdLibraryAdData(BaseModel):
     brand_name: str = Field(alias="brandName")
     comments: int
     cost: float
+    countries: list[str] | None = Field(
+        default=None,
+        description="Countries the ad ran in, as two-letter country codes. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     cover_url: str = Field(
         alias="coverUrl",
         description="Populated whenever the provider has data for the entity.",
@@ -950,6 +1027,11 @@ class TiktokCommentRepliesComment(BaseModel):
     author_name: str | None = Field(
         default=None, alias="authorName", description="Reply author's display name."
     )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Reply author's numeric TikTok user id. Null when the serving source does not report it.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -991,11 +1073,21 @@ class TiktokFollowersFollower(BaseModel):
     )
     follower_count: int = Field(alias="followerCount")
     following_count: int = Field(alias="followingCount")
+    like_count: int | None = Field(
+        default=None,
+        alias="likeCount",
+        description="Total likes the account has received. Null when the serving source does not report it.",
+    )
     nickname: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
     region: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    sec_uid: str | None = Field(
+        default=None,
+        alias="secUid",
+        description="TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.",
     )
     user_id: str = Field(
         alias="userId",
@@ -1003,6 +1095,11 @@ class TiktokFollowersFollower(BaseModel):
     )
     username: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    video_count: int | None = Field(
+        default=None,
+        alias="videoCount",
+        description="Number of videos the account has posted. Null when the serving source does not report it.",
     )
 
 
@@ -1045,6 +1142,11 @@ class TiktokFollowingFollowing(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    instagram_url: str | None = Field(
+        default=None,
+        alias="instagramUrl",
+        description="Instagram profile the account links on TikTok. Null when it links none or the serving source does not report it.",
+    )
     likes: int | None = Field(
         default=None, description="Total likes the account has received."
     )
@@ -1054,7 +1156,17 @@ class TiktokFollowingFollowing(BaseModel):
     region: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    sec_uid: str | None = Field(
+        default=None,
+        alias="secUid",
+        description="TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.",
+    )
     videos: int
+    youtube_url: str | None = Field(
+        default=None,
+        alias="youtubeUrl",
+        description="YouTube channel the account links on TikTok. Null when it links none or the serving source does not report it.",
+    )
 
 
 class TiktokHashtagVideosData(BaseModel):
@@ -1073,6 +1185,11 @@ class TiktokHashtagVideosData(BaseModel):
 class TiktokHashtagVideosItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request; the serving source may round large counts. Null when the serving source does not report it.",
+    )
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
@@ -1113,6 +1230,10 @@ class TiktokHashtagVideosItem(BaseModel):
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity."
     )
@@ -1134,6 +1255,21 @@ class TiktokHashtagVideosItem(BaseModel):
         default=None,
         alias="shareCount",
         description="Number of shares of the video. Some sources round large counts (27.7M instead of 27,712,408); name the field in requireFields to be served only by a source that returns the exact count.",
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the serving source does not report it.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Null when the serving source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Null when the serving source does not report it.',
     )
     text: str | None = Field(
         default=None,
@@ -1204,6 +1340,11 @@ class TiktokLiveData(BaseModel):
 class TiktokPhotosData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. Null when the serving source does not report it.",
+    )
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
@@ -1229,6 +1370,10 @@ class TiktokPhotosData(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+    )
     id: str = Field(
         description="TikTok post id. Populated whenever the provider has data for the entity."
     )
@@ -1241,6 +1386,21 @@ class TiktokPhotosData(BaseModel):
     )
     saves: int | None = Field(default=None, description="Save count.")
     shares: int | None = Field(default=None, description="Share count.")
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
     url: str | None = Field(
         default=None, description="Canonical TikTok URL of the photo post."
     )
@@ -1285,6 +1445,11 @@ class TiktokPlaylistVideosVideo(BaseModel):
         alias="authorFollowers",
         description="The author's follower count at the time of the request. TikTok rounds this for large accounts.",
     )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     author_name: str | None = Field(
         default=None,
         alias="authorName",
@@ -1294,6 +1459,11 @@ class TiktokPlaylistVideosVideo(BaseModel):
         default=None,
         alias="authorSecUid",
         description="The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Author's numeric TikTok user id. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_verified: bool | None = Field(default=None, alias="authorVerified")
     caption: str = Field(
@@ -1319,6 +1489,10 @@ class TiktokPlaylistVideosVideo(BaseModel):
         description="URL of the video's cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Absent when the upstream provides no cover.",
     )
     likes: int
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each as the handle with its leading @. Empty when the post mentions none.",
+    )
     saves: int | None = None
     shares: int
     sound_author: str | None = Field(
@@ -1333,6 +1507,15 @@ class TiktokPlaylistVideosVideo(BaseModel):
         default=None,
         alias="soundTitle",
         description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track.',
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical TikTok URL of the video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video URL, or null when TikTok returns none. Signed and short-lived, so the query string is load-bearing and kept intact.",
     )
     views: int
 
@@ -1433,7 +1616,7 @@ class TiktokProfileContactData(BaseModel):
     social_links: list[TiktokProfileContactSocialLink] | None = Field(
         default=None,
         alias="socialLinks",
-        description="Other social accounts found for the creator on the page their profile links to. Empty when none were found.",
+        description="Other social accounts found for the creator. Empty when none were found.",
     )
     user_id: str | None = Field(
         default=None,
@@ -1458,13 +1641,13 @@ class TiktokProfileContactEmail(BaseModel):
     domain_health: str | None = Field(
         default=None,
         alias="domainHealth",
-        description="The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request.",
+        description="The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request. Absent when the source gives no verdict for the address.",
     )
     email: str = Field(description="The email address as published.")
     source_type: str | None = Field(
         default=None,
         alias="sourceType",
-        description="Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request.",
+        description="Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request. Absent when the source lists the address without its origin.",
     )
     source_url: str | None = Field(
         default=None,
@@ -1555,6 +1738,11 @@ class TiktokProfileRepostsVideo(BaseModel):
         alias="authorFollowers",
         description="The author's follower count at the time of the request. TikTok rounds this for large accounts.",
     )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     author_name: str | None = Field(
         default=None,
         alias="authorName",
@@ -1564,6 +1752,11 @@ class TiktokProfileRepostsVideo(BaseModel):
         default=None,
         alias="authorSecUid",
         description="The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Author's numeric TikTok user id. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_verified: bool | None = Field(default=None, alias="authorVerified")
     caption: str = Field(
@@ -1589,6 +1782,15 @@ class TiktokProfileRepostsVideo(BaseModel):
         description="URL of the video's cover image. A signed, short-lived TikTok CDN URL - the query params are load-bearing, so keep the URL intact. Absent when the upstream provides no cover.",
     )
     likes: int
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the place the post is tagged at, or null when it has no location tag.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each as the handle with its leading @. Empty when the post mentions none.",
+    )
     saves: int | None = None
     shares: int
     sound_author: str | None = Field(
@@ -1603,6 +1805,15 @@ class TiktokProfileRepostsVideo(BaseModel):
         default=None,
         alias="soundTitle",
         description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track.',
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical TikTok URL of the video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video URL, or null when TikTok returns none. Signed and short-lived, so the query string is load-bearing and kept intact.",
     )
     views: int
 
@@ -1620,6 +1831,11 @@ class TiktokProfileVideosData(BaseModel):
 class TiktokProfileVideosVideo(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. Some sources round large counts; name `authorFollowers` in requireFields to be served only by a source that returns the exact count. Null when the serving source does not report it.",
+    )
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
@@ -1638,6 +1854,11 @@ class TiktokProfileVideosVideo(BaseModel):
         alias="authorUserId",
         description="Author's numeric TikTok user id.",
     )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+    )
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1649,6 +1870,10 @@ class TiktokProfileVideosVideo(BaseModel):
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1656,9 +1881,39 @@ class TiktokProfileVideosVideo(BaseModel):
         default=None,
         description="URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.",
     )
+    is_pinned: bool | None = Field(
+        default=None,
+        alias="isPinned",
+        description="Whether the video is pinned to the top of the creator's profile grid.",
+    )
     likes: int
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the place the video is tagged at. Absent when the video has no location tag. Null when the serving source does not report it.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the video is labeled as a paid partnership. Null when the serving source does not report it.",
+    )
     saves: int | None = None
     shares: int | None = Field(default=None, description="Share count.")
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the serving source does not report it.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Null when the serving source does not report it.',
+    )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1717,6 +1972,10 @@ class TiktokSearchHashtagVideo(BaseModel):
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1725,8 +1984,28 @@ class TiktokSearchHashtagVideo(BaseModel):
         description="URL of the video's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.",
     )
     likes: int
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the place the video is tagged at, or null when it has no location tag or the serving source does not report it.",
+    )
     saves: int | None = Field(default=None, description="Save count.")
     shares: int
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the serving source does not report it.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Null when the serving source does not report it.',
+    )
     url: str | None = Field(
         default=None, description="Canonical TikTok URL of the video."
     )
@@ -1758,6 +2037,31 @@ class TiktokSearchKeywordVideo(BaseModel):
         default=None,
         description="Username (handle) of the account that posted, without the @ prefix.",
     )
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. Null when the serving source does not report it.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_name: str | None = Field(
+        default=None,
+        alias="authorName",
+        description="Author's display name. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Author's numeric TikTok user id. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+    )
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1767,13 +2071,58 @@ class TiktokSearchKeywordVideo(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
+    duration_seconds: float | None = Field(
+        default=None, alias="durationSeconds", description="Video duration in seconds."
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    image: str | None = Field(
+        default=None,
+        description="URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     likes: int
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the place the video is tagged at. Absent when the video has no location tag. Null when the serving source does not report it.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the video is labeled as a paid partnership. Null when the serving source does not report it.",
+    )
     region: str
     saves: int | None = None
     shares: int
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the serving source does not report it.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Null when the serving source does not report it.',
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical TikTok URL of the video. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    video_url: str | None = Field(
+        default=None,
+        alias="videoUrl",
+        description="Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
+    )
     views: int
 
 
@@ -1800,6 +2149,11 @@ class TiktokSearchPhotosPost(BaseModel):
         alias="authorFollowers",
         description="The author's follower count at the time of the request. TikTok rounds this for large accounts.",
     )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     author_name: str | None = Field(
         default=None,
         alias="authorName",
@@ -1809,6 +2163,11 @@ class TiktokSearchPhotosPost(BaseModel):
         default=None,
         alias="authorSecUid",
         description="The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+    )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Author's numeric TikTok user id. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_verified: bool | None = Field(default=None, alias="authorVerified")
     caption: str = Field(
@@ -1830,6 +2189,11 @@ class TiktokSearchPhotosPost(BaseModel):
         default=None, description="The slideshow's images in order."
     )
     likes: int
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the place the post is tagged at, or null when it has no location tag.",
+    )
     saves: int | None = None
     shares: int
     sound_author: str | None = Field(
@@ -1848,6 +2212,10 @@ class TiktokSearchPhotosPost(BaseModel):
     title: str | None = Field(
         default=None,
         description="The slideshow's own title, which TikTok stores separately from the caption. Absent when the creator set none.",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical TikTok URL of the photo post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     views: int
 
@@ -1902,6 +2270,11 @@ class TiktokSearchTopItem(BaseModel):
     author: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. Null when the serving source does not report it.",
+    )
     author_image: str | None = Field(
         default=None,
         alias="authorImage",
@@ -1931,6 +2304,10 @@ class TiktokSearchTopItem(BaseModel):
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Media duration in seconds."
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1941,6 +2318,21 @@ class TiktokSearchTopItem(BaseModel):
     likes: int
     saves: int | None = None
     shares: int
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the serving source does not report it.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Null when the serving source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Null when the serving source does not report it.',
+    )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1972,16 +2364,34 @@ class TiktokSearchUsersUser(BaseModel):
         alias="avatarUrl",
         description="Account avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
     )
+    bio: str | None = Field(
+        default=None,
+        description="Profile biography text. Null when the serving source does not report it.",
+    )
     followers: int
     following: int
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    instagram_url: str | None = Field(
+        default=None,
+        alias="instagramUrl",
+        description="Instagram profile the account links on TikTok. Null when it links none or the serving source does not report it.",
     )
     likes: int | None = Field(
         default=None, description="Total likes the account has received."
     )
     nickname: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    region: str | None = Field(
+        default=None,
+        description="Two-letter country code TikTok assigns the account. Null when the serving source does not report it.",
+    )
+    sec_uid: str | None = Field(
+        default=None,
+        alias="secUid",
+        description="TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.",
     )
     user_id: str = Field(
         alias="userId",
@@ -1993,6 +2403,11 @@ class TiktokSearchUsersUser(BaseModel):
     )
     videos: int | None = Field(
         default=None, description="Number of videos the account has posted."
+    )
+    youtube_url: str | None = Field(
+        default=None,
+        alias="youtubeUrl",
+        description="YouTube channel the account links on TikTok. Null when it links none or the serving source does not report it.",
     )
 
 
@@ -2071,6 +2486,10 @@ class TiktokSongVideosVideo(BaseModel):
     description: str
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
@@ -2210,6 +2629,10 @@ class TiktokTrendingFeedVideo(BaseModel):
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -2223,6 +2646,21 @@ class TiktokTrendingFeedVideo(BaseModel):
     )
     saves: int | None = Field(default=None, description="Save count.")
     shares: int
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -2315,6 +2753,11 @@ class TiktokTrendingHashtagsTopCreator(BaseModel):
 class TiktokVideoData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. Some sources round large counts; name `authorFollowers` in requireFields to be served only by a source that returns the exact count. Null when the serving source does not report it.",
+    )
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
@@ -2333,6 +2776,11 @@ class TiktokVideoData(BaseModel):
         alias="authorUserId",
         description="Author's numeric TikTok user id.",
     )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+    )
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -2346,6 +2794,10 @@ class TiktokVideoData(BaseModel):
     )
     duration_seconds: float | None = Field(
         default=None, alias="durationSeconds", description="Video duration in seconds."
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -2361,6 +2813,21 @@ class TiktokVideoData(BaseModel):
     saves: int
     shares: int = Field(
         description="Number of shares. Some sources round large counts (35.9K instead of 35,923); name `shares` in requireFields to be served only by a source that returns the exact count."
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     url: str | None = Field(
         default=None, description="Canonical TikTok URL of the video."
@@ -2399,12 +2866,21 @@ class TiktokVideoCommentsComment(BaseModel):
     author_name: str | None = Field(
         default=None, alias="authorName", description="Comment author's display name."
     )
+    author_user_id: str | None = Field(
+        default=None,
+        alias="authorUserId",
+        description="Comment author's numeric TikTok user id. Null when the serving source does not report it.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    language: str | None = Field(
+        default=None,
+        description="Language TikTok detected for the comment text, as a code such as en. Null when the serving source does not report it.",
     )
     likes: int
     replies: int
@@ -2421,10 +2897,20 @@ class TiktokVideoCommentsComment(BaseModel):
 class TiktokVideoDownloadData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author_followers: int | None = Field(
+        default=None,
+        alias="authorFollowers",
+        description="The author's follower count at the time of the request. Null when the serving source does not report it.",
+    )
     author_handle: str | None = Field(
         default=None,
         alias="authorHandle",
         description="Author's TikTok handle, without the leading @.",
+    )
+    author_image: str | None = Field(
+        default=None,
+        alias="authorImage",
+        description="Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     author_name: str | None = Field(
         default=None, alias="authorName", description="Author's display name."
@@ -2433,6 +2919,11 @@ class TiktokVideoDownloadData(BaseModel):
         default=None,
         alias="authorUserId",
         description="Author's numeric TikTok user id.",
+    )
+    author_verified: bool | None = Field(
+        default=None,
+        alias="authorVerified",
+        description="Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
     )
     caption: str | None = Field(default=None, description="Post caption.")
     created_utc: float | None = Field(
@@ -2444,6 +2935,10 @@ class TiktokVideoDownloadData(BaseModel):
         default=None,
         alias="durationSeconds",
         description="Length of the video in seconds.",
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
     )
     height: int | None = Field(
         default=None, description="Pixel height of the video file."
@@ -2458,17 +2953,32 @@ class TiktokVideoDownloadData(BaseModel):
     region: str | None = Field(
         default=None, description="Two-letter region code the video was published from."
     )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_clip_id: str | None = Field(
+        default=None,
+        alias="soundClipId",
+        description="Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "original sound" means the creator\'s own audio rather than a licensed track. Some sources answer in another language ("原声" for original sound). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
+    )
     url: str | None = Field(
         default=None, description="Canonical TikTok URL of the video."
     )
     video_url: str = Field(
         alias="videoUrl",
-        description="Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Populated whenever the provider has data for the entity.",
+        description="Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
     )
     watermarked_url: str | None = Field(
         default=None,
         alias="watermarkedUrl",
-        description="Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl.",
+        description="Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.",
     )
     width: int | None = Field(
         default=None, description="Pixel width of the video file."
@@ -2626,7 +3136,7 @@ class TiktokNamespace:
         Search TikTok's public Ads Library by keyword or advertiser (advertiser,
         title, audience band, run dates, library link, and video).
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_library_search(query="spotify")
@@ -3737,7 +4247,7 @@ class AsyncTiktokNamespace:
         Search TikTok's public Ads Library by keyword or advertiser (advertiser,
         title, audience band, run dates, library link, and video).
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_library_search(query="spotify")

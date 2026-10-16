@@ -23972,7 +23972,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39689,7 +39689,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -86889,7 +86889,7 @@
       "category": "social",
       "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.",
       "pricing": {
-        "priceUsd": 0.0006,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -105258,6 +105258,17 @@
               "maximum": null,
               "default": null
             },
+            "countries": {
+              "kind": "array",
+              "description": "Countries the ad ran in, as two-letter country codes. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": true
+            },
             "coverUrl": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
@@ -105352,6 +105363,7 @@
           "mustPopulate": [
             "adId",
             "adTitle",
+            "countries",
             "coverUrl",
             "industry",
             "landingPage",
@@ -105376,7 +105388,7 @@
       "category": "social",
       "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -106098,6 +106110,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorUserId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reply that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorUserId"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -106150,6 +106175,14 @@
                   "authorName": {
                     "kind": "string",
                     "description": "Reply author's display name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Reply author's numeric TikTok user id. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -106295,11 +106328,14 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoCount` or `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
-                "nextCursor"
+                "likeCount",
+                "nextCursor",
+                "secUid",
+                "videoCount"
               ],
               "default": null,
               "format": null
@@ -106365,6 +106401,14 @@
                     "maximum": null,
                     "default": null
                   },
+                  "likeCount": {
+                    "kind": "integer",
+                    "description": "Total likes the account has received. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "nickname": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -106375,6 +106419,14 @@
                   "region": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "secUid": {
+                    "kind": "string",
+                    "description": "TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -106392,6 +106444,14 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "videoCount": {
+                    "kind": "integer",
+                    "description": "Number of videos the account has posted. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   }
                 },
                 "required": [
@@ -106515,11 +106575,14 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid` or `instagramUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
-                "nextCursor"
+                "instagramUrl",
+                "nextCursor",
+                "secUid",
+                "youtubeUrl"
               ],
               "default": null,
               "format": null
@@ -106607,6 +106670,14 @@
                     "default": null,
                     "format": null
                   },
+                  "instagramUrl": {
+                    "kind": "string",
+                    "description": "Instagram profile the account links on TikTok. Null when it links none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "likes": {
                     "kind": "integer",
                     "description": "Total likes the account has received.",
@@ -106626,11 +106697,27 @@
                     "default": null,
                     "format": null
                   },
+                  "secUid": {
+                    "kind": "string",
+                    "description": "TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "videos": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "youtubeUrl": {
+                    "kind": "string",
+                    "description": "YouTube channel the account links on TikTok. Null when it links none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   }
                 },
                 "required": [
@@ -106757,7 +106844,10 @@
                 "likeCount",
                 "nextCursor",
                 "playCount",
-                "shareCount"
+                "shareCount",
+                "soundAuthor",
+                "soundClipId",
+                "soundTitle"
               ],
               "default": null,
               "format": null
@@ -106792,6 +106882,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "authorFollowers": {
+                    "kind": "integer",
+                    "description": "The author's follower count at the time of the request; the serving source may round large counts. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "authorHandle": {
                     "kind": "string",
                     "description": "Username of the video's creator, without the @ prefix. Empty when the upstream omits it.",
@@ -106853,6 +106951,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "The video's numeric TikTok ID, as a string. Populated whenever the provider has data for the entity.",
@@ -106888,6 +106997,30 @@
                     "maximum": null,
                     "default": null
                   },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "text": {
                     "kind": "string",
                     "description": "The video caption text. Empty for videos with no caption.",
@@ -106917,6 +107050,7 @@
                 ],
                 "open": true,
                 "mustPopulate": [
+                  "hashtags",
                   "id",
                   "url"
                 ]
@@ -107219,6 +107353,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorFollowers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorFollowers"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -107248,6 +107395,14 @@
         "data": {
           "kind": "object",
           "properties": {
+            "authorFollowers": {
+              "kind": "integer",
+              "description": "The author's follower count at the time of the request. Null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "authorHandle": {
               "kind": "string",
               "description": "Author's TikTok handle, without the leading @.",
@@ -107296,6 +107451,17 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "hashtags": {
+              "kind": "array",
+              "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
             },
             "id": {
               "kind": "string",
@@ -107377,6 +107543,27 @@
               "maximum": null,
               "default": null
             },
+            "soundAuthor": {
+              "kind": "string",
+              "description": "Credited author of the sound. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundClipId": {
+              "kind": "string",
+              "description": "Id of the sound the post uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundTitle": {
+              "kind": "string",
+              "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "url": {
               "kind": "string",
               "description": "Canonical TikTok URL of the photo post.",
@@ -107399,7 +107586,10 @@
           "open": false,
           "mustPopulate": [
             "id",
-            "images"
+            "images",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle"
           ]
         }
       },
@@ -107537,6 +107727,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "authorName": {
                     "kind": "string",
                     "description": "The author's display name, which is not the handle and can contain any characters.",
@@ -107547,6 +107744,13 @@
                   "authorSecUid": {
                     "kind": "string",
                     "description": "The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author's numeric TikTok user id. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -107613,6 +107817,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each as the handle with its leading @. Empty when the post mentions none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "saves": {
                     "kind": "integer",
                     "minimum": null,
@@ -107646,6 +107861,21 @@
                     "default": null,
                     "format": null
                   },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Playable video URL, or null when TikTok returns none. Signed and short-lived, so the query string is load-bearing and kept intact.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "views": {
                     "kind": "integer",
                     "minimum": null,
@@ -107666,9 +107896,12 @@
                 "open": true,
                 "mustPopulate": [
                   "author",
+                  "authorImage",
+                  "authorUserId",
                   "caption",
                   "createdUtc",
-                  "id"
+                  "id",
+                  "url"
                 ]
               },
               "mustPopulate": false
@@ -107961,15 +108194,12 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `socialLinks` or `domain`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `domain` or `sourceUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
                 "domain",
-                "platform",
-                "socialLinks",
-                "sourceUrl",
-                "url"
+                "sourceUrl"
               ],
               "default": null,
               "format": null
@@ -108034,7 +108264,7 @@
                   },
                   "domainHealth": {
                     "kind": "string",
-                    "description": "The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request.",
+                    "description": "The source's verdict on whether the address can receive mail: healthy or unhealthy from a domain-level check, deliverable, risky or missing from a mailbox-level one. Which vocabulary you get varies with the source that served the request. Absent when the source gives no verdict for the address.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -108048,7 +108278,7 @@
                   },
                   "sourceType": {
                     "kind": "string",
-                    "description": "Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request.",
+                    "description": "Where the address was read: the TikTok bio itself (tiktok_bio) or a page the profile links to (linked_page, website). An address read off a linked page may belong to a brand or a partner rather than the creator. The exact word varies with the source that served the request. Absent when the source lists the address without its origin.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -108129,7 +108359,7 @@
             },
             "socialLinks": {
               "kind": "array",
-              "description": "Other social accounts found for the creator on the page their profile links to. Empty when none were found.",
+              "description": "Other social accounts found for the creator. Empty when none were found.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -108609,6 +108839,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "authorName": {
                     "kind": "string",
                     "description": "The author's display name, which is not the handle and can contain any characters.",
@@ -108619,6 +108856,13 @@
                   "authorSecUid": {
                     "kind": "string",
                     "description": "The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author's numeric TikTok user id. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -108685,6 +108929,25 @@
                     "maximum": null,
                     "default": null
                   },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the place the post is tagged at, or null when it has no location tag.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each as the handle with its leading @. Empty when the post mentions none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "saves": {
                     "kind": "integer",
                     "minimum": null,
@@ -108718,6 +108981,21 @@
                     "default": null,
                     "format": null
                   },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Playable video URL, or null when TikTok returns none. Signed and short-lived, so the query string is load-bearing and kept intact.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "views": {
                     "kind": "integer",
                     "minimum": null,
@@ -108738,9 +109016,12 @@
                 "open": true,
                 "mustPopulate": [
                   "author",
+                  "authorImage",
+                  "authorUserId",
                   "caption",
                   "createdUtc",
-                  "id"
+                  "id",
+                  "url"
                 ]
               },
               "mustPopulate": false
@@ -108831,7 +109112,13 @@
             "items": {
               "kind": "string",
               "enum": [
-                "nextCursor"
+                "authorFollowers",
+                "authorVerified",
+                "locationName",
+                "nextCursor",
+                "paidPartnership",
+                "soundAuthor",
+                "soundTitle"
               ],
               "default": null,
               "format": null
@@ -108873,6 +109160,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "authorFollowers": {
+                    "kind": "integer",
+                    "description": "The author's follower count at the time of the request. Some sources round large counts; name `authorFollowers` in requireFields to be served only by a source that returns the exact count. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "authorHandle": {
                     "kind": "string",
                     "description": "Author's TikTok handle, without the leading @.",
@@ -108901,6 +109196,12 @@
                     "default": null,
                     "format": null
                   },
+                  "authorVerified": {
+                    "kind": "boolean",
+                    "description": "Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "caption": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -108928,6 +109229,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -108942,10 +109254,29 @@
                     "default": null,
                     "format": null
                   },
+                  "isPinned": {
+                    "kind": "boolean",
+                    "description": "Whether the video is pinned to the top of the creator's profile grid.",
+                    "default": null
+                  },
                   "likes": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the place the video is tagged at. Absent when the video has no location tag. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the video is labeled as a paid partnership. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "saves": {
@@ -108960,6 +109291,29 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "url": {
                     "kind": "string",
@@ -108996,6 +109350,7 @@
                   "caption",
                   "createdUtc",
                   "id",
+                  "soundClipId",
                   "url"
                 ]
               },
@@ -109080,6 +109435,21 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle` or `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "locationName",
+                "soundAuthor",
+                "soundTitle"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -109177,6 +109547,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -109197,6 +109578,14 @@
                     "maximum": null,
                     "default": null
                   },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the place the video is tagged at, or null when it has no location tag or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "saves": {
                     "kind": "integer",
                     "description": "Save count.",
@@ -109209,6 +109598,29 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "url": {
                     "kind": "string",
@@ -109245,7 +109657,9 @@
                 "mustPopulate": [
                   "author",
                   "caption",
-                  "id"
+                  "hashtags",
+                  "id",
+                  "soundClipId"
                 ]
               },
               "mustPopulate": true
@@ -109350,7 +109764,13 @@
             "items": {
               "kind": "string",
               "enum": [
-                "nextCursor"
+                "authorFollowers",
+                "authorVerified",
+                "locationName",
+                "nextCursor",
+                "paidPartnership",
+                "soundAuthor",
+                "soundTitle"
               ],
               "default": null,
               "format": null
@@ -109411,6 +109831,41 @@
                     "default": null,
                     "format": null
                   },
+                  "authorFollowers": {
+                    "kind": "integer",
+                    "description": "The author's follower count at the time of the request. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Author's display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author's numeric TikTok user id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorVerified": {
+                    "kind": "boolean",
+                    "description": "Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "caption": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -109431,9 +109886,34 @@
                     "maximum": null,
                     "default": null
                   },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video duration in seconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -109442,6 +109922,20 @@
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the place the video is tagged at. Absent when the video has no location tag. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the video is labeled as a paid partnership. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "region": {
@@ -109462,6 +109956,43 @@
                     "maximum": null,
                     "default": null
                   },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "views": {
                     "kind": "integer",
                     "minimum": null,
@@ -109480,8 +110011,15 @@
                 ],
                 "open": true,
                 "mustPopulate": [
+                  "authorImage",
+                  "authorName",
+                  "authorUserId",
                   "caption",
-                  "id"
+                  "hashtags",
+                  "id",
+                  "image",
+                  "soundClipId",
+                  "url"
                 ]
               },
               "mustPopulate": true
@@ -109625,6 +110163,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "authorName": {
                     "kind": "string",
                     "description": "The author's display name, which is not the handle and can contain any characters.",
@@ -109635,6 +110180,13 @@
                   "authorSecUid": {
                     "kind": "string",
                     "description": "The author's TikTok sec_uid. Pass it straight to tiktok.profile_reposts or tiktok.profile_playlists to pivot to that creator without a tiktok.profile lookup.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author's numeric TikTok user id. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -109723,6 +110275,14 @@
                     "maximum": null,
                     "default": null
                   },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the place the post is tagged at, or null when it has no location tag.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "saves": {
                     "kind": "integer",
                     "minimum": null,
@@ -109763,6 +110323,13 @@
                     "default": null,
                     "format": null
                   },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical TikTok URL of the photo post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "views": {
                     "kind": "integer",
                     "minimum": null,
@@ -109783,9 +110350,12 @@
                 "open": true,
                 "mustPopulate": [
                   "author",
+                  "authorImage",
+                  "authorUserId",
                   "caption",
                   "createdUtc",
-                  "id"
+                  "id",
+                  "url"
                 ]
               },
               "mustPopulate": false
@@ -110025,12 +110595,16 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundClipId` or `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
+                "authorFollowers",
                 "contentType",
-                "nextCursor"
+                "nextCursor",
+                "soundAuthor",
+                "soundClipId",
+                "soundTitle"
               ],
               "default": null,
               "format": null
@@ -110082,6 +110656,14 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "authorFollowers": {
+                    "kind": "integer",
+                    "description": "The author's follower count at the time of the request. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "authorImage": {
                     "kind": "string",
@@ -110139,6 +110721,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -110170,6 +110763,30 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "url": {
                     "kind": "string",
@@ -110208,6 +110825,7 @@
                   "author",
                   "caption",
                   "createdUtc",
+                  "hashtags",
                   "id",
                   "url"
                 ]
@@ -110307,11 +110925,16 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid` or `bio`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
-                "nextCursor"
+                "bio",
+                "instagramUrl",
+                "nextCursor",
+                "region",
+                "secUid",
+                "youtubeUrl"
               ],
               "default": null,
               "format": null
@@ -110361,6 +110984,14 @@
                     "default": null,
                     "format": null
                   },
+                  "bio": {
+                    "kind": "string",
+                    "description": "Profile biography text. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "followers": {
                     "kind": "integer",
                     "minimum": null,
@@ -110380,6 +111011,14 @@
                     "default": null,
                     "format": null
                   },
+                  "instagramUrl": {
+                    "kind": "string",
+                    "description": "Instagram profile the account links on TikTok. Null when it links none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "likes": {
                     "kind": "integer",
                     "description": "Total likes the account has received.",
@@ -110390,6 +111029,22 @@
                   "nickname": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "region": {
+                    "kind": "string",
+                    "description": "Two-letter country code TikTok assigns the account. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "secUid": {
+                    "kind": "string",
+                    "description": "TikTok's sec_uid for the account. Pass it to tiktok.profile_reposts or tiktok.profile_playlists. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -110412,6 +111067,14 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "youtubeUrl": {
+                    "kind": "string",
+                    "description": "YouTube channel the account links on TikTok. Null when it links none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   }
                 },
                 "required": [
@@ -110798,6 +111461,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "image": {
                     "kind": "string",
                     "description": "URL of the video's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.",
@@ -110860,6 +111534,7 @@
                 "mustPopulate": [
                   "authorHandle",
                   "authorName",
+                  "hashtags",
                   "videoId"
                 ]
               },
@@ -111330,6 +112005,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -111370,6 +112056,27 @@
                     "maximum": null,
                     "default": null
                   },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -111407,8 +112114,12 @@
                 "mustPopulate": [
                   "author",
                   "createdUtc",
+                  "hashtags",
                   "id",
                   "region",
+                  "soundAuthor",
+                  "soundClipId",
+                  "soundTitle",
                   "url"
                 ]
               },
@@ -111830,6 +112541,8 @@
             "items": {
               "kind": "string",
               "enum": [
+                "authorFollowers",
+                "authorVerified",
                 "comments",
                 "likes",
                 "shares",
@@ -111867,6 +112580,14 @@
         "data": {
           "kind": "object",
           "properties": {
+            "authorFollowers": {
+              "kind": "integer",
+              "description": "The author's follower count at the time of the request. Some sources round large counts; name `authorFollowers` in requireFields to be served only by a source that returns the exact count. Null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "authorHandle": {
               "kind": "string",
               "description": "Author's TikTok handle, without the leading @.",
@@ -111895,6 +112616,12 @@
               "default": null,
               "format": null
             },
+            "authorVerified": {
+              "kind": "boolean",
+              "description": "Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+              "nullable": true,
+              "default": null
+            },
             "caption": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
@@ -111922,6 +112649,17 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "hashtags": {
+              "kind": "array",
+              "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
             },
             "id": {
               "kind": "string",
@@ -111963,6 +112701,27 @@
               "maximum": null,
               "default": null
             },
+            "soundAuthor": {
+              "kind": "string",
+              "description": "Credited author of the sound. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundClipId": {
+              "kind": "string",
+              "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundTitle": {
+              "kind": "string",
+              "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "url": {
               "kind": "string",
               "description": "Canonical TikTok URL of the video.",
@@ -111998,7 +112757,10 @@
           "open": true,
           "mustPopulate": [
             "caption",
-            "id"
+            "id",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle"
           ]
         }
       },
@@ -112067,6 +112829,20 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorUserId` or `language`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorUserId",
+                "language"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -112122,6 +112898,14 @@
                     "default": null,
                     "format": null
                   },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Comment author's numeric TikTok user id. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "createdUtc": {
                     "kind": "number",
                     "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -112132,6 +112916,14 @@
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Language TikTok detected for the comment text, as a code such as en. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -112260,6 +113052,8 @@
             "items": {
               "kind": "string",
               "enum": [
+                "authorFollowers",
+                "authorVerified",
                 "height",
                 "width"
               ],
@@ -112297,9 +113091,24 @@
         "data": {
           "kind": "object",
           "properties": {
+            "authorFollowers": {
+              "kind": "integer",
+              "description": "The author's follower count at the time of the request. Null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "authorHandle": {
               "kind": "string",
               "description": "Author's TikTok handle, without the leading @.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "authorImage": {
+              "kind": "string",
+              "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
@@ -112317,6 +113126,12 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "authorVerified": {
+              "kind": "boolean",
+              "description": "Whether the author's account carries a TikTok verification badge. Null when the serving source does not report it.",
+              "nullable": true,
+              "default": null
             },
             "caption": {
               "kind": "string",
@@ -112338,6 +113153,17 @@
               "minimum": null,
               "maximum": null,
               "default": null
+            },
+            "hashtags": {
+              "kind": "array",
+              "description": "Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
             },
             "height": {
               "kind": "integer",
@@ -112367,6 +113193,27 @@
               "default": null,
               "format": null
             },
+            "soundAuthor": {
+              "kind": "string",
+              "description": "Credited author of the sound. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundClipId": {
+              "kind": "string",
+              "description": "Id of the sound the video uses. Pass it to tiktok.song or tiktok.song_videos as clipId. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundTitle": {
+              "kind": "string",
+              "description": "Name of the sound. \"original sound\" means the creator's own audio rather than a licensed track. Some sources answer in another language (\"原声\" for original sound). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "url": {
               "kind": "string",
               "description": "Canonical TikTok URL of the video.",
@@ -112376,14 +113223,14 @@
             },
             "videoUrl": {
               "kind": "string",
-              "description": "Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Populated whenever the provider has data for the entity.",
+              "description": "Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": "uri"
             },
             "watermarkedUrl": {
               "kind": "string",
-              "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl.",
+              "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.",
               "enum": null,
               "default": null,
               "format": "uri"
@@ -112402,7 +113249,11 @@
           ],
           "open": true,
           "mustPopulate": [
+            "authorImage",
             "id",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
             "videoUrl"
           ]
         }
@@ -113447,7 +114298,12 @@
             "items": {
               "kind": "string",
               "enum": [
-                "sellerLocation"
+                "brand",
+                "category",
+                "name",
+                "sellerLocation",
+                "specifications",
+                "value"
               ],
               "default": null,
               "format": null
@@ -113483,12 +114339,37 @@
         "data": {
           "kind": "object",
           "properties": {
+            "brand": {
+              "kind": "string",
+              "description": "Brand as the seller listed it. Omitted when not listed or when the serving source does not report it.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "category": {
+              "kind": "string",
+              "description": "Top-level TikTok Shop category, e.g. \"Health\". Omitted when the serving source does not report it.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "currency": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
+            },
+            "images": {
+              "kind": "array",
+              "description": "Product photo URLs, main photo first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": true
             },
             "originalPrice": {
               "kind": "string",
@@ -113523,6 +114404,13 @@
               "maximum": null,
               "default": null
             },
+            "sellerId": {
+              "kind": "string",
+              "description": "TikTok Shop seller id, for joining to the seller's other products. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "sellerLocation": {
               "kind": "string",
               "description": "Where the seller is based, or null when the serving source does not report it.",
@@ -113544,9 +114432,45 @@
               "maximum": null,
               "default": null
             },
+            "specifications": {
+              "kind": "array",
+              "description": "The product's attribute table as the seller filled it in (brand, flavor, manufacturer and so on); the set of names varies by category. Omitted when the serving source does not report it.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "name": {
+                    "kind": "string",
+                    "description": "Attribute name, e.g. Brand.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "value": {
+                    "kind": "string",
+                    "description": "Attribute value as the seller entered it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name",
+                  "value"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
             "title": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Product detail page URL. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
@@ -113567,11 +114491,14 @@
           "open": true,
           "mustPopulate": [
             "currency",
+            "images",
             "originalPrice",
             "price",
             "productId",
+            "sellerId",
             "sellerName",
-            "title"
+            "title",
+            "url"
           ]
         }
       },
@@ -113646,6 +114573,19 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `images`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be empty on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "images"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -113722,6 +114662,17 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Photos the reviewer attached, as image URLs; empty when the review has none. Some are signed and short-lived, so the query string is kept intact. Omitted when the serving source does not report review photos.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "productId": {
                     "kind": "string",
@@ -114339,6 +115290,13 @@
                     "default": null,
                     "format": null
                   },
+                  "discountPct": {
+                    "kind": "number",
+                    "description": "Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "image": {
                     "kind": "string",
                     "description": "Product image URL.",
@@ -114381,6 +115339,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "TikTok Shop seller id, for joining to the seller's other products. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "soldCount": {
                     "kind": "integer",
                     "minimum": null,
@@ -114416,6 +115381,7 @@
                 "open": true,
                 "mustPopulate": [
                   "productId",
+                  "sellerId",
                   "title",
                   "url"
                 ]
@@ -114582,6 +115548,13 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "discountPct": {
+                    "kind": "number",
+                    "description": "Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "imageUrl": {
                     "kind": "string",
@@ -127959,7 +128932,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

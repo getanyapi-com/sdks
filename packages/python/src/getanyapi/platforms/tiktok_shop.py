@@ -64,7 +64,13 @@ class TiktokShopProductInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Two-letter country code for the proxy location used to access region-specific products (e.g. US, GB, FR). Defaults to US."""
-    requireFields: NotRequired[list[Literal["sellerLocation"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "brand", "category", "name", "sellerLocation", "specifications", "value"
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerLocation`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -85,6 +91,8 @@ class TiktokShopProductReviewsInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     region: NotRequired[str]
     """Two-letter country code of the product's shop region (e.g. US). Strongly recommended for correct results."""
+    requireFields: NotRequired[list[Literal["images"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `images`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be empty on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -383,8 +391,20 @@ class TiktokShopCreatorCategorie(BaseModel):
 class TiktokShopProductData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    brand: str | None = Field(
+        default=None,
+        description="Brand as the seller listed it. Omitted when not listed or when the serving source does not report it.",
+    )
+    category: str | None = Field(
+        default=None,
+        description='Top-level TikTok Shop category, e.g. "Health". Omitted when the serving source does not report it.',
+    )
     currency: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    images: list[str] | None = Field(
+        default=None,
+        description="Product photo URLs, main photo first. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     original_price: str = Field(
         alias="originalPrice",
@@ -399,6 +419,11 @@ class TiktokShopProductData(BaseModel):
     )
     rating: float
     review_count: int = Field(alias="reviewCount")
+    seller_id: str | None = Field(
+        default=None,
+        alias="sellerId",
+        description="TikTok Shop seller id, for joining to the seller's other products. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     seller_location: str | None = Field(
         alias="sellerLocation",
         description="Where the seller is based, or null when the serving source does not report it.",
@@ -408,9 +433,24 @@ class TiktokShopProductData(BaseModel):
         description="Populated whenever the provider has data for the entity.",
     )
     sold_count: int = Field(alias="soldCount")
+    specifications: list[TiktokShopProductSpecification] | None = Field(
+        default=None,
+        description="The product's attribute table as the seller filled it in (brand, flavor, manufacturer and so on); the set of names varies by category. Omitted when the serving source does not report it.",
+    )
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    url: str | None = Field(
+        default=None,
+        description="Product detail page URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class TiktokShopProductSpecification(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    name: str = Field(description="Attribute name, e.g. Brand.")
+    value: str = Field(description="Attribute value as the seller entered it.")
 
 
 class TiktokShopProductReviewsData(BaseModel):
@@ -447,6 +487,10 @@ class TiktokShopProductReviewsReview(BaseModel):
     )
     id: str = Field(
         description="Review identifier. Populated whenever the provider has data for the entity."
+    )
+    images: list[str] | None = Field(
+        default=None,
+        description="Photos the reviewer attached, as image URLs; empty when the review has none. Some are signed and short-lived, so the query string is kept intact. Omitted when the serving source does not report review photos.",
     )
     product_id: str | None = Field(
         default=None,
@@ -568,6 +612,11 @@ class TiktokShopShopProductsProduct(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     currency: str
+    discount_pct: float | None = Field(
+        default=None,
+        alias="discountPct",
+        description="Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+    )
     image: str | None = Field(default=None, description="Product image URL.")
     original_price: float | None = Field(
         alias="originalPrice",
@@ -582,6 +631,11 @@ class TiktokShopShopProductsProduct(BaseModel):
         description="Average review score out of 5, or null when the product has no rating yet."
     )
     review_count: int = Field(alias="reviewCount")
+    seller_id: str | None = Field(
+        default=None,
+        alias="sellerId",
+        description="TikTok Shop seller id, for joining to the seller's other products. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     sold_count: int = Field(alias="soldCount")
     title: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -607,6 +661,11 @@ class TiktokShopUserShowcaseProduct(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     currency: str
+    discount_pct: float | None = Field(
+        default=None,
+        alias="discountPct",
+        description="Discount off the original price as a percentage, e.g. 10 for 10% off. Omitted when the product is not discounted.",
+    )
     image_url: str = Field(
         alias="imageUrl",
         description="Populated whenever the provider has data for the entity.",
