@@ -127,6 +127,38 @@ class GoogleLensInput(TypedDict, total=False):
     """Public URL of the image to search with."""
 
 
+class GoogleLocalServicesInput(TypedDict, total=False):
+    """Input for Google Local Services."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    limit: NotRequired[int]
+    """Maximum number of businesses to return (1-20, default 20). Google lists at most 20 businesses for one service in one city, so there are no further pages. Range: 1 to 20."""
+    location: Required[str]
+    """The US city to search, with its state (e.g. Denver, CO or Austin, TX)."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """The service to find businesses for, in everyday words (e.g. plumber, electrician, house cleaning, roofer)."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "highlights",
+                "hours",
+                "image",
+                "isOpenNow",
+                "responseTime",
+                "yearsInBusiness",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `yearsInBusiness` or `hours`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be null on a business that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class GoogleNewsInput(TypedDict, total=False):
     """Input for Google News."""
 
@@ -452,6 +484,90 @@ class GoogleLensResult(BaseModel):
     )
     title: str = Field(
         description="Title of the matching web page. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleLocalServicesData(BaseModel):
+    items: list[GoogleLocalServicesItem] = Field(
+        description="Businesses Google lists in Local Services ads for the service and location, in Google's order. Populated whenever the provider has data for the entity."
+    )
+
+
+class GoogleLocalServicesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    bid: str | None = Field(
+        default=None,
+        description="Google Local Services business id (bid). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    category: str | None = Field(
+        default=None,
+        description="Google's service category for the business (e.g. Plumbers, Electricians). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    cid: str | None = Field(
+        default=None,
+        description="Google customer id (cid) of the business. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    highlights: list[str] | None = Field(
+        default=None,
+        description="Selling points the business lists, such as Flat rate pricing or Free in-home estimate. Null when this source does not report them.",
+    )
+    hours: str | None = Field(
+        default=None,
+        description="Opening status as Google shows it at request time (e.g. Open 24 hours). Null when this source does not report it.",
+    )
+    image: str | None = Field(
+        default=None,
+        description="Business logo or photo URL. Null when the business has none or this source does not report it.",
+    )
+    is_open_now: bool | None = Field(
+        default=None,
+        alias="isOpenNow",
+        description="Whether the business was open when the request ran, as Google shows it. Null when this source does not report it.",
+    )
+    name: str = Field(
+        description="Business name. Populated whenever the provider has data for the entity."
+    )
+    phone: str | None = Field(
+        default=None,
+        description="Business phone number in E.164 format (e.g. +17205550123). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    pid: str | None = Field(
+        default=None,
+        description="Google Local Services provider id (pid). Null when Google assigns none, which is common.",
+    )
+    position: int | None = Field(
+        default=None,
+        description="1-based position of the business in Google's list. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="The business's Google Local Services profile page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    rating: float | None = Field(
+        default=None,
+        description="Average Google star rating out of 5. Null for a business with no reviews yet. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    response_time: str | None = Field(
+        default=None,
+        alias="responseTime",
+        description="How quickly the business usually replies, as Google shows it (e.g. Typically replies in 15 min). Null when Google shows none or this source does not report it.",
+    )
+    review_count: int | None = Field(
+        default=None,
+        alias="reviewCount",
+        description="Number of Google reviews behind the rating. Null for a business with no reviews yet. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    service_area: str | None = Field(
+        default=None,
+        alias="serviceArea",
+        description="The area Google says the business serves (e.g. Denver). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    years_in_business: int | None = Field(
+        default=None,
+        alias="yearsInBusiness",
+        description='Years in business as Google shows it ("8+ years in business" reads 8). Null when Google shows none or this source does not report it.',
     )
 
 
@@ -841,6 +957,29 @@ class GoogleNamespace:
         )
         return RunResult[GoogleLensData].model_validate(raw)
 
+    def local_services(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleLocalServicesInput],
+    ) -> RunResult[GoogleLocalServicesData]:
+        """Google Local Services
+
+        Find the businesses Google lists in Local Services ads for a service in a US
+        city (plumbers, electricians, cleaners...): up to 20 per request, each with
+        phone, star rating, review count, category, service area and Google profile
+        link.
+
+        Price: $0.00085 per request.
+
+        Example:
+            res = client.google.local_services(limit=5, location="Denver, CO", query="plumber")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.local_services", dict(input), options
+        )
+        return RunResult[GoogleLocalServicesData].model_validate(raw)
+
     def news(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleNewsInput]
     ) -> RunResult[GoogleNewsData]:
@@ -1155,6 +1294,29 @@ class AsyncGoogleNamespace:
             "google.lens", dict(input), options
         )
         return RunResult[GoogleLensData].model_validate(raw)
+
+    async def local_services(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[GoogleLocalServicesInput],
+    ) -> RunResult[GoogleLocalServicesData]:
+        """Google Local Services
+
+        Find the businesses Google lists in Local Services ads for a service in a US
+        city (plumbers, electricians, cleaners...): up to 20 per request, each with
+        phone, star rating, review count, category, service area and Google profile
+        link.
+
+        Price: $0.00085 per request.
+
+        Example:
+            res = client.google.local_services(limit=5, location="Denver, CO", query="plumber")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "google.local_services", dict(input), options
+        )
+        return RunResult[GoogleLocalServicesData].model_validate(raw)
 
     async def news(
         self, *, options: RequestOptions | None = None, **input: Unpack[GoogleNewsInput]

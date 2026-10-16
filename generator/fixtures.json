@@ -2216,6 +2216,23 @@
     "items": 1,
     "replayed": false
   },
+  "google.local_services": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google.news": {
     "output": {
       "found": true,

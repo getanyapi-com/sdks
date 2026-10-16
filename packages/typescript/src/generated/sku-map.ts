@@ -288,6 +288,8 @@ import type {
   GoogleImagesInput,
   GoogleLensData,
   GoogleLensInput,
+  GoogleLocalServicesData,
+  GoogleLocalServicesInput,
   GoogleNewsData,
   GoogleNewsInput,
   GooglePatentsData,
@@ -1560,6 +1562,11 @@ export interface SkuMap {
     input: GoogleLensInput;
     data: GoogleLensData;
     result: RunResult<GoogleLensData>;
+  };
+  "google.local_services": {
+    input: GoogleLocalServicesInput;
+    data: GoogleLocalServicesData;
+    result: RunResult<GoogleLocalServicesData>;
   };
   "google.news": {
     input: GoogleNewsInput;
