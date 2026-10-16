@@ -53,8 +53,12 @@ import type {
   ApolloPersonEnrichInput,
 } from "./platforms/apollo.js";
 import type {
+  AppstoreAppData,
+  AppstoreAppInput,
   AppstoreReviewsData,
   AppstoreReviewsInput,
+  AppstoreSearchData,
+  AppstoreSearchInput,
 } from "./platforms/appstore.js";
 import type {
   BingCopilotData,
@@ -573,8 +577,12 @@ import type {
   PinterestSearchInput,
 } from "./platforms/pinterest.js";
 import type {
+  PlaystoreAppData,
+  PlaystoreAppInput,
   PlaystoreReviewsData,
   PlaystoreReviewsInput,
+  PlaystoreSearchData,
+  PlaystoreSearchInput,
 } from "./platforms/playstore.js";
 import type {
   PolymarketMarketsData,
@@ -1093,10 +1101,20 @@ export interface SkuMap {
     data: ApolloPersonEnrichData;
     result: RunResult<ApolloPersonEnrichData>;
   };
+  "appstore.app": {
+    input: AppstoreAppInput;
+    data: AppstoreAppData;
+    result: RunResult<AppstoreAppData>;
+  };
   "appstore.reviews": {
     input: AppstoreReviewsInput;
     data: AppstoreReviewsData;
     result: RunResult<AppstoreReviewsData>;
+  };
+  "appstore.search": {
+    input: AppstoreSearchInput;
+    data: AppstoreSearchData;
+    result: RunResult<AppstoreSearchData>;
   };
   "bing.copilot": {
     input: BingCopilotInput;
@@ -2188,10 +2206,20 @@ export interface SkuMap {
     data: PinterestSearchData;
     result: RunResult<PinterestSearchData>;
   };
+  "playstore.app": {
+    input: PlaystoreAppInput;
+    data: PlaystoreAppData;
+    result: RunResult<PlaystoreAppData>;
+  };
   "playstore.reviews": {
     input: PlaystoreReviewsInput;
     data: PlaystoreReviewsData;
     result: RunResult<PlaystoreReviewsData>;
+  };
+  "playstore.search": {
+    input: PlaystoreSearchInput;
+    data: PlaystoreSearchData;
+    result: RunResult<PlaystoreSearchData>;
   };
   "polymarket.markets": {
     input: PolymarketMarketsInput;

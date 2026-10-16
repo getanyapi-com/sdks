@@ -367,6 +367,20 @@
     "items": 1,
     "replayed": false
   },
+  "appstore.app": {
+    "output": {
+      "found": true,
+      "data": {
+        "appId": "sample",
+        "title": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "appstore.reviews": {
     "output": {
       "found": true,
@@ -375,6 +389,25 @@
           {
             "rating": 1.5,
             "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "appstore.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "appId": "sample",
+            "title": "sample",
+            "price": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -4630,6 +4663,20 @@
     "items": 1,
     "replayed": false
   },
+  "playstore.app": {
+    "output": {
+      "found": true,
+      "data": {
+        "appId": "sample",
+        "title": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "playstore.reviews": {
     "output": {
       "found": true,
@@ -4638,6 +4685,25 @@
           {
             "rating": 1.5,
             "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "playstore.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "appId": "sample",
+            "title": "sample",
+            "price": 1.5,
             "_extra": "passthrough"
           }
         ]

@@ -7880,6 +7880,631 @@
       }
     },
     {
+      "slug": "appstore.app",
+      "platform": "appstore",
+      "action": "app",
+      "operationId": "appstore_app",
+      "name": "App Store App Details",
+      "category": "shop",
+      "description": "Get an iOS app's App Store listing by app ID, in any storefront country: title, developer, rating, price, version, description, screenshots, and more.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "appstore",
+      "tsMethod": "app",
+      "tsIterMethod": null,
+      "pyNamespace": "appstore",
+      "pyMethod": "app",
+      "pyIterMethod": null,
+      "inputTypeName": "AppstoreAppInput",
+      "outputTypeName": "AppstoreAppData",
+      "example": {
+        "appId": "479516143",
+        "country": "us"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "appId": {
+            "kind": "string",
+            "description": "Numeric App Store app ID, the digits at the end of the app's store URL without the 'id' prefix (e.g. 310633997).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "country": {
+            "kind": "string",
+            "description": "Two-letter App Store storefront country code to read the listing from (e.g. gb); price and currency follow that storefront.",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `ratingCount` or `screenshots`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an app that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "author",
+                "bundleId",
+                "categories",
+                "category",
+                "createdUtc",
+                "currency",
+                "currentVersionRating",
+                "currentVersionRatingCount",
+                "genres",
+                "hasInAppPurchases",
+                "languages",
+                "minimumOsVersion",
+                "moreByDeveloper",
+                "privacyTypes",
+                "ratingCount",
+                "ratingHistogram",
+                "releasedUtc",
+                "reviewSamples",
+                "screenshots",
+                "similarApps",
+                "sizeBytes",
+                "subtitle",
+                "supportedDevices",
+                "text",
+                "website"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "appId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "appId": {
+              "kind": "string",
+              "description": "Numeric App Store app ID. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "bundleId": {
+              "kind": "string",
+              "description": "The app's bundle identifier (e.g. com.burbn.instagram).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "category": {
+              "kind": "string",
+              "description": "Primary App Store category (e.g. Photo & Video).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "contentRating": {
+              "kind": "string",
+              "description": "Age rating as shown on the listing (e.g. 13+). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "currency": {
+              "kind": "string",
+              "description": "ISO 4217 currency code of the price (e.g. USD).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "currentVersionRating": {
+              "kind": "number",
+              "description": "Average star rating of the current version.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "currentVersionRatingCount": {
+              "kind": "integer",
+              "description": "Number of star ratings of the current version.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "Full app description. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developer": {
+              "kind": "string",
+              "description": "Developer name as listed. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerId": {
+              "kind": "string",
+              "description": "Numeric App Store developer ID. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerUrl": {
+              "kind": "string",
+              "description": "The developer's App Store page URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "genres": {
+              "kind": "array",
+              "description": "All App Store categories the app is listed in.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "hasInAppPurchases": {
+              "kind": "boolean",
+              "description": "True when the listing offers in-app purchases; null when the source does not say.",
+              "nullable": true,
+              "default": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "App icon image URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "languages": {
+              "kind": "array",
+              "description": "Two-letter codes of the languages the app supports (e.g. EN).",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "minimumOsVersion": {
+              "kind": "string",
+              "description": "Minimum iOS version required (e.g. 16.3).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "moreByDeveloper": {
+              "kind": "array",
+              "description": "Other apps by the same developer.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Numeric App Store app ID.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "App Store page URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "appId"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "price": {
+              "kind": "number",
+              "description": "Price to download in the storefront's currency; 0 for a free app. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "privacyTypes": {
+              "kind": "array",
+              "description": "The App Privacy label: each kind of data use the developer declared, with the data categories it covers.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "categories": {
+                    "kind": "array",
+                    "description": "Data categories it covers (e.g. Contact Info).",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Kind of data use (e.g. Data Linked to You).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Average star rating, 0 to 5. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingCount": {
+              "kind": "integer",
+              "description": "Number of star ratings the app has in this storefront (ratings, not written reviews).",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingHistogram": {
+              "kind": "object",
+              "description": "Number of ratings at each star level.",
+              "nullable": true,
+              "properties": {
+                "fiveStar": {
+                  "kind": "integer",
+                  "description": "Number of 5-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "fourStar": {
+                  "kind": "integer",
+                  "description": "Number of 4-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "oneStar": {
+                  "kind": "integer",
+                  "description": "Number of 1-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "threeStar": {
+                  "kind": "integer",
+                  "description": "Number of 3-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "twoStar": {
+                  "kind": "integer",
+                  "description": "Number of 2-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "releaseNotes": {
+              "kind": "string",
+              "description": "What's new in the current version. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "releasedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the app was first released.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "reviewSamples": {
+              "kind": "array",
+              "description": "A few reviews shown on the listing page; use appstore.reviews for the full list.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Reviewer nickname.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Star rating, 1 to 5.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Review text.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Review title.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "rating"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "screenshots": {
+              "kind": "array",
+              "description": "iPhone screenshot image URLs.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "similarApps": {
+              "kind": "array",
+              "description": "Apps shown under You Might Also Like.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Numeric App Store app ID.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "App Store page URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "appId"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "sizeBytes": {
+              "kind": "integer",
+              "description": "Download size in bytes.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "subtitle": {
+              "kind": "string",
+              "description": "Short subtitle shown under the app name.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "supportedDevices": {
+              "kind": "array",
+              "description": "Apple device model codes the app runs on.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "title": {
+              "kind": "string",
+              "description": "App name as listed. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "updatedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the current version was released. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "App Store page URL for the app in the requested storefront. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "version": {
+              "kind": "string",
+              "description": "Current version number (e.g. 451.0.0). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "website": {
+              "kind": "string",
+              "description": "The seller's own website, when listed.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "appId",
+            "title"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "appId",
+            "contentRating",
+            "description",
+            "developer",
+            "developerId",
+            "developerUrl",
+            "image",
+            "price",
+            "rating",
+            "releaseNotes",
+            "title",
+            "updatedUtc",
+            "url",
+            "version"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "appstore.reviews",
       "platform": "appstore",
       "action": "reviews",
@@ -8114,6 +8739,332 @@
         "itemsField": "items",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "appstore.search",
+      "platform": "appstore",
+      "action": "search",
+      "operationId": "appstore_search",
+      "name": "App Store Search",
+      "category": "search",
+      "description": "Search the App Store for iOS apps by keyword, in any storefront country: app ID, title, developer, rating, ratings count, price, version, and more for each result.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "appstore",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "appstore",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "AppstoreSearchInput",
+      "outputTypeName": "AppstoreSearchData",
+      "example": {
+        "country": "us",
+        "limit": 10,
+        "query": "minecraft"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "Two-letter App Store storefront country code to search (e.g. gb); results, prices, and currency follow that storefront.",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of apps to return (1-50, default 20).",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, as typed into the App Store search box (e.g. budget tracker).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sizeBytes` or `updatedUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an app that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bundleId",
+                "screenshots",
+                "sizeBytes",
+                "updatedUtc"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching apps in App Store search order. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Numeric App Store app ID; pass it to appstore.app for the full listing. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "bundleId": {
+                    "kind": "string",
+                    "description": "The app's bundle identifier.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "contentRating": {
+                    "kind": "string",
+                    "description": "Age rating (e.g. 4+). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "ISO 4217 currency code of the price (e.g. USD).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "App description. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "developer": {
+                    "kind": "string",
+                    "description": "Developer name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "developerId": {
+                    "kind": "string",
+                    "description": "Numeric App Store developer ID. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "genres": {
+                    "kind": "array",
+                    "description": "App Store categories, primary first. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "languages": {
+                    "kind": "array",
+                    "description": "Two-letter codes of the languages the app supports. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "minimumOsVersion": {
+                    "kind": "string",
+                    "description": "Minimum iOS version required. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Price to download in the storefront's currency; 0 for a free app.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average star rating, 0 to 5. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "ratingCount": {
+                    "kind": "integer",
+                    "description": "Number of star ratings (ratings, not written reviews). Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "releasedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the app was first released. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "screenshots": {
+                    "kind": "array",
+                    "description": "iPhone screenshot image URLs.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "sizeBytes": {
+                    "kind": "integer",
+                    "description": "Download size in bytes.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the current version was released.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "App Store page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "version": {
+                    "kind": "string",
+                    "description": "Current version number. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "appId",
+                  "title",
+                  "price"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "appId",
+                  "contentRating",
+                  "description",
+                  "developer",
+                  "developerId",
+                  "genres",
+                  "image",
+                  "languages",
+                  "minimumOsVersion",
+                  "rating",
+                  "ratingCount",
+                  "releasedUtc",
+                  "title",
+                  "url",
+                  "version"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
       }
     },
     {
@@ -86304,6 +87255,726 @@
       }
     },
     {
+      "slug": "playstore.app",
+      "platform": "playstore",
+      "action": "app",
+      "operationId": "playstore_app",
+      "name": "Google Play App Details",
+      "category": "shop",
+      "description": "Get an Android app's Google Play listing by package name, in any store country: title, developer and contact details, rating, ratings count, installs, price, description, screenshots, and more.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "playstore",
+      "tsMethod": "app",
+      "tsIterMethod": null,
+      "pyNamespace": "playstore",
+      "pyMethod": "app",
+      "pyIterMethod": null,
+      "inputTypeName": "PlaystoreAppInput",
+      "outputTypeName": "PlaystoreAppData",
+      "example": {
+        "appId": "com.playdigious.deadcells.mobile",
+        "country": "us"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "appId": {
+            "kind": "string",
+            "description": "Android app package name, the id parameter of the app's Google Play URL (e.g. com.supercell.brawlstars).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "country": {
+            "kind": "string",
+            "description": "Two-letter Google Play store country code to read the listing from (e.g. gb); price and currency follow that country. Text is returned in English.",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `reviewCount` or `developerEmail`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an app that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "author",
+                "containsAds",
+                "createdUtc",
+                "dataSafety",
+                "developerAddress",
+                "developerEmail",
+                "developerId",
+                "developerPhone",
+                "editorsChoice",
+                "group",
+                "headerImage",
+                "helpfulVotes",
+                "id",
+                "installCount",
+                "minAndroidVersion",
+                "moreByDeveloper",
+                "permissions",
+                "ratingHistogram",
+                "recentChanges",
+                "reviewCount",
+                "reviewSamples",
+                "similarApps",
+                "text",
+                "version"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "appId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "appId": {
+              "kind": "string",
+              "description": "Android package name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "category": {
+              "kind": "string",
+              "description": "Google Play category name (e.g. Music & Audio). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "categoryId": {
+              "kind": "string",
+              "description": "Google Play category ID (e.g. MUSIC_AND_AUDIO). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "containsAds": {
+              "kind": "boolean",
+              "description": "True when the listing says the app contains ads.",
+              "nullable": true,
+              "default": null
+            },
+            "contentRating": {
+              "kind": "string",
+              "description": "Content rating as shown (e.g. Teen). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "currency": {
+              "kind": "string",
+              "description": "ISO 4217 currency code of the price (e.g. USD).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "dataSafety": {
+              "kind": "array",
+              "description": "The Data safety section: what the developer says the app shares and collects.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "description": {
+                    "kind": "string",
+                    "description": "Data types it covers.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Statement (e.g. This app may collect these data types).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "description": {
+              "kind": "string",
+              "description": "Full app description as plain text. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developer": {
+              "kind": "string",
+              "description": "Developer name as listed. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerAddress": {
+              "kind": "string",
+              "description": "Developer postal address.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerEmail": {
+              "kind": "string",
+              "description": "Developer support email address.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerId": {
+              "kind": "string",
+              "description": "Google Play developer ID.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerPhone": {
+              "kind": "string",
+              "description": "Developer phone number.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "developerWebsite": {
+              "kind": "string",
+              "description": "Developer website URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "editorsChoice": {
+              "kind": "boolean",
+              "description": "True when the app carries the Editors' Choice badge.",
+              "nullable": true,
+              "default": null
+            },
+            "headerImage": {
+              "kind": "string",
+              "description": "Feature graphic image URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "App icon image URL. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "inAppPurchaseRange": {
+              "kind": "string",
+              "description": "Price range of in-app purchases as shown (e.g. $4.99 - $203.88 per item); null when the app has none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "installCount": {
+              "kind": "integer",
+              "description": "Install count Google Play holds behind the bracket.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "installs": {
+              "kind": "string",
+              "description": "Install count bracket as Google Play shows it (e.g. 1,000,000,000+). Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "minAndroidVersion": {
+              "kind": "string",
+              "description": "Minimum Android version required; null when it varies with device.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "minInstalls": {
+              "kind": "integer",
+              "description": "Lower bound of the install bracket (e.g. 1000000000). Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "moreByDeveloper": {
+              "kind": "array",
+              "description": "Other apps by the same developer, from the listing's More by section.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Android package name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "developer": {
+                    "kind": "string",
+                    "description": "Developer name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average star rating, 0 to 5.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Google Play page URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "appId"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "permissions": {
+              "kind": "array",
+              "description": "Android permissions the app requests, grouped.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "group": {
+                    "kind": "string",
+                    "description": "Permission group (e.g. Location).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "permissions": {
+                    "kind": "array",
+                    "description": "Individual permissions in the group.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "group"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "price": {
+              "kind": "number",
+              "description": "Price to install in the country's currency; 0 for a free app. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "privacyPolicyUrl": {
+              "kind": "string",
+              "description": "Privacy policy URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Average star rating, 0 to 5. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingCount": {
+              "kind": "integer",
+              "description": "Number of star ratings the app has (ratings, not written reviews). Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingHistogram": {
+              "kind": "object",
+              "description": "Number of ratings at each star level.",
+              "nullable": true,
+              "properties": {
+                "fiveStar": {
+                  "kind": "integer",
+                  "description": "Number of 5-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "fourStar": {
+                  "kind": "integer",
+                  "description": "Number of 4-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "oneStar": {
+                  "kind": "integer",
+                  "description": "Number of 1-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "threeStar": {
+                  "kind": "integer",
+                  "description": "Number of 3-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "twoStar": {
+                  "kind": "integer",
+                  "description": "Number of 2-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "recentChanges": {
+              "kind": "string",
+              "description": "What's new in the latest update.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "releasedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the app was first released. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "reviewCount": {
+              "kind": "integer",
+              "description": "Number of written reviews, a subset of the ratings.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "reviewSamples": {
+              "kind": "array",
+              "description": "A few reviews shown on the listing page; use playstore.reviews for the full list.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Reviewer name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "helpfulVotes": {
+                    "kind": "integer",
+                    "description": "Number of people who found the review helpful.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Review identifier.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Star rating, 1 to 5.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Review text.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "version": {
+                    "kind": "string",
+                    "description": "App version the review was left on.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "rating"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "screenshots": {
+              "kind": "array",
+              "description": "Screenshot image URLs. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": true
+            },
+            "similarApps": {
+              "kind": "array",
+              "description": "Apps from the listing's Similar apps (or Similar games) section.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Android package name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "developer": {
+                    "kind": "string",
+                    "description": "Developer name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average star rating, 0 to 5.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Google Play page URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "appId"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "summary": {
+              "kind": "string",
+              "description": "Short description shown under the app name.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "App name as listed. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "updatedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the app was last updated. Populated whenever the provider has data for the entity.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Google Play page URL for the app. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "version": {
+              "kind": "string",
+              "description": "Current version number; null when the listing says it varies with device.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "appId",
+            "title"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "appId",
+            "category",
+            "categoryId",
+            "contentRating",
+            "description",
+            "developer",
+            "image",
+            "installs",
+            "minInstalls",
+            "price",
+            "rating",
+            "ratingCount",
+            "releasedUtc",
+            "screenshots",
+            "title",
+            "updatedUtc",
+            "url"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "playstore.reviews",
       "platform": "playstore",
       "action": "reviews",
@@ -86565,6 +88236,338 @@
                   "id",
                   "rating",
                   "text"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "playstore.search",
+      "platform": "playstore",
+      "action": "search",
+      "operationId": "playstore_search",
+      "name": "Google Play Search",
+      "category": "search",
+      "description": "Search Google Play for Android apps by keyword, in any store country: package name, title, developer, rating, installs, price, and category for each result.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "playstore",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "playstore",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "PlaystoreSearchInput",
+      "outputTypeName": "PlaystoreSearchData",
+      "example": {
+        "country": "us",
+        "limit": 10,
+        "query": "budget tracker"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "Two-letter Google Play store country code to search (e.g. gb); results, prices, and currency follow that country. Text is returned in English.",
+            "enum": null,
+            "default": "us",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of apps to return in items (1-30, default 20). Google Play shows about 30 apps per search, so fewer may come back. The app Google Play features above the results comes back separately in featuredApps and does not count toward this limit.",
+            "minimum": 1,
+            "maximum": 30,
+            "default": 20
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, as typed into the Google Play search box (e.g. budget tracker).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "featuredApps": {
+              "kind": "array",
+              "description": "The app Google Play features above the results, usually the exact app the query names (e.g. Minecraft for minecraft); empty when the search shows none.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Android package name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "ISO 4217 currency code of the price.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Short app description.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "developer": {
+                    "kind": "string",
+                    "description": "Developer name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "installs": {
+                    "kind": "string",
+                    "description": "Install bracket as the featured card shows it (e.g. 50M+).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Price to install in the country's currency; 0 for a free app.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average star rating, 0 to 5.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "ratingCount": {
+                    "kind": "integer",
+                    "description": "Number of star ratings (ratings, not written reviews).",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Google Play page URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "appId",
+                  "title"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "items": {
+              "kind": "array",
+              "description": "Matching apps in Google Play search order, including the Similar apps shelf Google Play shows under a search for one app. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "appId": {
+                    "kind": "string",
+                    "description": "Android package name; pass it to playstore.app for the full listing. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Google Play category name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "ISO 4217 currency code of the price (e.g. USD).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "App description.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "developer": {
+                    "kind": "string",
+                    "description": "Developer name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "App icon image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "installs": {
+                    "kind": "string",
+                    "description": "Install count bracket as Google Play shows it (e.g. 1,000,000+). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Price to install in the country's currency; 0 for a free app.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average star rating, 0 to 5; absent for an app with too few ratings. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "screenshots": {
+                    "kind": "array",
+                    "description": "Screenshot image URLs.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "App name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Google Play page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "appId",
+                  "title",
+                  "price"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "appId",
+                  "category",
+                  "developer",
+                  "image",
+                  "installs",
+                  "rating",
+                  "title",
+                  "url"
                 ]
               },
               "mustPopulate": true
