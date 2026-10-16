@@ -38576,7 +38576,7 @@
       "category": "search",
       "description": "Get Google search autocomplete suggestions for a partial query (keyword ideas).",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38719,10 +38719,10 @@
       "category": "search",
       "description": "Run a Google Images search and get structured results: image URLs, dimensions, titles, and source pages.",
       "pricing": {
-        "priceUsd": 0.00198,
-        "baseUsd": 0.00099,
-        "perItemUsd": 0.00009,
-        "perItemUnit": "result"
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "google",
       "tsMethod": "images",
@@ -38942,7 +38942,7 @@
       "category": "search",
       "description": "Reverse image search: find web pages and visual matches for an image URL.",
       "pricing": {
-        "priceUsd": 0.00297,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39298,7 +39298,7 @@
       "category": "search",
       "description": "Search Google Patents with title, patent number, inventor, assignee, key dates, and PDF link.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39512,7 +39512,7 @@
       "category": "search",
       "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39560,6 +39560,19 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `year`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "year"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -39689,7 +39702,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40325,7 +40338,7 @@
       "category": "search",
       "description": "Search Google for video results (YouTube and others) with title, link, thumbnail, and source.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -40401,6 +40414,19 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `source`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "source"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",

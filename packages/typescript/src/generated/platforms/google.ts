@@ -656,6 +656,10 @@ export interface GoogleScholarInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `year`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "year"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1028,6 +1032,10 @@ export interface GoogleVideosInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `source`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "source"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1145,7 +1153,7 @@ export class GoogleNamespace {
    *
    * Get Google search autocomplete suggestions for a partial query (keyword ideas).
    *
-   * Price: $0.00099 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.google.autocomplete({ query: "best coff" });
@@ -1162,7 +1170,7 @@ export class GoogleNamespace {
    *
    * Run a Google Images search and get structured results: image URLs, dimensions, titles, and source pages.
    *
-   * Price: $0.00099 per request plus $0.00009 per result (maximum $0.00198).
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.google.images({ query: "golden retriever", gl: "us", hl: "en", limit: 5 });
@@ -1179,7 +1187,7 @@ export class GoogleNamespace {
    *
    * Reverse image search: find web pages and visual matches for an image URL.
    *
-   * Price: $0.00297 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.google.lens({ url: "https://i.imgur.com/HBrB8p0.png" });
@@ -1213,7 +1221,7 @@ export class GoogleNamespace {
    *
    * Search Google Patents with title, patent number, inventor, assignee, key dates, and PDF link.
    *
-   * Price: $0.00099 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.google.patents({ query: "wireless charging" });
@@ -1230,7 +1238,7 @@ export class GoogleNamespace {
    *
    * Search Google Scholar for academic papers with title, authors, citation count, and PDF link.
    *
-   * Price: $0.00099 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.google.scholar({ query: "attention is all you need" });
@@ -1247,7 +1255,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });
@@ -1318,7 +1326,7 @@ export class GoogleNamespace {
    *
    * Search Google for video results (YouTube and others) with title, link, thumbnail, and source.
    *
-   * Price: $0.00099 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.google.videos({ query: "lofi hip hop", gl: "us", hl: "en" });
