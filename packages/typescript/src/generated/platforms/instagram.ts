@@ -35,6 +35,19 @@ export interface InstagramAudioReelsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `reshares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "locationId"
+    | "locationLat"
+    | "locationLng"
+    | "locationName"
+    | "paidPartnership"
+    | "productType"
+    | "reshares"
+    | "taggedUsers"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -60,9 +73,18 @@ export interface InstagramAudioReelsReel {
    */
   displayName?: string;
   /**
+   * Reel duration in seconds.
+   */
+  durationSeconds?: number;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -72,11 +94,64 @@ export interface InstagramAudioReelsReel {
    */
   image?: string;
   likes: number;
+  /**
+   * Instagram location id the post is tagged at. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when this source does not report it.
+   */
+  paidPartnership?: boolean | null;
   plays: number;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when this source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when this source does not report it.
+   */
+  reshares?: number | null;
+  /**
+   * Accounts tagged in the media. Null when this source does not report it.
+   */
+  taggedUsers?: InstagramAudioReelsTaggedUser[] | null;
   /**
    * True when the author's account carries a verified badge.
    */
   verified?: boolean;
+  [extra: string]: unknown;
+}
+
+export interface InstagramAudioReelsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
   [extra: string]: unknown;
 }
 
@@ -114,6 +189,10 @@ export interface InstagramBasicProfileInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `posts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("bioLinks" | "isBusiness" | "posts" | "title" | "url")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -121,6 +200,18 @@ export interface InstagramBasicProfileInput {
    * Instagram numeric user id (the account's internal all-digits id, e.g. 314216), NOT the @handle or profile URL. Passing a handle here returns no profile.
    */
   userId: string;
+}
+
+export interface InstagramBasicProfileBioLink {
+  /**
+   * Display label for the link, empty when the account set none.
+   */
+  title?: string;
+  /**
+   * Destination URL, exactly as the account published it.
+   */
+  url: string;
+  [extra: string]: unknown;
 }
 
 /**
@@ -133,6 +224,10 @@ export interface InstagramBasicProfileData {
   avatarUrl: string;
   bio: string;
   /**
+   * Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.
+   */
+  bioLinks?: InstagramBasicProfileBioLink[] | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   displayName: string;
@@ -143,6 +238,14 @@ export interface InstagramBasicProfileData {
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Whether Instagram flags the account as a business account. Null when this source does not report it.
+   */
+  isBusiness?: boolean | null;
+  /**
+   * Total number of posts on the account. Null when this source does not report it.
+   */
+  posts?: number | null;
   private: boolean;
   /**
    * Populated whenever the provider has data for the entity.
@@ -561,6 +664,10 @@ export interface InstagramHashtagRecentPostsPost {
    */
   comments?: number;
   /**
+   * Whether the author has hidden the like and view counts.
+   */
+  countsHidden?: boolean;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -587,6 +694,10 @@ export interface InstagramHashtagRecentPostsPost {
    */
   likes?: number;
   /**
+   * Instagram location id the post is tagged at.
+   */
+  locationId?: string;
+  /**
    * Latitude of the tagged place.
    */
   locationLat?: number;
@@ -603,6 +714,10 @@ export interface InstagramHashtagRecentPostsPost {
    */
   media?: InstagramHashtagRecentPostsMedia[];
   /**
+   * Accounts @mentioned in the caption, each including its leading @.
+   */
+  mentions?: string[];
+  /**
    * True when the post is tagged as a paid partnership.
    */
   paidPartnership?: boolean;
@@ -618,6 +733,14 @@ export interface InstagramHashtagRecentPostsPost {
    * Short code in the post permalink. Populated whenever the provider has data for the entity.
    */
   shortcode: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.
+   */
+  soundAuthor?: string;
+  /**
+   * Name of the sound. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound.
+   */
+  soundTitle?: string;
   /**
    * Canonical permalink to the post. Populated whenever the provider has data for the entity.
    */
@@ -695,12 +818,33 @@ export interface InstagramHashtagTopPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "audioId"
+    | "coauthors"
+    | "locationId"
+    | "locationLat"
+    | "locationLng"
+    | "locationName"
+    | "paidPartnership"
+    | "productType"
+    | "reshares"
+    | "soundAuthor"
+    | "soundTitle"
+    | "taggedUsers"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
 
 export interface InstagramHashtagTopPostsPost {
+  /**
+   * Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Null when the post has no sound or this source does not report it.
+   */
+  audioId?: string | null;
   /**
    * Profile picture URL of the posting account. Populated whenever the provider has data for the entity.
    * Format: uri.
@@ -711,6 +855,10 @@ export interface InstagramHashtagTopPostsPost {
    * Post caption text, including its hashtags. Populated whenever the provider has data for the entity.
    */
   caption: string;
+  /**
+   * Accounts listed as coauthors of the post. Null when this source does not report it.
+   */
+  coauthors?: InstagramHashtagTopPostsCoauthor[] | null;
   /**
    * Comment count.
    */
@@ -724,6 +872,11 @@ export interface InstagramHashtagTopPostsPost {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -732,13 +885,58 @@ export interface InstagramHashtagTopPostsPost {
    */
   likes?: number;
   /**
+   * Instagram location id the post is tagged at. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the post is not tagged at a location or this source does not report it.
+   */
+  locationName?: string | null;
+  /**
    * Photo and video attachments on the post.
    */
   media?: InstagramHashtagTopPostsMedia[];
   /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when this source does not report it.
+   */
+  paidPartnership?: boolean | null;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when this source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when this source does not report it.
+   */
+  reshares?: number | null;
+  /**
    * Short code in the post permalink. Populated whenever the provider has data for the entity.
    */
   shortcode: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Null when the post has no sound or this source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound. "Original audio" means the creator's own audio rather than a licensed track. Null when the post has no sound or this source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Accounts tagged in the media. Null when this source does not report it.
+   */
+  taggedUsers?: InstagramHashtagTopPostsTaggedUser[] | null;
   /**
    * Canonical permalink to the post. Populated whenever the provider has data for the entity.
    */
@@ -758,6 +956,23 @@ export interface InstagramHashtagTopPostsPost {
   [extra: string]: unknown;
 }
 
+export interface InstagramHashtagTopPostsCoauthor {
+  /**
+   * Coauthor's profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
 export interface InstagramHashtagTopPostsMedia {
   /**
    * One of photo or video.
@@ -773,6 +988,22 @@ export interface InstagramHashtagTopPostsMedia {
    * Format: uri.
    */
   videoUrl?: string;
+  [extra: string]: unknown;
+}
+
+export interface InstagramHashtagTopPostsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
   [extra: string]: unknown;
 }
 
@@ -952,6 +1183,10 @@ export interface InstagramLocationPostsPost {
    */
   altText?: string;
   /**
+   * Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Absent when the post has no sound.
+   */
+  audioId?: string;
+  /**
    * Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity.
    */
   author: string;
@@ -1005,6 +1240,11 @@ export interface InstagramLocationPostsPost {
    */
   hasAudio?: boolean;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Media height in pixels.
    */
   height?: number;
@@ -1043,6 +1283,10 @@ export interface InstagramLocationPostsPost {
    */
   mediaType?: string;
   /**
+   * Accounts @mentioned in the caption, each including its leading @.
+   */
+  mentions?: string[];
+  /**
    * Whether the post is tagged as a paid partnership.
    */
   paidPartnership?: boolean;
@@ -1054,6 +1298,14 @@ export interface InstagramLocationPostsPost {
    * The post's short code, the segment Instagram puts in its URL.
    */
   shortcode?: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.
+   */
+  soundAuthor?: string;
+  /**
+   * Name of the sound. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound.
+   */
+  soundTitle?: string;
   /**
    * Accounts tagged in the media.
    */
@@ -1141,6 +1393,10 @@ export interface InstagramMediaTranscriptInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "durationSeconds"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1151,6 +1407,10 @@ export interface InstagramMediaTranscriptInput {
 }
 
 export interface InstagramMediaTranscriptTranscript {
+  /**
+   * Length of the transcribed video in seconds, with fractional seconds. Null when this source does not report it.
+   */
+  durationSeconds?: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1202,7 +1462,20 @@ export interface InstagramPostInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("hasAudio" | "locationId" | "plays")[];
+  requireFields?: (
+    | "altText"
+    | "audioId"
+    | "countsHidden"
+    | "durationSeconds"
+    | "hasAudio"
+    | "locationId"
+    | "locationLat"
+    | "locationLng"
+    | "plays"
+    | "reshares"
+    | "soundAuthor"
+    | "soundTitle"
+  )[];
   /**
    * Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.
    */
@@ -1222,6 +1495,14 @@ export interface InstagramPostInput {
  */
 export interface InstagramPostData {
   /**
+   * Instagram's generated accessibility description of the media. Null when this source does not report it.
+   */
+  altText?: string | null;
+  /**
+   * Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list other reels using it. Null when the media has no sound or this source does not report it.
+   */
+  audioId?: string | null;
+  /**
    * Profile picture URL of the posting account.
    */
   avatarUrl?: string;
@@ -1230,9 +1511,18 @@ export interface InstagramPostData {
    */
   bytes?: number;
   /**
+   * Caption text of the post, including its hashtags and @mentions. Empty when the post has no caption. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  caption?: string;
+  /**
    * Number of comments on the post.
    */
   comments?: number;
+  /**
+   * Whether the author has hidden the like and view counts. Null when this source does not report it.
+   */
+  countsHidden?: boolean | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -1246,6 +1536,10 @@ export interface InstagramPostData {
    */
   displayUrl: string;
   /**
+   * Video duration in seconds. Null on a photo, or when this source does not report it.
+   */
+  durationSeconds?: number | null;
+  /**
    * When `hostedUrl` stops working, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present only when the request set `hostVideo` to true.
    */
   expiresUtc?: number;
@@ -1253,6 +1547,11 @@ export interface InstagramPostData {
    * True when the media carries an audio track.
    */
   hasAudio?: boolean;
+  /**
+   * Hashtags carried in the caption, each including its leading #. Empty when the caption uses none. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
   /**
    * AnyAPI-hosted MP4 of this post's video, playable without an Instagram session. Present only when the request set `hostVideo` to true.
    * Format: uri.
@@ -1268,9 +1567,21 @@ export interface InstagramPostData {
    */
   locationId?: string;
   /**
+   * Latitude of the tagged location, in decimal degrees. Null when the post tags no place or this source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the post tags no place or this source does not report it.
+   */
+  locationLng?: number | null;
+  /**
    * Name of the tagged place, when the post tags one.
    */
   locationName?: string;
+  /**
+   * Accounts mentioned in the caption, each including its leading @, in caption order. Empty when the caption mentions none.
+   */
+  mentions?: string[];
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -1287,7 +1598,19 @@ export interface InstagramPostData {
    * Instagram product type of the media, for example feed, clips or igtv.
    */
   productType?: string;
+  /**
+   * Number of times the post has been reshared. Null when this source does not report it.
+   */
+  reshares?: number | null;
   shortcode: string;
+  /**
+   * Credited author of the sound. Null when the media has no sound or this source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound. "Original audio" means the creator's own audio rather than a licensed track. Null when the media has no sound or this source does not report it.
+   */
+  soundTitle?: string | null;
   type: string;
   /**
    * Instagram user id of the posting account.
@@ -1324,6 +1647,10 @@ export interface InstagramPostCommentsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `replies`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("replies" | "userId")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1355,9 +1682,17 @@ export interface InstagramPostCommentsComment {
    */
   likes: number | null;
   /**
+   * Number of replies to the comment, which tells you whether instagram.comment_replies has anything to fetch. Null when this source does not report it.
+   */
+  replies?: number | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   text: string;
+  /**
+   * Instagram user id of the commenting account. Null when this source does not report it.
+   */
+  userId?: string | null;
   verified: boolean;
   [extra: string]: unknown;
 }
@@ -1477,7 +1812,7 @@ export interface InstagramProfileInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `contactMethod`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("contactMethod" | "posts")[];
+  requireFields?: ("contactMethod" | "highlightsCount" | "posts")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1544,6 +1879,10 @@ export interface InstagramProfileData {
    */
   handle: string;
   /**
+   * Number of story highlights pinned on the profile. Null when this source does not report it.
+   */
+  highlightsCount?: number | null;
+  /**
    * Whether Instagram flags the account as a business account.
    */
   isBusiness?: boolean;
@@ -1590,9 +1929,25 @@ export interface InstagramProfileContactInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isBusiness`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("bioLinks" | "isBusiness" | "title" | "url")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
+}
+
+export interface InstagramProfileContactBioLink {
+  /**
+   * Display label for the link, empty when the account set none.
+   */
+  title?: string;
+  /**
+   * Destination URL, exactly as the account published it.
+   */
+  url: string;
+  [extra: string]: unknown;
 }
 
 /**
@@ -1603,6 +1958,10 @@ export interface InstagramProfileContactData {
    * Profile biography text.
    */
   bio?: string;
+  /**
+   * Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.
+   */
+  bioLinks?: InstagramProfileContactBioLink[] | null;
   /**
    * Account display name.
    */
@@ -1619,6 +1978,10 @@ export interface InstagramProfileContactData {
    * Instagram username without the leading @. Populated whenever the provider has data for the entity.
    */
   handle: string;
+  /**
+   * Whether Instagram flags the account as a business account. Null when this source does not report it.
+   */
+  isBusiness?: boolean | null;
   /**
    * Every phone number found for the account, in E.164 form where the number could be normalized. Empty when the account publishes none.
    */
@@ -1824,12 +2187,22 @@ export interface InstagramReelsSearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    "audioId" | "locationId" | "locationLat" | "locationLng" | "locationName"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
 
 export interface InstagramReelsSearchReel {
+  /**
+   * Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  audioId?: string | null;
   /**
    * Profile picture URL of the author.
    */
@@ -1842,6 +2215,10 @@ export interface InstagramReelsSearchReel {
    * Number of comments on the reel.
    */
   comments: number;
+  /**
+   * Whether the author has hidden the like and view counts.
+   */
+  countsHidden?: boolean;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -1859,6 +2236,11 @@ export interface InstagramReelsSearchReel {
    */
   hasAudio?: boolean;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Reel media identifier.
    */
   id?: string;
@@ -1866,6 +2248,27 @@ export interface InstagramReelsSearchReel {
    * Number of likes on the reel.
    */
   likes: number;
+  /**
+   * Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
   /**
    * True when the reel is a paid partnership.
    */
@@ -1875,9 +2278,24 @@ export interface InstagramReelsSearchReel {
    */
   productType?: string;
   /**
+   * Number of times the post has been reshared, when Instagram reports it. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  reshares?: number;
+  /**
    * Instagram media shortcode. Populated whenever the provider has data for the entity.
    */
   shortcode: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundAuthor?: string;
+  /**
+   * Name of the sound on a reel or a post with music. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  soundTitle?: string;
   /**
    * URL of the reel thumbnail image. Populated whenever the provider has data for the entity.
    */
@@ -2246,6 +2664,11 @@ export interface InstagramSearchHashtagPost {
    */
   hasAudio?: boolean;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -2257,6 +2680,27 @@ export interface InstagramSearchHashtagPost {
    * Like count. Absent when the account hides it.
    */
   likes?: number;
+  /**
+   * Instagram location id the post is tagged at.
+   */
+  locationId?: string;
+  /**
+   * Latitude of the tagged location, in decimal degrees.
+   */
+  locationLat?: number;
+  /**
+   * Longitude of the tagged location, in decimal degrees.
+   */
+  locationLng?: number;
+  /**
+   * Name of the location the post is tagged at.
+   */
+  locationName?: string;
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
   /**
    * True when the post is tagged as a paid partnership.
    */
@@ -2411,7 +2855,7 @@ export interface InstagramSearchProfilesInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "private"[];
+  requireFields?: ("bioLinks" | "category" | "isBusiness" | "private")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2420,13 +2864,21 @@ export interface InstagramSearchProfilesInput {
 
 export interface InstagramSearchProfilesProfile {
   /**
-   * Populated whenever the provider has data for the entity.
+   * Profile picture URL. Null when the serving source does not report it. Populated whenever the provider has data for the entity.
    */
-  avatarUrl: string;
+  avatarUrl: string | null;
   /**
-   * Populated whenever the provider has data for the entity.
+   * The account's biography text. Null when the serving source does not report it. Populated whenever the provider has data for the entity.
    */
-  bio: string;
+  bio: string | null;
+  /**
+   * Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.
+   */
+  bioLinks?: InstagramSearchProfilesBioLink[] | null;
+  /**
+   * Instagram's category label for the account (for example "Coffee shop"). Null when the account publishes none or this source does not report it.
+   */
+  category?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -2435,16 +2887,26 @@ export interface InstagramSearchProfilesProfile {
    * External link the account lists in its bio.
    */
   externalUrl?: string;
-  followers: number;
-  following: number;
+  /**
+   * Follower count. Null when the serving source does not report it.
+   */
+  followers: number | null;
+  /**
+   * Number of accounts this account follows. Null when the serving source does not report it.
+   */
+  following: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
   handle: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Instagram's numeric account id. Null when the serving source does not report it. Populated whenever the provider has data for the entity.
    */
-  id: string;
+  id: string | null;
+  /**
+   * Whether Instagram flags the account as a business account. Null when this source does not report it.
+   */
+  isBusiness?: boolean | null;
   /**
    * Total number of posts on the account. Null when the serving source does not report it.
    */
@@ -2457,7 +2919,22 @@ export interface InstagramSearchProfilesProfile {
    * Canonical URL of the profile.
    */
   url?: string;
-  verified: boolean;
+  /**
+   * Whether the account is verified. Null when the serving source does not report it.
+   */
+  verified: boolean | null;
+  [extra: string]: unknown;
+}
+
+export interface InstagramSearchProfilesBioLink {
+  /**
+   * Display label for the link, empty when the account set none.
+   */
+  title?: string;
+  /**
+   * Destination URL, exactly as the account published it.
+   */
+  url: string;
   [extra: string]: unknown;
 }
 
@@ -2680,6 +3157,10 @@ export interface InstagramStoriesFullInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("audioId" | "soundAuthor" | "soundTitle")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2690,6 +3171,10 @@ export interface InstagramStoriesFullInput {
 }
 
 export interface InstagramStoriesFullItem {
+  /**
+   * Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels using it. Null when the story has no music sticker or this source does not report it.
+   */
+  audioId?: string | null;
   /**
    * Profile picture URL of the story owner.
    */
@@ -2708,6 +3193,10 @@ export interface InstagramStoriesFullItem {
    * Display name of the story owner.
    */
   displayName?: string;
+  /**
+   * Video duration in seconds. Null on a photo story, or when this source does not report it.
+   */
+  durationSeconds?: number | null;
   /**
    * Expiry UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -2744,6 +3233,14 @@ export interface InstagramStoriesFullItem {
    * Instagram product type of the media, for example story.
    */
   productType?: string;
+  /**
+   * Credited author of the sound. Null when the story has no music sticker or this source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound on the story's music sticker. "Original audio" means the creator's own audio rather than a licensed track. Null when the story has no music sticker or this source does not report it.
+   */
+  soundTitle?: string | null;
   /**
    * Instagram user id of the story owner.
    */
@@ -2799,6 +3296,10 @@ export interface InstagramStoriesThinInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "durationSeconds"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2821,6 +3322,10 @@ export interface InstagramStoriesThinItem {
    * Display name of the story owner.
    */
   displayName?: string;
+  /**
+   * Video duration in seconds. Null on a photo story, or when this source does not report it.
+   */
+  durationSeconds?: number | null;
   /**
    * Story identifier. Populated whenever the provider has data for the entity.
    */
@@ -2884,12 +3389,33 @@ export interface InstagramTaggedPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `taggedUsers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "audioId"
+    | "carouselCount"
+    | "locationId"
+    | "locationLat"
+    | "locationLng"
+    | "locationName"
+    | "paidPartnership"
+    | "productType"
+    | "reshares"
+    | "soundAuthor"
+    | "soundTitle"
+    | "taggedUsers"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
 
 export interface InstagramTaggedPostsPost {
+  /**
+   * Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  audioId?: string | null;
   /**
    * Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity.
    */
@@ -2903,6 +3429,10 @@ export interface InstagramTaggedPostsPost {
    */
   caption: string;
   /**
+   * Number of slides, present on carousel posts only. Null when the serving source does not report it.
+   */
+  carouselCount?: number | null;
+  /**
    * Number of comments on the post.
    */
   comments: number;
@@ -2911,6 +3441,15 @@ export interface InstagramTaggedPostsPost {
    */
   createdUtc: number;
   /**
+   * Video length in seconds, present on video posts and reels only.
+   */
+  durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity.
    */
   id: string;
@@ -2918,6 +3457,51 @@ export interface InstagramTaggedPostsPost {
    * Number of likes on the post. Null when the source does not report it, including when the owner hides like counts.
    */
   likes: number | null;
+  /**
+   * Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.
+   */
+  reshares?: number | null;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound on a reel or a post with music. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Accounts tagged in the media. Null when the serving source does not report it.
+   */
+  taggedUsers?: InstagramTaggedPostsTaggedUser[] | null;
   /**
    * Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity.
    * Format: uri.
@@ -2931,6 +3515,22 @@ export interface InstagramTaggedPostsPost {
    * Number of views on the post, when the upstream reports one.
    */
   views?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramTaggedPostsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
   [extra: string]: unknown;
 }
 
@@ -2992,6 +3592,11 @@ export interface InstagramTrendingReelsReel {
    */
   hasAudio?: boolean;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Original pixel height of the media.
    */
   height?: number;
@@ -3004,6 +3609,10 @@ export interface InstagramTrendingReelsReel {
    */
   image?: string;
   likes: number;
+  /**
+   * Accounts @mentioned in the caption, each including its leading @.
+   */
+  mentions?: string[];
   /**
    * True when the author's account is private.
    */
@@ -3068,6 +3677,10 @@ export interface InstagramUserHighlightsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `mediaCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a highlight that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("createdUtc" | "mediaCount")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -3087,9 +3700,17 @@ export interface InstagramUserHighlightsHighlight {
    */
   coverUrl: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when this source does not report it.
+   */
+  createdUtc?: number | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Number of media items in the highlight. Null when this source does not report it.
+   */
+  mediaCount?: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -3144,7 +3765,24 @@ export interface InstagramUserPostsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `userId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "userId"[];
+  requireFields?: (
+    | "audioId"
+    | "carouselCount"
+    | "coauthors"
+    | "countsHidden"
+    | "isPinned"
+    | "locationId"
+    | "locationLat"
+    | "locationLng"
+    | "locationName"
+    | "paidPartnership"
+    | "productType"
+    | "reshares"
+    | "soundAuthor"
+    | "soundTitle"
+    | "taggedUsers"
+    | "userId"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3153,6 +3791,10 @@ export interface InstagramUserPostsInput {
 
 export interface InstagramUserPostsPost {
   /**
+   * Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  audioId?: string | null;
+  /**
    * Profile picture URL of the posting account.
    */
   avatarUrl?: string;
@@ -3160,7 +3802,19 @@ export interface InstagramUserPostsPost {
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
+  /**
+   * Number of slides, present on carousel posts only. Null when the serving source does not report it.
+   */
+  carouselCount?: number | null;
+  /**
+   * Accounts listed as coauthors of the post. Null when the serving source does not report it.
+   */
+  coauthors?: InstagramUserPostsCoauthor[] | null;
   comments: number;
+  /**
+   * Whether the author has hidden the like and view counts. Null when the serving source does not report it.
+   */
+  countsHidden?: boolean | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -3174,14 +3828,68 @@ export interface InstagramUserPostsPost {
    */
   durationSeconds?: number;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.
+   */
+  isPinned?: boolean | null;
   likes: number;
+  /**
+   * Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
   /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: InstagramUserPostsMedia[];
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.
+   */
+  reshares?: number | null;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound on a reel or a post with music. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Accounts tagged in the media. Null when the serving source does not report it.
+   */
+  taggedUsers?: InstagramUserPostsTaggedUser[] | null;
   /**
    * Populated whenever the provider has data for the entity.
    */
@@ -3198,6 +3906,30 @@ export interface InstagramUserPostsPost {
    * True when the posting account is verified.
    */
   verified: boolean;
+  /**
+   * Play count, present on video posts and reels only.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserPostsCoauthor {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -3224,6 +3956,22 @@ export interface InstagramUserPostsMedia {
    * Pixel width of the media item, when the lane reports it.
    */
   width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserPostsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
   [extra: string]: unknown;
 }
 
@@ -3268,6 +4016,24 @@ export interface InstagramUserReelsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "coauthors"
+    | "countsHidden"
+    | "isPinned"
+    | "locationId"
+    | "locationLat"
+    | "locationLng"
+    | "locationName"
+    | "paidPartnership"
+    | "productType"
+    | "reshares"
+    | "soundAuthor"
+    | "soundTitle"
+    | "taggedUsers"
+  )[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -3286,7 +4052,15 @@ export interface InstagramUserReelsReel {
    * Populated whenever the provider has data for the entity.
    */
   caption: string;
+  /**
+   * Accounts listed as coauthors of the post. Null when the serving source does not report it.
+   */
+  coauthors?: InstagramUserReelsCoauthor[] | null;
   comments: number;
+  /**
+   * Whether the author has hidden the like and view counts. Null when the serving source does not report it.
+   */
+  countsHidden?: boolean | null;
   /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
@@ -3300,18 +4074,72 @@ export interface InstagramUserReelsReel {
    */
   durationSeconds: number;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Instagram media id. Populated whenever the provider has data for the entity.
    */
   id: string;
+  /**
+   * Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.
+   */
+  isPinned?: boolean | null;
   likes: number;
+  /**
+   * Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
   /**
    * Photo, video, and GIF attachments on the post. Empty when the post has none.
    */
   media?: InstagramUserReelsMedia[];
   /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.
+   */
+  reshares?: number | null;
+  /**
    * Populated whenever the provider has data for the entity.
    */
   shortcode: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound on a reel or a post with music. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Accounts tagged in the media. Null when the serving source does not report it.
+   */
+  taggedUsers?: InstagramUserReelsTaggedUser[] | null;
   /**
    * Instagram user id of the posting account.
    */
@@ -3325,6 +4153,26 @@ export interface InstagramUserReelsReel {
    */
   verified: boolean;
   views: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserReelsCoauthor {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified?: boolean;
   [extra: string]: unknown;
 }
 
@@ -3351,6 +4199,22 @@ export interface InstagramUserReelsMedia {
    * Pixel width of the media item, when the lane reports it.
    */
   width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserReelsTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
   [extra: string]: unknown;
 }
 
@@ -3405,6 +4269,10 @@ export interface InstagramUserRepostsPost {
    * Instagram's generated accessibility description of the media.
    */
   altText?: string;
+  /**
+   * Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Absent when the post has no sound.
+   */
+  audioId?: string;
   /**
    * Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity.
    */
@@ -3463,6 +4331,11 @@ export interface InstagramUserRepostsPost {
    */
   hasAudio?: boolean;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Media height in pixels.
    */
   height?: number;
@@ -3501,6 +4374,11 @@ export interface InstagramUserRepostsPost {
    */
   mediaType?: string;
   /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
    * Whether the post is tagged as a paid partnership.
    */
   paidPartnership?: boolean;
@@ -3516,6 +4394,14 @@ export interface InstagramUserRepostsPost {
    * The post's short code, the segment Instagram puts in its URL.
    */
   shortcode?: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.
+   */
+  soundAuthor?: string;
+  /**
+   * Name of the sound. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound.
+   */
+  soundTitle?: string;
   /**
    * Accounts tagged in the media.
    */
@@ -3652,13 +4538,43 @@ export interface InstagramWebReelsSearchReel {
    */
   durationSeconds: number | null;
   /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
    * Number of likes on the reel.
    */
   likes: number;
   /**
+   * Instagram location id the post is tagged at.
+   */
+  locationId?: string;
+  /**
+   * Latitude of the tagged location, in decimal degrees.
+   */
+  locationLat?: number;
+  /**
+   * Longitude of the tagged location, in decimal degrees.
+   */
+  locationLng?: number;
+  /**
+   * Name of the location the post is tagged at.
+   */
+  locationName?: string;
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
    * True when the reel is a paid partnership.
    */
   paidPartnership: boolean;
+  /**
+   * Instagram's own surface label for the reel, such as clips.
+   */
+  productType?: string;
   /**
    * Instagram media shortcode. Populated whenever the provider has data for the entity.
    */
@@ -3821,7 +4737,7 @@ export class InstagramNamespace {
    *
    * List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.00188 per request.
    *
    * @example
    * const res = await client.instagram.followers({ username: "nasa" });
@@ -3858,7 +4774,7 @@ export class InstagramNamespace {
    *
    * List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.00188 per request.
    *
    * @example
    * const res = await client.instagram.following({ username: "nasa" });
@@ -4206,7 +5122,7 @@ export class InstagramNamespace {
    * Price: $0.0011 per request.
    *
    * @example
-   * const res = await client.instagram.reelsSearch({ query: "travel" });
+   * const res = await client.instagram.reelsSearch({ query: "collab" });
    */
   reelsSearch(
     input: InstagramReelsSearchInput,
@@ -4460,7 +5376,7 @@ export class InstagramNamespace {
    * Price: $0.0022 per request.
    *
    * @example
-   * const res = await client.instagram.storiesFull({ username: "natgeo" });
+   * const res = await client.instagram.storiesFull({ username: "nba" });
    */
   storiesFull(
     input: InstagramStoriesFullInput,
@@ -4474,10 +5390,10 @@ export class InstagramNamespace {
    *
    * Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.00188 per request.
    *
    * @example
-   * const res = await client.instagram.storiesThin({ username: "natgeo" });
+   * const res = await client.instagram.storiesThin({ username: "nba" });
    */
   storiesThin(
     input: InstagramStoriesThinInput,
@@ -4491,7 +5407,7 @@ export class InstagramNamespace {
    *
    * List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).
    *
-   * Price: $0.0015 per request.
+   * Price: $0.00188 per request.
    *
    * @example
    * const res = await client.instagram.taggedPosts({ handle: "nasa" });

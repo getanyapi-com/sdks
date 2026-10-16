@@ -44088,6 +44088,26 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `reshares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "taggedUsers"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -44168,12 +44188,30 @@
                     "default": null,
                     "format": null
                   },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Reel duration in seconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "handle": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
                   },
                   "id": {
                     "kind": "string",
@@ -44195,11 +44233,112 @@
                     "maximum": null,
                     "default": null
                   },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the post is tagged as a paid partnership. Null when this source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "plays": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reshares": {
+                    "kind": "integer",
+                    "description": "Number of times the post has been reshared, when Instagram reports it. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "taggedUsers": {
+                    "kind": "array",
+                    "description": "Accounts tagged in the media. Null when this source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "verified": {
                     "kind": "boolean",
@@ -44218,7 +44357,9 @@
                 "open": true,
                 "mustPopulate": [
                   "handle",
-                  "id"
+                  "hashtags",
+                  "id",
+                  "mentions"
                 ]
               },
               "mustPopulate": true
@@ -44293,6 +44434,23 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `posts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bioLinks",
+                "isBusiness",
+                "posts",
+                "title",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -44335,6 +44493,35 @@
               "default": null,
               "format": null
             },
+            "bioLinks": {
+              "kind": "array",
+              "description": "Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "Display label for the link, empty when the account set none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Destination URL, exactly as the account published it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
             "displayName": {
               "kind": "string",
               "description": "Populated whenever the provider has data for the entity.",
@@ -44366,6 +44553,20 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "isBusiness": {
+              "kind": "boolean",
+              "description": "Whether Instagram flags the account as a business account. Null when this source does not report it.",
+              "nullable": true,
+              "default": null
+            },
+            "posts": {
+              "kind": "integer",
+              "description": "Total number of posts on the account. Null when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             },
             "private": {
               "kind": "boolean",
@@ -44724,7 +44925,7 @@
       "category": "social",
       "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44913,7 +45114,7 @@
       "category": "social",
       "description": "List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -45389,6 +45590,11 @@
                     "maximum": null,
                     "default": null
                   },
+                  "countsHidden": {
+                    "kind": "boolean",
+                    "description": "Whether the author has hidden the like and view counts.",
+                    "default": null
+                  },
                   "createdUtc": {
                     "kind": "number",
                     "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -45434,6 +45640,13 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "locationLat": {
                     "kind": "number",
@@ -45485,6 +45698,17 @@
                     },
                     "mustPopulate": false
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "paidPartnership": {
                     "kind": "boolean",
                     "description": "True when the post is tagged as a paid partnership.",
@@ -45505,6 +45729,20 @@
                   "shortcode": {
                     "kind": "string",
                     "description": "Short code in the post permalink. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45646,6 +45884,30 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "audioId",
+                "coauthors",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -45682,6 +45944,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Null when the post has no sound or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "avatarUrl": {
                     "kind": "string",
                     "description": "Profile picture URL of the posting account. Populated whenever the provider has data for the entity.",
@@ -45695,6 +45965,42 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "coauthors": {
+                    "kind": "array",
+                    "description": "Accounts listed as coauthors of the post. Null when this source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "avatarUrl": {
+                          "kind": "string",
+                          "description": "Coauthor's profile picture URL, as Instagram's CDN serves it.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "comments": {
                     "kind": "integer",
@@ -45717,6 +46023,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Instagram media id. Populated whenever the provider has data for the entity.",
@@ -45730,6 +46047,38 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "media": {
                     "kind": "array",
@@ -45767,12 +46116,97 @@
                     },
                     "mustPopulate": false
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the post is tagged as a paid partnership. Null when this source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reshares": {
+                    "kind": "integer",
+                    "description": "Number of times the post has been reshared, when Instagram reports it. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "shortcode": {
                     "kind": "string",
                     "description": "Short code in the post permalink. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Null when the post has no sound or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"Original audio\" means the creator's own audio rather than a licensed track. Null when the post has no sound or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "taggedUsers": {
+                    "kind": "array",
+                    "description": "Accounts tagged in the media. Null when this source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "url": {
                     "kind": "string",
@@ -45812,7 +46246,9 @@
                 "mustPopulate": [
                   "avatarUrl",
                   "caption",
+                  "hashtags",
                   "id",
+                  "mentions",
                   "shortcode",
                   "url",
                   "username"
@@ -46203,6 +46639,13 @@
                     "default": null,
                     "format": null
                   },
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Absent when the post has no sound.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "author": {
                     "kind": "string",
                     "description": "Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity.",
@@ -46312,6 +46755,17 @@
                     "description": "Whether the video carries an audio track.",
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "height": {
                     "kind": "integer",
                     "description": "Media height in pixels.",
@@ -46375,6 +46829,17 @@
                     "default": null,
                     "format": null
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "paidPartnership": {
                     "kind": "boolean",
                     "description": "Whether the post is tagged as a paid partnership.",
@@ -46390,6 +46855,20 @@
                   "shortcode": {
                     "kind": "string",
                     "description": "The post's short code, the segment Instagram puts in its URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -46463,6 +46942,7 @@
                 "open": true,
                 "mustPopulate": [
                   "author",
+                  "hashtags",
                   "id",
                   "image",
                   "url"
@@ -46539,6 +47019,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "durationSeconds"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -46574,6 +47067,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Length of the transcribed video in seconds, with fractional seconds. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -46689,9 +47190,18 @@
             "items": {
               "kind": "string",
               "enum": [
+                "altText",
+                "audioId",
+                "countsHidden",
+                "durationSeconds",
                 "hasAudio",
                 "locationId",
-                "plays"
+                "locationLat",
+                "locationLng",
+                "plays",
+                "reshares",
+                "soundAuthor",
+                "soundTitle"
               ],
               "default": null,
               "format": null
@@ -46732,6 +47242,22 @@
         "data": {
           "kind": "object",
           "properties": {
+            "altText": {
+              "kind": "string",
+              "description": "Instagram's generated accessibility description of the media. Null when this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "audioId": {
+              "kind": "string",
+              "description": "Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list other reels using it. Null when the media has no sound or this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "avatarUrl": {
               "kind": "string",
               "description": "Profile picture URL of the posting account.",
@@ -46746,11 +47272,24 @@
               "maximum": null,
               "default": null
             },
+            "caption": {
+              "kind": "string",
+              "description": "Caption text of the post, including its hashtags and @mentions. Empty when the post has no caption. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "comments": {
               "kind": "integer",
               "description": "Number of comments on the post.",
               "minimum": null,
               "maximum": null,
+              "default": null
+            },
+            "countsHidden": {
+              "kind": "boolean",
+              "description": "Whether the author has hidden the like and view counts. Null when this source does not report it.",
+              "nullable": true,
               "default": null
             },
             "createdUtc": {
@@ -46774,6 +47313,14 @@
               "default": null,
               "format": null
             },
+            "durationSeconds": {
+              "kind": "number",
+              "description": "Video duration in seconds. Null on a photo, or when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "expiresUtc": {
               "kind": "integer",
               "description": "When `hostedUrl` stops working, as a UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Present only when the request set `hostVideo` to true.",
@@ -46785,6 +47332,17 @@
               "kind": "boolean",
               "description": "True when the media carries an audio track.",
               "default": null
+            },
+            "hashtags": {
+              "kind": "array",
+              "description": "Hashtags carried in the caption, each including its leading #. Empty when the caption uses none. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": true
             },
             "hostedUrl": {
               "kind": "string",
@@ -46813,12 +47371,39 @@
               "default": null,
               "format": null
             },
+            "locationLat": {
+              "kind": "number",
+              "description": "Latitude of the tagged location, in decimal degrees. Null when the post tags no place or this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "locationLng": {
+              "kind": "number",
+              "description": "Longitude of the tagged location, in decimal degrees. Null when the post tags no place or this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "locationName": {
               "kind": "string",
               "description": "Name of the tagged place, when the post tags one.",
               "enum": null,
               "default": null,
               "format": null
+            },
+            "mentions": {
+              "kind": "array",
+              "description": "Accounts mentioned in the caption, each including its leading @, in caption order. Empty when the caption mentions none.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
             },
             "owner": {
               "kind": "string",
@@ -46846,8 +47431,32 @@
               "default": null,
               "format": null
             },
+            "reshares": {
+              "kind": "integer",
+              "description": "Number of times the post has been reshared. Null when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
             "shortcode": {
               "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundAuthor": {
+              "kind": "string",
+              "description": "Credited author of the sound. Null when the media has no sound or this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "soundTitle": {
+              "kind": "string",
+              "description": "Name of the sound. \"Original audio\" means the creator's own audio rather than a licensed track. Null when the media has no sound or this source does not report it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -46888,7 +47497,9 @@
           ],
           "open": true,
           "mustPopulate": [
+            "caption",
             "displayUrl",
+            "hashtags",
             "id",
             "owner"
           ]
@@ -46958,6 +47569,20 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `replies`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "replies",
+                "userId"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -47030,9 +47655,25 @@
                     "maximum": null,
                     "default": null
                   },
+                  "replies": {
+                    "kind": "integer",
+                    "description": "Number of replies to the comment, which tells you whether instagram.comment_replies has anything to fetch. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "text": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "userId": {
+                    "kind": "string",
+                    "description": "Instagram user id of the commenting account. Null when this source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -47323,6 +47964,7 @@
               "kind": "string",
               "enum": [
                 "contactMethod",
+                "highlightsCount",
                 "posts"
               ],
               "default": null,
@@ -47442,6 +48084,14 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "highlightsCount": {
+              "kind": "integer",
+              "description": "Number of story highlights pinned on the profile. Null when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             },
             "isBusiness": {
               "kind": "boolean",
@@ -47563,6 +48213,22 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isBusiness`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "bioLinks",
+                "isBusiness",
+                "title",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -47591,6 +48257,35 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "bioLinks": {
+              "kind": "array",
+              "description": "Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "title": {
+                    "kind": "string",
+                    "description": "Display label for the link, empty when the account set none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Destination URL, exactly as the account published it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
             },
             "displayName": {
               "kind": "string",
@@ -47623,6 +48318,12 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "isBusiness": {
+              "kind": "boolean",
+              "description": "Whether Instagram flags the account as a business account. Null when this source does not report it.",
+              "nullable": true,
+              "default": null
             },
             "phones": {
               "kind": "array",
@@ -48007,7 +48708,7 @@
       "inputTypeName": "InstagramReelsSearchInput",
       "outputTypeName": "InstagramReelsSearchData",
       "example": {
-        "query": "travel"
+        "query": "collab"
       },
       "input": {
         "kind": "object",
@@ -48049,6 +48750,23 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "audioId",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -48085,6 +48803,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "avatarUrl": {
                     "kind": "string",
                     "description": "Profile picture URL of the author.",
@@ -48104,6 +48830,11 @@
                     "description": "Number of comments on the reel.",
                     "minimum": null,
                     "maximum": null,
+                    "default": null
+                  },
+                  "countsHidden": {
+                    "kind": "boolean",
+                    "description": "Whether the author has hidden the like and view counts.",
                     "default": null
                   },
                   "createdUtc": {
@@ -48132,6 +48863,17 @@
                     "description": "True when the reel carries an audio track.",
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Reel media identifier.",
@@ -48146,6 +48888,49 @@
                     "maximum": null,
                     "default": null
                   },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "paidPartnership": {
                     "kind": "boolean",
                     "description": "True when the reel is a paid partnership.",
@@ -48158,9 +48943,30 @@
                     "default": null,
                     "format": null
                   },
+                  "reshares": {
+                    "kind": "integer",
+                    "description": "Number of times the post has been reshared, when Instagram reports it. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "shortcode": {
                     "kind": "string",
                     "description": "Instagram media shortcode. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound on a reel or a post with music. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -48229,7 +49035,12 @@
                 "open": true,
                 "mustPopulate": [
                   "caption",
+                  "hashtags",
+                  "mentions",
+                  "reshares",
                   "shortcode",
+                  "soundAuthor",
+                  "soundTitle",
                   "thumbnail",
                   "url",
                   "username"
@@ -48993,6 +49804,17 @@
                     "description": "True when the media carries an audio track.",
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Instagram media id. Populated whenever the provider has data for the entity.",
@@ -49011,6 +49833,45 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
                   },
                   "paidPartnership": {
                     "kind": "boolean",
@@ -49083,7 +49944,9 @@
                 "open": true,
                 "mustPopulate": [
                   "displayUrl",
+                  "hashtags",
                   "id",
+                  "mentions",
                   "shortcode",
                   "url",
                   "username"
@@ -49347,6 +50210,9 @@
             "items": {
               "kind": "string",
               "enum": [
+                "bioLinks",
+                "category",
+                "isBusiness",
                 "private"
               ],
               "default": null,
@@ -49392,14 +50258,53 @@
                 "properties": {
                   "avatarUrl": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Profile picture URL. Null when the serving source does not report it. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
                   },
                   "bio": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "The account's biography text. Null when the serving source does not report it. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "bioLinks": {
+                    "kind": "array",
+                    "description": "Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "title": {
+                          "kind": "string",
+                          "description": "Display label for the link, empty when the account set none.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "Destination URL, exactly as the account published it.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Instagram's category label for the account (for example \"Coffee shop\"). Null when the account publishes none or this source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -49420,12 +50325,16 @@
                   },
                   "followers": {
                     "kind": "integer",
+                    "description": "Follower count. Null when the serving source does not report it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "following": {
                     "kind": "integer",
+                    "description": "Number of accounts this account follows. Null when the serving source does not report it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -49439,10 +50348,17 @@
                   },
                   "id": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Instagram's numeric account id. Null when the serving source does not report it. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "isBusiness": {
+                    "kind": "boolean",
+                    "description": "Whether Instagram flags the account as a business account. Null when this source does not report it.",
+                    "nullable": true,
+                    "default": null
                   },
                   "posts": {
                     "kind": "integer",
@@ -49467,6 +50383,8 @@
                   },
                   "verified": {
                     "kind": "boolean",
+                    "description": "Whether the account is verified. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   }
                 },
@@ -49948,7 +50866,7 @@
       "inputTypeName": "InstagramStoriesFullInput",
       "outputTypeName": "InstagramStoriesFullData",
       "example": {
-        "username": "natgeo"
+        "username": "nba"
       },
       "input": {
         "kind": "object",
@@ -49975,6 +50893,21 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "audioId",
+                "soundAuthor",
+                "soundTitle"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -50011,6 +50944,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels using it. Null when the story has no music sticker or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "avatarUrl": {
                     "kind": "string",
                     "description": "Profile picture URL of the story owner.",
@@ -50038,6 +50979,14 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video duration in seconds. Null on a photo story, or when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "expiresUtc": {
                     "kind": "number",
@@ -50087,6 +51036,22 @@
                   "productType": {
                     "kind": "string",
                     "description": "Instagram product type of the media, for example story.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound. Null when the story has no music sticker or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound on the story's music sticker. \"Original audio\" means the creator's own audio rather than a licensed track. Null when the story has no music sticker or this source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -50170,7 +51135,7 @@
       "category": "social",
       "description": "Fetch a public Instagram account's currently live stories - media URL, owner, and posting time - by username. Lightweight projection; for media type, dimensions, and the 24h expiry time use instagram.stories_full.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50184,7 +51149,7 @@
       "inputTypeName": "InstagramStoriesThinInput",
       "outputTypeName": "InstagramStoriesThinData",
       "example": {
-        "username": "natgeo"
+        "username": "nba"
       },
       "input": {
         "kind": "object",
@@ -50211,6 +51176,19 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "durationSeconds"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -50267,6 +51245,14 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video duration in seconds. Null on a photo story, or when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "id": {
                     "kind": "string",
@@ -50341,7 +51327,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50397,6 +51383,30 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `taggedUsers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "audioId",
+                "carouselCount",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -50433,6 +51443,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "author": {
                     "kind": "string",
                     "description": "Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity.",
@@ -50454,6 +51472,14 @@
                     "default": null,
                     "format": null
                   },
+                  "carouselCount": {
+                    "kind": "integer",
+                    "description": "Number of slides, present on carousel posts only. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "comments": {
                     "kind": "integer",
                     "description": "Number of comments on the post.",
@@ -50467,6 +51493,24 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video length in seconds, present on video posts and reels only.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
                   },
                   "id": {
                     "kind": "string",
@@ -50482,6 +51526,123 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the post is tagged as a paid partnership. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reshares": {
+                    "kind": "integer",
+                    "description": "Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound on a reel or a post with music. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "taggedUsers": {
+                    "kind": "array",
+                    "description": "Accounts tagged in the media. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "url": {
                     "kind": "string",
@@ -50516,7 +51677,9 @@
                 "mustPopulate": [
                   "author",
                   "caption",
+                  "hashtags",
                   "id",
+                  "mentions",
                   "url"
                 ]
               },
@@ -50653,6 +51816,17 @@
                     "description": "True when the reel carries an audio track.",
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "height": {
                     "kind": "integer",
                     "description": "Original pixel height of the media.",
@@ -50679,6 +51853,17 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "private": {
                     "kind": "boolean",
@@ -50738,6 +51923,7 @@
                 "open": true,
                 "mustPopulate": [
                   "handle",
+                  "hashtags",
                   "id",
                   "shortcode",
                   "url"
@@ -50820,6 +52006,20 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `mediaCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a highlight that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "createdUtc",
+                "mediaCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -50869,12 +52069,28 @@
                     "default": null,
                     "format": null
                   },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "mediaCount": {
+                    "kind": "integer",
+                    "description": "Number of media items in the highlight. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "ownerHandle": {
                     "kind": "string",
@@ -51002,6 +52218,21 @@
             "items": {
               "kind": "string",
               "enum": [
+                "audioId",
+                "carouselCount",
+                "coauthors",
+                "countsHidden",
+                "isPinned",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers",
                 "userId"
               ],
               "default": null,
@@ -51045,6 +52276,14 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "avatarUrl": {
                     "kind": "string",
                     "description": "Profile picture URL of the posting account.",
@@ -51059,10 +52298,65 @@
                     "default": null,
                     "format": null
                   },
+                  "carouselCount": {
+                    "kind": "integer",
+                    "description": "Number of slides, present on carousel posts only. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "coauthors": {
+                    "kind": "array",
+                    "description": "Accounts listed as coauthors of the post. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "verified": {
+                          "kind": "boolean",
+                          "description": "Whether the account carries Instagram's verified badge.",
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
                   "comments": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
+                    "default": null
+                  },
+                  "countsHidden": {
+                    "kind": "boolean",
+                    "description": "Whether the author has hidden the like and view counts. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "createdUtc": {
@@ -51086,6 +52380,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Instagram media id. Populated whenever the provider has data for the entity.",
@@ -51093,11 +52398,49 @@
                     "default": null,
                     "format": null
                   },
+                  "isPinned": {
+                    "kind": "boolean",
+                    "description": "Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "likes": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "media": {
                     "kind": "array",
@@ -51149,6 +52492,91 @@
                     },
                     "mustPopulate": false
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the post is tagged as a paid partnership. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reshares": {
+                    "kind": "integer",
+                    "description": "Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound on a reel or a post with music. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "taggedUsers": {
+                    "kind": "array",
+                    "description": "Accounts tagged in the media. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -51175,6 +52603,13 @@
                     "kind": "boolean",
                     "description": "True when the posting account is verified.",
                     "default": null
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "Play count, present on video posts and reels only.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   }
                 },
                 "required": [
@@ -51190,7 +52625,9 @@
                 "open": true,
                 "mustPopulate": [
                   "caption",
+                  "hashtags",
                   "id",
+                  "mentions",
                   "url",
                   "username"
                 ]
@@ -51280,6 +52717,31 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "coauthors",
+                "countsHidden",
+                "isPinned",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -51335,10 +52797,57 @@
                     "default": null,
                     "format": null
                   },
+                  "coauthors": {
+                    "kind": "array",
+                    "description": "Accounts listed as coauthors of the post. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "verified": {
+                          "kind": "boolean",
+                          "description": "Whether the account carries Instagram's verified badge.",
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
                   "comments": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
+                    "default": null
+                  },
+                  "countsHidden": {
+                    "kind": "boolean",
+                    "description": "Whether the author has hidden the like and view counts. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "createdUtc": {
@@ -51362,6 +52871,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Instagram media id. Populated whenever the provider has data for the entity.",
@@ -51369,11 +52889,49 @@
                     "default": null,
                     "format": null
                   },
+                  "isPinned": {
+                    "kind": "boolean",
+                    "description": "Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "likes": {
                     "kind": "integer",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "media": {
                     "kind": "array",
@@ -51425,12 +52983,97 @@
                     },
                     "mustPopulate": false
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "paidPartnership": {
+                    "kind": "boolean",
+                    "description": "Whether the post is tagged as a paid partnership. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reshares": {
+                    "kind": "integer",
+                    "description": "Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "shortcode": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound on a reel or a post with music. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "taggedUsers": {
+                    "kind": "array",
+                    "description": "Accounts tagged in the media. Null when the serving source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "displayName": {
+                          "kind": "string",
+                          "description": "Account display name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "userId": {
+                          "kind": "string",
+                          "description": "Instagram's numeric account id, as a string.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "username": {
+                          "kind": "string",
+                          "description": "Instagram username without the leading @.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "username"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "userId": {
                     "kind": "string",
@@ -51473,7 +53116,9 @@
                 "open": true,
                 "mustPopulate": [
                   "caption",
+                  "hashtags",
                   "id",
+                  "mentions",
                   "shortcode",
                   "username"
                 ]
@@ -51606,6 +53251,13 @@
                     "default": null,
                     "format": null
                   },
+                  "audioId": {
+                    "kind": "string",
+                    "description": "Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Absent when the post has no sound.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "author": {
                     "kind": "string",
                     "description": "Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity.",
@@ -51727,6 +53379,17 @@
                     "description": "Whether the video carries an audio track.",
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "height": {
                     "kind": "integer",
                     "description": "Media height in pixels.",
@@ -51790,6 +53453,17 @@
                     "default": null,
                     "format": null
                   },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "paidPartnership": {
                     "kind": "boolean",
                     "description": "Whether the post is tagged as a paid partnership.",
@@ -51812,6 +53486,20 @@
                   "shortcode": {
                     "kind": "string",
                     "description": "The post's short code, the segment Instagram puts in its URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound. \"Original audio\" means the creator's own audio rather than a licensed track. Absent when the post has no sound.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -51899,8 +53587,10 @@
                 "open": true,
                 "mustPopulate": [
                   "author",
+                  "hashtags",
                   "id",
                   "image",
+                  "mentions",
                   "url"
                 ]
               },
@@ -52057,6 +53747,17 @@
                     "maximum": null,
                     "default": null
                   },
+                  "hashtags": {
+                    "kind": "array",
+                    "description": "Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "likes": {
                     "kind": "integer",
                     "description": "Number of likes on the reel.",
@@ -52064,10 +53765,56 @@
                     "maximum": null,
                     "default": null
                   },
+                  "locationId": {
+                    "kind": "string",
+                    "description": "Instagram location id the post is tagged at.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locationLat": {
+                    "kind": "number",
+                    "description": "Latitude of the tagged location, in decimal degrees.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationLng": {
+                    "kind": "number",
+                    "description": "Longitude of the tagged location, in decimal degrees.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locationName": {
+                    "kind": "string",
+                    "description": "Name of the location the post is tagged at.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
                   "paidPartnership": {
                     "kind": "boolean",
                     "description": "True when the reel is a paid partnership.",
                     "default": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Instagram's own surface label for the reel, such as clips.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "shortcode": {
                     "kind": "string",
@@ -52119,6 +53866,8 @@
                 "open": true,
                 "mustPopulate": [
                   "caption",
+                  "hashtags",
+                  "mentions",
                   "shortcode",
                   "thumbnail",
                   "url",

@@ -34,6 +34,21 @@ class InstagramAudioReelsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "taggedUsers",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `reshares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -47,6 +62,10 @@ class InstagramBasicProfileInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[Literal["bioLinks", "isBusiness", "posts", "title", "url"]]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `posts`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: Required[str]
@@ -172,6 +191,25 @@ class InstagramHashtagTopPostsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "audioId",
+                "coauthors",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -219,6 +257,8 @@ class InstagramMediaTranscriptInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["durationSeconds"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -236,7 +276,24 @@ class InstagramPostInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["hasAudio", "locationId", "plays"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "altText",
+                "audioId",
+                "countsHidden",
+                "durationSeconds",
+                "hasAudio",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "plays",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     requirePlayCount: NotRequired[bool]
     """Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
@@ -257,6 +314,8 @@ class InstagramPostCommentsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["replies", "userId"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `replies`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -289,7 +348,9 @@ class InstagramProfileInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["contactMethod", "posts"]]]
+    requireFields: NotRequired[
+        list[Literal["contactMethod", "highlightsCount", "posts"]]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `contactMethod`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -306,6 +367,8 @@ class InstagramProfileContactInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["bioLinks", "isBusiness", "title", "url"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isBusiness`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -342,6 +405,14 @@ class InstagramReelsSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keyword (e.g. "crossfit")."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "audioId", "locationId", "locationLat", "locationLng", "locationName"
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -452,7 +523,9 @@ class InstagramSearchProfilesInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Bio or caption keyword/phrase to search for."""
-    requireFields: NotRequired[list[Literal["private"]]]
+    requireFields: NotRequired[
+        list[Literal["bioLinks", "category", "isBusiness", "private"]]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -501,6 +574,8 @@ class InstagramStoriesFullInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["audioId", "soundAuthor", "soundTitle"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
@@ -516,6 +591,8 @@ class InstagramStoriesThinInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["durationSeconds"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     username: Required[str]
@@ -535,6 +612,25 @@ class InstagramTaggedPostsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "audioId",
+                "carouselCount",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `taggedUsers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -563,6 +659,8 @@ class InstagramUserHighlightsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["createdUtc", "mediaCount"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `mediaCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a highlight that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: NotRequired[str]
@@ -582,7 +680,28 @@ class InstagramUserPostsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["userId"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "audioId",
+                "carouselCount",
+                "coauthors",
+                "countsHidden",
+                "isPinned",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers",
+                "userId",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `userId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -601,6 +720,26 @@ class InstagramUserReelsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "coauthors",
+                "countsHidden",
+                "isPinned",
+                "locationId",
+                "locationLat",
+                "locationLng",
+                "locationName",
+                "paidPartnership",
+                "productType",
+                "reshares",
+                "soundAuthor",
+                "soundTitle",
+                "taggedUsers",
+            ]
+        ]
+    ]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     userId: NotRequired[str]
@@ -677,8 +816,15 @@ class InstagramAudioReelsReel(BaseModel):
         alias="displayName",
         description="Display name of the reel's author.",
     )
+    duration_seconds: float | None = Field(
+        default=None, alias="durationSeconds", description="Reel duration in seconds."
+    )
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -687,11 +833,68 @@ class InstagramAudioReelsReel(BaseModel):
         default=None, description="Thumbnail image URL for the reel."
     )
     likes: int
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership. Null when this source does not report it.",
+    )
     plays: int
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when this source does not report it.",
+    )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it. Null when this source does not report it.",
+    )
+    tagged_users: list[InstagramAudioReelsTaggedUser] | None = Field(
+        default=None,
+        alias="taggedUsers",
+        description="Accounts tagged in the media. Null when this source does not report it.",
+    )
     verified: bool | None = Field(
         default=None,
         description="True when the author's account carries a verified badge.",
     )
+
+
+class InstagramAudioReelsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
 
 
 class InstagramBasicProfileData(BaseModel):
@@ -702,6 +905,11 @@ class InstagramBasicProfileData(BaseModel):
         description="Populated whenever the provider has data for the entity.",
     )
     bio: str
+    bio_links: list[InstagramBasicProfileBioLink] | None = Field(
+        default=None,
+        alias="bioLinks",
+        description="Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.",
+    )
     display_name: str = Field(
         alias="displayName",
         description="Populated whenever the provider has data for the entity.",
@@ -712,12 +920,33 @@ class InstagramBasicProfileData(BaseModel):
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    is_business: bool | None = Field(
+        default=None,
+        alias="isBusiness",
+        description="Whether Instagram flags the account as a business account. Null when this source does not report it.",
+    )
+    posts: int | None = Field(
+        default=None,
+        description="Total number of posts on the account. Null when this source does not report it.",
+    )
     private: bool
     user_id: str = Field(
         alias="userId",
         description="Populated whenever the provider has data for the entity.",
     )
     verified: bool
+
+
+class InstagramBasicProfileBioLink(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None,
+        description="Display label for the link, empty when the account set none.",
+    )
+    url: str = Field(
+        description="Destination URL, exactly as the account published it."
+    )
 
 
 class InstagramCommentRepliesData(BaseModel):
@@ -920,6 +1149,11 @@ class InstagramHashtagRecentPostsPost(BaseModel):
     comments: int | None = Field(
         default=None, description="Comment count. Usually zero on a post this new."
     )
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts.",
+    )
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
@@ -941,6 +1175,11 @@ class InstagramHashtagRecentPostsPost(BaseModel):
     likes: int | None = Field(
         default=None, description="Like count. Usually zero on a post this new."
     )
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at.",
+    )
     location_lat: float | None = Field(
         default=None, alias="locationLat", description="Latitude of the tagged place."
     )
@@ -955,6 +1194,10 @@ class InstagramHashtagRecentPostsPost(BaseModel):
     media: list[InstagramHashtagRecentPostsMedia] | None = Field(
         default=None,
         description="Cover media for the post. A carousel reports its full size in carouselCount.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @.",
     )
     paid_partnership: bool | None = Field(
         default=None,
@@ -971,6 +1214,16 @@ class InstagramHashtagRecentPostsPost(BaseModel):
     )
     shortcode: str = Field(
         description="Short code in the post permalink. Populated whenever the provider has data for the entity."
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound.',
     )
     url: str = Field(
         description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
@@ -1015,6 +1268,11 @@ class InstagramHashtagTopPostsData(BaseModel):
 class InstagramHashtagTopPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Null when the post has no sound or this source does not report it.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
@@ -1022,6 +1280,10 @@ class InstagramHashtagTopPostsPost(BaseModel):
     )
     caption: str = Field(
         description="Post caption text, including its hashtags. Populated whenever the provider has data for the entity."
+    )
+    coauthors: list[InstagramHashtagTopPostsCoauthor] | None = Field(
+        default=None,
+        description="Accounts listed as coauthors of the post. Null when this source does not report it.",
     )
     comments: int | None = Field(default=None, description="Comment count.")
     created_utc: float | None = Field(
@@ -1034,17 +1296,74 @@ class InstagramHashtagTopPostsPost(BaseModel):
         alias="durationSeconds",
         description="Video duration in seconds. Absent on photo posts.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Instagram media id. Populated whenever the provider has data for the entity."
     )
     likes: int | None = Field(
         default=None, description="Like count. Absent when the account hides it."
     )
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the post is not tagged at a location or this source does not report it.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at. Null when the post is not tagged at a location or this source does not report it.",
+    )
     media: list[InstagramHashtagTopPostsMedia] | None = Field(
         default=None, description="Photo and video attachments on the post."
     )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership. Null when this source does not report it.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when this source does not report it.",
+    )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it. Null when this source does not report it.",
+    )
     shortcode: str = Field(
         description="Short code in the post permalink. Populated whenever the provider has data for the entity."
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Null when the post has no sound or this source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "Original audio" means the creator\'s own audio rather than a licensed track. Null when the post has no sound or this source does not report it.',
+    )
+    tagged_users: list[InstagramHashtagTopPostsTaggedUser] | None = Field(
+        default=None,
+        alias="taggedUsers",
+        description="Accounts tagged in the media. Null when this source does not report it.",
     )
     url: str = Field(
         description="Canonical permalink to the post. Populated whenever the provider has data for the entity."
@@ -1060,6 +1379,22 @@ class InstagramHashtagTopPostsPost(BaseModel):
     )
 
 
+class InstagramHashtagTopPostsCoauthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    avatar_url: str | None = Field(
+        default=None,
+        alias="avatarUrl",
+        description="Coauthor's profile picture URL, as Instagram's CDN serves it.",
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+
+
 class InstagramHashtagTopPostsMedia(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -1070,6 +1405,20 @@ class InstagramHashtagTopPostsMedia(BaseModel):
         alias="videoUrl",
         description="Playable video file URL. Present only for video items.",
     )
+
+
+class InstagramHashtagTopPostsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
 
 
 class InstagramHighlightDetailData(BaseModel):
@@ -1172,6 +1521,11 @@ class InstagramLocationPostsPost(BaseModel):
         alias="altText",
         description="Instagram's generated accessibility description of the media.",
     )
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Absent when the post has no sound.",
+    )
     author: str = Field(
         description="Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity."
     )
@@ -1224,6 +1578,10 @@ class InstagramLocationPostsPost(BaseModel):
         alias="hasAudio",
         description="Whether the video carries an audio track.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     height: int | None = Field(default=None, description="Media height in pixels.")
     id: str = Field(
         description="The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
@@ -1258,6 +1616,10 @@ class InstagramLocationPostsPost(BaseModel):
         alias="mediaType",
         description="What the post is: photo, video or carousel.",
     )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @.",
+    )
     paid_partnership: bool | None = Field(
         default=None,
         alias="paidPartnership",
@@ -1271,6 +1633,16 @@ class InstagramLocationPostsPost(BaseModel):
     shortcode: str | None = Field(
         default=None,
         description="The post's short code, the segment Instagram puts in its URL.",
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound.',
     )
     tagged_users: list[InstagramLocationPostsTaggedUser] | None = Field(
         default=None, alias="taggedUsers", description="Accounts tagged in the media."
@@ -1323,8 +1695,13 @@ class InstagramMediaTranscriptData(BaseModel):
 
 
 class InstagramMediaTranscriptTranscript(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Length of the transcribed video in seconds, with fractional seconds. Null when this source does not report it.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1339,6 +1716,16 @@ class InstagramMediaTranscriptTranscript(BaseModel):
 class InstagramPostData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    alt_text: str | None = Field(
+        default=None,
+        alias="altText",
+        description="Instagram's generated accessibility description of the media. Null when this source does not report it.",
+    )
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list other reels using it. Null when the media has no sound or this source does not report it.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
@@ -1348,8 +1735,17 @@ class InstagramPostData(BaseModel):
         default=None,
         description="Size of the hosted MP4 in bytes. Present only when the request set `hostVideo` to true.",
     )
+    caption: str | None = Field(
+        default=None,
+        description="Caption text of the post, including its hashtags and @mentions. Empty when the post has no caption. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     comments: int | None = Field(
         default=None, description="Number of comments on the post."
+    )
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts. Null when this source does not report it.",
     )
     created_utc: float | None = Field(
         default=None,
@@ -1365,6 +1761,11 @@ class InstagramPostData(BaseModel):
         alias="displayUrl",
         description="Populated whenever the provider has data for the entity.",
     )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Null on a photo, or when this source does not report it.",
+    )
     expires_utc: int | None = Field(
         default=None,
         alias="expiresUtc",
@@ -1374,6 +1775,10 @@ class InstagramPostData(BaseModel):
         default=None,
         alias="hasAudio",
         description="True when the media carries an audio track.",
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Empty when the caption uses none. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     hosted_url: str | None = Field(
         default=None,
@@ -1389,10 +1794,24 @@ class InstagramPostData(BaseModel):
         alias="locationId",
         description="Instagram id of the tagged place, when the post tags one.",
     )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the post tags no place or this source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the post tags no place or this source does not report it.",
+    )
     location_name: str | None = Field(
         default=None,
         alias="locationName",
         description="Name of the tagged place, when the post tags one.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts mentioned in the caption, each including its leading @, in caption order. Empty when the caption mentions none.",
     )
     owner: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -1411,7 +1830,21 @@ class InstagramPostData(BaseModel):
         alias="productType",
         description="Instagram product type of the media, for example feed, clips or igtv.",
     )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared. Null when this source does not report it.",
+    )
     shortcode: str
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the media has no sound or this source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "Original audio" means the creator\'s own audio rather than a licensed track. Null when the media has no sound or this source does not report it.',
+    )
     type_: str = Field(alias="type")
     user_id: str | None = Field(
         default=None,
@@ -1458,8 +1891,17 @@ class InstagramPostCommentsComment(BaseModel):
     likes: int | None = Field(
         description="Number of likes on the comment. Null when the source does not report it."
     )
+    replies: int | None = Field(
+        default=None,
+        description="Number of replies to the comment, which tells you whether instagram.comment_replies has anything to fetch. Null when this source does not report it.",
+    )
     text: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram user id of the commenting account. Null when this source does not report it.",
     )
     verified: bool
 
@@ -1539,6 +1981,11 @@ class InstagramProfileData(BaseModel):
     handle: str = Field(
         description="Instagram username without the leading @. Populated whenever the provider has data for the entity."
     )
+    highlights_count: int | None = Field(
+        default=None,
+        alias="highlightsCount",
+        description="Number of story highlights pinned on the profile. Null when this source does not report it.",
+    )
     is_business: bool | None = Field(
         default=None,
         alias="isBusiness",
@@ -1574,6 +2021,11 @@ class InstagramProfileContactData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     bio: str | None = Field(default=None, description="Profile biography text.")
+    bio_links: list[InstagramProfileContactBioLink] | None = Field(
+        default=None,
+        alias="bioLinks",
+        description="Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.",
+    )
     display_name: str | None = Field(
         default=None, alias="displayName", description="Account display name."
     )
@@ -1587,6 +2039,11 @@ class InstagramProfileContactData(BaseModel):
     )
     handle: str = Field(
         description="Instagram username without the leading @. Populated whenever the provider has data for the entity."
+    )
+    is_business: bool | None = Field(
+        default=None,
+        alias="isBusiness",
+        description="Whether Instagram flags the account as a business account. Null when this source does not report it.",
     )
     phones: list[str] | None = Field(
         default=None,
@@ -1608,6 +2065,18 @@ class InstagramProfileContactData(BaseModel):
     verified: bool | None = Field(
         default=None,
         description="Whether the account carries Instagram's verified badge.",
+    )
+
+
+class InstagramProfileContactBioLink(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None,
+        description="Display label for the link, empty when the account set none.",
+    )
+    url: str = Field(
+        description="Destination URL, exactly as the account published it."
     )
 
 
@@ -1739,6 +2208,11 @@ class InstagramReelsSearchData(BaseModel):
 class InstagramReelsSearchReel(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
@@ -1748,6 +2222,11 @@ class InstagramReelsSearchReel(BaseModel):
         description="Reel caption text. Populated whenever the provider has data for the entity."
     )
     comments: int = Field(description="Number of comments on the reel.")
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -1763,8 +2242,36 @@ class InstagramReelsSearchReel(BaseModel):
         alias="hasAudio",
         description="True when the reel carries an audio track.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str | None = Field(default=None, description="Reel media identifier.")
     likes: int = Field(description="Number of likes on the reel.")
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at. Null when the serving source does not report it.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     paid_partnership: bool = Field(
         alias="paidPartnership", description="True when the reel is a paid partnership."
     )
@@ -1773,8 +2280,22 @@ class InstagramReelsSearchReel(BaseModel):
         alias="productType",
         description="Instagram product type of the media, for example clips.",
     )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     shortcode: str = Field(
         description="Instagram media shortcode. Populated whenever the provider has data for the entity."
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound on a reel or a post with music. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
     thumbnail: str = Field(
         description="URL of the reel thumbnail image. Populated whenever the provider has data for the entity."
@@ -1957,6 +2478,10 @@ class InstagramSearchHashtagPost(BaseModel):
         alias="hasAudio",
         description="True when the media carries an audio track.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Instagram media id. Populated whenever the provider has data for the entity."
     )
@@ -1967,6 +2492,30 @@ class InstagramSearchHashtagPost(BaseModel):
     )
     likes: int | None = Field(
         default=None, description="Like count. Absent when the account hides it."
+    )
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     paid_partnership: bool | None = Field(
         default=None,
@@ -2050,12 +2599,21 @@ class InstagramSearchProfilesData(BaseModel):
 class InstagramSearchProfilesProfile(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    avatar_url: str = Field(
+    avatar_url: str | None = Field(
         alias="avatarUrl",
-        description="Populated whenever the provider has data for the entity.",
+        description="Profile picture URL. Null when the serving source does not report it. Populated whenever the provider has data for the entity.",
     )
-    bio: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    bio: str | None = Field(
+        description="The account's biography text. Null when the serving source does not report it. Populated whenever the provider has data for the entity."
+    )
+    bio_links: list[InstagramSearchProfilesBioLink] | None = Field(
+        default=None,
+        alias="bioLinks",
+        description="Every link the account publishes in its bio, in the order Instagram returns them. Null when this source does not report them.",
+    )
+    category: str | None = Field(
+        default=None,
+        description='Instagram\'s category label for the account (for example "Coffee shop"). Null when the account publishes none or this source does not report it.',
     )
     display_name: str = Field(
         alias="displayName",
@@ -2066,13 +2624,22 @@ class InstagramSearchProfilesProfile(BaseModel):
         alias="externalUrl",
         description="External link the account lists in its bio.",
     )
-    followers: int
-    following: int
+    followers: int | None = Field(
+        description="Follower count. Null when the serving source does not report it."
+    )
+    following: int | None = Field(
+        description="Number of accounts this account follows. Null when the serving source does not report it."
+    )
     handle: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
+    id: str | None = Field(
+        description="Instagram's numeric account id. Null when the serving source does not report it. Populated whenever the provider has data for the entity."
+    )
+    is_business: bool | None = Field(
+        default=None,
+        alias="isBusiness",
+        description="Whether Instagram flags the account as a business account. Null when this source does not report it.",
     )
     posts: int | None = Field(
         description="Total number of posts on the account. Null when the serving source does not report it."
@@ -2081,7 +2648,21 @@ class InstagramSearchProfilesProfile(BaseModel):
         description="Whether the account is private. Null when the serving source does not report it."
     )
     url: str | None = Field(default=None, description="Canonical URL of the profile.")
-    verified: bool
+    verified: bool | None = Field(
+        description="Whether the account is verified. Null when the serving source does not report it."
+    )
+
+
+class InstagramSearchProfilesBioLink(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    title: str | None = Field(
+        default=None,
+        description="Display label for the link, empty when the account set none.",
+    )
+    url: str = Field(
+        description="Destination URL, exactly as the account published it."
+    )
 
 
 class InstagramSearchProfilesContactData(BaseModel):
@@ -2185,6 +2766,11 @@ class InstagramStoriesFullData(BaseModel):
 class InstagramStoriesFullItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels using it. Null when the story has no music sticker or this source does not report it.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
@@ -2203,6 +2789,11 @@ class InstagramStoriesFullItem(BaseModel):
         default=None,
         alias="displayName",
         description="Display name of the story owner.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Null on a photo story, or when this source does not report it.",
     )
     expires_utc: float | None = Field(
         default=None,
@@ -2237,6 +2828,16 @@ class InstagramStoriesFullItem(BaseModel):
         default=None,
         alias="productType",
         description="Instagram product type of the media, for example story.",
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited author of the sound. Null when the story has no music sticker or this source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description="Name of the sound on the story's music sticker. \"Original audio\" means the creator's own audio rather than a licensed track. Null when the story has no music sticker or this source does not report it.",
     )
     user_id: str | None = Field(
         default=None,
@@ -2284,6 +2885,11 @@ class InstagramStoriesThinItem(BaseModel):
         alias="displayName",
         description="Display name of the story owner.",
     )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video duration in seconds. Null on a photo story, or when this source does not report it.",
+    )
     id: str = Field(
         description="Story identifier. Populated whenever the provider has data for the entity."
     )
@@ -2321,6 +2927,11 @@ class InstagramTaggedPostsData(BaseModel):
 class InstagramTaggedPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.",
+    )
     author: str = Field(
         description="Username of the account that posted and applied the tag, without the @ prefix. Populated whenever the provider has data for the entity."
     )
@@ -2332,16 +2943,83 @@ class InstagramTaggedPostsPost(BaseModel):
     caption: str = Field(
         description="The post's caption text. Empty when the post has none. Populated whenever the provider has data for the entity."
     )
+    carousel_count: int | None = Field(
+        default=None,
+        alias="carouselCount",
+        description="Number of slides, present on carousel posts only. Null when the serving source does not report it.",
+    )
     comments: int = Field(description="Number of comments on the post.")
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    duration_seconds: float | None = Field(
+        default=None,
+        alias="durationSeconds",
+        description="Video length in seconds, present on video posts and reels only.",
+    )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     id: str = Field(
         description="The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
     )
     likes: int | None = Field(
         description="Number of likes on the post. Null when the source does not report it, including when the owner hides like counts."
+    )
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at. Null when the serving source does not report it.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership. Null when the serving source does not report it.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
+    )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.",
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound on a reel or a post with music. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.',
+    )
+    tagged_users: list[InstagramTaggedPostsTaggedUser] | None = Field(
+        default=None,
+        alias="taggedUsers",
+        description="Accounts tagged in the media. Null when the serving source does not report it.",
     )
     url: str = Field(
         description="Canonical URL of the post, with tracking query params stripped. Populated whenever the provider has data for the entity."
@@ -2354,6 +3032,20 @@ class InstagramTaggedPostsPost(BaseModel):
         default=None,
         description="Number of views on the post, when the upstream reports one.",
     )
+
+
+class InstagramTaggedPostsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
 
 
 class InstagramTrendingReelsData(BaseModel):
@@ -2385,6 +3077,10 @@ class InstagramTrendingReelsReel(BaseModel):
         alias="hasAudio",
         description="True when the reel carries an audio track.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     height: int | None = Field(
         default=None, description="Original pixel height of the media."
     )
@@ -2395,6 +3091,10 @@ class InstagramTrendingReelsReel(BaseModel):
         default=None, description="Thumbnail image URL for the reel."
     )
     likes: int
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @.",
+    )
     private: bool | None = Field(
         default=None, description="True when the author's account is private."
     )
@@ -2437,8 +3137,18 @@ class InstagramUserHighlightsHighlight(BaseModel):
         alias="coverUrl",
         description="Populated whenever the provider has data for the entity.",
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when this source does not report it.",
+    )
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    media_count: int | None = Field(
+        default=None,
+        alias="mediaCount",
+        description="Number of media items in the highlight. Null when this source does not report it.",
     )
     owner_handle: str = Field(
         alias="ownerHandle",
@@ -2469,6 +3179,11 @@ class InstagramUserPostsData(BaseModel):
 class InstagramUserPostsPost(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
@@ -2477,7 +3192,21 @@ class InstagramUserPostsPost(BaseModel):
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    carousel_count: int | None = Field(
+        default=None,
+        alias="carouselCount",
+        description="Number of slides, present on carousel posts only. Null when the serving source does not report it.",
+    )
+    coauthors: list[InstagramUserPostsCoauthor] | None = Field(
+        default=None,
+        description="Accounts listed as coauthors of the post. Null when the serving source does not report it.",
+    )
     comments: int
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts. Null when the serving source does not report it.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -2492,13 +3221,75 @@ class InstagramUserPostsPost(BaseModel):
         alias="durationSeconds",
         description="Video duration in seconds. Absent on photo posts.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Instagram media id. Populated whenever the provider has data for the entity."
     )
+    is_pinned: bool | None = Field(
+        default=None,
+        alias="isPinned",
+        description="Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.",
+    )
     likes: int
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at. Null when the serving source does not report it.",
+    )
     media: list[InstagramUserPostsMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership. Null when the serving source does not report it.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
+    )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.",
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound on a reel or a post with music. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.',
+    )
+    tagged_users: list[InstagramUserPostsTaggedUser] | None = Field(
+        default=None,
+        alias="taggedUsers",
+        description="Accounts tagged in the media. Null when the serving source does not report it.",
     )
     url: str = Field(
         description="Populated whenever the provider has data for the entity."
@@ -2512,6 +3303,27 @@ class InstagramUserPostsPost(BaseModel):
         description="Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle. Populated whenever the provider has data for the entity."
     )
     verified: bool = Field(description="True when the posting account is verified.")
+    views: int | None = Field(
+        default=None, description="Play count, present on video posts and reels only."
+    )
+
+
+class InstagramUserPostsCoauthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+    verified: bool | None = Field(
+        default=None,
+        description="Whether the account carries Instagram's verified badge.",
+    )
 
 
 class InstagramUserPostsMedia(BaseModel):
@@ -2534,6 +3346,20 @@ class InstagramUserPostsMedia(BaseModel):
         default=None,
         description="Pixel width of the media item, when the lane reports it.",
     )
+
+
+class InstagramUserPostsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
 
 
 class InstagramUserReelsData(BaseModel):
@@ -2559,7 +3385,16 @@ class InstagramUserReelsReel(BaseModel):
     caption: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
+    coauthors: list[InstagramUserReelsCoauthor] | None = Field(
+        default=None,
+        description="Accounts listed as coauthors of the post. Null when the serving source does not report it.",
+    )
     comments: int
+    counts_hidden: bool | None = Field(
+        default=None,
+        alias="countsHidden",
+        description="Whether the author has hidden the like and view counts. Null when the serving source does not report it.",
+    )
     created_utc: float = Field(
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -2572,16 +3407,78 @@ class InstagramUserReelsReel(BaseModel):
     duration_seconds: float = Field(
         alias="durationSeconds", description="Reel duration in seconds."
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     id: str = Field(
         description="Instagram media id. Populated whenever the provider has data for the entity."
     )
+    is_pinned: bool | None = Field(
+        default=None,
+        alias="isPinned",
+        description="Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.",
+    )
     likes: int
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at. Null when the serving source does not report it.",
+    )
     media: list[InstagramUserReelsMedia] | None = Field(
         default=None,
         description="Photo, video, and GIF attachments on the post. Empty when the post has none.",
     )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    paid_partnership: bool | None = Field(
+        default=None,
+        alias="paidPartnership",
+        description="Whether the post is tagged as a paid partnership. Null when the serving source does not report it.",
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
+    )
+    reshares: int | None = Field(
+        default=None,
+        description="Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.",
+    )
     shortcode: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound on a reel or a post with music. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.',
+    )
+    tagged_users: list[InstagramUserReelsTaggedUser] | None = Field(
+        default=None,
+        alias="taggedUsers",
+        description="Accounts tagged in the media. Null when the serving source does not report it.",
     )
     user_id: str | None = Field(
         default=None,
@@ -2593,6 +3490,24 @@ class InstagramUserReelsReel(BaseModel):
     )
     verified: bool = Field(description="True when the posting account is verified.")
     views: int
+
+
+class InstagramUserReelsCoauthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+    verified: bool | None = Field(
+        default=None,
+        description="Whether the account carries Instagram's verified badge.",
+    )
 
 
 class InstagramUserReelsMedia(BaseModel):
@@ -2617,6 +3532,20 @@ class InstagramUserReelsMedia(BaseModel):
     )
 
 
+class InstagramUserReelsTaggedUser(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    display_name: str | None = Field(
+        default=None, alias="displayName", description="Account display name."
+    )
+    user_id: str | None = Field(
+        default=None,
+        alias="userId",
+        description="Instagram's numeric account id, as a string.",
+    )
+    username: str = Field(description="Instagram username without the leading @.")
+
+
 class InstagramUserRepostsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -2636,6 +3565,11 @@ class InstagramUserRepostsPost(BaseModel):
         default=None,
         alias="altText",
         description="Instagram's generated accessibility description of the media.",
+    )
+    audio_id: str | None = Field(
+        default=None,
+        alias="audioId",
+        description="Instagram audio id of the sound; pass it to instagram.audio_reels as audioId to list reels that use it. Absent when the post has no sound.",
     )
     author: str = Field(
         description="Username of the account that posted it, without the leading @. Populated whenever the provider has data for the entity."
@@ -2692,6 +3626,10 @@ class InstagramUserRepostsPost(BaseModel):
         alias="hasAudio",
         description="Whether the video carries an audio track.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     height: int | None = Field(default=None, description="Media height in pixels.")
     id: str = Field(
         description="The post's numeric Instagram media ID, as a string. Populated whenever the provider has data for the entity."
@@ -2726,6 +3664,10 @@ class InstagramUserRepostsPost(BaseModel):
         alias="mediaType",
         description="What the post is: photo, video or carousel.",
     )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     paid_partnership: bool | None = Field(
         default=None,
         alias="paidPartnership",
@@ -2743,6 +3685,16 @@ class InstagramUserRepostsPost(BaseModel):
     shortcode: str | None = Field(
         default=None,
         description="The post's short code, the segment Instagram puts in its URL.",
+    )
+    sound_author: str | None = Field(
+        default=None,
+        alias="soundAuthor",
+        description="Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound.",
+    )
+    sound_title: str | None = Field(
+        default=None,
+        alias="soundTitle",
+        description='Name of the sound. "Original audio" means the creator\'s own audio rather than a licensed track. Absent when the post has no sound.',
     )
     tagged_users: list[InstagramUserRepostsTaggedUser] | None = Field(
         default=None, alias="taggedUsers", description="Accounts tagged in the media."
@@ -2819,9 +3771,42 @@ class InstagramWebReelsSearchReel(BaseModel):
         alias="durationSeconds",
         description="Reel duration in seconds. Null when the source does not report it.",
     )
+    hashtags: list[str] | None = Field(
+        default=None,
+        description="Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     likes: int = Field(description="Number of likes on the reel.")
+    location_id: str | None = Field(
+        default=None,
+        alias="locationId",
+        description="Instagram location id the post is tagged at.",
+    )
+    location_lat: float | None = Field(
+        default=None,
+        alias="locationLat",
+        description="Latitude of the tagged location, in decimal degrees.",
+    )
+    location_lng: float | None = Field(
+        default=None,
+        alias="locationLng",
+        description="Longitude of the tagged location, in decimal degrees.",
+    )
+    location_name: str | None = Field(
+        default=None,
+        alias="locationName",
+        description="Name of the location the post is tagged at.",
+    )
+    mentions: list[str] | None = Field(
+        default=None,
+        description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
     paid_partnership: bool = Field(
         alias="paidPartnership", description="True when the reel is a paid partnership."
+    )
+    product_type: str | None = Field(
+        default=None,
+        alias="productType",
+        description="Instagram's own surface label for the reel, such as clips.",
     )
     shortcode: str = Field(
         description="Instagram media shortcode. Populated whenever the provider has data for the entity."
@@ -2984,7 +3969,7 @@ class InstagramNamespace:
         username: follower usernames, names, and profile details. Instagram caps
         follower lists, so this returns one page, not the whole list.
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.followers(username="nasa")
@@ -3029,7 +4014,7 @@ class InstagramNamespace:
         names, and profile details. Instagram caps these lists, so this returns one
         page, not the whole list.
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.following(username="nasa")
@@ -3445,7 +4430,7 @@ class InstagramNamespace:
         Price: $0.0011 per request.
 
         Example:
-            res = client.instagram.reels_search(query="travel")
+            res = client.instagram.reels_search(query="collab")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reels_search", dict(input), options
@@ -3739,7 +4724,7 @@ class InstagramNamespace:
         Price: $0.0022 per request.
 
         Example:
-            res = client.instagram.stories_full(username="natgeo")
+            res = client.instagram.stories_full(username="nba")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_full", dict(input), options
@@ -3758,10 +4743,10 @@ class InstagramNamespace:
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
-            res = client.instagram.stories_thin(username="natgeo")
+            res = client.instagram.stories_thin(username="nba")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_thin", dict(input), options
@@ -3779,7 +4764,7 @@ class InstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
@@ -4159,7 +5144,7 @@ class AsyncInstagramNamespace:
         username: follower usernames, names, and profile details. Instagram caps
         follower lists, so this returns one page, not the whole list.
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.followers(username="nasa")
@@ -4204,7 +5189,7 @@ class AsyncInstagramNamespace:
         names, and profile details. Instagram caps these lists, so this returns one
         page, not the whole list.
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.following(username="nasa")
@@ -4622,7 +5607,7 @@ class AsyncInstagramNamespace:
         Price: $0.0011 per request.
 
         Example:
-            res = client.instagram.reels_search(query="travel")
+            res = client.instagram.reels_search(query="collab")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.reels_search", dict(input), options
@@ -4916,7 +5901,7 @@ class AsyncInstagramNamespace:
         Price: $0.0022 per request.
 
         Example:
-            res = client.instagram.stories_full(username="natgeo")
+            res = client.instagram.stories_full(username="nba")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_full", dict(input), options
@@ -4935,10 +5920,10 @@ class AsyncInstagramNamespace:
         owner, and posting time - by username. Lightweight projection; for media
         type, dimensions, and the 24h expiry time use instagram.stories_full.
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
-            res = client.instagram.stories_thin(username="natgeo")
+            res = client.instagram.stories_thin(username="nba")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.stories_thin", dict(input), options
@@ -4956,7 +5941,7 @@ class AsyncInstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.0015 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
