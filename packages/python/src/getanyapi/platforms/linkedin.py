@@ -539,9 +539,16 @@ class LinkedinProfileThinInput(TypedDict, total=False):
             Literal[
                 "activityType",
                 "articles",
+                "companyLinkedinUrl",
+                "companyName",
+                "connections",
                 "createdUtc",
+                "current",
+                "currentPosition",
                 "headline",
                 "id",
+                "position",
+                "publicIdentifier",
                 "recentPosts",
                 "text",
                 "url",
@@ -3682,12 +3689,21 @@ class LinkedinProfileThinData(BaseModel):
     avatar_url: str | None = Field(
         default=None, alias="avatarUrl", description="URL of the profile avatar image."
     )
+    connections: str | None = Field(
+        default=None,
+        description='Connections count as LinkedIn\'s public label shows it, capped at "500+" (for example "8" or "500+"). Null when the serving source does not publish it.',
+    )
+    current_position: list[LinkedinProfileThinCurrentPosition] | None = Field(
+        default=None,
+        alias="currentPosition",
+        description="The member's current role as the serving source reports it: one entry, or an empty list when the profile shows no current employer. Null when the serving source does not publish it.",
+    )
     education: list[LinkedinProfileThinEducation] | None = Field(
         default=None, description="Education entries."
     )
     experience: list[LinkedinProfileThinExperience] | None = Field(
         default=None,
-        description="Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Work experience entries: company and dates, plus the job title and whether the role is current when the serving source publishes them. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     followers: int | None = Field(default=None, description="Number of followers.")
     headline: str | None = Field(
@@ -3698,6 +3714,11 @@ class LinkedinProfileThinData(BaseModel):
         default=None, description="Location of the profile owner."
     )
     name: str = Field(description="Full name of the profile owner.")
+    public_identifier: str | None = Field(
+        default=None,
+        alias="publicIdentifier",
+        description="LinkedIn public identifier (the /in/ handle), or null when the serving source does not publish it.",
+    )
     recent_posts: list[LinkedinProfileThinRecentPost] | None = Field(
         default=None,
         alias="recentPosts",
@@ -3715,6 +3736,21 @@ class LinkedinProfileThinArticle(BaseModel):
     )
     headline: str = Field(description="Headline of the article.")
     url: str | None = Field(default=None, description="Canonical URL of the article.")
+
+
+class LinkedinProfileThinCurrentPosition(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Company LinkedIn URL, or null when the serving source does not publish it.",
+    )
+    company_name: str = Field(alias="companyName", description="Company name.")
+    position: str | None = Field(
+        default=None,
+        description="Job title, or null when the serving source does not publish it or the profile hides it.",
+    )
 
 
 class LinkedinProfileThinEducation(BaseModel):
@@ -3739,8 +3775,16 @@ class LinkedinProfileThinExperience(BaseModel):
     company_url: str | None = Field(
         default=None, alias="companyUrl", description="URL of the company page."
     )
+    current: bool | None = Field(
+        default=None,
+        description="Whether this is a current role, or null when the serving source does not say.",
+    )
     end_date: str | None = Field(
         default=None, alias="endDate", description="End date of the role."
+    )
+    position: str | None = Field(
+        default=None,
+        description="Job title, or null when the serving source does not publish it or the profile hides it.",
     )
     start_date: str | None = Field(
         default=None, alias="startDate", description="Start date of the role."
@@ -4987,11 +5031,12 @@ class LinkedinNamespace:
     ) -> RunResult[LinkedinProfileThinData]:
         """LinkedIn Profile (basic)
 
-        Lightweight profile: name, avatar, location, followers, and a basic
-        experience/education list (company + dates only, no job titles,
-        descriptions, or skills; past companies may be redacted). For full
-        experience detail, skills, certifications, connections, and verified flags
-        use linkedin.profile.
+        Lightweight profile: name, avatar, location, followers, public id, current
+        company, and a basic experience/education list (company + dates; job titles,
+        the current-role flag and the connections label only where the source and
+        the profile show them; no descriptions or skills; past companies may be
+        redacted). For full experience detail, skills, certifications, and verified
+        flags use linkedin.profile.
 
         Price: $0.0008 per request.
 
@@ -5800,11 +5845,12 @@ class AsyncLinkedinNamespace:
     ) -> RunResult[LinkedinProfileThinData]:
         """LinkedIn Profile (basic)
 
-        Lightweight profile: name, avatar, location, followers, and a basic
-        experience/education list (company + dates only, no job titles,
-        descriptions, or skills; past companies may be redacted). For full
-        experience detail, skills, certifications, connections, and verified flags
-        use linkedin.profile.
+        Lightweight profile: name, avatar, location, followers, public id, current
+        company, and a basic experience/education list (company + dates; job titles,
+        the current-role flag and the connections label only where the source and
+        the profile show them; no descriptions or skills; past companies may be
+        redacted). For full experience detail, skills, certifications, and verified
+        flags use linkedin.profile.
 
         Price: $0.0008 per request.
 

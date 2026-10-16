@@ -3687,9 +3687,16 @@ export interface LinkedinProfileThinInput {
   requireFields?: (
     | "activityType"
     | "articles"
+    | "companyLinkedinUrl"
+    | "companyName"
+    | "connections"
     | "createdUtc"
+    | "current"
+    | "currentPosition"
     | "headline"
     | "id"
+    | "position"
+    | "publicIdentifier"
     | "recentPosts"
     | "text"
     | "url"
@@ -3717,6 +3724,22 @@ export interface LinkedinProfileThinArticle {
    * Canonical URL of the article.
    */
   url?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinProfileThinCurrentPosition {
+  /**
+   * Company LinkedIn URL, or null when the serving source does not publish it.
+   */
+  companyLinkedinUrl?: string | null;
+  /**
+   * Company name.
+   */
+  companyName: string;
+  /**
+   * Job title, or null when the serving source does not publish it or the profile hides it.
+   */
+  position?: string | null;
   [extra: string]: unknown;
 }
 
@@ -3750,9 +3773,17 @@ export interface LinkedinProfileThinExperience {
    */
   companyUrl?: string;
   /**
+   * Whether this is a current role, or null when the serving source does not say.
+   */
+  current?: boolean | null;
+  /**
    * End date of the role.
    */
   endDate?: string;
+  /**
+   * Job title, or null when the serving source does not publish it or the profile hides it.
+   */
+  position?: string | null;
   /**
    * Start date of the role.
    */
@@ -3801,11 +3832,19 @@ export interface LinkedinProfileThinData {
    */
   avatarUrl?: string;
   /**
+   * Connections count as LinkedIn's public label shows it, capped at "500+" (for example "8" or "500+"). Null when the serving source does not publish it.
+   */
+  connections?: string | null;
+  /**
+   * The member's current role as the serving source reports it: one entry, or an empty list when the profile shows no current employer. Null when the serving source does not publish it.
+   */
+  currentPosition?: LinkedinProfileThinCurrentPosition[] | null;
+  /**
    * Education entries.
    */
   education?: LinkedinProfileThinEducation[];
   /**
-   * Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity.
+   * Work experience entries: company and dates, plus the job title and whether the role is current when the serving source publishes them. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   experience?: LinkedinProfileThinExperience[];
@@ -3825,6 +3864,10 @@ export interface LinkedinProfileThinData {
    * Full name of the profile owner.
    */
   name: string;
+  /**
+   * LinkedIn public identifier (the /in/ handle), or null when the serving source does not publish it.
+   */
+  publicIdentifier?: string | null;
   /**
    * The profile's recent posts, or null when the serving source does not publish them.
    */
@@ -6009,7 +6052,7 @@ export class LinkedinNamespace {
   /**
    * LinkedIn Profile (basic)
    *
-   * Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.
+   * Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.
    *
    * Price: $0.0008 per request.
    *

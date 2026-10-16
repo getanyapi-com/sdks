@@ -23972,7 +23972,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61269,7 +61269,7 @@
       "operationId": "linkedin_profile_thin",
       "name": "LinkedIn Profile (basic)",
       "category": "social",
-      "description": "Lightweight profile: name, avatar, location, followers, and a basic experience/education list (company + dates only, no job titles, descriptions, or skills; past companies may be redacted). For full experience detail, skills, certifications, connections, and verified flags use linkedin.profile.",
+      "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
         "priceUsd": 0.0008,
         "baseUsd": null,
@@ -61321,9 +61321,16 @@
               "enum": [
                 "activityType",
                 "articles",
+                "companyLinkedinUrl",
+                "companyName",
+                "connections",
                 "createdUtc",
+                "current",
+                "currentPosition",
                 "headline",
                 "id",
+                "position",
+                "publicIdentifier",
                 "recentPosts",
                 "text",
                 "url"
@@ -61412,6 +61419,52 @@
               "default": null,
               "format": null
             },
+            "connections": {
+              "kind": "string",
+              "description": "Connections count as LinkedIn's public label shows it, capped at \"500+\" (for example \"8\" or \"500+\"). Null when the serving source does not publish it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "currentPosition": {
+              "kind": "array",
+              "description": "The member's current role as the serving source reports it: one entry, or an empty list when the profile shows no current employer. Null when the serving source does not publish it.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "companyLinkedinUrl": {
+                    "kind": "string",
+                    "description": "Company LinkedIn URL, or null when the serving source does not publish it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyName": {
+                    "kind": "string",
+                    "description": "Company name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "string",
+                    "description": "Job title, or null when the serving source does not publish it or the profile hides it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "companyName"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
             "education": {
               "kind": "array",
               "description": "Education entries.",
@@ -61456,7 +61509,7 @@
             },
             "experience": {
               "kind": "array",
-              "description": "Work experience entries (company and dates only in this basic tier). Populated whenever the provider has data for the entity.",
+              "description": "Work experience entries: company and dates, plus the job title and whether the role is current when the serving source publishes them. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -61474,9 +61527,23 @@
                     "default": null,
                     "format": null
                   },
+                  "current": {
+                    "kind": "boolean",
+                    "description": "Whether this is a current role, or null when the serving source does not say.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "endDate": {
                     "kind": "string",
                     "description": "End date of the role.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "string",
+                    "description": "Job title, or null when the serving source does not publish it or the profile hides it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -61521,6 +61588,14 @@
             "name": {
               "kind": "string",
               "description": "Full name of the profile owner.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "publicIdentifier": {
+              "kind": "string",
+              "description": "LinkedIn public identifier (the /in/ handle), or null when the serving source does not publish it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
