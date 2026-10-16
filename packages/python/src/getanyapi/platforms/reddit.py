@@ -1180,7 +1180,7 @@ class RedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.00038 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -1200,7 +1200,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00038 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1575,7 +1575,7 @@ class AsyncRedditNamespace:
         Fetch a subreddit's metadata (weekly active users, description, and
         category).
 
-        Price: $0.00038 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.subreddit_details(subreddit="programming")
@@ -1595,7 +1595,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00038 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
