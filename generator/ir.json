@@ -37158,6 +37158,265 @@
       }
     },
     {
+      "slug": "github.issue_comments",
+      "platform": "github",
+      "action": "issue_comments",
+      "operationId": "github_issue_comments",
+      "name": "GitHub Issue Comments",
+      "category": "data",
+      "description": "List the comments on a GitHub issue or pull request by its URL, oldest first, with each commenter's login, their relationship to the repository, reactions and the comment text.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "github",
+      "tsMethod": "issueComments",
+      "tsIterMethod": "iterIssueComments",
+      "pyNamespace": "github",
+      "pyMethod": "issue_comments",
+      "pyIterMethod": "iter_issue_comments",
+      "inputTypeName": "GithubIssueCommentsInput",
+      "outputTypeName": "GithubIssueCommentsData",
+      "example": {
+        "limit": 10,
+        "url": "https://github.com/openai/whisper/pull/1838"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Pagination cursor from a previous response's nextCursor.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Rows per page, 1-100 (GitHub's own page-size limit). Each call returns one full page of this size; use nextCursor for the next page.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `authorAssociation` or `body`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "authorAssociation",
+                "authorId",
+                "authorType",
+                "body",
+                "updatedUtc"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "since": {
+            "kind": "string",
+            "description": "Only comments updated on or after this date (YYYY-MM-DD).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "URL of a GitHub issue or pull request, e.g. https://github.com/openai/whisper/pull/1838.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "comments": {
+              "kind": "array",
+              "description": "Comments in the order they were posted. Review comments on pull request code lines are not included. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "GitHub login of the commenter. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorAssociation": {
+                    "kind": "string",
+                    "description": "The commenter's relationship to the repository, as GitHub reports it: OWNER, MEMBER, COLLABORATOR, CONTRIBUTOR, FIRST_TIME_CONTRIBUTOR, FIRST_TIMER or NONE.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorAvatarUrl": {
+                    "kind": "string",
+                    "description": "Avatar image URL of the commenter.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorId": {
+                    "kind": "string",
+                    "description": "GitHub's numeric user id of the commenter, as a string.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorType": {
+                    "kind": "string",
+                    "description": "Account type of the commenter: User, Bot or Organization.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "body": {
+                    "kind": "string",
+                    "description": "Comment text in Markdown. One source returns it with HTML tags removed; name body in requireFields for the exact Markdown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "GitHub's numeric comment id, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reactions": {
+                    "kind": "integer",
+                    "description": "Total number of reactions of every kind.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical GitHub URL of the comment. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "body",
+                  "author",
+                  "authorId",
+                  "authorAvatarUrl",
+                  "authorType",
+                  "authorAssociation",
+                  "reactions",
+                  "createdUtc",
+                  "updatedUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of comments, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "nextCursor",
+            "comments"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "comments"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "comments",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
       "slug": "github.repository",
       "platform": "github",
       "action": "repository",
@@ -37423,6 +37682,1431 @@
             "pushedAt",
             "updatedAt",
             "url"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "github.repository_contributors",
+      "platform": "github",
+      "action": "repository_contributors",
+      "operationId": "github_repository_contributors",
+      "name": "GitHub Repository Contributors",
+      "category": "data",
+      "description": "List the people who have committed to a GitHub repository by repository URL, ordered by number of commits, with each contributor's login, profile URL and commit count. Look each one up with github.user for their profile, website and socials.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "github",
+      "tsMethod": "repositoryContributors",
+      "tsIterMethod": null,
+      "pyNamespace": "github",
+      "pyMethod": "repository_contributors",
+      "pyIterMethod": null,
+      "inputTypeName": "GithubRepositoryContributorsInput",
+      "outputTypeName": "GithubRepositoryContributorsData",
+      "example": {
+        "limit": 10,
+        "url": "https://github.com/openai/whisper"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Rows per page, 1-100 (GitHub's own page-size limit). Keep it the same while walking pages, because it sets the page size.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of contributors. Request page + 1 while hasMore is true.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "GitHub repository URL, e.g. https://github.com/openai/whisper.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "contributors": {
+              "kind": "array",
+              "description": "Contributors with a GitHub account, most commits first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "avatarUrl": {
+                    "kind": "string",
+                    "description": "Avatar image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "contributions": {
+                    "kind": "integer",
+                    "description": "Number of commits to the repository's default branch. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "GitHub's numeric user id, as a string.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "login": {
+                    "kind": "string",
+                    "description": "GitHub login of the contributor. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "siteAdmin": {
+                    "kind": "boolean",
+                    "description": "Whether the account is a GitHub staff administrator.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Account type: User, Bot or Organization.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "GitHub profile URL. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "login",
+                  "id",
+                  "type",
+                  "avatarUrl",
+                  "url",
+                  "siteAdmin",
+                  "contributions"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "contributions",
+                  "login",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of contributors exists; request page + 1 to continue.",
+              "nullable": true,
+              "default": null
+            }
+          },
+          "required": [
+            "hasMore",
+            "contributors"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "contributors"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "github.repository_forks",
+      "platform": "github",
+      "action": "repository_forks",
+      "operationId": "github_repository_forks",
+      "name": "GitHub Repository Forks",
+      "category": "data",
+      "description": "List the forks of a GitHub repository by repository URL, with each fork's owner, description, stars, language and last push. Sort by newest, oldest or most starred.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "github",
+      "tsMethod": "repositoryForks",
+      "tsIterMethod": null,
+      "pyNamespace": "github",
+      "pyMethod": "repository_forks",
+      "pyIterMethod": null,
+      "inputTypeName": "GithubRepositoryForksInput",
+      "outputTypeName": "GithubRepositoryForksData",
+      "example": {
+        "url": "https://github.com/openai/whisper"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Rows per page, 1-100 (GitHub's own page-size limit). Keep it the same while walking pages, because it sets the page size.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of forks. Request page + 1 while hasMore is true.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Order of the forks. Defaults to newest.",
+            "enum": [
+              "newest",
+              "oldest",
+              "stargazers",
+              "watchers"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "GitHub repository URL, e.g. https://github.com/openai/whisper.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "forks": {
+              "kind": "array",
+              "description": "Forks of the repository. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "archived": {
+                    "kind": "boolean",
+                    "description": "Whether the fork is archived.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the fork was created.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "defaultBranch": {
+                    "kind": "string",
+                    "description": "Name of the default branch.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Repository description.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "forks": {
+                    "kind": "integer",
+                    "description": "Number of forks of this fork.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "fullName": {
+                    "kind": "string",
+                    "description": "Fork's full name in owner/name form. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "homepage": {
+                    "kind": "string",
+                    "description": "Project homepage URL, or null if none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "GitHub's numeric repository id of the fork, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "language": {
+                    "kind": "string",
+                    "description": "Primary language GitHub detected.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Fork's repository name (without owner). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "openIssues": {
+                    "kind": "integer",
+                    "description": "Count of open issues and pull requests.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "owner": {
+                    "kind": "string",
+                    "description": "Login of the fork's owner. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ownerAvatarUrl": {
+                    "kind": "string",
+                    "description": "Avatar image URL of the owner.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ownerType": {
+                    "kind": "string",
+                    "description": "Account type of the owner: User or Organization.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ownerUrl": {
+                    "kind": "string",
+                    "description": "GitHub profile URL of the owner.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pushedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Last push to any branch; a fork never pushed to keeps its parent's last push.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "size": {
+                    "kind": "integer",
+                    "description": "Repository size in kilobytes as reported by GitHub.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "stars": {
+                    "kind": "integer",
+                    "description": "Number of stars.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "topics": {
+                    "kind": "array",
+                    "description": "Topics set on the fork.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical GitHub URL of the fork. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "watchers": {
+                    "kind": "integer",
+                    "description": "Number of watchers as GitHub counts them (equal to stars).",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "fullName",
+                  "url",
+                  "owner",
+                  "ownerType",
+                  "ownerAvatarUrl",
+                  "ownerUrl",
+                  "description",
+                  "homepage",
+                  "language",
+                  "topics",
+                  "stars",
+                  "forks",
+                  "watchers",
+                  "openIssues",
+                  "size",
+                  "defaultBranch",
+                  "archived",
+                  "createdUtc",
+                  "updatedUtc",
+                  "pushedUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "fullName",
+                  "name",
+                  "owner",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of forks exists; request page + 1 to continue.",
+              "nullable": true,
+              "default": null
+            }
+          },
+          "required": [
+            "hasMore",
+            "forks"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "forks"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "github.repository_issues",
+      "platform": "github",
+      "action": "repository_issues",
+      "operationId": "github_repository_issues",
+      "name": "GitHub Repository Issues",
+      "category": "data",
+      "description": "List a GitHub repository's issues and pull requests by repository URL (GitHub lists pull requests as issues), with each one's author, state, labels, counts and body. Filter by state, sort and update date.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "github",
+      "tsMethod": "repositoryIssues",
+      "tsIterMethod": null,
+      "pyNamespace": "github",
+      "pyMethod": "repository_issues",
+      "pyIterMethod": null,
+      "inputTypeName": "GithubRepositoryIssuesInput",
+      "outputTypeName": "GithubRepositoryIssuesData",
+      "example": {
+        "url": "https://github.com/openai/whisper"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Rows per page, 1-100 (GitHub's own page-size limit). Keep it the same while walking pages, because it sets the page size.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "order": {
+            "kind": "string",
+            "description": "Sort direction. Defaults to desc.",
+            "enum": [
+              "desc",
+              "asc"
+            ],
+            "default": null,
+            "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of issues. Request page + 1 while hasMore is true.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "since": {
+            "kind": "string",
+            "description": "Only issues updated on or after this date (YYYY-MM-DD).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Sort by creation date, last update, or number of comments. Defaults to created.",
+            "enum": [
+              "created",
+              "updated",
+              "comments"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "state": {
+            "kind": "string",
+            "description": "Which issues to list. Defaults to open.",
+            "enum": [
+              "open",
+              "closed",
+              "all"
+            ],
+            "default": null,
+            "format": null
+          },
+          "url": {
+            "kind": "string",
+            "description": "GitHub repository URL, e.g. https://github.com/openai/whisper.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of issues exists; request page + 1 to continue.",
+              "nullable": true,
+              "default": null
+            },
+            "issues": {
+              "kind": "array",
+              "description": "Issues and pull requests, newest first unless sorted otherwise. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "GitHub login of the person who opened it. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorAssociation": {
+                    "kind": "string",
+                    "description": "The author's relationship to the repository, as GitHub reports it: OWNER, MEMBER, COLLABORATOR, CONTRIBUTOR, FIRST_TIME_CONTRIBUTOR, FIRST_TIMER or NONE.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorAvatarUrl": {
+                    "kind": "string",
+                    "description": "Avatar image URL of the author.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorId": {
+                    "kind": "string",
+                    "description": "GitHub's numeric user id of the author, as a string.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorType": {
+                    "kind": "string",
+                    "description": "Account type of the author: User, Bot or Organization.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "body": {
+                    "kind": "string",
+                    "description": "Markdown body as written, or null when empty.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "closedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null while open.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Number of comments.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "draft": {
+                    "kind": "boolean",
+                    "description": "Whether a pull request is a draft; null for an issue.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "GitHub's numeric issue id, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isPullRequest": {
+                    "kind": "boolean",
+                    "description": "True for a pull request, false for an issue.",
+                    "default": null
+                  },
+                  "labels": {
+                    "kind": "array",
+                    "description": "Names of the labels applied.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "mergedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Set only on a merged pull request.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "number": {
+                    "kind": "integer",
+                    "description": "Issue or pull request number within its repository (the #N shown on GitHub).",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reactions": {
+                    "kind": "integer",
+                    "description": "Total number of reactions of every kind.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repo": {
+                    "kind": "string",
+                    "description": "Repository the issue belongs to, in owner/name form.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "state": {
+                    "kind": "string",
+                    "description": "open or closed. A merged pull request is closed and has mergedUtc set.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the issue or pull request. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical GitHub URL of the issue or pull request. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "number",
+                  "title",
+                  "state",
+                  "isPullRequest",
+                  "url",
+                  "repo",
+                  "author",
+                  "authorId",
+                  "authorAvatarUrl",
+                  "authorType",
+                  "authorAssociation",
+                  "labels",
+                  "comments",
+                  "reactions",
+                  "body",
+                  "draft",
+                  "createdUtc",
+                  "updatedUtc",
+                  "closedUtc",
+                  "mergedUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "hasMore",
+            "issues"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "issues"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "github.repository_readme",
+      "platform": "github",
+      "action": "repository_readme",
+      "operationId": "github_repository_readme",
+      "name": "GitHub Repository README",
+      "category": "data",
+      "description": "Get a GitHub repository's README by repository URL, as the Markdown text the maintainers wrote, with its file name, path and size. Use it to learn what a project does, which models and tools it uses, and how to reach its authors.",
+      "pricing": {
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "github",
+      "tsMethod": "repositoryReadme",
+      "tsIterMethod": null,
+      "pyNamespace": "github",
+      "pyMethod": "repository_readme",
+      "pyIterMethod": null,
+      "inputTypeName": "GithubRepositoryReadmeInput",
+      "outputTypeName": "GithubRepositoryReadmeData",
+      "example": {
+        "url": "https://github.com/openai/whisper"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `content` or `size`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a README that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "content",
+                "downloadUrl",
+                "name",
+                "path",
+                "sha",
+                "size",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "GitHub repository URL, e.g. https://github.com/openai/whisper. The README of the default branch is returned.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "content": {
+              "kind": "string",
+              "description": "The README text exactly as committed, usually Markdown that may include HTML. One source returns it with HTML tags removed; name content in requireFields for the exact file.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "downloadUrl": {
+              "kind": "string",
+              "description": "Raw download URL of the README file.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "name": {
+              "kind": "string",
+              "description": "File name of the README, e.g. README.md.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "path": {
+              "kind": "string",
+              "description": "Path of the README inside the repository.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sha": {
+              "kind": "string",
+              "description": "Git blob SHA of the README file.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "size": {
+              "kind": "integer",
+              "description": "Size of the README file in bytes.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "GitHub URL of the README file.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "name",
+            "path",
+            "size",
+            "sha",
+            "url",
+            "downloadUrl",
+            "content"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "github.search_issues",
+      "platform": "github",
+      "action": "search_issues",
+      "operationId": "github_search_issues",
+      "name": "GitHub Issue and PR Search",
+      "category": "data",
+      "description": "Search issues and pull requests across GitHub with GitHub's own search syntax (repo:, is:pr, is:issue, author:, label:, created:...), with each result's author, state, labels, counts and body. Use it to find who opens issues and pull requests on a repository.",
+      "pricing": {
+        "priceUsd": 0.0024,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "github",
+      "tsMethod": "searchIssues",
+      "tsIterMethod": null,
+      "pyNamespace": "github",
+      "pyMethod": "search_issues",
+      "pyIterMethod": null,
+      "inputTypeName": "GithubSearchIssuesInput",
+      "outputTypeName": "GithubSearchIssuesData",
+      "example": {
+        "query": "repo:openai/whisper is:pr"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Rows per page, 1-100 (GitHub's own page-size limit). Keep it the same while walking pages, because it sets the page size.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          },
+          "order": {
+            "kind": "string",
+            "description": "Sort direction when sort is set. Defaults to desc.",
+            "enum": [
+              "desc",
+              "asc"
+            ],
+            "default": null,
+            "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of results. Request page + 1 while hasMore is true.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "GitHub issue search query with any of GitHub's qualifiers, e.g. \"repo:openai/whisper is:pr\", \"is:issue label:bug author:octocat\", \"repo:ggml-org/llama.cpp is:pr is:merged created:>2026-01-01\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Sort by number of comments, creation date, last update, or reactions. Omit for best match.",
+            "enum": [
+              "comments",
+              "created",
+              "updated",
+              "reactions"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of results exists; request page + 1 to continue.",
+              "nullable": true,
+              "default": null
+            },
+            "issues": {
+              "kind": "array",
+              "description": "Matching issues and pull requests. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "GitHub login of the person who opened it. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorAssociation": {
+                    "kind": "string",
+                    "description": "The author's relationship to the repository, as GitHub reports it: OWNER, MEMBER, COLLABORATOR, CONTRIBUTOR, FIRST_TIME_CONTRIBUTOR, FIRST_TIMER or NONE.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorAvatarUrl": {
+                    "kind": "string",
+                    "description": "Avatar image URL of the author.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorId": {
+                    "kind": "string",
+                    "description": "GitHub's numeric user id of the author, as a string.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorType": {
+                    "kind": "string",
+                    "description": "Account type of the author: User, Bot or Organization.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "body": {
+                    "kind": "string",
+                    "description": "Markdown body as written, or null when empty.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "closedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null while open.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Number of comments.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "draft": {
+                    "kind": "boolean",
+                    "description": "Whether a pull request is a draft; null for an issue.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "GitHub's numeric issue id, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isPullRequest": {
+                    "kind": "boolean",
+                    "description": "True for a pull request, false for an issue.",
+                    "default": null
+                  },
+                  "labels": {
+                    "kind": "array",
+                    "description": "Names of the labels applied.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "mergedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Set only on a merged pull request.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "number": {
+                    "kind": "integer",
+                    "description": "Issue or pull request number within its repository (the #N shown on GitHub).",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reactions": {
+                    "kind": "integer",
+                    "description": "Total number of reactions of every kind.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repo": {
+                    "kind": "string",
+                    "description": "Repository the issue belongs to, in owner/name form.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "state": {
+                    "kind": "string",
+                    "description": "open or closed. A merged pull request is closed and has mergedUtc set.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the issue or pull request. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical GitHub URL of the issue or pull request. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "number",
+                  "title",
+                  "state",
+                  "isPullRequest",
+                  "url",
+                  "repo",
+                  "author",
+                  "authorId",
+                  "authorAvatarUrl",
+                  "authorType",
+                  "authorAssociation",
+                  "labels",
+                  "comments",
+                  "reactions",
+                  "body",
+                  "draft",
+                  "createdUtc",
+                  "updatedUtc",
+                  "closedUtc",
+                  "mergedUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "author",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total number of matches GitHub reports. GitHub serves only the first 1,000 of them, so page times limit can be at most 1,000.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "total",
+            "hasMore",
+            "issues"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "issues"
           ]
         }
       },
@@ -53098,7 +54782,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.027,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -89953,7 +91637,7 @@
       "category": "social",
       "description": "Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -91453,7 +93137,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

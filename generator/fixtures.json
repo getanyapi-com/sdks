@@ -1970,6 +1970,34 @@
     "items": 1,
     "replayed": false
   },
+  "github.issue_comments": {
+    "output": {
+      "found": true,
+      "data": {
+        "nextCursor": "sample",
+        "comments": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "body": "sample",
+            "author": "sample",
+            "authorId": "sample",
+            "authorAvatarUrl": "sample",
+            "authorType": "sample",
+            "authorAssociation": "sample",
+            "reactions": 1,
+            "createdUtc": 1.5,
+            "updatedUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "github.repository": {
     "output": {
       "found": true,
@@ -1978,6 +2006,171 @@
         "fullName": "sample",
         "url": "sample",
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "github.repository_contributors": {
+    "output": {
+      "found": true,
+      "data": {
+        "hasMore": true,
+        "contributors": [
+          {
+            "login": "sample",
+            "id": "sample",
+            "type": "sample",
+            "avatarUrl": "sample",
+            "url": "sample",
+            "siteAdmin": true,
+            "contributions": 1,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "github.repository_forks": {
+    "output": {
+      "found": true,
+      "data": {
+        "hasMore": true,
+        "forks": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "fullName": "sample",
+            "url": "sample",
+            "owner": "sample",
+            "ownerType": "sample",
+            "ownerAvatarUrl": "sample",
+            "ownerUrl": "sample",
+            "description": "sample",
+            "homepage": "sample",
+            "language": "sample",
+            "topics": [
+              "sample"
+            ],
+            "stars": 1,
+            "forks": 1,
+            "watchers": 1,
+            "openIssues": 1,
+            "size": 1,
+            "defaultBranch": "sample",
+            "archived": true,
+            "createdUtc": 1.5,
+            "updatedUtc": 1.5,
+            "pushedUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "github.repository_issues": {
+    "output": {
+      "found": true,
+      "data": {
+        "hasMore": true,
+        "issues": [
+          {
+            "id": "sample",
+            "number": 1,
+            "title": "sample",
+            "state": "sample",
+            "isPullRequest": true,
+            "url": "sample",
+            "repo": "sample",
+            "author": "sample",
+            "authorId": "sample",
+            "authorAvatarUrl": "sample",
+            "authorType": "sample",
+            "authorAssociation": "sample",
+            "labels": [
+              "sample"
+            ],
+            "comments": 1,
+            "reactions": 1,
+            "body": "sample",
+            "draft": true,
+            "createdUtc": 1.5,
+            "updatedUtc": 1.5,
+            "closedUtc": 1.5,
+            "mergedUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "github.repository_readme": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "path": "sample",
+        "size": 1,
+        "sha": "sample",
+        "url": "sample",
+        "downloadUrl": "sample",
+        "content": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "github.search_issues": {
+    "output": {
+      "found": true,
+      "data": {
+        "total": 1,
+        "hasMore": true,
+        "issues": [
+          {
+            "id": "sample",
+            "number": 1,
+            "title": "sample",
+            "state": "sample",
+            "isPullRequest": true,
+            "url": "sample",
+            "repo": "sample",
+            "author": "sample",
+            "authorId": "sample",
+            "authorAvatarUrl": "sample",
+            "authorType": "sample",
+            "authorAssociation": "sample",
+            "labels": [
+              "sample"
+            ],
+            "comments": 1,
+            "reactions": 1,
+            "body": "sample",
+            "draft": true,
+            "createdUtc": 1.5,
+            "updatedUtc": 1.5,
+            "closedUtc": 1.5,
+            "mergedUtc": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",

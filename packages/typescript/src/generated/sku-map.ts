@@ -260,8 +260,20 @@ import type {
   GeminiSearchInput,
 } from "./platforms/gemini.js";
 import type {
+  GithubIssueCommentsData,
+  GithubIssueCommentsInput,
+  GithubRepositoryContributorsData,
+  GithubRepositoryContributorsInput,
   GithubRepositoryData,
+  GithubRepositoryForksData,
+  GithubRepositoryForksInput,
   GithubRepositoryInput,
+  GithubRepositoryIssuesData,
+  GithubRepositoryIssuesInput,
+  GithubRepositoryReadmeData,
+  GithubRepositoryReadmeInput,
+  GithubSearchIssuesData,
+  GithubSearchIssuesInput,
   GithubTrendingDevelopersData,
   GithubTrendingDevelopersInput,
   GithubTrendingRepositoriesData,
@@ -1516,10 +1528,40 @@ export interface SkuMap {
     data: GeminiSearchData;
     result: RunResult<GeminiSearchData>;
   };
+  "github.issue_comments": {
+    input: GithubIssueCommentsInput;
+    data: GithubIssueCommentsData;
+    result: RunResult<GithubIssueCommentsData>;
+  };
   "github.repository": {
     input: GithubRepositoryInput;
     data: GithubRepositoryData;
     result: RunResult<GithubRepositoryData>;
+  };
+  "github.repository_contributors": {
+    input: GithubRepositoryContributorsInput;
+    data: GithubRepositoryContributorsData;
+    result: RunResult<GithubRepositoryContributorsData>;
+  };
+  "github.repository_forks": {
+    input: GithubRepositoryForksInput;
+    data: GithubRepositoryForksData;
+    result: RunResult<GithubRepositoryForksData>;
+  };
+  "github.repository_issues": {
+    input: GithubRepositoryIssuesInput;
+    data: GithubRepositoryIssuesData;
+    result: RunResult<GithubRepositoryIssuesData>;
+  };
+  "github.repository_readme": {
+    input: GithubRepositoryReadmeInput;
+    data: GithubRepositoryReadmeData;
+    result: RunResult<GithubRepositoryReadmeData>;
+  };
+  "github.search_issues": {
+    input: GithubSearchIssuesInput;
+    data: GithubSearchIssuesData;
+    result: RunResult<GithubSearchIssuesData>;
   };
   "github.trending_developers": {
     input: GithubTrendingDevelopersInput;
