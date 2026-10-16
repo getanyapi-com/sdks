@@ -385,6 +385,89 @@
     "items": 1,
     "replayed": false
   },
+  "bing.copilot": {
+    "output": {
+      "found": true,
+      "data": {
+        "prompt": "sample",
+        "answer": "sample",
+        "answerMarkdown": "sample",
+        "citations": [
+          {
+            "url": "https://example.com/x",
+            "title": "sample",
+            "domain": "sample",
+            "snippet": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "inlineCitations": [
+          {
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ],
+        "recommendations": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "tables": [
+          {
+            "_extra": "passthrough"
+          }
+        ],
+        "complete": true,
+        "additionalSections": [
+          "sample"
+        ],
+        "researchSources": [
+          {
+            "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "bing.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "items": [
+          {
+            "position": 1,
+            "title": "sample",
+            "url": "https://example.com/x",
+            "displayUrl": "sample",
+            "domain": "sample",
+            "siteName": "sample",
+            "publishedUtc": 1,
+            "_extra": "passthrough"
+          }
+        ],
+        "relatedSearches": [
+          "sample"
+        ],
+        "peopleAlsoAsk": [
+          {
+            "question": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "bluesky.post": {
     "output": {
       "found": true,

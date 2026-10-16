@@ -57,6 +57,12 @@ import type {
   AppstoreReviewsInput,
 } from "./platforms/appstore.js";
 import type {
+  BingCopilotData,
+  BingCopilotInput,
+  BingSearchData,
+  BingSearchInput,
+} from "./platforms/bing.js";
+import type {
   BlueskyPostData,
   BlueskyPostInput,
   BlueskyProfileData,
@@ -1091,6 +1097,16 @@ export interface SkuMap {
     input: AppstoreReviewsInput;
     data: AppstoreReviewsData;
     result: RunResult<AppstoreReviewsData>;
+  };
+  "bing.copilot": {
+    input: BingCopilotInput;
+    data: BingCopilotData;
+    result: RunResult<BingCopilotData>;
+  };
+  "bing.search": {
+    input: BingSearchInput;
+    data: BingSearchData;
+    result: RunResult<BingSearchData>;
   };
   "bluesky.post": {
     input: BlueskyPostInput;

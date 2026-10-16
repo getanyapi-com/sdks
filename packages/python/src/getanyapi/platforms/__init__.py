@@ -15,6 +15,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "amazon": ("amazon", "AmazonNamespace", "AsyncAmazonNamespace"),
     "apollo": ("apollo", "ApolloNamespace", "AsyncApolloNamespace"),
     "appstore": ("appstore", "AppstoreNamespace", "AsyncAppstoreNamespace"),
+    "bing": ("bing", "BingNamespace", "AsyncBingNamespace"),
     "bluesky": ("bluesky", "BlueskyNamespace", "AsyncBlueskyNamespace"),
     "booking": ("booking", "BookingNamespace", "AsyncBookingNamespace"),
     "capterra": ("capterra", "CapterraNamespace", "AsyncCapterraNamespace"),

@@ -12,6 +12,7 @@ import { AlibabaNamespace } from "./platforms/alibaba.js";
 import { AmazonNamespace } from "./platforms/amazon.js";
 import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
+import { BingNamespace } from "./platforms/bing.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
 import { CapterraNamespace } from "./platforms/capterra.js";
@@ -171,6 +172,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["appstore"] ??= new AppstoreNamespace(
       this._core,
     )) as AppstoreNamespace;
+  }
+
+  /**
+   * Typed methods for the bing platform.
+   */
+  get bing(): BingNamespace {
+    return (this._namespaces["bing"] ??= new BingNamespace(
+      this._core,
+    )) as BingNamespace;
   }
 
   /**

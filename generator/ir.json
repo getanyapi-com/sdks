@@ -8117,6 +8117,661 @@
       }
     },
     {
+      "slug": "bing.copilot",
+      "platform": "bing",
+      "action": "copilot",
+      "operationId": "bing_copilot",
+      "name": "Microsoft Copilot Search",
+      "category": "search",
+      "description": "Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "bing",
+      "tsMethod": "copilot",
+      "tsIterMethod": null,
+      "pyNamespace": "bing",
+      "pyMethod": "copilot",
+      "pyIterMethod": null,
+      "inputTypeName": "BingCopilotInput",
+      "outputTypeName": "BingCopilotData",
+      "example": {
+        "prompt": "what is the capital of australia and why"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "prompt": {
+            "kind": "string",
+            "description": "The question or prompt for Microsoft Copilot to answer using Bing web search.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `answerMarkdown`, `inlineCitations` or `tables`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an answer that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "additionalSections",
+                "answerMarkdown",
+                "caption",
+                "complete",
+                "domain",
+                "headers",
+                "inlineCitations",
+                "name",
+                "recommendations",
+                "researchSources",
+                "rows",
+                "tables",
+                "text"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "prompt"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "additionalSections": {
+              "kind": "array",
+              "description": "Text of answer sections Copilot rendered outside the main answer, such as a section heading or a card, kept so nothing it showed is lost. null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "answer": {
+              "kind": "string",
+              "description": "Copilot's answer as text. Citation markers Copilot places inline can appear as numbers or source names next to the words they support. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "answerMarkdown": {
+              "kind": "string",
+              "description": "Copilot's answer in Markdown, keeping its bold text, lists and tables. null means the source that answered returns plain text only; name answerMarkdown in requireFields to be served only by a source that returns it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "citations": {
+              "kind": "array",
+              "description": "Sources Copilot cites for the answer, in the order it lists them. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "domain": {
+                    "kind": "string",
+                    "description": "Host of the source page as Copilot shows it, e.g. blog.salesflare.com. null means the source that answered cannot report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Excerpt of the source page Copilot shows. null when Copilot shows none or the source that answered cannot report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Source page title, empty when Copilot shows none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Source page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url",
+                  "title",
+                  "domain",
+                  "snippet"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "complete": {
+              "kind": "boolean",
+              "description": "Whether Copilot finished the answer. false means the answer may be cut short. null means the source that answered cannot report it, which is not the same as true.",
+              "nullable": true,
+              "default": null
+            },
+            "inlineCitations": {
+              "kind": "array",
+              "description": "Each claim in the answer that Copilot ties to a source, with the source it cites. null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "text": {
+                    "kind": "string",
+                    "description": "The sentence of the answer the citation supports.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the cited source, empty when Copilot shows none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "URL of the cited source.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "prompt": {
+              "kind": "string",
+              "description": "The prompt Copilot answered.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "recommendations": {
+              "kind": "array",
+              "description": "Products, brands or options Copilot recommends in the answer, each with the sentence that recommends it. null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "name": {
+                    "kind": "string",
+                    "description": "Name of the recommended product, brand or option.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "The sentence of the answer that recommends it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "researchSources": {
+              "kind": "array",
+              "description": "Pages Copilot searched while researching the answer. A different list from citations: a page here was read but is not necessarily cited. null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Excerpt of the page Copilot shows, null when it shows none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the page, empty when Copilot shows none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "URL of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "tables": {
+              "kind": "array",
+              "description": "Tables in the answer, e.g. a comparison table. null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "caption": {
+                    "kind": "string",
+                    "description": "Table caption, null when the table has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "headers": {
+                    "kind": "array",
+                    "description": "Column headers.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "rows": {
+                    "kind": "array",
+                    "description": "Table rows, each a list of cell texts in column order.",
+                    "items": {
+                      "kind": "array",
+                      "items": {
+                        "kind": "string",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "mustPopulate": false
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            }
+          },
+          "required": [
+            "prompt",
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "inlineCitations",
+            "recommendations",
+            "tables",
+            "complete",
+            "additionalSections",
+            "researchSources"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "answer",
+            "citations"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "bing.search",
+      "platform": "bing",
+      "action": "search",
+      "operationId": "bing_search",
+      "name": "Bing Search",
+      "category": "search",
+      "description": "Run a Bing web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) plus Bing's related searches as clean JSON. Returns up to 10 results per call; pick the country Bing searches from.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "bing",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "bing",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "BingSearchInput",
+      "outputTypeName": "BingSearchData",
+      "example": {
+        "country": "US",
+        "limit": 10,
+        "query": "best espresso machines"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "ISO-3166 alpha-2 country Bing searches from, e.g. US, GB, DE. Bing ranks and localizes results for that country and its main language. Common countries are served by every source; a country only some sources cover is served by those, and one no source covers is refused with no charge.",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of organic results to return (1-10, default 10). Bing serves about 10 organic results per page, and some queries carry fewer.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 10
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The Bing search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `siteName` or `publishedUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a result that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "answer",
+                "peopleAlsoAsk",
+                "publishedUtc",
+                "question",
+                "siteName"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Organic results in Bing's ranked order. Ads are not included. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "displayUrl": {
+                    "kind": "string",
+                    "description": "The URL as Bing displays it under the title, e.g. a host or a breadcrumb path. Its format differs by source. null when the source did not send one.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Host of the result URL without a leading www., e.g. seriouseats.com.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based rank of the result on the page. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "publishedUtc": {
+                    "kind": "integer",
+                    "description": "Page date Bing shows for the result. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. null when Bing shows no date or the source that answered cannot report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "siteName": {
+                    "kind": "string",
+                    "description": "Site name Bing shows beside the result, e.g. Serious Eats. null means the source that answered cannot report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Text excerpt Bing shows under the result, often led by the page date. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Result title as Bing shows it. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Destination URL of the result. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "position",
+                  "title",
+                  "url",
+                  "displayUrl",
+                  "domain",
+                  "siteName",
+                  "publishedUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "position",
+                  "snippet",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "peopleAlsoAsk": {
+              "kind": "array",
+              "description": "Bing's People also ask questions with the answer it shows. An empty array means Bing showed none; null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "answer": {
+                    "kind": "string",
+                    "description": "The answer Bing shows under the question, null when it shows none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "question": {
+                    "kind": "string",
+                    "description": "The question.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Title of the page the answer is taken from, null when Bing names none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "URL of the page the answer is taken from, null when Bing links none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "question"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "query": {
+              "kind": "string",
+              "description": "The query Bing searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "relatedSearches": {
+              "kind": "array",
+              "description": "Bing's related searches for the query. An empty array means Bing showed none; null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            }
+          },
+          "required": [
+            "query",
+            "items",
+            "relatedSearches",
+            "peopleAlsoAsk"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "bluesky.post",
       "platform": "bluesky",
       "action": "post",

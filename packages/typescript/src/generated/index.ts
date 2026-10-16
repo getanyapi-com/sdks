@@ -13,6 +13,7 @@ export * from "./platforms/alibaba.js";
 export * from "./platforms/amazon.js";
 export * from "./platforms/apollo.js";
 export * from "./platforms/appstore.js";
+export * from "./platforms/bing.js";
 export * from "./platforms/bluesky.js";
 export * from "./platforms/booking.js";
 export * from "./platforms/capterra.js";
