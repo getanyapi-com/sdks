@@ -324,7 +324,7 @@ class ZillowSearchItem(BaseModel):
     )
     city: str | None = None
     currency: str | None = Field(
-        default=None, description="ISO currency code of the price (e.g. usd)."
+        default=None, description="ISO currency code of the price (e.g. USD)."
     )
     days_on_zillow: int | None = Field(
         default=None,
@@ -364,7 +364,7 @@ class ZillowSearchItem(BaseModel):
     property_type: str | None = Field(
         default=None,
         alias="propertyType",
-        description="Property type (e.g. singleFamily, condo, townhouse).",
+        description="Property type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).",
     )
     rent_zestimate: float | None = Field(
         default=None,
@@ -373,7 +373,8 @@ class ZillowSearchItem(BaseModel):
     )
     state: str | None = Field(default=None, description="Two-letter state code.")
     status: str | None = Field(
-        default=None, description="Listing status (e.g. forSale, forRent, sold)."
+        default=None,
+        description="Listing status (e.g. FOR_SALE, FOR_RENT, RECENTLY_SOLD).",
     )
     street_address: str | None = Field(
         default=None,

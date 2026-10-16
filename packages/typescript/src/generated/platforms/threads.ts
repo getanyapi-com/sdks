@@ -71,13 +71,13 @@ export interface ThreadsPostData {
    */
   quoteCount: number | null;
   /**
-   * Number of replies to the post.
+   * Number of replies to the post. Null when the source does not report it.
    */
-  replyCount: number;
+  replyCount: number | null;
   /**
-   * Number of reposts of the post.
+   * Number of reposts of the post. Null when the source does not report it.
    */
-  repostCount: number;
+  repostCount: number | null;
   /**
    * Post text content. Populated whenever the provider has data for the entity.
    */

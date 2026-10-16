@@ -1691,7 +1691,7 @@ class LinkedinCompanyPostsAuthor(BaseModel):
 
     followers: str | None = Field(
         default=None,
-        description="Author follower count as displayed text (e.g. '1,543,793 followers').",
+        description="Author follower count as displayed text (e.g. '1,543,793 followers'). Absent when the author is a person, whose card shows a headline instead.",
     )
     handle: str | None = Field(
         default=None, description="Public identifier (vanity handle) of the author."
@@ -4012,7 +4012,7 @@ class LinkedinSearchPostsFullPost(BaseModel):
     attachment_url: str | None = Field(
         default=None,
         alias="attachmentUrl",
-        description="Canonical destination URL of the attachment. When attachmentType is article, pass this URL to the linkedin.article endpoint to read the article's full body text.",
+        description="Destination URL of the attachment with tracking parameters removed; a video keeps the signed query it needs to play, and a YouTube link keeps its video id. When attachmentType is article, pass this URL to the linkedin.article endpoint to read the article's full body text.",
     )
     author: LinkedinSearchPostsFullAuthor = Field(
         description="Public author identity attached to the post. Populated whenever the provider has data for the entity."
@@ -4211,7 +4211,8 @@ class LinkedinSearchProfilesItem(BaseModel):
         description="Whether the member has a LinkedIn Premium subscription.",
     )
     skills: list[Any] | None = Field(
-        default=None, description="Listed skills, as free-form strings when present."
+        default=None,
+        description="Listed skills, one object per skill with its name and, when the source has them, the endorsements label and related positions.",
     )
     state: str | None = Field(
         default=None, description="State or region of the member."

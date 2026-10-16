@@ -126,11 +126,13 @@ class ThreadsPostData(BaseModel):
         alias="quoteCount",
         description="Number of quote posts. Null when the source does not report it.",
     )
-    reply_count: int = Field(
-        alias="replyCount", description="Number of replies to the post."
+    reply_count: int | None = Field(
+        alias="replyCount",
+        description="Number of replies to the post. Null when the source does not report it.",
     )
-    repost_count: int = Field(
-        alias="repostCount", description="Number of reposts of the post."
+    repost_count: int | None = Field(
+        alias="repostCount",
+        description="Number of reposts of the post. Null when the source does not report it.",
     )
     text: str = Field(
         description="Post text content. Populated whenever the provider has data for the entity."

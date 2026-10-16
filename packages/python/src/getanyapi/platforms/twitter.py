@@ -248,10 +248,8 @@ class TwitterTweetInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[
-        list[Literal["height", "media", "type", "url", "videoUrl", "width"]]
-    ]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
+    requireFields: NotRequired[list[Literal["height", "videoUrl", "width"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoUrl` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -286,8 +284,8 @@ class TwitterUserPostsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["isPinned", "isReply"]]]
-    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
+    requireFields: NotRequired[list[Literal["isPinned"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -340,14 +338,6 @@ class TwitterArticleData(BaseModel):
     likes: int | None = Field(
         default=None,
         description="Wrapper post like count at retrieval time. Minimum: 0.",
-    )
-    media_count: int | None = Field(
-        default=None,
-        alias="mediaCount",
-        description="Number of media items the author has published.",
-    )
-    posts: int | None = Field(
-        default=None, description="Number of posts the author has published."
     )
     preview_text: str | None = Field(
         default=None, alias="previewText", description="Preview text supplied by X."
@@ -406,7 +396,15 @@ class TwitterArticleAuthor(BaseModel):
     location: str | None = Field(
         default=None, description="Self-reported profile location."
     )
+    media_count: int | None = Field(
+        default=None,
+        alias="mediaCount",
+        description="Number of media items the author has published.",
+    )
     name: str | None = Field(default=None, description="Profile display name.")
+    posts: int | None = Field(
+        default=None, description="Number of posts the author has published."
+    )
     url: str = Field(
         description="Canonical public X profile URL. Populated whenever the provider has data for the entity."
     )
@@ -547,14 +545,6 @@ class TwitterCommunityTweetsTweet(BaseModel):
 class TwitterFollowersData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    created_utc: float | None = Field(
-        default=None,
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    id: str | None = Field(
-        default=None, description="Numeric X user id of the account, as a string."
-    )
     items: list[TwitterFollowersItem] = Field(
         description="Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity."
     )
@@ -575,9 +565,17 @@ class TwitterFollowersItem(BaseModel):
     bio: str | None = Field(
         default=None, description="The account's profile bio/description."
     )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     followers: int = Field(description="How many followers this account has.")
     following: int | None = Field(
         default=None, description="How many accounts this account follows."
+    )
+    id: str | None = Field(
+        default=None, description="Numeric X user id of the account, as a string."
     )
     location: str = Field(
         description="The account's self-reported location (may be empty)."
@@ -594,14 +592,6 @@ class TwitterFollowersItem(BaseModel):
 class TwitterFollowingData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    created_utc: float | None = Field(
-        default=None,
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    id: str | None = Field(
-        default=None, description="Numeric X user id of the account, as a string."
-    )
     items: list[TwitterFollowingItem] = Field(
         description="Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity."
     )
@@ -609,9 +599,6 @@ class TwitterFollowingData(BaseModel):
         default=None,
         alias="nextCursor",
         description="Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.",
-    )
-    posts: int | None = Field(
-        default=None, description="Number of posts the account has published."
     )
 
 
@@ -623,13 +610,24 @@ class TwitterFollowingItem(BaseModel):
         description="URL of the account's profile image (may be empty). Populated whenever the provider has data for the entity.",
     )
     bio: str = Field(description="The account's profile bio/description.")
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     followers: int = Field(description="How many followers this account has.")
     following: int = Field(description="How many accounts this account follows.")
+    id: str | None = Field(
+        default=None, description="Numeric X user id of the account, as a string."
+    )
     location: str | None = Field(
         default=None, description="The account's self-reported location (may be empty)."
     )
     name: str = Field(
         description="The account's display name. Populated whenever the provider has data for the entity."
+    )
+    posts: int | None = Field(
+        default=None, description="Number of posts the account has published."
     )
     username: str = Field(
         description="The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity."
@@ -692,11 +690,6 @@ class TwitterProfileData(BaseModel):
 class TwitterRepliesData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    conversation_id: str | None = Field(
-        default=None,
-        alias="conversationId",
-        description="Id of the conversation the reply belongs to, as a string.",
-    )
     items: list[TwitterRepliesItem] = Field(
         description="Reply records for the requested post. Populated whenever the provider has data for the entity."
     )
@@ -719,6 +712,11 @@ class TwitterRepliesItem(BaseModel):
         default=None,
         alias="authorName",
         description="Display name of the reply's author. Empty when the upstream omits it.",
+    )
+    conversation_id: str | None = Field(
+        default=None,
+        alias="conversationId",
+        description="Id of the conversation the reply belongs to, as a string.",
     )
     created_utc: float = Field(
         alias="createdUtc",
@@ -785,6 +783,19 @@ class TwitterRepliesMedia(BaseModel):
 class TwitterSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    items: list[TwitterSearchItem] = Field(
+        description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity."
+    )
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.",
+    )
+
+
+class TwitterSearchItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
     author_followers: int | None = Field(
         default=None,
         alias="authorFollowers",
@@ -800,19 +811,6 @@ class TwitterSearchData(BaseModel):
         alias="authorImage",
         description="Avatar image URL of the account that posted.",
     )
-    items: list[TwitterSearchItem] = Field(
-        description="Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity."
-    )
-    next_cursor: str | None = Field(
-        default=None,
-        alias="nextCursor",
-        description="Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.",
-    )
-
-
-class TwitterSearchItem(BaseModel):
-    model_config = ConfigDict(extra="allow", populate_by_name=True)
-
     author_name: str | None = Field(
         default=None,
         alias="authorName",
@@ -988,6 +986,25 @@ class TwitterThreadData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     author: TwitterThreadAuthor
+    complete: bool = Field(
+        description="Whether the provider reached the end of the self-thread without hitting its internal cap."
+    )
+    conversation_id: str = Field(
+        alias="conversationId",
+        description="Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.",
+    )
+    thread_length: int = Field(
+        alias="threadLength",
+        description="Number of tweets returned in the self-thread.",
+    )
+    tweets: list[TwitterThreadTweet] = Field(
+        description="Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity."
+    )
+
+
+class TwitterThreadAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
     avatar_url: str | None = Field(
         default=None, alias="avatarUrl", description="Avatar image URL of the author."
     )
@@ -998,13 +1015,6 @@ class TwitterThreadData(BaseModel):
         default=None,
         alias="blueVerified",
         description="Whether the author carries an X blue verification badge.",
-    )
-    complete: bool = Field(
-        description="Whether the provider reached the end of the self-thread without hitting its internal cap."
-    )
-    conversation_id: str = Field(
-        alias="conversationId",
-        description="Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.",
     )
     cover_url: str | None = Field(
         default=None,
@@ -1022,15 +1032,17 @@ class TwitterThreadData(BaseModel):
     following: int | None = Field(
         default=None, description="Number of accounts the author follows."
     )
+    handle: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
+    id: str = Field(
+        description="Populated whenever the provider has data for the entity."
+    )
     location: str | None = Field(
         default=None, description="Location text on the author's profile."
     )
-    thread_length: int = Field(
-        alias="threadLength",
-        description="Number of tweets returned in the self-thread.",
-    )
-    tweets: list[TwitterThreadTweet] = Field(
-        description="Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity."
+    name: str = Field(
+        description="Populated whenever the provider has data for the entity."
     )
     url: str | None = Field(
         default=None, description="Canonical X profile URL of the thread's author."
@@ -1038,20 +1050,6 @@ class TwitterThreadData(BaseModel):
     verified: bool | None = Field(
         default=None,
         description="Whether the author carries a legacy X verification badge.",
-    )
-
-
-class TwitterThreadAuthor(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    handle: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    id: str = Field(
-        description="Populated whenever the provider has data for the entity."
-    )
-    name: str = Field(
-        description="Populated whenever the provider has data for the entity."
     )
 
 
@@ -1161,7 +1159,6 @@ class TwitterTrendsData(BaseModel):
         alias="locationId",
         description="Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.",
     )
-    url: str | None = Field(default=None, description="X search URL for the trend.")
 
 
 class TwitterTrendsItem(BaseModel):
@@ -1184,6 +1181,7 @@ class TwitterTrendsItem(BaseModel):
     rank: int = Field(
         description="One-based position in X's trend ranking. Populated whenever the provider has data for the entity. Minimum: 1."
     )
+    url: str | None = Field(default=None, description="X search URL for the trend.")
 
 
 class TwitterTweetData(BaseModel):

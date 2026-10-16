@@ -192,7 +192,7 @@ export interface ChatgptSearchPlace {
    */
   reviewCount?: number | null;
   /**
-   * Place website URL, tracking parameters stripped.
+   * Place website URL with tracking parameters stripped; an id parameter is kept, since a page such as Facebook profile.php needs it.
    * Format: uri.
    */
   websiteUrl?: string | null;
@@ -247,7 +247,7 @@ export interface ChatgptSearchShoppingCard {
    */
   title: string;
   /**
-   * Product page URL, tracking parameters stripped.
+   * Product page URL with its query kept, since the query can name the product variant (e.g. color and size).
    * Format: uri.
    */
   url?: string | null;

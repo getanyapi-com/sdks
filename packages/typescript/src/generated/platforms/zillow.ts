@@ -413,7 +413,7 @@ export interface ZillowSearchItem {
   brokerName?: string;
   city?: string;
   /**
-   * ISO currency code of the price (e.g. usd).
+   * ISO currency code of the price (e.g. USD).
    */
   currency?: string;
   /**
@@ -452,7 +452,7 @@ export interface ZillowSearchItem {
    */
   price?: number;
   /**
-   * Property type (e.g. singleFamily, condo, townhouse).
+   * Property type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).
    */
   propertyType?: string;
   /**
@@ -464,7 +464,7 @@ export interface ZillowSearchItem {
    */
   state?: string;
   /**
-   * Listing status (e.g. forSale, forRent, sold).
+   * Listing status (e.g. FOR_SALE, FOR_RENT, RECENTLY_SOLD).
    */
   status?: string;
   /**

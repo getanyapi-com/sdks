@@ -323,7 +323,7 @@ export interface InstagramFollowersItem {
    */
   id: string;
   /**
-   * URL of the follower's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   * URL of the follower's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.
    */
   image?: string;
   /**
@@ -354,7 +354,7 @@ export interface InstagramFollowersData {
    */
   items: InstagramFollowersItem[];
   /**
-   * Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.
+   * Opaque cursor for the next page of followers, or null/empty when there are no more. Some sources return a single page of about 50 followers and no continuation, so it is empty there. Pass it back as cursor whenever it is non-empty.
    */
   nextCursor?: string | null;
 }
@@ -405,7 +405,7 @@ export interface InstagramFollowingItem {
    */
   id: string;
   /**
-   * URL of the followed account's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   * URL of the followed account's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.
    */
   image?: string;
   /**
@@ -436,7 +436,7 @@ export interface InstagramFollowingData {
    */
   items: InstagramFollowingItem[];
   /**
-   * Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.
+   * Opaque cursor for the next page of results, or null/empty when there are no more. Some sources return a single page of about 50 accounts and no continuation, so it is empty there. Pass it back as cursor whenever it is non-empty.
    */
   nextCursor?: string | null;
 }
@@ -1202,20 +1202,7 @@ export interface InstagramPostInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: (
-    | "avatarUrl"
-    | "comments"
-    | "createdUtc"
-    | "displayName"
-    | "hasAudio"
-    | "locationId"
-    | "locationName"
-    | "paidPartnership"
-    | "plays"
-    | "productType"
-    | "userId"
-    | "verified"
-  )[];
+  requireFields?: ("hasAudio" | "locationId" | "plays")[];
   /**
    * Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working.
    */
@@ -1964,6 +1951,10 @@ export interface InstagramSearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postsCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "postsCount"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1997,7 +1988,7 @@ export interface InstagramSearchItem {
    */
   id: string;
   /**
-   * URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.
+   * URL of the account's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.
    */
   image?: string;
   /**
@@ -2005,9 +1996,9 @@ export interface InstagramSearchItem {
    */
   name?: string;
   /**
-   * The account's post count. May be 0 when the lane does not return it in search results.
+   * The account's post count. Null when the serving source does not report it.
    */
-  postsCount?: number;
+  postsCount?: number | null;
   /**
    * Canonical URL of the account's profile, with tracking query params stripped. Populated whenever the provider has data for the entity.
    */
@@ -2454,7 +2445,10 @@ export interface InstagramSearchProfilesProfile {
    * Populated whenever the provider has data for the entity.
    */
   id: string;
-  posts: number;
+  /**
+   * Total number of posts on the account. Null when the serving source does not report it.
+   */
+  posts: number | null;
   /**
    * Whether the account is private. Null when the serving source does not report it.
    */
@@ -2572,9 +2566,9 @@ export interface InstagramSearchProfilesContactProfile {
    */
   phone?: string;
   /**
-   * Number of posts on the profile.
+   * Number of posts on the profile. Null when the serving source does not report it.
    */
-  posts: number;
+  posts: number | null;
   /**
    * Canonical URL of the profile.
    */
@@ -3148,6 +3142,10 @@ export interface InstagramUserPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `userId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "userId"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -3189,9 +3187,9 @@ export interface InstagramUserPostsPost {
    */
   url: string;
   /**
-   * Instagram user id of the posting account.
+   * Instagram user id of the posting account. Null when the serving source does not report it.
    */
-  userId?: string;
+  userId?: string | null;
   /**
    * Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle. Populated whenever the provider has data for the entity.
    */

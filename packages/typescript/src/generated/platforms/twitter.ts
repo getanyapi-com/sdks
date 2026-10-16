@@ -161,9 +161,17 @@ export interface TwitterArticleData {
      */
     location?: string;
     /**
+     * Number of media items the author has published.
+     */
+    mediaCount?: number;
+    /**
      * Profile display name.
      */
     name?: string;
+    /**
+     * Number of posts the author has published.
+     */
+    posts?: number;
     /**
      * Canonical public X profile URL. Populated whenever the provider has data for the entity.
      * Format: uri.
@@ -196,14 +204,6 @@ export interface TwitterArticleData {
    * Range: minimum 0.
    */
   likes?: number;
-  /**
-   * Number of media items the author has published.
-   */
-  mediaCount?: number;
-  /**
-   * Number of posts the author has published.
-   */
-  posts?: number;
   /**
    * Preview text supplied by X.
    */
@@ -438,6 +438,10 @@ export interface TwitterFollowersItem {
    */
   bio?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * How many followers this account has.
    */
   followers: number;
@@ -445,6 +449,10 @@ export interface TwitterFollowersItem {
    * How many accounts this account follows.
    */
   following?: number;
+  /**
+   * Numeric X user id of the account, as a string.
+   */
+  id?: string;
   /**
    * The account's self-reported location (may be empty).
    */
@@ -468,14 +476,6 @@ export interface TwitterFollowersItem {
  * The `data` payload of X / Twitter Followers (twitter.followers).
  */
 export interface TwitterFollowersData {
-  /**
-   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Numeric X user id of the account, as a string.
-   */
-  id?: string;
   /**
    * Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
@@ -538,6 +538,10 @@ export interface TwitterFollowingItem {
    */
   bio: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
    * How many followers this account has.
    */
   followers: number;
@@ -546,6 +550,10 @@ export interface TwitterFollowingItem {
    */
   following: number;
   /**
+   * Numeric X user id of the account, as a string.
+   */
+  id?: string;
+  /**
    * The account's self-reported location (may be empty).
    */
   location?: string;
@@ -553,6 +561,10 @@ export interface TwitterFollowingItem {
    * The account's display name. Populated whenever the provider has data for the entity.
    */
   name: string;
+  /**
+   * Number of posts the account has published.
+   */
+  posts?: number;
   /**
    * The account's @ handle, without the @ prefix. Populated whenever the provider has data for the entity.
    */
@@ -565,14 +577,6 @@ export interface TwitterFollowingItem {
  */
 export interface TwitterFollowingData {
   /**
-   * UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Numeric X user id of the account, as a string.
-   */
-  id?: string;
-  /**
    * Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity.
    */
   items: TwitterFollowingItem[];
@@ -580,10 +584,6 @@ export interface TwitterFollowingData {
    * Opaque cursor for the next page of followed accounts, or null when there are no more. Pass it back as cursor to continue.
    */
   nextCursor?: string | null;
-  /**
-   * Number of posts the account has published.
-   */
-  posts?: number;
 }
 
 /**
@@ -721,6 +721,10 @@ export interface TwitterRepliesItem {
    */
   authorName?: string;
   /**
+   * Id of the conversation the reply belongs to, as a string.
+   */
+  conversationId?: string;
+  /**
    * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc: number;
@@ -794,10 +798,6 @@ export interface TwitterRepliesMedia {
  */
 export interface TwitterRepliesData {
   /**
-   * Id of the conversation the reply belongs to, as a string.
-   */
-  conversationId?: string;
-  /**
    * Reply records for the requested post. Populated whenever the provider has data for the entity.
    */
   items: TwitterRepliesItem[];
@@ -860,6 +860,18 @@ export interface TwitterSearchInput {
 }
 
 export interface TwitterSearchItem {
+  /**
+   * Follower count of the account that posted.
+   */
+  authorFollowers?: number;
+  /**
+   * Numeric X user id of the account that posted, as a string.
+   */
+  authorId?: string;
+  /**
+   * Avatar image URL of the account that posted.
+   */
+  authorImage?: string;
   /**
    * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -941,18 +953,6 @@ export interface TwitterSearchMedia {
  * The `data` payload of X / Twitter Search (twitter.search).
  */
 export interface TwitterSearchData {
-  /**
-   * Follower count of the account that posted.
-   */
-  authorFollowers?: number;
-  /**
-   * Numeric X user id of the account that posted, as a string.
-   */
-  authorId?: string;
-  /**
-   * Avatar image URL of the account that posted.
-   */
-  authorImage?: string;
   /**
    * Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity.
    */
@@ -1288,6 +1288,34 @@ export interface TwitterThreadMedia {
 export interface TwitterThreadData {
   author: {
     /**
+     * Avatar image URL of the author.
+     */
+    avatarUrl?: string;
+    /**
+     * Bio text on the author's profile.
+     */
+    bio?: string;
+    /**
+     * Whether the author carries an X blue verification badge.
+     */
+    blueVerified?: boolean;
+    /**
+     * Profile banner image URL of the author.
+     */
+    coverUrl?: string;
+    /**
+     * UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.
+     */
+    createdUtc?: number;
+    /**
+     * Follower count of the author.
+     */
+    followers?: number;
+    /**
+     * Number of accounts the author follows.
+     */
+    following?: number;
+    /**
      * Populated whenever the provider has data for the entity.
      */
     handle: string;
@@ -1296,22 +1324,22 @@ export interface TwitterThreadData {
      */
     id: string;
     /**
+     * Location text on the author's profile.
+     */
+    location?: string;
+    /**
      * Populated whenever the provider has data for the entity.
      */
     name: string;
+    /**
+     * Canonical X profile URL of the thread's author.
+     */
+    url?: string;
+    /**
+     * Whether the author carries a legacy X verification badge.
+     */
+    verified?: boolean;
   };
-  /**
-   * Avatar image URL of the author.
-   */
-  avatarUrl?: string;
-  /**
-   * Bio text on the author's profile.
-   */
-  bio?: string;
-  /**
-   * Whether the author carries an X blue verification badge.
-   */
-  blueVerified?: boolean;
   /**
    * Whether the provider reached the end of the self-thread without hitting its internal cap.
    */
@@ -1321,26 +1349,6 @@ export interface TwitterThreadData {
    */
   conversationId: string;
   /**
-   * Profile banner image URL of the author.
-   */
-  coverUrl?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Follower count of the author.
-   */
-  followers?: number;
-  /**
-   * Number of accounts the author follows.
-   */
-  following?: number;
-  /**
-   * Location text on the author's profile.
-   */
-  location?: string;
-  /**
    * Number of tweets returned in the self-thread.
    */
   threadLength: number;
@@ -1348,14 +1356,6 @@ export interface TwitterThreadData {
    * Ordered self-thread tweets. Replies from other users are excluded. Populated whenever the provider has data for the entity.
    */
   tweets: TwitterThreadTweet[];
-  /**
-   * Canonical X profile URL of the thread's author.
-   */
-  url?: string;
-  /**
-   * Whether the author carries a legacy X verification badge.
-   */
-  verified?: boolean;
 }
 
 /**
@@ -1418,6 +1418,10 @@ export interface TwitterTrendsItem {
    * Range: minimum 1.
    */
   rank: number;
+  /**
+   * X search URL for the trend.
+   */
+  url?: string;
   [extra: string]: unknown;
 }
 
@@ -1441,10 +1445,6 @@ export interface TwitterTrendsData {
    * Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.
    */
   locationId: string;
-  /**
-   * X search URL for the trend.
-   */
-  url?: string;
 }
 
 /**
@@ -1466,11 +1466,9 @@ export interface TwitterTweetInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoUrl` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: (
-    "height" | "media" | "type" | "url" | "videoUrl" | "width"
-  )[];
+  requireFields?: ("height" | "videoUrl" | "width")[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1634,9 +1632,9 @@ export interface TwitterUserPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
    */
-  requireFields?: ("isPinned" | "isReply")[];
+  requireFields?: "isPinned"[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */

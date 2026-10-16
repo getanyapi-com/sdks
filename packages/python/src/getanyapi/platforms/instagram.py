@@ -236,24 +236,7 @@ class InstagramPostInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[
-        list[
-            Literal[
-                "avatarUrl",
-                "comments",
-                "createdUtc",
-                "displayName",
-                "hasAudio",
-                "locationId",
-                "locationName",
-                "paidPartnership",
-                "plays",
-                "productType",
-                "userId",
-                "verified",
-            ]
-        ]
-    ]
+    requireFields: NotRequired[list[Literal["hasAudio", "locationId", "plays"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `plays`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     requirePlayCount: NotRequired[bool]
     """Deprecated; send `requireFields: ["plays"]` instead, which does exactly the same thing. Set true to be served only by a source that reports a reel's play count. Omit it and routing is unchanged, with the cheapest source serving, which does not carry play counts, so `plays` is absent from its responses. This can raise your price: opting in routes to a source that reports the count, and you are quoted and charged its price. It stays accepted so callers that already send it keep working."""
@@ -376,6 +359,8 @@ class InstagramSearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search Instagram for; one or more words without special punctuation (e.g. coffee roastery)."""
+    requireFields: NotRequired[list[Literal["postsCount"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postsCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     type: NotRequired[Literal["user", "hashtag", "place"]]
@@ -597,6 +582,8 @@ class InstagramUserPostsInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["userId"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `userId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -797,7 +784,7 @@ class InstagramFollowersData(BaseModel):
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.",
+        description="Opaque cursor for the next page of followers, or null/empty when there are no more. Some sources return a single page of about 50 followers and no continuation, so it is empty there. Pass it back as cursor whenever it is non-empty.",
     )
 
 
@@ -812,7 +799,7 @@ class InstagramFollowersItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the follower's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+        description="URL of the follower's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.",
     )
     name: str | None = Field(
         default=None,
@@ -839,7 +826,7 @@ class InstagramFollowingData(BaseModel):
     next_cursor: str | None = Field(
         default=None,
         alias="nextCursor",
-        description="Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.",
+        description="Opaque cursor for the next page of results, or null/empty when there are no more. Some sources return a single page of about 50 accounts and no continuation, so it is empty there. Pass it back as cursor whenever it is non-empty.",
     )
 
 
@@ -854,7 +841,7 @@ class InstagramFollowingItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the followed account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+        description="URL of the followed account's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.",
     )
     name: str | None = Field(
         default=None,
@@ -1837,7 +1824,7 @@ class InstagramSearchItem(BaseModel):
     )
     image: str | None = Field(
         default=None,
-        description="URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+        description="URL of the account's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.",
     )
     name: str | None = Field(
         default=None,
@@ -1846,7 +1833,7 @@ class InstagramSearchItem(BaseModel):
     posts_count: int | None = Field(
         default=None,
         alias="postsCount",
-        description="The account's post count. May be 0 when the lane does not return it in search results.",
+        description="The account's post count. Null when the serving source does not report it.",
     )
     url: str = Field(
         description="Canonical URL of the account's profile, with tracking query params stripped. Populated whenever the provider has data for the entity."
@@ -2087,7 +2074,9 @@ class InstagramSearchProfilesProfile(BaseModel):
     id: str = Field(
         description="Populated whenever the provider has data for the entity."
     )
-    posts: int
+    posts: int | None = Field(
+        description="Total number of posts on the account. Null when the serving source does not report it."
+    )
     private: bool | None = Field(
         description="Whether the account is private. Null when the serving source does not report it."
     )
@@ -2152,7 +2141,9 @@ class InstagramSearchProfilesContactProfile(BaseModel):
         default=None,
         description="Public contact phone number the account lists, in international format. Absent when the account does not publish one.",
     )
-    posts: int = Field(description="Number of posts on the profile.")
+    posts: int | None = Field(
+        description="Number of posts on the profile. Null when the serving source does not report it."
+    )
     url: str | None = Field(default=None, description="Canonical URL of the profile.")
     verified: bool = Field(description="Whether the account has a verified badge.")
 
@@ -2515,7 +2506,7 @@ class InstagramUserPostsPost(BaseModel):
     user_id: str | None = Field(
         default=None,
         alias="userId",
-        description="Instagram user id of the posting account.",
+        description="Instagram user id of the posting account. Null when the serving source does not report it.",
     )
     username: str = Field(
         description="Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle. Populated whenever the provider has data for the entity."

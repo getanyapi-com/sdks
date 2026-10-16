@@ -9792,7 +9792,7 @@
                   },
                   "websiteUrl": {
                     "kind": "string",
-                    "description": "Place website URL, tracking parameters stripped.",
+                    "description": "Place website URL with tracking parameters stripped; an id parameter is kept, since a page such as Facebook profile.php needs it.",
                     "nullable": true,
                     "enum": null,
                     "default": null,
@@ -9921,7 +9921,7 @@
                   },
                   "url": {
                     "kind": "string",
-                    "description": "Product page URL, tracking parameters stripped.",
+                    "description": "Product page URL with its query kept, since the query can name the product variant (e.g. color and size).",
                     "nullable": true,
                     "enum": null,
                     "default": null,
@@ -44837,7 +44837,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the follower's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the follower's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -44881,7 +44881,7 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page of followers, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 followers and no continuation. Pass it back as cursor whenever it is non-empty.",
+              "description": "Opaque cursor for the next page of followers, or null/empty when there are no more. Some sources return a single page of about 50 followers and no continuation, so it is empty there. Pass it back as cursor whenever it is non-empty.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -45026,7 +45026,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the followed account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the followed account's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -45070,7 +45070,7 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page of results, or null/empty when there are no more. Empty on every source behind this endpoint today, because each returns a single page of about 50 accounts and no continuation. Pass it back as cursor whenever it is non-empty.",
+              "description": "Opaque cursor for the next page of results, or null/empty when there are no more. Some sources return a single page of about 50 accounts and no continuation, so it is empty there. Pass it back as cursor whenever it is non-empty.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -46689,18 +46689,9 @@
             "items": {
               "kind": "string",
               "enum": [
-                "avatarUrl",
-                "comments",
-                "createdUtc",
-                "displayName",
                 "hasAudio",
                 "locationId",
-                "locationName",
-                "paidPartnership",
-                "plays",
-                "productType",
-                "userId",
-                "verified"
+                "plays"
               ],
               "default": null,
               "format": null
@@ -48329,6 +48320,19 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postsCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "postsCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -48405,7 +48409,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the account's profile picture, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the account's profile picture, kept whole because its query carries the CDN signature. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -48419,7 +48423,8 @@
                   },
                   "postsCount": {
                     "kind": "integer",
-                    "description": "The account's post count. May be 0 when the lane does not return it in search results.",
+                    "description": "The account's post count. Null when the serving source does not report it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -49441,6 +49446,8 @@
                   },
                   "posts": {
                     "kind": "integer",
+                    "description": "Total number of posts on the account. Null when the serving source does not report it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -49698,7 +49705,8 @@
                   },
                   "posts": {
                     "kind": "integer",
-                    "description": "Number of posts on the profile.",
+                    "description": "Number of posts on the profile. Null when the serving source does not report it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -50988,6 +50996,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `userId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "userId"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -51137,7 +51158,8 @@
                   },
                   "userId": {
                     "kind": "string",
-                    "description": "Instagram user id of the posting account.",
+                    "description": "Instagram user id of the posting account. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -55680,7 +55702,7 @@
                     "properties": {
                       "followers": {
                         "kind": "string",
-                        "description": "Author follower count as displayed text (e.g. '1,543,793 followers').",
+                        "description": "Author follower count as displayed text (e.g. '1,543,793 followers'). Absent when the author is a person, whose card shows a headline instead.",
                         "enum": null,
                         "default": null,
                         "format": null
@@ -62900,7 +62922,7 @@
                   },
                   "attachmentUrl": {
                     "kind": "string",
-                    "description": "Canonical destination URL of the attachment. When attachmentType is article, pass this URL to the linkedin.article endpoint to read the article's full body text.",
+                    "description": "Destination URL of the attachment with tracking parameters removed; a video keeps the signed query it needs to play, and a YouTube link keeps its video id. When attachmentType is article, pass this URL to the linkedin.article endpoint to read the article's full body text.",
                     "enum": null,
                     "default": null,
                     "format": "uri"
@@ -63781,7 +63803,7 @@
                   },
                   "skills": {
                     "kind": "array",
-                    "description": "Listed skills, as free-form strings when present.",
+                    "description": "Listed skills, one object per skill with its name and, when the source has them, the endorsements label and related positions.",
                     "items": {
                       "kind": "unknown"
                     },
@@ -102488,14 +102510,16 @@
             },
             "replyCount": {
               "kind": "integer",
-              "description": "Number of replies to the post.",
+              "description": "Number of replies to the post. Null when the source does not report it.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
             },
             "repostCount": {
               "kind": "integer",
-              "description": "Number of reposts of the post.",
+              "description": "Number of reposts of the post. Null when the source does not report it.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
@@ -105014,7 +105038,7 @@
                   },
                   "image": {
                     "kind": "string",
-                    "description": "URL of the video's cover/thumbnail image, with tracking query params stripped. Empty when the upstream omits it.",
+                    "description": "URL of the video's cover/thumbnail image. Signed and short-lived, so the query string is load-bearing and kept intact. Empty when the upstream omits it.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -108459,12 +108483,11 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor` or `verified`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
-                "nextCursor",
-                "verified"
+                "nextCursor"
               ],
               "default": null,
               "format": null
@@ -114489,12 +114512,26 @@
                   "default": null,
                   "format": null
                 },
+                "mediaCount": {
+                  "kind": "integer",
+                  "description": "Number of media items the author has published.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
                 "name": {
                   "kind": "string",
                   "description": "Profile display name.",
                   "enum": null,
                   "default": null,
                   "format": null
+                },
+                "posts": {
+                  "kind": "integer",
+                  "description": "Number of posts the author has published.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
                 },
                 "url": {
                   "kind": "string",
@@ -114672,20 +114709,6 @@
               "kind": "integer",
               "description": "Wrapper post like count at retrieval time.",
               "minimum": 0,
-              "maximum": null,
-              "default": null
-            },
-            "mediaCount": {
-              "kind": "integer",
-              "description": "Number of media items the author has published.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "posts": {
-              "kind": "integer",
-              "description": "Number of posts the author has published.",
-              "minimum": null,
               "maximum": null,
               "default": null
             },
@@ -115240,20 +115263,6 @@
         "data": {
           "kind": "object",
           "properties": {
-            "createdUtc": {
-              "kind": "number",
-              "description": "UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "id": {
-              "kind": "string",
-              "description": "Numeric X user id of the account, as a string.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
             "items": {
               "kind": "array",
               "description": "Follower records, normalized to a compact shape. Populated whenever the provider has data for the entity.",
@@ -115274,6 +115283,13 @@
                     "default": null,
                     "format": null
                   },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "followers": {
                     "kind": "integer",
                     "description": "How many followers this account has.",
@@ -115287,6 +115303,13 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Numeric X user id of the account, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "location": {
                     "kind": "string",
@@ -115465,20 +115488,6 @@
         "data": {
           "kind": "object",
           "properties": {
-            "createdUtc": {
-              "kind": "number",
-              "description": "UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "id": {
-              "kind": "string",
-              "description": "Numeric X user id of the account, as a string.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
             "items": {
               "kind": "array",
               "description": "Followed-account records, normalized to a compact shape. Populated whenever the provider has data for the entity.",
@@ -115499,6 +115508,13 @@
                     "default": null,
                     "format": null
                   },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "followers": {
                     "kind": "integer",
                     "description": "How many followers this account has.",
@@ -115513,6 +115529,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "id": {
+                    "kind": "string",
+                    "description": "Numeric X user id of the account, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "location": {
                     "kind": "string",
                     "description": "The account's self-reported location (may be empty).",
@@ -115526,6 +115549,13 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "posts": {
+                    "kind": "integer",
+                    "description": "Number of posts the account has published.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "username": {
                     "kind": "string",
@@ -115559,13 +115589,6 @@
               "enum": null,
               "default": null,
               "format": null
-            },
-            "posts": {
-              "kind": "integer",
-              "description": "Number of posts the account has published.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
             }
           },
           "required": [
@@ -115906,13 +115929,6 @@
         "data": {
           "kind": "object",
           "properties": {
-            "conversationId": {
-              "kind": "string",
-              "description": "Id of the conversation the reply belongs to, as a string.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
             "items": {
               "kind": "array",
               "description": "Reply records for the requested post. Populated whenever the provider has data for the entity.",
@@ -115929,6 +115945,13 @@
                   "authorName": {
                     "kind": "string",
                     "description": "Display name of the reply's author. Empty when the upstream omits it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "conversationId": {
+                    "kind": "string",
+                    "description": "Id of the conversation the reply belongs to, as a string.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -116211,33 +116234,33 @@
         "data": {
           "kind": "object",
           "properties": {
-            "authorFollowers": {
-              "kind": "integer",
-              "description": "Follower count of the account that posted.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "authorId": {
-              "kind": "string",
-              "description": "Numeric X user id of the account that posted, as a string.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "authorImage": {
-              "kind": "string",
-              "description": "Avatar image URL of the account that posted.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
             "items": {
               "kind": "array",
               "description": "Tweet records: text, author profile, timestamp, and engagement metrics (likes, retweets, replies, views). Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
+                  "authorFollowers": {
+                    "kind": "integer",
+                    "description": "Follower count of the account that posted.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "authorId": {
+                    "kind": "string",
+                    "description": "Numeric X user id of the account that posted, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Avatar image URL of the account that posted.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "authorName": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -116963,6 +116986,53 @@
             "author": {
               "kind": "object",
               "properties": {
+                "avatarUrl": {
+                  "kind": "string",
+                  "description": "Avatar image URL of the author.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "bio": {
+                  "kind": "string",
+                  "description": "Bio text on the author's profile.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "blueVerified": {
+                  "kind": "boolean",
+                  "description": "Whether the author carries an X blue verification badge.",
+                  "default": null
+                },
+                "coverUrl": {
+                  "kind": "string",
+                  "description": "Profile banner image URL of the author.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "createdUtc": {
+                  "kind": "number",
+                  "description": "UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "followers": {
+                  "kind": "integer",
+                  "description": "Follower count of the author.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "following": {
+                  "kind": "integer",
+                  "description": "Number of accounts the author follows.",
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
                 "handle": {
                   "kind": "string",
                   "description": "Populated whenever the provider has data for the entity.",
@@ -116977,12 +117047,31 @@
                   "default": null,
                   "format": null
                 },
+                "location": {
+                  "kind": "string",
+                  "description": "Location text on the author's profile.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
                 "name": {
                   "kind": "string",
                   "description": "Populated whenever the provider has data for the entity.",
                   "enum": null,
                   "default": null,
                   "format": null
+                },
+                "url": {
+                  "kind": "string",
+                  "description": "Canonical X profile URL of the thread's author.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "verified": {
+                  "kind": "boolean",
+                  "description": "Whether the author carries a legacy X verification badge.",
+                  "default": null
                 }
               },
               "required": [
@@ -116997,25 +117086,6 @@
                 "name"
               ]
             },
-            "avatarUrl": {
-              "kind": "string",
-              "description": "Avatar image URL of the author.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "bio": {
-              "kind": "string",
-              "description": "Bio text on the author's profile.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "blueVerified": {
-              "kind": "boolean",
-              "description": "Whether the author carries an X blue verification badge.",
-              "default": null
-            },
             "complete": {
               "kind": "boolean",
               "description": "Whether the provider reached the end of the self-thread without hitting its internal cap.",
@@ -117024,41 +117094,6 @@
             "conversationId": {
               "kind": "string",
               "description": "Conversation ID shared by the self-thread tweets. Populated whenever the provider has data for the entity.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "coverUrl": {
-              "kind": "string",
-              "description": "Profile banner image URL of the author.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "createdUtc": {
-              "kind": "number",
-              "description": "UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "followers": {
-              "kind": "integer",
-              "description": "Follower count of the author.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "following": {
-              "kind": "integer",
-              "description": "Number of accounts the author follows.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "location": {
-              "kind": "string",
-              "description": "Location text on the author's profile.",
               "enum": null,
               "default": null,
               "format": null
@@ -117271,18 +117306,6 @@
                 ]
               },
               "mustPopulate": true
-            },
-            "url": {
-              "kind": "string",
-              "description": "Canonical X profile URL of the thread's author.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "verified": {
-              "kind": "boolean",
-              "description": "Whether the author carries a legacy X verification badge.",
-              "default": null
             }
           },
           "required": [
@@ -117449,6 +117472,13 @@
                     "minimum": 1,
                     "maximum": null,
                     "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "X search URL for the trend.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   }
                 },
                 "required": [
@@ -117475,13 +117505,6 @@
             "locationId": {
               "kind": "string",
               "description": "Resolved Yahoo WOEID used by X, exposed as a stable location identifier. Populated whenever the provider has data for the entity.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "url": {
-              "kind": "string",
-              "description": "X search URL for the trend.",
               "enum": null,
               "default": null,
               "format": null
@@ -117562,14 +117585,11 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `media` or `videoUrl`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoUrl` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
                 "height",
-                "media",
-                "type",
-                "url",
                 "videoUrl",
                 "width"
               ],
@@ -117967,12 +117987,11 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned` or `isReply`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isPinned`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a tweet that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
-                "isPinned",
-                "isReply"
+                "isPinned"
               ],
               "default": null,
               "format": null
@@ -126264,6 +126283,13 @@
                     "maximum": null,
                     "default": null
                   },
+                  "repliesContinuationToken": {
+                    "kind": "string",
+                    "description": "Token for this comment's replies. Pass it as continuationToken to youtube.comment_replies. Absent when the comment has no replies or the serving source does not return one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "text": {
                     "kind": "string",
                     "description": "Populated whenever the provider has data for the entity.",
@@ -126583,22 +126609,6 @@
             "minimum": 1,
             "maximum": null,
             "default": null
-          },
-          "requireFields": {
-            "kind": "array",
-            "description": "Only use sources that return these fields. The cheapest source returns the transcript as one block of text and no timings, so name any of these to be served by a source that carries timed segments instead.",
-            "items": {
-              "kind": "string",
-              "enum": [
-                "durationSeconds",
-                "segments",
-                "startSeconds",
-                "text"
-              ],
-              "default": null,
-              "format": null
-            },
-            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -128946,7 +128956,7 @@
                   },
                   "currency": {
                     "kind": "string",
-                    "description": "ISO currency code of the price (e.g. usd).",
+                    "description": "ISO currency code of the price (e.g. USD).",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -129025,7 +129035,7 @@
                   },
                   "propertyType": {
                     "kind": "string",
-                    "description": "Property type (e.g. singleFamily, condo, townhouse).",
+                    "description": "Property type (e.g. SINGLE_FAMILY, CONDO, TOWNHOUSE).",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -129047,7 +129057,7 @@
                   },
                   "status": {
                     "kind": "string",
-                    "description": "Listing status (e.g. forSale, forRent, sold).",
+                    "description": "Listing status (e.g. FOR_SALE, FOR_RENT, RECENTLY_SOLD).",
                     "enum": null,
                     "default": null,
                     "format": null

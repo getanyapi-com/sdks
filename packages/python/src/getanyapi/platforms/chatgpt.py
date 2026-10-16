@@ -195,7 +195,7 @@ class ChatgptSearchPlace(BaseModel):
     website_url: str | None = Field(
         default=None,
         alias="websiteUrl",
-        description="Place website URL, tracking parameters stripped.",
+        description="Place website URL with tracking parameters stripped; an id parameter is kept, since a page such as Facebook profile.php needs it.",
     )
 
 
@@ -238,7 +238,8 @@ class ChatgptSearchShoppingCard(BaseModel):
     )
     title: str = Field(description="Product name shown by ChatGPT.")
     url: str | None = Field(
-        default=None, description="Product page URL, tracking parameters stripped."
+        default=None,
+        description="Product page URL with its query kept, since the query can name the product variant (e.g. color and size).",
     )
 
 
