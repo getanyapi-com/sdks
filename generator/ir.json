@@ -43303,7 +43303,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0011,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -118036,7 +118036,8 @@
             "items": {
               "kind": "string",
               "enum": [
-                "images"
+                "images",
+                "rating"
               ],
               "default": null,
               "format": null
@@ -118668,7 +118669,8 @@
               "kind": "string",
               "enum": [
                 "productCount",
-                "shopRating"
+                "shopRating",
+                "soldCount"
               ],
               "default": null,
               "format": null
@@ -125829,7 +125831,7 @@
       "category": "shop",
       "description": "Pull a page of 10 customer reviews for any Walmart product by URL, newest first or by relevance, helpfulness, or rating: rating, title, text, date, reviewer, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.00125,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -125884,7 +125886,12 @@
             "items": {
               "kind": "string",
               "enum": [
-                "totalPages"
+                "helpfulVotes",
+                "rating",
+                "ratingDistribution",
+                "totalPages",
+                "totalReviews",
+                "verifiedPurchase"
               ],
               "default": null,
               "format": null

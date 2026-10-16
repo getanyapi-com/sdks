@@ -43,7 +43,18 @@ class WalmartReviewsInput(TypedDict, total=False):
     """1-based page of 10 reviews, Walmart's fixed page size; Walmart serves at most 100 pages. Each page is billed as one request; keep url and sort the same while walking pages. Range: 1 to 100. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["totalPages"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "helpfulVotes",
+                "rating",
+                "ratingDistribution",
+                "totalPages",
+                "totalReviews",
+                "verifiedPurchase",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalPages`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sort: NotRequired[
         Literal["recent", "oldest", "relevancy", "helpful", "rating_high", "rating_low"]
@@ -379,7 +390,7 @@ class WalmartNamespace:
         first or by relevance, helpfulness, or rating: rating, title, text, date,
         reviewer, and verified-purchase badge.
 
-        Price: $0.00125 per request.
+        Price: $0.00085 per request.
 
         Example:
             res = client.walmart.reviews(url="https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121")
@@ -451,7 +462,7 @@ class AsyncWalmartNamespace:
         first or by relevance, helpfulness, or rating: rating, title, text, date,
         reviewer, and verified-purchase badge.
 
-        Price: $0.00125 per request.
+        Price: $0.00085 per request.
 
         Example:
             res = client.walmart.reviews(url="https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121")

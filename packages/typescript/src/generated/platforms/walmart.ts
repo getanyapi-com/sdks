@@ -153,7 +153,14 @@ export interface WalmartReviewsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalPages`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "totalPages"[];
+  requireFields?: (
+    | "helpfulVotes"
+    | "rating"
+    | "ratingDistribution"
+    | "totalPages"
+    | "totalReviews"
+    | "verifiedPurchase"
+  )[];
   /**
    * Review order: recent (newest first, the default), oldest, relevancy, helpful, rating_high, or rating_low (e.g. helpful).
    * One of: recent, oldest, relevancy, helpful, rating_high, rating_low.
@@ -441,7 +448,7 @@ export class WalmartNamespace {
    *
    * Pull a page of 10 customer reviews for any Walmart product by URL, newest first or by relevance, helpfulness, or rating: rating, title, text, date, reviewer, and verified-purchase badge.
    *
-   * Price: $0.00125 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.walmart.reviews({ url: "https://www.walmart.com/ip/Apple-AirPods-Pro-2/5689919121" });
