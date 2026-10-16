@@ -126791,7 +126791,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.",
       "pricing": {
-        "priceUsd": 0.003,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -126857,7 +126857,16 @@
             "items": {
               "kind": "string",
               "enum": [
-                "isAiGenerated"
+                "authorId",
+                "authorUrl",
+                "category",
+                "createdUtc",
+                "description",
+                "image",
+                "isAiGenerated",
+                "keywords",
+                "likes",
+                "views"
               ],
               "default": null,
               "format": null
