@@ -5631,41 +5631,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0154,
-          "maxPer1kUsd": 15.4
+          "maxUsd": 0.0308,
+          "maxPer1kUsd": 30.8
         },
         "failoverMaxUsd": 0.033,
         "failoverMaxPer1kUsd": 33
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0154,
-            "maxPer1kUsd": 15.4
-          },
-          "source": {
-            "id": "datagma",
-            "name": "Datagma",
-            "kind": "brand",
-            "artworkKey": "datagma"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 65.37990196078431,
-            "latencyP50Ms": 5933,
-            "uptimeSample": 1632,
-            "latencySample": 1067,
-            "requests": 1697,
-            "servedRequests": 1067
-          },
-          "fields": [
-            "email",
-            "items",
-            "status"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -5715,6 +5687,36 @@
             "latencySample": 939,
             "requests": 988,
             "servedRequests": 939
+          },
+          "fields": [
+            "email",
+            "items",
+            "status"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0154,
+            "maxPer1kUsd": 15.4
+          },
+          "source": {
+            "id": "datagma",
+            "name": "Datagma",
+            "kind": "brand",
+            "artworkKey": "datagma"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 65.37990196078431,
+            "latencyP50Ms": 5933,
+            "uptimeSample": 1632,
+            "latencySample": 1067,
+            "requests": 1697,
+            "servedRequests": 1067
           },
           "fields": [
             "email",
@@ -34060,6 +34062,55 @@
             "maxPer1kUsd": 0.6
           },
           "source": {
+            "id": "anonymous-bison-cb2f8f3c",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.74335561203678,
+            "latencyP50Ms": 973,
+            "uptimeSample": 31869,
+            "latencySample": 28919,
+            "requests": 31869,
+            "servedRequests": 28919
+          },
+          "fields": [
+            "authorHandle",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "isPinned",
+            "likes",
+            "nextCursor",
+            "paidPartnership",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0006,
+            "maxPer1kUsd": 0.6
+          },
+          "source": {
             "id": "anonymous-flamingo",
             "name": "Flamingo",
             "kind": "anonymous",
@@ -34279,57 +34330,6 @@
             "saves",
             "shares",
             "soundClipId",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0006,
-            "maxPer1kUsd": 0.6
-          },
-          "source": {
-            "id": "anonymous-bison-cb2f8f3c",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.74335561203678,
-            "latencyP50Ms": 973,
-            "uptimeSample": 31869,
-            "latencySample": 28919,
-            "requests": 31869,
-            "servedRequests": 28919
-          },
-          "fields": [
-            "authorHandle",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "isPinned",
-            "likes",
-            "nextCursor",
-            "paidPartnership",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
             "url",
             "videoUrl",
             "videos",
