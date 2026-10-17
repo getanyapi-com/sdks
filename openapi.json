@@ -23017,8 +23017,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-11-15",
-                "checkOut": "2026-11-17",
+                "checkIn": "2026-11-16",
+                "checkOut": "2026-11-18",
                 "limit": 3,
                 "query": "New York"
               },
@@ -23026,8 +23026,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-11-15",
-                  "checkOut": "2026-11-17",
+                  "checkIn": "2026-11-16",
+                  "checkOut": "2026-11-18",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -75014,7 +75014,11 @@
                     "type": "integer"
                   },
                   "location": {
-                    "description": "Optional location to narrow results; include both city and country for best matches (e.g. 'Paris, France').",
+                    "description": "Optional place name; include both city and country for best matches (e.g. 'Paris, France'). Uses Facebook's place filter, which favors posts tagged at that place rather than every post by people who live there, and can still return some posts from elsewhere.",
+                    "type": "string"
+                  },
+                  "locationId": {
+                    "description": "Optional Facebook place ID, used instead of location when you already have it (e.g. '110774245616525' for Paris, France). Filters the same way as location.",
                     "type": "string"
                   },
                   "preferLatencyUnderMs": {
@@ -101177,16 +101181,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-15",
-                "checkOut": "2026-11-17",
+                "checkIn": "2026-11-16",
+                "checkOut": "2026-11-18",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-15",
-                  "checkOut": "2026-11-17",
+                  "checkIn": "2026-11-16",
+                  "checkOut": "2026-11-18",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -102161,16 +102165,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-15",
-                "checkOut": "2026-11-17",
+                "checkIn": "2026-11-16",
+                "checkOut": "2026-11-18",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-15",
-                  "checkOut": "2026-11-17",
+                  "checkIn": "2026-11-16",
+                  "checkOut": "2026-11-18",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -123208,7 +123212,7 @@
     },
     "/v1/run/instagram.similar_profiles": {
       "post": {
-        "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_similar_profiles",
         "parameters": [
           {
@@ -127839,7 +127843,7 @@
     },
     "/v1/run/instagram.user_reels": {
       "post": {
-        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_reels",
         "parameters": [
           {
@@ -190253,7 +190257,7 @@
     },
     "/v1/run/reddit.subreddit_posts": {
       "post": {
-        "description": "Fetch posts from a subreddit listing (hot, new, or top).\n\n**Price:** \\$0.38 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Posts pricing and uptime](https://getanyapi.com/api/reddit/subreddit-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch posts from a subreddit listing (hot, new, or top).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Posts pricing and uptime](https://getanyapi.com/api/reddit/subreddit-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_posts",
         "parameters": [
           {
@@ -190822,7 +190826,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000380",
+            "amount": "0.000800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -190896,7 +190900,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000380",
+                "amount": "0.000800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -239290,7 +239294,7 @@
     },
     "/v1/run/tiktok.profile_videos": {
       "post": {
-        "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Videos pricing and uptime](https://getanyapi.com/api/tiktok/profile-videos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Videos pricing and uptime](https://getanyapi.com/api/tiktok/profile-videos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_videos",
         "parameters": [
           {
@@ -274502,6 +274506,7 @@
                           ],
                           "title": "Web scrape output",
                           "type": "object",
+                          "x-anyapi-app-shell-check": true,
                           "x-anyapi-empty-fails-over": true,
                           "x-anyapi-heavy": true
                         },

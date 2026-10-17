@@ -10261,8 +10261,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-15",
-        "checkOut": "2026-11-17",
+        "checkIn": "2026-11-16",
+        "checkOut": "2026-11-18",
         "limit": 3,
         "query": "New York"
       },
@@ -36142,7 +36142,14 @@
           },
           "location": {
             "kind": "string",
-            "description": "Optional location to narrow results; include both city and country for best matches (e.g. 'Paris, France').",
+            "description": "Optional place name; include both city and country for best matches (e.g. 'Paris, France'). Uses Facebook's place filter, which favors posts tagged at that place rather than every post by people who live there, and can still return some posts from elsewhere.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "locationId": {
+            "kind": "string",
+            "description": "Optional Facebook place ID, used instead of location when you already have it (e.g. '110774245616525' for Paris, France). Filters the same way as location.",
             "enum": null,
             "default": null,
             "format": null
@@ -45758,8 +45765,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-15",
-        "checkOut": "2026-11-17",
+        "checkIn": "2026-11-16",
+        "checkOut": "2026-11-18",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -46357,8 +46364,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-15",
-        "checkOut": "2026-11-17",
+        "checkIn": "2026-11-16",
+        "checkOut": "2026-11-18",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -93137,7 +93144,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
