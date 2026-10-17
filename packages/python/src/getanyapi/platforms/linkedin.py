@@ -4969,7 +4969,7 @@ class LinkedinNamespace:
         Fetch recent public LinkedIn profile posts with portable identity, author,
         engagement, article, image, video, and repost fields.
 
-        Price: $0.005 per request.
+        Price: $0 per request plus $0.00143 per result (maximum $0.143).
 
         Example:
             res = client.linkedin.profile_posts_thin(limit=10, url="https://www.linkedin.com/in/williamhgates/")
@@ -5783,7 +5783,7 @@ class AsyncLinkedinNamespace:
         Fetch recent public LinkedIn profile posts with portable identity, author,
         engagement, article, image, video, and repost fields.
 
-        Price: $0.005 per request.
+        Price: $0 per request plus $0.00143 per result (maximum $0.143).
 
         Example:
             res = client.linkedin.profile_posts_thin(limit=10, url="https://www.linkedin.com/in/williamhgates/")
