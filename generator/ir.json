@@ -54782,7 +54782,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -92029,7 +92029,7 @@
       "category": "social",
       "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -93137,7 +93137,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -117007,7 +117007,7 @@
       "category": "social",
       "description": "Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -117626,7 +117626,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
