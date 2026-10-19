@@ -5994,7 +5994,7 @@ export class LinkedinNamespace {
    *
    * Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.
    *
-   * Price: $0 per request plus $0.00143 per result (maximum $0.143).
+   * Price: $0.005 per request.
    *
    * @example
    * const res = await client.linkedin.profilePostsThin({ url: "https://www.linkedin.com/in/williamhgates/", limit: 10 });

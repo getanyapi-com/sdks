@@ -10261,8 +10261,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-17",
-        "checkOut": "2026-11-19",
+        "checkIn": "2026-11-18",
+        "checkOut": "2026-11-20",
         "limit": 3,
         "query": "New York"
       },
@@ -25578,7 +25578,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -45758,8 +45758,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-17",
-        "checkOut": "2026-11-19",
+        "checkIn": "2026-11-18",
+        "checkOut": "2026-11-20",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -46357,8 +46357,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-17",
-        "checkOut": "2026-11-19",
+        "checkIn": "2026-11-18",
+        "checkOut": "2026-11-20",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -54782,7 +54782,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.027,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -66341,10 +66341,10 @@
       "category": "social",
       "description": "Fetch recent public LinkedIn profile posts with portable identity, author, engagement, article, image, video, and repost fields.",
       "pricing": {
-        "priceUsd": 0.143,
-        "baseUsd": 0,
-        "perItemUsd": 0.00143,
-        "perItemUnit": "result"
+        "priceUsd": 0.005,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "linkedin",
       "tsMethod": "profilePostsThin",
@@ -92029,7 +92029,7 @@
       "category": "social",
       "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.",
       "pricing": {
-        "priceUsd": 0.0006,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -93137,7 +93137,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -113283,8 +113283,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00116,
-        "baseUsd": 0.00116,
+        "priceUsd": 0.00187,
+        "baseUsd": 0.00187,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
