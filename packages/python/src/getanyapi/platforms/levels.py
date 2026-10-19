@@ -40,6 +40,10 @@ class LevelsJobsData(BaseModel):
     items: list[LevelsJobsItem] = Field(
         description="Jobs in Levels.fyi's order, grouped by company. Populated whenever the provider has data for the entity."
     )
+    total: int | None = Field(
+        default=None,
+        description="Total number of jobs Levels.fyi matches for the search, beyond the ones returned.",
+    )
 
 
 class LevelsJobsItem(BaseModel):
@@ -99,6 +103,11 @@ class LevelsJobsItem(BaseModel):
         alias="salaryMin",
         description="Low end of the base salary range in salaryCurrency per salaryUnit. null when Levels.fyi shows no salary for the job. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    salary_source: str | None = Field(
+        default=None,
+        alias="salarySource",
+        description="Where the base salary range comes from, as Levels.fyi labels it, e.g. Levels.fyi base salary. null when the job has no salary range.",
+    )
     salary_unit: str | None = Field(
         default=None,
         alias="salaryUnit",
@@ -117,8 +126,18 @@ class LevelsJobsItem(BaseModel):
         alias="totalCompensationMin",
         description="Low end of the total compensation range (base, stock and bonus). Some ranges are Levels.fyi estimates. null when Levels.fyi shows none.",
     )
+    total_compensation_source: str | None = Field(
+        default=None,
+        alias="totalCompensationSource",
+        description="Where the total compensation range comes from, as Levels.fyi labels it, e.g. Levels.fyi total compensation. Some ranges are Levels.fyi estimates rather than figures the employer posted. null when the job has no total compensation range.",
+    )
     url: str = Field(
         description="Levels.fyi job listing URL. Populated whenever the provider has data for the entity."
+    )
+    workplace_types: list[str] | None = Field(
+        default=None,
+        alias="workplaceTypes",
+        description="Where the job is worked as Levels.fyi lists it, e.g. office or remote. null when Levels.fyi does not say.",
     )
 
 

@@ -3266,7 +3266,9 @@ export interface TiktokUserStoriesInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `expiresUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "expiresUtc"[];
+  requireFields?: (
+    "authorVerified" | "expiresUtc" | "photos" | "reposts" | "totalCount"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3278,6 +3280,22 @@ export interface TiktokUserStoriesStorie {
    * Author's TikTok handle, without the leading @.
    */
   authorHandle?: string;
+  /**
+   * Author's avatar image URL. Signed and short-lived, so keep the query string.
+   */
+  authorImage?: string | null;
+  /**
+   * Author's display name.
+   */
+  authorName?: string | null;
+  /**
+   * Author's numeric TikTok user id.
+   */
+  authorUserId?: string | null;
+  /**
+   * Whether the author's account carries a TikTok verification badge. Null when this source does not report it.
+   */
+  authorVerified?: boolean | null;
   /**
    * Caption text; usually empty on stories.
    */
@@ -3317,6 +3335,14 @@ export interface TiktokUserStoriesStorie {
    */
   likes?: number | null;
   /**
+   * The photos of a photo story with their pixel dimensions; empty for a video story. Null when this source does not report dimensions; imageUrls still lists the photos.
+   */
+  photos?: TiktokUserStoriesPhoto[] | null;
+  /**
+   * Repost count. Null when this source does not report it.
+   */
+  reposts?: number | null;
+  /**
    * Save (favorite) count.
    */
   saves?: number | null;
@@ -3325,9 +3351,21 @@ export interface TiktokUserStoriesStorie {
    */
   shares?: number | null;
   /**
+   * Credited author of the sound.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Id of the sound the story uses. Pass it to tiktok.song or tiktok.song_videos as clipId.
+   */
+  soundClipId?: string | null;
+  /**
    * Name of the sound the story uses; null when it has none.
    */
   soundTitle?: string | null;
+  /**
+   * Audio file URL of the sound. Signed and short-lived, so keep the query string.
+   */
+  soundUrl?: string | null;
   /**
    * The story on tiktok.com. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -3344,14 +3382,38 @@ export interface TiktokUserStoriesStorie {
   [extra: string]: unknown;
 }
 
+export interface TiktokUserStoriesPhoto {
+  /**
+   * Photo height in pixels.
+   */
+  height?: number | null;
+  /**
+   * Photo URL. Signed and short-lived, so keep the query string.
+   */
+  url?: string | null;
+  /**
+   * Photo width in pixels.
+   */
+  width?: number | null;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of TikTok User Stories (tiktok.user_stories).
  */
 export interface TiktokUserStoriesData {
   /**
+   * True when TikTok reports more active stories than the ones returned; they cannot be fetched with another call.
+   */
+  hasMore?: boolean | null;
+  /**
    * The account's active public stories, up to 20, oldest first. Populated whenever the provider has data for the entity.
    */
   stories: TiktokUserStoriesStorie[];
+  /**
+   * How many active stories TikTok reports for the account, which can exceed the stories returned. Null when this source does not report it.
+   */
+  totalCount?: number | null;
 }
 
 /**

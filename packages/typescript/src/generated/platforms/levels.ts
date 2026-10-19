@@ -105,6 +105,10 @@ export interface LevelsJobsItem {
    */
   salaryMin?: number | null;
   /**
+   * Where the base salary range comes from, as Levels.fyi labels it, e.g. Levels.fyi base salary. null when the job has no salary range.
+   */
+  salarySource?: string | null;
+  /**
    * Pay period of the salary and compensation figures, e.g. YEAR.
    */
   salaryUnit?: string | null;
@@ -121,10 +125,18 @@ export interface LevelsJobsItem {
    */
   totalCompensationMin?: number | null;
   /**
+   * Where the total compensation range comes from, as Levels.fyi labels it, e.g. Levels.fyi total compensation. Some ranges are Levels.fyi estimates rather than figures the employer posted. null when the job has no total compensation range.
+   */
+  totalCompensationSource?: string | null;
+  /**
    * Levels.fyi job listing URL. Populated whenever the provider has data for the entity.
    * Format: uri.
    */
   url: string;
+  /**
+   * Where the job is worked as Levels.fyi lists it, e.g. office or remote. null when Levels.fyi does not say.
+   */
+  workplaceTypes?: string[] | null;
   [extra: string]: unknown;
 }
 
@@ -136,6 +148,10 @@ export interface LevelsJobsData {
    * Jobs in Levels.fyi's order, grouped by company. Populated whenever the provider has data for the entity.
    */
   items: LevelsJobsItem[];
+  /**
+   * Total number of jobs Levels.fyi matches for the search, beyond the ones returned.
+   */
+  total?: number | null;
 }
 
 /**

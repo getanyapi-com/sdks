@@ -86,6 +86,8 @@ class DuckduckgoSearchInput(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
     """Maximum number of organic results to return (1-10, default 10). DuckDuckGo serves about 10 organic results per page, and some queries carry fewer. Range: 1 to 10. Default: 10."""
+    page: NotRequired[int]
+    """Which page of 10 results to return, starting at 1: page 2 returns results 11-20. Each page is billed as one request. Pages after the first are served only for country US, GB or DE, by the one source that continues each page exactly where the last ended. DuckDuckGo can repeat a result from the previous page, so deduplicate on url, and a limit below 10 drops the rest of that page. Minimum: 1. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
@@ -112,7 +114,7 @@ class DuckduckgoSearchItem(BaseModel):
         description="Host of the result URL without a leading www., e.g. runnersworld.com."
     )
     position: int = Field(
-        description="1-based rank of the result on the page. Populated whenever the provider has data for the entity."
+        description="1-based rank of the result. On page 2 and later, some sources count from the top of page 1 and others from the top of the page returned. Populated whenever the provider has data for the entity."
     )
     snippet: str | None = Field(
         default=None,
@@ -142,7 +144,8 @@ class DuckduckgoNamespace:
 
         Run a DuckDuckGo web search and get the ranked organic results (title, URL,
         snippet, position, display URL, domain) as clean JSON, ads left out. Returns
-        up to 10 results per call; pick the country DuckDuckGo searches from.
+        up to 10 results per call; page deeper with page and pick the country
+        DuckDuckGo searches from.
 
         Price: $0.00085 per request.
 
@@ -171,7 +174,8 @@ class AsyncDuckduckgoNamespace:
 
         Run a DuckDuckGo web search and get the ranked organic results (title, URL,
         snippet, position, display URL, domain) as clean JSON, ads left out. Returns
-        up to 10 results per call; pick the country DuckDuckGo searches from.
+        up to 10 results per call; page deeper with page and pick the country
+        DuckDuckGo searches from.
 
         Price: $0.00085 per request.
 

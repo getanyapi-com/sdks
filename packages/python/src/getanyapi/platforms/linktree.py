@@ -35,6 +35,16 @@ class LinktreeProfileInput(TypedDict, total=False):
 class LinktreeProfileData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    apple_music: str | None = Field(
+        default=None,
+        alias="appleMusic",
+        description="Apple Music artist URL listed in the page's social icons; null when none.",
+    )
+    apple_podcast: str | None = Field(
+        default=None,
+        alias="applePodcast",
+        description="Apple Podcasts show URL listed in the page's social icons; null when none.",
+    )
     avatar_url: str | None = Field(
         default=None,
         alias="avatarUrl",
@@ -56,9 +66,17 @@ class LinktreeProfileData(BaseModel):
         default=None,
         description="Instagram profile URL listed in the page's social icons; null when none.",
     )
+    linkedin: str | None = Field(
+        default=None,
+        description="LinkedIn profile URL listed in the page's social icons; null when none.",
+    )
     links: list[LinktreeProfileLink] | None = Field(
         default=None,
         description="The page's link cards in page order. Headers and group cards have no url. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    soundcloud: str | None = Field(
+        default=None,
+        description="SoundCloud profile URL listed in the page's social icons; null when none.",
     )
     spotify: str | None = Field(
         default=None,
@@ -75,6 +93,10 @@ class LinktreeProfileData(BaseModel):
     title: str | None = Field(
         default=None,
         description="The page's title; the username when none is set. Null when this source does not report it.",
+    )
+    twitch: str | None = Field(
+        default=None,
+        description="Twitch channel URL listed in the page's social icons; null when none.",
     )
     username: str = Field(
         description="The page's Linktree username. Populated whenever the provider has data for the entity."

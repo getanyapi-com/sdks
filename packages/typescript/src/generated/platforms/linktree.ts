@@ -73,6 +73,14 @@ export interface LinktreeProfileLink {
  */
 export interface LinktreeProfileData {
   /**
+   * Apple Music artist URL listed in the page's social icons; null when none.
+   */
+  appleMusic?: string | null;
+  /**
+   * Apple Podcasts show URL listed in the page's social icons; null when none.
+   */
+  applePodcast?: string | null;
+  /**
    * Profile picture URL; null when none is set. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -98,10 +106,18 @@ export interface LinktreeProfileData {
    */
   instagram?: string | null;
   /**
+   * LinkedIn profile URL listed in the page's social icons; null when none.
+   */
+  linkedin?: string | null;
+  /**
    * The page's link cards in page order. Headers and group cards have no url. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   links?: LinktreeProfileLink[];
+  /**
+   * SoundCloud profile URL listed in the page's social icons; null when none.
+   */
+  soundcloud?: string | null;
   /**
    * Spotify artist or show URL listed in the page's social icons; null when none.
    */
@@ -118,6 +134,10 @@ export interface LinktreeProfileData {
    * The page's title; the username when none is set. Null when this source does not report it.
    */
   title?: string | null;
+  /**
+   * Twitch channel URL listed in the page's social icons; null when none.
+   */
+  twitch?: string | null;
   /**
    * The page's Linktree username. Populated whenever the provider has data for the entity.
    */

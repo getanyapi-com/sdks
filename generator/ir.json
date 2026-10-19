@@ -12219,7 +12219,7 @@
       "operationId": "brave_search",
       "name": "Brave Search",
       "category": "search",
-      "description": "Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call; pick the country Brave searches from.",
+      "description": "Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call, with related searches and video results where the source has them; page deeper with page and pick the country Brave searches from.",
       "pricing": {
         "priceUsd": 0.00085,
         "baseUsd": null,
@@ -12311,6 +12311,13 @@
             "maximum": 20,
             "default": 20
           },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of Brave results to return, starting at 1 (up to 10); a page holds about 20 results. Each page is billed as one request. Pages after the first are served only for country US, by the one source that continues each page exactly where the last ended. A limit below the page size drops the rest of that page, so keep the default limit to walk every result.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 1
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -12324,6 +12331,24 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `relatedSearches` or `publishedUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "durationSeconds",
+                "image",
+                "publishedUtc",
+                "relatedSearches",
+                "source",
+                "videos"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -12371,7 +12396,15 @@
                   },
                   "position": {
                     "kind": "integer",
-                    "description": "1-based rank of the result on the page. Populated whenever the provider has data for the entity.",
+                    "description": "1-based rank of the result. On page 2 and later, some sources count from the top of page 1 and others from the top of the page returned. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "publishedUtc": {
+                    "kind": "integer",
+                    "description": "Page date Brave shows for the result. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. null when Brave shows no date or the source that answered cannot report it.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -12421,6 +12454,80 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "relatedSearches": {
+              "kind": "array",
+              "description": "Brave's related searches for the query. An empty array means Brave showed none; null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "videos": {
+              "kind": "array",
+              "description": "Video results Brave shows for the query. An empty array means Brave showed none; null means the source that answered cannot report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "durationSeconds": {
+                    "kind": "integer",
+                    "description": "Video length in seconds; null when Brave shows none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Thumbnail image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publishedUtc": {
+                    "kind": "integer",
+                    "description": "Date Brave shows for the video. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. null when Brave shows no date.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "source": {
+                    "kind": "string",
+                    "description": "Site hosting the video, e.g. YouTube.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Video title as Brave shows it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "URL of the video page.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "url"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
             }
           },
           "required": [
@@ -25824,7 +25931,7 @@
       "operationId": "duckduckgo_search",
       "name": "DuckDuckGo Search",
       "category": "search",
-      "description": "Run a DuckDuckGo web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON, ads left out. Returns up to 10 results per call; pick the country DuckDuckGo searches from.",
+      "description": "Run a DuckDuckGo web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON, ads left out. Returns up to 10 results per call; page deeper with page and pick the country DuckDuckGo searches from.",
       "pricing": {
         "priceUsd": 0.00085,
         "baseUsd": null,
@@ -25935,6 +26042,13 @@
             "maximum": 10,
             "default": 10
           },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of 10 results to return, starting at 1: page 2 returns results 11-20. Each page is billed as one request. Pages after the first are served only for country US, GB or DE, by the one source that continues each page exactly where the last ended. DuckDuckGo can repeat a result from the previous page, so deduplicate on url, and a limit below 10 drops the rest of that page.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -25995,7 +26109,7 @@
                   },
                   "position": {
                     "kind": "integer",
-                    "description": "1-based rank of the result on the page. Populated whenever the provider has data for the entity.",
+                    "description": "1-based rank of the result. On page 2 and later, some sources count from the top of page 1 and others from the top of the page returned. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -62447,6 +62561,14 @@
                     "maximum": null,
                     "default": null
                   },
+                  "salarySource": {
+                    "kind": "string",
+                    "description": "Where the base salary range comes from, as Levels.fyi labels it, e.g. Levels.fyi base salary. null when the job has no salary range.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "salaryUnit": {
                     "kind": "string",
                     "description": "Pay period of the salary and compensation figures, e.g. YEAR.",
@@ -62478,12 +62600,32 @@
                     "maximum": null,
                     "default": null
                   },
+                  "totalCompensationSource": {
+                    "kind": "string",
+                    "description": "Where the total compensation range comes from, as Levels.fyi labels it, e.g. Levels.fyi total compensation. Some ranges are Levels.fyi estimates rather than figures the employer posted. null when the job has no total compensation range.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Levels.fyi job listing URL. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": "uri"
+                  },
+                  "workplaceTypes": {
+                    "kind": "array",
+                    "description": "Where the job is worked as Levels.fyi lists it, e.g. office or remote. null when Levels.fyi does not say.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   }
                 },
                 "required": [
@@ -62504,6 +62646,14 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "total": {
+              "kind": "integer",
+              "description": "Total number of jobs Levels.fyi matches for the search, beyond the ones returned.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             }
           },
           "required": [
@@ -73486,6 +73636,22 @@
         "data": {
           "kind": "object",
           "properties": {
+            "appleMusic": {
+              "kind": "string",
+              "description": "Apple Music artist URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "applePodcast": {
+              "kind": "string",
+              "description": "Apple Podcasts show URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "avatarUrl": {
               "kind": "string",
               "description": "Profile picture URL; null when none is set. Populated whenever the provider has data for the entity.",
@@ -73528,6 +73694,14 @@
             "instagram": {
               "kind": "string",
               "description": "Instagram profile URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedin": {
+              "kind": "string",
+              "description": "LinkedIn profile URL listed in the page's social icons; null when none.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -73596,6 +73770,14 @@
               },
               "mustPopulate": true
             },
+            "soundcloud": {
+              "kind": "string",
+              "description": "SoundCloud profile URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "spotify": {
               "kind": "string",
               "description": "Spotify artist or show URL listed in the page's social icons; null when none.",
@@ -73623,6 +73805,14 @@
             "title": {
               "kind": "string",
               "description": "The page's title; the username when none is set. Null when this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "twitch": {
+              "kind": "string",
+              "description": "Twitch channel URL listed in the page's social icons; null when none.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -114571,6 +114761,7 @@
                 "fileCount",
                 "linkCount",
                 "photoCount",
+                "previewEnabled",
                 "videoCount"
               ],
               "default": null,
@@ -114645,6 +114836,12 @@
               "nullable": true,
               "minimum": null,
               "maximum": null,
+              "default": null
+            },
+            "previewEnabled": {
+              "kind": "boolean",
+              "description": "True when the channel's public web preview is on, which is what telegram.channel_posts and telegram.post read the channel's posts from. Null when this source does not report it.",
+              "nullable": true,
               "default": null
             },
             "subscribers": {
@@ -114767,6 +114964,23 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `linkPreviewUrl` or `edited`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "edited",
+                "linkPreviewDescription",
+                "linkPreviewTitle",
+                "linkPreviewUrl",
+                "media"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -114818,6 +115032,12 @@
                     "maximum": null,
                     "default": null
                   },
+                  "edited": {
+                    "kind": "boolean",
+                    "description": "True when the post was edited after it was published. Null when this source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "id": {
                     "kind": "string",
                     "description": "Post number, unique within the channel. Posts are numbered in order. Populated whenever the provider has data for the entity.",
@@ -114832,6 +115052,75 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "linkPreviewDescription": {
+                    "kind": "string",
+                    "description": "Description on the post's link preview card. Null when the post has no link preview, the card has no description, or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkPreviewTitle": {
+                    "kind": "string",
+                    "description": "Title on the post's link preview card. Null when the post has no link preview, the card has no title, or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "linkPreviewUrl": {
+                    "kind": "string",
+                    "description": "URL of the page the post's link preview card shows. Null when the post has no link preview or this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "media": {
+                    "kind": "array",
+                    "description": "The post's attachments in order, each with its kind, file URL, preview image and length. Empty when the post has none; null when this source does not report them.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "durationSeconds": {
+                          "kind": "number",
+                          "description": "Video length in seconds; null for other attachments.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "image": {
+                          "kind": "string",
+                          "description": "Preview image URL (the photo itself for a photo). Temporary: Telegram's CDN link expires. Null when there is none.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "type": {
+                          "kind": "string",
+                          "description": "Attachment kind as Telegram labels it, e.g. photo or video.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "Direct file URL. Temporary and signed: keep the query string. Null when Telegram withholds the file, as for a large video.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "mediaUrls": {
                     "kind": "array",
@@ -114976,6 +115265,25 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `linkPreviewUrl` or `edited`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "durationSeconds",
+                "edited",
+                "linkPreviewDescription",
+                "linkPreviewTitle",
+                "linkPreviewUrl",
+                "media",
+                "type"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -115020,6 +115328,12 @@
               "maximum": null,
               "default": null
             },
+            "edited": {
+              "kind": "boolean",
+              "description": "True when the post was edited after it was published. Null when this source does not report it.",
+              "nullable": true,
+              "default": null
+            },
             "id": {
               "kind": "string",
               "description": "Post number, unique within the channel. Posts are numbered in order. Populated whenever the provider has data for the entity.",
@@ -115034,6 +115348,75 @@
               "enum": null,
               "default": null,
               "format": null
+            },
+            "linkPreviewDescription": {
+              "kind": "string",
+              "description": "Description on the post's link preview card. Null when the post has no link preview, the card has no description, or this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkPreviewTitle": {
+              "kind": "string",
+              "description": "Title on the post's link preview card. Null when the post has no link preview, the card has no title, or this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkPreviewUrl": {
+              "kind": "string",
+              "description": "URL of the page the post's link preview card shows. Null when the post has no link preview or this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "media": {
+              "kind": "array",
+              "description": "The post's attachments in order, each with its kind, file URL, preview image and length. Empty when the post has none; null when this source does not report them.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video length in seconds; null for other attachments.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Preview image URL (the photo itself for a photo). Temporary: Telegram's CDN link expires. Null when there is none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Attachment kind as Telegram labels it, e.g. photo or video.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Direct file URL. Temporary and signed: keep the query string. Null when Telegram withholds the file, as for a large video.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
             },
             "mediaUrls": {
               "kind": "array",
@@ -123461,7 +123844,11 @@
             "items": {
               "kind": "string",
               "enum": [
-                "expiresUtc"
+                "authorVerified",
+                "expiresUtc",
+                "photos",
+                "reposts",
+                "totalCount"
               ],
               "default": null,
               "format": null
@@ -123490,6 +123877,12 @@
         "data": {
           "kind": "object",
           "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when TikTok reports more active stories than the ones returned; they cannot be fetched with another call.",
+              "nullable": true,
+              "default": null
+            },
             "stories": {
               "kind": "array",
               "description": "The account's active public stories, up to 20, oldest first. Populated whenever the provider has data for the entity.",
@@ -123502,6 +123895,36 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "authorImage": {
+                    "kind": "string",
+                    "description": "Author's avatar image URL. Signed and short-lived, so keep the query string.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorName": {
+                    "kind": "string",
+                    "description": "Author's display name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorUserId": {
+                    "kind": "string",
+                    "description": "Author's numeric TikTok user id.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "authorVerified": {
+                    "kind": "boolean",
+                    "description": "Whether the author's account carries a TikTok verification badge. Null when this source does not report it.",
+                    "nullable": true,
+                    "default": null
                   },
                   "caption": {
                     "kind": "string",
@@ -123576,6 +123999,51 @@
                     "maximum": null,
                     "default": null
                   },
+                  "photos": {
+                    "kind": "array",
+                    "description": "The photos of a photo story with their pixel dimensions; empty for a video story. Null when this source does not report dimensions; imageUrls still lists the photos.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "height": {
+                          "kind": "integer",
+                          "description": "Photo height in pixels.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "Photo URL. Signed and short-lived, so keep the query string.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "width": {
+                          "kind": "integer",
+                          "description": "Photo width in pixels.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "reposts": {
+                    "kind": "integer",
+                    "description": "Repost count. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "saves": {
                     "kind": "integer",
                     "description": "Save (favorite) count.",
@@ -123592,9 +124060,33 @@
                     "maximum": null,
                     "default": null
                   },
+                  "soundAuthor": {
+                    "kind": "string",
+                    "description": "Credited author of the sound.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundClipId": {
+                    "kind": "string",
+                    "description": "Id of the sound the story uses. Pass it to tiktok.song or tiktok.song_videos as clipId.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "soundTitle": {
                     "kind": "string",
                     "description": "Name of the sound the story uses; null when it has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soundUrl": {
+                    "kind": "string",
+                    "description": "Audio file URL of the sound. Signed and short-lived, so keep the query string.",
                     "nullable": true,
                     "enum": null,
                     "default": null,
@@ -123636,6 +124128,14 @@
                 ]
               },
               "mustPopulate": true
+            },
+            "totalCount": {
+              "kind": "integer",
+              "description": "How many active stories TikTok reports for the account, which can exceed the stories returned. Null when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             }
           },
           "required": [

@@ -70,6 +70,12 @@ export interface BraveSearchInput {
    */
   limit?: number;
   /**
+   * Which page of Brave results to return, starting at 1 (up to 10); a page holds about 20 results. Each page is billed as one request. Pages after the first are served only for country US, by the one source that continues each page exactly where the last ended. A limit below the page size drops the rest of that page, so keep the default limit to walk every result.
+   * Range: minimum 1, maximum 10.
+   * Default: 1.
+   */
+  page?: number;
+  /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
    */
@@ -78,6 +84,17 @@ export interface BraveSearchInput {
    * The Brave search query.
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `relatedSearches` or `publishedUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a record that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "durationSeconds"
+    | "image"
+    | "publishedUtc"
+    | "relatedSearches"
+    | "source"
+    | "videos"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -94,9 +111,13 @@ export interface BraveSearchItem {
    */
   domain: string | null;
   /**
-   * 1-based rank of the result on the page. Populated whenever the provider has data for the entity.
+   * 1-based rank of the result. On page 2 and later, some sources count from the top of page 1 and others from the top of the page returned. Populated whenever the provider has data for the entity.
    */
   position: number;
+  /**
+   * Page date Brave shows for the result. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. null when Brave shows no date or the source that answered cannot report it.
+   */
+  publishedUtc?: number | null;
   /**
    * Text excerpt Brave shows under the result, often led by the page date. Absent on the results where Brave shows none. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -108,6 +129,35 @@ export interface BraveSearchItem {
   title: string;
   /**
    * Destination URL of the result. Populated whenever the provider has data for the entity.
+   * Format: uri.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+export interface BraveSearchVideo {
+  /**
+   * Video length in seconds; null when Brave shows none.
+   */
+  durationSeconds?: number | null;
+  /**
+   * Thumbnail image URL.
+   */
+  image?: string | null;
+  /**
+   * Date Brave shows for the video. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. null when Brave shows no date.
+   */
+  publishedUtc?: number | null;
+  /**
+   * Site hosting the video, e.g. YouTube.
+   */
+  source?: string | null;
+  /**
+   * Video title as Brave shows it.
+   */
+  title?: string | null;
+  /**
+   * URL of the video page.
    * Format: uri.
    */
   url: string;
@@ -126,6 +176,14 @@ export interface BraveSearchData {
    * The query Brave searched.
    */
   query: string;
+  /**
+   * Brave's related searches for the query. An empty array means Brave showed none; null means the source that answered cannot report them.
+   */
+  relatedSearches?: string[] | null;
+  /**
+   * Video results Brave shows for the query. An empty array means Brave showed none; null means the source that answered cannot report them.
+   */
+  videos?: BraveSearchVideo[] | null;
 }
 
 /**
@@ -138,7 +196,7 @@ export class BraveNamespace {
   /**
    * Brave Search
    *
-   * Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call; pick the country Brave searches from.
+   * Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call, with related searches and video results where the source has them; page deeper with page and pick the country Brave searches from.
    *
    * Price: $0.00085 per request.
    *
