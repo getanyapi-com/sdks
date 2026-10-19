@@ -3634,7 +3634,7 @@ class FacebookNamespace:
         pages: page ID, category, verification, follower counts, and linked
         Instagram.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.facebook.search_companies(query="nike")
@@ -4489,7 +4489,7 @@ class AsyncFacebookNamespace:
         pages: page ID, category, verification, follower counts, and linked
         Instagram.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.facebook.search_companies(query="nike")

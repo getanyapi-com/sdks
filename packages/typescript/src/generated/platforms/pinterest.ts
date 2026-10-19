@@ -114,7 +114,7 @@ export class PinterestNamespace {
    *
    * Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.
    *
-   * Price: $0.0008 per request.
+   * Price: $0.0036 per request.
    *
    * @example
    * const res = await client.pinterest.search({ query: "home decor", limit: 3 });

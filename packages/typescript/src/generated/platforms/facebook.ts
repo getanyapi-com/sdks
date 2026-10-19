@@ -4201,7 +4201,7 @@ export class FacebookNamespace {
    *
    * Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.facebook.searchCompanies({ query: "nike" });

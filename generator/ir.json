@@ -35621,7 +35621,7 @@
       "category": "social",
       "description": "Search the Meta Ad Library for advertisers by keyword and get matching pages: page ID, category, verification, follower counts, and linked Instagram.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -44190,7 +44190,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -88725,7 +88725,7 @@
       "category": "social",
       "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -113283,8 +113283,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00187,
-        "baseUsd": 0.00187,
+        "priceUsd": 0.00116,
+        "baseUsd": 0.00116,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
