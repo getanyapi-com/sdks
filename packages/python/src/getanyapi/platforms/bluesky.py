@@ -173,7 +173,7 @@ class BlueskyNamespace:
         Get a single Bluesky post by URL - text, author handle, like, reply, and
         repost counts as clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.bluesky.post(url="https://bsky.app/profile/bsky.app/post/3l6oveex3ii2l")
@@ -194,7 +194,7 @@ class BlueskyNamespace:
         Get a Bluesky user's public profile by handle - display name, bio, follower
         and post counts as clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.bluesky.profile(handle="bsky.app")
@@ -215,7 +215,7 @@ class BlueskyNamespace:
         List a Bluesky account's recent posts (text, author handle, like, reply, and
         repost counts) by handle as clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.bluesky.user_posts(handle="bsky.app")
@@ -243,7 +243,7 @@ class AsyncBlueskyNamespace:
         Get a single Bluesky post by URL - text, author handle, like, reply, and
         repost counts as clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.bluesky.post(url="https://bsky.app/profile/bsky.app/post/3l6oveex3ii2l")
@@ -264,7 +264,7 @@ class AsyncBlueskyNamespace:
         Get a Bluesky user's public profile by handle - display name, bio, follower
         and post counts as clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.bluesky.profile(handle="bsky.app")
@@ -285,7 +285,7 @@ class AsyncBlueskyNamespace:
         List a Bluesky account's recent posts (text, author handle, like, reply, and
         repost counts) by handle as clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.bluesky.user_posts(handle="bsky.app")

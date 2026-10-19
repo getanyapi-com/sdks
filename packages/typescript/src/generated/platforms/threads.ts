@@ -414,7 +414,7 @@ export class ThreadsNamespace {
    *
    * Fetch a single Threads post by URL: text, author, engagement counts, and timestamp.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.threads.post({ url: "https://www.threads.com/@aaronparnas/post/DZxPYVFkYSq" });
