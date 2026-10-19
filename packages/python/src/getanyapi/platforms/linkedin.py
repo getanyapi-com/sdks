@@ -448,6 +448,8 @@ class LinkedinProfileCommentsInput(TypedDict, total=False):
     """Only return comments posted within this window (default any)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    requireFields: NotRequired[list[Literal["edited", "isAuthor"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `edited` or `isAuthor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
@@ -2753,7 +2755,8 @@ class LinkedinProfileCommentsItem(BaseModel):
         description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     edited: bool | None = Field(
-        default=None, description="Whether the comment has been edited."
+        default=None,
+        description="Whether the comment has been edited. Null when the serving source does not report it.",
     )
     engagement: LinkedinProfileCommentsEngagement | None = Field(
         default=None, description="Engagement metrics for the comment."
@@ -2764,7 +2767,7 @@ class LinkedinProfileCommentsItem(BaseModel):
     is_author: bool | None = Field(
         default=None,
         alias="isAuthor",
-        description="Whether the commenter is also the author of the post.",
+        description="Whether the commenter is also the author of the post. Null when the serving source does not report it.",
     )
     post: LinkedinProfileCommentsPost | None = Field(
         default=None,
@@ -4596,7 +4599,7 @@ class LinkedinNamespace:
         link, publish date, author, engagement counts with a per-reaction breakdown,
         and attached media.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
@@ -4816,7 +4819,7 @@ class LinkedinNamespace:
         List comments on a LinkedIn post - full text, commenter name/URL/job title,
         timestamps, and engagement.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.post_comments(limit=10, url="https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ")
@@ -4904,7 +4907,7 @@ class LinkedinNamespace:
         comment text, its permalink and timestamp, plus the post it was left on and
         that post's author and engagement.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.profile_comments(limit=10, url="https://www.linkedin.com/in/jeffweiner08")
@@ -5013,7 +5016,7 @@ class LinkedinNamespace:
         List the posts a LinkedIn member has reacted to - the reaction, its
         timestamp, and the full post it was made on with author and engagement.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.profile_reactions(limit=10, url="https://www.linkedin.com/in/williamhgates")
@@ -5410,7 +5413,7 @@ class AsyncLinkedinNamespace:
         link, publish date, author, engagement counts with a per-reaction breakdown,
         and attached media.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.company_posts(limit=10, url="https://www.linkedin.com/company/stripe")
@@ -5630,7 +5633,7 @@ class AsyncLinkedinNamespace:
         List comments on a LinkedIn post - full text, commenter name/URL/job title,
         timestamps, and engagement.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.post_comments(limit=10, url="https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ")
@@ -5718,7 +5721,7 @@ class AsyncLinkedinNamespace:
         comment text, its permalink and timestamp, plus the post it was left on and
         that post's author and engagement.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.profile_comments(limit=10, url="https://www.linkedin.com/in/jeffweiner08")
@@ -5827,7 +5830,7 @@ class AsyncLinkedinNamespace:
         List the posts a LinkedIn member has reacted to - the reaction, its
         timestamp, and the full post it was made on with author and engagement.
 
-        Price: $0.005 per request.
+        Price: $0.0029 per request.
 
         Example:
             res = client.linkedin.profile_reactions(limit=10, url="https://www.linkedin.com/in/williamhgates")

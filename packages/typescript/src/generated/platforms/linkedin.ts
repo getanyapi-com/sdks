@@ -2537,6 +2537,10 @@ export interface LinkedinProfileCommentsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `edited` or `isAuthor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("edited" | "isAuthor")[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -2592,9 +2596,9 @@ export interface LinkedinProfileCommentsItem {
    */
   createdUtc?: number;
   /**
-   * Whether the comment has been edited.
+   * Whether the comment has been edited. Null when the serving source does not report it.
    */
-  edited?: boolean;
+  edited?: boolean | null;
   /**
    * Engagement metrics for the comment.
    */
@@ -2620,9 +2624,9 @@ export interface LinkedinProfileCommentsItem {
    */
   id: string;
   /**
-   * Whether the commenter is also the author of the post.
+   * Whether the commenter is also the author of the post. Null when the serving source does not report it.
    */
-  isAuthor?: boolean;
+  isAuthor?: boolean | null;
   /**
    * The post the comment was left on, so the comment can be read in context. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -5690,7 +5694,7 @@ export class LinkedinNamespace {
    *
    * List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.
    *
-   * Price: $0.005 per request.
+   * Price: $0.0029 per request.
    *
    * @example
    * const res = await client.linkedin.companyPosts({ url: "https://www.linkedin.com/company/stripe", limit: 10 });
@@ -5866,7 +5870,7 @@ export class LinkedinNamespace {
    *
    * List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.
    *
-   * Price: $0.005 per request.
+   * Price: $0.0029 per request.
    *
    * @example
    * const res = await client.linkedin.postComments({ url: "https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ", limit: 10 });
@@ -5934,7 +5938,7 @@ export class LinkedinNamespace {
    *
    * List the comments a LinkedIn member has left on other people's posts - the comment text, its permalink and timestamp, plus the post it was left on and that post's author and engagement.
    *
-   * Price: $0.005 per request.
+   * Price: $0.0029 per request.
    *
    * @example
    * const res = await client.linkedin.profileComments({ url: "https://www.linkedin.com/in/jeffweiner08", limit: 10 });
@@ -6037,7 +6041,7 @@ export class LinkedinNamespace {
    *
    * List the posts a LinkedIn member has reacted to - the reaction, its timestamp, and the full post it was made on with author and engagement.
    *
-   * Price: $0.005 per request.
+   * Price: $0.0029 per request.
    *
    * @example
    * const res = await client.linkedin.profileReactions({ url: "https://www.linkedin.com/in/williamhgates", limit: 10 });

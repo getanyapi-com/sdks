@@ -61387,7 +61387,7 @@
       "category": "social",
       "description": "List a LinkedIn company page's recent posts by URL: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.0029,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63853,7 +63853,7 @@
       "category": "social",
       "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.0029,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -65083,7 +65083,7 @@
       "category": "social",
       "description": "List the comments a LinkedIn member has left on other people's posts - the comment text, its permalink and timestamp, plus the post it was left on and that post's author and engagement.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.0029,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -65144,6 +65144,20 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `edited` or `isAuthor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a comment that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "edited",
+                "isAuthor"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",
@@ -65252,7 +65266,8 @@
                   },
                   "edited": {
                     "kind": "boolean",
-                    "description": "Whether the comment has been edited.",
+                    "description": "Whether the comment has been edited. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "engagement": {
@@ -65293,7 +65308,8 @@
                   },
                   "isAuthor": {
                     "kind": "boolean",
-                    "description": "Whether the commenter is also the author of the post.",
+                    "description": "Whether the commenter is also the author of the post. Null when the serving source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "post": {
@@ -66743,7 +66759,7 @@
       "category": "social",
       "description": "List the posts a LinkedIn member has reacted to - the reaction, its timestamp, and the full post it was made on with author and engagement.",
       "pricing": {
-        "priceUsd": 0.005,
+        "priceUsd": 0.0029,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -124587,7 +124603,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
