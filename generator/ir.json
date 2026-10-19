@@ -8513,10 +8513,10 @@
       "category": "shop",
       "description": "Get App Store reviews for any iOS app by app ID, in any storefront country: ratings, titles, and review text.",
       "pricing": {
-        "priceUsd": 0.0009,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.011,
+        "baseUsd": 0,
+        "perItemUsd": 0.00011,
+        "perItemUnit": "result"
       },
       "tsNamespace": "appstore",
       "tsMethod": "reviews",
@@ -25578,7 +25578,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134694,7 +134694,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
