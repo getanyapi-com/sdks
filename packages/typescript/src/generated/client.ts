@@ -12,6 +12,8 @@ import { AlibabaNamespace } from "./platforms/alibaba.js";
 import { AmazonNamespace } from "./platforms/amazon.js";
 import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
+import { AsosNamespace } from "./platforms/asos.js";
+import { BestbuyNamespace } from "./platforms/bestbuy.js";
 import { BingNamespace } from "./platforms/bing.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
@@ -43,6 +45,7 @@ import { GoogleFinanceNamespace } from "./platforms/google_finance.js";
 import { GoogleHotelsNamespace } from "./platforms/google_hotels.js";
 import { GoogleShoppingNamespace } from "./platforms/google_shopping.js";
 import { HackernewsNamespace } from "./platforms/hackernews.js";
+import { IkeaNamespace } from "./platforms/ikea.js";
 import { IndeedNamespace } from "./platforms/indeed.js";
 import { InstagramNamespace } from "./platforms/instagram.js";
 import { JobSearchNamespace } from "./platforms/job_search.js";
@@ -66,14 +69,17 @@ import { RealtorNamespace } from "./platforms/realtor.js";
 import { RedditNamespace } from "./platforms/reddit.js";
 import { RedfinNamespace } from "./platforms/redfin.js";
 import { RednoteNamespace } from "./platforms/rednote.js";
+import { SamsclubNamespace } from "./platforms/samsclub.js";
 import { SecNamespace } from "./platforms/sec.js";
 import { SemrushNamespace } from "./platforms/semrush.js";
 import { SeoNamespace } from "./platforms/seo.js";
 import { SimilarwebNamespace } from "./platforms/similarweb.js";
+import { SlickdealsNamespace } from "./platforms/slickdeals.js";
 import { SnapchatNamespace } from "./platforms/snapchat.js";
 import { SocialNamespace } from "./platforms/social.js";
 import { SpotifyNamespace } from "./platforms/spotify.js";
 import { SubstackNamespace } from "./platforms/substack.js";
+import { TargetNamespace } from "./platforms/target.js";
 import { TechnographicsNamespace } from "./platforms/technographics.js";
 import { TelegramNamespace } from "./platforms/telegram.js";
 import { ThreadsNamespace } from "./platforms/threads.js";
@@ -177,6 +183,24 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["appstore"] ??= new AppstoreNamespace(
       this._core,
     )) as AppstoreNamespace;
+  }
+
+  /**
+   * Typed methods for the asos platform.
+   */
+  get asos(): AsosNamespace {
+    return (this._namespaces["asos"] ??= new AsosNamespace(
+      this._core,
+    )) as AsosNamespace;
+  }
+
+  /**
+   * Typed methods for the bestbuy platform.
+   */
+  get bestbuy(): BestbuyNamespace {
+    return (this._namespaces["bestbuy"] ??= new BestbuyNamespace(
+      this._core,
+    )) as BestbuyNamespace;
   }
 
   /**
@@ -455,6 +479,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the ikea platform.
+   */
+  get ikea(): IkeaNamespace {
+    return (this._namespaces["ikea"] ??= new IkeaNamespace(
+      this._core,
+    )) as IkeaNamespace;
+  }
+
+  /**
    * Typed methods for the indeed platform.
    */
   get indeed(): IndeedNamespace {
@@ -660,6 +693,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the samsclub platform.
+   */
+  get samsclub(): SamsclubNamespace {
+    return (this._namespaces["samsclub"] ??= new SamsclubNamespace(
+      this._core,
+    )) as SamsclubNamespace;
+  }
+
+  /**
    * Typed methods for the sec platform.
    */
   get sec(): SecNamespace {
@@ -696,6 +738,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the slickdeals platform.
+   */
+  get slickdeals(): SlickdealsNamespace {
+    return (this._namespaces["slickdeals"] ??= new SlickdealsNamespace(
+      this._core,
+    )) as SlickdealsNamespace;
+  }
+
+  /**
    * Typed methods for the snapchat platform.
    */
   get snapchat(): SnapchatNamespace {
@@ -729,6 +780,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["substack"] ??= new SubstackNamespace(
       this._core,
     )) as SubstackNamespace;
+  }
+
+  /**
+   * Typed methods for the target platform.
+   */
+  get target(): TargetNamespace {
+    return (this._namespaces["target"] ??= new TargetNamespace(
+      this._core,
+    )) as TargetNamespace;
   }
 
   /**

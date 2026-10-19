@@ -61,6 +61,20 @@ import type {
   AppstoreSearchInput,
 } from "./platforms/appstore.js";
 import type {
+  AsosProductData,
+  AsosProductInput,
+  AsosSearchData,
+  AsosSearchInput,
+} from "./platforms/asos.js";
+import type {
+  BestbuyProductData,
+  BestbuyProductInput,
+  BestbuyReviewsData,
+  BestbuyReviewsInput,
+  BestbuySearchData,
+  BestbuySearchInput,
+} from "./platforms/bestbuy.js";
+import type {
   BingCopilotData,
   BingCopilotInput,
   BingSearchData,
@@ -370,6 +384,7 @@ import type {
   HackernewsStoryData,
   HackernewsStoryInput,
 } from "./platforms/hackernews.js";
+import type { IkeaSearchData, IkeaSearchInput } from "./platforms/ikea.js";
 import type { IndeedJobsData, IndeedJobsInput } from "./platforms/indeed.js";
 import type {
   InstagramAudioReelsData,
@@ -664,6 +679,12 @@ import type {
   RednoteUserNotesData,
   RednoteUserNotesInput,
 } from "./platforms/rednote.js";
+import type {
+  SamsclubProductData,
+  SamsclubProductInput,
+  SamsclubSearchData,
+  SamsclubSearchInput,
+} from "./platforms/samsclub.js";
 import type { SecFilingsData, SecFilingsInput } from "./platforms/sec.js";
 import type {
   SemrushKeywordsData,
@@ -730,6 +751,12 @@ import type {
   SimilarwebSimilarSitesInput,
 } from "./platforms/similarweb.js";
 import type {
+  SlickdealsDealData,
+  SlickdealsDealInput,
+  SlickdealsSearchData,
+  SlickdealsSearchInput,
+} from "./platforms/slickdeals.js";
+import type {
   SnapchatProfileData,
   SnapchatProfileInput,
 } from "./platforms/snapchat.js";
@@ -757,6 +784,14 @@ import type {
   SubstackPostsData,
   SubstackPostsInput,
 } from "./platforms/substack.js";
+import type {
+  TargetProductData,
+  TargetProductInput,
+  TargetReviewsData,
+  TargetReviewsInput,
+  TargetSearchData,
+  TargetSearchInput,
+} from "./platforms/target.js";
 import type {
   TechnographicsTheirstackData,
   TechnographicsTheirstackInput,
@@ -1147,6 +1182,31 @@ export interface SkuMap {
     input: AppstoreSearchInput;
     data: AppstoreSearchData;
     result: RunResult<AppstoreSearchData>;
+  };
+  "asos.product": {
+    input: AsosProductInput;
+    data: AsosProductData;
+    result: RunResult<AsosProductData>;
+  };
+  "asos.search": {
+    input: AsosSearchInput;
+    data: AsosSearchData;
+    result: RunResult<AsosSearchData>;
+  };
+  "bestbuy.product": {
+    input: BestbuyProductInput;
+    data: BestbuyProductData;
+    result: RunResult<BestbuyProductData>;
+  };
+  "bestbuy.reviews": {
+    input: BestbuyReviewsInput;
+    data: BestbuyReviewsData;
+    result: RunResult<BestbuyReviewsData>;
+  };
+  "bestbuy.search": {
+    input: BestbuySearchInput;
+    data: BestbuySearchData;
+    result: RunResult<BestbuySearchData>;
   };
   "bing.copilot": {
     input: BingCopilotInput;
@@ -1783,6 +1843,11 @@ export interface SkuMap {
     data: HackernewsStoryCommentsData;
     result: RunResult<HackernewsStoryCommentsData>;
   };
+  "ikea.search": {
+    input: IkeaSearchInput;
+    data: IkeaSearchData;
+    result: RunResult<IkeaSearchData>;
+  };
   "indeed.jobs": {
     input: IndeedJobsInput;
     data: IndeedJobsData;
@@ -2418,6 +2483,16 @@ export interface SkuMap {
     data: RednoteUserNotesData;
     result: RunResult<RednoteUserNotesData>;
   };
+  "samsclub.product": {
+    input: SamsclubProductInput;
+    data: SamsclubProductData;
+    result: RunResult<SamsclubProductData>;
+  };
+  "samsclub.search": {
+    input: SamsclubSearchInput;
+    data: SamsclubSearchData;
+    result: RunResult<SamsclubSearchData>;
+  };
   "sec.filings": {
     input: SecFilingsInput;
     data: SecFilingsData;
@@ -2568,6 +2643,16 @@ export interface SkuMap {
     data: SimilarwebSimilarSitesData;
     result: RunResult<SimilarwebSimilarSitesData>;
   };
+  "slickdeals.deal": {
+    input: SlickdealsDealInput;
+    data: SlickdealsDealData;
+    result: RunResult<SlickdealsDealData>;
+  };
+  "slickdeals.search": {
+    input: SlickdealsSearchInput;
+    data: SlickdealsSearchData;
+    result: RunResult<SlickdealsSearchData>;
+  };
   "snapchat.profile": {
     input: SnapchatProfileInput;
     data: SnapchatProfileData;
@@ -2617,6 +2702,21 @@ export interface SkuMap {
     input: SubstackPostsInput;
     data: SubstackPostsData;
     result: RunResult<SubstackPostsData>;
+  };
+  "target.product": {
+    input: TargetProductInput;
+    data: TargetProductData;
+    result: RunResult<TargetProductData>;
+  };
+  "target.reviews": {
+    input: TargetReviewsInput;
+    data: TargetReviewsData;
+    result: RunResult<TargetReviewsData>;
+  };
+  "target.search": {
+    input: TargetSearchInput;
+    data: TargetSearchData;
+    result: RunResult<TargetSearchData>;
   };
   "technographics.theirstack": {
     input: TechnographicsTheirstackInput;

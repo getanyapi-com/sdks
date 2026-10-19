@@ -418,6 +418,97 @@
     "items": 1,
     "replayed": false
   },
+  "asos.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "asos.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "bestbuy.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "bestbuy.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reviewId": "sample",
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "bestbuy.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "sku": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "bing.copilot": {
     "output": {
       "found": true,
@@ -2996,6 +3087,24 @@
     "items": 1,
     "replayed": false
   },
+  "ikea.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "indeed.jobs": {
     "output": {
       "found": true,
@@ -5428,6 +5537,42 @@
     "items": 1,
     "replayed": false
   },
+  "samsclub.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "samsclub.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "sec.filings": {
     "output": {
       "found": true,
@@ -5970,6 +6115,43 @@
     "items": 1,
     "replayed": false
   },
+  "slickdeals.deal": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "dealId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "slickdeals.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "dealId": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "snapchat.profile": {
     "output": {
       "found": true,
@@ -6201,6 +6383,61 @@
           {
             "title": "sample",
             "url": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "target.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "target.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reviewId": "sample",
+            "rating": 1.5,
+            "text": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "target.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "tcin": "sample",
+            "title": "sample",
             "_extra": "passthrough"
           }
         ]

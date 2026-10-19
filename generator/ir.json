@@ -9068,6 +9068,1274 @@
       }
     },
     {
+      "slug": "asos.product",
+      "platform": "asos",
+      "action": "product",
+      "operationId": "asos_product",
+      "name": "ASOS Product",
+      "category": "shop",
+      "description": "Fetch an ASOS product by URL from any of its 11 country stores and get title, price, brand, colour, description, images, and per-size stock in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "asos",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "asos",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "AsosProductInput",
+      "outputTypeName": "AsosProductData",
+      "example": {
+        "url": "https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "ASOS product page URL, e.g. https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341. The store is read from the URL path (/us/, /au/, /de/ and so on; none means the UK store), and prices come back in that store's currency.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "colour": {
+                    "kind": "string",
+                    "description": "Colour name as ASOS lists it, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"GBP\" or \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Product description as ASOS publishes it (HTML), or null when the listing has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "gender": {
+                    "kind": "string",
+                    "description": "Department the product is listed under, e.g. \"Men\" or \"Women\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, primary first.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when at least one size is in stock, false when none is, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in the store's currency, or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "ASOS product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "ASOS product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "variants": {
+                    "kind": "array",
+                    "description": "One entry per size the product is sold in.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "inStock": {
+                          "kind": "boolean",
+                          "description": "True when this size is in stock, or null when not reported.",
+                          "nullable": true,
+                          "default": null
+                        },
+                        "size": {
+                          "kind": "string",
+                          "description": "Size label as ASOS shows it, e.g. \"UK 8\", or null when not reported.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "brand",
+                  "currency",
+                  "image",
+                  "price",
+                  "productId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "asos.search",
+      "platform": "asos",
+      "action": "search",
+      "operationId": "asos_search",
+      "name": "ASOS Search",
+      "category": "shop",
+      "description": "Search ASOS by keyword in any of its 11 country stores with optional sort, price-range, and page filters and get title, price, brand, and colour for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "asos",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "asos",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "AsosSearchInput",
+      "outputTypeName": "AsosSearchData",
+      "example": {
+        "country": "us",
+        "query": "white sneakers"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "ASOS country store to search, which also sets the price currency (gb GBP, us USD, au AUD, de/fr/it/es/nl EUR, se SEK, dk DKK, pl PLN); defaults to gb, the UK store. Product ids and URLs are store-specific.",
+            "enum": [
+              "gb",
+              "us",
+              "au",
+              "de",
+              "fr",
+              "it",
+              "es",
+              "nl",
+              "se",
+              "dk",
+              "pl"
+            ],
+            "default": "gb",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum product price, in the store's currency.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum product price, in the store's currency.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of 48 products. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"white sneakers\" or \"summer dress\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result sort order; omit for ASOS's recommended order (e.g. new for newest arrivals first).",
+            "enum": [
+              "best_match",
+              "new",
+              "price_low",
+              "price_high"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching ASOS product records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "colour": {
+                    "kind": "string",
+                    "description": "Colour name as ASOS lists it, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"GBP\" or \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Previous price when the product is marked down, or null when it is not.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the result in this page.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in the store's currency, or null when the result shows no price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "ASOS product id, the number after /prd/ in the product URL; use the product URL with the ASOS Product SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "ASOS product page URL in the searched store, with tracking and colour fragments removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "currency",
+                  "image",
+                  "price",
+                  "productId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total number of matching products ASOS reports for the query, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "bestbuy.product",
+      "platform": "bestbuy",
+      "action": "product",
+      "operationId": "bestbuy_product",
+      "name": "Best Buy Product",
+      "category": "shop",
+      "description": "Fetch a BestBuy.com product by URL and get title, price, brand, model, UPC, rating, description, and images in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "bestbuy",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "bestbuy",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "BestbuyProductInput",
+      "outputTypeName": "BestbuyProductData",
+      "example": {
+        "url": "https://www.bestbuy.com/product/apple-airpods-5-true-wireless-active-noise-cancelling-earbuds-with-wireless-charging-case-white/JJGCQP634G/sku/6376564"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Best Buy product page URL that carries the numeric Best Buy SKU, either the .../sku/6376564 form the Best Buy Search SKU returns or the older .../6376564.p?skuId=6376564 form.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Product description text, or null when the listing has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, primary first.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Regular price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "model": {
+                    "kind": "string",
+                    "description": "Manufacturer model number, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in USD, or null when the product shows no current price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer reviews, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sku": {
+                    "kind": "string",
+                    "description": "Best Buy SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "upc": {
+                    "kind": "string",
+                    "description": "Universal Product Code, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Best Buy product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "brand",
+                  "image",
+                  "price",
+                  "sku",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "bestbuy.reviews",
+      "platform": "bestbuy",
+      "action": "reviews",
+      "operationId": "bestbuy_reviews",
+      "name": "Best Buy Reviews",
+      "category": "shop",
+      "description": "Pull a page of 10 customer reviews for any BestBuy.com product by URL, newest first or by relevance, helpfulness, or rating: rating, title, text, date, reviewer, and verified-purchase badge.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "bestbuy",
+      "tsMethod": "reviews",
+      "tsIterMethod": null,
+      "pyNamespace": "bestbuy",
+      "pyMethod": "reviews",
+      "pyIterMethod": null,
+      "inputTypeName": "BestbuyReviewsInput",
+      "outputTypeName": "BestbuyReviewsData",
+      "example": {
+        "url": "https://www.bestbuy.com/product/apple-airpods-5-true-wireless-active-noise-cancelling-earbuds-with-wireless-charging-case-white/JJGCQP634G/sku/6376564"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of 10 reviews; Best Buy serves at most 1000 pages. Each page is billed as one request; keep url and sort the same while walking pages.",
+            "minimum": 1,
+            "maximum": 1000,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "rating"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Review order: recent (newest first, the default), oldest, relevancy, helpful, rating_high, or rating_low (e.g. helpful).",
+            "enum": [
+              "recent",
+              "oldest",
+              "relevancy",
+              "helpful",
+              "rating_high",
+              "rating_low"
+            ],
+            "default": "recent",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Best Buy product page URL that carries the numeric Best Buy SKU, either the .../sku/6376564 form the Best Buy Search SKU returns or the older .../6376564.p?skuId=6376564 form.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Customer review records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "helpfulVotes": {
+                    "kind": "integer",
+                    "description": "Number of \"helpful\" votes the review received, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Star rating the reviewer gave, 1-5.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewId": {
+                    "kind": "string",
+                    "description": "Best Buy review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reviewer": {
+                    "kind": "string",
+                    "description": "Reviewer display name; empty when withheld.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Full review body text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Review headline; empty when the review has none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "verifiedPurchase": {
+                    "kind": "boolean",
+                    "description": "True when Best Buy marks the review a verified purchase, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "reviewId",
+                  "rating",
+                  "text"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "reviewId",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Overall product score (1-5), or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingDistribution": {
+              "kind": "object",
+              "description": "Number of reviews at each star rating, keyed \"1\" through \"5\".",
+              "properties": {
+                "1": {
+                  "kind": "integer",
+                  "description": "Number of 1-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "2": {
+                  "kind": "integer",
+                  "description": "Number of 2-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "3": {
+                  "kind": "integer",
+                  "description": "Number of 3-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "4": {
+                  "kind": "integer",
+                  "description": "Number of 4-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "5": {
+                  "kind": "integer",
+                  "description": "Number of 5-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Number of 10-review pages Best Buy reports for the product, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalReviews": {
+              "kind": "integer",
+              "description": "Total number of reviews for the product, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "bestbuy.search",
+      "platform": "bestbuy",
+      "action": "search",
+      "operationId": "bestbuy_search",
+      "name": "Best Buy Search",
+      "category": "shop",
+      "description": "Search BestBuy.com by keyword with optional sort, price-range, and page filters and get title, price, rating, and brand for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "bestbuy",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "bestbuy",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "BestbuySearchInput",
+      "outputTypeName": "BestbuySearchData",
+      "example": {
+        "query": "airpods"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum product price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum product price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of about 18 to 24 products; Best Buy serves no products past page 100. Each page is billed as one request. Page sizes differ between sources, so deduplicate on sku.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"airpods\" or \"65 inch tv\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalResults`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "totalResults"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result sort order; omit for Best Buy's own relevance order (e.g. price_low sorts by lowest price first).",
+            "enum": [
+              "best_match",
+              "best_seller",
+              "price_low",
+              "price_high",
+              "rating_high",
+              "new"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching Best Buy product records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Regular price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the result in this page.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in USD, or null when the result shows no current price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer reviews, or null when the product has none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sku": {
+                    "kind": "string",
+                    "description": "Best Buy SKU, the number after /sku/ in the product URL; use the product URL with the Best Buy Product or Best Buy Reviews SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Best Buy product page URL carrying the SKU, with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "sku",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "price",
+                  "sku",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total number of matching products Best Buy reports for the query, or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "bing.copilot",
       "platform": "bing",
       "action": "copilot",
@@ -48222,6 +49490,208 @@
           "open": false,
           "mustPopulate": [
             "comments"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "ikea.search",
+      "platform": "ikea",
+      "action": "search",
+      "operationId": "ikea_search",
+      "name": "IKEA Search",
+      "category": "shop",
+      "description": "Search IKEA's US store by keyword and get title, price, rating, and image for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "ikea",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "ikea",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "IkeaSearchInput",
+      "outputTypeName": "IkeaSearchData",
+      "example": {
+        "query": "bookshelf"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of 24 products. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"bookshelf\" or \"desk\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching IKEA US product records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the result in this page.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current online price in USD, or null when the result shows no price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "IKEA product id: the 8-digit article number, or an s-prefixed id for a combination. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer ratings, or null when the product has none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product name and type as IKEA lists it, e.g. \"BILLY Bookcase white\". Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "IKEA product page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "price",
+                  "productId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total number of matching products IKEA reports for the query, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
           ]
         }
       },
@@ -97566,6 +99036,487 @@
       }
     },
     {
+      "slug": "samsclub.product",
+      "platform": "samsclub",
+      "action": "product",
+      "operationId": "samsclub_product",
+      "name": "Sam's Club Product",
+      "category": "shop",
+      "description": "Fetch a SamsClub.com product by URL and get title, member price, stock, brand, model, UPC, rating, description, and images in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00319,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "samsclub",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "samsclub",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "SamsclubProductInput",
+      "outputTypeName": "SamsclubProductData",
+      "example": {
+        "url": "https://www.samsclub.com/ip/Bounty-Select-A-Size-2-Ply-Paper-Towels-12-Rolls-110-sheets-roll/18040450426"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Sam's Club product page URL, e.g. https://www.samsclub.com/ip/Bounty-Select-A-Size-2-Ply-Paper-Towels-12-Rolls-110-sheets-roll/18040450426. Prices and stock are those of Sam's Club's default club.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "availability": {
+                    "kind": "string",
+                    "description": "Stock status as Sam's Club reports it, e.g. \"IN_STOCK\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Product description text, or null when the listing has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, primary first.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "itemId": {
+                    "kind": "string",
+                    "description": "Sam's Club item id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Price before Instant Savings, or null when the product is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "model": {
+                    "kind": "string",
+                    "description": "Manufacturer model number, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current member price in USD, or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer reviews, or null when the product has none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "upc": {
+                    "kind": "string",
+                    "description": "Universal Product Code, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Sam's Club product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "itemId",
+                  "price",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "samsclub.search",
+      "platform": "samsclub",
+      "action": "search",
+      "operationId": "samsclub_search",
+      "name": "Sam's Club Search",
+      "category": "shop",
+      "description": "Search SamsClub.com by keyword with optional sort, price-range, and page filters and get title, member price, stock, and rating for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00319,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "samsclub",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "samsclub",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "SamsclubSearchInput",
+      "outputTypeName": "SamsclubSearchData",
+      "example": {
+        "query": "paper towels"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum member price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum member price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of about 40 to 50 products. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"paper towels\" or \"tv\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result sort order; omit for Sam's Club's Best Match (e.g. price_low sorts by lowest price first).",
+            "enum": [
+              "best_match",
+              "price_low",
+              "price_high"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching Sam's Club product records for the requested page, sponsored tiles left out. Prices are those of Sam's Club's default club. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "availability": {
+                    "kind": "string",
+                    "description": "Stock status as Sam's Club reports it, e.g. \"IN_STOCK\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "itemId": {
+                    "kind": "string",
+                    "description": "Sam's Club item id, the number at the end of a samsclub.com/ip/ URL; use the product URL with the Sam's Club Product SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Price before Instant Savings, or null when the product is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based organic position of the result in this page.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current member price in USD, or null when the result shows no price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer reviews, or null when the product has none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Sam's Club product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "itemId",
+                  "price",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Number of organic products Sam's Club returns for the query (sponsored tiles are left out), or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "sec.filings",
       "platform": "sec",
       "action": "filings",
@@ -107247,6 +109198,536 @@
       }
     },
     {
+      "slug": "slickdeals.deal",
+      "platform": "slickdeals",
+      "action": "deal",
+      "operationId": "slickdeals_deal",
+      "name": "Slickdeals Deal",
+      "category": "shop",
+      "description": "Fetch one Slickdeals deal by URL and get title, price, list price, store, coupon code, score, views, comments, and description in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00213,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "slickdeals",
+      "tsMethod": "deal",
+      "tsIterMethod": null,
+      "pyNamespace": "slickdeals",
+      "pyMethod": "deal",
+      "pyIterMethod": null,
+      "inputTypeName": "SlickdealsDealInput",
+      "outputTypeName": "SlickdealsDealData",
+      "example": {
+        "url": "https://slickdeals.net/f/20177112-lg-55-c6-series-oled-evo-ai-4k-smart-webos-tv-2026-best-buy-amazon-999-99"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Slickdeals deal page URL, e.g. https://slickdeals.net/f/20177112-lg-55-c6-series-oled-evo-ai-4k-smart-webos-tv-2026-best-buy-amazon-999-99.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Deal detail records (one per requested deal URL). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand Slickdeals files the deal under, or null when none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Slickdeals category, e.g. \"4K TVs\", or null when none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "commentsCount": {
+                    "kind": "integer",
+                    "description": "Number of comments on the deal, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "couponCode": {
+                    "kind": "string",
+                    "description": "Coupon code the deal needs, or null when it needs none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the deal was posted; null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is posted.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "dealId": {
+                    "kind": "string",
+                    "description": "Slickdeals deal id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Deal description as posted, or null when it has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary deal image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Deal image URLs.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "isExpired": {
+                    "kind": "boolean",
+                    "description": "True when the community marked the deal expired, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "List price the deal compares against, or null when not posted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Deal price in USD, or null when the deal has no numeric price.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "score": {
+                    "kind": "integer",
+                    "description": "Net community thumbs score, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "store": {
+                    "kind": "string",
+                    "description": "Store selling the deal, e.g. \"Best Buy\", or null when not posted.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Deal title as posted. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Slickdeals deal page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "viewsCount": {
+                    "kind": "integer",
+                    "description": "Number of views of the deal, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "dealId",
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "dealId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "slickdeals.search",
+      "platform": "slickdeals",
+      "action": "search",
+      "operationId": "slickdeals_search",
+      "name": "Slickdeals Search",
+      "category": "shop",
+      "description": "Search Slickdeals deals by keyword with optional sort, price, discount, and page filters and get title, price, list price, store, score, and comment count for each deal in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00213,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "slickdeals",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "slickdeals",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "SlickdealsSearchInput",
+      "outputTypeName": "SlickdealsSearchData",
+      "example": {
+        "query": "airpods"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "hideExpired": {
+            "kind": "boolean",
+            "description": "Optional; true leaves out deals the community marked expired.",
+            "default": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum deal price in USD; deals without a numeric price are left out.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minDiscount": {
+            "kind": "integer",
+            "description": "Optional; keep only deals at least this many percent off the list price, e.g. 50.",
+            "minimum": 1,
+            "maximum": 99,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum deal price in USD; deals without a numeric price are left out.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of 40 deals; Slickdeals stops at page 25. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 25,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"airpods\" or \"laptop\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result order; omit for Slickdeals' relevance order (e.g. new for the most recently posted deals first).",
+            "enum": [
+              "best_match",
+              "new",
+              "popular",
+              "price_low",
+              "price_high"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching Slickdeals deal records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "commentsCount": {
+                    "kind": "integer",
+                    "description": "Number of comments on the deal, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the deal was posted; null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is posted.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "dealId": {
+                    "kind": "string",
+                    "description": "Slickdeals deal id; use the deal URL with the Slickdeals Deal SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Deal thumbnail image URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isExpired": {
+                    "kind": "boolean",
+                    "description": "True when the community marked the deal expired, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "List price the deal compares against, or null when not posted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Deal price in USD, or null when the deal has no numeric price.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "score": {
+                    "kind": "integer",
+                    "description": "Net community thumbs score, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "store": {
+                    "kind": "string",
+                    "description": "Store selling the deal, e.g. \"Amazon\", or null when not posted.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Deal title as posted. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Slickdeals deal page URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "viewsCount": {
+                    "kind": "integer",
+                    "description": "Number of views of the deal, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "dealId",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "dealId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total number of matching deals Slickdeals reports (it stops counting at 1000), or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "snapchat.profile",
       "platform": "snapchat",
       "action": "profile",
@@ -109873,6 +112354,786 @@
                 ]
               },
               "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "target.product",
+      "platform": "target",
+      "action": "product",
+      "operationId": "target_product",
+      "name": "Target Product",
+      "category": "shop",
+      "description": "Fetch a Target.com product by URL and get title, price, brand, rating, description, and images in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "target",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "target",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "TargetProductInput",
+      "outputTypeName": "TargetProductData",
+      "example": {
+        "url": "https://www.target.com/p/mr-coffee-12c-programmable-drip-coffee-maker-stainless-steel-finish/-/A-91863920"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `availability`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "availability",
+                "category",
+                "images",
+                "rating"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Target product page URL; the TCIN after /A- identifies the product (e.g. https://www.target.com/p/-/A-91863920).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Product detail records (one per requested product URL). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "availability": {
+                    "kind": "string",
+                    "description": "Stock status as Target reports it, e.g. \"InStock\", or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Target category the product sits in, e.g. \"Drip Coffee Makers\", or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Product description text, or null when the listing has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Product image URLs, primary first. One source returns only the primary image.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in USD, or null when the product shows no current price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated. One source rounds it to one decimal.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of written customer reviews, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "tcin": {
+                    "kind": "string",
+                    "description": "Target product id (TCIN). Target rolls a colour or size variant up to its parent product, so it can differ from the id in the requested URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Target product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "brand",
+                  "image",
+                  "price",
+                  "tcin",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "target.reviews",
+      "platform": "target",
+      "action": "reviews",
+      "operationId": "target_reviews",
+      "name": "Target Reviews",
+      "category": "shop",
+      "description": "Pull a page of 10 customer reviews for any Target.com product by URL, newest first or by helpfulness or rating: rating, title, text, date, reviewer, and verified-purchase badge.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "target",
+      "tsMethod": "reviews",
+      "tsIterMethod": null,
+      "pyNamespace": "target",
+      "pyMethod": "reviews",
+      "pyIterMethod": null,
+      "inputTypeName": "TargetReviewsInput",
+      "outputTypeName": "TargetReviewsData",
+      "example": {
+        "url": "https://www.target.com/p/mr-coffee-12c-programmable-drip-coffee-maker-stainless-steel-finish/-/A-91863920"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of 10 reviews. Each page is billed as one request; keep url and sort the same while walking pages.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Review order: recent (newest first, the default), helpful, rating_high, or rating_low (e.g. helpful).",
+            "enum": [
+              "recent",
+              "helpful",
+              "rating_high",
+              "rating_low"
+            ],
+            "default": "recent",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Target product page URL; the TCIN after /A- identifies the product (e.g. https://www.target.com/p/-/A-91863920).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Customer review records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "helpfulVotes": {
+                    "kind": "integer",
+                    "description": "Number of \"helpful\" votes the review received, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Star rating the reviewer gave, 1-5.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewId": {
+                    "kind": "string",
+                    "description": "Target review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reviewer": {
+                    "kind": "string",
+                    "description": "Reviewer display name; empty when withheld.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Full review body text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Review headline; empty when the review has none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "verifiedPurchase": {
+                    "kind": "boolean",
+                    "description": "True when Target marks the review a verified purchase, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "reviewId",
+                  "rating",
+                  "text"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "reviewId",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Overall product score (1-5), or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingDistribution": {
+              "kind": "object",
+              "description": "Number of ratings at each star rating, keyed \"1\" through \"5\".",
+              "properties": {
+                "1": {
+                  "kind": "integer",
+                  "description": "Number of 1-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "2": {
+                  "kind": "integer",
+                  "description": "Number of 2-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "3": {
+                  "kind": "integer",
+                  "description": "Number of 3-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "4": {
+                  "kind": "integer",
+                  "description": "Number of 4-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "5": {
+                  "kind": "integer",
+                  "description": "Number of 5-star ratings.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Number of 10-review pages Target reports for the product, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalReviews": {
+              "kind": "integer",
+              "description": "Total number of written reviews for the product, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "target.search",
+      "platform": "target",
+      "action": "search",
+      "operationId": "target_search",
+      "name": "Target Search",
+      "category": "shop",
+      "description": "Search Target.com by keyword with optional sort, price-range, and page filters and get title, price, rating, and brand for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "target",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "target",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "TargetSearchInput",
+      "outputTypeName": "TargetSearchData",
+      "example": {
+        "query": "coffee maker"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum product price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum product price in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of 24 products; Target serves no products past page 50. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"coffee maker\" or \"lego\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalPages`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "isSponsored",
+                "rating",
+                "totalPages"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result sort order; omit for Target's own relevance order (e.g. price_low sorts by lowest price first).",
+            "enum": [
+              "best_match",
+              "best_seller",
+              "price_low",
+              "price_high",
+              "rating_high",
+              "new"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching Target product records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "brand": {
+                    "kind": "string",
+                    "description": "Brand name, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "True when the result is a sponsored placement, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Regular price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the result in this page.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in USD, or null when the result shows no current price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated. One source rounds it to one decimal.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer ratings, or null when the product has none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "tcin": {
+                    "kind": "string",
+                    "description": "Target product id (TCIN), the number after /A- in a target.com URL; use the product URL with the Target Product or Target Reviews SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Target product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "tcin",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "price",
+                  "tcin",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Highest page number available for the query, or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total number of matching products Target reports for the query, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             }
           },
           "required": [
