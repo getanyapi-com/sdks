@@ -68,6 +68,14 @@ class SlickdealsDealData(BaseModel):
 class SlickdealsDealItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    asin: str | None = Field(
+        default=None,
+        description="Amazon ASIN of the product when the deal links to Amazon, or null otherwise.",
+    )
+    author: str | None = Field(
+        default=None,
+        description="Username of the member who posted the deal, or null when not shown.",
+    )
     brand: str | None = Field(
         default=None,
         description="Brand Slickdeals files the deal under, or null when none.",
@@ -99,6 +107,11 @@ class SlickdealsDealItem(BaseModel):
         alias="dealId",
         description="Slickdeals deal id. Populated whenever the provider has data for the entity.",
     )
+    deal_link: str | None = Field(
+        default=None,
+        alias="dealLink",
+        description="Slickdeals' \"Get Deal\" link, which redirects to the store's offer, or null when the deal has none.",
+    )
     description: str | None = Field(
         default=None,
         description="Deal description as posted, or null when it has none.",
@@ -118,6 +131,16 @@ class SlickdealsDealItem(BaseModel):
     price: float | None = Field(
         default=None,
         description="Deal price in USD, or null when the deal has no numeric price.",
+    )
+    price_is_from: bool | None = Field(
+        default=None,
+        alias="priceIsFrom",
+        description='True when the price is a starting ("from") price, false when it is the price, or null when not reported.',
+    )
+    price_type: str | None = Field(
+        default=None,
+        alias="priceType",
+        description='How Slickdeals qualifies the price, e.g. "fixed" for a plain price, or null when the deal has no numeric price.',
     )
     score: int | None = Field(
         default=None,
@@ -143,6 +166,11 @@ class SlickdealsDealItem(BaseModel):
 class SlickdealsSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    has_more: bool | None = Field(
+        default=None,
+        alias="hasMore",
+        description="True when another page of deals follows this one (request it with page + 1), or null when not reported.",
+    )
     items: list[SlickdealsSearchItem] = Field(
         description="Matching Slickdeals deal records for the requested page. Populated whenever the provider has data for the entity."
     )
@@ -156,6 +184,10 @@ class SlickdealsSearchData(BaseModel):
 class SlickdealsSearchItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    author: str | None = Field(
+        default=None,
+        description="Username of the member who posted the deal, or null when not shown.",
+    )
     comments_count: int | None = Field(
         default=None,
         alias="commentsCount",
@@ -174,6 +206,11 @@ class SlickdealsSearchItem(BaseModel):
         alias="dealId",
         description="Slickdeals deal id; use the deal URL with the Slickdeals Deal SKU. Populated whenever the provider has data for the entity.",
     )
+    discount_percent: float | None = Field(
+        default=None,
+        alias="discountPercent",
+        description="Percent off the list price, e.g. 21.9, or null when no list price is posted.",
+    )
     image: str | None = Field(default=None, description="Deal thumbnail image URL.")
     is_expired: bool | None = Field(
         default=None,
@@ -188,6 +225,16 @@ class SlickdealsSearchItem(BaseModel):
     price: float | None = Field(
         default=None,
         description="Deal price in USD, or null when the deal has no numeric price.",
+    )
+    price_is_from: bool | None = Field(
+        default=None,
+        alias="priceIsFrom",
+        description='True when the price is a starting ("from") price, false when it is the price, or null when not reported.',
+    )
+    price_type: str | None = Field(
+        default=None,
+        alias="priceType",
+        description='How Slickdeals qualifies the price, e.g. "fixed" for a plain price, or null when the deal has no numeric price.',
     )
     score: int | None = Field(
         default=None,

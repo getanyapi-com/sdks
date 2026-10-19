@@ -9118,6 +9118,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sizeGuide`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "sizeGuide"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -9131,7 +9144,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "ASOS product page URL, e.g. https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341. The store is read from the URL path (/us/, /au/, /de/ and so on; none means the UK store), and prices come back in that store's currency.",
+            "description": "ASOS product page URL, e.g. https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341, or the short form https://www.asos.com/prd/211299341. The store is read from the URL path (/us/, /au/, /de/ and so on; none means the UK store), and prices come back in that store's currency.",
             "enum": null,
             "default": null,
             "format": null
@@ -9156,6 +9169,14 @@
                   "brand": {
                     "kind": "string",
                     "description": "Brand name, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "careInstructions": {
+                    "kind": "string",
+                    "description": "Care instructions as ASOS lists them, e.g. \"Machine wash according to instructions on care label\", or null when not listed.",
                     "nullable": true,
                     "enum": null,
                     "default": null,
@@ -9217,6 +9238,20 @@
                     "nullable": true,
                     "default": null
                   },
+                  "isDiscontinued": {
+                    "kind": "boolean",
+                    "description": "True when ASOS has discontinued the product, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "materials": {
+                    "kind": "string",
+                    "description": "ASOS's \"About me\" section: fabric and material composition, as HTML, or null when not listed.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "price": {
                     "kind": "number",
                     "description": "Current price in the store's currency, or null when no price is shown. Populated whenever the provider has data for the entity.",
@@ -9228,6 +9263,14 @@
                   "productId": {
                     "kind": "string",
                     "description": "ASOS product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sizeGuide": {
+                    "kind": "string",
+                    "description": "Link to the ASOS size guide for this product, or null when the serving source does not report one.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -9252,15 +9295,63 @@
                     "items": {
                       "kind": "object",
                       "properties": {
+                        "colour": {
+                          "kind": "string",
+                          "description": "Colour of this variant as ASOS lists it, or null when not reported.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "currency": {
+                          "kind": "string",
+                          "description": "Currency code of this size's price, e.g. \"GBP\", or null when not shown.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "ean": {
+                          "kind": "string",
+                          "description": "EAN barcode of this size, or null when not reported.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
                         "inStock": {
                           "kind": "boolean",
                           "description": "True when this size is in stock, or null when not reported.",
                           "nullable": true,
                           "default": null
                         },
+                        "price": {
+                          "kind": "number",
+                          "description": "Current price of this size in the store's currency, or null when not shown.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
                         "size": {
                           "kind": "string",
                           "description": "Size label as ASOS shows it, e.g. \"UK 8\", or null when not reported.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "sku": {
+                          "kind": "string",
+                          "description": "ASOS SKU of this size, or null when not reported.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "variantId": {
+                          "kind": "string",
+                          "description": "ASOS variant id of this size, or null when not reported.",
                           "nullable": true,
                           "enum": null,
                           "default": null,
@@ -9406,6 +9497,19 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `inStock`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "inStock"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sort": {
             "kind": "string",
             "description": "Result sort order; omit for ASOS's recommended order (e.g. new for newest arrivals first).",
@@ -9440,6 +9544,12 @@
         "data": {
           "kind": "object",
           "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of results follows this one (request it with page + 1), or null when not reported.",
+              "nullable": true,
+              "default": null
+            },
             "items": {
               "kind": "array",
               "description": "Matching ASOS product records for the requested page. Populated whenever the provider has data for the entity.",
@@ -9462,6 +9572,14 @@
                     "default": null,
                     "format": null
                   },
+                  "colourWayId": {
+                    "kind": "string",
+                    "description": "Id of the colourway this result shows; it appears as #colourWayId-<id> in ASOS product links. Null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "currency": {
                     "kind": "string",
                     "description": "Price currency code, e.g. \"GBP\" or \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
@@ -9476,6 +9594,23 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, primary first.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when the product is in stock, false when it is not, or null when the serving source does not report stock in search results.",
+                    "nullable": true,
+                    "default": null
                   },
                   "listPrice": {
                     "kind": "number",
@@ -9501,12 +9636,26 @@
                     "maximum": null,
                     "default": null
                   },
+                  "productCode": {
+                    "kind": "string",
+                    "description": "ASOS product code (the style number printed on the product page), or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "productId": {
                     "kind": "string",
                     "description": "ASOS product id, the number after /prd/ in the product URL; use the product URL with the ASOS Product SKU. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "sellingFast": {
+                    "kind": "boolean",
+                    "description": "True when ASOS flags the product as selling fast, or null when not reported.",
+                    "nullable": true,
+                    "default": null
                   },
                   "title": {
                     "kind": "string",
@@ -49778,6 +49927,19 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `memberOffer`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "memberOffer"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -49814,9 +49976,25 @@
                     "default": null,
                     "format": null
                   },
+                  "dimensions": {
+                    "kind": "string",
+                    "description": "Product dimensions as IKEA lists them, e.g. \"31 1/2x11x79 1/2\" (inches on the US store), or null when not listed.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "image": {
                     "kind": "string",
                     "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "memberOffer": {
+                    "kind": "string",
+                    "description": "IKEA Family member offer shown on the product, e.g. \"In-store only price $65.00\", or null when there is none or the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -99350,6 +99528,14 @@
                     "default": null,
                     "format": null
                   },
+                  "clubName": {
+                    "kind": "string",
+                    "description": "Name of the Sam's Club location the price and stock come from, e.g. \"Dallas Sam's Club\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "currency": {
                     "kind": "string",
                     "description": "Price currency code, e.g. \"USD\", or null when no price is shown.",
@@ -99365,6 +99551,34 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "highlights": {
+                    "kind": "array",
+                    "description": "Key facts Sam's Club highlights on the product page.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "label": {
+                          "kind": "string",
+                          "description": "Highlight name, e.g. \"Brand\".",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "value": {
+                          "kind": "string",
+                          "description": "Highlight value, e.g. \"Bounty\".",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "image": {
                     "kind": "string",
@@ -99399,6 +99613,14 @@
                     "maximum": null,
                     "default": null
                   },
+                  "memberLimit": {
+                    "kind": "integer",
+                    "description": "Most units one member may buy, or null when no limit is shown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "model": {
                     "kind": "string",
                     "description": "Manufacturer model number, or null when not reported.",
@@ -99406,6 +99628,14 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "orderLimit": {
+                    "kind": "integer",
+                    "description": "Most units one order may contain, or null when no limit is shown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "price": {
                     "kind": "number",
@@ -99423,6 +99653,54 @@
                     "maximum": null,
                     "default": null
                   },
+                  "ratingDistribution": {
+                    "kind": "object",
+                    "description": "Number of reviews at each star rating, keyed \"1\" through \"5\".",
+                    "properties": {
+                      "1": {
+                        "kind": "integer",
+                        "description": "Number of 1-star reviews.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "2": {
+                        "kind": "integer",
+                        "description": "Number of 2-star reviews.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "3": {
+                        "kind": "integer",
+                        "description": "Number of 3-star reviews.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "4": {
+                        "kind": "integer",
+                        "description": "Number of 4-star reviews.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "5": {
+                        "kind": "integer",
+                        "description": "Number of 5-star reviews.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
                   "reviewsCount": {
                     "kind": "integer",
                     "description": "Number of customer reviews, or null when the product has none.",
@@ -99434,6 +99712,14 @@
                   "title": {
                     "kind": "string",
                     "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "unitPrice": {
+                    "kind": "string",
+                    "description": "Unit price as Sam's Club shows it, e.g. \"$0.04/sft\", or null when not shown.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -99598,6 +99884,12 @@
         "data": {
           "kind": "object",
           "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of results follows this one (request it with page + 1), or null when not reported.",
+              "nullable": true,
+              "default": null
+            },
             "items": {
               "kind": "array",
               "description": "Matching Sam's Club product records for the requested page, sponsored tiles left out. Prices are those of Sam's Club's default club. Populated whenever the provider has data for the entity.",
@@ -99619,6 +99911,17 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "fulfillment": {
+                    "kind": "array",
+                    "description": "Ways the item can be fulfilled at the pickup club, e.g. \"PICKUP\", \"DELIVERY\", \"SHIPPING\"; empty when none is offered.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "image": {
                     "kind": "string",
@@ -99642,6 +99945,14 @@
                     "maximum": null,
                     "default": null
                   },
+                  "pickupClubId": {
+                    "kind": "string",
+                    "description": "Id of the Sam's Club location whose stock and fulfillment the result reflects, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "position": {
                     "kind": "integer",
                     "description": "1-based organic position of the result in this page.",
@@ -99657,6 +99968,17 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "promotions": {
+                    "kind": "array",
+                    "description": "Promotion labels shown on the result, e.g. \"$40 off\" or \"Sam's Cash Offer\"; empty when none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "rating": {
                     "kind": "number",
@@ -99710,6 +100032,12 @@
               "nullable": true,
               "minimum": null,
               "maximum": null,
+              "default": null
+            },
+            "totalResultsExact": {
+              "kind": "boolean",
+              "description": "True when totalResults is an exact count, false when it is an estimate, or null when not reported.",
+              "nullable": true,
               "default": null
             }
           },
@@ -109496,6 +109824,22 @@
               "items": {
                 "kind": "object",
                 "properties": {
+                  "asin": {
+                    "kind": "string",
+                    "description": "Amazon ASIN of the product when the deal links to Amazon, or null otherwise.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "author": {
+                    "kind": "string",
+                    "description": "Username of the member who posted the deal, or null when not shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "brand": {
                     "kind": "string",
                     "description": "Brand Slickdeals files the deal under, or null when none.",
@@ -109551,6 +109895,14 @@
                     "default": null,
                     "format": null
                   },
+                  "dealLink": {
+                    "kind": "string",
+                    "description": "Slickdeals' \"Get Deal\" link, which redirects to the store's offer, or null when the deal has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "description": {
                     "kind": "string",
                     "description": "Deal description as posted, or null when it has none.",
@@ -109598,6 +109950,20 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "priceIsFrom": {
+                    "kind": "boolean",
+                    "description": "True when the price is a starting (\"from\") price, false when it is the price, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "priceType": {
+                    "kind": "string",
+                    "description": "How Slickdeals qualifies the price, e.g. \"fixed\" for a plain price, or null when the deal has no numeric price.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "score": {
                     "kind": "integer",
@@ -109796,12 +110162,26 @@
         "data": {
           "kind": "object",
           "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of deals follows this one (request it with page + 1), or null when not reported.",
+              "nullable": true,
+              "default": null
+            },
             "items": {
               "kind": "array",
               "description": "Matching Slickdeals deal records for the requested page. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
+                  "author": {
+                    "kind": "string",
+                    "description": "Username of the member who posted the deal, or null when not shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "commentsCount": {
                     "kind": "integer",
                     "description": "Number of comments on the deal, or null when not reported.",
@@ -109833,6 +110213,14 @@
                     "default": null,
                     "format": null
                   },
+                  "discountPercent": {
+                    "kind": "number",
+                    "description": "Percent off the list price, e.g. 21.9, or null when no list price is posted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "image": {
                     "kind": "string",
                     "description": "Deal thumbnail image URL.",
@@ -109861,6 +110249,20 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "priceIsFrom": {
+                    "kind": "boolean",
+                    "description": "True when the price is a starting (\"from\") price, false when it is the price, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "priceType": {
+                    "kind": "string",
+                    "description": "How Slickdeals qualifies the price, e.g. \"fixed\" for a plain price, or null when the deal has no numeric price.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "score": {
                     "kind": "integer",

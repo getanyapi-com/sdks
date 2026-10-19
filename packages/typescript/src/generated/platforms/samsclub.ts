@@ -44,6 +44,10 @@ export interface SamsclubProductItem {
    */
   brand?: string | null;
   /**
+   * Name of the Sam's Club location the price and stock come from, e.g. "Dallas Sam's Club", or null when not reported.
+   */
+  clubName?: string | null;
+  /**
    * Price currency code, e.g. "USD", or null when no price is shown.
    */
   currency?: string | null;
@@ -51,6 +55,10 @@ export interface SamsclubProductItem {
    * Product description text, or null when the listing has none.
    */
   description?: string | null;
+  /**
+   * Key facts Sam's Club highlights on the product page.
+   */
+  highlights?: SamsclubProductHighlight[];
   /**
    * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -70,9 +78,17 @@ export interface SamsclubProductItem {
    */
   listPrice?: number | null;
   /**
+   * Most units one member may buy, or null when no limit is shown.
+   */
+  memberLimit?: number | null;
+  /**
    * Manufacturer model number, or null when not reported.
    */
   model?: string | null;
+  /**
+   * Most units one order may contain, or null when no limit is shown.
+   */
+  orderLimit?: number | null;
   /**
    * Current member price in USD, or null when no price is shown. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -83,6 +99,31 @@ export interface SamsclubProductItem {
    */
   rating?: number | null;
   /**
+   * Number of reviews at each star rating, keyed "1" through "5".
+   */
+  ratingDistribution?: {
+    /**
+     * Number of 1-star reviews.
+     */
+    "1"?: number | null;
+    /**
+     * Number of 2-star reviews.
+     */
+    "2"?: number | null;
+    /**
+     * Number of 3-star reviews.
+     */
+    "3"?: number | null;
+    /**
+     * Number of 4-star reviews.
+     */
+    "4"?: number | null;
+    /**
+     * Number of 5-star reviews.
+     */
+    "5"?: number | null;
+  };
+  /**
    * Number of customer reviews, or null when the product has none.
    */
   reviewsCount?: number | null;
@@ -91,6 +132,10 @@ export interface SamsclubProductItem {
    */
   title: string;
   /**
+   * Unit price as Sam's Club shows it, e.g. "$0.04/sft", or null when not shown.
+   */
+  unitPrice?: string | null;
+  /**
    * Universal Product Code, or null when not reported.
    */
   upc?: string | null;
@@ -98,6 +143,18 @@ export interface SamsclubProductItem {
    * Sam's Club product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface SamsclubProductHighlight {
+  /**
+   * Highlight name, e.g. "Brand".
+   */
+  label?: string | null;
+  /**
+   * Highlight value, e.g. "Bounty".
+   */
+  value?: string | null;
   [extra: string]: unknown;
 }
 
@@ -170,6 +227,10 @@ export interface SamsclubSearchItem {
    */
   currency?: string | null;
   /**
+   * Ways the item can be fulfilled at the pickup club, e.g. "PICKUP", "DELIVERY", "SHIPPING"; empty when none is offered.
+   */
+  fulfillment?: string[];
+  /**
    * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -183,6 +244,10 @@ export interface SamsclubSearchItem {
    */
   listPrice?: number | null;
   /**
+   * Id of the Sam's Club location whose stock and fulfillment the result reflects, or null when not reported.
+   */
+  pickupClubId?: string | null;
+  /**
    * 1-based organic position of the result in this page.
    */
   position?: number | null;
@@ -191,6 +256,10 @@ export interface SamsclubSearchItem {
    * Present whenever the upstream returns this record.
    */
   price?: number | null;
+  /**
+   * Promotion labels shown on the result, e.g. "$40 off" or "Sam's Cash Offer"; empty when none.
+   */
+  promotions?: string[];
   /**
    * Average customer rating, 0-5, or null when the product is unrated.
    */
@@ -216,6 +285,10 @@ export interface SamsclubSearchItem {
  */
 export interface SamsclubSearchData {
   /**
+   * True when another page of results follows this one (request it with page + 1), or null when not reported.
+   */
+  hasMore?: boolean | null;
+  /**
    * Matching Sam's Club product records for the requested page, sponsored tiles left out. Prices are those of Sam's Club's default club. Populated whenever the provider has data for the entity.
    */
   items: SamsclubSearchItem[];
@@ -223,6 +296,10 @@ export interface SamsclubSearchData {
    * Number of organic products Sam's Club returns for the query (sponsored tiles are left out), or null when not reported.
    */
   totalResults?: number | null;
+  /**
+   * True when totalResults is an exact count, false when it is an estimate, or null when not reported.
+   */
+  totalResultsExact?: boolean | null;
 }
 
 /**

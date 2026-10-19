@@ -36,6 +36,14 @@ export interface SlickdealsDealInput {
 
 export interface SlickdealsDealItem {
   /**
+   * Amazon ASIN of the product when the deal links to Amazon, or null otherwise.
+   */
+  asin?: string | null;
+  /**
+   * Username of the member who posted the deal, or null when not shown.
+   */
+  author?: string | null;
+  /**
    * Brand Slickdeals files the deal under, or null when none.
    */
   brand?: string | null;
@@ -65,6 +73,10 @@ export interface SlickdealsDealItem {
    */
   dealId: string;
   /**
+   * Slickdeals' "Get Deal" link, which redirects to the store's offer, or null when the deal has none.
+   */
+  dealLink?: string | null;
+  /**
    * Deal description as posted, or null when it has none.
    */
   description?: string | null;
@@ -88,6 +100,14 @@ export interface SlickdealsDealItem {
    * Deal price in USD, or null when the deal has no numeric price.
    */
   price?: number | null;
+  /**
+   * True when the price is a starting ("from") price, false when it is the price, or null when not reported.
+   */
+  priceIsFrom?: boolean | null;
+  /**
+   * How Slickdeals qualifies the price, e.g. "fixed" for a plain price, or null when the deal has no numeric price.
+   */
+  priceType?: string | null;
   /**
    * Net community thumbs score, or null when not reported.
    */
@@ -181,6 +201,10 @@ export interface SlickdealsSearchInput {
 
 export interface SlickdealsSearchItem {
   /**
+   * Username of the member who posted the deal, or null when not shown.
+   */
+  author?: string | null;
+  /**
    * Number of comments on the deal, or null when not reported.
    */
   commentsCount?: number | null;
@@ -198,6 +222,10 @@ export interface SlickdealsSearchItem {
    */
   dealId: string;
   /**
+   * Percent off the list price, e.g. 21.9, or null when no list price is posted.
+   */
+  discountPercent?: number | null;
+  /**
    * Deal thumbnail image URL.
    */
   image?: string;
@@ -213,6 +241,14 @@ export interface SlickdealsSearchItem {
    * Deal price in USD, or null when the deal has no numeric price.
    */
   price?: number | null;
+  /**
+   * True when the price is a starting ("from") price, false when it is the price, or null when not reported.
+   */
+  priceIsFrom?: boolean | null;
+  /**
+   * How Slickdeals qualifies the price, e.g. "fixed" for a plain price, or null when the deal has no numeric price.
+   */
+  priceType?: string | null;
   /**
    * Net community thumbs score, or null when not reported.
    */
@@ -241,6 +277,10 @@ export interface SlickdealsSearchItem {
  * The `data` payload of Slickdeals Search (slickdeals.search).
  */
 export interface SlickdealsSearchData {
+  /**
+   * True when another page of deals follows this one (request it with page + 1), or null when not reported.
+   */
+  hasMore?: boolean | null;
   /**
    * Matching Slickdeals deal records for the requested page. Populated whenever the provider has data for the entity.
    */

@@ -69,6 +69,11 @@ class SamsclubProductItem(BaseModel):
     brand: str | None = Field(
         default=None, description="Brand name, or null when not reported."
     )
+    club_name: str | None = Field(
+        default=None,
+        alias="clubName",
+        description="Name of the Sam's Club location the price and stock come from, e.g. \"Dallas Sam's Club\", or null when not reported.",
+    )
     currency: str | None = Field(
         default=None,
         description='Price currency code, e.g. "USD", or null when no price is shown.',
@@ -76,6 +81,9 @@ class SamsclubProductItem(BaseModel):
     description: str | None = Field(
         default=None,
         description="Product description text, or null when the listing has none.",
+    )
+    highlights: list[SamsclubProductHighlight] | None = Field(
+        default=None, description="Key facts Sam's Club highlights on the product page."
     )
     image: str | None = Field(
         default=None,
@@ -94,9 +102,19 @@ class SamsclubProductItem(BaseModel):
         alias="listPrice",
         description="Price before Instant Savings, or null when the product is not discounted.",
     )
+    member_limit: int | None = Field(
+        default=None,
+        alias="memberLimit",
+        description="Most units one member may buy, or null when no limit is shown.",
+    )
     model: str | None = Field(
         default=None,
         description="Manufacturer model number, or null when not reported.",
+    )
+    order_limit: int | None = Field(
+        default=None,
+        alias="orderLimit",
+        description="Most units one order may contain, or null when no limit is shown.",
     )
     price: float | None = Field(
         default=None,
@@ -106,6 +124,11 @@ class SamsclubProductItem(BaseModel):
         default=None,
         description="Average customer rating, 0-5, or null when the product is unrated.",
     )
+    rating_distribution: SamsclubProductRatingDistribution | None = Field(
+        default=None,
+        alias="ratingDistribution",
+        description='Number of reviews at each star rating, keyed "1" through "5".',
+    )
     reviews_count: int | None = Field(
         default=None,
         alias="reviewsCount",
@@ -113,6 +136,11 @@ class SamsclubProductItem(BaseModel):
     )
     title: str = Field(
         description="Product title. Populated whenever the provider has data for the entity."
+    )
+    unit_price: str | None = Field(
+        default=None,
+        alias="unitPrice",
+        description='Unit price as Sam\'s Club shows it, e.g. "$0.04/sft", or null when not shown.',
     )
     upc: str | None = Field(
         default=None, description="Universal Product Code, or null when not reported."
@@ -122,9 +150,43 @@ class SamsclubProductItem(BaseModel):
     )
 
 
+class SamsclubProductHighlight(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    label: str | None = Field(default=None, description='Highlight name, e.g. "Brand".')
+    value: str | None = Field(
+        default=None, description='Highlight value, e.g. "Bounty".'
+    )
+
+
+class SamsclubProductRatingDistribution(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    field_1: int | None = Field(
+        default=None, alias="1", description="Number of 1-star reviews."
+    )
+    field_2: int | None = Field(
+        default=None, alias="2", description="Number of 2-star reviews."
+    )
+    field_3: int | None = Field(
+        default=None, alias="3", description="Number of 3-star reviews."
+    )
+    field_4: int | None = Field(
+        default=None, alias="4", description="Number of 4-star reviews."
+    )
+    field_5: int | None = Field(
+        default=None, alias="5", description="Number of 5-star reviews."
+    )
+
+
 class SamsclubSearchData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
+    has_more: bool | None = Field(
+        default=None,
+        alias="hasMore",
+        description="True when another page of results follows this one (request it with page + 1), or null when not reported.",
+    )
     items: list[SamsclubSearchItem] = Field(
         description="Matching Sam's Club product records for the requested page, sponsored tiles left out. Prices are those of Sam's Club's default club. Populated whenever the provider has data for the entity."
     )
@@ -132,6 +194,11 @@ class SamsclubSearchData(BaseModel):
         default=None,
         alias="totalResults",
         description="Number of organic products Sam's Club returns for the query (sponsored tiles are left out), or null when not reported.",
+    )
+    total_results_exact: bool | None = Field(
+        default=None,
+        alias="totalResultsExact",
+        description="True when totalResults is an exact count, false when it is an estimate, or null when not reported.",
     )
 
 
@@ -146,6 +213,10 @@ class SamsclubSearchItem(BaseModel):
         default=None,
         description='Price currency code, e.g. "USD", or null when no price is shown.',
     )
+    fulfillment: list[str] | None = Field(
+        default=None,
+        description='Ways the item can be fulfilled at the pickup club, e.g. "PICKUP", "DELIVERY", "SHIPPING"; empty when none is offered.',
+    )
     image: str | None = Field(
         default=None,
         description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -159,12 +230,21 @@ class SamsclubSearchItem(BaseModel):
         alias="listPrice",
         description="Price before Instant Savings, or null when the product is not discounted.",
     )
+    pickup_club_id: str | None = Field(
+        default=None,
+        alias="pickupClubId",
+        description="Id of the Sam's Club location whose stock and fulfillment the result reflects, or null when not reported.",
+    )
     position: int | None = Field(
         default=None, description="1-based organic position of the result in this page."
     )
     price: float | None = Field(
         default=None,
         description="Current member price in USD, or null when the result shows no price. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    promotions: list[str] | None = Field(
+        default=None,
+        description='Promotion labels shown on the result, e.g. "$40 off" or "Sam\'s Cash Offer"; empty when none.',
     )
     rating: float | None = Field(
         default=None,

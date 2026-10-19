@@ -35,6 +35,10 @@ export interface IkeaSearchInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `memberOffer`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "memberOffer"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -46,10 +50,18 @@ export interface IkeaSearchItem {
    */
   currency?: string | null;
   /**
+   * Product dimensions as IKEA lists them, e.g. "31 1/2x11x79 1/2" (inches on the US store), or null when not listed.
+   */
+  dimensions?: string | null;
+  /**
    * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * IKEA Family member offer shown on the product, e.g. "In-store only price $65.00", or null when there is none or the serving source does not report it.
+   */
+  memberOffer?: string | null;
   /**
    * 1-based position of the result in this page.
    */
