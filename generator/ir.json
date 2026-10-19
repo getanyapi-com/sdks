@@ -10583,6 +10583,234 @@
       }
     },
     {
+      "slug": "brave.search",
+      "platform": "brave",
+      "action": "search",
+      "operationId": "brave_search",
+      "name": "Brave Search",
+      "category": "search",
+      "description": "Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call; pick the country Brave searches from.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "brave",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "brave",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "BraveSearchInput",
+      "outputTypeName": "BraveSearchData",
+      "example": {
+        "country": "US",
+        "limit": 20,
+        "query": "best running shoes"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "ISO-3166 alpha-2 country Brave searches from, e.g. US, GB, DE. Brave ranks and localizes results for that country. Only the countries Brave offers are accepted; US is served by every source and the others by the sources that can target them.",
+            "enum": [
+              "AR",
+              "AU",
+              "AT",
+              "BE",
+              "BR",
+              "CA",
+              "CL",
+              "CN",
+              "DK",
+              "FI",
+              "FR",
+              "DE",
+              "GR",
+              "HK",
+              "IN",
+              "ID",
+              "IT",
+              "JP",
+              "KR",
+              "MY",
+              "MX",
+              "NL",
+              "NZ",
+              "NO",
+              "PL",
+              "PT",
+              "PH",
+              "RU",
+              "SA",
+              "SG",
+              "ZA",
+              "ES",
+              "SE",
+              "CH",
+              "TW",
+              "TR",
+              "GB",
+              "US"
+            ],
+            "default": "US",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of organic results to return (1-20, default 20). Brave serves about 20 organic results per page, and some queries carry fewer.",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 20
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The Brave search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Organic results in Brave's ranked order. Ads are not included. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "displayUrl": {
+                    "kind": "string",
+                    "description": "The URL as Brave displays it under the title, e.g. a host or a breadcrumb path. Its format differs by source. null when the source did not send one.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Host of the result URL without a leading www., e.g. runnersworld.com.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based rank of the result on the page. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Text excerpt Brave shows under the result, often led by the page date. Absent on the results where Brave shows none. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Result title as Brave shows it. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Destination URL of the result. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "position",
+                  "title",
+                  "url",
+                  "displayUrl",
+                  "domain"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "position",
+                  "snippet",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "query": {
+              "kind": "string",
+              "description": "The query Brave searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "query",
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "capterra.reviews",
       "platform": "capterra",
       "action": "reviews",
@@ -23949,6 +24177,253 @@
           "open": false,
           "mustPopulate": [
             "comments"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "duckduckgo.search",
+      "platform": "duckduckgo",
+      "action": "search",
+      "operationId": "duckduckgo_search",
+      "name": "DuckDuckGo Search",
+      "category": "search",
+      "description": "Run a DuckDuckGo web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON, ads left out. Returns up to 10 results per call; pick the country DuckDuckGo searches from.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "duckduckgo",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "duckduckgo",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "DuckduckgoSearchInput",
+      "outputTypeName": "DuckduckgoSearchData",
+      "example": {
+        "country": "US",
+        "limit": 10,
+        "query": "best running shoes"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "ISO-3166 alpha-2 country DuckDuckGo searches from, e.g. US, GB, DE: DuckDuckGo's region for that country in its main language (Belgium in Dutch, Canada and the US in English, Switzerland in German, Spain in Spanish). Only the countries DuckDuckGo offers are accepted; every country is served by most sources and US, GB and DE by all of them.",
+            "enum": [
+              "AR",
+              "AU",
+              "AT",
+              "BE",
+              "BR",
+              "BG",
+              "CA",
+              "CL",
+              "CN",
+              "CO",
+              "HR",
+              "CZ",
+              "DK",
+              "EE",
+              "FI",
+              "FR",
+              "DE",
+              "GR",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IE",
+              "IL",
+              "IT",
+              "JP",
+              "KR",
+              "LV",
+              "LT",
+              "MY",
+              "MX",
+              "NL",
+              "NZ",
+              "NO",
+              "PK",
+              "PE",
+              "PH",
+              "PL",
+              "PT",
+              "RO",
+              "RU",
+              "SA",
+              "SG",
+              "SK",
+              "SI",
+              "ZA",
+              "ES",
+              "SE",
+              "CH",
+              "TW",
+              "TH",
+              "TR",
+              "US",
+              "UA",
+              "GB",
+              "VN"
+            ],
+            "default": "US",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of organic results to return (1-10, default 10). DuckDuckGo serves about 10 organic results per page, and some queries carry fewer.",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 10
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The DuckDuckGo search query.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Organic results in DuckDuckGo's ranked order. Ads are not included. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "displayUrl": {
+                    "kind": "string",
+                    "description": "The URL as DuckDuckGo displays it under the title, e.g. a host or a host and path. Its format differs by source. null when the source did not send one.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "Host of the result URL without a leading www., e.g. runnersworld.com.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based rank of the result on the page. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "snippet": {
+                    "kind": "string",
+                    "description": "Text excerpt DuckDuckGo shows under the result. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Result title as DuckDuckGo shows it. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Destination URL of the result. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "position",
+                  "title",
+                  "url",
+                  "displayUrl",
+                  "domain"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "position",
+                  "snippet",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "query": {
+              "kind": "string",
+              "description": "The query DuckDuckGo searched.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "query",
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
           ]
         }
       },
@@ -59901,6 +60376,282 @@
             "jobs"
           ],
           "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "levels.jobs",
+      "platform": "levels",
+      "action": "jobs",
+      "operationId": "levels_jobs",
+      "name": "Levels.fyi Jobs",
+      "category": "data",
+      "description": "Search Levels.fyi job listings by title or keyword and get each job with its salary range and estimated total compensation where Levels.fyi has them, plus company, location, posting date and apply link. Returns up to 20 jobs per call, grouped by company; filter by location and sort by relevance, date or pay.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "levels",
+      "tsMethod": "jobs",
+      "tsIterMethod": null,
+      "pyNamespace": "levels",
+      "pyMethod": "jobs",
+      "pyIterMethod": null,
+      "inputTypeName": "LevelsJobsInput",
+      "outputTypeName": "LevelsJobsData",
+      "example": {
+        "limit": 10,
+        "location": "united-states",
+        "query": "software engineer"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of jobs to return (1-20, default 20). Levels.fyi groups jobs by company, up to 3 per company, so several results can come from one employer.",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 20
+          },
+          "location": {
+            "kind": "string",
+            "description": "Levels.fyi location slug as it appears in Levels.fyi URLs, e.g. united-states. Not a free-text city name; omit it to search everywhere.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Job title, keywords or company name to search, e.g. software engineer or google.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "sortBy": {
+            "kind": "string",
+            "description": "Sort order: best match (relevance), most recently posted (date), or highest total compensation (compensation).",
+            "enum": [
+              "relevance",
+              "date",
+              "compensation"
+            ],
+            "default": "relevance",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Jobs in Levels.fyi's order, grouped by company. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "applyUrl": {
+                    "kind": "string",
+                    "description": "URL that starts the application, usually the employer's own careers page or a job board.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "company": {
+                    "kind": "string",
+                    "description": "Hiring company name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companySlug": {
+                    "kind": "string",
+                    "description": "Levels.fyi company slug, e.g. google; null when the source did not send one.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "When the job was posted. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "Whether the listing is a paid placement on Levels.fyi.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "jobId": {
+                    "kind": "string",
+                    "description": "Levels.fyi job id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "location": {
+                    "kind": "string",
+                    "description": "Job location as Levels.fyi shows it, e.g. San Jose, CA. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "logoUrl": {
+                    "kind": "string",
+                    "description": "Company logo image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "remote": {
+                    "kind": "boolean",
+                    "description": "Whether Levels.fyi marks the job as remote; null when it does not say.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "salaryCurrency": {
+                    "kind": "string",
+                    "description": "ISO 4217 currency of the salary and compensation figures, e.g. USD.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "salaryMax": {
+                    "kind": "number",
+                    "description": "High end of the base salary range in salaryCurrency per salaryUnit. null when Levels.fyi shows no salary for the job. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "salaryMin": {
+                    "kind": "number",
+                    "description": "Low end of the base salary range in salaryCurrency per salaryUnit. null when Levels.fyi shows no salary for the job. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "salaryUnit": {
+                    "kind": "string",
+                    "description": "Pay period of the salary and compensation figures, e.g. YEAR.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Job title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "totalCompensationMax": {
+                    "kind": "number",
+                    "description": "High end of the total compensation range (base, stock and bonus). Some ranges are Levels.fyi estimates. null when Levels.fyi shows none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "totalCompensationMin": {
+                    "kind": "number",
+                    "description": "Low end of the total compensation range (base, stock and bonus). Some ranges are Levels.fyi estimates. null when Levels.fyi shows none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Levels.fyi job listing URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  }
+                },
+                "required": [
+                  "jobId",
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "company",
+                  "createdUtc",
+                  "jobId",
+                  "location",
+                  "salaryMax",
+                  "salaryMin",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
         }
       },
       "pagination": {

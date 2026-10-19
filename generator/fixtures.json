@@ -577,6 +577,28 @@
     "items": 1,
     "replayed": false
   },
+  "brave.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "items": [
+          {
+            "position": 1,
+            "title": "sample",
+            "url": "https://example.com/x",
+            "displayUrl": "sample",
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "capterra.reviews": {
     "output": {
       "found": true,
@@ -984,6 +1006,28 @@
         "nextCursor": "sample",
         "hasMore": true,
         "total": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "duckduckgo.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "query": "sample",
+        "items": [
+          {
+            "position": 1,
+            "title": "sample",
+            "url": "https://example.com/x",
+            "displayUrl": "sample",
+            "domain": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -3745,6 +3789,25 @@
           {
             "jobId": "sample",
             "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "levels.jobs": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "jobId": "sample",
+            "title": "sample",
+            "url": "https://example.com/x",
             "_extra": "passthrough"
           }
         ]

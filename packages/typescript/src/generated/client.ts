@@ -15,6 +15,7 @@ import { AppstoreNamespace } from "./platforms/appstore.js";
 import { BingNamespace } from "./platforms/bing.js";
 import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
+import { BraveNamespace } from "./platforms/brave.js";
 import { CapterraNamespace } from "./platforms/capterra.js";
 import { ChatgptNamespace } from "./platforms/chatgpt.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
@@ -25,6 +26,7 @@ import { CompanySearchNamespace } from "./platforms/company_search.js";
 import { CongressNamespace } from "./platforms/congress.js";
 import { ContactEnrichmentNamespace } from "./platforms/contact_enrichment.js";
 import { DouyinNamespace } from "./platforms/douyin.js";
+import { DuckduckgoNamespace } from "./platforms/duckduckgo.js";
 import { EbayNamespace } from "./platforms/ebay.js";
 import { EmailNamespace } from "./platforms/email.js";
 import { EmailFindingNamespace } from "./platforms/email_finding.js";
@@ -44,6 +46,7 @@ import { HackernewsNamespace } from "./platforms/hackernews.js";
 import { IndeedNamespace } from "./platforms/indeed.js";
 import { InstagramNamespace } from "./platforms/instagram.js";
 import { JobSearchNamespace } from "./platforms/job_search.js";
+import { LevelsNamespace } from "./platforms/levels.js";
 import { LinkedinNamespace } from "./platforms/linkedin.js";
 import { MapsNamespace } from "./platforms/maps.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
@@ -202,6 +205,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the brave platform.
+   */
+  get brave(): BraveNamespace {
+    return (this._namespaces["brave"] ??= new BraveNamespace(
+      this._core,
+    )) as BraveNamespace;
+  }
+
+  /**
    * Typed methods for the capterra platform.
    */
   get capterra(): CapterraNamespace {
@@ -286,6 +298,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["douyin"] ??= new DouyinNamespace(
       this._core,
     )) as DouyinNamespace;
+  }
+
+  /**
+   * Typed methods for the duckduckgo platform.
+   */
+  get duckduckgo(): DuckduckgoNamespace {
+    return (this._namespaces["duckduckgo"] ??= new DuckduckgoNamespace(
+      this._core,
+    )) as DuckduckgoNamespace;
   }
 
   /**
@@ -456,6 +477,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["jobSearch"] ??= new JobSearchNamespace(
       this._core,
     )) as JobSearchNamespace;
+  }
+
+  /**
+   * Typed methods for the levels platform.
+   */
+  get levels(): LevelsNamespace {
+    return (this._namespaces["levels"] ??= new LevelsNamespace(
+      this._core,
+    )) as LevelsNamespace;
   }
 
   /**

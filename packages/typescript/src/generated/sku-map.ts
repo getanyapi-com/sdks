@@ -78,6 +78,7 @@ import type {
   BookingSearchData,
   BookingSearchInput,
 } from "./platforms/booking.js";
+import type { BraveSearchData, BraveSearchInput } from "./platforms/brave.js";
 import type {
   CapterraReviewsData,
   CapterraReviewsInput,
@@ -148,6 +149,10 @@ import type {
   DouyinVideoData,
   DouyinVideoInput,
 } from "./platforms/douyin.js";
+import type {
+  DuckduckgoSearchData,
+  DuckduckgoSearchInput,
+} from "./platforms/duckduckgo.js";
 import type {
   EbayProductData,
   EbayProductFullData,
@@ -444,6 +449,7 @@ import type {
   JobSearchTheirstackData,
   JobSearchTheirstackInput,
 } from "./platforms/job_search.js";
+import type { LevelsJobsData, LevelsJobsInput } from "./platforms/levels.js";
 import type {
   LinkedinAdData,
   LinkedinAdInput,
@@ -1158,6 +1164,11 @@ export interface SkuMap {
     data: BookingSearchData;
     result: RunResult<BookingSearchData>;
   };
+  "brave.search": {
+    input: BraveSearchInput;
+    data: BraveSearchData;
+    result: RunResult<BraveSearchData>;
+  };
   "capterra.reviews": {
     input: CapterraReviewsInput;
     data: CapterraReviewsData;
@@ -1282,6 +1293,11 @@ export interface SkuMap {
     input: DouyinVideoCommentsInput;
     data: DouyinVideoCommentsData;
     result: RunResult<DouyinVideoCommentsData>;
+  };
+  "duckduckgo.search": {
+    input: DuckduckgoSearchInput;
+    data: DuckduckgoSearchData;
+    result: RunResult<DuckduckgoSearchData>;
   };
   "ebay.product": {
     input: EbayProductInput;
@@ -1942,6 +1958,11 @@ export interface SkuMap {
     input: JobSearchTheirstackInput;
     data: JobSearchTheirstackData;
     result: RunResult<JobSearchTheirstackData>;
+  };
+  "levels.jobs": {
+    input: LevelsJobsInput;
+    data: LevelsJobsData;
+    result: RunResult<LevelsJobsData>;
   };
   "linkedin.ad": {
     input: LinkedinAdInput;

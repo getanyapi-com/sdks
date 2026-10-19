@@ -18,6 +18,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "bing": ("bing", "BingNamespace", "AsyncBingNamespace"),
     "bluesky": ("bluesky", "BlueskyNamespace", "AsyncBlueskyNamespace"),
     "booking": ("booking", "BookingNamespace", "AsyncBookingNamespace"),
+    "brave": ("brave", "BraveNamespace", "AsyncBraveNamespace"),
     "capterra": ("capterra", "CapterraNamespace", "AsyncCapterraNamespace"),
     "chatgpt": ("chatgpt", "ChatgptNamespace", "AsyncChatgptNamespace"),
     "coinmarketcap": (
@@ -48,6 +49,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
         "AsyncContactEnrichmentNamespace",
     ),
     "douyin": ("douyin", "DouyinNamespace", "AsyncDouyinNamespace"),
+    "duckduckgo": ("duckduckgo", "DuckduckgoNamespace", "AsyncDuckduckgoNamespace"),
     "ebay": ("ebay", "EbayNamespace", "AsyncEbayNamespace"),
     "email": ("email", "EmailNamespace", "AsyncEmailNamespace"),
     "email_finding": (
@@ -87,6 +89,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "indeed": ("indeed", "IndeedNamespace", "AsyncIndeedNamespace"),
     "instagram": ("instagram", "InstagramNamespace", "AsyncInstagramNamespace"),
     "job_search": ("job_search", "JobSearchNamespace", "AsyncJobSearchNamespace"),
+    "levels": ("levels", "LevelsNamespace", "AsyncLevelsNamespace"),
     "linkedin": ("linkedin", "LinkedinNamespace", "AsyncLinkedinNamespace"),
     "maps": ("maps", "MapsNamespace", "AsyncMapsNamespace"),
     "mobile_phone": (
