@@ -49,6 +49,10 @@ export interface BestbuyProductItem {
    */
   description?: string | null;
   /**
+   * Feature bullets from the product page; empty when there are none.
+   */
+  features?: BestbuyProductFeature[];
+  /**
    * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -79,10 +83,22 @@ export interface BestbuyProductItem {
    */
   reviewsCount?: number | null;
   /**
+   * Seller id: "bby" for Best Buy itself, a number for a Marketplace seller, or null when not reported.
+   */
+  sellerId?: string | null;
+  /**
+   * "1P" when Best Buy sells the product itself, "3P" when a Marketplace seller does, or null when not reported.
+   */
+  sellerType?: string | null;
+  /**
    * Best Buy SKU. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   sku?: string;
+  /**
+   * The specifications table from the product page, in Best Buy's groups ("Key Specs", "General", ...); empty when the page has none.
+   */
+  specifications?: BestbuyProductSpecification[];
   /**
    * Product title. Populated whenever the provider has data for the entity.
    */
@@ -95,6 +111,42 @@ export interface BestbuyProductItem {
    * Best Buy product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface BestbuyProductFeature {
+  /**
+   * Feature text.
+   */
+  description?: string;
+  /**
+   * Feature heading, or null when the bullet has none.
+   */
+  title?: string | null;
+  [extra: string]: unknown;
+}
+
+export interface BestbuyProductSpecification {
+  /**
+   * Group heading, e.g. "General".
+   */
+  group?: string;
+  /**
+   * Rows in the group.
+   */
+  specs?: BestbuyProductSpec[];
+  [extra: string]: unknown;
+}
+
+export interface BestbuyProductSpec {
+  /**
+   * Attribute name, e.g. "Model Number".
+   */
+  name?: string;
+  /**
+   * Attribute value as Best Buy lists it; yes/no attributes read "true" or "false".
+   */
+  value?: string;
   [extra: string]: unknown;
 }
 
@@ -135,7 +187,7 @@ export interface BestbuyReviewsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "rating"[];
+  requireFields?: ("incentivized" | "rating")[];
   /**
    * Review order: recent (newest first, the default), oldest, relevancy, helpful, rating_high, or rating_low (e.g. helpful).
    * One of: recent, oldest, relevancy, helpful, rating_high, rating_low.
@@ -169,9 +221,21 @@ export interface BestbuyReviewsItem {
    */
   helpfulVotes?: number | null;
   /**
+   * True when Best Buy marks the review incentivized (the reviewer received promo considerations or a sweepstakes entry for writing it), false when it does not, or null when not reported. One source reports only the true case and leaves the rest null.
+   */
+  incentivized?: boolean | null;
+  /**
+   * Days the reviewer had owned the product when they wrote the review, or null when not reported.
+   */
+  ownershipDays?: number | null;
+  /**
    * Star rating the reviewer gave, 1-5.
    */
   rating: number;
+  /**
+   * True when the reviewer says they would recommend the product, false when they would not, or null when they did not answer.
+   */
+  recommended?: boolean | null;
   /**
    * Best Buy review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.
    */
@@ -283,7 +347,14 @@ export interface BestbuySearchInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalResults`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "totalResults"[];
+  requireFields?: (
+    | "description"
+    | "inStock"
+    | "isSponsored"
+    | "totalResults"
+    | "upc"
+    | "variants"
+  )[];
   /**
    * Result sort order; omit for Best Buy's own relevance order (e.g. price_low sorts by lowest price first).
    * One of: best_match, best_seller, price_low, price_high, rating_high, new.
@@ -311,14 +382,30 @@ export interface BestbuySearchItem {
    */
   currency?: string | null;
   /**
+   * Long product description, or null when the serving source does not report it.
+   */
+  description?: string | null;
+  /**
    * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   image?: string;
   /**
+   * True when Best Buy shows the product available to buy, or null when the serving source does not report it.
+   */
+  inStock?: boolean | null;
+  /**
+   * True when the result is a sponsored placement, or null when the serving source does not report it.
+   */
+  isSponsored?: boolean | null;
+  /**
    * Regular price when the product is on sale, or null when it is not discounted.
    */
   listPrice?: number | null;
+  /**
+   * Open-box offers for the product, one per condition; empty when there are none.
+   */
+  openBox?: BestbuySearchOpenBox[];
   /**
    * 1-based position of the result in this page.
    */
@@ -337,6 +424,14 @@ export interface BestbuySearchItem {
    */
   reviewsCount?: number | null;
   /**
+   * Seller id: "bby" for Best Buy itself, a number for a Marketplace seller, or null when not reported.
+   */
+  sellerId?: string | null;
+  /**
+   * "1P" when Best Buy sells the product itself, "3P" when a Marketplace seller does, or null when not reported.
+   */
+  sellerType?: string | null;
+  /**
    * Best Buy SKU, the number after /sku/ in the product URL; use the product URL with the Best Buy Product or Best Buy Reviews SKU. Populated whenever the provider has data for the entity.
    */
   sku: string;
@@ -345,10 +440,42 @@ export interface BestbuySearchItem {
    */
   title: string;
   /**
+   * UPC barcode, or null when the serving source does not report it.
+   */
+  upc?: string | null;
+  /**
    * Best Buy product page URL carrying the SKU, with tracking query parameters removed. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   url?: string;
+  /**
+   * Sibling versions of the product (colour, size, connector), including this one, or null when the serving source does not report them.
+   */
+  variants?: BestbuySearchVariant[] | null;
+  [extra: string]: unknown;
+}
+
+export interface BestbuySearchOpenBox {
+  /**
+   * Open-box condition as Best Buy names it: "Excellent", "Good" or "Fair".
+   */
+  condition?: string;
+  /**
+   * Open-box price in USD for that condition; absent when the serving source reports only the condition.
+   */
+  price?: number | null;
+  [extra: string]: unknown;
+}
+
+export interface BestbuySearchVariant {
+  /**
+   * What sets the variant apart, keyed by Best Buy's attribute name, e.g. {"Color": "Black"}.
+   */
+  attributes?: {} | null;
+  /**
+   * Best Buy SKU of the variant.
+   */
+  sku?: string;
   [extra: string]: unknown;
 }
 

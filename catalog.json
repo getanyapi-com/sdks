@@ -2490,6 +2490,7 @@
             "brand",
             "currency",
             "description",
+            "features",
             "image",
             "images",
             "items",
@@ -2498,7 +2499,10 @@
             "price",
             "rating",
             "reviewsCount",
+            "sellerId",
+            "sellerType",
             "sku",
+            "specifications",
             "title",
             "upc",
             "url"
@@ -2559,8 +2563,10 @@
             "createdUtc",
             "helpfulVotes",
             "items",
+            "ownershipDays",
             "rating",
             "ratingDistribution",
+            "recommended",
             "reviewId",
             "reviewer",
             "text",
@@ -2586,8 +2592,11 @@
           "fields": [
             "createdUtc",
             "helpfulVotes",
+            "incentivized",
             "items",
+            "ownershipDays",
             "ratingDistribution",
+            "recommended",
             "reviewId",
             "reviewer",
             "text",
@@ -2650,16 +2659,21 @@
           "fields": [
             "brand",
             "currency",
+            "description",
             "image",
             "items",
             "listPrice",
+            "openBox",
             "position",
             "price",
             "rating",
             "reviewsCount",
+            "sellerId",
+            "sellerType",
             "sku",
             "title",
             "totalResults",
+            "upc",
             "url"
           ]
         },
@@ -2680,15 +2694,21 @@
             "brand",
             "currency",
             "image",
+            "inStock",
+            "isSponsored",
             "items",
             "listPrice",
+            "openBox",
             "position",
             "price",
             "rating",
             "reviewsCount",
+            "sellerId",
+            "sellerType",
             "sku",
             "title",
-            "url"
+            "url",
+            "variants"
           ]
         }
       ],
@@ -23076,51 +23096,6 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 28.926209619867738,
-            "latencyP50Ms": 8396,
-            "uptimeSample": 21019,
-            "latencySample": 6080,
-            "requests": 21019,
-            "servedRequests": 6080
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -23241,6 +23216,53 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 28.926209619867738,
+            "latencyP50Ms": 8396,
+            "uptimeSample": 21019,
+            "latencySample": 6080,
+            "requests": 21019,
+            "servedRequests": 6080
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
@@ -33410,14 +33432,22 @@
             "category",
             "currency",
             "description",
+            "dpci",
+            "highlights",
             "image",
             "images",
             "items",
+            "listPrice",
+            "packageDimensions",
             "price",
             "rating",
+            "ratingCount",
+            "returnPolicy",
             "reviewsCount",
+            "specifications",
             "tcin",
             "title",
+            "upc",
             "url"
           ]
         },
@@ -33485,14 +33515,22 @@
             "category",
             "currency",
             "description",
+            "dpci",
+            "highlights",
             "image",
             "images",
             "items",
+            "listPrice",
+            "packageDimensions",
             "price",
             "rating",
+            "ratingCount",
+            "returnPolicy",
             "reviewsCount",
+            "specifications",
             "tcin",
             "title",
+            "upc",
             "url"
           ]
         }
@@ -33550,15 +33588,19 @@
           "fields": [
             "createdUtc",
             "helpfulVotes",
+            "incentivized",
             "items",
             "rating",
             "ratingDistribution",
+            "recommended",
+            "responses",
             "reviewId",
             "reviewer",
             "text",
             "title",
             "totalPages",
             "totalReviews",
+            "updatedUtc",
             "verifiedPurchase"
           ]
         }
@@ -33614,8 +33656,11 @@
           },
           "fields": [
             "brand",
+            "brandUrl",
+            "category",
             "currency",
             "image",
+            "images",
             "isSponsored",
             "items",
             "listPrice",
@@ -33645,7 +33690,10 @@
           },
           "fields": [
             "brand",
+            "brandUrl",
+            "category",
             "currency",
+            "hasMore",
             "image",
             "items",
             "listPrice",

@@ -9674,6 +9674,33 @@
                     "default": null,
                     "format": null
                   },
+                  "features": {
+                    "kind": "array",
+                    "description": "Feature bullets from the product page; empty when there are none.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "description": {
+                          "kind": "string",
+                          "description": "Feature text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Feature heading, or null when the bullet has none.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
                   "image": {
                     "kind": "string",
                     "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
@@ -9732,12 +9759,73 @@
                     "maximum": null,
                     "default": null
                   },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "Seller id: \"bby\" for Best Buy itself, a number for a Marketplace seller, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerType": {
+                    "kind": "string",
+                    "description": "\"1P\" when Best Buy sells the product itself, \"3P\" when a Marketplace seller does, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "sku": {
                     "kind": "string",
                     "description": "Best Buy SKU. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "specifications": {
+                    "kind": "array",
+                    "description": "The specifications table from the product page, in Best Buy's groups (\"Key Specs\", \"General\", ...); empty when the page has none.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "group": {
+                          "kind": "string",
+                          "description": "Group heading, e.g. \"General\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "specs": {
+                          "kind": "array",
+                          "description": "Rows in the group.",
+                          "items": {
+                            "kind": "object",
+                            "properties": {
+                              "name": {
+                                "kind": "string",
+                                "description": "Attribute name, e.g. \"Model Number\".",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              },
+                              "value": {
+                                "kind": "string",
+                                "description": "Attribute value as Best Buy lists it; yes/no attributes read \"true\" or \"false\".",
+                                "enum": null,
+                                "default": null,
+                                "format": null
+                              }
+                            },
+                            "required": [],
+                            "open": true
+                          },
+                          "mustPopulate": false
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "title": {
                     "kind": "string",
@@ -9859,6 +9947,7 @@
             "items": {
               "kind": "string",
               "enum": [
+                "incentivized",
                 "rating"
               ],
               "default": null,
@@ -9931,11 +10020,31 @@
                     "maximum": null,
                     "default": null
                   },
+                  "incentivized": {
+                    "kind": "boolean",
+                    "description": "True when Best Buy marks the review incentivized (the reviewer received promo considerations or a sweepstakes entry for writing it), false when it does not, or null when not reported. One source reports only the true case and leaves the rest null.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "ownershipDays": {
+                    "kind": "integer",
+                    "description": "Days the reviewer had owned the product when they wrote the review, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "rating": {
                     "kind": "number",
                     "description": "Star rating the reviewer gave, 1-5.",
                     "minimum": null,
                     "maximum": null,
+                    "default": null
+                  },
+                  "recommended": {
+                    "kind": "boolean",
+                    "description": "True when the reviewer says they would recommend the product, false when they would not, or null when they did not answer.",
+                    "nullable": true,
                     "default": null
                   },
                   "reviewId": {
@@ -10161,7 +10270,12 @@
             "items": {
               "kind": "string",
               "enum": [
-                "totalResults"
+                "description",
+                "inStock",
+                "isSponsored",
+                "totalResults",
+                "upc",
+                "variants"
               ],
               "default": null,
               "format": null
@@ -10226,12 +10340,32 @@
                     "default": null,
                     "format": null
                   },
+                  "description": {
+                    "kind": "string",
+                    "description": "Long product description, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "image": {
                     "kind": "string",
                     "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when Best Buy shows the product available to buy, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "True when the result is a sponsored placement, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
                   },
                   "listPrice": {
                     "kind": "number",
@@ -10240,6 +10374,33 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "openBox": {
+                    "kind": "array",
+                    "description": "Open-box offers for the product, one per condition; empty when there are none.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "condition": {
+                          "kind": "string",
+                          "description": "Open-box condition as Best Buy names it: \"Excellent\", \"Good\" or \"Fair\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "price": {
+                          "kind": "number",
+                          "description": "Open-box price in USD for that condition; absent when the serving source reports only the condition.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "position": {
                     "kind": "integer",
@@ -10273,6 +10434,22 @@
                     "maximum": null,
                     "default": null
                   },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "Seller id: \"bby\" for Best Buy itself, a number for a Marketplace seller, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerType": {
+                    "kind": "string",
+                    "description": "\"1P\" when Best Buy sells the product itself, \"3P\" when a Marketplace seller does, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "sku": {
                     "kind": "string",
                     "description": "Best Buy SKU, the number after /sku/ in the product URL; use the product URL with the Best Buy Product or Best Buy Reviews SKU. Populated whenever the provider has data for the entity.",
@@ -10287,12 +10464,48 @@
                     "default": null,
                     "format": null
                   },
+                  "upc": {
+                    "kind": "string",
+                    "description": "UPC barcode, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "url": {
                     "kind": "string",
                     "description": "Best Buy product page URL carrying the SKU, with tracking query parameters removed. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "variants": {
+                    "kind": "array",
+                    "description": "Sibling versions of the product (colour, size, connector), including this one, or null when the serving source does not report them.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "attributes": {
+                          "kind": "object",
+                          "description": "What sets the variant apart, keyed by Best Buy's attribute name, e.g. {\"Color\": \"Black\"}.",
+                          "nullable": true,
+                          "properties": {},
+                          "required": [],
+                          "open": true
+                        },
+                        "sku": {
+                          "kind": "string",
+                          "description": "Best Buy SKU of the variant.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   }
                 },
                 "required": [
@@ -112431,8 +112644,16 @@
               "enum": [
                 "availability",
                 "category",
+                "dpci",
+                "highlights",
                 "images",
-                "rating"
+                "listPrice",
+                "packageDimensions",
+                "rating",
+                "ratingCount",
+                "returnPolicy",
+                "specifications",
+                "upc"
               ],
               "default": null,
               "format": null
@@ -112514,6 +112735,26 @@
                     "default": null,
                     "format": null
                   },
+                  "dpci": {
+                    "kind": "string",
+                    "description": "Target's in-store item number (DPCI), e.g. \"072-08-0313\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "highlights": {
+                    "kind": "array",
+                    "description": "Highlight bullets from the product page, or null when the serving source does not report them.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
                   "image": {
                     "kind": "string",
                     "description": "Primary product image URL. Populated whenever the provider has data for the entity.",
@@ -112532,6 +112773,71 @@
                     },
                     "mustPopulate": false
                   },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Regular price when the product is on sale, or null when it is not discounted or the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "packageDimensions": {
+                    "kind": "object",
+                    "description": "Size and weight of the shipping package as Target lists them, or null when the serving source does not report them.",
+                    "nullable": true,
+                    "properties": {
+                      "depth": {
+                        "kind": "number",
+                        "description": "Package depth, in dimensionUnit.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "dimensionUnit": {
+                        "kind": "string",
+                        "description": "Unit of the three dimensions, e.g. \"INCH\".",
+                        "nullable": true,
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "height": {
+                        "kind": "number",
+                        "description": "Package height, in dimensionUnit.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "weight": {
+                        "kind": "number",
+                        "description": "Package weight, in weightUnit.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "weightUnit": {
+                        "kind": "string",
+                        "description": "Unit of the weight, e.g. \"POUND\".",
+                        "nullable": true,
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "width": {
+                        "kind": "number",
+                        "description": "Package width, in dimensionUnit.",
+                        "nullable": true,
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
                   "price": {
                     "kind": "number",
                     "description": "Current price in USD, or null when the product shows no current price. Populated whenever the provider has data for the entity.",
@@ -112548,6 +112854,22 @@
                     "maximum": null,
                     "default": null
                   },
+                  "ratingCount": {
+                    "kind": "integer",
+                    "description": "Number of star ratings, including ratings left without a written review, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "returnPolicy": {
+                    "kind": "string",
+                    "description": "Target's return policy text for this item, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "reviewsCount": {
                     "kind": "integer",
                     "description": "Number of written customer reviews, or null when not reported.",
@@ -112555,6 +112877,33 @@
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "specifications": {
+                    "kind": "array",
+                    "description": "The specifications table from the product page, one name and value per row, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Attribute name as Target labels it, e.g. \"Material\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "value": {
+                          "kind": "string",
+                          "description": "Attribute value as Target lists it.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "tcin": {
                     "kind": "string",
@@ -112566,6 +112915,14 @@
                   "title": {
                     "kind": "string",
                     "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "upc": {
+                    "kind": "string",
+                    "description": "UPC barcode as Target lists it, or null when not reported.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -112732,12 +113089,58 @@
                     "maximum": null,
                     "default": null
                   },
+                  "incentivized": {
+                    "kind": "boolean",
+                    "description": "True when the reviewer received an incentive, such as a free sample, for writing the review, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
                   "rating": {
                     "kind": "number",
                     "description": "Star rating the reviewer gave, 1-5.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "recommended": {
+                    "kind": "boolean",
+                    "description": "True when the reviewer says they would recommend the product, false when they would not, or null when they did not answer.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "responses": {
+                    "kind": "array",
+                    "description": "Public replies to the review from the brand or Target, oldest first; empty when there are none.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "createdUtc": {
+                          "kind": "number",
+                          "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when not reported.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "name": {
+                          "kind": "string",
+                          "description": "Name the reply is signed with, e.g. the brand's customer team.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "text": {
+                          "kind": "string",
+                          "description": "Reply text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "reviewId": {
                     "kind": "string",
@@ -112766,6 +113169,14 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) of the review's last update on Target. Multiply by 1000 for a JS Date in milliseconds. Null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
                   },
                   "verifiedPurchase": {
                     "kind": "boolean",
@@ -112962,6 +113373,8 @@
             "items": {
               "kind": "string",
               "enum": [
+                "hasMore",
+                "images",
                 "isSponsored",
                 "rating",
                 "totalPages"
@@ -113007,6 +113420,12 @@
         "data": {
           "kind": "object",
           "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of results exists; request it with page + 1. Null when the serving source does not report it.",
+              "nullable": true,
+              "default": null
+            },
             "items": {
               "kind": "array",
               "description": "Matching Target product records for the requested page. Populated whenever the provider has data for the entity.",
@@ -113016,6 +113435,22 @@
                   "brand": {
                     "kind": "string",
                     "description": "Brand name, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "brandUrl": {
+                    "kind": "string",
+                    "description": "Target brand page URL, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Target product type the result belongs to, e.g. \"Coffee Makers\", or null when not reported.",
                     "nullable": true,
                     "enum": null,
                     "default": null,
@@ -113035,6 +113470,18 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, primary first, or null when the serving source returns only the primary image.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "isSponsored": {
                     "kind": "boolean",

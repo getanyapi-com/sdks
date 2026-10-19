@@ -41,7 +41,7 @@ class BestbuyReviewsInput(TypedDict, total=False):
     """1-based page of 10 reviews; Best Buy serves at most 1000 pages. Each page is billed as one request; keep url and sort the same while walking pages. Range: 1 to 1000. Default: 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["rating"]]]
+    requireFields: NotRequired[list[Literal["incentivized", "rating"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sort: NotRequired[
         Literal["recent", "oldest", "relevancy", "helpful", "rating_high", "rating_low"]
@@ -70,7 +70,18 @@ class BestbuySearchInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Search keywords, e.g. "airpods" or "65 inch tv"."""
-    requireFields: NotRequired[list[Literal["totalResults"]]]
+    requireFields: NotRequired[
+        list[
+            Literal[
+                "description",
+                "inStock",
+                "isSponsored",
+                "totalResults",
+                "upc",
+                "variants",
+            ]
+        ]
+    ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalResults`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     sort: NotRequired[
         Literal[
@@ -103,6 +114,10 @@ class BestbuyProductItem(BaseModel):
         default=None,
         description="Product description text, or null when the listing has none.",
     )
+    features: list[BestbuyProductFeature] | None = Field(
+        default=None,
+        description="Feature bullets from the product page; empty when there are none.",
+    )
     image: str | None = Field(
         default=None,
         description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -132,9 +147,23 @@ class BestbuyProductItem(BaseModel):
         alias="reviewsCount",
         description="Number of customer reviews, or null when not reported.",
     )
+    seller_id: str | None = Field(
+        default=None,
+        alias="sellerId",
+        description='Seller id: "bby" for Best Buy itself, a number for a Marketplace seller, or null when not reported.',
+    )
+    seller_type: str | None = Field(
+        default=None,
+        alias="sellerType",
+        description='"1P" when Best Buy sells the product itself, "3P" when a Marketplace seller does, or null when not reported.',
+    )
     sku: str | None = Field(
         default=None,
         description="Best Buy SKU. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    specifications: list[BestbuyProductSpecification] | None = Field(
+        default=None,
+        description='The specifications table from the product page, in Best Buy\'s groups ("Key Specs", "General", ...); empty when the page has none.',
     )
     title: str = Field(
         description="Product title. Populated whenever the provider has data for the entity."
@@ -144,6 +173,38 @@ class BestbuyProductItem(BaseModel):
     )
     url: str = Field(
         description="Best Buy product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity."
+    )
+
+
+class BestbuyProductFeature(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    description: str | None = Field(default=None, description="Feature text.")
+    title: str | None = Field(
+        default=None, description="Feature heading, or null when the bullet has none."
+    )
+
+
+class BestbuyProductSpecification(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    group: str | None = Field(
+        default=None, description='Group heading, e.g. "General".'
+    )
+    specs: list[BestbuyProductSpec] | None = Field(
+        default=None, description="Rows in the group."
+    )
+
+
+class BestbuyProductSpec(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    name: str | None = Field(
+        default=None, description='Attribute name, e.g. "Model Number".'
+    )
+    value: str | None = Field(
+        default=None,
+        description='Attribute value as Best Buy lists it; yes/no attributes read "true" or "false".',
     )
 
 
@@ -187,7 +248,20 @@ class BestbuyReviewsItem(BaseModel):
         alias="helpfulVotes",
         description='Number of "helpful" votes the review received, or null when not reported.',
     )
+    incentivized: bool | None = Field(
+        default=None,
+        description="True when Best Buy marks the review incentivized (the reviewer received promo considerations or a sweepstakes entry for writing it), false when it does not, or null when not reported. One source reports only the true case and leaves the rest null.",
+    )
+    ownership_days: int | None = Field(
+        default=None,
+        alias="ownershipDays",
+        description="Days the reviewer had owned the product when they wrote the review, or null when not reported.",
+    )
     rating: float = Field(description="Star rating the reviewer gave, 1-5.")
+    recommended: bool | None = Field(
+        default=None,
+        description="True when the reviewer says they would recommend the product, false when they would not, or null when they did not answer.",
+    )
     review_id: str = Field(
         alias="reviewId",
         description="Best Buy review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.",
@@ -251,14 +325,33 @@ class BestbuySearchItem(BaseModel):
         default=None,
         description='Price currency code, e.g. "USD", or null when no price is shown.',
     )
+    description: str | None = Field(
+        default=None,
+        description="Long product description, or null when the serving source does not report it.",
+    )
     image: str | None = Field(
         default=None,
         description="Primary product image URL. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    in_stock: bool | None = Field(
+        default=None,
+        alias="inStock",
+        description="True when Best Buy shows the product available to buy, or null when the serving source does not report it.",
+    )
+    is_sponsored: bool | None = Field(
+        default=None,
+        alias="isSponsored",
+        description="True when the result is a sponsored placement, or null when the serving source does not report it.",
     )
     list_price: float | None = Field(
         default=None,
         alias="listPrice",
         description="Regular price when the product is on sale, or null when it is not discounted.",
+    )
+    open_box: list[BestbuySearchOpenBox] | None = Field(
+        default=None,
+        alias="openBox",
+        description="Open-box offers for the product, one per condition; empty when there are none.",
     )
     position: int | None = Field(
         default=None, description="1-based position of the result in this page."
@@ -276,16 +369,61 @@ class BestbuySearchItem(BaseModel):
         alias="reviewsCount",
         description="Number of customer reviews, or null when the product has none.",
     )
+    seller_id: str | None = Field(
+        default=None,
+        alias="sellerId",
+        description='Seller id: "bby" for Best Buy itself, a number for a Marketplace seller, or null when not reported.',
+    )
+    seller_type: str | None = Field(
+        default=None,
+        alias="sellerType",
+        description='"1P" when Best Buy sells the product itself, "3P" when a Marketplace seller does, or null when not reported.',
+    )
     sku: str = Field(
         description="Best Buy SKU, the number after /sku/ in the product URL; use the product URL with the Best Buy Product or Best Buy Reviews SKU. Populated whenever the provider has data for the entity."
     )
     title: str = Field(
         description="Product title. Populated whenever the provider has data for the entity."
     )
+    upc: str | None = Field(
+        default=None,
+        description="UPC barcode, or null when the serving source does not report it.",
+    )
     url: str | None = Field(
         default=None,
         description="Best Buy product page URL carrying the SKU, with tracking query parameters removed. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
+    variants: list[BestbuySearchVariant] | None = Field(
+        default=None,
+        description="Sibling versions of the product (colour, size, connector), including this one, or null when the serving source does not report them.",
+    )
+
+
+class BestbuySearchOpenBox(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    condition: str | None = Field(
+        default=None,
+        description='Open-box condition as Best Buy names it: "Excellent", "Good" or "Fair".',
+    )
+    price: float | None = Field(
+        default=None,
+        description="Open-box price in USD for that condition; absent when the serving source reports only the condition.",
+    )
+
+
+class BestbuySearchVariant(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    attributes: BestbuySearchAttribute | None = Field(
+        default=None,
+        description='What sets the variant apart, keyed by Best Buy\'s attribute name, e.g. {"Color": "Black"}.',
+    )
+    sku: str | None = Field(default=None, description="Best Buy SKU of the variant.")
+
+
+class BestbuySearchAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
 
 
 class BestbuyNamespace:

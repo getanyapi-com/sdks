@@ -27,7 +27,20 @@ export interface TargetProductInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `availability`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("availability" | "category" | "images" | "rating")[];
+  requireFields?: (
+    | "availability"
+    | "category"
+    | "dpci"
+    | "highlights"
+    | "images"
+    | "listPrice"
+    | "packageDimensions"
+    | "rating"
+    | "ratingCount"
+    | "returnPolicy"
+    | "specifications"
+    | "upc"
+  )[];
   /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -61,6 +74,14 @@ export interface TargetProductItem {
    */
   description?: string | null;
   /**
+   * Target's in-store item number (DPCI), e.g. "072-08-0313", or null when not reported.
+   */
+  dpci?: string | null;
+  /**
+   * Highlight bullets from the product page, or null when the serving source does not report them.
+   */
+  highlights?: string[] | null;
+  /**
    * Primary product image URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
@@ -69,6 +90,39 @@ export interface TargetProductItem {
    * Product image URLs, primary first. One source returns only the primary image.
    */
   images?: string[];
+  /**
+   * Regular price when the product is on sale, or null when it is not discounted or the serving source does not report it.
+   */
+  listPrice?: number | null;
+  /**
+   * Size and weight of the shipping package as Target lists them, or null when the serving source does not report them.
+   */
+  packageDimensions?: {
+    /**
+     * Package depth, in dimensionUnit.
+     */
+    depth?: number | null;
+    /**
+     * Unit of the three dimensions, e.g. "INCH".
+     */
+    dimensionUnit?: string | null;
+    /**
+     * Package height, in dimensionUnit.
+     */
+    height?: number | null;
+    /**
+     * Package weight, in weightUnit.
+     */
+    weight?: number | null;
+    /**
+     * Unit of the weight, e.g. "POUND".
+     */
+    weightUnit?: string | null;
+    /**
+     * Package width, in dimensionUnit.
+     */
+    width?: number | null;
+  } | null;
   /**
    * Current price in USD, or null when the product shows no current price. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -79,9 +133,21 @@ export interface TargetProductItem {
    */
   rating?: number | null;
   /**
+   * Number of star ratings, including ratings left without a written review, or null when the serving source does not report it.
+   */
+  ratingCount?: number | null;
+  /**
+   * Target's return policy text for this item, or null when the serving source does not report it.
+   */
+  returnPolicy?: string | null;
+  /**
    * Number of written customer reviews, or null when not reported.
    */
   reviewsCount?: number | null;
+  /**
+   * The specifications table from the product page, one name and value per row, or null when the serving source does not report it.
+   */
+  specifications?: TargetProductSpecification[] | null;
   /**
    * Target product id (TCIN). Target rolls a colour or size variant up to its parent product, so it can differ from the id in the requested URL. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -92,9 +158,25 @@ export interface TargetProductItem {
    */
   title: string;
   /**
+   * UPC barcode as Target lists it, or null when not reported.
+   */
+  upc?: string | null;
+  /**
    * Target product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.
    */
   url: string;
+  [extra: string]: unknown;
+}
+
+export interface TargetProductSpecification {
+  /**
+   * Attribute name as Target labels it, e.g. "Material".
+   */
+  name?: string;
+  /**
+   * Attribute value as Target lists it.
+   */
+  value?: string;
   [extra: string]: unknown;
 }
 
@@ -159,9 +241,21 @@ export interface TargetReviewsItem {
    */
   helpfulVotes?: number | null;
   /**
+   * True when the reviewer received an incentive, such as a free sample, for writing the review, or null when not reported.
+   */
+  incentivized?: boolean | null;
+  /**
    * Star rating the reviewer gave, 1-5.
    */
   rating: number;
+  /**
+   * True when the reviewer says they would recommend the product, false when they would not, or null when they did not answer.
+   */
+  recommended?: boolean | null;
+  /**
+   * Public replies to the review from the brand or Target, oldest first; empty when there are none.
+   */
+  responses?: TargetReviewsResponse[];
   /**
    * Target review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.
    */
@@ -179,9 +273,29 @@ export interface TargetReviewsItem {
    */
   title?: string;
   /**
+   * UTC epoch timestamp in seconds (Unix time) of the review's last update on Target. Multiply by 1000 for a JS Date in milliseconds. Null when not reported.
+   */
+  updatedUtc?: number | null;
+  /**
    * True when Target marks the review a verified purchase, or null when not reported.
    */
   verifiedPurchase?: boolean | null;
+  [extra: string]: unknown;
+}
+
+export interface TargetReviewsResponse {
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when not reported.
+   */
+  createdUtc?: number | null;
+  /**
+   * Name the reply is signed with, e.g. the brand's customer team.
+   */
+  name?: string;
+  /**
+   * Reply text.
+   */
+  text?: string;
   [extra: string]: unknown;
 }
 
@@ -273,7 +387,9 @@ export interface TargetSearchInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `totalPages`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("isSponsored" | "rating" | "totalPages")[];
+  requireFields?: (
+    "hasMore" | "images" | "isSponsored" | "rating" | "totalPages"
+  )[];
   /**
    * Result sort order; omit for Target's own relevance order (e.g. price_low sorts by lowest price first).
    * One of: best_match, best_seller, price_low, price_high, rating_high, new.
@@ -297,6 +413,14 @@ export interface TargetSearchItem {
    */
   brand?: string | null;
   /**
+   * Target brand page URL, or null when not reported.
+   */
+  brandUrl?: string | null;
+  /**
+   * Target product type the result belongs to, e.g. "Coffee Makers", or null when not reported.
+   */
+  category?: string | null;
+  /**
    * Price currency code, e.g. "USD", or null when no price is shown.
    */
   currency?: string | null;
@@ -305,6 +429,10 @@ export interface TargetSearchItem {
    * Present whenever the upstream returns this record.
    */
   image?: string;
+  /**
+   * All product image URLs, primary first, or null when the serving source returns only the primary image.
+   */
+  images?: string[] | null;
   /**
    * True when the result is a sponsored placement, or null when the serving source does not report it.
    */
@@ -350,6 +478,10 @@ export interface TargetSearchItem {
  * The `data` payload of Target Search (target.search).
  */
 export interface TargetSearchData {
+  /**
+   * True when another page of results exists; request it with page + 1. Null when the serving source does not report it.
+   */
+  hasMore?: boolean | null;
   /**
    * Matching Target product records for the requested page. Populated whenever the provider has data for the entity.
    */
