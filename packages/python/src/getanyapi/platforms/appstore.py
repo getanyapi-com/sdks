@@ -523,7 +523,7 @@ class AppstoreNamespace:
         Get App Store reviews for any iOS app by app ID, in any storefront country:
         ratings, titles, and review text.
 
-        Price: $0 per request plus $0.00011 per result (maximum $0.011).
+        Price: $0.0009 per request.
 
         Example:
             res = client.appstore.reviews(appId="389801252", country="us", limit=3)
@@ -618,7 +618,7 @@ class AsyncAppstoreNamespace:
         Get App Store reviews for any iOS app by app ID, in any storefront country:
         ratings, titles, and review text.
 
-        Price: $0 per request plus $0.00011 per result (maximum $0.011).
+        Price: $0.0009 per request.
 
         Example:
             res = client.appstore.reviews(appId="389801252", country="us", limit=3)

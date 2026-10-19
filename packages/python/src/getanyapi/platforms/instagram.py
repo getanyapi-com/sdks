@@ -4700,7 +4700,7 @@ class InstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.027 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -4852,7 +4852,7 @@ class InstagramNamespace:
         Price: $0.0008 per request.
 
         Example:
-            res = client.instagram.user_posts(handle="nasa")
+            res = client.instagram.user_posts(handle="natgeo")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_posts", dict(input), options
@@ -5877,7 +5877,7 @@ class AsyncInstagramNamespace:
         List the accounts Instagram recommends as similar to a public profile, with
         each account's handle, display name, verified flag and avatar.
 
-        Price: $0.027 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -6029,7 +6029,7 @@ class AsyncInstagramNamespace:
         Price: $0.0008 per request.
 
         Example:
-            res = client.instagram.user_posts(handle="nasa")
+            res = client.instagram.user_posts(handle="natgeo")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "instagram.user_posts", dict(input), options

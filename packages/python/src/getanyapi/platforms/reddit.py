@@ -1356,7 +1356,7 @@ class RedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.00038 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
@@ -1751,7 +1751,7 @@ class AsyncRedditNamespace:
         List a Reddit user's posts by username, sorted by new, top, hot, or
         controversial, with cursor pagination.
 
-        Price: $0.00038 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.reddit.user_posts(username="spez")
