@@ -4380,6 +4380,19 @@
     "items": 1,
     "replayed": false
   },
+  "linktree.profile": {
+    "output": {
+      "found": true,
+      "data": {
+        "username": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "maps.contacts": {
     "output": {
       "found": true,
@@ -6215,6 +6228,49 @@
     "items": 1,
     "replayed": false
   },
+  "telegram.channel": {
+    "output": {
+      "found": true,
+      "data": {
+        "handle": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "telegram.channel_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "posts": [
+          {
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "telegram.post": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "threads.post": {
     "output": {
       "found": true,
@@ -6941,6 +6997,23 @@
             "rank": 1,
             "hashtag": "sample",
             "hashtagId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "tiktok.user_stories": {
+    "output": {
+      "found": true,
+      "data": {
+        "stories": [
+          {
+            "id": "sample",
             "_extra": "passthrough"
           }
         ]

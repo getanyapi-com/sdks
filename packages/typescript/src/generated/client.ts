@@ -48,6 +48,7 @@ import { InstagramNamespace } from "./platforms/instagram.js";
 import { JobSearchNamespace } from "./platforms/job_search.js";
 import { LevelsNamespace } from "./platforms/levels.js";
 import { LinkedinNamespace } from "./platforms/linkedin.js";
+import { LinktreeNamespace } from "./platforms/linktree.js";
 import { MapsNamespace } from "./platforms/maps.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
 import { NaverNamespace } from "./platforms/naver.js";
@@ -74,6 +75,7 @@ import { SocialNamespace } from "./platforms/social.js";
 import { SpotifyNamespace } from "./platforms/spotify.js";
 import { SubstackNamespace } from "./platforms/substack.js";
 import { TechnographicsNamespace } from "./platforms/technographics.js";
+import { TelegramNamespace } from "./platforms/telegram.js";
 import { ThreadsNamespace } from "./platforms/threads.js";
 import { TiktokNamespace } from "./platforms/tiktok.js";
 import { TiktokShopNamespace } from "./platforms/tiktok_shop.js";
@@ -498,6 +500,15 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
+   * Typed methods for the linktree platform.
+   */
+  get linktree(): LinktreeNamespace {
+    return (this._namespaces["linktree"] ??= new LinktreeNamespace(
+      this._core,
+    )) as LinktreeNamespace;
+  }
+
+  /**
    * Typed methods for the maps platform.
    */
   get maps(): MapsNamespace {
@@ -727,6 +738,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["technographics"] ??= new TechnographicsNamespace(
       this._core,
     )) as TechnographicsNamespace;
+  }
+
+  /**
+   * Typed methods for the telegram platform.
+   */
+  get telegram(): TelegramNamespace {
+    return (this._namespaces["telegram"] ??= new TelegramNamespace(
+      this._core,
+    )) as TelegramNamespace;
   }
 
   /**

@@ -71531,6 +71531,296 @@
       }
     },
     {
+      "slug": "linktree.profile",
+      "platform": "linktree",
+      "action": "profile",
+      "operationId": "linktree_profile",
+      "name": "Linktree Profile",
+      "category": "social",
+      "description": "Get a public Linktree page by URL: title, bio, picture, contact email, linked social accounts, and every link card with its destination.",
+      "pricing": {
+        "priceUsd": 0.0011,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linktree",
+      "tsMethod": "profile",
+      "tsIterMethod": null,
+      "pyNamespace": "linktree",
+      "pyMethod": "profile",
+      "pyIterMethod": null,
+      "inputTypeName": "LinktreeProfileInput",
+      "outputTypeName": "LinktreeProfileData",
+      "example": {
+        "url": "https://linktr.ee/mkbhd"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `title`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a page that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "locked",
+                "thumbnailUrl",
+                "title"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "The Linktree profile URL, e.g. https://linktr.ee/mkbhd.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "avatarUrl": {
+              "kind": "string",
+              "description": "Profile picture URL; null when none is set. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "The page's bio as plain text; null when none is set.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "email": {
+              "kind": "string",
+              "description": "Contact email listed on the page; null when none is listed.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "facebook": {
+              "kind": "string",
+              "description": "Facebook page URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Linktree account id.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "instagram": {
+              "kind": "string",
+              "description": "Instagram profile URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "links": {
+              "kind": "array",
+              "description": "The page's link cards in page order. Headers and group cards have no url. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "id": {
+                    "kind": "string",
+                    "description": "Link card id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "locked": {
+                    "kind": "boolean",
+                    "description": "True when Linktree locks the card and withholds its destination. Null when this source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "thumbnailUrl": {
+                    "kind": "string",
+                    "description": "Card thumbnail URL; null when none is set or when this source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Card title; null when none is set.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Linktree card type, e.g. CLASSIC, HEADER, GROUP or YOUTUBE_VIDEO. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Where the card links to; null for headers, groups and locked cards. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "id",
+                  "type",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "spotify": {
+              "kind": "string",
+              "description": "Spotify artist or show URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "tiktok": {
+              "kind": "string",
+              "description": "TikTok profile URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "timezone": {
+              "kind": "string",
+              "description": "The account's timezone as the page reports it, e.g. America/New_York.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "The page's title; the username when none is set. Null when this source does not report it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "username": {
+              "kind": "string",
+              "description": "The page's Linktree username. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "verticals": {
+              "kind": "array",
+              "description": "Creator categories picked on Linktree, e.g. Creator or Music.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "x": {
+              "kind": "string",
+              "description": "X (Twitter) profile URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "youtube": {
+              "kind": "string",
+              "description": "YouTube channel URL listed in the page's social icons; null when none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "username"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "avatarUrl",
+            "links",
+            "username"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "maps.contacts",
       "platform": "maps",
       "action": "contacts",
@@ -110105,6 +110395,619 @@
       }
     },
     {
+      "slug": "telegram.channel",
+      "platform": "telegram",
+      "action": "channel",
+      "operationId": "telegram_channel",
+      "name": "Telegram Channel",
+      "category": "social",
+      "description": "Get a public Telegram channel by username: name, bio, photo, verified badge, exact subscriber count, and how many photos, videos, files and links it has posted.",
+      "pricing": {
+        "priceUsd": 0.0011,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "telegram",
+      "tsMethod": "channel",
+      "tsIterMethod": null,
+      "pyNamespace": "telegram",
+      "pyMethod": "channel",
+      "pyIterMethod": null,
+      "inputTypeName": "TelegramChannelInput",
+      "outputTypeName": "TelegramChannelData",
+      "example": {
+        "handle": "telegram"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "handle": {
+            "kind": "string",
+            "description": "Public Telegram channel username, with or without the @ (e.g. \"telegram\"), or its t.me link.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `photoCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a channel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "fileCount",
+                "linkCount",
+                "photoCount",
+                "videoCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "avatarUrl": {
+              "kind": "string",
+              "description": "Channel photo URL. Temporary: Telegram's CDN link expires.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "Channel bio as plain text; null when the channel has none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "fileCount": {
+              "kind": "integer",
+              "description": "Files the channel has posted, rounded by Telegram. Null when not shown or when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "handle": {
+              "kind": "string",
+              "description": "Channel username, without the @. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkCount": {
+              "kind": "integer",
+              "description": "Links the channel has posted, rounded by Telegram. Null when not shown or when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "photoCount": {
+              "kind": "integer",
+              "description": "Photos the channel has posted. Telegram rounds this count (\"1.2K\" becomes 1200). Null when not shown or when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "subscribers": {
+              "kind": "integer",
+              "description": "Exact subscriber count, read from the channel's public t.me page. Null when Telegram does not show it. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "title": {
+              "kind": "string",
+              "description": "Channel name. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "The channel's t.me link.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "verified": {
+              "kind": "boolean",
+              "description": "True when the channel carries Telegram's verified badge. Null when this source does not report it.",
+              "nullable": true,
+              "default": null
+            },
+            "videoCount": {
+              "kind": "integer",
+              "description": "Videos the channel has posted, rounded by Telegram. Null when not shown or when this source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "handle"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "handle",
+            "subscribers",
+            "title"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "telegram.channel_posts",
+      "platform": "telegram",
+      "action": "channel_posts",
+      "operationId": "telegram_channel_posts",
+      "name": "Telegram Channel Posts",
+      "category": "social",
+      "description": "Get a public Telegram channel's posts by username, about 20 per page with a cursor for older pages: text, posting time, views, photo and video links, and reactions.",
+      "pricing": {
+        "priceUsd": 0.0011,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "telegram",
+      "tsMethod": "channelPosts",
+      "tsIterMethod": "iterChannelPosts",
+      "pyNamespace": "telegram",
+      "pyMethod": "channel_posts",
+      "pyIterMethod": "iter_channel_posts",
+      "inputTypeName": "TelegramChannelPostsInput",
+      "outputTypeName": "TelegramChannelPostsData",
+      "example": {
+        "handle": "telegram"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor, for older posts. Omit for the newest page; a page holds about 20 posts.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "handle": {
+            "kind": "string",
+            "description": "Public Telegram channel username, with or without the @ (e.g. \"telegram\"), or its t.me link.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next, older page of posts, or null/empty when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "posts": {
+              "kind": "array",
+              "description": "One page of the channel's posts, about 20, from the newest page back. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "channel": {
+                    "kind": "string",
+                    "description": "Username of the channel that published the post.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Post number, unique within the channel. Posts are numbered in order. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Thumbnail image URL for the post's photo, video or link preview; null when it has none. Temporary: Telegram's CDN link expires.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "mediaUrls": {
+                    "kind": "array",
+                    "description": "Direct URLs of the post's photos and videos. Temporary and signed: keep the query string. Empty when the post has no media or Telegram withholds a large video's file.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "reactions": {
+                    "kind": "array",
+                    "description": "Reactions on the post and how many of each. Empty when the post has none or the channel hides them.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "count": {
+                          "kind": "integer",
+                          "description": "How many times it was given. Telegram rounds large counts.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "emoji": {
+                          "kind": "string",
+                          "description": "The reaction's emoji; null for a custom emoji, and on some sources for a paid star reaction.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Post text or media caption, plain. Empty when the post has none. Some sources collapse line breaks into spaces. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The post's t.me link, e.g. https://t.me/telegram/441. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "View count. Telegram rounds it (\"1.2K\" becomes 1200). Null when not shown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "posts"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "posts"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": true,
+        "itemsField": "posts",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "telegram.post",
+      "platform": "telegram",
+      "action": "post",
+      "operationId": "telegram_post",
+      "name": "Telegram Post",
+      "category": "social",
+      "description": "Get one public Telegram channel post by its t.me link: text, posting time, views, photo and video links, and reactions.",
+      "pricing": {
+        "priceUsd": 0.0011,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "telegram",
+      "tsMethod": "post",
+      "tsIterMethod": null,
+      "pyNamespace": "telegram",
+      "pyMethod": "post",
+      "pyIterMethod": null,
+      "inputTypeName": "TelegramPostInput",
+      "outputTypeName": "TelegramPostData",
+      "example": {
+        "url": "https://t.me/telegram/460"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Link to one public channel post, e.g. https://t.me/telegram/460 (t.me/s/ links work too).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "channel": {
+              "kind": "string",
+              "description": "Username of the channel that published the post. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Post number, unique within the channel. Posts are numbered in order. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Thumbnail image URL for the post's photo, video or link preview; null when it has none. Temporary: Telegram's CDN link expires.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mediaUrls": {
+              "kind": "array",
+              "description": "Direct URLs of the post's photos and videos. Temporary and signed: keep the query string. Empty when the post has no media or Telegram withholds a large video's file.",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "reactions": {
+              "kind": "array",
+              "description": "Reactions on the post and how many of each. Empty when the post has none or the channel hides them.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "count": {
+                    "kind": "integer",
+                    "description": "How many times it was given. Telegram rounds large counts.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "emoji": {
+                    "kind": "string",
+                    "description": "The reaction's emoji; null for a custom emoji, and on some sources for a paid star reaction.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "text": {
+              "kind": "string",
+              "description": "Post text or media caption, plain. Empty when the post has none. Some sources collapse line breaks into spaces. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "The post's t.me link. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "views": {
+              "kind": "integer",
+              "description": "View count. Telegram rounds it (\"1.2K\" becomes 1200). Null when not shown.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "channel",
+            "createdUtc",
+            "id",
+            "text",
+            "url"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "threads.post",
       "platform": "threads",
       "action": "post",
@@ -118385,6 +119288,263 @@
       }
     },
     {
+      "slug": "tiktok.user_stories",
+      "platform": "tiktok",
+      "action": "user_stories",
+      "operationId": "tiktok_user_stories",
+      "name": "TikTok User Stories",
+      "category": "social",
+      "description": "Get a TikTok creator's active public stories by username: video or photo links, cover, posting and expiry times, and view, like, share and save counts.",
+      "pricing": {
+        "priceUsd": 0.0011,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "tiktok",
+      "tsMethod": "userStories",
+      "tsIterMethod": null,
+      "pyNamespace": "tiktok",
+      "pyMethod": "user_stories",
+      "pyIterMethod": null,
+      "inputTypeName": "TiktokUserStoriesInput",
+      "outputTypeName": "TiktokUserStoriesData",
+      "example": {
+        "handle": "jasonderulo"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "handle": {
+            "kind": "string",
+            "description": "TikTok username, without the @ (e.g. \"jasonderulo\").",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `expiresUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "expiresUtc"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "handle"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "stories": {
+              "kind": "array",
+              "description": "The account's active public stories, up to 20, oldest first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "authorHandle": {
+                    "kind": "string",
+                    "description": "Author's TikTok handle, without the leading @.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "caption": {
+                    "kind": "string",
+                    "description": "Caption text; usually empty on stories.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "comments": {
+                    "kind": "integer",
+                    "description": "Comment count.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "durationSeconds": {
+                    "kind": "number",
+                    "description": "Video length in seconds; 0 for a photo story.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "expiresUtc": {
+                    "kind": "number",
+                    "description": "When the story stops being visible. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Null when this source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Story (video or photo post) id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Cover image URL. Signed and short-lived, so keep the query string. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "imageUrls": {
+                    "kind": "array",
+                    "description": "Photo URLs for a photo story; empty for a video story. Signed and short-lived.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "likes": {
+                    "kind": "integer",
+                    "description": "Like count.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "saves": {
+                    "kind": "integer",
+                    "description": "Save (favorite) count.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shares": {
+                    "kind": "integer",
+                    "description": "Share count.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soundTitle": {
+                    "kind": "string",
+                    "description": "Name of the sound the story uses; null when it has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "The story on tiktok.com. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "videoUrl": {
+                    "kind": "string",
+                    "description": "Playable video URL for a video story; null for a photo story. Signed and short-lived, so keep the query string.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "views": {
+                    "kind": "integer",
+                    "description": "Play count.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "id",
+                  "image",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "stories"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "stories"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "tiktok.video",
       "platform": "tiktok",
       "action": "video",
@@ -119222,6 +120382,19 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `language`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "language"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "source": {
             "kind": "array",

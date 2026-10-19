@@ -91,6 +91,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "job_search": ("job_search", "JobSearchNamespace", "AsyncJobSearchNamespace"),
     "levels": ("levels", "LevelsNamespace", "AsyncLevelsNamespace"),
     "linkedin": ("linkedin", "LinkedinNamespace", "AsyncLinkedinNamespace"),
+    "linktree": ("linktree", "LinktreeNamespace", "AsyncLinktreeNamespace"),
     "maps": ("maps", "MapsNamespace", "AsyncMapsNamespace"),
     "mobile_phone": (
         "mobile_phone",
@@ -137,6 +138,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
         "TechnographicsNamespace",
         "AsyncTechnographicsNamespace",
     ),
+    "telegram": ("telegram", "TelegramNamespace", "AsyncTelegramNamespace"),
     "threads": ("threads", "ThreadsNamespace", "AsyncThreadsNamespace"),
     "tiktok": ("tiktok", "TiktokNamespace", "AsyncTiktokNamespace"),
     "tiktok_shop": ("tiktok_shop", "TiktokShopNamespace", "AsyncTiktokShopNamespace"),

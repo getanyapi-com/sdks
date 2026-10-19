@@ -513,6 +513,10 @@ import type {
   LinkedinSearchProfilesThinInput,
 } from "./platforms/linkedin.js";
 import type {
+  LinktreeProfileData,
+  LinktreeProfileInput,
+} from "./platforms/linktree.js";
+import type {
   MapsContactsData,
   MapsContactsInput,
   MapsPlaceData,
@@ -758,6 +762,14 @@ import type {
   TechnographicsTheirstackInput,
 } from "./platforms/technographics.js";
 import type {
+  TelegramChannelData,
+  TelegramChannelInput,
+  TelegramChannelPostsData,
+  TelegramChannelPostsInput,
+  TelegramPostData,
+  TelegramPostInput,
+} from "./platforms/telegram.js";
+import type {
   ThreadsPostData,
   ThreadsPostInput,
   ThreadsProfileData,
@@ -826,6 +838,8 @@ import type {
   TiktokTrendingFeedInput,
   TiktokTrendingHashtagsData,
   TiktokTrendingHashtagsInput,
+  TiktokUserStoriesData,
+  TiktokUserStoriesInput,
   TiktokVideoCommentsData,
   TiktokVideoCommentsInput,
   TiktokVideoData,
@@ -2114,6 +2128,11 @@ export interface SkuMap {
     data: LinkedinSearchProfilesThinData;
     result: RunResult<LinkedinSearchProfilesThinData>;
   };
+  "linktree.profile": {
+    input: LinktreeProfileInput;
+    data: LinktreeProfileData;
+    result: RunResult<LinktreeProfileData>;
+  };
   "maps.contacts": {
     input: MapsContactsInput;
     data: MapsContactsData;
@@ -2604,6 +2623,21 @@ export interface SkuMap {
     data: TechnographicsTheirstackData;
     result: RunResult<TechnographicsTheirstackData>;
   };
+  "telegram.channel": {
+    input: TelegramChannelInput;
+    data: TelegramChannelData;
+    result: RunResult<TelegramChannelData>;
+  };
+  "telegram.channel_posts": {
+    input: TelegramChannelPostsInput;
+    data: TelegramChannelPostsData;
+    result: RunResult<TelegramChannelPostsData>;
+  };
+  "telegram.post": {
+    input: TelegramPostInput;
+    data: TelegramPostData;
+    result: RunResult<TelegramPostData>;
+  };
   "threads.post": {
     input: ThreadsPostInput;
     data: ThreadsPostData;
@@ -2768,6 +2802,11 @@ export interface SkuMap {
     input: TiktokTrendingHashtagsInput;
     data: TiktokTrendingHashtagsData;
     result: RunResult<TiktokTrendingHashtagsData>;
+  };
+  "tiktok.user_stories": {
+    input: TiktokUserStoriesInput;
+    data: TiktokUserStoriesData;
+    result: RunResult<TiktokUserStoriesData>;
   };
   "tiktok.video": {
     input: TiktokVideoInput;
