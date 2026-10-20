@@ -11891,8 +11891,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-18",
-        "checkOut": "2026-11-20",
+        "checkIn": "2026-11-19",
+        "checkOut": "2026-11-21",
         "limit": 3,
         "query": "New York"
       },
@@ -47977,8 +47977,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-18",
-        "checkOut": "2026-11-20",
+        "checkIn": "2026-11-19",
+        "checkOut": "2026-11-21",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -48576,8 +48576,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-18",
-        "checkOut": "2026-11-20",
+        "checkIn": "2026-11-19",
+        "checkOut": "2026-11-21",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -57232,7 +57232,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -84908,10 +84908,10 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.002,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0111,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.011,
+        "perItemUnit": "result"
       },
       "tsNamespace": "perplexity",
       "tsMethod": "search",
