@@ -1429,7 +1429,7 @@ class YoutubeNamespace:
         signed-in Google session and a CAPTCHA, so it is absent from the channel
         page a logged-out scraper reads.
 
-        Price: $0.132 per request plus $0 per result (maximum $0.132).
+        Price: $0.0718 per request plus $0 per result (maximum $0.0718).
 
         Example:
             res = client.youtube.channel_contact(handle="@mkbhd")
@@ -1972,7 +1972,7 @@ class YoutubeNamespace:
         provenance: whether the words are creator-written captions or machine speech
         recognition.
 
-        Price: $0.003 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2069,7 +2069,7 @@ class AsyncYoutubeNamespace:
         signed-in Google session and a CAPTCHA, so it is absent from the channel
         page a logged-out scraper reads.
 
-        Price: $0.132 per request plus $0 per result (maximum $0.132).
+        Price: $0.0718 per request plus $0 per result (maximum $0.0718).
 
         Example:
             res = client.youtube.channel_contact(handle="@mkbhd")
@@ -2612,7 +2612,7 @@ class AsyncYoutubeNamespace:
         provenance: whether the words are creator-written captions or machine speech
         recognition.
 
-        Price: $0.003 per request.
+        Price: $0.002 per request.
 
         Example:
             res = client.youtube.video_transcript_full(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
