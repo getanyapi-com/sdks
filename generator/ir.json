@@ -11891,8 +11891,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-19",
-        "checkOut": "2026-11-21",
+        "checkIn": "2026-11-20",
+        "checkOut": "2026-11-22",
         "limit": 3,
         "query": "New York"
       },
@@ -27797,7 +27797,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -47977,8 +47977,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-19",
-        "checkOut": "2026-11-21",
+        "checkIn": "2026-11-20",
+        "checkOut": "2026-11-22",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -48576,8 +48576,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-19",
-        "checkOut": "2026-11-21",
+        "checkIn": "2026-11-20",
+        "checkOut": "2026-11-22",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -137860,8 +137860,8 @@
       "category": "video",
       "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.",
       "pricing": {
-        "priceUsd": 0.0718,
-        "baseUsd": 0.0718,
+        "priceUsd": 0.132,
+        "baseUsd": 0.132,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },

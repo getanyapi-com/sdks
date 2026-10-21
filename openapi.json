@@ -26596,8 +26596,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-11-19",
-                "checkOut": "2026-11-21",
+                "checkIn": "2026-11-20",
+                "checkOut": "2026-11-22",
                 "limit": 3,
                 "query": "New York"
               },
@@ -26605,8 +26605,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-11-19",
-                  "checkOut": "2026-11-21",
+                  "checkIn": "2026-11-20",
+                  "checkOut": "2026-11-22",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -54135,7 +54135,7 @@
     },
     "/v1/run/email.find": {
       "post": {
-        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$30.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
+        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$15.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
         "operationId": "email_find",
         "parameters": [
           {
@@ -54611,7 +54611,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.030800",
+            "amount": "0.015400",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -54653,7 +54653,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.030800",
+                "amount": "0.015400",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -54685,7 +54685,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.030800",
+                "amount": "0.015400",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -106160,16 +106160,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-19",
-                "checkOut": "2026-11-21",
+                "checkIn": "2026-11-20",
+                "checkOut": "2026-11-22",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-19",
-                  "checkOut": "2026-11-21",
+                  "checkIn": "2026-11-20",
+                  "checkOut": "2026-11-22",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -107144,16 +107144,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-19",
-                "checkOut": "2026-11-21",
+                "checkIn": "2026-11-20",
+                "checkOut": "2026-11-22",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-19",
-                  "checkOut": "2026-11-21",
+                  "checkIn": "2026-11-20",
+                  "checkOut": "2026-11-22",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -132616,7 +132616,7 @@
     },
     "/v1/run/instagram.user_posts": {
       "post": {
-        "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Posts pricing and uptime](https://getanyapi.com/api/instagram/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Posts pricing and uptime](https://getanyapi.com/api/instagram/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_posts",
         "parameters": [
           {
@@ -296439,7 +296439,7 @@
     },
     "/v1/run/youtube.channel_contact": {
       "post": {
-        "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.\n\n**Price:** billed per result - \\$71.80 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$71.80 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel Contact Email pricing and uptime](https://getanyapi.com/api/youtube/channel-contact) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.\n\n**Price:** billed per result - \\$132.00 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$132.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [YouTube Channel Contact Email pricing and uptime](https://getanyapi.com/api/youtube/channel-contact) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_channel_contact",
         "parameters": [
           {
@@ -296883,8 +296883,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.071800",
-            "min": "0.071800",
+            "max": "0.132000",
+            "min": "0.132000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -296926,8 +296926,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.071800",
-                "min": "0.071800",
+                "max": "0.132000",
+                "min": "0.132000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -296959,8 +296959,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.071800",
-                "min": "0.071800",
+                "max": "0.132000",
+                "min": "0.132000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
