@@ -1302,7 +1302,7 @@ class GoogleNamespace:
         further, or use google.search_100 for up to 100 ranked results in one call,
         which is cheaper past roughly 20 results.
 
-        Price: $0.0004 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
@@ -1704,7 +1704,7 @@ class AsyncGoogleNamespace:
         further, or use google.search_100 for up to 100 ranked results in one call,
         which is cheaper past roughly 20 results.
 
-        Price: $0.0004 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
