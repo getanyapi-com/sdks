@@ -62955,7 +62955,7 @@
     },
     "/v1/run/facebook.ad_details": {
       "post": {
-        "description": "Look up a single Meta Ad Library ad by ID or URL and get the advertiser, creative text, call-to-action, platforms, and run dates as clean JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Ad Details pricing and uptime](https://getanyapi.com/api/facebook/ad-details) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Look up a single Meta Ad Library ad by ID or URL and get the advertiser, creative text, call-to-action, platforms, and run dates as clean JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Ad Details pricing and uptime](https://getanyapi.com/api/facebook/ad-details) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_ad_details",
         "parameters": [
           {
@@ -128826,7 +128826,7 @@
     },
     "/v1/run/instagram.similar_profiles": {
       "post": {
-        "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.\n\n**Price:** \\$2.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_similar_profiles",
         "parameters": [
           {
@@ -129296,7 +129296,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001750",
+            "amount": "0.002400",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -129338,7 +129338,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001750",
+                "amount": "0.002400",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -129370,7 +129370,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001750",
+                "amount": "0.002400",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -153248,7 +153248,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -153904,7 +153904,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.000800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -153946,7 +153946,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -153978,7 +153978,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.000800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -157030,7 +157030,7 @@
     },
     "/v1/run/linkedin.search_profiles": {
       "post": {
-        "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.\n\n**Price:** billed per result - \\$80.00 per 1,000 requests base + \\$4.00 per 1,000 results, capped at \\$180.00 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile Search pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.\n\n**Price:** billed per result - \\$88.00 per 1,000 requests base + \\$4.40 per 1,000 results, capped at \\$198.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Search pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_profiles",
         "parameters": [
           {
@@ -157904,8 +157904,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.180000",
-            "min": "0.080000",
+            "max": "0.198000",
+            "min": "0.088000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -157947,8 +157947,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.180000",
-                "min": "0.080000",
+                "max": "0.198000",
+                "min": "0.088000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -157980,8 +157980,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.180000",
-                "min": "0.080000",
+                "max": "0.198000",
+                "min": "0.088000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -194250,7 +194250,7 @@
     },
     "/v1/run/reddit.post_comments": {
       "post": {
-        "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Reddit Post Comments pricing and uptime](https://getanyapi.com/api/reddit/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post Comments pricing and uptime](https://getanyapi.com/api/reddit/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_post_comments",
         "parameters": [
           {

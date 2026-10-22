@@ -6058,7 +6058,7 @@ export class LinkedinNamespace {
    *
    * Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.linkedin.profileThin({ url: "https://www.linkedin.com/in/williamhgates" });
@@ -6166,7 +6166,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.
    *
-   * Price: $0.08 per request plus $0.004 per result (maximum $0.18).
+   * Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
    *
    * @example
    * const res = await client.linkedin.searchProfiles({ query: "engineer", currentCompanies: ["Google"], limit: 3 });

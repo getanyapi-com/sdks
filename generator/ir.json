@@ -57232,7 +57232,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -69886,7 +69886,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -71859,9 +71859,9 @@
       "category": "social",
       "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.",
       "pricing": {
-        "priceUsd": 0.18,
-        "baseUsd": 0.08,
-        "perItemUsd": 0.004,
+        "priceUsd": 0.198,
+        "baseUsd": 0.088,
+        "perItemUsd": 0.0044,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",

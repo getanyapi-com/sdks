@@ -5041,7 +5041,7 @@ class LinkedinNamespace:
         redacted). For full experience detail, skills, certifications, and verified
         flags use linkedin.profile.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -5180,7 +5180,7 @@ class LinkedinNamespace:
         linkedin.search_profiles_thin; add emails with
         linkedin.search_profiles_email.
 
-        Price: $0.08 per request plus $0.004 per result (maximum $0.18).
+        Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
 
         Example:
             res = client.linkedin.search_profiles(currentCompanies=["Google"], limit=3, query="engineer")
@@ -5855,7 +5855,7 @@ class AsyncLinkedinNamespace:
         redacted). For full experience detail, skills, certifications, and verified
         flags use linkedin.profile.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -5994,7 +5994,7 @@ class AsyncLinkedinNamespace:
         linkedin.search_profiles_thin; add emails with
         linkedin.search_profiles_email.
 
-        Price: $0.08 per request plus $0.004 per result (maximum $0.18).
+        Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
 
         Example:
             res = client.linkedin.search_profiles(currentCompanies=["Google"], limit=3, query="engineer")
