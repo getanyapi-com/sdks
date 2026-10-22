@@ -11891,8 +11891,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-20",
-        "checkOut": "2026-11-22",
+        "checkIn": "2026-11-21",
+        "checkOut": "2026-11-23",
         "limit": 3,
         "query": "New York"
       },
@@ -45983,7 +45983,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -46409,7 +46409,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -47977,8 +47977,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-20",
-        "checkOut": "2026-11-22",
+        "checkIn": "2026-11-21",
+        "checkOut": "2026-11-23",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -48576,8 +48576,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-20",
-        "checkOut": "2026-11-22",
+        "checkIn": "2026-11-21",
+        "checkOut": "2026-11-23",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -137860,8 +137860,8 @@
       "category": "video",
       "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.",
       "pricing": {
-        "priceUsd": 0.0718,
-        "baseUsd": 0.0718,
+        "priceUsd": 0.132,
+        "baseUsd": 0.132,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
