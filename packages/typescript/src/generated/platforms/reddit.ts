@@ -218,7 +218,7 @@ export interface RedditPostCommentsInput {
    */
   source?: string[];
   /**
-   * Full Reddit post URL on reddit.com. A gallery link (https://www.reddit.com/gallery/<id>) is read as the post it belongs to.
+   * Full Reddit post URL on reddit.com. A gallery link (https://www.reddit.com/gallery/<id>) is read as the post it belongs to, and a relative permalink (/r/<subreddit>/comments/<id>/...) as the same path on https://www.reddit.com.
    */
   url: string;
 }

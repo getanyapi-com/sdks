@@ -95199,7 +95199,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "Full Reddit post URL on reddit.com. A gallery link (https://www.reddit.com/gallery/<id>) is read as the post it belongs to.",
+            "description": "Full Reddit post URL on reddit.com. A gallery link (https://www.reddit.com/gallery/<id>) is read as the post it belongs to, and a relative permalink (/r/<subreddit>/comments/<id>/...) as the same path on https://www.reddit.com.",
             "enum": null,
             "default": null,
             "format": null
