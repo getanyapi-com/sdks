@@ -9,6 +9,7 @@ import type { SkuMap } from "./sku-map.js";
 import { AhrefsNamespace } from "./platforms/ahrefs.js";
 import { AirbnbNamespace } from "./platforms/airbnb.js";
 import { AlibabaNamespace } from "./platforms/alibaba.js";
+import { AliexpressNamespace } from "./platforms/aliexpress.js";
 import { AmazonNamespace } from "./platforms/amazon.js";
 import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
@@ -33,6 +34,7 @@ import { EbayNamespace } from "./platforms/ebay.js";
 import { EmailNamespace } from "./platforms/email.js";
 import { EmailFindingNamespace } from "./platforms/email_finding.js";
 import { EmailVerificationNamespace } from "./platforms/email_verification.js";
+import { EtsyNamespace } from "./platforms/etsy.js";
 import { FacebookNamespace } from "./platforms/facebook.js";
 import { FiverrNamespace } from "./platforms/fiverr.js";
 import { G2Namespace } from "./platforms/g2.js";
@@ -156,6 +158,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["alibaba"] ??= new AlibabaNamespace(
       this._core,
     )) as AlibabaNamespace;
+  }
+
+  /**
+   * Typed methods for the aliexpress platform.
+   */
+  get aliexpress(): AliexpressNamespace {
+    return (this._namespaces["aliexpress"] ??= new AliexpressNamespace(
+      this._core,
+    )) as AliexpressNamespace;
   }
 
   /**
@@ -368,6 +379,15 @@ export class AnyAPI extends AnyAPIBase {
   get emailVerification(): EmailVerificationNamespace {
     return (this._namespaces["emailVerification"] ??=
       new EmailVerificationNamespace(this._core)) as EmailVerificationNamespace;
+  }
+
+  /**
+   * Typed methods for the etsy platform.
+   */
+  get etsy(): EtsyNamespace {
+    return (this._namespaces["etsy"] ??= new EtsyNamespace(
+      this._core,
+    )) as EtsyNamespace;
   }
 
   /**

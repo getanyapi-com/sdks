@@ -23,6 +23,14 @@ import type {
   AlibabaSearchInput,
 } from "./platforms/alibaba.js";
 import type {
+  AliexpressProductData,
+  AliexpressProductInput,
+  AliexpressReviewsData,
+  AliexpressReviewsInput,
+  AliexpressSearchData,
+  AliexpressSearchInput,
+} from "./platforms/aliexpress.js";
+import type {
   AmazonAsinsData,
   AmazonAsinsInput,
   AmazonBestsellersData,
@@ -213,6 +221,16 @@ import type {
   EmailVerificationZerobounceData,
   EmailVerificationZerobounceInput,
 } from "./platforms/email_verification.js";
+import type {
+  EtsyProductData,
+  EtsyProductInput,
+  EtsySearchData,
+  EtsySearchInput,
+  EtsyShopData,
+  EtsyShopInput,
+  EtsyShopListingsData,
+  EtsyShopListingsInput,
+} from "./platforms/etsy.js";
 import type {
   FacebookAdDetailsData,
   FacebookAdDetailsFullData,
@@ -1115,6 +1133,21 @@ export interface SkuMap {
     data: AlibabaSearchData;
     result: RunResult<AlibabaSearchData>;
   };
+  "aliexpress.product": {
+    input: AliexpressProductInput;
+    data: AliexpressProductData;
+    result: RunResult<AliexpressProductData>;
+  };
+  "aliexpress.reviews": {
+    input: AliexpressReviewsInput;
+    data: AliexpressReviewsData;
+    result: RunResult<AliexpressReviewsData>;
+  };
+  "aliexpress.search": {
+    input: AliexpressSearchInput;
+    data: AliexpressSearchData;
+    result: RunResult<AliexpressSearchData>;
+  };
   "amazon.asins": {
     input: AmazonAsinsInput;
     data: AmazonAsinsData;
@@ -1479,6 +1512,26 @@ export interface SkuMap {
     input: EmailVerificationZerobounceActivityInput;
     data: EmailVerificationZerobounceActivityData;
     result: RunResult<EmailVerificationZerobounceActivityData>;
+  };
+  "etsy.product": {
+    input: EtsyProductInput;
+    data: EtsyProductData;
+    result: RunResult<EtsyProductData>;
+  };
+  "etsy.search": {
+    input: EtsySearchInput;
+    data: EtsySearchData;
+    result: RunResult<EtsySearchData>;
+  };
+  "etsy.shop": {
+    input: EtsyShopInput;
+    data: EtsyShopData;
+    result: RunResult<EtsyShopData>;
+  };
+  "etsy.shop_listings": {
+    input: EtsyShopListingsInput;
+    data: EtsyShopListingsData;
+    result: RunResult<EtsyShopListingsData>;
   };
   "facebook.ad_details": {
     input: FacebookAdDetailsInput;

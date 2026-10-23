@@ -1775,6 +1775,1220 @@
       }
     },
     {
+      "slug": "aliexpress.product",
+      "platform": "aliexpress",
+      "action": "product",
+      "operationId": "aliexpress_product",
+      "name": "AliExpress Product",
+      "category": "shop",
+      "description": "Look up one AliExpress product by id and get its price, original price, rating, reviews count, images, options, variants with stock, specifications, store, ship-from country and delivery estimate in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "aliexpress",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "aliexpress",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "AliexpressProductInput",
+      "outputTypeName": "AliexpressProductData",
+      "example": {
+        "productId": "3256807039224587"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "Ship-to country as a 2-letter ISO code, e.g. US or DE. It changes prices, stock and the delivery estimate.",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "currency": {
+            "kind": "string",
+            "description": "Price currency as a 3-letter ISO code, e.g. USD or EUR.",
+            "enum": null,
+            "default": "USD",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "productId": {
+            "kind": "string",
+            "description": "AliExpress product id, the number in the product URL (https://www.aliexpress.com/item/<id>.html), e.g. 3256807039224587. The AliExpress Search SKU returns it as productId.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `video`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "freeShipping",
+                "returnPolicy",
+                "shippingCost",
+                "video",
+                "wishlistCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "productId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Product detail records (one per requested product id). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "deliveryDaysMax": {
+                    "kind": "integer",
+                    "description": "Most days the default shipping option takes to the requested country, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "deliveryDaysMin": {
+                    "kind": "integer",
+                    "description": "Fewest days the default shipping option takes to the requested country, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "freeShipping": {
+                    "kind": "boolean",
+                    "description": "True when the default shipping option to the requested country costs nothing after AliExpress's buyer promotions, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Product image URLs, primary first. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "isTopRatedSeller": {
+                    "kind": "boolean",
+                    "description": "True when AliExpress marks the store as a top-rated seller, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "options": {
+                    "kind": "array",
+                    "description": "The choices a buyer picks from, e.g. Color and Size, each with its values. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Option name as AliExpress shows it, e.g. \"Color\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "values": {
+                          "kind": "array",
+                          "description": "Values a buyer can pick, e.g. [\"green\", \"Purple\"].",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "originalPrice": {
+                    "kind": "number",
+                    "description": "Price of the default variant before the current discount, or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price of the default variant in the requested currency (the lowest variant price when the page shows a range), or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "AliExpress product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "quantityAvailable": {
+                    "kind": "integer",
+                    "description": "Units in stock across all variants, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "returnPolicy": {
+                    "kind": "string",
+                    "description": "The returns promise AliExpress shows on the product, e.g. \"Free returns within 90 days\", or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer reviews, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerCountry": {
+                    "kind": "string",
+                    "description": "Country the store is registered in, as AliExpress names it, e.g. \"China\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerFeedbackCount": {
+                    "kind": "integer",
+                    "description": "Number of buyer feedback ratings the store has received, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerFeedbackPercent": {
+                    "kind": "number",
+                    "description": "Share of the store's buyer feedback that is positive, as a percentage, e.g. 95.9, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerLevel": {
+                    "kind": "string",
+                    "description": "The store's AliExpress seller level code, e.g. \"25-s\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerOpenedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. The day the store opened on AliExpress, as midnight UTC of that date; null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerScore": {
+                    "kind": "integer",
+                    "description": "The store's AliExpress feedback score, the points AliExpress shows beside the store, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shipFrom": {
+                    "kind": "string",
+                    "description": "Country the default shipping option ships from, as AliExpress names it, e.g. \"China\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shippingCost": {
+                    "kind": "number",
+                    "description": "Shipping cost of the default option to the requested country, in the requested currency, or null when not reported or the serving source does not report it in that currency. AliExpress applies buyer promotions to it, so sources can differ.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soldCount": {
+                    "kind": "integer",
+                    "description": "Units sold, read from AliExpress's rounded label, so \"4,000+ sold\" comes back as 4000; null when not shown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "specifications": {
+                    "kind": "array",
+                    "description": "The seller's specifications table, one name and value per row. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Attribute name as the seller lists it, e.g. \"Material\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "value": {
+                          "kind": "string",
+                          "description": "Attribute value as the seller lists it.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "storeId": {
+                    "kind": "string",
+                    "description": "Storefront number of the store, the digits in https://www.aliexpress.com/store/<id>, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "storeName": {
+                    "kind": "string",
+                    "description": "Name of the store selling the product, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "AliExpress product page URL with tracking query parameters removed.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "variants": {
+                    "kind": "array",
+                    "description": "One entry per purchasable combination of options. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "attributes": {
+                          "kind": "object",
+                          "description": "The option values that make up this variant, keyed by option name, e.g. {\"Color\": \"Purple\", \"Size\": \"XL\"}, or null when the serving source does not report them.",
+                          "nullable": true,
+                          "properties": {},
+                          "required": [],
+                          "open": true
+                        },
+                        "image": {
+                          "kind": "string",
+                          "description": "Picture of this variant, or null when it has none or the serving source does not report it.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "inStock": {
+                          "kind": "boolean",
+                          "description": "True when this variant can be bought now, or null when not reported.",
+                          "nullable": true,
+                          "default": null
+                        },
+                        "originalPrice": {
+                          "kind": "number",
+                          "description": "Price of this variant before the current discount, or null when not reported.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "price": {
+                          "kind": "number",
+                          "description": "Current price of this variant, or null when the serving source does not report it.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "quantityAvailable": {
+                          "kind": "integer",
+                          "description": "Units of this variant in stock, or null when not reported.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "skuId": {
+                          "kind": "string",
+                          "description": "AliExpress id of this variant.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "video": {
+                    "kind": "string",
+                    "description": "Product video URL (MP4), or null when the product has none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "wishlistCount": {
+                    "kind": "integer",
+                    "description": "Number of shoppers who added the product to their wish list, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "currency",
+                  "deliveryDaysMax",
+                  "deliveryDaysMin",
+                  "images",
+                  "isTopRatedSeller",
+                  "options",
+                  "originalPrice",
+                  "price",
+                  "productId",
+                  "quantityAvailable",
+                  "rating",
+                  "reviewsCount",
+                  "sellerCountry",
+                  "sellerFeedbackCount",
+                  "sellerFeedbackPercent",
+                  "sellerLevel",
+                  "sellerOpenedUtc",
+                  "sellerScore",
+                  "shipFrom",
+                  "specifications",
+                  "storeId",
+                  "storeName",
+                  "title",
+                  "variants"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "aliexpress.reviews",
+      "platform": "aliexpress",
+      "action": "reviews",
+      "operationId": "aliexpress_reviews",
+      "name": "AliExpress Reviews",
+      "category": "shop",
+      "description": "Get one page of buyer reviews for an AliExpress product by id, with rating, text, buyer country, date, bought variant and photos for each review, plus the product's total reviews, average rating and star distribution, in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "aliexpress",
+      "tsMethod": "reviews",
+      "tsIterMethod": null,
+      "pyNamespace": "aliexpress",
+      "pyMethod": "reviews",
+      "pyIterMethod": null,
+      "inputTypeName": "AliexpressReviewsInput",
+      "outputTypeName": "AliexpressReviewsData",
+      "example": {
+        "productId": "3256807039224587"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of 20 reviews in AliExpress's default order. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "productId": {
+            "kind": "string",
+            "description": "AliExpress product id, the number in the product URL (https://www.aliexpress.com/item/<id>.html), e.g. 3256807039224587. The AliExpress Search SKU returns it as productId.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `helpfulVotes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "followUpImages",
+                "followUpText",
+                "followUpUtc",
+                "helpfulVotes",
+                "unhelpfulVotes"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "productId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Buyer review records for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "aspects": {
+                    "kind": "array",
+                    "description": "The buyer's ratings of named aspects of the product, e.g. {\"name\": \"Durability\", \"value\": \"Poor\"}; empty when the buyer rated none.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Aspect the buyer rated, e.g. \"Durability\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "value": {
+                          "kind": "string",
+                          "description": "The buyer's rating of it, e.g. \"Poor\", or null when not reported.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "2-letter ISO code of the buyer's country, e.g. \"US\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. AliExpress publishes the review date only, so this is midnight UTC of that date; null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "followUpImages": {
+                    "kind": "array",
+                    "description": "Photo URLs attached to the follow-up review; empty when it has none, null when the serving source does not report follow-ups.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "followUpText": {
+                    "kind": "string",
+                    "description": "Text of the follow-up review the buyer added later, or null when there is none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "followUpUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. The day the buyer added the follow-up review, as midnight UTC of that date; null when there is none or the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "helpfulVotes": {
+                    "kind": "integer",
+                    "description": "Number of \"helpful\" votes the review received, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Photo URLs the buyer attached; empty when there are none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Star rating the buyer gave, 1-5.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewId": {
+                    "kind": "string",
+                    "description": "AliExpress review id; use it to deduplicate across pages. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reviewer": {
+                    "kind": "string",
+                    "description": "Buyer display name as AliExpress shows it, usually masked (e.g. \"A***r\") or \"AliExpress Shopper\". Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shippingMethod": {
+                    "kind": "string",
+                    "description": "Shipping service the buyer's order came by, as AliExpress names it, e.g. \"AliExpress Selection Standard Shipping\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "skuInfo": {
+                    "kind": "string",
+                    "description": "The variant the buyer bought, as AliExpress prints it, e.g. \"Color:Yellow Size:XXL\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Review body text in the buyer's own language; empty when the buyer left a rating only. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "unhelpfulVotes": {
+                    "kind": "integer",
+                    "description": "Number of \"not helpful\" votes the review received, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "reviewId",
+                  "rating",
+                  "text",
+                  "aspects"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "country",
+                  "createdUtc",
+                  "images",
+                  "reviewId",
+                  "reviewer",
+                  "shippingMethod",
+                  "skuInfo",
+                  "text"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "rating": {
+              "kind": "number",
+              "description": "Overall product score (1-5), or null when not reported. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "ratingDistribution": {
+              "kind": "object",
+              "description": "Number of reviews at each star rating, keyed \"1\" through \"5\". Populated whenever the provider has data for the entity.",
+              "properties": {
+                "1": {
+                  "kind": "integer",
+                  "description": "Number of 1-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "2": {
+                  "kind": "integer",
+                  "description": "Number of 2-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "3": {
+                  "kind": "integer",
+                  "description": "Number of 3-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "4": {
+                  "kind": "integer",
+                  "description": "Number of 4-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "5": {
+                  "kind": "integer",
+                  "description": "Number of 5-star reviews.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Number of 20-review pages AliExpress reports for the product, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalReviews": {
+              "kind": "integer",
+              "description": "Total number of reviews for the product, or null when not reported. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items",
+            "rating",
+            "ratingDistribution",
+            "totalReviews"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "aliexpress.search",
+      "platform": "aliexpress",
+      "action": "search",
+      "operationId": "aliexpress_search",
+      "name": "AliExpress Search",
+      "category": "shop",
+      "description": "Search AliExpress by keyword with optional sort, price-range, page, ship-to country and currency, and get title, price, original price, units sold and image for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "aliexpress",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "aliexpress",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "AliexpressSearchInput",
+      "outputTypeName": "AliexpressSearchData",
+      "example": {
+        "query": "minecraft room projector"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "country": {
+            "kind": "string",
+            "description": "Ship-to country as a 2-letter ISO code, e.g. US or DE. It changes prices, availability and delivery estimates.",
+            "enum": null,
+            "default": "US",
+            "format": null
+          },
+          "currency": {
+            "kind": "string",
+            "description": "Price currency as a 3-letter ISO code, e.g. USD or EUR.",
+            "enum": null,
+            "default": "USD",
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum product price, in the requested currency.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum product price, in the requested currency.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of about 60 products; AliExpress serves no results past page 60. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 60,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"wireless earbuds\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shipFrom`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "deliveryDaysMax",
+                "deliveryDaysMin",
+                "isChoice",
+                "listedUtc",
+                "shipFrom",
+                "storeName",
+                "totalResults"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result order: best_match (AliExpress relevance, the default), best_seller (most orders first), price_low, or price_high.",
+            "enum": [
+              "best_match",
+              "best_seller",
+              "price_low",
+              "price_high"
+            ],
+            "default": "best_match",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching AliExpress product cards for the requested page. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "deliveryDaysMax": {
+                    "kind": "integer",
+                    "description": "Most days the estimated delivery to the requested country takes, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "deliveryDaysMin": {
+                    "kind": "integer",
+                    "description": "Fewest days the estimated delivery to the requested country takes, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL, or null when the card shows none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Every product image URL the card carries, primary first; empty when the card shows none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "isChoice": {
+                    "kind": "boolean",
+                    "description": "True when the product carries the AliExpress Choice badge, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "True when the card is a paid placement, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. The day the product was first listed, as midnight UTC of that date; null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "originalPrice": {
+                    "kind": "number",
+                    "description": "Price before the current discount, or null when the product is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in the requested currency, or null when the card shows no price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "AliExpress product id, the number in the product URL; pass it to the AliExpress Product or AliExpress Reviews SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average customer rating, 0-5, or null when the product is unrated.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shipFrom": {
+                    "kind": "string",
+                    "description": "2-letter ISO code of the country the product ships from, e.g. \"CN\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "skuId": {
+                    "kind": "string",
+                    "description": "Id of the product variant the card's price is for, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soldCount": {
+                    "kind": "integer",
+                    "description": "Number of units sold, or null when not shown. One source reads it from AliExpress's rounded label, so \"60,000+ sold\" comes back as 60000. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "storeName": {
+                    "kind": "string",
+                    "description": "Name of the store selling the product, or null when the card does not show it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "AliExpress product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title",
+                  "url",
+                  "images",
+                  "isSponsored"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "currency",
+                  "image",
+                  "price",
+                  "productId",
+                  "soldCount",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total products AliExpress reports for the search, or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "amazon.asins",
       "platform": "amazon",
       "action": "asins",
@@ -30990,6 +32204,1021 @@
       }
     },
     {
+      "slug": "etsy.product",
+      "platform": "etsy",
+      "action": "product",
+      "operationId": "etsy_product",
+      "name": "Etsy Product",
+      "category": "shop",
+      "description": "Look up one Etsy listing by id and get its price, images, description, rating, reviews count, shop, category, variations, stock, ship-from country, favorites and materials in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "etsy",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "etsy",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "EtsyProductInput",
+      "outputTypeName": "EtsyProductData",
+      "example": {
+        "listingId": "1810545592"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "listingId": {
+            "kind": "string",
+            "description": "Etsy listing id, the number in the listing URL (https://www.etsy.com/listing/<id>/...), e.g. 1810545592. The Etsy Search and Etsy Shop Listings SKUs return it as listingId.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `materials`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "favoriteCount",
+                "materials",
+                "quantityAvailable",
+                "shipFrom",
+                "video"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "listingId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Listing detail records (one per requested listing id). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "category": {
+                    "kind": "string",
+                    "description": "Etsy category trail from top level down, joined with \" > \", e.g. \"Jewelry > Necklaces > Monogram & Name Necklaces\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "The seller's listing description, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "favoriteCount": {
+                    "kind": "integer",
+                    "description": "Number of shoppers who favorited the listing, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Listing image URLs, primary first. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "listingId": {
+                    "kind": "string",
+                    "description": "Etsy listing id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "materials": {
+                    "kind": "array",
+                    "description": "Materials the seller lists, e.g. [\"14k/Yellow Gold/Pearl\"], or null when the serving source does not report them.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in the listing currency (the lowest variation price when the listing shows a range), or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "quantityAvailable": {
+                    "kind": "integer",
+                    "description": "Units in stock, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average rating, 0-5, or null when the listing is unrated. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of reviews, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shipFrom": {
+                    "kind": "string",
+                    "description": "Country the listing ships from as a 2-letter ISO code, e.g. \"US\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shopId": {
+                    "kind": "string",
+                    "description": "Etsy id of the shop selling the listing, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shopName": {
+                    "kind": "string",
+                    "description": "Name of the shop selling the listing; pass it to the Etsy Shop SKU. Null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Listing title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Etsy listing page URL with tracking query parameters removed.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "variations": {
+                    "kind": "array",
+                    "description": "The choices a buyer picks from, e.g. Finish and Length, each with its values. Empty when the listing has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Variation name as the seller lists it, e.g. \"Length\", or null when the serving source does not report it.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "values": {
+                          "kind": "array",
+                          "description": "Values a buyer can pick, as Etsy labels them, e.g. [\"14 inches ($29.25)\", \"16 inches ($29.25)\"].",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "video": {
+                    "kind": "string",
+                    "description": "Listing video URL (MP4), or null when the listing has none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "listingId",
+                  "title",
+                  "url",
+                  "shopId"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "category",
+                  "currency",
+                  "description",
+                  "images",
+                  "listingId",
+                  "price",
+                  "rating",
+                  "reviewsCount",
+                  "shopName",
+                  "title",
+                  "variations"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "etsy.search",
+      "platform": "etsy",
+      "action": "search",
+      "operationId": "etsy_search",
+      "name": "Etsy Search",
+      "category": "shop",
+      "description": "Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "etsy",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "etsy",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "EtsySearchInput",
+      "outputTypeName": "EtsySearchData",
+      "example": {
+        "query": "cover letter template"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum listing price, in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum listing price, in USD.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 250,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"cover letter template\". For an Etsy /market page, pass its words: https://www.etsy.com/market/habit_tracker_2027 is the query \"habit tracker 2027\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "rating",
+                "reviewsCount",
+                "totalResults"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result order: relevance (Etsy's own order, the default), newest, price_low, or price_high.",
+            "enum": [
+              "relevance",
+              "newest",
+              "price_low",
+              "price_high"
+            ],
+            "default": "relevance",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching Etsy listing cards for the requested page, ads included where Etsy shows them. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary listing image URL, or null when the listing has none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "True when the listing is an ad Etsy placed in the results, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listingId": {
+                    "kind": "string",
+                    "description": "Etsy listing id, the number in the listing URL (https://www.etsy.com/listing/<id>/...); pass it to the Etsy Product SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "originalPrice": {
+                    "kind": "number",
+                    "description": "Price before the current sale, or null when the listing is not on sale.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in the listing currency, or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average rating of the listing, 0-5, or null when unrated or the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of reviews of the listing, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shopId": {
+                    "kind": "string",
+                    "description": "Etsy's numeric shop id, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shopName": {
+                    "kind": "string",
+                    "description": "Name of the shop selling the listing; pass it to the Etsy Shop or Etsy Shop Listings SKU. Null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Listing title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Etsy listing page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "listingId",
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "currency",
+                  "image",
+                  "listingId",
+                  "price",
+                  "shopName",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total listings Etsy reports for the search, or null when the serving source does not report it.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "etsy.shop",
+      "platform": "etsy",
+      "action": "shop",
+      "operationId": "etsy_shop",
+      "name": "Etsy Shop",
+      "category": "shop",
+      "description": "Look up one Etsy shop by name and get its id, location, sales, active listings, rating, reviews count, followers, description, logo and banner in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "etsy",
+      "tsMethod": "shop",
+      "tsIterMethod": null,
+      "pyNamespace": "etsy",
+      "pyMethod": "shop",
+      "pyIterMethod": null,
+      "inputTypeName": "EtsyShopInput",
+      "outputTypeName": "EtsyShopData",
+      "example": {
+        "shopName": "StudioStelleHD"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `followers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "banner",
+                "description",
+                "followers",
+                "image",
+                "ownerId",
+                "reviewsCount"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "shopName": {
+            "kind": "string",
+            "description": "Etsy shop name, as in the shop URL (https://www.etsy.com/shop/<name>), e.g. StudioStelleHD. The Etsy Search and Etsy Product SKUs return it as shopName.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "shopName"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Shop profile records (one per requested shop name). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "banner": {
+                    "kind": "string",
+                    "description": "Shop banner image URL, or null when the shop has none or the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "The shop's headline, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "followers": {
+                    "kind": "integer",
+                    "description": "Number of shoppers following the shop, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Shop logo URL, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listingCount": {
+                    "kind": "integer",
+                    "description": "Number of active listings, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "location": {
+                    "kind": "string",
+                    "description": "Where the shop says it is based, e.g. \"Shrewsbury, United Kingdom\", or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Shop name as Etsy shows it. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "ownerId": {
+                    "kind": "string",
+                    "description": "Etsy user id of the shop owner, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average shop rating, 0-5, or null when unrated. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of shop reviews, or null when the serving source does not report it.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "salesCount": {
+                    "kind": "integer",
+                    "description": "Lifetime sales the shop shows, or null when hidden. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shopId": {
+                    "kind": "string",
+                    "description": "Etsy's numeric shop id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Etsy shop page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "shopId",
+                  "name",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "listingCount",
+                  "location",
+                  "name",
+                  "rating",
+                  "salesCount",
+                  "shopId",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "etsy.shop_listings",
+      "platform": "etsy",
+      "action": "shop_listings",
+      "operationId": "etsy_shop_listings",
+      "name": "Etsy Shop Listings",
+      "category": "shop",
+      "description": "List one Etsy shop's active listings by shop name, a page at a time, and get title, price, original price and image for each listing in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "etsy",
+      "tsMethod": "shopListings",
+      "tsIterMethod": null,
+      "pyNamespace": "etsy",
+      "pyMethod": "shop_listings",
+      "pyIterMethod": null,
+      "inputTypeName": "EtsyShopListingsInput",
+      "outputTypeName": "EtsyShopListingsData",
+      "example": {
+        "shopName": "StudioStelleHD"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of the shop's listings. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 250,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "shopName": {
+            "kind": "string",
+            "description": "Etsy shop name, as in the shop URL (https://www.etsy.com/shop/<name>), e.g. StudioStelleHD. The Etsy Search and Etsy Product SKUs return it as shopName.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "shopName"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "The shop's active listings for the requested page, in the shop's own order. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary listing image URL, or null when the listing has none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listingId": {
+                    "kind": "string",
+                    "description": "Etsy listing id, the number in the listing URL (https://www.etsy.com/listing/<id>/...); pass it to the Etsy Product SKU. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "originalPrice": {
+                    "kind": "number",
+                    "description": "Price before the current sale, or null when the listing is not on sale.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price in the listing currency, or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Listing title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Etsy listing page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "listingId",
+                  "title",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "currency",
+                  "image",
+                  "listingId",
+                  "price",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total listings the shop has for sale, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items",
+            "totalResults"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "facebook.ad_details",
       "platform": "facebook",
       "action": "ad_details",
@@ -45987,7 +48216,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57235,7 +59464,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.027,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

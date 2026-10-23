@@ -122,6 +122,72 @@
     "items": 1,
     "replayed": false
   },
+  "aliexpress.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "aliexpress.reviews": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reviewId": "sample",
+            "rating": 1.5,
+            "text": "sample",
+            "aspects": [
+              {
+                "_extra": "passthrough"
+              }
+            ],
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "aliexpress.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "images": [
+              "sample"
+            ],
+            "isSponsored": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "amazon.asins": {
     "output": {
       "found": true,
@@ -1419,6 +1485,84 @@
         "email": "sample",
         "hasActivity": true,
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "etsy.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "listingId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "shopId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "etsy.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "listingId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "etsy.shop": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "shopId": "sample",
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "etsy.shop_listings": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "listingId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "totalResults": 1
       }
     },
     "provider": "AnyAPI",
