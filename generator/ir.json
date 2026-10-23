@@ -57232,7 +57232,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.027,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -133065,7 +133065,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0007,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
