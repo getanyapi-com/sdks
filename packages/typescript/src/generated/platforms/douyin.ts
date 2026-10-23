@@ -103,10 +103,9 @@ export interface DouyinSearchVideosInput {
    */
   backtrace?: string;
   /**
-   * Pagination cursor from the previous response; omit for the first page.
-   * Range: minimum 0.
+   * Pagination cursor: pass the previous response's nextCursor; omit for the first page. A raw integer cursor is still accepted.
    */
-  cursor?: number;
+  cursor?: unknown;
   /**
    * Duration filter in minutes: any, under 1, 1 to 5, or over 5.
    * One of: 0, 0-1, 1-5, 5-10000.
@@ -273,9 +272,9 @@ export interface DouyinUserPostsInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Pagination cursor from the previous response; omit for the first page.
+   * Pagination cursor: pass the previous response's nextCursor; omit for the first page. A raw integer cursor is still accepted.
    */
-  cursor?: number;
+  cursor?: unknown;
   /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
@@ -554,10 +553,9 @@ export interface DouyinVideoCommentsInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Pagination cursor from the previous response; omit for the first page.
-   * Range: minimum 0.
+   * Pagination cursor: pass the previous response's nextCursor; omit for the first page. A raw integer cursor is still accepted.
    */
-  cursor?: number;
+  cursor?: unknown;
   /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */

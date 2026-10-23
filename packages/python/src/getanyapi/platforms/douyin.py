@@ -37,8 +37,8 @@ class DouyinSearchVideosInput(TypedDict, total=False):
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     backtrace: NotRequired[str]
     """Backtrace token returned by the previous page."""
-    cursor: NotRequired[int]
-    """Pagination cursor from the previous response; omit for the first page. Minimum: 0."""
+    cursor: NotRequired[Any]
+    """Pagination cursor: pass the previous response's nextCursor; omit for the first page. A raw integer cursor is still accepted."""
     duration: NotRequired[Literal["0", "0-1", "1-5", "5-10000"]]
     """Duration filter in minutes: any, under 1, 1 to 5, or over 5. Default: 0."""
     ignoreSources: NotRequired[list[str]]
@@ -62,8 +62,8 @@ class DouyinUserPostsInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
-    cursor: NotRequired[int]
-    """Pagination cursor from the previous response; omit for the first page."""
+    cursor: NotRequired[Any]
+    """Pagination cursor: pass the previous response's nextCursor; omit for the first page. A raw integer cursor is still accepted."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
@@ -98,8 +98,8 @@ class DouyinVideoCommentsInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
-    cursor: NotRequired[int]
-    """Pagination cursor from the previous response; omit for the first page. Minimum: 0."""
+    cursor: NotRequired[Any]
+    """Pagination cursor: pass the previous response's nextCursor; omit for the first page. A raw integer cursor is still accepted."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]

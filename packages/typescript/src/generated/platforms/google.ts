@@ -93,6 +93,10 @@ export interface GoogleAiOverviewInput {
    */
   prompt: string;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `scrapedAt`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "scrapedAt"[];
+  /**
    * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -1251,7 +1255,7 @@ export interface GoogleSearch100Result {
    */
   position: number;
   /**
-   * Google's summary text for the result. Populated whenever the provider has data for the entity.
+   * Google's summary text for the result.
    */
   snippet: string;
   /**
@@ -1493,7 +1497,7 @@ export class GoogleNamespace {
    *
    * Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.google.aiOverview({ prompt: "How does photosynthesis work?" });
@@ -1698,9 +1702,9 @@ export class GoogleNamespace {
   /**
    * Google Search
    *
-   * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is cheaper past roughly 20 results.
+   * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });
@@ -1735,7 +1739,7 @@ export class GoogleNamespace {
   /**
    * Google Search Top 100
    *
-   * Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One flat charge whatever the depth, which makes it cheaper than paging google.search past roughly 20 results. It reads ten pages of Google to build the list, so a call takes around three to four minutes - use google.search when you want the first page back in a second.
+   * Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.
    *
    * Price: $0.0018 per request.
    *

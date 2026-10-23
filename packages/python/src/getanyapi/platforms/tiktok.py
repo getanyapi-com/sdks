@@ -729,7 +729,9 @@ class TiktokVideoInput(TypedDict, total=False):
                 "authorVerified",
                 "comments",
                 "likes",
+                "sdVideoUrl",
                 "shares",
+                "videoUrl",
                 "views",
             ]
         ]
@@ -2959,6 +2961,11 @@ class TiktokVideoData(BaseModel):
     )
     region: str
     saves: int
+    sd_video_url: str | None = Field(
+        default=None,
+        alias="sdVideoUrl",
+        description="Standard-resolution H.264 video URL without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived, so the query string is load-bearing and kept intact.",
+    )
     shares: int = Field(
         description="Number of shares. Some sources round large counts (35.9K instead of 35,923); name `shares` in requireFields to be served only by a source that returns the exact count."
     )
@@ -2983,7 +2990,7 @@ class TiktokVideoData(BaseModel):
     video_url: str | None = Field(
         default=None,
         alias="videoUrl",
-        description="Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
+        description="Playable video URL without the watermark, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. Signed and short-lived, so the query string is load-bearing and kept intact.",
     )
     views: int = Field(
         description="Number of plays. Some sources round large counts (32.7M instead of 32,736,400); name `views` in requireFields to be served only by a source that returns the exact count."
@@ -3089,7 +3096,7 @@ class TiktokVideoDownloadData(BaseModel):
         description="Hashtags carried in the caption, without the leading #. Empty when the post uses none; @-mentions are excluded.",
     )
     height: int | None = Field(
-        default=None, description="Pixel height of the video file."
+        default=None, description="Pixel height of the file in videoUrl."
     )
     id: str = Field(
         description="TikTok video id. Populated whenever the provider has data for the entity."
@@ -3100,6 +3107,11 @@ class TiktokVideoDownloadData(BaseModel):
     )
     region: str | None = Field(
         default=None, description="Two-letter region code the video was published from."
+    )
+    sd_video_url: str | None = Field(
+        default=None,
+        alias="sdVideoUrl",
+        description="Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived on the same terms as videoUrl.",
     )
     sound_author: str | None = Field(
         default=None,
@@ -3121,7 +3133,7 @@ class TiktokVideoDownloadData(BaseModel):
     )
     video_url: str = Field(
         alias="videoUrl",
-        description="Direct MP4 without the TikTok watermark or handle overlay. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
+        description="Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
     )
     watermarked_url: str | None = Field(
         default=None,
@@ -3129,7 +3141,7 @@ class TiktokVideoDownloadData(BaseModel):
         description="Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.",
     )
     width: int | None = Field(
-        default=None, description="Pixel width of the video file."
+        default=None, description="Pixel width of the file in videoUrl."
     )
 
 

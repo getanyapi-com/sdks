@@ -106,7 +106,7 @@ export interface RedditPostInput {
    */
   source?: string[];
   /**
-   * Reddit post URL on reddit.com, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The /r/<subreddit>/comments/<id>/, /user/<name>/comments/<id>/, /comments/<id>/ and /gallery/<id> forms are accepted. A link to any other site is refused as invalid input, with no charge.
+   * Reddit post URL on reddit.com, e.g. "https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/". The /r/<subreddit>/comments/<id>/, /user/<name>/comments/<id>/, /comments/<id>/ and /gallery/<id> forms are accepted. Any other link, such as a share link or a link to another site, is refused as invalid input, with no charge.
    */
   url: string;
 }

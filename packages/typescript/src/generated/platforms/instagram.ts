@@ -5356,7 +5356,7 @@ export class InstagramNamespace {
    *
    * List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.
    *
-   * Price: $0.027 per request.
+   * Price: $0.00175 per request.
    *
    * @example
    * const res = await client.instagram.similarProfiles({ handle: "nasa" });
@@ -5518,7 +5518,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.00095 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });

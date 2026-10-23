@@ -324,7 +324,7 @@ class AhrefsTrafficItem(BaseModel):
     top_keywords: list[AhrefsTrafficTopKeyword] | None = Field(
         default=None,
         alias="topKeywords",
-        description="The top organic keywords the domain already ranks for, up to five, ordered by traffic. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     top_pages: list[AhrefsTrafficTopPage] | None = Field(
         default=None,
@@ -469,7 +469,8 @@ class AhrefsNamespace:
         """Ahrefs Domain Overview
 
         Get an SEO authority overview for any domain or URL: Domain Rating, total
-        backlinks, and referring domains - as normalized JSON.
+        backlinks, and referring domains - as normalized JSON. For the keywords a
+        domain ranks for, use seo.ranked_keywords.
 
         Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
@@ -490,9 +491,10 @@ class AhrefsNamespace:
         """Ahrefs Traffic Overview
 
         Get the Ahrefs organic traffic overview for any domain or URL: monthly
-        traffic estimate and value, the top keywords it already ranks for with
+        traffic estimate and value, the top 5 keywords it already ranks for with
         position and traffic, top pages, traffic by country, and a monthly traffic
-        history - as normalized JSON.
+        history - as normalized JSON. For a domain's full ranked-keyword list with
+        search volume and difficulty, use seo.ranked_keywords.
 
         Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
@@ -584,7 +586,8 @@ class AsyncAhrefsNamespace:
         """Ahrefs Domain Overview
 
         Get an SEO authority overview for any domain or URL: Domain Rating, total
-        backlinks, and referring domains - as normalized JSON.
+        backlinks, and referring domains - as normalized JSON. For the keywords a
+        domain ranks for, use seo.ranked_keywords.
 
         Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
@@ -605,9 +608,10 @@ class AsyncAhrefsNamespace:
         """Ahrefs Traffic Overview
 
         Get the Ahrefs organic traffic overview for any domain or URL: monthly
-        traffic estimate and value, the top keywords it already ranks for with
+        traffic estimate and value, the top 5 keywords it already ranks for with
         position and traffic, top pages, traffic by country, and a monthly traffic
-        history - as normalized JSON.
+        history - as normalized JSON. For a domain's full ranked-keyword list with
+        search volume and difficulty, use seo.ranked_keywords.
 
         Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
 
