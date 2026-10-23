@@ -474,6 +474,10 @@ import type {
   LinkedinAdsSearchInput,
   LinkedinArticleData,
   LinkedinArticleInput,
+  LinkedinCommentReactionsData,
+  LinkedinCommentReactionsInput,
+  LinkedinCommentRepliesData,
+  LinkedinCommentRepliesInput,
   LinkedinCompanyData,
   LinkedinCompanyEmployeesData,
   LinkedinCompanyEmployeesInput,
@@ -486,6 +490,10 @@ import type {
   LinkedinCompanyThinInput,
   LinkedinEmailData,
   LinkedinEmailInput,
+  LinkedinGroupData,
+  LinkedinGroupInput,
+  LinkedinGroupPostsData,
+  LinkedinGroupPostsInput,
   LinkedinJobData,
   LinkedinJobInput,
   LinkedinJobsData,
@@ -514,6 +522,8 @@ import type {
   LinkedinProfileThinInput,
   LinkedinSearchCompaniesData,
   LinkedinSearchCompaniesInput,
+  LinkedinSearchGroupsData,
+  LinkedinSearchGroupsInput,
   LinkedinSearchLeadsData,
   LinkedinSearchLeadsInput,
   LinkedinSearchPostsData,
@@ -526,6 +536,8 @@ import type {
   LinkedinSearchProfilesInput,
   LinkedinSearchProfilesThinData,
   LinkedinSearchProfilesThinInput,
+  LinkedinSearchServicesData,
+  LinkedinSearchServicesInput,
 } from "./platforms/linkedin.js";
 import type {
   LinktreeProfileData,
@@ -2063,6 +2075,16 @@ export interface SkuMap {
     data: LinkedinArticleData;
     result: RunResult<LinkedinArticleData>;
   };
+  "linkedin.comment_reactions": {
+    input: LinkedinCommentReactionsInput;
+    data: LinkedinCommentReactionsData;
+    result: RunResult<LinkedinCommentReactionsData>;
+  };
+  "linkedin.comment_replies": {
+    input: LinkedinCommentRepliesInput;
+    data: LinkedinCommentRepliesData;
+    result: RunResult<LinkedinCommentRepliesData>;
+  };
   "linkedin.company": {
     input: LinkedinCompanyInput;
     data: LinkedinCompanyData;
@@ -2092,6 +2114,16 @@ export interface SkuMap {
     input: LinkedinEmailInput;
     data: LinkedinEmailData;
     result: RunResult<LinkedinEmailData>;
+  };
+  "linkedin.group": {
+    input: LinkedinGroupInput;
+    data: LinkedinGroupData;
+    result: RunResult<LinkedinGroupData>;
+  };
+  "linkedin.group_posts": {
+    input: LinkedinGroupPostsInput;
+    data: LinkedinGroupPostsData;
+    result: RunResult<LinkedinGroupPostsData>;
   };
   "linkedin.job": {
     input: LinkedinJobInput;
@@ -2163,6 +2195,11 @@ export interface SkuMap {
     data: LinkedinSearchCompaniesData;
     result: RunResult<LinkedinSearchCompaniesData>;
   };
+  "linkedin.search_groups": {
+    input: LinkedinSearchGroupsInput;
+    data: LinkedinSearchGroupsData;
+    result: RunResult<LinkedinSearchGroupsData>;
+  };
   "linkedin.search_leads": {
     input: LinkedinSearchLeadsInput;
     data: LinkedinSearchLeadsData;
@@ -2192,6 +2229,11 @@ export interface SkuMap {
     input: LinkedinSearchProfilesThinInput;
     data: LinkedinSearchProfilesThinData;
     result: RunResult<LinkedinSearchProfilesThinData>;
+  };
+  "linkedin.search_services": {
+    input: LinkedinSearchServicesInput;
+    data: LinkedinSearchServicesData;
+    result: RunResult<LinkedinSearchServicesData>;
   };
   "linktree.profile": {
     input: LinktreeProfileInput;

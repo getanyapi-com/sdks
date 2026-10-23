@@ -11891,8 +11891,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-21",
-        "checkOut": "2026-11-23",
+        "checkIn": "2026-11-22",
+        "checkOut": "2026-11-24",
         "limit": 3,
         "query": "New York"
       },
@@ -46409,7 +46409,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -47977,8 +47977,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-21",
-        "checkOut": "2026-11-23",
+        "checkIn": "2026-11-22",
+        "checkOut": "2026-11-24",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -48576,8 +48576,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-21",
-        "checkOut": "2026-11-23",
+        "checkIn": "2026-11-22",
+        "checkOut": "2026-11-24",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -57232,7 +57232,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63520,6 +63520,552 @@
       }
     },
     {
+      "slug": "linkedin.comment_reactions",
+      "platform": "linkedin",
+      "action": "comment_reactions",
+      "operationId": "linkedin_comment_reactions",
+      "name": "LinkedIn Comment Reactions",
+      "category": "social",
+      "description": "List who reacted to a comment on a LinkedIn post - reactor name, profile URL, job title, and reaction type, 100 per page.",
+      "pricing": {
+        "priceUsd": 0.0026,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "commentReactions",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "comment_reactions",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinCommentReactionsInput",
+      "outputTypeName": "LinkedinCommentReactionsData",
+      "example": {
+        "url": "https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510768837462745088%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510768837462745088%2Curn%3Ali%3Aactivity%3A7510715600319467520%29"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of up to 100 reactions to return, starting at 1 (default 1). Each page is billed as one request; totalPages in the response says how many there are.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "LinkedIn comment URL, as returned in the url field of linkedin.post_comments or copied with \"Copy link to comment\" (a /feed/update/... link carrying commentUrn and dashCommentUrn). A post URL without dashCommentUrn, or a reply's URL (carrying replyUrn), is refused as invalid input, with no charge.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Reactions on the comment, one record per reactor, newest first.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "actor": {
+                    "kind": "object",
+                    "description": "The reactor - the person or company that reacted.",
+                    "properties": {
+                      "id": {
+                        "kind": "string",
+                        "description": "LinkedIn member or company id of the reactor. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Profile picture URL of the reactor.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "linkedinUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn profile or company URL of the reactor. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": "uri"
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Full name of the reactor (or company name). Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "position": {
+                        "kind": "string",
+                        "description": "Reactor's current job title / headline (or follower count for a company). Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [
+                      "name"
+                    ],
+                    "open": true,
+                    "mustPopulate": [
+                      "id",
+                      "linkedinUrl",
+                      "name",
+                      "position"
+                    ]
+                  },
+                  "commentUrn": {
+                    "kind": "string",
+                    "description": "LinkedIn URN of the comment that was reacted to, naming its post and the comment id (e.g. urn:li:comment:(activity:7510715600319467520,7510768837462745088)).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "LinkedIn identifier of the reaction.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reactionType": {
+                    "kind": "string",
+                    "description": "Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "reactionType",
+                  "actor"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "page": {
+              "kind": "integer",
+              "description": "The page this response holds, starting at 1.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "How many pages of up to 100 reactions the comment has.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "How many reactions the comment has in total, across every page.",
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "linkedin.comment_replies",
+      "platform": "linkedin",
+      "action": "comment_replies",
+      "operationId": "linkedin_comment_replies",
+      "name": "LinkedIn Comment Replies",
+      "category": "social",
+      "description": "List up to the 10 newest replies to a comment on a LinkedIn post - reply text, replier name/URL/job title, timestamps, and likes.",
+      "pricing": {
+        "priceUsd": 0.0026,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "commentReplies",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "comment_replies",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinCommentRepliesInput",
+      "outputTypeName": "LinkedinCommentRepliesData",
+      "example": {
+        "url": "https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510749329649725442%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510749329649725442%2Curn%3Ali%3Aactivity%3A7510715600319467520%29"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "LinkedIn comment URL, as returned in the url field of linkedin.post_comments or copied with \"Copy link to comment\" (a /feed/update/... link carrying commentUrn and dashCommentUrn). A reply's URL returns the thread it belongs to. A post URL without dashCommentUrn is refused as invalid input, with no charge.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Up to the 10 newest replies to the comment, newest first. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "actor": {
+                    "kind": "object",
+                    "description": "The person or company that replied.",
+                    "properties": {
+                      "id": {
+                        "kind": "string",
+                        "description": "LinkedIn identifier of the replier.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Profile picture URL of the replier. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "linkedinUrl": {
+                        "kind": "string",
+                        "description": "Canonical LinkedIn URL of the replier. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Display name of the replier. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "position": {
+                        "kind": "string",
+                        "description": "Replier's headline or job title as displayed. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "type": {
+                        "kind": "string",
+                        "description": "Replier kind, e.g. 'profile' or 'company'.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "image",
+                      "linkedinUrl",
+                      "name",
+                      "position"
+                    ]
+                  },
+                  "commentary": {
+                    "kind": "string",
+                    "description": "Full text of the reply. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "contentAnnotations": {
+                    "kind": "array",
+                    "description": "Structured mentions and links embedded in the reply text.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "hyperlink": {
+                          "kind": "string",
+                          "description": "Canonical hyperlink attached to the annotation, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "length": {
+                          "kind": "integer",
+                          "description": "Length of the annotated text span.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "profileFirstName": {
+                          "kind": "string",
+                          "description": "First name of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileHandle": {
+                          "kind": "string",
+                          "description": "Public LinkedIn handle of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileId": {
+                          "kind": "string",
+                          "description": "LinkedIn identifier of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileLastName": {
+                          "kind": "string",
+                          "description": "Last name of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "profileUrl": {
+                          "kind": "string",
+                          "description": "Canonical LinkedIn URL of a mentioned profile, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "start": {
+                          "kind": "integer",
+                          "description": "Zero-based start offset of the annotation in the reply text.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "textLink": {
+                          "kind": "string",
+                          "description": "Canonical text link attached to the annotation, when present.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "type": {
+                          "kind": "string",
+                          "description": "Kind of content annotation.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "edited": {
+                    "kind": "boolean",
+                    "description": "Whether the reply has been edited.",
+                    "default": null
+                  },
+                  "engagement": {
+                    "kind": "object",
+                    "description": "Engagement metrics for the reply.",
+                    "properties": {
+                      "likes": {
+                        "kind": "integer",
+                        "description": "Number of reactions on the reply.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "reactions": {
+                        "kind": "array",
+                        "description": "Per-reaction-type breakdown of the reactions on the reply.",
+                        "items": {
+                          "kind": "object",
+                          "properties": {
+                            "count": {
+                              "kind": "integer",
+                              "description": "Number of reactions of this type.",
+                              "minimum": null,
+                              "maximum": null,
+                              "default": null
+                            },
+                            "type": {
+                              "kind": "string",
+                              "description": "Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.",
+                              "enum": null,
+                              "default": null,
+                              "format": null
+                            }
+                          },
+                          "required": [],
+                          "open": true
+                        },
+                        "mustPopulate": false
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Unique identifier of the reply. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "postId": {
+                    "kind": "string",
+                    "description": "Identifier of the post the comment belongs to (e.g. activity:7510715600319467520).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical permalink URL of the reply. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "commentary"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "commentary",
+                  "createdUtc",
+                  "id",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "linkedin.company",
       "platform": "linkedin",
       "action": "company",
@@ -65204,6 +65750,956 @@
           "open": false,
           "mustPopulate": [
             "emails"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "linkedin.group",
+      "platform": "linkedin",
+      "action": "group",
+      "operationId": "linkedin_group",
+      "name": "LinkedIn Group",
+      "category": "social",
+      "description": "Fetch one LinkedIn group by URL or id: name, description, rules, member count, logo and cover image, creation date, visibility and join settings, and its admins.",
+      "pricing": {
+        "priceUsd": 0.0013,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "group",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "group",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinGroupInput",
+      "outputTypeName": "LinkedinGroupData",
+      "example": {
+        "url": "https://www.linkedin.com/groups/1898033"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "groupId": {
+            "kind": "string",
+            "description": "Numeric LinkedIn group id (e.g. 1898033), the number in the group URL. Send this or url.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "LinkedIn group URL (e.g. https://www.linkedin.com/groups/1898033). Send this or groupId.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "description": "A LinkedIn group: identity, about text, size, images, settings, and admins.",
+          "properties": {
+            "adminCount": {
+              "kind": "integer",
+              "description": "Total number of group admins.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "admins": {
+              "kind": "array",
+              "description": "Group admins LinkedIn shows on the group page.",
+              "items": {
+                "kind": "object",
+                "description": "One group admin.",
+                "properties": {
+                  "firstName": {
+                    "kind": "string",
+                    "description": "Admin first name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "headline": {
+                    "kind": "string",
+                    "description": "Admin profile headline.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "LinkedIn member id of the admin.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Admin profile picture URL. The query string is a signed token, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "lastName": {
+                    "kind": "string",
+                    "description": "Admin last name.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn profile URL of the admin.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "coverImage": {
+              "kind": "string",
+              "description": "Group cover (hero) image URL. The query string is a signed token, so keep the URL intact.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "createdUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "Group about text.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "id": {
+              "kind": "string",
+              "description": "Numeric LinkedIn group id, as a string.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Group logo image URL. The query string is a signed token, so keep the URL intact.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "invitationLevel": {
+              "kind": "string",
+              "description": "Who may invite new members, as LinkedIn reports it (e.g. ADMIN, ALL).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "memberCount": {
+              "kind": "integer",
+              "description": "Number of group members.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "name": {
+              "kind": "string",
+              "description": "Group name.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "postApprovalEnabled": {
+              "kind": "boolean",
+              "description": "True when admins must approve posts before they appear.",
+              "nullable": true,
+              "default": null
+            },
+            "publicVisibility": {
+              "kind": "boolean",
+              "description": "True when the group is publicly visible (listed in search), false when unlisted.",
+              "nullable": true,
+              "default": null
+            },
+            "rules": {
+              "kind": "string",
+              "description": "Group rules as written by its admins.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "url": {
+              "kind": "string",
+              "description": "Canonical LinkedIn group URL.",
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "id",
+            "name",
+            "url",
+            "description",
+            "rules",
+            "memberCount",
+            "image",
+            "coverImage",
+            "createdUtc",
+            "invitationLevel",
+            "publicVisibility",
+            "postApprovalEnabled",
+            "adminCount",
+            "admins"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "linkedin.group_posts",
+      "platform": "linkedin",
+      "action": "group_posts",
+      "operationId": "linkedin_group_posts",
+      "name": "LinkedIn Group Posts",
+      "category": "social",
+      "description": "List the posts in a LinkedIn group by group URL, newest first: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media. One call returns a page of about 100 posts; pass page to go further back.",
+      "pricing": {
+        "priceUsd": 0.0026,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "groupPosts",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "group_posts",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinGroupPostsInput",
+      "outputTypeName": "LinkedinGroupPostsData",
+      "example": {
+        "url": "https://www.linkedin.com/groups/1898033"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of about 100 posts to return, starting at 1 (default 1). Page 2 continues where page 1 ended, going further back in time. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "postedLimit": {
+            "kind": "string",
+            "description": "Only return posts published within this window (default any). The window is applied to the page, so a page can come back with fewer posts or none.",
+            "enum": [
+              "any",
+              "1h",
+              "24h",
+              "week",
+              "month",
+              "3months",
+              "6months",
+              "year"
+            ],
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "url": {
+            "kind": "string",
+            "description": "Full LinkedIn group URL (e.g. https://www.linkedin.com/groups/1898033).",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Posts in the group, newest first. A post the group admins pinned can come first on page 1. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "articleDescription": {
+                    "kind": "string",
+                    "description": "Description excerpt of the attached article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleImage": {
+                    "kind": "string",
+                    "description": "Cover image URL of the attached article. The query string is a signed token, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleLinkLabel": {
+                    "kind": "string",
+                    "description": "Accessible link label LinkedIn renders for the attached article.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleSubtitle": {
+                    "kind": "string",
+                    "description": "Subtitle or source domain of the attached article.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleTitle": {
+                    "kind": "string",
+                    "description": "Title of the article attached to the post.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "articleUrl": {
+                    "kind": "string",
+                    "description": "Destination URL of the attached article.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "author": {
+                    "kind": "object",
+                    "description": "The member who posted in the group.",
+                    "properties": {
+                      "groupAdmin": {
+                        "kind": "boolean",
+                        "description": "Whether LinkedIn labels the author as an admin of this group.",
+                        "default": null
+                      },
+                      "handle": {
+                        "kind": "string",
+                        "description": "Public identifier (vanity handle) of the author.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "headline": {
+                        "kind": "string",
+                        "description": "Profile headline of the author (the tagline under the name).",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "id": {
+                        "kind": "string",
+                        "description": "LinkedIn identifier of the author.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "image": {
+                        "kind": "string",
+                        "description": "Author profile picture URL. The query string is a signed token, so keep the URL intact.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "linkedinUrl": {
+                        "kind": "string",
+                        "description": "LinkedIn profile URL of the author, with tracking query params stripped. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "name": {
+                        "kind": "string",
+                        "description": "Display name of the author. Populated whenever the provider has data for the entity.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "type": {
+                        "kind": "string",
+                        "description": "Author kind, e.g. profile.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      },
+                      "website": {
+                        "kind": "string",
+                        "description": "Website URL the author shows on their profile, when present.",
+                        "enum": null,
+                        "default": null,
+                        "format": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "linkedinUrl",
+                      "name"
+                    ]
+                  },
+                  "contentAttributes": {
+                    "kind": "array",
+                    "description": "Inline links, mentions and entity references in the post text, each with its character offset.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {},
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "documentImage": {
+                    "kind": "string",
+                    "description": "Cover image URL of the attached document's first page, when present. The query string is a signed token, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "documentPageCount": {
+                    "kind": "integer",
+                    "description": "Number of pages in the attached document, when present.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "documentTitle": {
+                    "kind": "string",
+                    "description": "Title of the document (PDF carousel) attached to the post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "documentUrl": {
+                    "kind": "string",
+                    "description": "Download URL of the attached document as a PDF, when present. The query string is a signed token that expires, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "edited": {
+                    "kind": "boolean",
+                    "description": "Whether the post was edited after it was published.",
+                    "default": null
+                  },
+                  "engagement": {
+                    "kind": "object",
+                    "description": "Engagement metrics for the post.",
+                    "properties": {
+                      "comments": {
+                        "kind": "integer",
+                        "description": "Number of comments on the post.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "likes": {
+                        "kind": "integer",
+                        "description": "Total reaction count on the post. Populated whenever the provider has data for the entity.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "reactions": {
+                        "kind": "array",
+                        "description": "Per-reaction-type breakdown of the reaction total.",
+                        "items": {
+                          "kind": "object",
+                          "properties": {
+                            "count": {
+                              "kind": "integer",
+                              "description": "Number of reactions of this type.",
+                              "minimum": null,
+                              "maximum": null,
+                              "default": null
+                            },
+                            "type": {
+                              "kind": "string",
+                              "description": "Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.",
+                              "enum": null,
+                              "default": null,
+                              "format": null
+                            }
+                          },
+                          "required": [],
+                          "open": true
+                        },
+                        "mustPopulate": false
+                      },
+                      "shares": {
+                        "kind": "integer",
+                        "description": "Number of shares/reposts of the post.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true,
+                    "mustPopulate": [
+                      "likes"
+                    ]
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Unique identifier of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "newsletterTitle": {
+                    "kind": "string",
+                    "description": "Title of the LinkedIn newsletter associated with the post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "newsletterUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the LinkedIn newsletter associated with the post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "pinned": {
+                    "kind": "boolean",
+                    "description": "Whether the group admins pinned the post to the top of the group.",
+                    "default": null
+                  },
+                  "pollClosed": {
+                    "kind": "boolean",
+                    "description": "Whether the attached poll is closed.",
+                    "default": null
+                  },
+                  "pollOptions": {
+                    "kind": "array",
+                    "description": "Options and public vote counts for an attached poll.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "text": {
+                          "kind": "string",
+                          "description": "Poll option text.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "votes": {
+                          "kind": "integer",
+                          "description": "Votes recorded for this option.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "text",
+                        "votes"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "pollQuestion": {
+                    "kind": "string",
+                    "description": "Question asked by an attached LinkedIn poll.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pollTotalVotes": {
+                    "kind": "integer",
+                    "description": "Total votes recorded by the attached poll.",
+                    "minimum": 0,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "postImages": {
+                    "kind": "array",
+                    "description": "Images attached to the post.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {},
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "postVideo": {
+                    "kind": "object",
+                    "description": "Video attached to the post, or null when absent.",
+                    "nullable": true,
+                    "properties": {},
+                    "required": [],
+                    "open": true
+                  },
+                  "repostArticleDescription": {
+                    "kind": "string",
+                    "description": "Description excerpt of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleImage": {
+                    "kind": "string",
+                    "description": "Image URL of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostArticleLinkLabel": {
+                    "kind": "string",
+                    "description": "Accessible display label for the reposted post's article link, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleSubtitle": {
+                    "kind": "string",
+                    "description": "Subtitle or publisher label of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleTitle": {
+                    "kind": "string",
+                    "description": "Title of the article attached to the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostArticleUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the reposted post's article, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostAuthorHandle": {
+                    "kind": "string",
+                    "description": "Public LinkedIn profile handle of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorHeadline": {
+                    "kind": "string",
+                    "description": "Headline or follower summary of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorId": {
+                    "kind": "string",
+                    "description": "Stable LinkedIn identifier of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorImage": {
+                    "kind": "string",
+                    "description": "Image URL of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostAuthorName": {
+                    "kind": "string",
+                    "description": "Display name of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorType": {
+                    "kind": "string",
+                    "description": "Author kind for the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorUniversalName": {
+                    "kind": "string",
+                    "description": "Universal LinkedIn name of the reposted post's company author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostAuthorUrl": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn URL of the reposted post's author, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostCreatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "repostEngagement": {
+                    "kind": "object",
+                    "description": "Engagement metrics for the reposted post, when present.",
+                    "properties": {
+                      "comments": {
+                        "kind": "integer",
+                        "description": "Number of comments on the reposted post.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "likes": {
+                        "kind": "integer",
+                        "description": "Total reaction count on the reposted post.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      },
+                      "shares": {
+                        "kind": "integer",
+                        "description": "Number of shares/reposts of the reposted post.",
+                        "minimum": null,
+                        "maximum": null,
+                        "default": null
+                      }
+                    },
+                    "required": [],
+                    "open": true
+                  },
+                  "repostId": {
+                    "kind": "string",
+                    "description": "Unique identifier of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostImages": {
+                    "kind": "array",
+                    "description": "Images attached to the reposted post.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "height": {
+                          "kind": "integer",
+                          "description": "Height of the reposted image in pixels.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "url": {
+                          "kind": "string",
+                          "description": "URL of an image attached to the reposted post.",
+                          "enum": null,
+                          "default": null,
+                          "format": "uri"
+                        },
+                        "width": {
+                          "kind": "integer",
+                          "description": "Width of the reposted image in pixels.",
+                          "minimum": 0,
+                          "maximum": null,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "url"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "repostText": {
+                    "kind": "string",
+                    "description": "Text content of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "repostUrl": {
+                    "kind": "string",
+                    "description": "Canonical URL of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostVideoThumbnail": {
+                    "kind": "string",
+                    "description": "Video thumbnail image URL of the reposted post, when present.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "repostVideoUrl": {
+                    "kind": "string",
+                    "description": "Video stream URL of the reposted post, when present. The query string is a signed token, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "shareUrl": {
+                    "kind": "string",
+                    "description": "Shareable LinkedIn URL for the post.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "text": {
+                    "kind": "string",
+                    "description": "Full text content of the post. Empty for a repost shared without added text. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical URL of the post. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "text",
+                  "createdUtc"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "createdUtc",
+                  "id",
+                  "text",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
           ]
         }
       },
@@ -70486,6 +71982,201 @@
       }
     },
     {
+      "slug": "linkedin.search_groups",
+      "platform": "linkedin",
+      "action": "search_groups",
+      "operationId": "linkedin_search_groups",
+      "name": "LinkedIn Group Search",
+      "category": "social",
+      "description": "Search LinkedIn groups by keyword, 10 per page: group name, URL, member count, summary, and logo.",
+      "pricing": {
+        "priceUsd": 0.0013,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "searchGroups",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "search_groups",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinSearchGroupsInput",
+      "outputTypeName": "LinkedinSearchGroupsData",
+      "example": {
+        "query": "python"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of up to 10 groups to return, starting at 1 (1-100, default 1). Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Keyword to search LinkedIn groups for (e.g. python or sales).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Matching group records. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "description": "A LinkedIn group: name, URL, member count, summary, and logo.",
+                "properties": {
+                  "description": {
+                    "kind": "string",
+                    "description": "Group summary text.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Numeric LinkedIn group id, as a string. Pass it to the LinkedIn Group API as groupId for the full record. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Group logo image URL. The query string is a signed token, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "membersText": {
+                    "kind": "string",
+                    "description": "Member count as a display string (e.g. 648K members).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Group name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical LinkedIn group URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "id",
+                  "name",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "page": {
+              "kind": "integer",
+              "description": "The page this response holds, starting at 1.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "How many pages of up to 10 groups the search can reach.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "How many groups match the search in total, including those past the last reachable page.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items",
+            "page",
+            "totalPages",
+            "totalResults"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "linkedin.search_leads",
       "platform": "linkedin",
       "action": "search_leads",
@@ -73539,6 +75230,243 @@
         "itemsField": "items",
         "cursorInputField": "cursor",
         "nextCursorField": "nextCursor"
+      }
+    },
+    {
+      "slug": "linkedin.search_services",
+      "platform": "linkedin",
+      "action": "search_services",
+      "operationId": "linkedin_search_services",
+      "name": "LinkedIn Service Provider Search",
+      "category": "social",
+      "description": "Find freelancers and service providers on LinkedIn by the service they offer (e.g. 'Web Development'), optionally in a location. One call returns a page of up to 10 people, each with name, headline, location, about text, photo, profile URL, service page URL, and the list of services they offer. The profile URL can be passed to linkedin.profile for the full record.",
+      "pricing": {
+        "priceUsd": 0.0026,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "linkedin",
+      "tsMethod": "searchServices",
+      "tsIterMethod": null,
+      "pyNamespace": "linkedin",
+      "pyMethod": "search_services",
+      "pyIterMethod": null,
+      "inputTypeName": "LinkedinSearchServicesInput",
+      "outputTypeName": "LinkedinSearchServicesData",
+      "example": {
+        "location": "Australia",
+        "query": "Web Development"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "geoId": {
+            "kind": "string",
+            "description": "LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location, and overrides it when both are sent.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "location": {
+            "kind": "string",
+            "description": "Optional location filter as a place name (e.g. 'Australia', 'New York'). LinkedIn picks its closest location match, so a short or ambiguous name can land elsewhere; use geoId for an exact place.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "page": {
+            "kind": "integer",
+            "description": "Which page of up to 10 people to return, starting at 1 (1-100, default 1). Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "The service to search for, as keywords (e.g. 'Web Development', 'Accounting', 'Photography').",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "People offering a matching service, in LinkedIn's order. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "about": {
+                    "kind": "string",
+                    "description": "Profile about / summary text, when the member has one.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "headline": {
+                    "kind": "string",
+                    "description": "Profile headline (the tagline under the name). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "LinkedIn member URN id for the profile. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Profile picture URL. The query string is a signed token, so keep the URL intact.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "location": {
+                    "kind": "string",
+                    "description": "Member's location as a single string (city, region, country). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Member's display name. Some members show only a last-name initial (e.g. 'Chris S.'). Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "serviceUrl": {
+                    "kind": "string",
+                    "description": "URL of the member's LinkedIn service page. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "services": {
+                    "kind": "array",
+                    "description": "Names of the services the member offers (e.g. 'Web Development', 'Web Design'). Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "LinkedIn profile URL built from the member id (https://www.linkedin.com/in/<id>). It opens the profile and can be passed to linkedin.profile. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "headline",
+                  "id",
+                  "location",
+                  "name",
+                  "serviceUrl",
+                  "services",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "page": {
+              "kind": "integer",
+              "description": "The page this response holds, starting at 1, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalPages": {
+              "kind": "integer",
+              "description": "Number of result pages LinkedIn will serve for this search (at most 100), or null when not reported. Stop paging after this page.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "How many people match the search in total, including those past the last reachable page, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items",
+            "page",
+            "totalPages",
+            "totalResults"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
       }
     },
     {

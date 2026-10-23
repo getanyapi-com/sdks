@@ -360,6 +360,286 @@ export interface LinkedinArticleData {
 }
 
 /**
+ * Input for LinkedIn Comment Reactions (linkedin.comment_reactions).
+ */
+export interface LinkedinCommentReactionsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Which page of up to 100 reactions to return, starting at 1 (default 1). Each page is billed as one request; totalPages in the response says how many there are.
+   * Range: minimum 1.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * LinkedIn comment URL, as returned in the url field of linkedin.post_comments or copied with "Copy link to comment" (a /feed/update/... link carrying commentUrn and dashCommentUrn). A post URL without dashCommentUrn, or a reply's URL (carrying replyUrn), is refused as invalid input, with no charge.
+   */
+  url: string;
+}
+
+export interface LinkedinCommentReactionsItem {
+  /**
+   * The reactor - the person or company that reacted.
+   */
+  actor: {
+    /**
+     * LinkedIn member or company id of the reactor. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    id?: string;
+    /**
+     * Profile picture URL of the reactor.
+     */
+    image?: string;
+    /**
+     * Canonical LinkedIn profile or company URL of the reactor. Populated whenever the provider has data for the entity.
+     * Format: uri.
+     * Present whenever the upstream returns this record.
+     */
+    linkedinUrl?: string;
+    /**
+     * Full name of the reactor (or company name). Populated whenever the provider has data for the entity.
+     */
+    name: string;
+    /**
+     * Reactor's current job title / headline (or follower count for a company). Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    position?: string;
+  };
+  /**
+   * LinkedIn URN of the comment that was reacted to, naming its post and the comment id (e.g. urn:li:comment:(activity:7510715600319467520,7510768837462745088)).
+   */
+  commentUrn?: string;
+  /**
+   * LinkedIn identifier of the reaction.
+   */
+  id?: string;
+  /**
+   * Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).
+   */
+  reactionType: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Comment Reactions (linkedin.comment_reactions).
+ */
+export interface LinkedinCommentReactionsData {
+  /**
+   * Reactions on the comment, one record per reactor, newest first.
+   */
+  items: LinkedinCommentReactionsItem[];
+  /**
+   * The page this response holds, starting at 1.
+   */
+  page?: number;
+  /**
+   * How many pages of up to 100 reactions the comment has.
+   */
+  totalPages?: number;
+  /**
+   * How many reactions the comment has in total, across every page.
+   */
+  totalResults?: number;
+}
+
+/**
+ * Input for LinkedIn Comment Replies (linkedin.comment_replies).
+ */
+export interface LinkedinCommentRepliesInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * LinkedIn comment URL, as returned in the url field of linkedin.post_comments or copied with "Copy link to comment" (a /feed/update/... link carrying commentUrn and dashCommentUrn). A reply's URL returns the thread it belongs to. A post URL without dashCommentUrn is refused as invalid input, with no charge.
+   */
+  url: string;
+}
+
+export interface LinkedinCommentRepliesItem {
+  /**
+   * The person or company that replied.
+   */
+  actor?: {
+    /**
+     * LinkedIn identifier of the replier.
+     */
+    id?: string;
+    /**
+     * Profile picture URL of the replier. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    image?: string;
+    /**
+     * Canonical LinkedIn URL of the replier. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    linkedinUrl?: string;
+    /**
+     * Display name of the replier. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    name?: string;
+    /**
+     * Replier's headline or job title as displayed. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    position?: string;
+    /**
+     * Replier kind, e.g. 'profile' or 'company'.
+     */
+    type?: string;
+  };
+  /**
+   * Full text of the reply. Populated whenever the provider has data for the entity.
+   */
+  commentary: string;
+  /**
+   * Structured mentions and links embedded in the reply text.
+   */
+  contentAnnotations?: LinkedinCommentRepliesContentAnnotation[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Whether the reply has been edited.
+   */
+  edited?: boolean;
+  /**
+   * Engagement metrics for the reply.
+   */
+  engagement?: {
+    /**
+     * Number of reactions on the reply.
+     */
+    likes?: number;
+    /**
+     * Per-reaction-type breakdown of the reactions on the reply.
+     */
+    reactions?: LinkedinCommentRepliesReaction[];
+  };
+  /**
+   * Unique identifier of the reply. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Identifier of the post the comment belongs to (e.g. activity:7510715600319467520).
+   */
+  postId?: string;
+  /**
+   * Canonical permalink URL of the reply. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinCommentRepliesContentAnnotation {
+  /**
+   * Canonical hyperlink attached to the annotation, when present.
+   * Format: uri.
+   */
+  hyperlink?: string;
+  /**
+   * Length of the annotated text span.
+   * Range: minimum 0.
+   */
+  length?: number;
+  /**
+   * First name of a mentioned profile, when present.
+   */
+  profileFirstName?: string;
+  /**
+   * Public LinkedIn handle of a mentioned profile, when present.
+   */
+  profileHandle?: string;
+  /**
+   * LinkedIn identifier of a mentioned profile, when present.
+   */
+  profileId?: string;
+  /**
+   * Last name of a mentioned profile, when present.
+   */
+  profileLastName?: string;
+  /**
+   * Canonical LinkedIn URL of a mentioned profile, when present.
+   * Format: uri.
+   */
+  profileUrl?: string;
+  /**
+   * Zero-based start offset of the annotation in the reply text.
+   * Range: minimum 0.
+   */
+  start?: number;
+  /**
+   * Canonical text link attached to the annotation, when present.
+   * Format: uri.
+   */
+  textLink?: string;
+  /**
+   * Kind of content annotation.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinCommentRepliesReaction {
+  /**
+   * Number of reactions of this type.
+   */
+  count?: number;
+  /**
+   * Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Comment Replies (linkedin.comment_replies).
+ */
+export interface LinkedinCommentRepliesData {
+  /**
+   * Up to the 10 newest replies to the comment, newest first. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinCommentRepliesItem[];
+}
+
+/**
  * Input for LinkedIn Company (linkedin.company).
  */
 export interface LinkedinCompanyInput {
@@ -1199,6 +1479,520 @@ export interface LinkedinEmailData {
    * Whether LinkedIn has verified the member's identity.
    */
   verified?: boolean;
+}
+
+/**
+ * Input for LinkedIn Group (linkedin.group).
+ */
+export interface LinkedinGroupInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Numeric LinkedIn group id (e.g. 1898033), the number in the group URL. Send this or url.
+   */
+  groupId?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * LinkedIn group URL (e.g. https://www.linkedin.com/groups/1898033). Send this or groupId.
+   */
+  url?: string;
+}
+
+/**
+ * One group admin.
+ */
+export interface LinkedinGroupAdmin {
+  /**
+   * Admin first name.
+   */
+  firstName?: string;
+  /**
+   * Admin profile headline.
+   */
+  headline?: string;
+  /**
+   * LinkedIn member id of the admin.
+   */
+  id?: string;
+  /**
+   * Admin profile picture URL. The query string is a signed token, so keep the URL intact.
+   */
+  image?: string;
+  /**
+   * Admin last name.
+   */
+  lastName?: string;
+  /**
+   * Canonical LinkedIn profile URL of the admin.
+   */
+  url?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Group (linkedin.group).
+ */
+export interface LinkedinGroupData {
+  /**
+   * Total number of group admins.
+   */
+  adminCount: number | null;
+  /**
+   * Group admins LinkedIn shows on the group page.
+   */
+  admins: LinkedinGroupAdmin[];
+  /**
+   * Group cover (hero) image URL. The query string is a signed token, so keep the URL intact.
+   */
+  coverImage: string | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number | null;
+  /**
+   * Group about text.
+   */
+  description: string | null;
+  /**
+   * Numeric LinkedIn group id, as a string.
+   */
+  id: string;
+  /**
+   * Group logo image URL. The query string is a signed token, so keep the URL intact.
+   */
+  image: string | null;
+  /**
+   * Who may invite new members, as LinkedIn reports it (e.g. ADMIN, ALL).
+   */
+  invitationLevel: string | null;
+  /**
+   * Number of group members.
+   */
+  memberCount: number | null;
+  /**
+   * Group name.
+   */
+  name: string;
+  /**
+   * True when admins must approve posts before they appear.
+   */
+  postApprovalEnabled: boolean | null;
+  /**
+   * True when the group is publicly visible (listed in search), false when unlisted.
+   */
+  publicVisibility: boolean | null;
+  /**
+   * Group rules as written by its admins.
+   */
+  rules: string | null;
+  /**
+   * Canonical LinkedIn group URL.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for LinkedIn Group Posts (linkedin.group_posts).
+ */
+export interface LinkedinGroupPostsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Which page of about 100 posts to return, starting at 1 (default 1). Page 2 continues where page 1 ended, going further back in time. Each page is billed as one request.
+   * Range: minimum 1.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Only return posts published within this window (default any). The window is applied to the page, so a page can come back with fewer posts or none.
+   * One of: any, 1h, 24h, week, month, 3months, 6months, year.
+   */
+  postedLimit?:
+    "any" | "1h" | "24h" | "week" | "month" | "3months" | "6months" | "year";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Full LinkedIn group URL (e.g. https://www.linkedin.com/groups/1898033).
+   */
+  url: string;
+}
+
+export interface LinkedinGroupPostsItem {
+  /**
+   * Description excerpt of the attached article, when present.
+   */
+  articleDescription?: string;
+  /**
+   * Cover image URL of the attached article. The query string is a signed token, so keep the URL intact.
+   */
+  articleImage?: string;
+  /**
+   * Accessible link label LinkedIn renders for the attached article.
+   */
+  articleLinkLabel?: string;
+  /**
+   * Subtitle or source domain of the attached article.
+   */
+  articleSubtitle?: string;
+  /**
+   * Title of the article attached to the post.
+   */
+  articleTitle?: string;
+  /**
+   * Destination URL of the attached article.
+   */
+  articleUrl?: string;
+  /**
+   * The member who posted in the group.
+   */
+  author?: {
+    /**
+     * Whether LinkedIn labels the author as an admin of this group.
+     */
+    groupAdmin?: boolean;
+    /**
+     * Public identifier (vanity handle) of the author.
+     */
+    handle?: string;
+    /**
+     * Profile headline of the author (the tagline under the name).
+     */
+    headline?: string;
+    /**
+     * LinkedIn identifier of the author.
+     */
+    id?: string;
+    /**
+     * Author profile picture URL. The query string is a signed token, so keep the URL intact.
+     */
+    image?: string;
+    /**
+     * LinkedIn profile URL of the author, with tracking query params stripped. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    linkedinUrl?: string;
+    /**
+     * Display name of the author. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    name?: string;
+    /**
+     * Author kind, e.g. profile.
+     */
+    type?: string;
+    /**
+     * Website URL the author shows on their profile, when present.
+     */
+    website?: string;
+  };
+  /**
+   * Inline links, mentions and entity references in the post text, each with its character offset.
+   */
+  contentAttributes?: LinkedinGroupPostsContentAttribute[];
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   */
+  createdUtc: number;
+  /**
+   * Cover image URL of the attached document's first page, when present. The query string is a signed token, so keep the URL intact.
+   * Format: uri.
+   */
+  documentImage?: string;
+  /**
+   * Number of pages in the attached document, when present.
+   * Range: minimum 0.
+   */
+  documentPageCount?: number;
+  /**
+   * Title of the document (PDF carousel) attached to the post, when present.
+   */
+  documentTitle?: string;
+  /**
+   * Download URL of the attached document as a PDF, when present. The query string is a signed token that expires, so keep the URL intact.
+   * Format: uri.
+   */
+  documentUrl?: string;
+  /**
+   * Whether the post was edited after it was published.
+   */
+  edited?: boolean;
+  /**
+   * Engagement metrics for the post.
+   */
+  engagement?: {
+    /**
+     * Number of comments on the post.
+     */
+    comments?: number;
+    /**
+     * Total reaction count on the post. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    likes?: number;
+    /**
+     * Per-reaction-type breakdown of the reaction total.
+     */
+    reactions?: LinkedinGroupPostsReaction[];
+    /**
+     * Number of shares/reposts of the post.
+     */
+    shares?: number;
+  };
+  /**
+   * Unique identifier of the post. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Title of the LinkedIn newsletter associated with the post, when present.
+   */
+  newsletterTitle?: string;
+  /**
+   * Canonical URL of the LinkedIn newsletter associated with the post, when present.
+   * Format: uri.
+   */
+  newsletterUrl?: string;
+  /**
+   * Whether the group admins pinned the post to the top of the group.
+   */
+  pinned?: boolean;
+  /**
+   * Whether the attached poll is closed.
+   */
+  pollClosed?: boolean;
+  /**
+   * Options and public vote counts for an attached poll.
+   */
+  pollOptions?: LinkedinGroupPostsPollOption[];
+  /**
+   * Question asked by an attached LinkedIn poll.
+   */
+  pollQuestion?: string;
+  /**
+   * Total votes recorded by the attached poll.
+   * Range: minimum 0.
+   */
+  pollTotalVotes?: number;
+  /**
+   * Images attached to the post.
+   */
+  postImages?: LinkedinGroupPostsPostImage[];
+  /**
+   * Video attached to the post, or null when absent.
+   */
+  postVideo?: {} | null;
+  /**
+   * Description excerpt of the reposted post's article, when present.
+   */
+  repostArticleDescription?: string;
+  /**
+   * Image URL of the reposted post's article, when present.
+   * Format: uri.
+   */
+  repostArticleImage?: string;
+  /**
+   * Accessible display label for the reposted post's article link, when present.
+   */
+  repostArticleLinkLabel?: string;
+  /**
+   * Subtitle or publisher label of the reposted post's article, when present.
+   */
+  repostArticleSubtitle?: string;
+  /**
+   * Title of the article attached to the reposted post, when present.
+   */
+  repostArticleTitle?: string;
+  /**
+   * Canonical URL of the reposted post's article, when present.
+   * Format: uri.
+   */
+  repostArticleUrl?: string;
+  /**
+   * Public LinkedIn profile handle of the reposted post's author, when present.
+   */
+  repostAuthorHandle?: string;
+  /**
+   * Headline or follower summary of the reposted post's author, when present.
+   */
+  repostAuthorHeadline?: string;
+  /**
+   * Stable LinkedIn identifier of the reposted post's author, when present.
+   */
+  repostAuthorId?: string;
+  /**
+   * Image URL of the reposted post's author, when present.
+   * Format: uri.
+   */
+  repostAuthorImage?: string;
+  /**
+   * Display name of the reposted post's author, when present.
+   */
+  repostAuthorName?: string;
+  /**
+   * Author kind for the reposted post, when present.
+   */
+  repostAuthorType?: string;
+  /**
+   * Universal LinkedIn name of the reposted post's company author, when present.
+   */
+  repostAuthorUniversalName?: string;
+  /**
+   * Canonical LinkedIn URL of the reposted post's author, when present.
+   * Format: uri.
+   */
+  repostAuthorUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  repostCreatedUtc?: number;
+  /**
+   * Engagement metrics for the reposted post, when present.
+   */
+  repostEngagement?: {
+    /**
+     * Number of comments on the reposted post.
+     */
+    comments?: number;
+    /**
+     * Total reaction count on the reposted post.
+     */
+    likes?: number;
+    /**
+     * Number of shares/reposts of the reposted post.
+     */
+    shares?: number;
+  };
+  /**
+   * Unique identifier of the reposted post, when present.
+   */
+  repostId?: string;
+  /**
+   * Images attached to the reposted post.
+   */
+  repostImages?: LinkedinGroupPostsRepostImage[];
+  /**
+   * Text content of the reposted post, when present.
+   */
+  repostText?: string;
+  /**
+   * Canonical URL of the reposted post, when present.
+   * Format: uri.
+   */
+  repostUrl?: string;
+  /**
+   * Video thumbnail image URL of the reposted post, when present.
+   * Format: uri.
+   */
+  repostVideoThumbnail?: string;
+  /**
+   * Video stream URL of the reposted post, when present. The query string is a signed token, so keep the URL intact.
+   * Format: uri.
+   */
+  repostVideoUrl?: string;
+  /**
+   * Shareable LinkedIn URL for the post.
+   */
+  shareUrl?: string;
+  /**
+   * Full text content of the post. Empty for a repost shared without added text. Populated whenever the provider has data for the entity.
+   */
+  text: string;
+  /**
+   * Canonical URL of the post. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinGroupPostsContentAttribute {
+  [extra: string]: unknown;
+}
+
+export interface LinkedinGroupPostsReaction {
+  /**
+   * Number of reactions of this type.
+   */
+  count?: number;
+  /**
+   * Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinGroupPostsPollOption {
+  /**
+   * Poll option text.
+   */
+  text: string;
+  /**
+   * Votes recorded for this option.
+   * Range: minimum 0.
+   */
+  votes: number;
+  [extra: string]: unknown;
+}
+
+export interface LinkedinGroupPostsPostImage {
+  [extra: string]: unknown;
+}
+
+export interface LinkedinGroupPostsRepostImage {
+  /**
+   * Height of the reposted image in pixels.
+   * Range: minimum 0.
+   */
+  height?: number;
+  /**
+   * URL of an image attached to the reposted post.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Width of the reposted image in pixels.
+   * Range: minimum 0.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Group Posts (linkedin.group_posts).
+ */
+export interface LinkedinGroupPostsData {
+  /**
+   * Posts in the group, newest first. A post the group admins pinned can come first on page 1. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinGroupPostsItem[];
 }
 
 /**
@@ -3977,6 +4771,93 @@ export interface LinkedinSearchCompaniesData {
 }
 
 /**
+ * Input for LinkedIn Group Search (linkedin.search_groups).
+ */
+export interface LinkedinSearchGroupsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Which page of up to 10 groups to return, starting at 1 (1-100, default 1). Each page is billed as one request.
+   * Range: minimum 1, maximum 100.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Keyword to search LinkedIn groups for (e.g. python or sales).
+   */
+  query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+/**
+ * A LinkedIn group: name, URL, member count, summary, and logo.
+ */
+export interface LinkedinSearchGroupsItem {
+  /**
+   * Group summary text.
+   */
+  description?: string;
+  /**
+   * Numeric LinkedIn group id, as a string. Pass it to the LinkedIn Group API as groupId for the full record. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Group logo image URL. The query string is a signed token, so keep the URL intact.
+   */
+  image?: string;
+  /**
+   * Member count as a display string (e.g. 648K members).
+   */
+  membersText?: string;
+  /**
+   * Group name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Canonical LinkedIn group URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Group Search (linkedin.search_groups).
+ */
+export interface LinkedinSearchGroupsData {
+  /**
+   * Matching group records. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinSearchGroupsItem[];
+  /**
+   * The page this response holds, starting at 1.
+   */
+  page: number | null;
+  /**
+   * How many pages of up to 10 groups the search can reach.
+   */
+  totalPages: number | null;
+  /**
+   * How many groups match the search in total, including those past the last reachable page.
+   */
+  totalResults: number | null;
+}
+
+/**
  * Input for LinkedIn Sales Navigator Lead Search (linkedin.search_leads).
  */
 export interface LinkedinSearchLeadsInput {
@@ -5581,6 +6462,115 @@ export interface LinkedinSearchProfilesThinData {
 }
 
 /**
+ * Input for LinkedIn Service Provider Search (linkedin.search_services).
+ */
+export interface LinkedinSearchServicesInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location, and overrides it when both are sent.
+   */
+  geoId?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional location filter as a place name (e.g. 'Australia', 'New York'). LinkedIn picks its closest location match, so a short or ambiguous name can land elsewhere; use geoId for an exact place.
+   */
+  location?: string;
+  /**
+   * Which page of up to 10 people to return, starting at 1 (1-100, default 1). Each page is billed as one request.
+   * Range: minimum 1, maximum 100.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * The service to search for, as keywords (e.g. 'Web Development', 'Accounting', 'Photography').
+   */
+  query: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface LinkedinSearchServicesItem {
+  /**
+   * Profile about / summary text, when the member has one.
+   */
+  about?: string;
+  /**
+   * Profile headline (the tagline under the name). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  headline?: string;
+  /**
+   * LinkedIn member URN id for the profile. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Profile picture URL. The query string is a signed token, so keep the URL intact.
+   */
+  image?: string;
+  /**
+   * Member's location as a single string (city, region, country). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  location?: string;
+  /**
+   * Member's display name. Some members show only a last-name initial (e.g. 'Chris S.'). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  name?: string;
+  /**
+   * URL of the member's LinkedIn service page. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  serviceUrl?: string;
+  /**
+   * Names of the services the member offers (e.g. 'Web Development', 'Web Design'). Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  services?: string[];
+  /**
+   * LinkedIn profile URL built from the member id (https://www.linkedin.com/in/<id>). It opens the profile and can be passed to linkedin.profile. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of LinkedIn Service Provider Search (linkedin.search_services).
+ */
+export interface LinkedinSearchServicesData {
+  /**
+   * People offering a matching service, in LinkedIn's order. Populated whenever the provider has data for the entity.
+   */
+  items: LinkedinSearchServicesItem[];
+  /**
+   * The page this response holds, starting at 1, or null when not reported.
+   */
+  page: number | null;
+  /**
+   * Number of result pages LinkedIn will serve for this search (at most 100), or null when not reported. Stop paging after this page.
+   */
+  totalPages: number | null;
+  /**
+   * How many people match the search in total, including those past the last reachable page, or null when not reported.
+   */
+  totalResults: number | null;
+}
+
+/**
  * Typed methods for the linkedin platform. Attached to the AnyAPI client as
  * `client.linkedin`.
  */
@@ -5653,6 +6643,40 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinArticleData>> {
     return this._core.run("linkedin.article", input, options);
+  }
+
+  /**
+   * LinkedIn Comment Reactions
+   *
+   * List who reacted to a comment on a LinkedIn post - reactor name, profile URL, job title, and reaction type, 100 per page.
+   *
+   * Price: $0.0026 per request.
+   *
+   * @example
+   * const res = await client.linkedin.commentReactions({ url: "https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510768837462745088%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510768837462745088%2Curn%3Ali%3Aactivity%3A7510715600319467520%29" });
+   */
+  commentReactions(
+    input: LinkedinCommentReactionsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinCommentReactionsData>> {
+    return this._core.run("linkedin.comment_reactions", input, options);
+  }
+
+  /**
+   * LinkedIn Comment Replies
+   *
+   * List up to the 10 newest replies to a comment on a LinkedIn post - reply text, replier name/URL/job title, timestamps, and likes.
+   *
+   * Price: $0.0026 per request.
+   *
+   * @example
+   * const res = await client.linkedin.commentReplies({ url: "https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510749329649725442%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510749329649725442%2Curn%3Ali%3Aactivity%3A7510715600319467520%29" });
+   */
+  commentReplies(
+    input: LinkedinCommentRepliesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinCommentRepliesData>> {
+    return this._core.run("linkedin.comment_replies", input, options);
   }
 
   /**
@@ -5755,6 +6779,40 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinEmailData>> {
     return this._core.run("linkedin.email", input, options);
+  }
+
+  /**
+   * LinkedIn Group
+   *
+   * Fetch one LinkedIn group by URL or id: name, description, rules, member count, logo and cover image, creation date, visibility and join settings, and its admins.
+   *
+   * Price: $0.0013 per request.
+   *
+   * @example
+   * const res = await client.linkedin.group({ url: "https://www.linkedin.com/groups/1898033" });
+   */
+  group(
+    input: LinkedinGroupInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinGroupData>> {
+    return this._core.run("linkedin.group", input, options);
+  }
+
+  /**
+   * LinkedIn Group Posts
+   *
+   * List the posts in a LinkedIn group by group URL, newest first: full text, canonical link, publish date, author, engagement counts with a per-reaction breakdown, and attached media. One call returns a page of about 100 posts; pass page to go further back.
+   *
+   * Price: $0.0026 per request.
+   *
+   * @example
+   * const res = await client.linkedin.groupPosts({ url: "https://www.linkedin.com/groups/1898033" });
+   */
+  groupPosts(
+    input: LinkedinGroupPostsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinGroupPostsData>> {
+    return this._core.run("linkedin.group_posts", input, options);
   }
 
   /**
@@ -6088,6 +7146,23 @@ export class LinkedinNamespace {
   }
 
   /**
+   * LinkedIn Group Search
+   *
+   * Search LinkedIn groups by keyword, 10 per page: group name, URL, member count, summary, and logo.
+   *
+   * Price: $0.0013 per request.
+   *
+   * @example
+   * const res = await client.linkedin.searchGroups({ query: "python" });
+   */
+  searchGroups(
+    input: LinkedinSearchGroupsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinSearchGroupsData>> {
+    return this._core.run("linkedin.search_groups", input, options);
+  }
+
+  /**
    * LinkedIn Sales Navigator Lead Search
    *
    * LinkedIn lead search with Sales Navigator's search and filters: one call returns a page of up to 25 people matching a keyword and Sales Navigator lead filters (location, job title, current and past company, school, seniority, function, company size, and more), or the results of a Sales Navigator lead-search URL you built yourself. Each lead comes with name, current positions, location, summary, and photo, and its url opens the profile and can be passed to linkedin.profile for the full record. For full profiles in one call use linkedin.search_profiles.
@@ -6236,5 +7311,22 @@ export class LinkedinNamespace {
       false,
       options,
     );
+  }
+
+  /**
+   * LinkedIn Service Provider Search
+   *
+   * Find freelancers and service providers on LinkedIn by the service they offer (e.g. 'Web Development'), optionally in a location. One call returns a page of up to 10 people, each with name, headline, location, about text, photo, profile URL, service page URL, and the list of services they offer. The profile URL can be passed to linkedin.profile for the full record.
+   *
+   * Price: $0.0026 per request.
+   *
+   * @example
+   * const res = await client.linkedin.searchServices({ query: "Web Development", location: "Australia" });
+   */
+  searchServices(
+    input: LinkedinSearchServicesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<LinkedinSearchServicesData>> {
+    return this._core.run("linkedin.search_services", input, options);
   }
 }

@@ -4013,6 +4013,45 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.comment_reactions": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "reactionType": "sample",
+            "actor": {
+              "name": "sample",
+              "_extra": "passthrough"
+            },
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.comment_replies": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "commentary": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.company": {
     "output": {
       "found": true,
@@ -4116,6 +4155,56 @@
         "emails": [
           {
             "email": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.group": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "url": "sample",
+        "description": "sample",
+        "rules": "sample",
+        "memberCount": 1,
+        "image": "sample",
+        "coverImage": "sample",
+        "createdUtc": 1.5,
+        "invitationLevel": "sample",
+        "publicVisibility": true,
+        "postApprovalEnabled": true,
+        "adminCount": 1,
+        "admins": [
+          {
+            "_extra": "passthrough"
+          }
+        ],
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.group_posts": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "text": "sample",
+            "createdUtc": 1.5,
             "_extra": "passthrough"
           }
         ]
@@ -4373,6 +4462,28 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.search_groups": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "name": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "totalPages": 1,
+        "totalResults": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.search_leads": {
     "output": {
       "found": true,
@@ -4482,6 +4593,27 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "linkedin.search_services": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "page": 1,
+        "totalPages": 1,
+        "totalResults": 1
       }
     },
     "provider": "AnyAPI",

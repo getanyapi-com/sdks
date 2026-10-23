@@ -95,6 +95,38 @@ class LinkedinArticleInput(TypedDict, total=False):
     """Public LinkedIn article or newsletter issue URL, e.g. https://www.linkedin.com/pulse/your-article-slug. Pair it with the attachmentUrl returned by linkedin.search_posts_full to read the article behind a post."""
 
 
+class LinkedinCommentReactionsInput(TypedDict, total=False):
+    """Input for LinkedIn Comment Reactions."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    page: NotRequired[int]
+    """Which page of up to 100 reactions to return, starting at 1 (default 1). Each page is billed as one request; totalPages in the response says how many there are. Minimum: 1. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    url: Required[str]
+    """LinkedIn comment URL, as returned in the url field of linkedin.post_comments or copied with "Copy link to comment" (a /feed/update/... link carrying commentUrn and dashCommentUrn). A post URL without dashCommentUrn, or a reply's URL (carrying replyUrn), is refused as invalid input, with no charge."""
+
+
+class LinkedinCommentRepliesInput(TypedDict, total=False):
+    """Input for LinkedIn Comment Replies."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    url: Required[str]
+    """LinkedIn comment URL, as returned in the url field of linkedin.post_comments or copied with "Copy link to comment" (a /feed/update/... link carrying commentUrn and dashCommentUrn). A reply's URL returns the thread it belongs to. A post URL without dashCommentUrn is refused as invalid input, with no charge."""
+
+
 class LinkedinCompanyInput(TypedDict, total=False):
     """Input for LinkedIn Company."""
 
@@ -233,6 +265,44 @@ class LinkedinEmailInput(TypedDict, total=False):
     """LinkedIn profile URL or public identifier (the last part of the URL) to find the deliverability-validated work email for."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class LinkedinGroupInput(TypedDict, total=False):
+    """Input for LinkedIn Group."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    groupId: NotRequired[str]
+    """Numeric LinkedIn group id (e.g. 1898033), the number in the group URL. Send this or url."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    url: NotRequired[str]
+    """LinkedIn group URL (e.g. https://www.linkedin.com/groups/1898033). Send this or groupId."""
+
+
+class LinkedinGroupPostsInput(TypedDict, total=False):
+    """Input for LinkedIn Group Posts."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    page: NotRequired[int]
+    """Which page of about 100 posts to return, starting at 1 (default 1). Page 2 continues where page 1 ended, going further back in time. Each page is billed as one request. Minimum: 1. Default: 1."""
+    postedLimit: NotRequired[
+        Literal["any", "1h", "24h", "week", "month", "3months", "6months", "year"]
+    ]
+    """Only return posts published within this window (default any). The window is applied to the page, so a page can come back with fewer posts or none."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+    url: Required[str]
+    """Full LinkedIn group URL (e.g. https://www.linkedin.com/groups/1898033)."""
 
 
 class LinkedinJobInput(TypedDict, total=False):
@@ -579,6 +649,23 @@ class LinkedinSearchCompaniesInput(TypedDict, total=False):
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Keyword to search LinkedIn companies for (e.g. marketing agency)."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class LinkedinSearchGroupsInput(TypedDict, total=False):
+    """Input for LinkedIn Group Search."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    page: NotRequired[int]
+    """Which page of up to 10 groups to return, starting at 1 (1-100, default 1). Each page is billed as one request. Range: 1 to 100. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Keyword to search LinkedIn groups for (e.g. python or sales)."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -1233,6 +1320,27 @@ class LinkedinSearchProfilesThinInput(TypedDict, total=False):
     """Filter by job title or headline (e.g. Head of Talent)."""
 
 
+class LinkedinSearchServicesInput(TypedDict, total=False):
+    """Input for LinkedIn Service Provider Search."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    geoId: NotRequired[str]
+    """LinkedIn geo id to target a precise location (e.g. 103644278 for the United States); more exact than the free-text location, and overrides it when both are sent."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    location: NotRequired[str]
+    """Optional location filter as a place name (e.g. 'Australia', 'New York'). LinkedIn picks its closest location match, so a short or ambiguous name can land elsewhere; use geoId for an exact place."""
+    page: NotRequired[int]
+    """Which page of up to 10 people to return, starting at 1 (1-100, default 1). Each page is billed as one request. Range: 1 to 100. Default: 1."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """The service to search for, as keywords (e.g. 'Web Development', 'Accounting', 'Photography')."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class LinkedinAdData(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -1400,6 +1508,220 @@ class LinkedinArticleData(BaseModel):
     )
     url: str = Field(
         description="Canonical URL of the article. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCommentReactionsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    items: list[LinkedinCommentReactionsItem] = Field(
+        description="Reactions on the comment, one record per reactor, newest first."
+    )
+    page: int | None = Field(
+        default=None, description="The page this response holds, starting at 1."
+    )
+    total_pages: int | None = Field(
+        default=None,
+        alias="totalPages",
+        description="How many pages of up to 100 reactions the comment has.",
+    )
+    total_results: int | None = Field(
+        default=None,
+        alias="totalResults",
+        description="How many reactions the comment has in total, across every page.",
+    )
+
+
+class LinkedinCommentReactionsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinCommentReactionsActor = Field(
+        description="The reactor - the person or company that reacted."
+    )
+    comment_urn: str | None = Field(
+        default=None,
+        alias="commentUrn",
+        description="LinkedIn URN of the comment that was reacted to, naming its post and the comment id (e.g. urn:li:comment:(activity:7510715600319467520,7510768837462745088)).",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the reaction."
+    )
+    reaction_type: str = Field(
+        alias="reactionType",
+        description="Reaction kind (e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION, ENTERTAINMENT).",
+    )
+
+
+class LinkedinCommentReactionsActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None,
+        description="LinkedIn member or company id of the reactor. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    image: str | None = Field(
+        default=None, description="Profile picture URL of the reactor."
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn profile or company URL of the reactor. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str = Field(
+        description="Full name of the reactor (or company name). Populated whenever the provider has data for the entity."
+    )
+    position: str | None = Field(
+        default=None,
+        description="Reactor's current job title / headline (or follower count for a company). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinCommentRepliesData(BaseModel):
+    items: list[LinkedinCommentRepliesItem] = Field(
+        description="Up to the 10 newest replies to the comment, newest first. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinCommentRepliesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    actor: LinkedinCommentRepliesActor | None = Field(
+        default=None, description="The person or company that replied."
+    )
+    commentary: str = Field(
+        description="Full text of the reply. Populated whenever the provider has data for the entity."
+    )
+    content_annotations: list[LinkedinCommentRepliesContentAnnotation] | None = Field(
+        default=None,
+        alias="contentAnnotations",
+        description="Structured mentions and links embedded in the reply text.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    edited: bool | None = Field(
+        default=None, description="Whether the reply has been edited."
+    )
+    engagement: LinkedinCommentRepliesEngagement | None = Field(
+        default=None, description="Engagement metrics for the reply."
+    )
+    id: str = Field(
+        description="Unique identifier of the reply. Populated whenever the provider has data for the entity."
+    )
+    post_id: str | None = Field(
+        default=None,
+        alias="postId",
+        description="Identifier of the post the comment belongs to (e.g. activity:7510715600319467520).",
+    )
+    url: str | None = Field(
+        default=None,
+        description="Canonical permalink URL of the reply. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+
+
+class LinkedinCommentRepliesActor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the replier."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Profile picture URL of the replier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="Canonical LinkedIn URL of the replier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Display name of the replier. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    position: str | None = Field(
+        default=None,
+        description="Replier's headline or job title as displayed. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Replier kind, e.g. 'profile' or 'company'.",
+    )
+
+
+class LinkedinCommentRepliesContentAnnotation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    hyperlink: str | None = Field(
+        default=None,
+        description="Canonical hyperlink attached to the annotation, when present.",
+    )
+    length: int | None = Field(
+        default=None, description="Length of the annotated text span. Minimum: 0."
+    )
+    profile_first_name: str | None = Field(
+        default=None,
+        alias="profileFirstName",
+        description="First name of a mentioned profile, when present.",
+    )
+    profile_handle: str | None = Field(
+        default=None,
+        alias="profileHandle",
+        description="Public LinkedIn handle of a mentioned profile, when present.",
+    )
+    profile_id: str | None = Field(
+        default=None,
+        alias="profileId",
+        description="LinkedIn identifier of a mentioned profile, when present.",
+    )
+    profile_last_name: str | None = Field(
+        default=None,
+        alias="profileLastName",
+        description="Last name of a mentioned profile, when present.",
+    )
+    profile_url: str | None = Field(
+        default=None,
+        alias="profileUrl",
+        description="Canonical LinkedIn URL of a mentioned profile, when present.",
+    )
+    start: int | None = Field(
+        default=None,
+        description="Zero-based start offset of the annotation in the reply text. Minimum: 0.",
+    )
+    text_link: str | None = Field(
+        default=None,
+        alias="textLink",
+        description="Canonical text link attached to the annotation, when present.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Kind of content annotation."
+    )
+
+
+class LinkedinCommentRepliesEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    likes: int | None = Field(
+        default=None, description="Number of reactions on the reply."
+    )
+    reactions: list[LinkedinCommentRepliesReaction] | None = Field(
+        default=None,
+        description="Per-reaction-type breakdown of the reactions on the reply.",
+    )
+
+
+class LinkedinCommentRepliesReaction(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int | None = Field(
+        default=None, description="Number of reactions of this type."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.",
     )
 
 
@@ -1959,6 +2281,429 @@ class LinkedinEmailEmail(BaseModel):
         default=None,
         alias="validEmailServer",
         description="True when the domain has a valid mail server.",
+    )
+
+
+class LinkedinGroupData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    admin_count: int | None = Field(
+        alias="adminCount", description="Total number of group admins."
+    )
+    admins: list[LinkedinGroupAdmin] = Field(
+        description="Group admins LinkedIn shows on the group page."
+    )
+    cover_image: str | None = Field(
+        alias="coverImage",
+        description="Group cover (hero) image URL. The query string is a signed token, so keep the URL intact.",
+    )
+    created_utc: float | None = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    description: str | None = Field(description="Group about text.")
+    id: str = Field(description="Numeric LinkedIn group id, as a string.")
+    image: str | None = Field(
+        description="Group logo image URL. The query string is a signed token, so keep the URL intact."
+    )
+    invitation_level: str | None = Field(
+        alias="invitationLevel",
+        description="Who may invite new members, as LinkedIn reports it (e.g. ADMIN, ALL).",
+    )
+    member_count: int | None = Field(
+        alias="memberCount", description="Number of group members."
+    )
+    name: str = Field(description="Group name.")
+    post_approval_enabled: bool | None = Field(
+        alias="postApprovalEnabled",
+        description="True when admins must approve posts before they appear.",
+    )
+    public_visibility: bool | None = Field(
+        alias="publicVisibility",
+        description="True when the group is publicly visible (listed in search), false when unlisted.",
+    )
+    rules: str | None = Field(description="Group rules as written by its admins.")
+    url: str = Field(description="Canonical LinkedIn group URL.")
+
+
+class LinkedinGroupAdmin(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="Admin first name."
+    )
+    headline: str | None = Field(default=None, description="Admin profile headline.")
+    id: str | None = Field(default=None, description="LinkedIn member id of the admin.")
+    image: str | None = Field(
+        default=None,
+        description="Admin profile picture URL. The query string is a signed token, so keep the URL intact.",
+    )
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Admin last name."
+    )
+    url: str | None = Field(
+        default=None, description="Canonical LinkedIn profile URL of the admin."
+    )
+
+
+class LinkedinGroupPostsData(BaseModel):
+    items: list[LinkedinGroupPostsItem] = Field(
+        description="Posts in the group, newest first. A post the group admins pinned can come first on page 1. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinGroupPostsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    article_description: str | None = Field(
+        default=None,
+        alias="articleDescription",
+        description="Description excerpt of the attached article, when present.",
+    )
+    article_image: str | None = Field(
+        default=None,
+        alias="articleImage",
+        description="Cover image URL of the attached article. The query string is a signed token, so keep the URL intact.",
+    )
+    article_link_label: str | None = Field(
+        default=None,
+        alias="articleLinkLabel",
+        description="Accessible link label LinkedIn renders for the attached article.",
+    )
+    article_subtitle: str | None = Field(
+        default=None,
+        alias="articleSubtitle",
+        description="Subtitle or source domain of the attached article.",
+    )
+    article_title: str | None = Field(
+        default=None,
+        alias="articleTitle",
+        description="Title of the article attached to the post.",
+    )
+    article_url: str | None = Field(
+        default=None,
+        alias="articleUrl",
+        description="Destination URL of the attached article.",
+    )
+    author: LinkedinGroupPostsAuthor | None = Field(
+        default=None, description="The member who posted in the group."
+    )
+    content_attributes: list[LinkedinGroupPostsContentAttribute] | None = Field(
+        default=None,
+        alias="contentAttributes",
+        description="Inline links, mentions and entity references in the post text, each with its character offset.",
+    )
+    created_utc: float = Field(
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+    )
+    document_image: str | None = Field(
+        default=None,
+        alias="documentImage",
+        description="Cover image URL of the attached document's first page, when present. The query string is a signed token, so keep the URL intact.",
+    )
+    document_page_count: int | None = Field(
+        default=None,
+        alias="documentPageCount",
+        description="Number of pages in the attached document, when present. Minimum: 0.",
+    )
+    document_title: str | None = Field(
+        default=None,
+        alias="documentTitle",
+        description="Title of the document (PDF carousel) attached to the post, when present.",
+    )
+    document_url: str | None = Field(
+        default=None,
+        alias="documentUrl",
+        description="Download URL of the attached document as a PDF, when present. The query string is a signed token that expires, so keep the URL intact.",
+    )
+    edited: bool | None = Field(
+        default=None, description="Whether the post was edited after it was published."
+    )
+    engagement: LinkedinGroupPostsEngagement | None = Field(
+        default=None, description="Engagement metrics for the post."
+    )
+    id: str = Field(
+        description="Unique identifier of the post. Populated whenever the provider has data for the entity."
+    )
+    newsletter_title: str | None = Field(
+        default=None,
+        alias="newsletterTitle",
+        description="Title of the LinkedIn newsletter associated with the post, when present.",
+    )
+    newsletter_url: str | None = Field(
+        default=None,
+        alias="newsletterUrl",
+        description="Canonical URL of the LinkedIn newsletter associated with the post, when present.",
+    )
+    pinned: bool | None = Field(
+        default=None,
+        description="Whether the group admins pinned the post to the top of the group.",
+    )
+    poll_closed: bool | None = Field(
+        default=None,
+        alias="pollClosed",
+        description="Whether the attached poll is closed.",
+    )
+    poll_options: list[LinkedinGroupPostsPollOption] | None = Field(
+        default=None,
+        alias="pollOptions",
+        description="Options and public vote counts for an attached poll.",
+    )
+    poll_question: str | None = Field(
+        default=None,
+        alias="pollQuestion",
+        description="Question asked by an attached LinkedIn poll.",
+    )
+    poll_total_votes: int | None = Field(
+        default=None,
+        alias="pollTotalVotes",
+        description="Total votes recorded by the attached poll. Minimum: 0.",
+    )
+    post_images: list[LinkedinGroupPostsPostImage] | None = Field(
+        default=None, alias="postImages", description="Images attached to the post."
+    )
+    post_video: LinkedinGroupPostsPostVideo | None = Field(
+        default=None,
+        alias="postVideo",
+        description="Video attached to the post, or null when absent.",
+    )
+    repost_article_description: str | None = Field(
+        default=None,
+        alias="repostArticleDescription",
+        description="Description excerpt of the reposted post's article, when present.",
+    )
+    repost_article_image: str | None = Field(
+        default=None,
+        alias="repostArticleImage",
+        description="Image URL of the reposted post's article, when present.",
+    )
+    repost_article_link_label: str | None = Field(
+        default=None,
+        alias="repostArticleLinkLabel",
+        description="Accessible display label for the reposted post's article link, when present.",
+    )
+    repost_article_subtitle: str | None = Field(
+        default=None,
+        alias="repostArticleSubtitle",
+        description="Subtitle or publisher label of the reposted post's article, when present.",
+    )
+    repost_article_title: str | None = Field(
+        default=None,
+        alias="repostArticleTitle",
+        description="Title of the article attached to the reposted post, when present.",
+    )
+    repost_article_url: str | None = Field(
+        default=None,
+        alias="repostArticleUrl",
+        description="Canonical URL of the reposted post's article, when present.",
+    )
+    repost_author_handle: str | None = Field(
+        default=None,
+        alias="repostAuthorHandle",
+        description="Public LinkedIn profile handle of the reposted post's author, when present.",
+    )
+    repost_author_headline: str | None = Field(
+        default=None,
+        alias="repostAuthorHeadline",
+        description="Headline or follower summary of the reposted post's author, when present.",
+    )
+    repost_author_id: str | None = Field(
+        default=None,
+        alias="repostAuthorId",
+        description="Stable LinkedIn identifier of the reposted post's author, when present.",
+    )
+    repost_author_image: str | None = Field(
+        default=None,
+        alias="repostAuthorImage",
+        description="Image URL of the reposted post's author, when present.",
+    )
+    repost_author_name: str | None = Field(
+        default=None,
+        alias="repostAuthorName",
+        description="Display name of the reposted post's author, when present.",
+    )
+    repost_author_type: str | None = Field(
+        default=None,
+        alias="repostAuthorType",
+        description="Author kind for the reposted post, when present.",
+    )
+    repost_author_universal_name: str | None = Field(
+        default=None,
+        alias="repostAuthorUniversalName",
+        description="Universal LinkedIn name of the reposted post's company author, when present.",
+    )
+    repost_author_url: str | None = Field(
+        default=None,
+        alias="repostAuthorUrl",
+        description="Canonical LinkedIn URL of the reposted post's author, when present.",
+    )
+    repost_created_utc: float | None = Field(
+        default=None,
+        alias="repostCreatedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) when the reposted post was published. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    repost_engagement: LinkedinGroupPostsRepostEngagement | None = Field(
+        default=None,
+        alias="repostEngagement",
+        description="Engagement metrics for the reposted post, when present.",
+    )
+    repost_id: str | None = Field(
+        default=None,
+        alias="repostId",
+        description="Unique identifier of the reposted post, when present.",
+    )
+    repost_images: list[LinkedinGroupPostsRepostImage] | None = Field(
+        default=None,
+        alias="repostImages",
+        description="Images attached to the reposted post.",
+    )
+    repost_text: str | None = Field(
+        default=None,
+        alias="repostText",
+        description="Text content of the reposted post, when present.",
+    )
+    repost_url: str | None = Field(
+        default=None,
+        alias="repostUrl",
+        description="Canonical URL of the reposted post, when present.",
+    )
+    repost_video_thumbnail: str | None = Field(
+        default=None,
+        alias="repostVideoThumbnail",
+        description="Video thumbnail image URL of the reposted post, when present.",
+    )
+    repost_video_url: str | None = Field(
+        default=None,
+        alias="repostVideoUrl",
+        description="Video stream URL of the reposted post, when present. The query string is a signed token, so keep the URL intact.",
+    )
+    share_url: str | None = Field(
+        default=None,
+        alias="shareUrl",
+        description="Shareable LinkedIn URL for the post.",
+    )
+    text: str = Field(
+        description="Full text content of the post. Empty for a repost shared without added text. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical URL of the post. Populated whenever the provider has data for the entity."
+    )
+
+
+class LinkedinGroupPostsAuthor(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    group_admin: bool | None = Field(
+        default=None,
+        alias="groupAdmin",
+        description="Whether LinkedIn labels the author as an admin of this group.",
+    )
+    handle: str | None = Field(
+        default=None, description="Public identifier (vanity handle) of the author."
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline of the author (the tagline under the name).",
+    )
+    id: str | None = Field(
+        default=None, description="LinkedIn identifier of the author."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Author profile picture URL. The query string is a signed token, so keep the URL intact.",
+    )
+    linkedin_url: str | None = Field(
+        default=None,
+        alias="linkedinUrl",
+        description="LinkedIn profile URL of the author, with tracking query params stripped. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Display name of the author. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Author kind, e.g. profile."
+    )
+    website: str | None = Field(
+        default=None,
+        description="Website URL the author shows on their profile, when present.",
+    )
+
+
+class LinkedinGroupPostsContentAttribute(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinGroupPostsEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of comments on the post."
+    )
+    likes: int | None = Field(
+        default=None,
+        description="Total reaction count on the post. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    reactions: list[LinkedinGroupPostsReaction] | None = Field(
+        default=None, description="Per-reaction-type breakdown of the reaction total."
+    )
+    shares: int | None = Field(
+        default=None, description="Number of shares/reposts of the post."
+    )
+
+
+class LinkedinGroupPostsReaction(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int | None = Field(
+        default=None, description="Number of reactions of this type."
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Reaction type, e.g. LIKE, PRAISE, EMPATHY, INTEREST, APPRECIATION.",
+    )
+
+
+class LinkedinGroupPostsPollOption(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    text: str = Field(description="Poll option text.")
+    votes: int = Field(description="Votes recorded for this option. Minimum: 0.")
+
+
+class LinkedinGroupPostsPostImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinGroupPostsPostVideo(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkedinGroupPostsRepostEngagement(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    comments: int | None = Field(
+        default=None, description="Number of comments on the reposted post."
+    )
+    likes: int | None = Field(
+        default=None, description="Total reaction count on the reposted post."
+    )
+    shares: int | None = Field(
+        default=None, description="Number of shares/reposts of the reposted post."
+    )
+
+
+class LinkedinGroupPostsRepostImage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    height: int | None = Field(
+        default=None, description="Height of the reposted image in pixels. Minimum: 0."
+    )
+    url: str = Field(description="URL of an image attached to the reposted post.")
+    width: int | None = Field(
+        default=None, description="Width of the reposted image in pixels. Minimum: 0."
     )
 
 
@@ -3855,6 +4600,47 @@ class LinkedinSearchCompaniesItem(BaseModel):
     )
 
 
+class LinkedinSearchGroupsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    items: list[LinkedinSearchGroupsItem] = Field(
+        description="Matching group records. Populated whenever the provider has data for the entity."
+    )
+    page: int | None = Field(description="The page this response holds, starting at 1.")
+    total_pages: int | None = Field(
+        alias="totalPages",
+        description="How many pages of up to 10 groups the search can reach.",
+    )
+    total_results: int | None = Field(
+        alias="totalResults",
+        description="How many groups match the search in total, including those past the last reachable page.",
+    )
+
+
+class LinkedinSearchGroupsItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    description: str | None = Field(default=None, description="Group summary text.")
+    id: str = Field(
+        description="Numeric LinkedIn group id, as a string. Pass it to the LinkedIn Group API as groupId for the full record. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Group logo image URL. The query string is a signed token, so keep the URL intact.",
+    )
+    members_text: str | None = Field(
+        default=None,
+        alias="membersText",
+        description="Member count as a display string (e.g. 648K members).",
+    )
+    name: str = Field(
+        description="Group name. Populated whenever the provider has data for the entity."
+    )
+    url: str = Field(
+        description="Canonical LinkedIn group URL. Populated whenever the provider has data for the entity."
+    )
+
+
 class LinkedinSearchLeadsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
@@ -4455,6 +5241,65 @@ class LinkedinSearchProfilesThinItem(BaseModel):
     )
 
 
+class LinkedinSearchServicesData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    items: list[LinkedinSearchServicesItem] = Field(
+        description="People offering a matching service, in LinkedIn's order. Populated whenever the provider has data for the entity."
+    )
+    page: int | None = Field(
+        description="The page this response holds, starting at 1, or null when not reported."
+    )
+    total_pages: int | None = Field(
+        alias="totalPages",
+        description="Number of result pages LinkedIn will serve for this search (at most 100), or null when not reported. Stop paging after this page.",
+    )
+    total_results: int | None = Field(
+        alias="totalResults",
+        description="How many people match the search in total, including those past the last reachable page, or null when not reported.",
+    )
+
+
+class LinkedinSearchServicesItem(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    about: str | None = Field(
+        default=None,
+        description="Profile about / summary text, when the member has one.",
+    )
+    headline: str | None = Field(
+        default=None,
+        description="Profile headline (the tagline under the name). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    id: str = Field(
+        description="LinkedIn member URN id for the profile. Populated whenever the provider has data for the entity."
+    )
+    image: str | None = Field(
+        default=None,
+        description="Profile picture URL. The query string is a signed token, so keep the URL intact.",
+    )
+    location: str | None = Field(
+        default=None,
+        description="Member's location as a single string (city, region, country). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    name: str | None = Field(
+        default=None,
+        description="Member's display name. Some members show only a last-name initial (e.g. 'Chris S.'). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    service_url: str | None = Field(
+        default=None,
+        alias="serviceUrl",
+        description="URL of the member's LinkedIn service page. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    services: list[str] | None = Field(
+        default=None,
+        description="Names of the services the member offers (e.g. 'Web Development', 'Web Design'). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str = Field(
+        description="LinkedIn profile URL built from the member id (https://www.linkedin.com/in/<id>). It opens the profile and can be passed to linkedin.profile. Populated whenever the provider has data for the entity."
+    )
+
+
 class LinkedinNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
 
@@ -4543,6 +5388,48 @@ class LinkedinNamespace:
             "linkedin.article", dict(input), options
         )
         return RunResult[LinkedinArticleData].model_validate(raw)
+
+    def comment_reactions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCommentReactionsInput],
+    ) -> RunResult[LinkedinCommentReactionsData]:
+        """LinkedIn Comment Reactions
+
+        List who reacted to a comment on a LinkedIn post - reactor name, profile
+        URL, job title, and reaction type, 100 per page.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.comment_reactions(url="https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510768837462745088%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510768837462745088%2Curn%3Ali%3Aactivity%3A7510715600319467520%29")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.comment_reactions", dict(input), options
+        )
+        return RunResult[LinkedinCommentReactionsData].model_validate(raw)
+
+    def comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCommentRepliesInput],
+    ) -> RunResult[LinkedinCommentRepliesData]:
+        """LinkedIn Comment Replies
+
+        List up to the 10 newest replies to a comment on a LinkedIn post - reply
+        text, replier name/URL/job title, timestamps, and likes.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.comment_replies(url="https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510749329649725442%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510749329649725442%2Curn%3Ali%3Aactivity%3A7510715600319467520%29")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.comment_replies", dict(input), options
+        )
+        return RunResult[LinkedinCommentRepliesData].model_validate(raw)
 
     def company(
         self,
@@ -4673,6 +5560,51 @@ class LinkedinNamespace:
             "linkedin.email", dict(input), options
         )
         return RunResult[LinkedinEmailData].model_validate(raw)
+
+    def group(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinGroupInput],
+    ) -> RunResult[LinkedinGroupData]:
+        """LinkedIn Group
+
+        Fetch one LinkedIn group by URL or id: name, description, rules, member
+        count, logo and cover image, creation date, visibility and join settings,
+        and its admins.
+
+        Price: $0.0013 per request.
+
+        Example:
+            res = client.linkedin.group(url="https://www.linkedin.com/groups/1898033")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.group", dict(input), options
+        )
+        return RunResult[LinkedinGroupData].model_validate(raw)
+
+    def group_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinGroupPostsInput],
+    ) -> RunResult[LinkedinGroupPostsData]:
+        """LinkedIn Group Posts
+
+        List the posts in a LinkedIn group by group URL, newest first: full text,
+        canonical link, publish date, author, engagement counts with a per-reaction
+        breakdown, and attached media. One call returns a page of about 100 posts;
+        pass page to go further back.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.group_posts(url="https://www.linkedin.com/groups/1898033")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.group_posts", dict(input), options
+        )
+        return RunResult[LinkedinGroupPostsData].model_validate(raw)
 
     def job(
         self,
@@ -5072,6 +6004,27 @@ class LinkedinNamespace:
         )
         return RunResult[LinkedinSearchCompaniesData].model_validate(raw)
 
+    def search_groups(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchGroupsInput],
+    ) -> RunResult[LinkedinSearchGroupsData]:
+        """LinkedIn Group Search
+
+        Search LinkedIn groups by keyword, 10 per page: group name, URL, member
+        count, summary, and logo.
+
+        Price: $0.0013 per request.
+
+        Example:
+            res = client.linkedin.search_groups(query="python")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_groups", dict(input), options
+        )
+        return RunResult[LinkedinSearchGroupsData].model_validate(raw)
+
     def search_leads(
         self,
         *,
@@ -5268,6 +6221,30 @@ class LinkedinNamespace:
             options=options,
         )
 
+    def search_services(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchServicesInput],
+    ) -> RunResult[LinkedinSearchServicesData]:
+        """LinkedIn Service Provider Search
+
+        Find freelancers and service providers on LinkedIn by the service they offer
+        (e.g. 'Web Development'), optionally in a location. One call returns a page
+        of up to 10 people, each with name, headline, location, about text, photo,
+        profile URL, service page URL, and the list of services they offer. The
+        profile URL can be passed to linkedin.profile for the full record.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.search_services(location="Australia", query="Web Development")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_services", dict(input), options
+        )
+        return RunResult[LinkedinSearchServicesData].model_validate(raw)
+
 
 class AsyncLinkedinNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -5357,6 +6334,48 @@ class AsyncLinkedinNamespace:
             "linkedin.article", dict(input), options
         )
         return RunResult[LinkedinArticleData].model_validate(raw)
+
+    async def comment_reactions(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCommentReactionsInput],
+    ) -> RunResult[LinkedinCommentReactionsData]:
+        """LinkedIn Comment Reactions
+
+        List who reacted to a comment on a LinkedIn post - reactor name, profile
+        URL, job title, and reaction type, 100 per page.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.comment_reactions(url="https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510768837462745088%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510768837462745088%2Curn%3Ali%3Aactivity%3A7510715600319467520%29")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.comment_reactions", dict(input), options
+        )
+        return RunResult[LinkedinCommentReactionsData].model_validate(raw)
+
+    async def comment_replies(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinCommentRepliesInput],
+    ) -> RunResult[LinkedinCommentRepliesData]:
+        """LinkedIn Comment Replies
+
+        List up to the 10 newest replies to a comment on a LinkedIn post - reply
+        text, replier name/URL/job title, timestamps, and likes.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.comment_replies(url="https://www.linkedin.com/feed/update/urn:li:activity:7510715600319467520?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7510715600319467520%2C7510749329649725442%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287510749329649725442%2Curn%3Ali%3Aactivity%3A7510715600319467520%29")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.comment_replies", dict(input), options
+        )
+        return RunResult[LinkedinCommentRepliesData].model_validate(raw)
 
     async def company(
         self,
@@ -5487,6 +6506,51 @@ class AsyncLinkedinNamespace:
             "linkedin.email", dict(input), options
         )
         return RunResult[LinkedinEmailData].model_validate(raw)
+
+    async def group(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinGroupInput],
+    ) -> RunResult[LinkedinGroupData]:
+        """LinkedIn Group
+
+        Fetch one LinkedIn group by URL or id: name, description, rules, member
+        count, logo and cover image, creation date, visibility and join settings,
+        and its admins.
+
+        Price: $0.0013 per request.
+
+        Example:
+            res = client.linkedin.group(url="https://www.linkedin.com/groups/1898033")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.group", dict(input), options
+        )
+        return RunResult[LinkedinGroupData].model_validate(raw)
+
+    async def group_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinGroupPostsInput],
+    ) -> RunResult[LinkedinGroupPostsData]:
+        """LinkedIn Group Posts
+
+        List the posts in a LinkedIn group by group URL, newest first: full text,
+        canonical link, publish date, author, engagement counts with a per-reaction
+        breakdown, and attached media. One call returns a page of about 100 posts;
+        pass page to go further back.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.group_posts(url="https://www.linkedin.com/groups/1898033")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.group_posts", dict(input), options
+        )
+        return RunResult[LinkedinGroupPostsData].model_validate(raw)
 
     async def job(
         self,
@@ -5886,6 +6950,27 @@ class AsyncLinkedinNamespace:
         )
         return RunResult[LinkedinSearchCompaniesData].model_validate(raw)
 
+    async def search_groups(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchGroupsInput],
+    ) -> RunResult[LinkedinSearchGroupsData]:
+        """LinkedIn Group Search
+
+        Search LinkedIn groups by keyword, 10 per page: group name, URL, member
+        count, summary, and logo.
+
+        Price: $0.0013 per request.
+
+        Example:
+            res = client.linkedin.search_groups(query="python")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_groups", dict(input), options
+        )
+        return RunResult[LinkedinSearchGroupsData].model_validate(raw)
+
     async def search_leads(
         self,
         *,
@@ -6081,3 +7166,27 @@ class AsyncLinkedinNamespace:
             bare=False,
             options=options,
         )
+
+    async def search_services(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[LinkedinSearchServicesInput],
+    ) -> RunResult[LinkedinSearchServicesData]:
+        """LinkedIn Service Provider Search
+
+        Find freelancers and service providers on LinkedIn by the service they offer
+        (e.g. 'Web Development'), optionally in a location. One call returns a page
+        of up to 10 people, each with name, headline, location, about text, photo,
+        profile URL, service page URL, and the list of services they offer. The
+        profile URL can be passed to linkedin.profile for the full record.
+
+        Price: $0.0026 per request.
+
+        Example:
+            res = client.linkedin.search_services(location="Australia", query="Web Development")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "linkedin.search_services", dict(input), options
+        )
+        return RunResult[LinkedinSearchServicesData].model_validate(raw)
