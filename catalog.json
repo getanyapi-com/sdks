@@ -993,6 +993,171 @@
       "failover": true
     },
     {
+      "id": "amazon.deals",
+      "slug": "amazon.deals",
+      "category": "shop",
+      "name": "Amazon Deals",
+      "description": "List today's Amazon deals for one marketplace and get ASIN, title, deal price, list price, discount, deal type, badge and image for each deal in one normalized response.",
+      "method": "POST",
+      "path": "/v1/run/amazon.deals",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.00085,
+          "maxPer1kUsd": 0.85
+        },
+        "failoverMaxUsd": 0.00107,
+        "failoverMaxPer1kUsd": 1.07
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "fields": [
+            "asin",
+            "badge",
+            "currency",
+            "dealType",
+            "discountPercent",
+            "image",
+            "items",
+            "listPrice",
+            "position",
+            "price",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00107,
+            "maxPer1kUsd": 1.07
+          },
+          "source": {
+            "id": "anonymous-chameleon-d7366dd9",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "fields": [
+            "asin",
+            "currency",
+            "image",
+            "inStock",
+            "items",
+            "listPrice",
+            "position",
+            "price",
+            "title"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
+      "id": "amazon.offers",
+      "slug": "amazon.offers",
+      "category": "shop",
+      "name": "Amazon Offers",
+      "description": "List every offer for one Amazon product by ASIN or product URL, the Buy Box first and then the other sellers, and get price, condition, seller name and ID, seller rating, Prime, delivery estimate and fulfillment for each in one normalized response.",
+      "method": "POST",
+      "path": "/v1/run/amazon.offers",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.00085,
+          "maxPer1kUsd": 0.85
+        },
+        "failoverMaxUsd": 0.00213,
+        "failoverMaxPer1kUsd": 2.13
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "fields": [
+            "buyBox",
+            "condition",
+            "currency",
+            "delivery",
+            "freeDelivery",
+            "fulfilledByAmazon",
+            "isPrime",
+            "items",
+            "price",
+            "sellerFeedbackPercent",
+            "sellerId",
+            "sellerName",
+            "sellerRating",
+            "sellerRatingCount",
+            "totalResults"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00213,
+            "maxPer1kUsd": 2.13
+          },
+          "source": {
+            "id": "anonymous-chameleon-d7366dd9",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "fields": [
+            "buyBox",
+            "condition",
+            "currency",
+            "delivery",
+            "isPrime",
+            "items",
+            "price",
+            "sellerName",
+            "shipsFrom"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
       "id": "amazon.product",
       "slug": "amazon.product",
       "category": "shop",
@@ -1454,6 +1619,174 @@
             "reviewsCount",
             "title",
             "url"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
+      "id": "amazon.seller",
+      "slug": "amazon.seller",
+      "category": "shop",
+      "name": "Amazon Seller",
+      "description": "Look up one Amazon seller by seller ID and get its name, star rating, positive feedback percentage, feedback counts for the last 30 days, 90 days, 12 months and lifetime, and its registered business name and address in one normalized response.",
+      "method": "POST",
+      "path": "/v1/run/amazon.seller",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.00085,
+          "maxPer1kUsd": 0.85
+        },
+        "failoverMaxUsd": 0.00107,
+        "failoverMaxPer1kUsd": 1.07
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "fields": [
+            "businessAddress",
+            "businessName",
+            "feedbackCount",
+            "feedbackCountLast12Months",
+            "feedbackCountLast30Days",
+            "feedbackCountLast90Days",
+            "items",
+            "name",
+            "positiveFeedbackPercent",
+            "rating",
+            "sellerId",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00107,
+            "maxPer1kUsd": 1.07
+          },
+          "source": {
+            "id": "anonymous-chameleon-d7366dd9",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "fields": [
+            "items",
+            "name",
+            "positiveFeedbackPercent",
+            "rating",
+            "sellerId"
+          ]
+        }
+      ],
+      "tryEligible": true,
+      "tryMaxItems": 3,
+      "failover": true
+    },
+    {
+      "id": "amazon.seller_products",
+      "slug": "amazon.seller_products",
+      "category": "shop",
+      "name": "Amazon Seller Products",
+      "description": "List one Amazon seller's storefront by seller ID, a page at a time, and get ASIN, title, price, list price, rating, reviews count, image, coupon and sponsored, Prime, best seller and Amazon's Choice flags for each product in one normalized response.",
+      "method": "POST",
+      "path": "/v1/run/amazon.seller_products",
+      "provider": "AnyAPI",
+      "execution": {
+        "mode": "sync"
+      },
+      "pricing": {
+        "from": {
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.00085,
+          "maxPer1kUsd": 0.85
+        },
+        "failoverMaxUsd": 0.00107,
+        "failoverMaxPer1kUsd": 1.07
+      },
+      "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "fields": [
+            "asin",
+            "boughtPastMonth",
+            "coupon",
+            "currency",
+            "image",
+            "isAmazonsChoice",
+            "isBestSeller",
+            "isPrime",
+            "isSponsored",
+            "items",
+            "listPrice",
+            "position",
+            "price",
+            "rating",
+            "reviewsCount",
+            "title",
+            "totalResults",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00107,
+            "maxPer1kUsd": 1.07
+          },
+          "source": {
+            "id": "anonymous-chameleon-d7366dd9",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "fields": [
+            "asin",
+            "availability",
+            "coupon",
+            "currency",
+            "image",
+            "inStock",
+            "isSponsored",
+            "items",
+            "position",
+            "price",
+            "rating",
+            "reviewsCount",
+            "title"
           ]
         }
       ],
@@ -45883,39 +46216,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0014,
-            "maxPer1kUsd": 1.4
-          },
-          "source": {
-            "id": "anonymous-dolphin",
-            "name": "Dolphin",
-            "kind": "anonymous",
-            "artworkKey": "dolphin"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 56.69217970049917,
-            "latencyP50Ms": 6642,
-            "uptimeSample": 30050,
-            "latencySample": 17036,
-            "requests": 30274,
-            "servedRequests": 17036,
-            "blockedPct": 52.715142169281364
-          },
-          "fields": [
-            "description",
-            "html",
-            "language",
-            "markdown",
-            "rawHtml",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0015,
             "maxPer1kUsd": 1.5
           },
@@ -45976,6 +46276,41 @@
             "markdown",
             "rawHtml",
             "statusCode",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0014,
+            "maxPer1kUsd": 1.4
+          },
+          "source": {
+            "id": "anonymous-dolphin",
+            "name": "Dolphin",
+            "kind": "anonymous",
+            "artworkKey": "dolphin"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 56.69217970049917,
+            "latencyP50Ms": 6642,
+            "uptimeSample": 30050,
+            "latencySample": 17036,
+            "requests": 30274,
+            "servedRequests": 17036,
+            "blockedPct": 52.715142169281364
+          },
+          "fields": [
+            "description",
+            "html",
+            "language",
+            "markdown",
+            "rawHtml",
             "title",
             "url"
           ]

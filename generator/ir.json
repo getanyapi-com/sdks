@@ -3485,6 +3485,646 @@
       }
     },
     {
+      "slug": "amazon.deals",
+      "platform": "amazon",
+      "action": "deals",
+      "operationId": "amazon_deals",
+      "name": "Amazon Deals",
+      "category": "shop",
+      "description": "List today's Amazon deals for one marketplace and get ASIN, title, deal price, list price, discount, deal type, badge and image for each deal in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "amazon",
+      "tsMethod": "deals",
+      "tsIterMethod": null,
+      "pyNamespace": "amazon",
+      "pyMethod": "deals",
+      "pyIterMethod": null,
+      "inputTypeName": "AmazonDealsInput",
+      "outputTypeName": "AmazonDealsData",
+      "example": {
+        "region": "amazon.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Amazon marketplace to read, as its domain (e.g. amazon.co.uk); omit it for amazon.com.",
+            "enum": [
+              "amazon.com",
+              "amazon.co.uk",
+              "amazon.de",
+              "amazon.fr",
+              "amazon.it",
+              "amazon.es",
+              "amazon.nl",
+              "amazon.se",
+              "amazon.pl",
+              "amazon.ca",
+              "amazon.com.mx",
+              "amazon.com.br",
+              "amazon.co.jp",
+              "amazon.in",
+              "amazon.com.au",
+              "amazon.sg",
+              "amazon.ae",
+              "amazon.sa",
+              "amazon.com.tr",
+              "amazon.eg"
+            ],
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountPercent`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a deal that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "badge",
+                "dealType",
+                "discountPercent",
+                "inStock",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Today's deals in Amazon's order. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "asin": {
+                    "kind": "string",
+                    "description": "Amazon Standard Identification Number; pass it to the Amazon Products by ASIN or Amazon Offers SKUs. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "badge": {
+                    "kind": "string",
+                    "description": "Deal badge text as Amazon prints it, e.g. \"Limited time deal\", or null when not shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "dealType": {
+                    "kind": "string",
+                    "description": "Deal kind as Amazon names it, e.g. \"BEST_DEAL\" or \"LIGHTNING_DEAL\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "discountPercent": {
+                    "kind": "number",
+                    "description": "Discount off the list price in percent, e.g. 31, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product image URL, or null when the deal has none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when the product can be bought now, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Price before the deal, or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the deal in the feed.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Deal price as a numeric amount, or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Product detail page URL with tracking removed, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "position",
+                  "asin",
+                  "title"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "asin",
+                  "image",
+                  "listPrice",
+                  "price",
+                  "title"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "amazon.offers",
+      "platform": "amazon",
+      "action": "offers",
+      "operationId": "amazon_offers",
+      "name": "Amazon Offers",
+      "category": "shop",
+      "description": "List every offer for one Amazon product by ASIN or product URL, the Buy Box first and then the other sellers, and get price, condition, seller name and ID, seller rating, Prime, delivery estimate and fulfillment for each in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "amazon",
+      "tsMethod": "offers",
+      "tsIterMethod": null,
+      "pyNamespace": "amazon",
+      "pyMethod": "offers",
+      "pyIterMethod": null,
+      "inputTypeName": "AmazonOffersInput",
+      "outputTypeName": "AmazonOffersData",
+      "example": {
+        "product": "B006MIWDCC"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of the other sellers' offers, about 10 a page; page 1 also carries the Buy Box. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "product": {
+            "kind": "string",
+            "description": "Amazon product ASIN or full product URL (e.g. B006MIWDCC).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Amazon marketplace the product ASIN belongs to (e.g. amazon.co.uk); a product URL sets it from its own domain.",
+            "enum": [
+              "amazon.com",
+              "amazon.co.uk",
+              "amazon.de",
+              "amazon.fr",
+              "amazon.it",
+              "amazon.es",
+              "amazon.nl",
+              "amazon.se",
+              "amazon.pl",
+              "amazon.ca",
+              "amazon.com.mx",
+              "amazon.com.br",
+              "amazon.co.jp",
+              "amazon.in",
+              "amazon.com.au",
+              "amazon.sg",
+              "amazon.ae",
+              "amazon.sa",
+              "amazon.com.tr",
+              "amazon.eg"
+            ],
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a offer that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "freeDelivery",
+                "fulfilledByAmazon",
+                "sellerFeedbackPercent",
+                "sellerId",
+                "sellerRating",
+                "sellerRatingCount",
+                "shipsFrom",
+                "totalResults"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "product"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "buyBox": {
+              "kind": "object",
+              "description": "The offer Amazon features on the product page (the Buy Box), with the same fields as an item; every field is null when Amazon features none. Populated whenever the provider has data for the entity.",
+              "properties": {
+                "condition": {
+                  "kind": "string",
+                  "description": "Item condition as Amazon names it, e.g. \"New\" or \"Used - Like New\", or null when not reported. Populated whenever the provider has data for the entity.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "currency": {
+                  "kind": "string",
+                  "description": "Price currency code, e.g. \"USD\", or null when not reported. Populated whenever the provider has data for the entity.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "delivery": {
+                  "kind": "string",
+                  "description": "Delivery estimate as Amazon prints it, e.g. \"Thursday, October 29\" or a full \"FREE delivery ...\" line, or null when not shown. Populated whenever the provider has data for the entity.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "freeDelivery": {
+                  "kind": "boolean",
+                  "description": "True when delivery is free, or null when not reported.",
+                  "nullable": true,
+                  "default": null
+                },
+                "fulfilledByAmazon": {
+                  "kind": "boolean",
+                  "description": "True when Amazon ships the order for the seller, or null when not reported.",
+                  "nullable": true,
+                  "default": null
+                },
+                "isPrime": {
+                  "kind": "boolean",
+                  "description": "True when the offer is Prime eligible. Populated whenever the provider has data for the entity.",
+                  "nullable": true,
+                  "default": null
+                },
+                "price": {
+                  "kind": "number",
+                  "description": "Buy Box price as a numeric amount, or null when Amazon features no offer.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "sellerFeedbackPercent": {
+                  "kind": "number",
+                  "description": "Seller's positive feedback percentage, or null when not reported.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "sellerId": {
+                  "kind": "string",
+                  "description": "Amazon seller ID of the seller making the offer; pass it to the Amazon Seller SKU. Null when not reported.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "sellerName": {
+                  "kind": "string",
+                  "description": "Name of the seller making the offer, or null when Amazon does not name it. Populated whenever the provider has data for the entity.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "sellerRating": {
+                  "kind": "number",
+                  "description": "Seller's star rating, 0-5, or null when not reported.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "sellerRatingCount": {
+                  "kind": "integer",
+                  "description": "Number of ratings behind the seller's star rating, or null when not reported.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "shipsFrom": {
+                  "kind": "string",
+                  "description": "Who ships the order, e.g. \"Amazon\", or null when not reported.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [],
+              "open": true,
+              "mustPopulate": [
+                "condition",
+                "currency",
+                "delivery",
+                "isPrime",
+                "sellerName"
+              ]
+            },
+            "items": {
+              "kind": "array",
+              "description": "The other sellers' offers on the requested page, in Amazon's order; the Buy Box offer is in buyBox. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "condition": {
+                    "kind": "string",
+                    "description": "Item condition as Amazon names it, e.g. \"New\" or \"Used - Like New\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "delivery": {
+                    "kind": "string",
+                    "description": "Delivery estimate as Amazon prints it, e.g. \"Thursday, October 29\" or a full \"FREE delivery ...\" line, or null when not shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "freeDelivery": {
+                    "kind": "boolean",
+                    "description": "True when delivery is free, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "fulfilledByAmazon": {
+                    "kind": "boolean",
+                    "description": "True when Amazon ships the order for the seller, or null when not reported.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isPrime": {
+                    "kind": "boolean",
+                    "description": "True when the offer is Prime eligible. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Offer price as a numeric amount. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerFeedbackPercent": {
+                    "kind": "number",
+                    "description": "Seller's positive feedback percentage, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "Amazon seller ID of the seller making the offer; pass it to the Amazon Seller SKU. Null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerName": {
+                    "kind": "string",
+                    "description": "Name of the seller making the offer, or null when Amazon does not name it. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "sellerRating": {
+                    "kind": "number",
+                    "description": "Seller's star rating, 0-5, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerRatingCount": {
+                    "kind": "integer",
+                    "description": "Number of ratings behind the seller's star rating, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "shipsFrom": {
+                    "kind": "string",
+                    "description": "Who ships the order, e.g. \"Amazon\", or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "price"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "condition",
+                  "currency",
+                  "delivery",
+                  "isPrime",
+                  "price",
+                  "sellerName"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total offers Amazon lists for the product across every page, the Buy Box included, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "buyBox",
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "amazon.product",
       "platform": "amazon",
       "action": "product",
@@ -4215,6 +4855,576 @@
                 ]
               },
               "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "amazon.seller",
+      "platform": "amazon",
+      "action": "seller",
+      "operationId": "amazon_seller",
+      "name": "Amazon Seller",
+      "category": "shop",
+      "description": "Look up one Amazon seller by seller ID and get its name, star rating, positive feedback percentage, feedback counts for the last 30 days, 90 days, 12 months and lifetime, and its registered business name and address in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "amazon",
+      "tsMethod": "seller",
+      "tsIterMethod": null,
+      "pyNamespace": "amazon",
+      "pyMethod": "seller",
+      "pyIterMethod": null,
+      "inputTypeName": "AmazonSellerInput",
+      "outputTypeName": "AmazonSellerData",
+      "example": {
+        "sellerId": "A11V4PRB7HXYNG"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Amazon marketplace to read, as its domain (e.g. amazon.co.uk); omit it for amazon.com.",
+            "enum": [
+              "amazon.com",
+              "amazon.co.uk",
+              "amazon.de",
+              "amazon.fr",
+              "amazon.it",
+              "amazon.es",
+              "amazon.nl",
+              "amazon.se",
+              "amazon.pl",
+              "amazon.ca",
+              "amazon.com.mx",
+              "amazon.com.br",
+              "amazon.co.jp",
+              "amazon.in",
+              "amazon.com.au",
+              "amazon.sg",
+              "amazon.ae",
+              "amazon.sa",
+              "amazon.com.tr",
+              "amazon.eg"
+            ],
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `businessName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a seller that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "businessAddress",
+                "businessName",
+                "feedbackCount",
+                "feedbackCountLast12Months",
+                "feedbackCountLast30Days",
+                "feedbackCountLast90Days",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sellerId": {
+            "kind": "string",
+            "description": "Amazon seller ID, the value after seller= in a seller page URL (https://www.amazon.com/sp?seller=<id>), e.g. A11V4PRB7HXYNG.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "sellerId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Seller profile records (one per requested seller ID). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "businessAddress": {
+                    "kind": "string",
+                    "description": "Registered business address from the Detailed Seller Information section, or null when the seller page does not show one.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "businessName": {
+                    "kind": "string",
+                    "description": "Registered business name from the Detailed Seller Information section, or null when the seller page does not show one.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "feedbackCount": {
+                    "kind": "integer",
+                    "description": "Lifetime number of seller feedback ratings, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "feedbackCountLast12Months": {
+                    "kind": "integer",
+                    "description": "Seller feedback ratings received in the last 12 months, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "feedbackCountLast30Days": {
+                    "kind": "integer",
+                    "description": "Seller feedback ratings received in the last 30 days, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "feedbackCountLast90Days": {
+                    "kind": "integer",
+                    "description": "Seller feedback ratings received in the last 90 days, or null when not reported.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Seller display name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "positiveFeedbackPercent": {
+                    "kind": "number",
+                    "description": "Positive feedback percentage shown at the top of the seller page (the last 12 months, or lifetime when the seller has no ratings in that window), or null when the seller has no ratings. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Seller star rating, 0-5, as shown at the top of the seller page, or null when the seller has no ratings. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "sellerId": {
+                    "kind": "string",
+                    "description": "Amazon seller ID. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Seller profile page URL (https://www.amazon.<domain>/sp?seller=<id>), or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "sellerId",
+                  "name"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "name",
+                  "positiveFeedbackPercent",
+                  "rating",
+                  "sellerId"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "amazon.seller_products",
+      "platform": "amazon",
+      "action": "seller_products",
+      "operationId": "amazon_seller_products",
+      "name": "Amazon Seller Products",
+      "category": "shop",
+      "description": "List one Amazon seller's storefront by seller ID, a page at a time, and get ASIN, title, price, list price, rating, reviews count, image, coupon and sponsored, Prime, best seller and Amazon's Choice flags for each product in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "amazon",
+      "tsMethod": "sellerProducts",
+      "tsIterMethod": null,
+      "pyNamespace": "amazon",
+      "pyMethod": "seller_products",
+      "pyIterMethod": null,
+      "inputTypeName": "AmazonSellerProductsInput",
+      "outputTypeName": "AmazonSellerProductsData",
+      "example": {
+        "sellerId": "A1AU32JJ4K70WE"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of the seller's storefront. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "region": {
+            "kind": "string",
+            "description": "Amazon marketplace to read, as its domain (e.g. amazon.co.uk); omit it for amazon.com.",
+            "enum": [
+              "amazon.com",
+              "amazon.co.uk",
+              "amazon.de",
+              "amazon.fr",
+              "amazon.it",
+              "amazon.es",
+              "amazon.nl",
+              "amazon.se",
+              "amazon.pl",
+              "amazon.ca",
+              "amazon.com.mx",
+              "amazon.com.br",
+              "amazon.co.jp",
+              "amazon.in",
+              "amazon.com.au",
+              "amazon.sg",
+              "amazon.ae",
+              "amazon.sa",
+              "amazon.com.tr",
+              "amazon.eg"
+            ],
+            "default": null,
+            "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `listPrice`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "availability",
+                "boughtPastMonth",
+                "inStock",
+                "isAmazonsChoice",
+                "isBestSeller",
+                "isPrime",
+                "listPrice",
+                "totalResults",
+                "url"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "sellerId": {
+            "kind": "string",
+            "description": "Amazon seller ID, the value after seller= in a seller page URL (https://www.amazon.com/sp?seller=<id>), e.g. A11V4PRB7HXYNG.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "sellerId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "The seller's products on the requested page, in Amazon's storefront order. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "asin": {
+                    "kind": "string",
+                    "description": "Amazon Standard Identification Number; pass it to the Amazon Products by ASIN or Amazon Offers SKUs. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "availability": {
+                    "kind": "string",
+                    "description": "Stock note as Amazon prints it, e.g. \"Only 4 left in stock - order soon.\", or null when not shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "boughtPastMonth": {
+                    "kind": "string",
+                    "description": "Recent purchase volume as Amazon prints it, e.g. \"100+ bought in past month\", or null when not shown.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "coupon": {
+                    "kind": "string",
+                    "description": "Coupon text Amazon shows on the product, e.g. \"5% off coupon applied\", or null when there is none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when no price is shown. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary product thumbnail image URL, or null when the product has none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when the product can be bought now.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isAmazonsChoice": {
+                    "kind": "boolean",
+                    "description": "True when the product carries the Amazon's Choice badge.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isBestSeller": {
+                    "kind": "boolean",
+                    "description": "True when the product carries the Best Seller badge.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isPrime": {
+                    "kind": "boolean",
+                    "description": "True when the product carries the Prime badge.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "isSponsored": {
+                    "kind": "boolean",
+                    "description": "True when the result is a sponsored placement. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Pre-discount list price when on sale, or null when the product is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "position": {
+                    "kind": "integer",
+                    "description": "1-based position of the product on the page.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Current price as a numeric amount, or null when the product shows no price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average star rating, 0-5, or null when the product is unrated. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of customer ratings, or null when the product has none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Product detail page URL with tracking removed, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "position",
+                  "asin",
+                  "title",
+                  "isSponsored"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "asin",
+                  "currency",
+                  "image",
+                  "isSponsored",
+                  "price",
+                  "rating",
+                  "reviewsCount",
+                  "title"
+                ]
+              },
+              "mustPopulate": true
+            },
+            "totalResults": {
+              "kind": "integer",
+              "description": "Total products in the seller's storefront, or null when not reported.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
             }
           },
           "required": [

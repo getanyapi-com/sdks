@@ -35,12 +35,20 @@ import type {
   AmazonAsinsInput,
   AmazonBestsellersData,
   AmazonBestsellersInput,
+  AmazonDealsData,
+  AmazonDealsInput,
+  AmazonOffersData,
+  AmazonOffersInput,
   AmazonProductData,
   AmazonProductInput,
   AmazonReviewsData,
   AmazonReviewsInput,
   AmazonSearchData,
   AmazonSearchInput,
+  AmazonSellerData,
+  AmazonSellerInput,
+  AmazonSellerProductsData,
+  AmazonSellerProductsInput,
 } from "./platforms/amazon.js";
 import type {
   ApolloOrganizationData,
@@ -1158,6 +1166,16 @@ export interface SkuMap {
     data: AmazonBestsellersData;
     result: RunResult<AmazonBestsellersData>;
   };
+  "amazon.deals": {
+    input: AmazonDealsInput;
+    data: AmazonDealsData;
+    result: RunResult<AmazonDealsData>;
+  };
+  "amazon.offers": {
+    input: AmazonOffersInput;
+    data: AmazonOffersData;
+    result: RunResult<AmazonOffersData>;
+  };
   "amazon.product": {
     input: AmazonProductInput;
     data: AmazonProductData;
@@ -1172,6 +1190,16 @@ export interface SkuMap {
     input: AmazonSearchInput;
     data: AmazonSearchData;
     result: RunResult<AmazonSearchData>;
+  };
+  "amazon.seller": {
+    input: AmazonSellerInput;
+    data: AmazonSellerData;
+    result: RunResult<AmazonSellerData>;
+  };
+  "amazon.seller_products": {
+    input: AmazonSellerProductsInput;
+    data: AmazonSellerProductsData;
+    result: RunResult<AmazonSellerProductsData>;
   };
   "apollo.organization": {
     input: ApolloOrganizationInput;

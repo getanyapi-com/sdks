@@ -226,6 +226,42 @@
     "items": 1,
     "replayed": false
   },
+  "amazon.deals": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "position": 1,
+            "asin": "sample",
+            "title": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "amazon.offers": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "price": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "amazon.product": {
     "output": {
       "found": true,
@@ -271,6 +307,44 @@
           {
             "title": "sample",
             "asin": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "amazon.seller": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "sellerId": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "amazon.seller_products": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "position": 1,
+            "asin": "sample",
+            "title": "sample",
+            "isSponsored": true,
             "_extra": "passthrough"
           }
         ]

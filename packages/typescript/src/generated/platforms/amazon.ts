@@ -218,6 +218,336 @@ export interface AmazonBestsellersData {
 }
 
 /**
+ * Input for Amazon Deals (amazon.deals).
+ */
+export interface AmazonDealsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Amazon marketplace to read, as its domain (e.g. amazon.co.uk); omit it for amazon.com.
+   * One of: amazon.com, amazon.co.uk, amazon.de, amazon.fr, amazon.it, amazon.es, amazon.nl, amazon.se, amazon.pl, amazon.ca, amazon.com.mx, amazon.com.br, amazon.co.jp, amazon.in, amazon.com.au, amazon.sg, amazon.ae, amazon.sa, amazon.com.tr, amazon.eg.
+   */
+  region?:
+    | "amazon.com"
+    | "amazon.co.uk"
+    | "amazon.de"
+    | "amazon.fr"
+    | "amazon.it"
+    | "amazon.es"
+    | "amazon.nl"
+    | "amazon.se"
+    | "amazon.pl"
+    | "amazon.ca"
+    | "amazon.com.mx"
+    | "amazon.com.br"
+    | "amazon.co.jp"
+    | "amazon.in"
+    | "amazon.com.au"
+    | "amazon.sg"
+    | "amazon.ae"
+    | "amazon.sa"
+    | "amazon.com.tr"
+    | "amazon.eg";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountPercent`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a deal that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    "badge" | "dealType" | "discountPercent" | "inStock" | "url"
+  )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface AmazonDealsItem {
+  /**
+   * Amazon Standard Identification Number; pass it to the Amazon Products by ASIN or Amazon Offers SKUs. Populated whenever the provider has data for the entity.
+   */
+  asin: string;
+  /**
+   * Deal badge text as Amazon prints it, e.g. "Limited time deal", or null when not shown.
+   */
+  badge?: string | null;
+  /**
+   * Price currency code, e.g. "USD", or null when not reported.
+   */
+  currency?: string | null;
+  /**
+   * Deal kind as Amazon names it, e.g. "BEST_DEAL" or "LIGHTNING_DEAL", or null when not reported.
+   */
+  dealType?: string | null;
+  /**
+   * Discount off the list price in percent, e.g. 31, or null when not reported.
+   */
+  discountPercent?: number | null;
+  /**
+   * Primary product image URL, or null when the deal has none. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string | null;
+  /**
+   * True when the product can be bought now, or null when not reported.
+   */
+  inStock?: boolean | null;
+  /**
+   * Price before the deal, or null when not shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  listPrice?: number | null;
+  /**
+   * 1-based position of the deal in the feed.
+   */
+  position: number;
+  /**
+   * Deal price as a numeric amount, or null when not shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  price?: number | null;
+  /**
+   * Product title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Product detail page URL with tracking removed, or null when not reported.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Deals (amazon.deals).
+ */
+export interface AmazonDealsData {
+  /**
+   * Today's deals in Amazon's order. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonDealsItem[];
+}
+
+/**
+ * Input for Amazon Offers (amazon.offers).
+ */
+export interface AmazonOffersInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * 1-based page of the other sellers' offers, about 10 a page; page 1 also carries the Buy Box. Each page is billed as one request.
+   * Range: minimum 1.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Amazon product ASIN or full product URL (e.g. B006MIWDCC).
+   */
+  product: string;
+  /**
+   * Amazon marketplace the product ASIN belongs to (e.g. amazon.co.uk); a product URL sets it from its own domain.
+   * One of: amazon.com, amazon.co.uk, amazon.de, amazon.fr, amazon.it, amazon.es, amazon.nl, amazon.se, amazon.pl, amazon.ca, amazon.com.mx, amazon.com.br, amazon.co.jp, amazon.in, amazon.com.au, amazon.sg, amazon.ae, amazon.sa, amazon.com.tr, amazon.eg.
+   */
+  region?:
+    | "amazon.com"
+    | "amazon.co.uk"
+    | "amazon.de"
+    | "amazon.fr"
+    | "amazon.it"
+    | "amazon.es"
+    | "amazon.nl"
+    | "amazon.se"
+    | "amazon.pl"
+    | "amazon.ca"
+    | "amazon.com.mx"
+    | "amazon.com.br"
+    | "amazon.co.jp"
+    | "amazon.in"
+    | "amazon.com.au"
+    | "amazon.sg"
+    | "amazon.ae"
+    | "amazon.sa"
+    | "amazon.com.tr"
+    | "amazon.eg";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a offer that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "freeDelivery"
+    | "fulfilledByAmazon"
+    | "sellerFeedbackPercent"
+    | "sellerId"
+    | "sellerRating"
+    | "sellerRatingCount"
+    | "shipsFrom"
+    | "totalResults"
+  )[];
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface AmazonOffersItem {
+  /**
+   * Item condition as Amazon names it, e.g. "New" or "Used - Like New", or null when not reported. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  condition?: string | null;
+  /**
+   * Price currency code, e.g. "USD", or null when not reported. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  currency?: string | null;
+  /**
+   * Delivery estimate as Amazon prints it, e.g. "Thursday, October 29" or a full "FREE delivery ..." line, or null when not shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  delivery?: string | null;
+  /**
+   * True when delivery is free, or null when not reported.
+   */
+  freeDelivery?: boolean | null;
+  /**
+   * True when Amazon ships the order for the seller, or null when not reported.
+   */
+  fulfilledByAmazon?: boolean | null;
+  /**
+   * True when the offer is Prime eligible. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  isPrime?: boolean | null;
+  /**
+   * Offer price as a numeric amount. Populated whenever the provider has data for the entity.
+   */
+  price: number;
+  /**
+   * Seller's positive feedback percentage, or null when not reported.
+   */
+  sellerFeedbackPercent?: number | null;
+  /**
+   * Amazon seller ID of the seller making the offer; pass it to the Amazon Seller SKU. Null when not reported.
+   */
+  sellerId?: string | null;
+  /**
+   * Name of the seller making the offer, or null when Amazon does not name it. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  sellerName?: string | null;
+  /**
+   * Seller's star rating, 0-5, or null when not reported.
+   */
+  sellerRating?: number | null;
+  /**
+   * Number of ratings behind the seller's star rating, or null when not reported.
+   */
+  sellerRatingCount?: number | null;
+  /**
+   * Who ships the order, e.g. "Amazon", or null when not reported.
+   */
+  shipsFrom?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Offers (amazon.offers).
+ */
+export interface AmazonOffersData {
+  /**
+   * The offer Amazon features on the product page (the Buy Box), with the same fields as an item; every field is null when Amazon features none. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  buyBox?: {
+    /**
+     * Item condition as Amazon names it, e.g. "New" or "Used - Like New", or null when not reported. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    condition?: string | null;
+    /**
+     * Price currency code, e.g. "USD", or null when not reported. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    currency?: string | null;
+    /**
+     * Delivery estimate as Amazon prints it, e.g. "Thursday, October 29" or a full "FREE delivery ..." line, or null when not shown. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    delivery?: string | null;
+    /**
+     * True when delivery is free, or null when not reported.
+     */
+    freeDelivery?: boolean | null;
+    /**
+     * True when Amazon ships the order for the seller, or null when not reported.
+     */
+    fulfilledByAmazon?: boolean | null;
+    /**
+     * True when the offer is Prime eligible. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    isPrime?: boolean | null;
+    /**
+     * Buy Box price as a numeric amount, or null when Amazon features no offer.
+     */
+    price?: number | null;
+    /**
+     * Seller's positive feedback percentage, or null when not reported.
+     */
+    sellerFeedbackPercent?: number | null;
+    /**
+     * Amazon seller ID of the seller making the offer; pass it to the Amazon Seller SKU. Null when not reported.
+     */
+    sellerId?: string | null;
+    /**
+     * Name of the seller making the offer, or null when Amazon does not name it. Populated whenever the provider has data for the entity.
+     * Present whenever the upstream returns this record.
+     */
+    sellerName?: string | null;
+    /**
+     * Seller's star rating, 0-5, or null when not reported.
+     */
+    sellerRating?: number | null;
+    /**
+     * Number of ratings behind the seller's star rating, or null when not reported.
+     */
+    sellerRatingCount?: number | null;
+    /**
+     * Who ships the order, e.g. "Amazon", or null when not reported.
+     */
+    shipsFrom?: string | null;
+  };
+  /**
+   * The other sellers' offers on the requested page, in Amazon's order; the Buy Box offer is in buyBox. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonOffersItem[];
+  /**
+   * Total offers Amazon lists for the product across every page, the Buy Box included, or null when not reported.
+   */
+  totalResults?: number | null;
+}
+
+/**
  * Input for Amazon Product (amazon.product).
  */
 export interface AmazonProductInput {
@@ -567,6 +897,299 @@ export interface AmazonSearchData {
 }
 
 /**
+ * Input for Amazon Seller (amazon.seller).
+ */
+export interface AmazonSellerInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Amazon marketplace to read, as its domain (e.g. amazon.co.uk); omit it for amazon.com.
+   * One of: amazon.com, amazon.co.uk, amazon.de, amazon.fr, amazon.it, amazon.es, amazon.nl, amazon.se, amazon.pl, amazon.ca, amazon.com.mx, amazon.com.br, amazon.co.jp, amazon.in, amazon.com.au, amazon.sg, amazon.ae, amazon.sa, amazon.com.tr, amazon.eg.
+   */
+  region?:
+    | "amazon.com"
+    | "amazon.co.uk"
+    | "amazon.de"
+    | "amazon.fr"
+    | "amazon.it"
+    | "amazon.es"
+    | "amazon.nl"
+    | "amazon.se"
+    | "amazon.pl"
+    | "amazon.ca"
+    | "amazon.com.mx"
+    | "amazon.com.br"
+    | "amazon.co.jp"
+    | "amazon.in"
+    | "amazon.com.au"
+    | "amazon.sg"
+    | "amazon.ae"
+    | "amazon.sa"
+    | "amazon.com.tr"
+    | "amazon.eg";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `businessName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a seller that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "businessAddress"
+    | "businessName"
+    | "feedbackCount"
+    | "feedbackCountLast12Months"
+    | "feedbackCountLast30Days"
+    | "feedbackCountLast90Days"
+    | "url"
+  )[];
+  /**
+   * Amazon seller ID, the value after seller= in a seller page URL (https://www.amazon.com/sp?seller=<id>), e.g. A11V4PRB7HXYNG.
+   */
+  sellerId: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface AmazonSellerItem {
+  /**
+   * Registered business address from the Detailed Seller Information section, or null when the seller page does not show one.
+   */
+  businessAddress?: string | null;
+  /**
+   * Registered business name from the Detailed Seller Information section, or null when the seller page does not show one.
+   */
+  businessName?: string | null;
+  /**
+   * Lifetime number of seller feedback ratings, or null when not reported.
+   */
+  feedbackCount?: number | null;
+  /**
+   * Seller feedback ratings received in the last 12 months, or null when not reported.
+   */
+  feedbackCountLast12Months?: number | null;
+  /**
+   * Seller feedback ratings received in the last 30 days, or null when not reported.
+   */
+  feedbackCountLast30Days?: number | null;
+  /**
+   * Seller feedback ratings received in the last 90 days, or null when not reported.
+   */
+  feedbackCountLast90Days?: number | null;
+  /**
+   * Seller display name. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Positive feedback percentage shown at the top of the seller page (the last 12 months, or lifetime when the seller has no ratings in that window), or null when the seller has no ratings. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  positiveFeedbackPercent?: number | null;
+  /**
+   * Seller star rating, 0-5, as shown at the top of the seller page, or null when the seller has no ratings. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rating?: number | null;
+  /**
+   * Amazon seller ID. Populated whenever the provider has data for the entity.
+   */
+  sellerId: string;
+  /**
+   * Seller profile page URL (https://www.amazon.<domain>/sp?seller=<id>), or null when not reported.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Seller (amazon.seller).
+ */
+export interface AmazonSellerData {
+  /**
+   * Seller profile records (one per requested seller ID). Populated whenever the provider has data for the entity.
+   */
+  items: AmazonSellerItem[];
+}
+
+/**
+ * Input for Amazon Seller Products (amazon.seller_products).
+ */
+export interface AmazonSellerProductsInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * 1-based page of the seller's storefront. Each page is billed as one request.
+   * Range: minimum 1.
+   * Default: 1.
+   */
+  page?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Amazon marketplace to read, as its domain (e.g. amazon.co.uk); omit it for amazon.com.
+   * One of: amazon.com, amazon.co.uk, amazon.de, amazon.fr, amazon.it, amazon.es, amazon.nl, amazon.se, amazon.pl, amazon.ca, amazon.com.mx, amazon.com.br, amazon.co.jp, amazon.in, amazon.com.au, amazon.sg, amazon.ae, amazon.sa, amazon.com.tr, amazon.eg.
+   */
+  region?:
+    | "amazon.com"
+    | "amazon.co.uk"
+    | "amazon.de"
+    | "amazon.fr"
+    | "amazon.it"
+    | "amazon.es"
+    | "amazon.nl"
+    | "amazon.se"
+    | "amazon.pl"
+    | "amazon.ca"
+    | "amazon.com.mx"
+    | "amazon.com.br"
+    | "amazon.co.jp"
+    | "amazon.in"
+    | "amazon.com.au"
+    | "amazon.sg"
+    | "amazon.ae"
+    | "amazon.sa"
+    | "amazon.com.tr"
+    | "amazon.eg";
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `listPrice`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "availability"
+    | "boughtPastMonth"
+    | "inStock"
+    | "isAmazonsChoice"
+    | "isBestSeller"
+    | "isPrime"
+    | "listPrice"
+    | "totalResults"
+    | "url"
+  )[];
+  /**
+   * Amazon seller ID, the value after seller= in a seller page URL (https://www.amazon.com/sp?seller=<id>), e.g. A11V4PRB7HXYNG.
+   */
+  sellerId: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface AmazonSellerProductsItem {
+  /**
+   * Amazon Standard Identification Number; pass it to the Amazon Products by ASIN or Amazon Offers SKUs. Populated whenever the provider has data for the entity.
+   */
+  asin: string;
+  /**
+   * Stock note as Amazon prints it, e.g. "Only 4 left in stock - order soon.", or null when not shown.
+   */
+  availability?: string | null;
+  /**
+   * Recent purchase volume as Amazon prints it, e.g. "100+ bought in past month", or null when not shown.
+   */
+  boughtPastMonth?: string | null;
+  /**
+   * Coupon text Amazon shows on the product, e.g. "5% off coupon applied", or null when there is none.
+   */
+  coupon?: string | null;
+  /**
+   * Price currency code, e.g. "USD", or null when no price is shown. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  currency?: string | null;
+  /**
+   * Primary product thumbnail image URL, or null when the product has none. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string | null;
+  /**
+   * True when the product can be bought now.
+   */
+  inStock?: boolean | null;
+  /**
+   * True when the product carries the Amazon's Choice badge.
+   */
+  isAmazonsChoice?: boolean | null;
+  /**
+   * True when the product carries the Best Seller badge.
+   */
+  isBestSeller?: boolean | null;
+  /**
+   * True when the product carries the Prime badge.
+   */
+  isPrime?: boolean | null;
+  /**
+   * True when the result is a sponsored placement. Populated whenever the provider has data for the entity.
+   */
+  isSponsored: boolean | null;
+  /**
+   * Pre-discount list price when on sale, or null when the product is not discounted.
+   */
+  listPrice?: number | null;
+  /**
+   * 1-based position of the product on the page.
+   */
+  position: number;
+  /**
+   * Current price as a numeric amount, or null when the product shows no price. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  price?: number | null;
+  /**
+   * Average star rating, 0-5, or null when the product is unrated. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  rating?: number | null;
+  /**
+   * Number of customer ratings, or null when the product has none. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  reviewsCount?: number | null;
+  /**
+   * Product title. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Product detail page URL with tracking removed, or null when not reported.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Amazon Seller Products (amazon.seller_products).
+ */
+export interface AmazonSellerProductsData {
+  /**
+   * The seller's products on the requested page, in Amazon's storefront order. Populated whenever the provider has data for the entity.
+   */
+  items: AmazonSellerProductsItem[];
+  /**
+   * Total products in the seller's storefront, or null when not reported.
+   */
+  totalResults?: number | null;
+}
+
+/**
  * Typed methods for the amazon platform. Attached to the AnyAPI client as
  * `client.amazon`.
  */
@@ -605,6 +1228,40 @@ export class AmazonNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<AmazonBestsellersData>> {
     return this._core.run("amazon.bestsellers", input, options);
+  }
+
+  /**
+   * Amazon Deals
+   *
+   * List today's Amazon deals for one marketplace and get ASIN, title, deal price, list price, discount, deal type, badge and image for each deal in one normalized response.
+   *
+   * Price: $0.00085 per request.
+   *
+   * @example
+   * const res = await client.amazon.deals({ region: "amazon.com" });
+   */
+  deals(
+    input: AmazonDealsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<AmazonDealsData>> {
+    return this._core.run("amazon.deals", input, options);
+  }
+
+  /**
+   * Amazon Offers
+   *
+   * List every offer for one Amazon product by ASIN or product URL, the Buy Box first and then the other sellers, and get price, condition, seller name and ID, seller rating, Prime, delivery estimate and fulfillment for each in one normalized response.
+   *
+   * Price: $0.00085 per request.
+   *
+   * @example
+   * const res = await client.amazon.offers({ product: "B006MIWDCC" });
+   */
+  offers(
+    input: AmazonOffersInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<AmazonOffersData>> {
+    return this._core.run("amazon.offers", input, options);
   }
 
   /**
@@ -656,5 +1313,39 @@ export class AmazonNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<AmazonSearchData>> {
     return this._core.run("amazon.search", input, options);
+  }
+
+  /**
+   * Amazon Seller
+   *
+   * Look up one Amazon seller by seller ID and get its name, star rating, positive feedback percentage, feedback counts for the last 30 days, 90 days, 12 months and lifetime, and its registered business name and address in one normalized response.
+   *
+   * Price: $0.00085 per request.
+   *
+   * @example
+   * const res = await client.amazon.seller({ sellerId: "A11V4PRB7HXYNG" });
+   */
+  seller(
+    input: AmazonSellerInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<AmazonSellerData>> {
+    return this._core.run("amazon.seller", input, options);
+  }
+
+  /**
+   * Amazon Seller Products
+   *
+   * List one Amazon seller's storefront by seller ID, a page at a time, and get ASIN, title, price, list price, rating, reviews count, image, coupon and sponsored, Prime, best seller and Amazon's Choice flags for each product in one normalized response.
+   *
+   * Price: $0.00085 per request.
+   *
+   * @example
+   * const res = await client.amazon.sellerProducts({ sellerId: "A1AU32JJ4K70WE" });
+   */
+  sellerProducts(
+    input: AmazonSellerProductsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<AmazonSellerProductsData>> {
+    return this._core.run("amazon.seller_products", input, options);
   }
 }
