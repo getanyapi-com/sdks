@@ -27797,7 +27797,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -43761,7 +43761,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -59199,7 +59199,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00095,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
