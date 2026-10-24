@@ -32185,8 +32185,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-11-22",
-                "checkOut": "2026-11-24",
+                "checkIn": "2026-11-23",
+                "checkOut": "2026-11-25",
                 "limit": 3,
                 "query": "New York"
               },
@@ -32194,8 +32194,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-11-22",
-                  "checkOut": "2026-11-24",
+                  "checkIn": "2026-11-23",
+                  "checkOut": "2026-11-25",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -103152,7 +103152,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -103651,7 +103651,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001800",
+            "amount": "0.004800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -103693,7 +103693,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.004800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -103725,7 +103725,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.004800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -115583,16 +115583,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-22",
-                "checkOut": "2026-11-24",
+                "checkIn": "2026-11-23",
+                "checkOut": "2026-11-25",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-22",
-                  "checkOut": "2026-11-24",
+                  "checkIn": "2026-11-23",
+                  "checkOut": "2026-11-25",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -116577,16 +116577,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-22",
-                "checkOut": "2026-11-24",
+                "checkIn": "2026-11-23",
+                "checkOut": "2026-11-25",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-22",
-                  "checkOut": "2026-11-24",
+                  "checkIn": "2026-11-23",
+                  "checkOut": "2026-11-25",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -133439,7 +133439,7 @@
     },
     "/v1/run/instagram.reels_search": {
       "post": {
-        "description": "Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological. We remove overlap with recent pages, but older reels may reappear during a long search. nextCursor is null when a page contains only reels seen in recent pages. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Reels Search pricing and uptime](https://getanyapi.com/api/instagram/reels-search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological. We remove overlap with recent pages, but older reels may reappear during a long search. nextCursor is null when a page contains only reels seen in recent pages. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Reels Search pricing and uptime](https://getanyapi.com/api/instagram/reels-search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_reels_search",
         "parameters": [
           {
@@ -166272,7 +166272,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -192104,7 +192104,7 @@
     },
     "/v1/run/perplexity.search": {
       "post": {
-        "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$11.00 per 1,000 results, capped at \\$11.10 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Perplexity Search pricing and uptime](https://getanyapi.com/api/perplexity/search) - live USD price, lane routing, and measured 30-day uptime. [Every Perplexity endpoint](https://getanyapi.com/api/perplexity).",
+        "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Perplexity Search pricing and uptime](https://getanyapi.com/api/perplexity/search) - live USD price, lane routing, and measured 30-day uptime. [Every Perplexity endpoint](https://getanyapi.com/api/perplexity).",
         "operationId": "perplexity_search",
         "parameters": [
           {
@@ -192588,10 +192588,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.002000",
             "currency": "USD",
-            "max": "0.011100",
-            "min": "0.000060",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -192631,11 +192630,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.002000",
                 "currency": "USD",
-                "max": "0.011100",
-                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -192664,11 +192662,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.002000",
                 "currency": "USD",
-                "max": "0.011100",
-                "min": "0.000060",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -305336,7 +305333,7 @@
     },
     "/v1/run/web.scrape": {
       "post": {
-        "description": "Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Web Scrape pricing and uptime](https://getanyapi.com/api/web/scrape) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Scrape any web page and get its content back as clean Markdown (or HTML, or raw HTML) plus title and metadata.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Web Scrape pricing and uptime](https://getanyapi.com/api/web/scrape) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_scrape",
         "parameters": [
           {
