@@ -18028,6 +18028,640 @@
       }
     },
     {
+      "slug": "company_enrichment.datalegion",
+      "platform": "company_enrichment",
+      "action": "datalegion",
+      "operationId": "company_enrichment_datalegion",
+      "name": "Company Enrichment - Data Legion",
+      "category": "data",
+      "description": "Enrich one company from a domain or a company name into Data Legion's premium firmographics: industry, size, founding year, office locations, stock tickers and social profiles, plus headcount, hiring, attrition, growth and turnover, workforce breakdowns by seniority, function and tenure, and monthly headcount history.",
+      "pricing": {
+        "priceUsd": 0.04806,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.048,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "companyEnrichment",
+      "tsMethod": "datalegion",
+      "tsIterMethod": null,
+      "pyNamespace": "company_enrichment",
+      "pyMethod": "datalegion",
+      "pyIterMethod": null,
+      "inputTypeName": "CompanyEnrichmentDatalegionInput",
+      "outputTypeName": "CompanyEnrichmentDatalegionData",
+      "example": {
+        "domain": "hubspot.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "domain": {
+            "kind": "string",
+            "description": "Company website domain, e.g. hubspot.com. The strongest identifier. Send either domain or name, not both.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "minConfidence": {
+            "kind": "string",
+            "description": "Lowest match confidence that still counts as found. Omit it for Data Legion's default.",
+            "enum": [
+              "high",
+              "moderate",
+              "low"
+            ],
+            "default": null,
+            "format": null
+          },
+          "name": {
+            "kind": "string",
+            "description": "Company name, for when you have no domain. A domain matches more reliably.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "required": {
+            "kind": "string",
+            "description": "Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. linkedin_url AND founded. A match without them counts as not found.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "averageTenureMonths": {
+              "kind": "number",
+              "description": "Average tenure of current employees, in months.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "datasetVersion": {
+              "kind": "string",
+              "description": "Data Legion dataset build the record came from.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "departures": {
+              "kind": "object",
+              "description": "Departures over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "domains": {
+              "kind": "array",
+              "description": "Every website domain Data Legion links to the company, the primary one included.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "employeeCount": {
+              "kind": "integer",
+              "description": "Employees Data Legion currently counts from the people profiles it holds, usually below the LinkedIn figure.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "employeeCountByEducation": {
+              "kind": "object",
+              "description": "Current employees per highest degree, e.g. bachelors, masters, doctorate.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "employeeCountByExpenseCategory": {
+              "kind": "object",
+              "description": "Current employees per expense category, e.g. research_and_development, sales_and_marketing.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "employeeCountByFunction": {
+              "kind": "object",
+              "description": "Current employees per job function, e.g. engineering, sales, product.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "employeeCountByMonth": {
+              "kind": "array",
+              "description": "Monthly headcount history, oldest month first.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "count": {
+                    "kind": "integer",
+                    "description": "Employees counted that month.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "departures": {
+                    "kind": "integer",
+                    "description": "Employees who left that month.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "growthRate": {
+                    "kind": "number",
+                    "description": "Change in headcount from the month before, as a fraction.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "hires": {
+                    "kind": "integer",
+                    "description": "Employees who joined that month.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "month": {
+                    "kind": "string",
+                    "description": "Calendar month as YYYY-MM.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "netChange": {
+                    "kind": "integer",
+                    "description": "Change in headcount from the month before.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "month"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "employeeCountBySeniority": {
+              "kind": "object",
+              "description": "Current employees per seniority level, e.g. c_level, director, manager, senior.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "employeeCountByTenure": {
+              "kind": "object",
+              "description": "Current employees per tenure band, e.g. <1yr, 1-2yr, 2-5yr.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "employeeGrowthRate": {
+              "kind": "object",
+              "description": "Headcount growth rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "employeeTurnoverRate": {
+              "kind": "object",
+              "description": "Turnover rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "founded": {
+              "kind": "integer",
+              "description": "Year the company was founded.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "growthRateByExpenseCategory": {
+              "kind": "object",
+              "description": "Headcount growth rate per expense category, each keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "growthRateByFunction": {
+              "kind": "object",
+              "description": "Headcount growth rate per job function, each keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "growthRateBySeniority": {
+              "kind": "object",
+              "description": "Headcount growth rate per seniority level, each keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "headline": {
+              "kind": "string",
+              "description": "One-line company tagline, as the company writes it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "industry": {
+              "kind": "string",
+              "description": "Company industry, lowercase, e.g. software development.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastSeenUtc": {
+              "kind": "integer",
+              "description": "UTC epoch timestamp in seconds (Unix time) of the month Data Legion last saw the company, at the first of that month. Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "legionId": {
+              "kind": "string",
+              "description": "Data Legion persistent company id.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinEmployeeCount": {
+              "kind": "integer",
+              "description": "Employee count the company's LinkedIn page states.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "linkedinFollowers": {
+              "kind": "integer",
+              "description": "LinkedIn follower count.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "linkedinId": {
+              "kind": "string",
+              "description": "Company LinkedIn numeric id.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinUrl": {
+              "kind": "string",
+              "description": "Company LinkedIn page URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "locations": {
+              "kind": "array",
+              "description": "Office locations, the headquarters marked isPrimary.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "addressLine2": {
+                    "kind": "string",
+                    "description": "Second line of the address.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "continent": {
+                    "kind": "string",
+                    "description": "Continent.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Country.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "countryCode": {
+                    "kind": "string",
+                    "description": "ISO 3166-1 alpha-2 country code, e.g. US.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "geo": {
+                    "kind": "string",
+                    "description": "Coordinates as \"lat,lon\".",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True while the office is still in use.",
+                    "default": null
+                  },
+                  "isPrimary": {
+                    "kind": "boolean",
+                    "description": "True for the headquarters.",
+                    "default": null
+                  },
+                  "lastSeenUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) Data Legion last saw this location. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locality": {
+                    "kind": "string",
+                    "description": "City.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "postalCode": {
+                    "kind": "string",
+                    "description": "Postal code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "region": {
+                    "kind": "string",
+                    "description": "State or region.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "regionCode": {
+                    "kind": "string",
+                    "description": "ISO 3166-2 region code, e.g. US-MA.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "streetAddress": {
+                    "kind": "string",
+                    "description": "Street address.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "matchConfidence": {
+              "kind": "string",
+              "description": "How sure the match is: high, moderate or low.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "matchType": {
+              "kind": "string",
+              "description": "How the identifier matched, e.g. exact.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "matchedOn": {
+              "kind": "array",
+              "description": "Identifiers the match was made on, e.g. domain or name.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "name": {
+              "kind": "string",
+              "description": "Company name as Data Legion displays it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "nameNormalized": {
+              "kind": "string",
+              "description": "Lowercase normalized company name, the form Data Legion matches on.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "newHires": {
+              "kind": "object",
+              "description": "Hires over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+              "nullable": true,
+              "properties": {},
+              "required": [],
+              "open": true
+            },
+            "numSources": {
+              "kind": "integer",
+              "description": "Number of sources Data Legion merged into this record.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "profiles": {
+              "kind": "array",
+              "description": "Social and directory profiles Data Legion links to the company.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "network": {
+                    "kind": "string",
+                    "description": "Network the profile is on, e.g. linkedin, facebook, crunchbase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "profileId": {
+                    "kind": "string",
+                    "description": "Numeric or opaque id on that network.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "username": {
+                    "kind": "string",
+                    "description": "Handle on that network.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "network"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "size": {
+              "kind": "string",
+              "description": "Employee headcount band, e.g. 51-200.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "summary": {
+              "kind": "string",
+              "description": "Long company description, as the company writes it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "tickers": {
+              "kind": "array",
+              "description": "Stock tickers the company trades under. Empty for a private company.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "exchange": {
+                    "kind": "string",
+                    "description": "Exchange the ticker lists on, e.g. NYSE.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "symbol": {
+                    "kind": "string",
+                    "description": "Ticker symbol, e.g. HUBS.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "symbol"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "type": {
+              "kind": "string",
+              "description": "Ownership type, e.g. private, public.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "website": {
+              "kind": "string",
+              "description": "Primary company website domain, e.g. hubspot.com.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "company_enrichment.lusha",
       "platform": "company_enrichment",
       "action": "lusha",
@@ -91965,6 +92599,1134 @@
           },
           "required": [
             "personId"
+          ],
+          "open": true
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "person_enrichment.datalegion",
+      "platform": "person_enrichment",
+      "action": "datalegion",
+      "operationId": "person_enrichment_datalegion",
+      "name": "Person Enrichment - Data Legion",
+      "category": "data",
+      "description": "Enrich one person from an email, a phone number or a social profile URL into Data Legion's premium profile with contact data: emails, phone numbers, location, age and sex, plus current job and employer, seniority, job function, decision-maker flag, years of experience, work history, education, certifications, skills and social profiles.",
+      "pricing": {
+        "priceUsd": 0.09606,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.096,
+        "perItemUnit": "result"
+      },
+      "tsNamespace": "personEnrichment",
+      "tsMethod": "datalegion",
+      "tsIterMethod": null,
+      "pyNamespace": "person_enrichment",
+      "pyMethod": "datalegion",
+      "pyIterMethod": null,
+      "inputTypeName": "PersonEnrichmentDatalegionInput",
+      "outputTypeName": "PersonEnrichmentDatalegionData",
+      "example": {
+        "socialUrl": "https://www.linkedin.com/in/dharmesh"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "email": {
+            "kind": "string",
+            "description": "Any email address the person uses, work or personal. Send exactly one of email, phone or socialUrl.",
+            "enum": null,
+            "default": null,
+            "format": "email"
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "minConfidence": {
+            "kind": "string",
+            "description": "Lowest match confidence that still counts as found. Omit it for Data Legion's default.",
+            "enum": [
+              "high",
+              "moderate",
+              "low"
+            ],
+            "default": null,
+            "format": null
+          },
+          "phone": {
+            "kind": "string",
+            "description": "Phone number with its country code, e.g. +1 415 555 0100.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "required": {
+            "kind": "string",
+            "description": "Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. work_email OR mobile_phone, or phones.type:mobile. A match without them counts as not found.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "socialUrl": {
+            "kind": "string",
+            "description": "Social profile URL: LinkedIn (linkedin.com/in/...), GitHub, X and similar networks. A LinkedIn URL matches most reliably.",
+            "enum": null,
+            "default": null,
+            "format": "uri"
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "age": {
+              "kind": "integer",
+              "description": "Age in years.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "averageTenureMonths": {
+              "kind": "number",
+              "description": "Average months the person stays in a job.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "birthDate": {
+              "kind": "string",
+              "description": "Date of birth, as precise as Data Legion holds it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "birthDay": {
+              "kind": "integer",
+              "description": "Day of the month of birth.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "birthMonth": {
+              "kind": "integer",
+              "description": "Month of birth, 1 to 12.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "birthYear": {
+              "kind": "integer",
+              "description": "Year of birth.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "certifications": {
+              "kind": "array",
+              "description": "Professional certifications.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "credentialId": {
+                    "kind": "string",
+                    "description": "Credential id the issuer assigned.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "expirationDate": {
+                    "kind": "string",
+                    "description": "Expiry month as YYYY-MM or year as YYYY.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "institution": {
+                    "kind": "string",
+                    "description": "Issuing institution, lowercase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "issueDate": {
+                    "kind": "string",
+                    "description": "Issue month as YYYY-MM or year as YYYY.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Certification name, lowercase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "company": {
+              "kind": "object",
+              "description": "Current employer.",
+              "nullable": true,
+              "properties": {
+                "companyId": {
+                  "kind": "string",
+                  "description": "Data Legion persistent company id, the legionId company_enrichment.datalegion returns.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "industry": {
+                  "kind": "string",
+                  "description": "Employer industry.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "linkedinId": {
+                  "kind": "string",
+                  "description": "Employer LinkedIn numeric id.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "linkedinUrl": {
+                  "kind": "string",
+                  "description": "Employer LinkedIn page URL.",
+                  "enum": null,
+                  "default": null,
+                  "format": "uri"
+                },
+                "name": {
+                  "kind": "string",
+                  "description": "Employer name, lowercase.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "size": {
+                  "kind": "string",
+                  "description": "Employer headcount band, e.g. 5001-10000.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "website": {
+                  "kind": "string",
+                  "description": "Employer website domain.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "datasetVersion": {
+              "kind": "string",
+              "description": "Data Legion dataset build the record came from.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "education": {
+              "kind": "array",
+              "description": "Schools attended.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "degree": {
+                    "kind": "string",
+                    "description": "Degree earned, lowercase, e.g. master of science.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "degreeLevel": {
+                    "kind": "string",
+                    "description": "Degree level, e.g. bachelors, masters.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "endDate": {
+                    "kind": "string",
+                    "description": "End as YYYY-MM or YYYY.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "fieldOfStudy": {
+                    "kind": "string",
+                    "description": "Field of study, lowercase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True while the person is still enrolled.",
+                    "default": null
+                  },
+                  "schoolLinkedinUrl": {
+                    "kind": "string",
+                    "description": "School LinkedIn page URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "schoolName": {
+                    "kind": "string",
+                    "description": "School name, lowercase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "schoolWebsite": {
+                    "kind": "string",
+                    "description": "School website domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "startDate": {
+                    "kind": "string",
+                    "description": "Start as YYYY-MM or YYYY.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "emails": {
+              "kind": "array",
+              "description": "Every email address Data Legion holds for the person, work and personal.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "address": {
+                    "kind": "string",
+                    "description": "Email address.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "confidence": {
+                    "kind": "string",
+                    "description": "How sure Data Legion is the address belongs to the person: high, moderate or low.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True while the address is still in use.",
+                    "default": null
+                  },
+                  "lastSeenUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the address was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "numSources": {
+                    "kind": "integer",
+                    "description": "Number of sources the address was seen in.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Kind of address, e.g. professional or personal.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "validated": {
+                    "kind": "boolean",
+                    "description": "True when Data Legion has checked the address with the mail server.",
+                    "default": null
+                  },
+                  "validationStatus": {
+                    "kind": "string",
+                    "description": "Result of that check, e.g. valid.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "address"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "expenseCategory": {
+              "kind": "string",
+              "description": "Budget line of the current job, e.g. research_and_development, sales_and_marketing.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "experience": {
+              "kind": "array",
+              "description": "Work history, current jobs marked isCurrent.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "companyId": {
+                    "kind": "string",
+                    "description": "Data Legion persistent company id of the employer.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyIndustry": {
+                    "kind": "string",
+                    "description": "Employer industry.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyLinkedinId": {
+                    "kind": "string",
+                    "description": "Employer LinkedIn numeric id.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyLinkedinUrl": {
+                    "kind": "string",
+                    "description": "Employer LinkedIn page URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "companyName": {
+                    "kind": "string",
+                    "description": "Employer name, lowercase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companySize": {
+                    "kind": "string",
+                    "description": "Employer headcount band.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "companyWebsite": {
+                    "kind": "string",
+                    "description": "Employer website domain.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Job description, as the person writes it.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "endDate": {
+                    "kind": "string",
+                    "description": "End of the job as YYYY-MM or YYYY; absent for a current job.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "expenseCategory": {
+                    "kind": "string",
+                    "description": "Budget line of the job, e.g. research_and_development.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True for a job the person still holds.",
+                    "default": null
+                  },
+                  "isDecisionMaker": {
+                    "kind": "boolean",
+                    "description": "True when the job is a buying decision-maker role.",
+                    "default": null
+                  },
+                  "isPlatformWorker": {
+                    "kind": "boolean",
+                    "description": "True when the job is gig or platform work.",
+                    "default": null
+                  },
+                  "jobFunction": {
+                    "kind": "string",
+                    "description": "Function of the job, e.g. engineering, sales.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "seniority": {
+                    "kind": "string",
+                    "description": "Seniority of the job, e.g. owner, director, manager.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "startDate": {
+                    "kind": "string",
+                    "description": "Start of the job as YYYY-MM or YYYY.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "tenureMonths": {
+                    "kind": "number",
+                    "description": "Months in the job.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Job title, lowercase.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "firstName": {
+              "kind": "string",
+              "description": "First name.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "fullName": {
+              "kind": "string",
+              "description": "Full name, lowercase as Data Legion normalizes it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "headline": {
+              "kind": "string",
+              "description": "Profile headline, as the person writes it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "highestDegree": {
+              "kind": "string",
+              "description": "Highest degree level, e.g. bachelors, masters, doctorate.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "isDecisionMaker": {
+              "kind": "boolean",
+              "description": "True when the current job is a buying decision-maker role.",
+              "nullable": true,
+              "default": null
+            },
+            "isPlatformWorker": {
+              "kind": "boolean",
+              "description": "True when the current job is gig or platform work, such as ride-hailing or delivery.",
+              "nullable": true,
+              "default": null
+            },
+            "jobChangedUtc": {
+              "kind": "integer",
+              "description": "UTC epoch timestamp in seconds (Unix time) the current job last changed. Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "jobFunction": {
+              "kind": "string",
+              "description": "Function of the current job, e.g. engineering, sales, marketing.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "jobTitle": {
+              "kind": "string",
+              "description": "Current job title, lowercase.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "jobVerifiedUtc": {
+              "kind": "integer",
+              "description": "UTC epoch timestamp in seconds (Unix time) the current job was last confirmed. Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "languages": {
+              "kind": "array",
+              "description": "Languages the person speaks.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "name": {
+                    "kind": "string",
+                    "description": "Language, lowercase, e.g. english.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "proficiency": {
+                    "kind": "string",
+                    "description": "Proficiency, e.g. native, professional.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "lastInitial": {
+              "kind": "string",
+              "description": "Last initial.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastName": {
+              "kind": "string",
+              "description": "Last name.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastSeenUtc": {
+              "kind": "integer",
+              "description": "UTC epoch timestamp in seconds (Unix time) Data Legion last saw the person. Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "legionId": {
+              "kind": "string",
+              "description": "Data Legion persistent person id.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinConnections": {
+              "kind": "integer",
+              "description": "LinkedIn connection count; LinkedIn caps what it shows at 500.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "linkedinFollowers": {
+              "kind": "integer",
+              "description": "LinkedIn follower count.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "linkedinId": {
+              "kind": "string",
+              "description": "LinkedIn numeric member id.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "linkedinUrl": {
+              "kind": "string",
+              "description": "LinkedIn profile URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": "uri"
+            },
+            "location": {
+              "kind": "object",
+              "description": "Where the person lives now.",
+              "nullable": true,
+              "properties": {
+                "country": {
+                  "kind": "string",
+                  "description": "Country.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "countryCode": {
+                  "kind": "string",
+                  "description": "ISO 3166-1 alpha-2 country code, e.g. US.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "locality": {
+                  "kind": "string",
+                  "description": "City.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "region": {
+                  "kind": "string",
+                  "description": "State or region.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "regionCode": {
+                  "kind": "string",
+                  "description": "ISO 3166-2 region code, e.g. US-MA.",
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "locations": {
+              "kind": "array",
+              "description": "Every place Data Legion holds for the person, current and past.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "addressLine2": {
+                    "kind": "string",
+                    "description": "Second line of the address.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "confidence": {
+                    "kind": "string",
+                    "description": "How sure Data Legion is of the place: high, moderate or low.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "continent": {
+                    "kind": "string",
+                    "description": "Continent.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Country.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "countryCode": {
+                    "kind": "string",
+                    "description": "ISO 3166-1 alpha-2 country code, e.g. US.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "geo": {
+                    "kind": "string",
+                    "description": "Coordinates as \"lat,lon\".",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True for where the person lives now.",
+                    "default": null
+                  },
+                  "lastSeenUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the place was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "locality": {
+                    "kind": "string",
+                    "description": "City.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "postalCode": {
+                    "kind": "string",
+                    "description": "Postal code.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "region": {
+                    "kind": "string",
+                    "description": "State or region.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "regionCode": {
+                    "kind": "string",
+                    "description": "ISO 3166-2 region code, e.g. US-MA.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "streetAddress": {
+                    "kind": "string",
+                    "description": "Street address.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "matchConfidence": {
+              "kind": "string",
+              "description": "How sure the match is: high, moderate or low.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "matchType": {
+              "kind": "string",
+              "description": "How the identifier matched, e.g. exact.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "matchedOn": {
+              "kind": "array",
+              "description": "Identifiers the match was made on, e.g. linkedin_url or email.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "middleInitial": {
+              "kind": "string",
+              "description": "Middle initial.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "middleName": {
+              "kind": "string",
+              "description": "Middle name.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mobilePhone": {
+              "kind": "string",
+              "description": "Best mobile phone number, in E.164 form.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "numSources": {
+              "kind": "integer",
+              "description": "Number of sources Data Legion merged into this record.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "phones": {
+              "kind": "array",
+              "description": "Every phone number Data Legion holds for the person.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "confidence": {
+                    "kind": "string",
+                    "description": "How sure Data Legion is the number belongs to the person: high, moderate or low.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True while the number is still in use.",
+                    "default": null
+                  },
+                  "lastSeenUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the number was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "numSources": {
+                    "kind": "integer",
+                    "description": "Number of sources the number was seen in.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "number": {
+                    "kind": "string",
+                    "description": "Phone number in E.164 form.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "type": {
+                    "kind": "string",
+                    "description": "Kind of line, e.g. mobile or landline.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "number"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "prefix": {
+              "kind": "string",
+              "description": "Name prefix, e.g. dr.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "profiles": {
+              "kind": "array",
+              "description": "Social profiles Data Legion links to the person.",
+              "nullable": true,
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "confidence": {
+                    "kind": "string",
+                    "description": "How sure Data Legion is the profile belongs to the person: high, moderate or low.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "isCurrent": {
+                    "kind": "boolean",
+                    "description": "True while the profile is still active.",
+                    "default": null
+                  },
+                  "lastSeenUtc": {
+                    "kind": "integer",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the profile was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "network": {
+                    "kind": "string",
+                    "description": "Network the profile is on, e.g. linkedin, github, x, facebook.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "profileId": {
+                    "kind": "string",
+                    "description": "Numeric or opaque id on that network.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Profile URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": "uri"
+                  },
+                  "username": {
+                    "kind": "string",
+                    "description": "Handle on that network.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "network"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "seniority": {
+              "kind": "string",
+              "description": "Seniority of the current job, e.g. owner, c_level, director, manager, senior.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sex": {
+              "kind": "string",
+              "description": "Sex, male or female.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "skills": {
+              "kind": "array",
+              "description": "Skills listed on the profile, lowercase.",
+              "nullable": true,
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "suffix": {
+              "kind": "string",
+              "description": "Name suffix, e.g. jr.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "summary": {
+              "kind": "string",
+              "description": "Profile summary, as the person writes it.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "workEmail": {
+              "kind": "string",
+              "description": "Current work email address.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "yearsOfExperience": {
+              "kind": "number",
+              "description": "Years of work experience.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "fullName"
           ],
           "open": true
         }

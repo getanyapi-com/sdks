@@ -130,6 +130,8 @@ import type {
   CompanyEnrichmentCrustdataInput,
   CompanyEnrichmentCrustdataV3Data,
   CompanyEnrichmentCrustdataV3Input,
+  CompanyEnrichmentDatalegionData,
+  CompanyEnrichmentDatalegionInput,
   CompanyEnrichmentLushaData,
   CompanyEnrichmentLushaInput,
   CompanyEnrichmentPeopledatalabsData,
@@ -630,6 +632,8 @@ import type {
   PersonEnrichmentBettercontactInput,
   PersonEnrichmentCrustdataV3Data,
   PersonEnrichmentCrustdataV3Input,
+  PersonEnrichmentDatalegionData,
+  PersonEnrichmentDatalegionInput,
   PersonEnrichmentFullenrichBulkData,
   PersonEnrichmentFullenrichBulkInput,
   PersonEnrichmentFullenrichReverseEmailData,
@@ -1355,6 +1359,11 @@ export interface SkuMap {
     input: CompanyEnrichmentCrustdataV3Input;
     data: CompanyEnrichmentCrustdataV3Data;
     result: RunResult<CompanyEnrichmentCrustdataV3Data>;
+  };
+  "company_enrichment.datalegion": {
+    input: CompanyEnrichmentDatalegionInput;
+    data: CompanyEnrichmentDatalegionData;
+    result: RunResult<CompanyEnrichmentDatalegionData>;
   };
   "company_enrichment.lusha": {
     input: CompanyEnrichmentLushaInput;
@@ -2445,6 +2454,11 @@ export interface SkuMap {
     input: PersonEnrichmentCrustdataV3Input;
     data: PersonEnrichmentCrustdataV3Data;
     result: RunResult<PersonEnrichmentCrustdataV3Data>;
+  };
+  "person_enrichment.datalegion": {
+    input: PersonEnrichmentDatalegionInput;
+    data: PersonEnrichmentDatalegionData;
+    result: RunResult<PersonEnrichmentDatalegionData>;
   };
   "person_enrichment.fullenrich_bulk": {
     input: PersonEnrichmentFullenrichBulkInput;

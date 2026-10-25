@@ -623,6 +623,623 @@ export interface PersonEnrichmentCrustdataV3Data {
   [extra: string]: unknown;
 }
 
+/**
+ * Input for Person Enrichment - Data Legion (person_enrichment.datalegion).
+ */
+export interface PersonEnrichmentDatalegionInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Any email address the person uses, work or personal. Send exactly one of email, phone or socialUrl.
+   * Format: email.
+   */
+  email?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Lowest match confidence that still counts as found. Omit it for Data Legion's default.
+   * One of: high, moderate, low.
+   */
+  minConfidence?: "high" | "moderate" | "low";
+  /**
+   * Phone number with its country code, e.g. +1 415 555 0100.
+   */
+  phone?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. work_email OR mobile_phone, or phones.type:mobile. A match without them counts as not found.
+   */
+  required?: string;
+  /**
+   * Social profile URL: LinkedIn (linkedin.com/in/...), GitHub, X and similar networks. A LinkedIn URL matches most reliably.
+   * Format: uri.
+   */
+  socialUrl?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface PersonEnrichmentDatalegionCertification {
+  /**
+   * Credential id the issuer assigned.
+   */
+  credentialId?: string;
+  /**
+   * Expiry month as YYYY-MM or year as YYYY.
+   */
+  expirationDate?: string;
+  /**
+   * Issuing institution, lowercase.
+   */
+  institution?: string;
+  /**
+   * Issue month as YYYY-MM or year as YYYY.
+   */
+  issueDate?: string;
+  /**
+   * Certification name, lowercase.
+   */
+  name?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionEducation {
+  /**
+   * Degree earned, lowercase, e.g. master of science.
+   */
+  degree?: string;
+  /**
+   * Degree level, e.g. bachelors, masters.
+   */
+  degreeLevel?: string;
+  /**
+   * End as YYYY-MM or YYYY.
+   */
+  endDate?: string;
+  /**
+   * Field of study, lowercase.
+   */
+  fieldOfStudy?: string;
+  /**
+   * True while the person is still enrolled.
+   */
+  isCurrent?: boolean;
+  /**
+   * School LinkedIn page URL.
+   * Format: uri.
+   */
+  schoolLinkedinUrl?: string;
+  /**
+   * School name, lowercase.
+   */
+  schoolName?: string;
+  /**
+   * School website domain.
+   */
+  schoolWebsite?: string;
+  /**
+   * Start as YYYY-MM or YYYY.
+   */
+  startDate?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionEmail {
+  /**
+   * Email address.
+   */
+  address: string;
+  /**
+   * How sure Data Legion is the address belongs to the person: high, moderate or low.
+   */
+  confidence?: string;
+  /**
+   * True while the address is still in use.
+   */
+  isCurrent?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the address was last seen. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number;
+  /**
+   * Number of sources the address was seen in.
+   */
+  numSources?: number;
+  /**
+   * Kind of address, e.g. professional or personal.
+   */
+  type?: string;
+  /**
+   * True when Data Legion has checked the address with the mail server.
+   */
+  validated?: boolean;
+  /**
+   * Result of that check, e.g. valid.
+   */
+  validationStatus?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionExperience {
+  /**
+   * Data Legion persistent company id of the employer.
+   */
+  companyId?: string;
+  /**
+   * Employer industry.
+   */
+  companyIndustry?: string;
+  /**
+   * Employer LinkedIn numeric id.
+   */
+  companyLinkedinId?: string;
+  /**
+   * Employer LinkedIn page URL.
+   * Format: uri.
+   */
+  companyLinkedinUrl?: string;
+  /**
+   * Employer name, lowercase.
+   */
+  companyName?: string;
+  /**
+   * Employer headcount band.
+   */
+  companySize?: string;
+  /**
+   * Employer website domain.
+   */
+  companyWebsite?: string;
+  /**
+   * Job description, as the person writes it.
+   */
+  description?: string;
+  /**
+   * End of the job as YYYY-MM or YYYY; absent for a current job.
+   */
+  endDate?: string;
+  /**
+   * Budget line of the job, e.g. research_and_development.
+   */
+  expenseCategory?: string;
+  /**
+   * True for a job the person still holds.
+   */
+  isCurrent?: boolean;
+  /**
+   * True when the job is a buying decision-maker role.
+   */
+  isDecisionMaker?: boolean;
+  /**
+   * True when the job is gig or platform work.
+   */
+  isPlatformWorker?: boolean;
+  /**
+   * Function of the job, e.g. engineering, sales.
+   */
+  jobFunction?: string;
+  /**
+   * Seniority of the job, e.g. owner, director, manager.
+   */
+  seniority?: string;
+  /**
+   * Start of the job as YYYY-MM or YYYY.
+   */
+  startDate?: string;
+  /**
+   * Months in the job.
+   */
+  tenureMonths?: number;
+  /**
+   * Job title, lowercase.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionLanguage {
+  /**
+   * Language, lowercase, e.g. english.
+   */
+  name: string;
+  /**
+   * Proficiency, e.g. native, professional.
+   */
+  proficiency?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionLocation {
+  /**
+   * Second line of the address.
+   */
+  addressLine2?: string;
+  /**
+   * How sure Data Legion is of the place: high, moderate or low.
+   */
+  confidence?: string;
+  /**
+   * Continent.
+   */
+  continent?: string;
+  /**
+   * Country.
+   */
+  country?: string;
+  /**
+   * ISO 3166-1 alpha-2 country code, e.g. US.
+   */
+  countryCode?: string;
+  /**
+   * Coordinates as "lat,lon".
+   */
+  geo?: string;
+  /**
+   * True for where the person lives now.
+   */
+  isCurrent?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the place was last seen. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number;
+  /**
+   * City.
+   */
+  locality?: string;
+  /**
+   * Postal code.
+   */
+  postalCode?: string;
+  /**
+   * State or region.
+   */
+  region?: string;
+  /**
+   * ISO 3166-2 region code, e.g. US-MA.
+   */
+  regionCode?: string;
+  /**
+   * Street address.
+   */
+  streetAddress?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionPhone {
+  /**
+   * How sure Data Legion is the number belongs to the person: high, moderate or low.
+   */
+  confidence?: string;
+  /**
+   * True while the number is still in use.
+   */
+  isCurrent?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the number was last seen. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number;
+  /**
+   * Number of sources the number was seen in.
+   */
+  numSources?: number;
+  /**
+   * Phone number in E.164 form.
+   */
+  number: string;
+  /**
+   * Kind of line, e.g. mobile or landline.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+export interface PersonEnrichmentDatalegionProfile {
+  /**
+   * How sure Data Legion is the profile belongs to the person: high, moderate or low.
+   */
+  confidence?: string;
+  /**
+   * True while the profile is still active.
+   */
+  isCurrent?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the profile was last seen. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number;
+  /**
+   * Network the profile is on, e.g. linkedin, github, x, facebook.
+   */
+  network: string;
+  /**
+   * Numeric or opaque id on that network.
+   */
+  profileId?: string;
+  /**
+   * Profile URL.
+   * Format: uri.
+   */
+  url?: string;
+  /**
+   * Handle on that network.
+   */
+  username?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Person Enrichment - Data Legion (person_enrichment.datalegion).
+ */
+export interface PersonEnrichmentDatalegionData {
+  /**
+   * Age in years.
+   */
+  age?: number | null;
+  /**
+   * Average months the person stays in a job.
+   */
+  averageTenureMonths?: number | null;
+  /**
+   * Date of birth, as precise as Data Legion holds it.
+   */
+  birthDate?: string | null;
+  /**
+   * Day of the month of birth.
+   */
+  birthDay?: number | null;
+  /**
+   * Month of birth, 1 to 12.
+   */
+  birthMonth?: number | null;
+  /**
+   * Year of birth.
+   */
+  birthYear?: number | null;
+  /**
+   * Professional certifications.
+   */
+  certifications?: PersonEnrichmentDatalegionCertification[] | null;
+  /**
+   * Current employer.
+   */
+  company?: {
+    /**
+     * Data Legion persistent company id, the legionId company_enrichment.datalegion returns.
+     */
+    companyId?: string;
+    /**
+     * Employer industry.
+     */
+    industry?: string;
+    /**
+     * Employer LinkedIn numeric id.
+     */
+    linkedinId?: string;
+    /**
+     * Employer LinkedIn page URL.
+     * Format: uri.
+     */
+    linkedinUrl?: string;
+    /**
+     * Employer name, lowercase.
+     */
+    name?: string;
+    /**
+     * Employer headcount band, e.g. 5001-10000.
+     */
+    size?: string;
+    /**
+     * Employer website domain.
+     */
+    website?: string;
+  } | null;
+  /**
+   * Data Legion dataset build the record came from.
+   */
+  datasetVersion?: string | null;
+  /**
+   * Schools attended.
+   */
+  education?: PersonEnrichmentDatalegionEducation[] | null;
+  /**
+   * Every email address Data Legion holds for the person, work and personal.
+   */
+  emails?: PersonEnrichmentDatalegionEmail[] | null;
+  /**
+   * Budget line of the current job, e.g. research_and_development, sales_and_marketing.
+   */
+  expenseCategory?: string | null;
+  /**
+   * Work history, current jobs marked isCurrent.
+   */
+  experience?: PersonEnrichmentDatalegionExperience[] | null;
+  /**
+   * First name.
+   */
+  firstName?: string | null;
+  /**
+   * Full name, lowercase as Data Legion normalizes it.
+   */
+  fullName: string | null;
+  /**
+   * Profile headline, as the person writes it.
+   */
+  headline?: string | null;
+  /**
+   * Highest degree level, e.g. bachelors, masters, doctorate.
+   */
+  highestDegree?: string | null;
+  /**
+   * True when the current job is a buying decision-maker role.
+   */
+  isDecisionMaker?: boolean | null;
+  /**
+   * True when the current job is gig or platform work, such as ride-hailing or delivery.
+   */
+  isPlatformWorker?: boolean | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the current job last changed. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  jobChangedUtc?: number | null;
+  /**
+   * Function of the current job, e.g. engineering, sales, marketing.
+   */
+  jobFunction?: string | null;
+  /**
+   * Current job title, lowercase.
+   */
+  jobTitle?: string | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the current job was last confirmed. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  jobVerifiedUtc?: number | null;
+  /**
+   * Languages the person speaks.
+   */
+  languages?: PersonEnrichmentDatalegionLanguage[] | null;
+  /**
+   * Last initial.
+   */
+  lastInitial?: string | null;
+  /**
+   * Last name.
+   */
+  lastName?: string | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) Data Legion last saw the person. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number | null;
+  /**
+   * Data Legion persistent person id.
+   */
+  legionId?: string | null;
+  /**
+   * LinkedIn connection count; LinkedIn caps what it shows at 500.
+   */
+  linkedinConnections?: number | null;
+  /**
+   * LinkedIn follower count.
+   */
+  linkedinFollowers?: number | null;
+  /**
+   * LinkedIn numeric member id.
+   */
+  linkedinId?: string | null;
+  /**
+   * LinkedIn profile URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string | null;
+  /**
+   * Where the person lives now.
+   */
+  location?: {
+    /**
+     * Country.
+     */
+    country?: string;
+    /**
+     * ISO 3166-1 alpha-2 country code, e.g. US.
+     */
+    countryCode?: string;
+    /**
+     * City.
+     */
+    locality?: string;
+    /**
+     * State or region.
+     */
+    region?: string;
+    /**
+     * ISO 3166-2 region code, e.g. US-MA.
+     */
+    regionCode?: string;
+  } | null;
+  /**
+   * Every place Data Legion holds for the person, current and past.
+   */
+  locations?: PersonEnrichmentDatalegionLocation[] | null;
+  /**
+   * How sure the match is: high, moderate or low.
+   */
+  matchConfidence?: string | null;
+  /**
+   * How the identifier matched, e.g. exact.
+   */
+  matchType?: string | null;
+  /**
+   * Identifiers the match was made on, e.g. linkedin_url or email.
+   */
+  matchedOn?: string[] | null;
+  /**
+   * Middle initial.
+   */
+  middleInitial?: string | null;
+  /**
+   * Middle name.
+   */
+  middleName?: string | null;
+  /**
+   * Best mobile phone number, in E.164 form.
+   */
+  mobilePhone?: string | null;
+  /**
+   * Number of sources Data Legion merged into this record.
+   */
+  numSources?: number | null;
+  /**
+   * Every phone number Data Legion holds for the person.
+   */
+  phones?: PersonEnrichmentDatalegionPhone[] | null;
+  /**
+   * Name prefix, e.g. dr.
+   */
+  prefix?: string | null;
+  /**
+   * Social profiles Data Legion links to the person.
+   */
+  profiles?: PersonEnrichmentDatalegionProfile[] | null;
+  /**
+   * Seniority of the current job, e.g. owner, c_level, director, manager, senior.
+   */
+  seniority?: string | null;
+  /**
+   * Sex, male or female.
+   */
+  sex?: string | null;
+  /**
+   * Skills listed on the profile, lowercase.
+   */
+  skills?: string[] | null;
+  /**
+   * Name suffix, e.g. jr.
+   */
+  suffix?: string | null;
+  /**
+   * Profile summary, as the person writes it.
+   */
+  summary?: string | null;
+  /**
+   * Current work email address.
+   */
+  workEmail?: string | null;
+  /**
+   * Years of work experience.
+   */
+  yearsOfExperience?: number | null;
+  [extra: string]: unknown;
+}
+
 export interface PersonEnrichmentFullenrichBulkContact {
   /**
    * Employer name. Use this when you do not have the domain.
@@ -3267,6 +3884,23 @@ export class PersonEnrichmentNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<PersonEnrichmentCrustdataV3Data>> {
     return this._core.run("person_enrichment.crustdata_v3", input, options);
+  }
+
+  /**
+   * Person Enrichment - Data Legion
+   *
+   * Enrich one person from an email, a phone number or a social profile URL into Data Legion's premium profile with contact data: emails, phone numbers, location, age and sex, plus current job and employer, seniority, job function, decision-maker flag, years of experience, work history, education, certifications, skills and social profiles.
+   *
+   * Price: $0.00006 per request plus $0.096 per result (maximum $0.09606).
+   *
+   * @example
+   * const res = await client.personEnrichment.datalegion({ socialUrl: "https://www.linkedin.com/in/dharmesh" });
+   */
+  datalegion(
+    input: PersonEnrichmentDatalegionInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<PersonEnrichmentDatalegionData>> {
+    return this._core.run("person_enrichment.datalegion", input, options);
   }
 
   /**

@@ -38749,6 +38749,984 @@
         }
       }
     },
+    "/v1/run/company_enrichment.datalegion": {
+      "post": {
+        "description": "Enrich one company from a domain or a company name into Data Legion's premium firmographics: industry, size, founding year, office locations, stock tickers and social profiles, plus headcount, hiring, attrition, growth and turnover, workforce breakdowns by seniority, function and tenure, and monthly headcount history.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$48.00 per 1,000 results, capped at \\$48.06 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Company Enrichment - Data Legion pricing and uptime](https://getanyapi.com/api/company-enrichment/datalegion) - live USD price, lane routing, and measured 30-day uptime. [Every Company_enrichment endpoint](https://getanyapi.com/api/company-enrichment).",
+        "operationId": "company_enrichment_datalegion",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "domain": "hubspot.com"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "domain": "hubspot.com"
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "domain"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "name"
+                    ]
+                  }
+                ],
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "domain": {
+                    "description": "Company website domain, e.g. hubspot.com. The strongest identifier. Send either domain or name, not both.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "minConfidence": {
+                    "description": "Lowest match confidence that still counts as found. Omit it for Data Legion's default.",
+                    "enum": [
+                      "high",
+                      "moderate",
+                      "low"
+                    ],
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "Company name, for when you have no domain. A domain matches more reliably.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "required": {
+                    "description": "Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. linkedin_url AND founded. A match without them counts as not found.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "title": "Company Enrichment - Data Legion input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "The enriched company, or null when nothing matched.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "properties": {
+                                    "averageTenureMonths": {
+                                      "description": "Average tenure of current employees, in months.",
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "datasetVersion": {
+                                      "description": "Data Legion dataset build the record came from.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "departures": {
+                                      "description": "Departures over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "domains": {
+                                      "description": "Every website domain Data Legion links to the company, the primary one included.",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCount": {
+                                      "description": "Employees Data Legion currently counts from the people profiles it holds, usually below the LinkedIn figure.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCountByEducation": {
+                                      "description": "Current employees per highest degree, e.g. bachelors, masters, doctorate.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCountByExpenseCategory": {
+                                      "description": "Current employees per expense category, e.g. research_and_development, sales_and_marketing.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCountByFunction": {
+                                      "description": "Current employees per job function, e.g. engineering, sales, product.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCountByMonth": {
+                                      "description": "Monthly headcount history, oldest month first.",
+                                      "items": {
+                                        "properties": {
+                                          "count": {
+                                            "description": "Employees counted that month.",
+                                            "type": "integer"
+                                          },
+                                          "departures": {
+                                            "description": "Employees who left that month.",
+                                            "type": "integer"
+                                          },
+                                          "growthRate": {
+                                            "description": "Change in headcount from the month before, as a fraction.",
+                                            "type": "number"
+                                          },
+                                          "hires": {
+                                            "description": "Employees who joined that month.",
+                                            "type": "integer"
+                                          },
+                                          "month": {
+                                            "description": "Calendar month as YYYY-MM.",
+                                            "type": "string"
+                                          },
+                                          "netChange": {
+                                            "description": "Change in headcount from the month before.",
+                                            "type": "integer"
+                                          }
+                                        },
+                                        "required": [
+                                          "month"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCountBySeniority": {
+                                      "description": "Current employees per seniority level, e.g. c_level, director, manager, senior.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeCountByTenure": {
+                                      "description": "Current employees per tenure band, e.g. <1yr, 1-2yr, 2-5yr.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeGrowthRate": {
+                                      "description": "Headcount growth rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "employeeTurnoverRate": {
+                                      "description": "Turnover rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "founded": {
+                                      "description": "Year the company was founded.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "growthRateByExpenseCategory": {
+                                      "description": "Headcount growth rate per expense category, each keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "growthRateByFunction": {
+                                      "description": "Headcount growth rate per job function, each keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "growthRateBySeniority": {
+                                      "description": "Headcount growth rate per seniority level, each keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "headline": {
+                                      "description": "One-line company tagline, as the company writes it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "industry": {
+                                      "description": "Company industry, lowercase, e.g. software development.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "lastSeenUtc": {
+                                      "description": "UTC epoch timestamp in seconds (Unix time) of the month Data Legion last saw the company, at the first of that month. Multiply by 1000 for a JS Date in milliseconds.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "legionId": {
+                                      "description": "Data Legion persistent company id.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinEmployeeCount": {
+                                      "description": "Employee count the company's LinkedIn page states.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinFollowers": {
+                                      "description": "LinkedIn follower count.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinId": {
+                                      "description": "Company LinkedIn numeric id.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinUrl": {
+                                      "description": "Company LinkedIn page URL.",
+                                      "format": "uri",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "locations": {
+                                      "description": "Office locations, the headquarters marked isPrimary.",
+                                      "items": {
+                                        "properties": {
+                                          "addressLine2": {
+                                            "description": "Second line of the address.",
+                                            "type": "string"
+                                          },
+                                          "continent": {
+                                            "description": "Continent.",
+                                            "type": "string"
+                                          },
+                                          "country": {
+                                            "description": "Country.",
+                                            "type": "string"
+                                          },
+                                          "countryCode": {
+                                            "description": "ISO 3166-1 alpha-2 country code, e.g. US.",
+                                            "type": "string"
+                                          },
+                                          "geo": {
+                                            "description": "Coordinates as \"lat,lon\".",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True while the office is still in use.",
+                                            "type": "boolean"
+                                          },
+                                          "isPrimary": {
+                                            "description": "True for the headquarters.",
+                                            "type": "boolean"
+                                          },
+                                          "lastSeenUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) Data Legion last saw this location. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "integer"
+                                          },
+                                          "locality": {
+                                            "description": "City.",
+                                            "type": "string"
+                                          },
+                                          "postalCode": {
+                                            "description": "Postal code.",
+                                            "type": "string"
+                                          },
+                                          "region": {
+                                            "description": "State or region.",
+                                            "type": "string"
+                                          },
+                                          "regionCode": {
+                                            "description": "ISO 3166-2 region code, e.g. US-MA.",
+                                            "type": "string"
+                                          },
+                                          "streetAddress": {
+                                            "description": "Street address.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "matchConfidence": {
+                                      "description": "How sure the match is: high, moderate or low.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "matchType": {
+                                      "description": "How the identifier matched, e.g. exact.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "matchedOn": {
+                                      "description": "Identifiers the match was made on, e.g. domain or name.",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "name": {
+                                      "description": "Company name as Data Legion displays it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "nameNormalized": {
+                                      "description": "Lowercase normalized company name, the form Data Legion matches on.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "newHires": {
+                                      "description": "Hires over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "numSources": {
+                                      "description": "Number of sources Data Legion merged into this record.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "profiles": {
+                                      "description": "Social and directory profiles Data Legion links to the company.",
+                                      "items": {
+                                        "properties": {
+                                          "network": {
+                                            "description": "Network the profile is on, e.g. linkedin, facebook, crunchbase.",
+                                            "type": "string"
+                                          },
+                                          "profileId": {
+                                            "description": "Numeric or opaque id on that network.",
+                                            "type": "string"
+                                          },
+                                          "url": {
+                                            "description": "Profile URL.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
+                                          "username": {
+                                            "description": "Handle on that network.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "network"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "size": {
+                                      "description": "Employee headcount band, e.g. 51-200.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "summary": {
+                                      "description": "Long company description, as the company writes it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "tickers": {
+                                      "description": "Stock tickers the company trades under. Empty for a private company.",
+                                      "items": {
+                                        "properties": {
+                                          "exchange": {
+                                            "description": "Exchange the ticker lists on, e.g. NYSE.",
+                                            "type": "string"
+                                          },
+                                          "symbol": {
+                                            "description": "Ticker symbol, e.g. HUBS.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "symbol"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "type": {
+                                      "description": "Ownership type, e.g. private, public.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "website": {
+                                      "description": "Primary company website domain, e.g. hubspot.com.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "name"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "False when Data Legion matched no company, or none at the requested confidence or with the required fields.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Company Enrichment - Data Legion output",
+                          "type": "object",
+                          "x-anyapi-result-list": false,
+                          "x-anyapi-serve-imperfect-records": true
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Company Enrichment - Data Legion",
+        "tags": [
+          "company-enrichment"
+        ],
+        "x-mint": {
+          "href": "/api-reference/company-enrichment/datalegion"
+        },
+        "x-payment-info": {
+          "price": {
+            "currency": "USD",
+            "max": "0.048060",
+            "min": "0.000060",
+            "mode": "dynamic"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "currency": "USD",
+                "max": "0.048060",
+                "min": "0.001000",
+                "minimumUsd": "0.001000",
+                "mode": "dynamic",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "currency": "USD",
+                "max": "0.048060",
+                "min": "0.000060",
+                "minimumUsd": null,
+                "mode": "dynamic",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
     "/v1/run/company_enrichment.lusha": {
       "post": {
         "description": "Enrich one company into firmographics, industry classification, headcount, revenue band and social profiles from a domain, a company name, or a Lusha company id.\n\n**Price:** \\$84.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Company Enrichment - Lusha pricing and uptime](https://getanyapi.com/api/company-enrichment/lusha) - live USD price, lane routing, and measured 30-day uptime. [Every Company_enrichment endpoint](https://getanyapi.com/api/company-enrichment).",
@@ -129528,7 +130506,7 @@
     },
     "/v1/run/instagram.post": {
       "post": {
-        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post",
         "parameters": [
           {
@@ -142453,7 +143431,7 @@
     },
     "/v1/run/instagram.user_posts": {
       "post": {
-        "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Posts pricing and uptime](https://getanyapi.com/api/instagram/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Posts pricing and uptime](https://getanyapi.com/api/instagram/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_posts",
         "parameters": [
           {
@@ -166273,7 +167251,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -195220,6 +196198,1328 @@
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/person_enrichment.datalegion": {
+      "post": {
+        "description": "Enrich one person from an email, a phone number or a social profile URL into Data Legion's premium profile with contact data: emails, phone numbers, location, age and sex, plus current job and employer, seniority, job function, decision-maker flag, years of experience, work history, education, certifications, skills and social profiles.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$96.00 per 1,000 results, capped at \\$96.06 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Person Enrichment - Data Legion pricing and uptime](https://getanyapi.com/api/person-enrichment/datalegion) - live USD price, lane routing, and measured 30-day uptime. [Every Person_enrichment endpoint](https://getanyapi.com/api/person-enrichment).",
+        "operationId": "person_enrichment_datalegion",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "socialUrl": "https://www.linkedin.com/in/dharmesh"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "socialUrl": "https://www.linkedin.com/in/dharmesh"
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "email"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "phone"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "socialUrl"
+                    ]
+                  }
+                ],
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "email": {
+                    "description": "Any email address the person uses, work or personal. Send exactly one of email, phone or socialUrl.",
+                    "format": "email",
+                    "type": "string"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "minConfidence": {
+                    "description": "Lowest match confidence that still counts as found. Omit it for Data Legion's default.",
+                    "enum": [
+                      "high",
+                      "moderate",
+                      "low"
+                    ],
+                    "type": "string"
+                  },
+                  "phone": {
+                    "description": "Phone number with its country code, e.g. +1 415 555 0100.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "required": {
+                    "description": "Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. work_email OR mobile_phone, or phones.type:mobile. A match without them counts as not found.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "socialUrl": {
+                    "description": "Social profile URL: LinkedIn (linkedin.com/in/...), GitHub, X and similar networks. A LinkedIn URL matches most reliably.",
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "title": "Person Enrichment - Data Legion input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "The enriched person, or null when nothing matched.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "properties": {
+                                    "age": {
+                                      "description": "Age in years.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "averageTenureMonths": {
+                                      "description": "Average months the person stays in a job.",
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    },
+                                    "birthDate": {
+                                      "description": "Date of birth, as precise as Data Legion holds it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "birthDay": {
+                                      "description": "Day of the month of birth.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "birthMonth": {
+                                      "description": "Month of birth, 1 to 12.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "birthYear": {
+                                      "description": "Year of birth.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "certifications": {
+                                      "description": "Professional certifications.",
+                                      "items": {
+                                        "properties": {
+                                          "credentialId": {
+                                            "description": "Credential id the issuer assigned.",
+                                            "type": "string"
+                                          },
+                                          "expirationDate": {
+                                            "description": "Expiry month as YYYY-MM or year as YYYY.",
+                                            "type": "string"
+                                          },
+                                          "institution": {
+                                            "description": "Issuing institution, lowercase.",
+                                            "type": "string"
+                                          },
+                                          "issueDate": {
+                                            "description": "Issue month as YYYY-MM or year as YYYY.",
+                                            "type": "string"
+                                          },
+                                          "name": {
+                                            "description": "Certification name, lowercase.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "company": {
+                                      "description": "Current employer.",
+                                      "properties": {
+                                        "companyId": {
+                                          "description": "Data Legion persistent company id, the legionId company_enrichment.datalegion returns.",
+                                          "type": "string"
+                                        },
+                                        "industry": {
+                                          "description": "Employer industry.",
+                                          "type": "string"
+                                        },
+                                        "linkedinId": {
+                                          "description": "Employer LinkedIn numeric id.",
+                                          "type": "string"
+                                        },
+                                        "linkedinUrl": {
+                                          "description": "Employer LinkedIn page URL.",
+                                          "format": "uri",
+                                          "type": "string"
+                                        },
+                                        "name": {
+                                          "description": "Employer name, lowercase.",
+                                          "type": "string"
+                                        },
+                                        "size": {
+                                          "description": "Employer headcount band, e.g. 5001-10000.",
+                                          "type": "string"
+                                        },
+                                        "website": {
+                                          "description": "Employer website domain.",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "datasetVersion": {
+                                      "description": "Data Legion dataset build the record came from.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "education": {
+                                      "description": "Schools attended.",
+                                      "items": {
+                                        "properties": {
+                                          "degree": {
+                                            "description": "Degree earned, lowercase, e.g. master of science.",
+                                            "type": "string"
+                                          },
+                                          "degreeLevel": {
+                                            "description": "Degree level, e.g. bachelors, masters.",
+                                            "type": "string"
+                                          },
+                                          "endDate": {
+                                            "description": "End as YYYY-MM or YYYY.",
+                                            "type": "string"
+                                          },
+                                          "fieldOfStudy": {
+                                            "description": "Field of study, lowercase.",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True while the person is still enrolled.",
+                                            "type": "boolean"
+                                          },
+                                          "schoolLinkedinUrl": {
+                                            "description": "School LinkedIn page URL.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
+                                          "schoolName": {
+                                            "description": "School name, lowercase.",
+                                            "type": "string"
+                                          },
+                                          "schoolWebsite": {
+                                            "description": "School website domain.",
+                                            "type": "string"
+                                          },
+                                          "startDate": {
+                                            "description": "Start as YYYY-MM or YYYY.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "emails": {
+                                      "description": "Every email address Data Legion holds for the person, work and personal.",
+                                      "items": {
+                                        "properties": {
+                                          "address": {
+                                            "description": "Email address.",
+                                            "type": "string"
+                                          },
+                                          "confidence": {
+                                            "description": "How sure Data Legion is the address belongs to the person: high, moderate or low.",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True while the address is still in use.",
+                                            "type": "boolean"
+                                          },
+                                          "lastSeenUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) the address was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "integer"
+                                          },
+                                          "numSources": {
+                                            "description": "Number of sources the address was seen in.",
+                                            "type": "integer"
+                                          },
+                                          "type": {
+                                            "description": "Kind of address, e.g. professional or personal.",
+                                            "type": "string"
+                                          },
+                                          "validated": {
+                                            "description": "True when Data Legion has checked the address with the mail server.",
+                                            "type": "boolean"
+                                          },
+                                          "validationStatus": {
+                                            "description": "Result of that check, e.g. valid.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "address"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "expenseCategory": {
+                                      "description": "Budget line of the current job, e.g. research_and_development, sales_and_marketing.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "experience": {
+                                      "description": "Work history, current jobs marked isCurrent.",
+                                      "items": {
+                                        "properties": {
+                                          "companyId": {
+                                            "description": "Data Legion persistent company id of the employer.",
+                                            "type": "string"
+                                          },
+                                          "companyIndustry": {
+                                            "description": "Employer industry.",
+                                            "type": "string"
+                                          },
+                                          "companyLinkedinId": {
+                                            "description": "Employer LinkedIn numeric id.",
+                                            "type": "string"
+                                          },
+                                          "companyLinkedinUrl": {
+                                            "description": "Employer LinkedIn page URL.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
+                                          "companyName": {
+                                            "description": "Employer name, lowercase.",
+                                            "type": "string"
+                                          },
+                                          "companySize": {
+                                            "description": "Employer headcount band.",
+                                            "type": "string"
+                                          },
+                                          "companyWebsite": {
+                                            "description": "Employer website domain.",
+                                            "type": "string"
+                                          },
+                                          "description": {
+                                            "description": "Job description, as the person writes it.",
+                                            "type": "string"
+                                          },
+                                          "endDate": {
+                                            "description": "End of the job as YYYY-MM or YYYY; absent for a current job.",
+                                            "type": "string"
+                                          },
+                                          "expenseCategory": {
+                                            "description": "Budget line of the job, e.g. research_and_development.",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True for a job the person still holds.",
+                                            "type": "boolean"
+                                          },
+                                          "isDecisionMaker": {
+                                            "description": "True when the job is a buying decision-maker role.",
+                                            "type": "boolean"
+                                          },
+                                          "isPlatformWorker": {
+                                            "description": "True when the job is gig or platform work.",
+                                            "type": "boolean"
+                                          },
+                                          "jobFunction": {
+                                            "description": "Function of the job, e.g. engineering, sales.",
+                                            "type": "string"
+                                          },
+                                          "seniority": {
+                                            "description": "Seniority of the job, e.g. owner, director, manager.",
+                                            "type": "string"
+                                          },
+                                          "startDate": {
+                                            "description": "Start of the job as YYYY-MM or YYYY.",
+                                            "type": "string"
+                                          },
+                                          "tenureMonths": {
+                                            "description": "Months in the job.",
+                                            "type": "number"
+                                          },
+                                          "title": {
+                                            "description": "Job title, lowercase.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "firstName": {
+                                      "description": "First name.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "fullName": {
+                                      "description": "Full name, lowercase as Data Legion normalizes it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "headline": {
+                                      "description": "Profile headline, as the person writes it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "highestDegree": {
+                                      "description": "Highest degree level, e.g. bachelors, masters, doctorate.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "isDecisionMaker": {
+                                      "description": "True when the current job is a buying decision-maker role.",
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
+                                    "isPlatformWorker": {
+                                      "description": "True when the current job is gig or platform work, such as ride-hailing or delivery.",
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
+                                    "jobChangedUtc": {
+                                      "description": "UTC epoch timestamp in seconds (Unix time) the current job last changed. Multiply by 1000 for a JS Date in milliseconds.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "jobFunction": {
+                                      "description": "Function of the current job, e.g. engineering, sales, marketing.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "jobTitle": {
+                                      "description": "Current job title, lowercase.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "jobVerifiedUtc": {
+                                      "description": "UTC epoch timestamp in seconds (Unix time) the current job was last confirmed. Multiply by 1000 for a JS Date in milliseconds.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "languages": {
+                                      "description": "Languages the person speaks.",
+                                      "items": {
+                                        "properties": {
+                                          "name": {
+                                            "description": "Language, lowercase, e.g. english.",
+                                            "type": "string"
+                                          },
+                                          "proficiency": {
+                                            "description": "Proficiency, e.g. native, professional.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "name"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "lastInitial": {
+                                      "description": "Last initial.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "lastName": {
+                                      "description": "Last name.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "lastSeenUtc": {
+                                      "description": "UTC epoch timestamp in seconds (Unix time) Data Legion last saw the person. Multiply by 1000 for a JS Date in milliseconds.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "legionId": {
+                                      "description": "Data Legion persistent person id.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinConnections": {
+                                      "description": "LinkedIn connection count; LinkedIn caps what it shows at 500.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinFollowers": {
+                                      "description": "LinkedIn follower count.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinId": {
+                                      "description": "LinkedIn numeric member id.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "linkedinUrl": {
+                                      "description": "LinkedIn profile URL.",
+                                      "format": "uri",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "location": {
+                                      "description": "Where the person lives now.",
+                                      "properties": {
+                                        "country": {
+                                          "description": "Country.",
+                                          "type": "string"
+                                        },
+                                        "countryCode": {
+                                          "description": "ISO 3166-1 alpha-2 country code, e.g. US.",
+                                          "type": "string"
+                                        },
+                                        "locality": {
+                                          "description": "City.",
+                                          "type": "string"
+                                        },
+                                        "region": {
+                                          "description": "State or region.",
+                                          "type": "string"
+                                        },
+                                        "regionCode": {
+                                          "description": "ISO 3166-2 region code, e.g. US-MA.",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "type": [
+                                        "object",
+                                        "null"
+                                      ]
+                                    },
+                                    "locations": {
+                                      "description": "Every place Data Legion holds for the person, current and past.",
+                                      "items": {
+                                        "properties": {
+                                          "addressLine2": {
+                                            "description": "Second line of the address.",
+                                            "type": "string"
+                                          },
+                                          "confidence": {
+                                            "description": "How sure Data Legion is of the place: high, moderate or low.",
+                                            "type": "string"
+                                          },
+                                          "continent": {
+                                            "description": "Continent.",
+                                            "type": "string"
+                                          },
+                                          "country": {
+                                            "description": "Country.",
+                                            "type": "string"
+                                          },
+                                          "countryCode": {
+                                            "description": "ISO 3166-1 alpha-2 country code, e.g. US.",
+                                            "type": "string"
+                                          },
+                                          "geo": {
+                                            "description": "Coordinates as \"lat,lon\".",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True for where the person lives now.",
+                                            "type": "boolean"
+                                          },
+                                          "lastSeenUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) the place was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "integer"
+                                          },
+                                          "locality": {
+                                            "description": "City.",
+                                            "type": "string"
+                                          },
+                                          "postalCode": {
+                                            "description": "Postal code.",
+                                            "type": "string"
+                                          },
+                                          "region": {
+                                            "description": "State or region.",
+                                            "type": "string"
+                                          },
+                                          "regionCode": {
+                                            "description": "ISO 3166-2 region code, e.g. US-MA.",
+                                            "type": "string"
+                                          },
+                                          "streetAddress": {
+                                            "description": "Street address.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "matchConfidence": {
+                                      "description": "How sure the match is: high, moderate or low.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "matchType": {
+                                      "description": "How the identifier matched, e.g. exact.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "matchedOn": {
+                                      "description": "Identifiers the match was made on, e.g. linkedin_url or email.",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "middleInitial": {
+                                      "description": "Middle initial.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "middleName": {
+                                      "description": "Middle name.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "mobilePhone": {
+                                      "description": "Best mobile phone number, in E.164 form.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "numSources": {
+                                      "description": "Number of sources Data Legion merged into this record.",
+                                      "type": [
+                                        "integer",
+                                        "null"
+                                      ]
+                                    },
+                                    "phones": {
+                                      "description": "Every phone number Data Legion holds for the person.",
+                                      "items": {
+                                        "properties": {
+                                          "confidence": {
+                                            "description": "How sure Data Legion is the number belongs to the person: high, moderate or low.",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True while the number is still in use.",
+                                            "type": "boolean"
+                                          },
+                                          "lastSeenUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) the number was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "integer"
+                                          },
+                                          "numSources": {
+                                            "description": "Number of sources the number was seen in.",
+                                            "type": "integer"
+                                          },
+                                          "number": {
+                                            "description": "Phone number in E.164 form.",
+                                            "type": "string"
+                                          },
+                                          "type": {
+                                            "description": "Kind of line, e.g. mobile or landline.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "number"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "prefix": {
+                                      "description": "Name prefix, e.g. dr.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "profiles": {
+                                      "description": "Social profiles Data Legion links to the person.",
+                                      "items": {
+                                        "properties": {
+                                          "confidence": {
+                                            "description": "How sure Data Legion is the profile belongs to the person: high, moderate or low.",
+                                            "type": "string"
+                                          },
+                                          "isCurrent": {
+                                            "description": "True while the profile is still active.",
+                                            "type": "boolean"
+                                          },
+                                          "lastSeenUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) the profile was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "integer"
+                                          },
+                                          "network": {
+                                            "description": "Network the profile is on, e.g. linkedin, github, x, facebook.",
+                                            "type": "string"
+                                          },
+                                          "profileId": {
+                                            "description": "Numeric or opaque id on that network.",
+                                            "type": "string"
+                                          },
+                                          "url": {
+                                            "description": "Profile URL.",
+                                            "format": "uri",
+                                            "type": "string"
+                                          },
+                                          "username": {
+                                            "description": "Handle on that network.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "network"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "seniority": {
+                                      "description": "Seniority of the current job, e.g. owner, c_level, director, manager, senior.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "sex": {
+                                      "description": "Sex, male or female.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "skills": {
+                                      "description": "Skills listed on the profile, lowercase.",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ]
+                                    },
+                                    "suffix": {
+                                      "description": "Name suffix, e.g. jr.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "summary": {
+                                      "description": "Profile summary, as the person writes it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "workEmail": {
+                                      "description": "Current work email address.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
+                                    "yearsOfExperience": {
+                                      "description": "Years of work experience.",
+                                      "type": [
+                                        "number",
+                                        "null"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "fullName"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "False when Data Legion matched no person, or none at the requested confidence or with the required fields.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Person Enrichment - Data Legion output",
+                          "type": "object",
+                          "x-anyapi-result-list": false,
+                          "x-anyapi-serve-imperfect-records": true
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Person Enrichment - Data Legion",
+        "tags": [
+          "person-enrichment"
+        ],
+        "x-mint": {
+          "href": "/api-reference/person-enrichment/datalegion"
+        },
+        "x-payment-info": {
+          "price": {
+            "currency": "USD",
+            "max": "0.096060",
+            "min": "0.000060",
+            "mode": "dynamic"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "currency": "USD",
+                "max": "0.096060",
+                "min": "0.001000",
+                "minimumUsd": "0.001000",
+                "mode": "dynamic",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "currency": "USD",
+                "max": "0.096060",
+                "min": "0.000060",
+                "minimumUsd": null,
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {

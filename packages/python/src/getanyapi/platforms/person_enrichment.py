@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -55,6 +55,29 @@ class PersonEnrichmentCrustdataV3Input(TypedDict, total=False):
     """For an email lookup, the lowest match similarity from 0 to 1 to accept. Leave unset to use Crustdata's default. Range: 0 to 1."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class PersonEnrichmentDatalegionInput(TypedDict, total=False):
+    """Input for Person Enrichment - Data Legion."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    email: NotRequired[str]
+    """Any email address the person uses, work or personal. Send exactly one of email, phone or socialUrl."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    minConfidence: NotRequired[Literal["high", "moderate", "low"]]
+    """Lowest match confidence that still counts as found. Omit it for Data Legion's default."""
+    phone: NotRequired[str]
+    """Phone number with its country code, e.g. +1 415 555 0100."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    required: NotRequired[str]
+    """Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. work_email OR mobile_phone, or phones.type:mobile. A match without them counts as not found."""
+    socialUrl: NotRequired[str]
+    """Social profile URL: LinkedIn (linkedin.com/in/...), GitHub, X and similar networks. A LinkedIn URL matches most reliably."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -625,6 +648,519 @@ class PersonEnrichmentCrustdataV3PastPosition(BaseModel):
         description="When the role started. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
     )
     title: str | None = Field(default=None, description="Job title.")
+
+
+class PersonEnrichmentDatalegionData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    age: int | None = Field(default=None, description="Age in years.")
+    average_tenure_months: float | None = Field(
+        default=None,
+        alias="averageTenureMonths",
+        description="Average months the person stays in a job.",
+    )
+    birth_date: str | None = Field(
+        default=None,
+        alias="birthDate",
+        description="Date of birth, as precise as Data Legion holds it.",
+    )
+    birth_day: int | None = Field(
+        default=None, alias="birthDay", description="Day of the month of birth."
+    )
+    birth_month: int | None = Field(
+        default=None, alias="birthMonth", description="Month of birth, 1 to 12."
+    )
+    birth_year: int | None = Field(
+        default=None, alias="birthYear", description="Year of birth."
+    )
+    certifications: list[PersonEnrichmentDatalegionCertification] | None = Field(
+        default=None, description="Professional certifications."
+    )
+    company: PersonEnrichmentDatalegionCompany | None = Field(
+        default=None, description="Current employer."
+    )
+    dataset_version: str | None = Field(
+        default=None,
+        alias="datasetVersion",
+        description="Data Legion dataset build the record came from.",
+    )
+    education: list[PersonEnrichmentDatalegionEducation] | None = Field(
+        default=None, description="Schools attended."
+    )
+    emails: list[PersonEnrichmentDatalegionEmail] | None = Field(
+        default=None,
+        description="Every email address Data Legion holds for the person, work and personal.",
+    )
+    expense_category: str | None = Field(
+        default=None,
+        alias="expenseCategory",
+        description="Budget line of the current job, e.g. research_and_development, sales_and_marketing.",
+    )
+    experience: list[PersonEnrichmentDatalegionExperience] | None = Field(
+        default=None, description="Work history, current jobs marked isCurrent."
+    )
+    first_name: str | None = Field(
+        default=None, alias="firstName", description="First name."
+    )
+    full_name: str | None = Field(
+        alias="fullName",
+        description="Full name, lowercase as Data Legion normalizes it.",
+    )
+    headline: str | None = Field(
+        default=None, description="Profile headline, as the person writes it."
+    )
+    highest_degree: str | None = Field(
+        default=None,
+        alias="highestDegree",
+        description="Highest degree level, e.g. bachelors, masters, doctorate.",
+    )
+    is_decision_maker: bool | None = Field(
+        default=None,
+        alias="isDecisionMaker",
+        description="True when the current job is a buying decision-maker role.",
+    )
+    is_platform_worker: bool | None = Field(
+        default=None,
+        alias="isPlatformWorker",
+        description="True when the current job is gig or platform work, such as ride-hailing or delivery.",
+    )
+    job_changed_utc: int | None = Field(
+        default=None,
+        alias="jobChangedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the current job last changed. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    job_function: str | None = Field(
+        default=None,
+        alias="jobFunction",
+        description="Function of the current job, e.g. engineering, sales, marketing.",
+    )
+    job_title: str | None = Field(
+        default=None, alias="jobTitle", description="Current job title, lowercase."
+    )
+    job_verified_utc: int | None = Field(
+        default=None,
+        alias="jobVerifiedUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the current job was last confirmed. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    languages: list[PersonEnrichmentDatalegionLanguage] | None = Field(
+        default=None, description="Languages the person speaks."
+    )
+    last_initial: str | None = Field(
+        default=None, alias="lastInitial", description="Last initial."
+    )
+    last_name: str | None = Field(
+        default=None, alias="lastName", description="Last name."
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) Data Legion last saw the person. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    legion_id: str | None = Field(
+        default=None, alias="legionId", description="Data Legion persistent person id."
+    )
+    linkedin_connections: int | None = Field(
+        default=None,
+        alias="linkedinConnections",
+        description="LinkedIn connection count; LinkedIn caps what it shows at 500.",
+    )
+    linkedin_followers: int | None = Field(
+        default=None, alias="linkedinFollowers", description="LinkedIn follower count."
+    )
+    linkedin_id: str | None = Field(
+        default=None, alias="linkedinId", description="LinkedIn numeric member id."
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="LinkedIn profile URL."
+    )
+    location: PersonEnrichmentDatalegionLocation | None = Field(
+        default=None, description="Where the person lives now."
+    )
+    locations: list[PersonEnrichmentDatalegionLocation2] | None = Field(
+        default=None,
+        description="Every place Data Legion holds for the person, current and past.",
+    )
+    match_confidence: str | None = Field(
+        default=None,
+        alias="matchConfidence",
+        description="How sure the match is: high, moderate or low.",
+    )
+    match_type: str | None = Field(
+        default=None,
+        alias="matchType",
+        description="How the identifier matched, e.g. exact.",
+    )
+    matched_on: list[str] | None = Field(
+        default=None,
+        alias="matchedOn",
+        description="Identifiers the match was made on, e.g. linkedin_url or email.",
+    )
+    middle_initial: str | None = Field(
+        default=None, alias="middleInitial", description="Middle initial."
+    )
+    middle_name: str | None = Field(
+        default=None, alias="middleName", description="Middle name."
+    )
+    mobile_phone: str | None = Field(
+        default=None,
+        alias="mobilePhone",
+        description="Best mobile phone number, in E.164 form.",
+    )
+    num_sources: int | None = Field(
+        default=None,
+        alias="numSources",
+        description="Number of sources Data Legion merged into this record.",
+    )
+    phones: list[PersonEnrichmentDatalegionPhone] | None = Field(
+        default=None, description="Every phone number Data Legion holds for the person."
+    )
+    prefix: str | None = Field(default=None, description="Name prefix, e.g. dr.")
+    profiles: list[PersonEnrichmentDatalegionProfile] | None = Field(
+        default=None, description="Social profiles Data Legion links to the person."
+    )
+    seniority: str | None = Field(
+        default=None,
+        description="Seniority of the current job, e.g. owner, c_level, director, manager, senior.",
+    )
+    sex: str | None = Field(default=None, description="Sex, male or female.")
+    skills: list[str] | None = Field(
+        default=None, description="Skills listed on the profile, lowercase."
+    )
+    suffix: str | None = Field(default=None, description="Name suffix, e.g. jr.")
+    summary: str | None = Field(
+        default=None, description="Profile summary, as the person writes it."
+    )
+    work_email: str | None = Field(
+        default=None, alias="workEmail", description="Current work email address."
+    )
+    years_of_experience: float | None = Field(
+        default=None, alias="yearsOfExperience", description="Years of work experience."
+    )
+
+
+class PersonEnrichmentDatalegionCertification(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    credential_id: str | None = Field(
+        default=None,
+        alias="credentialId",
+        description="Credential id the issuer assigned.",
+    )
+    expiration_date: str | None = Field(
+        default=None,
+        alias="expirationDate",
+        description="Expiry month as YYYY-MM or year as YYYY.",
+    )
+    institution: str | None = Field(
+        default=None, description="Issuing institution, lowercase."
+    )
+    issue_date: str | None = Field(
+        default=None,
+        alias="issueDate",
+        description="Issue month as YYYY-MM or year as YYYY.",
+    )
+    name: str | None = Field(default=None, description="Certification name, lowercase.")
+
+
+class PersonEnrichmentDatalegionCompany(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Data Legion persistent company id, the legionId company_enrichment.datalegion returns.",
+    )
+    industry: str | None = Field(default=None, description="Employer industry.")
+    linkedin_id: str | None = Field(
+        default=None, alias="linkedinId", description="Employer LinkedIn numeric id."
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Employer LinkedIn page URL."
+    )
+    name: str | None = Field(default=None, description="Employer name, lowercase.")
+    size: str | None = Field(
+        default=None, description="Employer headcount band, e.g. 5001-10000."
+    )
+    website: str | None = Field(default=None, description="Employer website domain.")
+
+
+class PersonEnrichmentDatalegionEducation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    degree: str | None = Field(
+        default=None, description="Degree earned, lowercase, e.g. master of science."
+    )
+    degree_level: str | None = Field(
+        default=None,
+        alias="degreeLevel",
+        description="Degree level, e.g. bachelors, masters.",
+    )
+    end_date: str | None = Field(
+        default=None, alias="endDate", description="End as YYYY-MM or YYYY."
+    )
+    field_of_study: str | None = Field(
+        default=None, alias="fieldOfStudy", description="Field of study, lowercase."
+    )
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True while the person is still enrolled.",
+    )
+    school_linkedin_url: str | None = Field(
+        default=None, alias="schoolLinkedinUrl", description="School LinkedIn page URL."
+    )
+    school_name: str | None = Field(
+        default=None, alias="schoolName", description="School name, lowercase."
+    )
+    school_website: str | None = Field(
+        default=None, alias="schoolWebsite", description="School website domain."
+    )
+    start_date: str | None = Field(
+        default=None, alias="startDate", description="Start as YYYY-MM or YYYY."
+    )
+
+
+class PersonEnrichmentDatalegionEmail(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address: str = Field(description="Email address.")
+    confidence: str | None = Field(
+        default=None,
+        description="How sure Data Legion is the address belongs to the person: high, moderate or low.",
+    )
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True while the address is still in use.",
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the address was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    num_sources: int | None = Field(
+        default=None,
+        alias="numSources",
+        description="Number of sources the address was seen in.",
+    )
+    type_: str | None = Field(
+        default=None,
+        alias="type",
+        description="Kind of address, e.g. professional or personal.",
+    )
+    validated: bool | None = Field(
+        default=None,
+        description="True when Data Legion has checked the address with the mail server.",
+    )
+    validation_status: str | None = Field(
+        default=None,
+        alias="validationStatus",
+        description="Result of that check, e.g. valid.",
+    )
+
+
+class PersonEnrichmentDatalegionExperience(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    company_id: str | None = Field(
+        default=None,
+        alias="companyId",
+        description="Data Legion persistent company id of the employer.",
+    )
+    company_industry: str | None = Field(
+        default=None, alias="companyIndustry", description="Employer industry."
+    )
+    company_linkedin_id: str | None = Field(
+        default=None,
+        alias="companyLinkedinId",
+        description="Employer LinkedIn numeric id.",
+    )
+    company_linkedin_url: str | None = Field(
+        default=None,
+        alias="companyLinkedinUrl",
+        description="Employer LinkedIn page URL.",
+    )
+    company_name: str | None = Field(
+        default=None, alias="companyName", description="Employer name, lowercase."
+    )
+    company_size: str | None = Field(
+        default=None, alias="companySize", description="Employer headcount band."
+    )
+    company_website: str | None = Field(
+        default=None, alias="companyWebsite", description="Employer website domain."
+    )
+    description: str | None = Field(
+        default=None, description="Job description, as the person writes it."
+    )
+    end_date: str | None = Field(
+        default=None,
+        alias="endDate",
+        description="End of the job as YYYY-MM or YYYY; absent for a current job.",
+    )
+    expense_category: str | None = Field(
+        default=None,
+        alias="expenseCategory",
+        description="Budget line of the job, e.g. research_and_development.",
+    )
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True for a job the person still holds.",
+    )
+    is_decision_maker: bool | None = Field(
+        default=None,
+        alias="isDecisionMaker",
+        description="True when the job is a buying decision-maker role.",
+    )
+    is_platform_worker: bool | None = Field(
+        default=None,
+        alias="isPlatformWorker",
+        description="True when the job is gig or platform work.",
+    )
+    job_function: str | None = Field(
+        default=None,
+        alias="jobFunction",
+        description="Function of the job, e.g. engineering, sales.",
+    )
+    seniority: str | None = Field(
+        default=None, description="Seniority of the job, e.g. owner, director, manager."
+    )
+    start_date: str | None = Field(
+        default=None,
+        alias="startDate",
+        description="Start of the job as YYYY-MM or YYYY.",
+    )
+    tenure_months: float | None = Field(
+        default=None, alias="tenureMonths", description="Months in the job."
+    )
+    title: str | None = Field(default=None, description="Job title, lowercase.")
+
+
+class PersonEnrichmentDatalegionLanguage(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    name: str = Field(description="Language, lowercase, e.g. english.")
+    proficiency: str | None = Field(
+        default=None, description="Proficiency, e.g. native, professional."
+    )
+
+
+class PersonEnrichmentDatalegionLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    country: str | None = Field(default=None, description="Country.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="ISO 3166-1 alpha-2 country code, e.g. US.",
+    )
+    locality: str | None = Field(default=None, description="City.")
+    region: str | None = Field(default=None, description="State or region.")
+    region_code: str | None = Field(
+        default=None,
+        alias="regionCode",
+        description="ISO 3166-2 region code, e.g. US-MA.",
+    )
+
+
+class PersonEnrichmentDatalegionLocation2(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address_line2: str | None = Field(
+        default=None, alias="addressLine2", description="Second line of the address."
+    )
+    confidence: str | None = Field(
+        default=None,
+        description="How sure Data Legion is of the place: high, moderate or low.",
+    )
+    continent: str | None = Field(default=None, description="Continent.")
+    country: str | None = Field(default=None, description="Country.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="ISO 3166-1 alpha-2 country code, e.g. US.",
+    )
+    geo: str | None = Field(default=None, description='Coordinates as "lat,lon".')
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True for where the person lives now.",
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the place was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    locality: str | None = Field(default=None, description="City.")
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code."
+    )
+    region: str | None = Field(default=None, description="State or region.")
+    region_code: str | None = Field(
+        default=None,
+        alias="regionCode",
+        description="ISO 3166-2 region code, e.g. US-MA.",
+    )
+    street_address: str | None = Field(
+        default=None, alias="streetAddress", description="Street address."
+    )
+
+
+class PersonEnrichmentDatalegionPhone(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    confidence: str | None = Field(
+        default=None,
+        description="How sure Data Legion is the number belongs to the person: high, moderate or low.",
+    )
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True while the number is still in use.",
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the number was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    num_sources: int | None = Field(
+        default=None,
+        alias="numSources",
+        description="Number of sources the number was seen in.",
+    )
+    number: str = Field(description="Phone number in E.164 form.")
+    type_: str | None = Field(
+        default=None, alias="type", description="Kind of line, e.g. mobile or landline."
+    )
+
+
+class PersonEnrichmentDatalegionProfile(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    confidence: str | None = Field(
+        default=None,
+        description="How sure Data Legion is the profile belongs to the person: high, moderate or low.",
+    )
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True while the profile is still active.",
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the profile was last seen. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    network: str = Field(
+        description="Network the profile is on, e.g. linkedin, github, x, facebook."
+    )
+    profile_id: str | None = Field(
+        default=None,
+        alias="profileId",
+        description="Numeric or opaque id on that network.",
+    )
+    url: str | None = Field(default=None, description="Profile URL.")
+    username: str | None = Field(default=None, description="Handle on that network.")
 
 
 class PersonEnrichmentFullenrichBulkData(BaseModel):
@@ -2578,6 +3114,30 @@ class PersonEnrichmentNamespace:
         )
         return RunResult[PersonEnrichmentCrustdataV3Data].model_validate(raw)
 
+    def datalegion(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[PersonEnrichmentDatalegionInput],
+    ) -> RunResult[PersonEnrichmentDatalegionData]:
+        """Person Enrichment - Data Legion
+
+        Enrich one person from an email, a phone number or a social profile URL into
+        Data Legion's premium profile with contact data: emails, phone numbers,
+        location, age and sex, plus current job and employer, seniority, job
+        function, decision-maker flag, years of experience, work history, education,
+        certifications, skills and social profiles.
+
+        Price: $0.00006 per request plus $0.096 per result (maximum $0.09606).
+
+        Example:
+            res = client.person_enrichment.datalegion(socialUrl="https://www.linkedin.com/in/dharmesh")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "person_enrichment.datalegion", dict(input), options
+        )
+        return RunResult[PersonEnrichmentDatalegionData].model_validate(raw)
+
     def fullenrich_bulk(
         self,
         *,
@@ -2764,6 +3324,30 @@ class AsyncPersonEnrichmentNamespace:
             "person_enrichment.crustdata_v3", dict(input), options
         )
         return RunResult[PersonEnrichmentCrustdataV3Data].model_validate(raw)
+
+    async def datalegion(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[PersonEnrichmentDatalegionInput],
+    ) -> RunResult[PersonEnrichmentDatalegionData]:
+        """Person Enrichment - Data Legion
+
+        Enrich one person from an email, a phone number or a social profile URL into
+        Data Legion's premium profile with contact data: emails, phone numbers,
+        location, age and sex, plus current job and employer, seniority, job
+        function, decision-maker flag, years of experience, work history, education,
+        certifications, skills and social profiles.
+
+        Price: $0.00006 per request plus $0.096 per result (maximum $0.09606).
+
+        Example:
+            res = client.person_enrichment.datalegion(socialUrl="https://www.linkedin.com/in/dharmesh")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "person_enrichment.datalegion", dict(input), options
+        )
+        return RunResult[PersonEnrichmentDatalegionData].model_validate(raw)
 
     async def fullenrich_bulk(
         self,

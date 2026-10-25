@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import Any, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, TypedDict, Unpack
@@ -49,6 +49,27 @@ class CompanyEnrichmentCrustdataV3Input(TypedDict, total=False):
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    source: NotRequired[list[str]]
+    """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
+class CompanyEnrichmentDatalegionInput(TypedDict, total=False):
+    """Input for Company Enrichment - Data Legion."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    domain: NotRequired[str]
+    """Company website domain, e.g. hubspot.com. The strongest identifier. Send either domain or name, not both."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    minConfidence: NotRequired[Literal["high", "moderate", "low"]]
+    """Lowest match confidence that still counts as found. Omit it for Data Legion's default."""
+    name: NotRequired[str]
+    """Company name, for when you have no domain. A domain matches more reliably."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    required: NotRequired[str]
+    """Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. linkedin_url AND founded. A match without them counts as not found."""
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
@@ -835,6 +856,332 @@ class CompanyEnrichmentCrustdataV3SkillMetric(BaseModel):
         alias="share71To100Percent",
         description="Comma separated skills that each account for 71 to 100 percent of headcount.",
     )
+
+
+class CompanyEnrichmentDatalegionData(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    average_tenure_months: float | None = Field(
+        default=None,
+        alias="averageTenureMonths",
+        description="Average tenure of current employees, in months.",
+    )
+    dataset_version: str | None = Field(
+        default=None,
+        alias="datasetVersion",
+        description="Data Legion dataset build the record came from.",
+    )
+    departures: CompanyEnrichmentDatalegionDeparture | None = Field(
+        default=None,
+        description="Departures over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+    )
+    domains: list[str] | None = Field(
+        default=None,
+        description="Every website domain Data Legion links to the company, the primary one included.",
+    )
+    employee_count: int | None = Field(
+        default=None,
+        alias="employeeCount",
+        description="Employees Data Legion currently counts from the people profiles it holds, usually below the LinkedIn figure.",
+    )
+    employee_count_by_education: (
+        CompanyEnrichmentDatalegionEmployeeCountByEducation | None
+    ) = Field(
+        default=None,
+        alias="employeeCountByEducation",
+        description="Current employees per highest degree, e.g. bachelors, masters, doctorate.",
+    )
+    employee_count_by_expense_category: (
+        CompanyEnrichmentDatalegionEmployeeCountByExpenseCategory | None
+    ) = Field(
+        default=None,
+        alias="employeeCountByExpenseCategory",
+        description="Current employees per expense category, e.g. research_and_development, sales_and_marketing.",
+    )
+    employee_count_by_function: (
+        CompanyEnrichmentDatalegionEmployeeCountByFunction | None
+    ) = Field(
+        default=None,
+        alias="employeeCountByFunction",
+        description="Current employees per job function, e.g. engineering, sales, product.",
+    )
+    employee_count_by_month: (
+        list[CompanyEnrichmentDatalegionEmployeeCountByMonth] | None
+    ) = Field(
+        default=None,
+        alias="employeeCountByMonth",
+        description="Monthly headcount history, oldest month first.",
+    )
+    employee_count_by_seniority: (
+        CompanyEnrichmentDatalegionEmployeeCountBySeniority | None
+    ) = Field(
+        default=None,
+        alias="employeeCountBySeniority",
+        description="Current employees per seniority level, e.g. c_level, director, manager, senior.",
+    )
+    employee_count_by_tenure: (
+        CompanyEnrichmentDatalegionEmployeeCountByTenure | None
+    ) = Field(
+        default=None,
+        alias="employeeCountByTenure",
+        description="Current employees per tenure band, e.g. <1yr, 1-2yr, 2-5yr.",
+    )
+    employee_growth_rate: CompanyEnrichmentDatalegionEmployeeGrowthRate | None = Field(
+        default=None,
+        alias="employeeGrowthRate",
+        description="Headcount growth rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+    )
+    employee_turnover_rate: CompanyEnrichmentDatalegionEmployeeTurnoverRate | None = (
+        Field(
+            default=None,
+            alias="employeeTurnoverRate",
+            description="Turnover rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+        )
+    )
+    founded: int | None = Field(
+        default=None, description="Year the company was founded."
+    )
+    growth_rate_by_expense_category: (
+        CompanyEnrichmentDatalegionGrowthRateByExpenseCategory | None
+    ) = Field(
+        default=None,
+        alias="growthRateByExpenseCategory",
+        description="Headcount growth rate per expense category, each keyed 1m, 3m, 6m and 12m.",
+    )
+    growth_rate_by_function: CompanyEnrichmentDatalegionGrowthRateByFunction | None = (
+        Field(
+            default=None,
+            alias="growthRateByFunction",
+            description="Headcount growth rate per job function, each keyed 1m, 3m, 6m and 12m.",
+        )
+    )
+    growth_rate_by_seniority: (
+        CompanyEnrichmentDatalegionGrowthRateBySeniority | None
+    ) = Field(
+        default=None,
+        alias="growthRateBySeniority",
+        description="Headcount growth rate per seniority level, each keyed 1m, 3m, 6m and 12m.",
+    )
+    headline: str | None = Field(
+        default=None, description="One-line company tagline, as the company writes it."
+    )
+    industry: str | None = Field(
+        default=None,
+        description="Company industry, lowercase, e.g. software development.",
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) of the month Data Legion last saw the company, at the first of that month. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    legion_id: str | None = Field(
+        default=None, alias="legionId", description="Data Legion persistent company id."
+    )
+    linkedin_employee_count: int | None = Field(
+        default=None,
+        alias="linkedinEmployeeCount",
+        description="Employee count the company's LinkedIn page states.",
+    )
+    linkedin_followers: int | None = Field(
+        default=None, alias="linkedinFollowers", description="LinkedIn follower count."
+    )
+    linkedin_id: str | None = Field(
+        default=None, alias="linkedinId", description="Company LinkedIn numeric id."
+    )
+    linkedin_url: str | None = Field(
+        default=None, alias="linkedinUrl", description="Company LinkedIn page URL."
+    )
+    locations: list[CompanyEnrichmentDatalegionLocation] | None = Field(
+        default=None, description="Office locations, the headquarters marked isPrimary."
+    )
+    match_confidence: str | None = Field(
+        default=None,
+        alias="matchConfidence",
+        description="How sure the match is: high, moderate or low.",
+    )
+    match_type: str | None = Field(
+        default=None,
+        alias="matchType",
+        description="How the identifier matched, e.g. exact.",
+    )
+    matched_on: list[str] | None = Field(
+        default=None,
+        alias="matchedOn",
+        description="Identifiers the match was made on, e.g. domain or name.",
+    )
+    name: str | None = Field(description="Company name as Data Legion displays it.")
+    name_normalized: str | None = Field(
+        default=None,
+        alias="nameNormalized",
+        description="Lowercase normalized company name, the form Data Legion matches on.",
+    )
+    new_hires: CompanyEnrichmentDatalegionNewHire | None = Field(
+        default=None,
+        alias="newHires",
+        description="Hires over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.",
+    )
+    num_sources: int | None = Field(
+        default=None,
+        alias="numSources",
+        description="Number of sources Data Legion merged into this record.",
+    )
+    profiles: list[CompanyEnrichmentDatalegionProfile] | None = Field(
+        default=None,
+        description="Social and directory profiles Data Legion links to the company.",
+    )
+    size: str | None = Field(
+        default=None, description="Employee headcount band, e.g. 51-200."
+    )
+    summary: str | None = Field(
+        default=None, description="Long company description, as the company writes it."
+    )
+    tickers: list[CompanyEnrichmentDatalegionTicker] | None = Field(
+        default=None,
+        description="Stock tickers the company trades under. Empty for a private company.",
+    )
+    type_: str | None = Field(
+        default=None, alias="type", description="Ownership type, e.g. private, public."
+    )
+    website: str | None = Field(
+        default=None, description="Primary company website domain, e.g. hubspot.com."
+    )
+
+
+class CompanyEnrichmentDatalegionDeparture(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeCountByEducation(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeCountByExpenseCategory(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeCountByFunction(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeCountByMonth(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    count: int | None = Field(default=None, description="Employees counted that month.")
+    departures: int | None = Field(
+        default=None, description="Employees who left that month."
+    )
+    growth_rate: float | None = Field(
+        default=None,
+        alias="growthRate",
+        description="Change in headcount from the month before, as a fraction.",
+    )
+    hires: int | None = Field(
+        default=None, description="Employees who joined that month."
+    )
+    month: str = Field(description="Calendar month as YYYY-MM.")
+    net_change: int | None = Field(
+        default=None,
+        alias="netChange",
+        description="Change in headcount from the month before.",
+    )
+
+
+class CompanyEnrichmentDatalegionEmployeeCountBySeniority(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeCountByTenure(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeGrowthRate(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionEmployeeTurnoverRate(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionGrowthRateByExpenseCategory(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionGrowthRateByFunction(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionGrowthRateBySeniority(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionLocation(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    address_line2: str | None = Field(
+        default=None, alias="addressLine2", description="Second line of the address."
+    )
+    continent: str | None = Field(default=None, description="Continent.")
+    country: str | None = Field(default=None, description="Country.")
+    country_code: str | None = Field(
+        default=None,
+        alias="countryCode",
+        description="ISO 3166-1 alpha-2 country code, e.g. US.",
+    )
+    geo: str | None = Field(default=None, description='Coordinates as "lat,lon".')
+    is_current: bool | None = Field(
+        default=None,
+        alias="isCurrent",
+        description="True while the office is still in use.",
+    )
+    is_primary: bool | None = Field(
+        default=None, alias="isPrimary", description="True for the headquarters."
+    )
+    last_seen_utc: int | None = Field(
+        default=None,
+        alias="lastSeenUtc",
+        description="UTC epoch timestamp in seconds (Unix time) Data Legion last saw this location. Multiply by 1000 for a JS Date in milliseconds.",
+    )
+    locality: str | None = Field(default=None, description="City.")
+    postal_code: str | None = Field(
+        default=None, alias="postalCode", description="Postal code."
+    )
+    region: str | None = Field(default=None, description="State or region.")
+    region_code: str | None = Field(
+        default=None,
+        alias="regionCode",
+        description="ISO 3166-2 region code, e.g. US-MA.",
+    )
+    street_address: str | None = Field(
+        default=None, alias="streetAddress", description="Street address."
+    )
+
+
+class CompanyEnrichmentDatalegionNewHire(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class CompanyEnrichmentDatalegionProfile(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    network: str = Field(
+        description="Network the profile is on, e.g. linkedin, facebook, crunchbase."
+    )
+    profile_id: str | None = Field(
+        default=None,
+        alias="profileId",
+        description="Numeric or opaque id on that network.",
+    )
+    url: str | None = Field(default=None, description="Profile URL.")
+    username: str | None = Field(default=None, description="Handle on that network.")
+
+
+class CompanyEnrichmentDatalegionTicker(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    exchange: str | None = Field(
+        default=None, description="Exchange the ticker lists on, e.g. NYSE."
+    )
+    symbol: str = Field(description="Ticker symbol, e.g. HUBS.")
 
 
 class CompanyEnrichmentLushaData(BaseModel):
@@ -1749,6 +2096,30 @@ class CompanyEnrichmentNamespace:
         )
         return RunResult[CompanyEnrichmentCrustdataV3Data].model_validate(raw)
 
+    def datalegion(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanyEnrichmentDatalegionInput],
+    ) -> RunResult[CompanyEnrichmentDatalegionData]:
+        """Company Enrichment - Data Legion
+
+        Enrich one company from a domain or a company name into Data Legion's
+        premium firmographics: industry, size, founding year, office locations,
+        stock tickers and social profiles, plus headcount, hiring, attrition, growth
+        and turnover, workforce breakdowns by seniority, function and tenure, and
+        monthly headcount history.
+
+        Price: $0.00006 per request plus $0.048 per result (maximum $0.04806).
+
+        Example:
+            res = client.company_enrichment.datalegion(domain="hubspot.com")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "company_enrichment.datalegion", dict(input), options
+        )
+        return RunResult[CompanyEnrichmentDatalegionData].model_validate(raw)
+
     def lusha(
         self,
         *,
@@ -1861,6 +2232,30 @@ class AsyncCompanyEnrichmentNamespace:
             "company_enrichment.crustdata_v3", dict(input), options
         )
         return RunResult[CompanyEnrichmentCrustdataV3Data].model_validate(raw)
+
+    async def datalegion(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[CompanyEnrichmentDatalegionInput],
+    ) -> RunResult[CompanyEnrichmentDatalegionData]:
+        """Company Enrichment - Data Legion
+
+        Enrich one company from a domain or a company name into Data Legion's
+        premium firmographics: industry, size, founding year, office locations,
+        stock tickers and social profiles, plus headcount, hiring, attrition, growth
+        and turnover, workforce breakdowns by seniority, function and tenure, and
+        monthly headcount history.
+
+        Price: $0.00006 per request plus $0.048 per result (maximum $0.04806).
+
+        Example:
+            res = client.company_enrichment.datalegion(domain="hubspot.com")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "company_enrichment.datalegion", dict(input), options
+        )
+        return RunResult[CompanyEnrichmentDatalegionData].model_validate(raw)
 
     async def lusha(
         self,

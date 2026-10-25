@@ -926,6 +926,19 @@
     "items": 1,
     "replayed": false
   },
+  "company_enrichment.datalegion": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "company_enrichment.lusha": {
     "output": {
       "found": true,
@@ -5261,6 +5274,19 @@
       "found": true,
       "data": {
         "personId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.datalegion": {
+    "output": {
+      "found": true,
+      "data": {
+        "fullName": "sample",
         "_extra": "passthrough"
       }
     },

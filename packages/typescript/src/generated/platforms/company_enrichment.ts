@@ -734,6 +734,329 @@ export interface CompanyEnrichmentCrustdataV3Data {
 }
 
 /**
+ * Input for Company Enrichment - Data Legion (company_enrichment.datalegion).
+ */
+export interface CompanyEnrichmentDatalegionInput {
+  /**
+   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Company website domain, e.g. hubspot.com. The strongest identifier. Send either domain or name, not both.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Lowest match confidence that still counts as found. Omit it for Data Legion's default.
+   * One of: high, moderate, low.
+   */
+  minConfidence?: "high" | "moderate" | "low";
+  /**
+   * Company name, for when you have no domain. A domain matches more reliably.
+   */
+  name?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Fields a match must have, as a Data Legion expression over its snake_case field names combined with AND, OR and parentheses, e.g. linkedin_url AND founded. A match without them counts as not found.
+   */
+  required?: string;
+  /**
+   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentDatalegionEmployeeCountByMonth {
+  /**
+   * Employees counted that month.
+   */
+  count?: number;
+  /**
+   * Employees who left that month.
+   */
+  departures?: number;
+  /**
+   * Change in headcount from the month before, as a fraction.
+   */
+  growthRate?: number;
+  /**
+   * Employees who joined that month.
+   */
+  hires?: number;
+  /**
+   * Calendar month as YYYY-MM.
+   */
+  month: string;
+  /**
+   * Change in headcount from the month before.
+   */
+  netChange?: number;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentDatalegionLocation {
+  /**
+   * Second line of the address.
+   */
+  addressLine2?: string;
+  /**
+   * Continent.
+   */
+  continent?: string;
+  /**
+   * Country.
+   */
+  country?: string;
+  /**
+   * ISO 3166-1 alpha-2 country code, e.g. US.
+   */
+  countryCode?: string;
+  /**
+   * Coordinates as "lat,lon".
+   */
+  geo?: string;
+  /**
+   * True while the office is still in use.
+   */
+  isCurrent?: boolean;
+  /**
+   * True for the headquarters.
+   */
+  isPrimary?: boolean;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) Data Legion last saw this location. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number;
+  /**
+   * City.
+   */
+  locality?: string;
+  /**
+   * Postal code.
+   */
+  postalCode?: string;
+  /**
+   * State or region.
+   */
+  region?: string;
+  /**
+   * ISO 3166-2 region code, e.g. US-MA.
+   */
+  regionCode?: string;
+  /**
+   * Street address.
+   */
+  streetAddress?: string;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentDatalegionProfile {
+  /**
+   * Network the profile is on, e.g. linkedin, facebook, crunchbase.
+   */
+  network: string;
+  /**
+   * Numeric or opaque id on that network.
+   */
+  profileId?: string;
+  /**
+   * Profile URL.
+   * Format: uri.
+   */
+  url?: string;
+  /**
+   * Handle on that network.
+   */
+  username?: string;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentDatalegionTicker {
+  /**
+   * Exchange the ticker lists on, e.g. NYSE.
+   */
+  exchange?: string;
+  /**
+   * Ticker symbol, e.g. HUBS.
+   */
+  symbol: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Enrichment - Data Legion (company_enrichment.datalegion).
+ */
+export interface CompanyEnrichmentDatalegionData {
+  /**
+   * Average tenure of current employees, in months.
+   */
+  averageTenureMonths?: number | null;
+  /**
+   * Data Legion dataset build the record came from.
+   */
+  datasetVersion?: string | null;
+  /**
+   * Departures over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.
+   */
+  departures?: {} | null;
+  /**
+   * Every website domain Data Legion links to the company, the primary one included.
+   */
+  domains?: string[] | null;
+  /**
+   * Employees Data Legion currently counts from the people profiles it holds, usually below the LinkedIn figure.
+   */
+  employeeCount?: number | null;
+  /**
+   * Current employees per highest degree, e.g. bachelors, masters, doctorate.
+   */
+  employeeCountByEducation?: {} | null;
+  /**
+   * Current employees per expense category, e.g. research_and_development, sales_and_marketing.
+   */
+  employeeCountByExpenseCategory?: {} | null;
+  /**
+   * Current employees per job function, e.g. engineering, sales, product.
+   */
+  employeeCountByFunction?: {} | null;
+  /**
+   * Monthly headcount history, oldest month first.
+   */
+  employeeCountByMonth?:
+    CompanyEnrichmentDatalegionEmployeeCountByMonth[] | null;
+  /**
+   * Current employees per seniority level, e.g. c_level, director, manager, senior.
+   */
+  employeeCountBySeniority?: {} | null;
+  /**
+   * Current employees per tenure band, e.g. <1yr, 1-2yr, 2-5yr.
+   */
+  employeeCountByTenure?: {} | null;
+  /**
+   * Headcount growth rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.
+   */
+  employeeGrowthRate?: {} | null;
+  /**
+   * Turnover rate as a fraction over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.
+   */
+  employeeTurnoverRate?: {} | null;
+  /**
+   * Year the company was founded.
+   */
+  founded?: number | null;
+  /**
+   * Headcount growth rate per expense category, each keyed 1m, 3m, 6m and 12m.
+   */
+  growthRateByExpenseCategory?: {} | null;
+  /**
+   * Headcount growth rate per job function, each keyed 1m, 3m, 6m and 12m.
+   */
+  growthRateByFunction?: {} | null;
+  /**
+   * Headcount growth rate per seniority level, each keyed 1m, 3m, 6m and 12m.
+   */
+  growthRateBySeniority?: {} | null;
+  /**
+   * One-line company tagline, as the company writes it.
+   */
+  headline?: string | null;
+  /**
+   * Company industry, lowercase, e.g. software development.
+   */
+  industry?: string | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) of the month Data Legion last saw the company, at the first of that month. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  lastSeenUtc?: number | null;
+  /**
+   * Data Legion persistent company id.
+   */
+  legionId?: string | null;
+  /**
+   * Employee count the company's LinkedIn page states.
+   */
+  linkedinEmployeeCount?: number | null;
+  /**
+   * LinkedIn follower count.
+   */
+  linkedinFollowers?: number | null;
+  /**
+   * Company LinkedIn numeric id.
+   */
+  linkedinId?: string | null;
+  /**
+   * Company LinkedIn page URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string | null;
+  /**
+   * Office locations, the headquarters marked isPrimary.
+   */
+  locations?: CompanyEnrichmentDatalegionLocation[] | null;
+  /**
+   * How sure the match is: high, moderate or low.
+   */
+  matchConfidence?: string | null;
+  /**
+   * How the identifier matched, e.g. exact.
+   */
+  matchType?: string | null;
+  /**
+   * Identifiers the match was made on, e.g. domain or name.
+   */
+  matchedOn?: string[] | null;
+  /**
+   * Company name as Data Legion displays it.
+   */
+  name: string | null;
+  /**
+   * Lowercase normalized company name, the form Data Legion matches on.
+   */
+  nameNormalized?: string | null;
+  /**
+   * Hires over the trailing 1, 3, 6 and 12 months, keyed 1m, 3m, 6m and 12m.
+   */
+  newHires?: {} | null;
+  /**
+   * Number of sources Data Legion merged into this record.
+   */
+  numSources?: number | null;
+  /**
+   * Social and directory profiles Data Legion links to the company.
+   */
+  profiles?: CompanyEnrichmentDatalegionProfile[] | null;
+  /**
+   * Employee headcount band, e.g. 51-200.
+   */
+  size?: string | null;
+  /**
+   * Long company description, as the company writes it.
+   */
+  summary?: string | null;
+  /**
+   * Stock tickers the company trades under. Empty for a private company.
+   */
+  tickers?: CompanyEnrichmentDatalegionTicker[] | null;
+  /**
+   * Ownership type, e.g. private, public.
+   */
+  type?: string | null;
+  /**
+   * Primary company website domain, e.g. hubspot.com.
+   */
+  website?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for Company Enrichment - Lusha (company_enrichment.lusha).
  */
 export interface CompanyEnrichmentLushaInput {
@@ -1757,6 +2080,23 @@ export class CompanyEnrichmentNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<CompanyEnrichmentCrustdataV3Data>> {
     return this._core.run("company_enrichment.crustdata_v3", input, options);
+  }
+
+  /**
+   * Company Enrichment - Data Legion
+   *
+   * Enrich one company from a domain or a company name into Data Legion's premium firmographics: industry, size, founding year, office locations, stock tickers and social profiles, plus headcount, hiring, attrition, growth and turnover, workforce breakdowns by seniority, function and tenure, and monthly headcount history.
+   *
+   * Price: $0.00006 per request plus $0.048 per result (maximum $0.04806).
+   *
+   * @example
+   * const res = await client.companyEnrichment.datalegion({ domain: "hubspot.com" });
+   */
+  datalegion(
+    input: CompanyEnrichmentDatalegionInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentDatalegionData>> {
+    return this._core.run("company_enrichment.datalegion", input, options);
   }
 
   /**
