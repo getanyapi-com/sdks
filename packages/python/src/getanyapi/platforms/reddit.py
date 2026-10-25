@@ -1200,7 +1200,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.0008 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
@@ -1595,7 +1595,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.0008 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.reddit.subreddit_posts(limit=5, subreddit="programming")
