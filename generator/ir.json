@@ -47199,7 +47199,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70574,7 +70574,7 @@
       "category": "data",
       "description": "Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.",
       "pricing": {
-        "priceUsd": 0.0286,
+        "priceUsd": 0.0195,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -137892,10 +137892,10 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.0007,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0021,
+        "baseUsd": 0.0001,
+        "perItemUsd": 0.0001,
+        "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
       "tsMethod": "searchUsers",
