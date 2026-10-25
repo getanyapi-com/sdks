@@ -154,7 +154,7 @@ class InstagramHashtagAnalyticsInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Deprecated. Has no effect. Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     source: NotRequired[list[str]]
@@ -1090,14 +1090,13 @@ class InstagramFollowingItem(BaseModel):
 
 class InstagramHashtagAnalyticsData(BaseModel):
     items: list[InstagramHashtagAnalyticsItem] = Field(
-        description="Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions. Populated whenever the provider has data for the entity."
+        description="Hashtag record: hashtag name and total post count. Populated whenever the provider has data for the entity."
     )
 
 
 class InstagramHashtagAnalyticsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
-    difficulty: str | None = None
     id: str | None = Field(
         default=None,
         description="Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
@@ -4055,10 +4054,9 @@ class InstagramNamespace:
     ) -> RunResult[InstagramHashtagAnalyticsData]:
         """Instagram Hashtag Analytics
 
-        Get analytics for any Instagram hashtag (total post count, related hashtags,
-        and usage signals).
+        Get the total post count for any Instagram hashtag.
 
-        Price: $0.0011 per request plus $0.00187 per result (maximum $0.0385).
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)
@@ -5230,10 +5228,9 @@ class AsyncInstagramNamespace:
     ) -> RunResult[InstagramHashtagAnalyticsData]:
         """Instagram Hashtag Analytics
 
-        Get analytics for any Instagram hashtag (total post count, related hashtags,
-        and usage signals).
+        Get the total post count for any Instagram hashtag.
 
-        Price: $0.0011 per request plus $0.00187 per result (maximum $0.0385).
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.hashtag_analytics(hashtag="travel", limit=5)

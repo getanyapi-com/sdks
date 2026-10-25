@@ -562,7 +562,7 @@ export interface InstagramHashtagAnalyticsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Deprecated. Has no effect.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -578,7 +578,6 @@ export interface InstagramHashtagAnalyticsInput {
 }
 
 export interface InstagramHashtagAnalyticsItem {
-  difficulty?: string;
   /**
    * Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -609,7 +608,7 @@ export interface InstagramHashtagAnalyticsItem {
  */
 export interface InstagramHashtagAnalyticsData {
   /**
-   * Hashtag analytics records: hashtag name, total post count, and related hashtag suggestions. Populated whenever the provider has data for the entity.
+   * Hashtag record: hashtag name and total post count. Populated whenever the provider has data for the entity.
    */
   items: InstagramHashtagAnalyticsItem[];
 }
@@ -4809,9 +4808,9 @@ export class InstagramNamespace {
   /**
    * Instagram Hashtag Analytics
    *
-   * Get analytics for any Instagram hashtag (total post count, related hashtags, and usage signals).
+   * Get the total post count for any Instagram hashtag.
    *
-   * Price: $0.0011 per request plus $0.00187 per result (maximum $0.0385).
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.instagram.hashtagAnalytics({ hashtag: "travel", limit: 5 });
