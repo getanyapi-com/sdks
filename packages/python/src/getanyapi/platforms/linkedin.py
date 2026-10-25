@@ -5642,7 +5642,7 @@ class LinkedinNamespace:
         description, salary, applicant count, seniority, company details, and
         benefits. Up to 25 jobs per request.
 
-        Price: $0.0286 per request plus $0 per result (maximum $0.0286).
+        Price: $0.0286 per request.
 
         Example:
             res = client.linkedin.jobs(limit=3, location="United States", query="software engineer", workplaceType="remote")
@@ -6588,7 +6588,7 @@ class AsyncLinkedinNamespace:
         description, salary, applicant count, seniority, company details, and
         benefits. Up to 25 jobs per request.
 
-        Price: $0.0286 per request plus $0 per result (maximum $0.0286).
+        Price: $0.0286 per request.
 
         Example:
             res = client.linkedin.jobs(limit=3, location="United States", query="software engineer", workplaceType="remote")

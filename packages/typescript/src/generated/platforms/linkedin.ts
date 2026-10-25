@@ -6837,7 +6837,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn job listings by title and location - full records with description, salary, applicant count, seniority, company details, and benefits. Up to 25 jobs per request.
    *
-   * Price: $0.0286 per request plus $0 per result (maximum $0.0286).
+   * Price: $0.0286 per request.
    *
    * @example
    * const res = await client.linkedin.jobs({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });
