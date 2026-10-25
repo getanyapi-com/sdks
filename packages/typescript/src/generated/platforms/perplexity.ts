@@ -93,7 +93,7 @@ export class PerplexityNamespace {
    *
    * Ask Perplexity a web-grounded question and receive an answer with source citations.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0025 per request.
    *
    * @example
    * const res = await client.perplexity.search({ prompt: "What is AnyAPI at getanyapi.com, and what does it offer?" });
