@@ -137892,10 +137892,10 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.0021,
-        "baseUsd": 0.0001,
-        "perItemUsd": 0.0001,
-        "perItemUnit": "result"
+        "priceUsd": 0.0007,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "twitter",
       "tsMethod": "searchUsers",
