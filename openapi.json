@@ -166280,7 +166280,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -241489,6 +241489,2898 @@
                 "min": "0.014400",
                 "minimumUsd": null,
                 "mode": "dynamic",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/shopify.product": {
+      "post": {
+        "description": "Look up one product on any public Shopify store by its handle or product page URL and get title, vendor, type, tags, description, price range, sale price, stock, images, options and every variant's SKU, price and stock in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Shopify Product pricing and uptime](https://getanyapi.com/api/shopify/product) - live USD price, lane routing, and measured 30-day uptime. [Every Shopify endpoint](https://getanyapi.com/api/shopify).",
+        "operationId": "shopify_product",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "product": "mens-strider",
+                "store": "allbirds.com"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "product": "mens-strider",
+                  "store": "allbirds.com"
+                },
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "product": {
+                    "description": "Product handle, the slug after /products/ in the product URL, e.g. mens-strider; the full product page URL also works.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "store": {
+                    "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+                    "minLength": 1,
+                    "pattern": "^\\S+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "store",
+                  "product"
+                ],
+                "title": "Shopify product input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "Product wrapper, or null when the store has no product with that handle.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "items": {
+                                      "description": "The requested product (one record). Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "createdUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) when the product was created. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "currency": {
+                                            "description": "Price currency code, e.g. \"USD\", or null when the store does not state it.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "description": {
+                                            "description": "Product description as plain text, or null when the product has none.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "handle": {
+                                            "description": "Product handle, the slug after /products/ in the product URL; pass it to the Shopify Product SKU for the full product. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "image": {
+                                            "description": "Main product image URL, or null when the product has no image. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "images": {
+                                            "description": "All product image URLs, main image first; empty when the product has none. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "inStock": {
+                                            "description": "True when at least one variant can be bought now. Populated whenever the provider has data for the entity.",
+                                            "type": "boolean",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "listPrice": {
+                                            "description": "Lowest regular (compare-at) price when the product is on sale, or null when it is not discounted.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "onSale": {
+                                            "description": "True when at least one variant is priced below its regular price. Populated whenever the provider has data for the entity.",
+                                            "type": "boolean",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "options": {
+                                            "description": "Options the variants differ by, e.g. Size or Color, each with its values; empty when the product has a single variant.",
+                                            "items": {
+                                              "properties": {
+                                                "name": {
+                                                  "description": "Option name, e.g. \"Size\".",
+                                                  "type": "string"
+                                                },
+                                                "values": {
+                                                  "description": "Values the option takes, in the store's order.",
+                                                  "items": {
+                                                    "type": "string"
+                                                  },
+                                                  "type": "array"
+                                                }
+                                              },
+                                              "required": [
+                                                "name",
+                                                "values"
+                                              ],
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "price": {
+                                            "description": "Lowest variant price in the store's currency. Populated whenever the provider has data for the entity.",
+                                            "type": "number",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "priceMax": {
+                                            "description": "Highest variant price in the store's currency; equals price when every variant costs the same. Populated whenever the provider has data for the entity.",
+                                            "type": "number",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productId": {
+                                            "description": "Shopify product id. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productType": {
+                                            "description": "Product type the store assigns, e.g. \"Shoes\", or null when it sets none.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "publishedUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) when the product was published to the store. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "tags": {
+                                            "description": "Tags the store attaches to the product, as the store writes them; empty when it has none. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "title": {
+                                            "description": "Product title. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "updatedUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) when the product was last updated. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "url": {
+                                            "description": "Product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "variants": {
+                                            "description": "Every purchasable variant of the product, e.g. one per size and color. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "properties": {
+                                                "inStock": {
+                                                  "description": "True when this variant can be bought now.",
+                                                  "type": "boolean"
+                                                },
+                                                "listPrice": {
+                                                  "description": "Regular (compare-at) price when the variant's product is on sale, or null when it is not discounted.",
+                                                  "type": [
+                                                    "number",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "options": {
+                                                  "description": "This variant's value for each of the product's options, in option order.",
+                                                  "items": {
+                                                    "type": "string"
+                                                  },
+                                                  "type": "array"
+                                                },
+                                                "price": {
+                                                  "description": "Variant price in the store's currency.",
+                                                  "type": "number"
+                                                },
+                                                "sku": {
+                                                  "description": "The store's SKU code for the variant, or null when it sets none.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "title": {
+                                                  "description": "Variant title, its option values joined, e.g. \"10 / Black\".",
+                                                  "type": "string"
+                                                },
+                                                "variantId": {
+                                                  "description": "Shopify variant id.",
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "variantId",
+                                                "title",
+                                                "price",
+                                                "inStock"
+                                              ],
+                                              "type": "object"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "vendor": {
+                                            "description": "Vendor (brand) the store lists the product under, or null when it sets none. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          }
+                                        },
+                                        "required": [
+                                          "productId",
+                                          "title",
+                                          "handle",
+                                          "url",
+                                          "price",
+                                          "priceMax",
+                                          "inStock",
+                                          "onSale"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "True when the product was found.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Shopify product output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Shopify Product",
+        "tags": [
+          "shopify"
+        ],
+        "x-mint": {
+          "href": "/api-reference/shopify/product"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.000850",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.000850",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/shopify.products": {
+      "post": {
+        "description": "List the products of any public Shopify store by its domain, a page at a time, with title, vendor, type, tags, price range, sale price, stock, images, options and every variant's SKU, price and stock. Filter by vendor, type, tag, title, SKU, price, sale, stock or recent arrivals. A domain that is not a public Shopify store comes back not found.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Shopify Store Products pricing and uptime](https://getanyapi.com/api/shopify/products) - live USD price, lane routing, and measured 30-day uptime. [Every Shopify endpoint](https://getanyapi.com/api/shopify).",
+        "operationId": "shopify_products",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "limit": 10,
+                "store": "allbirds.com"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "limit": 10,
+                  "store": "allbirds.com"
+                },
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "limit": {
+                    "default": 50,
+                    "description": "Products the store is asked for per page (1-250, default 50). The filters below are applied to that page, so a filtered page can hold fewer, even none while hasMore is true.",
+                    "maximum": 250,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "maxPrice": {
+                    "description": "Only products priced at or below this, in the store's currency.",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "minPrice": {
+                    "description": "Only products priced at or above this, in the store's currency.",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "onlyInStock": {
+                    "default": false,
+                    "description": "Only products with at least one variant in stock.",
+                    "type": "boolean"
+                  },
+                  "onlyOnSale": {
+                    "default": false,
+                    "description": "Only products with at least one discounted variant.",
+                    "type": "boolean"
+                  },
+                  "page": {
+                    "default": 1,
+                    "description": "1-based page of the store's product list. Each page is billed as one request.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "productType": {
+                    "description": "Only products whose product type contains this text, e.g. \"Shoes\".",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "publishedWithinDays": {
+                    "description": "Only products published to the store within the last this many days.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "skuContains": {
+                    "description": "Only products with a variant whose SKU code contains this text.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "store": {
+                    "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+                    "minLength": 1,
+                    "pattern": "^\\S+$",
+                    "type": "string"
+                  },
+                  "tags": {
+                    "description": "Only products carrying at least one of these tags.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "titleContains": {
+                    "description": "Only products whose title contains this text.",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "vendor": {
+                    "description": "Only products whose vendor (brand) contains this text.",
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "store"
+                ],
+                "title": "Shopify store products input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "Product page wrapper, or null when found is false. Filters apply page by page, so a filtered page can come back with an empty items list and hasMore true; keep requesting the next page.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "hasMore": {
+                                      "description": "True when another page of the store's products follows this one (request it with page + 1), even when filters left this page empty; null when not reported.",
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
+                                    },
+                                    "items": {
+                                      "description": "Products on the requested page, after any filters. Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "createdUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) when the product was created. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "currency": {
+                                            "description": "Price currency code, e.g. \"USD\", or null when the store does not state it.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "description": {
+                                            "description": "Product description as plain text, or null when the product has none.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "handle": {
+                                            "description": "Product handle, the slug after /products/ in the product URL; pass it to the Shopify Product SKU for the full product. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "image": {
+                                            "description": "Main product image URL, or null when the product has no image. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "images": {
+                                            "description": "All product image URLs, main image first; empty when the product has none. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "inStock": {
+                                            "description": "True when at least one variant can be bought now. Populated whenever the provider has data for the entity.",
+                                            "type": "boolean",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "listPrice": {
+                                            "description": "Lowest regular (compare-at) price when the product is on sale, or null when it is not discounted.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "onSale": {
+                                            "description": "True when at least one variant is priced below its regular price. Populated whenever the provider has data for the entity.",
+                                            "type": "boolean",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "options": {
+                                            "description": "Options the variants differ by, e.g. Size or Color, each with its values; empty when the product has a single variant.",
+                                            "items": {
+                                              "properties": {
+                                                "name": {
+                                                  "description": "Option name, e.g. \"Size\".",
+                                                  "type": "string"
+                                                },
+                                                "values": {
+                                                  "description": "Values the option takes, in the store's order.",
+                                                  "items": {
+                                                    "type": "string"
+                                                  },
+                                                  "type": "array"
+                                                }
+                                              },
+                                              "required": [
+                                                "name",
+                                                "values"
+                                              ],
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "price": {
+                                            "description": "Lowest variant price in the store's currency. Populated whenever the provider has data for the entity.",
+                                            "type": "number",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "priceMax": {
+                                            "description": "Highest variant price in the store's currency; equals price when every variant costs the same. Populated whenever the provider has data for the entity.",
+                                            "type": "number",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productId": {
+                                            "description": "Shopify product id. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productType": {
+                                            "description": "Product type the store assigns, e.g. \"Shoes\", or null when it sets none.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "publishedUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) when the product was published to the store. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "tags": {
+                                            "description": "Tags the store attaches to the product, as the store writes them; empty when it has none. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "title": {
+                                            "description": "Product title. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "updatedUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time) when the product was last updated. Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "url": {
+                                            "description": "Product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "variants": {
+                                            "description": "Every purchasable variant of the product, e.g. one per size and color. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "properties": {
+                                                "inStock": {
+                                                  "description": "True when this variant can be bought now.",
+                                                  "type": "boolean"
+                                                },
+                                                "listPrice": {
+                                                  "description": "Regular (compare-at) price when the variant's product is on sale, or null when it is not discounted.",
+                                                  "type": [
+                                                    "number",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "options": {
+                                                  "description": "This variant's value for each of the product's options, in option order.",
+                                                  "items": {
+                                                    "type": "string"
+                                                  },
+                                                  "type": "array"
+                                                },
+                                                "price": {
+                                                  "description": "Variant price in the store's currency.",
+                                                  "type": "number"
+                                                },
+                                                "sku": {
+                                                  "description": "The store's SKU code for the variant, or null when it sets none.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "title": {
+                                                  "description": "Variant title, its option values joined, e.g. \"10 / Black\".",
+                                                  "type": "string"
+                                                },
+                                                "variantId": {
+                                                  "description": "Shopify variant id.",
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "required": [
+                                                "variantId",
+                                                "title",
+                                                "price",
+                                                "inStock"
+                                              ],
+                                              "type": "object"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "vendor": {
+                                            "description": "Vendor (brand) the store lists the product under, or null when it sets none. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          }
+                                        },
+                                        "required": [
+                                          "productId",
+                                          "title",
+                                          "handle",
+                                          "url",
+                                          "price",
+                                          "priceMax",
+                                          "inStock",
+                                          "onSale"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "True when the page holds at least one product, or when your filters removed every product on this page but later pages remain (items is then empty and hasMore is true). False when this page holds no products and no later pages remain.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Shopify store products output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Shopify Store Products",
+        "tags": [
+          "shopify"
+        ],
+        "x-mint": {
+          "href": "/api-reference/shopify/products"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.000850",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.000850",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/shopify.search": {
+      "post": {
+        "description": "Search one public Shopify store's products by keyword with the store's own search and get its top matches with title, vendor, type, tags, price range, sale price, stock and images. A domain that is not a public Shopify store comes back not found.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Shopify Store Search pricing and uptime](https://getanyapi.com/api/shopify/search) - live USD price, lane routing, and measured 30-day uptime. [Every Shopify endpoint](https://getanyapi.com/api/shopify).",
+        "operationId": "shopify_search",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "query": "wool",
+                "store": "allbirds.com"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "query": "wool",
+                  "store": "allbirds.com"
+                },
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "Search keywords, e.g. \"wool\" or \"hoodie\".",
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "store": {
+                    "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+                    "minLength": 1,
+                    "pattern": "^\\S+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "store",
+                  "query"
+                ],
+                "title": "Shopify store search input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "Search result wrapper, or null when nothing matched.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "items": {
+                                      "description": "The store's top matches for the query, in its own order; Shopify's store search returns at most 10. Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "currency": {
+                                            "description": "Price currency code, e.g. \"USD\", or null when the store does not state it.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "handle": {
+                                            "description": "Product handle, the slug after /products/ in the product URL; pass it to the Shopify Product SKU for the full product. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "image": {
+                                            "description": "Main product image URL, or null when the product has no image. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "images": {
+                                            "description": "All product image URLs, main image first; empty when the product has none. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "inStock": {
+                                            "description": "True when at least one variant can be bought now. Populated whenever the provider has data for the entity.",
+                                            "type": "boolean",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "listPrice": {
+                                            "description": "Lowest regular (compare-at) price when the product is on sale, or null when it is not discounted.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "onSale": {
+                                            "description": "True when at least one variant is priced below its regular price. Populated whenever the provider has data for the entity.",
+                                            "type": "boolean",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "price": {
+                                            "description": "Lowest variant price in the store's currency. Populated whenever the provider has data for the entity.",
+                                            "type": "number",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "priceMax": {
+                                            "description": "Highest variant price in the store's currency; equals price when every variant costs the same. Populated whenever the provider has data for the entity.",
+                                            "type": "number",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productId": {
+                                            "description": "Shopify product id. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productType": {
+                                            "description": "Product type the store assigns, e.g. \"Shoes\", or null when it sets none.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "tags": {
+                                            "description": "Tags the store attaches to the product, as the store writes them; empty when it has none. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "title": {
+                                            "description": "Product title. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "url": {
+                                            "description": "Product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "vendor": {
+                                            "description": "Vendor (brand) the store lists the product under, or null when it sets none. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          }
+                                        },
+                                        "required": [
+                                          "productId",
+                                          "title",
+                                          "handle",
+                                          "url",
+                                          "price",
+                                          "priceMax",
+                                          "inStock",
+                                          "onSale"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "True when results were found.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Shopify store search output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Shopify Store Search",
+        "tags": [
+          "shopify"
+        ],
+        "x-mint": {
+          "href": "/api-reference/shopify/search"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.000850",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.000850",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/shopify.store": {
+      "post": {
+        "description": "Look up any public Shopify store by its domain and get its name, description, currency, country and city, the countries it ships to, its published product and collection counts and its social links in one normalized response. A domain that is not a public Shopify store comes back not found.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Shopify Store Profile pricing and uptime](https://getanyapi.com/api/shopify/store) - live USD price, lane routing, and measured 30-day uptime. [Every Shopify endpoint](https://getanyapi.com/api/shopify).",
+        "operationId": "shopify_store",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "store": "allbirds.com"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "store": "allbirds.com"
+                },
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "store": {
+                    "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+                    "minLength": 1,
+                    "pattern": "^\\S+$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "store"
+                ],
+                "title": "Shopify store profile input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "Store wrapper, or null when the domain is not a public Shopify store.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "items": {
+                                      "description": "The requested store (one record). Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "city": {
+                                            "description": "City of the store's business address, or null when not reported.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "collectionsCount": {
+                                            "description": "Number of collections the store publishes, as the store reports it, or null when not reported. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "country": {
+                                            "description": "Two-letter country code of the store's business address, or null when not reported. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "currency": {
+                                            "description": "The store's currency code, e.g. \"USD\". Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "description": {
+                                            "description": "Store description as the store publishes it, or null when it has none.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "domain": {
+                                            "description": "The store's primary domain, e.g. www.allbirds.com. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "name": {
+                                            "description": "Store name. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "productsCount": {
+                                            "description": "Number of products the store publishes, as the store reports it, or null when not reported. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "region": {
+                                            "description": "State or province of the store's business address, or null when not reported.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "shipsToCountries": {
+                                            "description": "Two-letter codes of the countries the store ships to; empty when not reported.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "shopifyDomain": {
+                                            "description": "The store's myshopify.com domain, or null when not reported.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "socialLinks": {
+                                            "description": "Social profile URLs the store links to; empty when it lists none.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "url": {
+                                            "description": "Store home page URL, or null when not reported.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "name",
+                                          "domain",
+                                          "currency"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "True when the store was found.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Shopify store profile output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Shopify Store Profile",
+        "tags": [
+          "shopify"
+        ],
+        "x-mint": {
+          "href": "/api-reference/shopify/store"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.000850",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.000850",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -329392,6 +332284,10 @@
     {
       "name": "seo",
       "x-group": "Seo"
+    },
+    {
+      "name": "shopify",
+      "x-group": "Shopify"
     },
     {
       "name": "similarweb",

@@ -134,6 +134,7 @@ REGISTRY: dict[str, tuple[str, str, str]] = {
     "sec": ("sec", "SecNamespace", "AsyncSecNamespace"),
     "semrush": ("semrush", "SemrushNamespace", "AsyncSemrushNamespace"),
     "seo": ("seo", "SeoNamespace", "AsyncSeoNamespace"),
+    "shopify": ("shopify", "ShopifyNamespace", "AsyncShopifyNamespace"),
     "similarweb": ("similarweb", "SimilarwebNamespace", "AsyncSimilarwebNamespace"),
     "slickdeals": ("slickdeals", "SlickdealsNamespace", "AsyncSlickdealsNamespace"),
     "snapchat": ("snapchat", "SnapchatNamespace", "AsyncSnapchatNamespace"),

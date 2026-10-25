@@ -75,6 +75,7 @@ import { SamsclubNamespace } from "./platforms/samsclub.js";
 import { SecNamespace } from "./platforms/sec.js";
 import { SemrushNamespace } from "./platforms/semrush.js";
 import { SeoNamespace } from "./platforms/seo.js";
+import { ShopifyNamespace } from "./platforms/shopify.js";
 import { SimilarwebNamespace } from "./platforms/similarweb.js";
 import { SlickdealsNamespace } from "./platforms/slickdeals.js";
 import { SnapchatNamespace } from "./platforms/snapchat.js";
@@ -746,6 +747,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["seo"] ??= new SeoNamespace(
       this._core,
     )) as SeoNamespace;
+  }
+
+  /**
+   * Typed methods for the shopify platform.
+   */
+  get shopify(): ShopifyNamespace {
+    return (this._namespaces["shopify"] ??= new ShopifyNamespace(
+      this._core,
+    )) as ShopifyNamespace;
   }
 
   /**

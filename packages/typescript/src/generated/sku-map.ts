@@ -783,6 +783,16 @@ import type {
   SeoTopPagesInput,
 } from "./platforms/seo.js";
 import type {
+  ShopifyProductData,
+  ShopifyProductInput,
+  ShopifyProductsData,
+  ShopifyProductsInput,
+  ShopifySearchData,
+  ShopifySearchInput,
+  ShopifyStoreData,
+  ShopifyStoreInput,
+} from "./platforms/shopify.js";
+import type {
   SimilarwebOverviewData,
   SimilarwebOverviewInput,
   SimilarwebSimilarSitesData,
@@ -2755,6 +2765,26 @@ export interface SkuMap {
     input: SeoTopPagesInput;
     data: SeoTopPagesData;
     result: RunResult<SeoTopPagesData>;
+  };
+  "shopify.product": {
+    input: ShopifyProductInput;
+    data: ShopifyProductData;
+    result: RunResult<ShopifyProductData>;
+  };
+  "shopify.products": {
+    input: ShopifyProductsInput;
+    data: ShopifyProductsData;
+    result: RunResult<ShopifyProductsData>;
+  };
+  "shopify.search": {
+    input: ShopifySearchInput;
+    data: ShopifySearchData;
+    result: RunResult<ShopifySearchData>;
+  };
+  "shopify.store": {
+    input: ShopifyStoreInput;
+    data: ShopifyStoreData;
+    result: RunResult<ShopifyStoreData>;
   };
   "similarweb.overview": {
     input: SimilarwebOverviewInput;

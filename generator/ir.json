@@ -114663,6 +114663,1353 @@
       }
     },
     {
+      "slug": "shopify.product",
+      "platform": "shopify",
+      "action": "product",
+      "operationId": "shopify_product",
+      "name": "Shopify Product",
+      "category": "shop",
+      "description": "Look up one product on any public Shopify store by its handle or product page URL and get title, vendor, type, tags, description, price range, sale price, stock, images, options and every variant's SKU, price and stock in one normalized response.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "shopify",
+      "tsMethod": "product",
+      "tsIterMethod": null,
+      "pyNamespace": "shopify",
+      "pyMethod": "product",
+      "pyIterMethod": null,
+      "inputTypeName": "ShopifyProductInput",
+      "outputTypeName": "ShopifyProductData",
+      "example": {
+        "product": "mens-strider",
+        "store": "allbirds.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "product": {
+            "kind": "string",
+            "description": "Product handle, the slug after /products/ in the product URL, e.g. mens-strider; the full product page URL also works.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "store": {
+            "kind": "string",
+            "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "store",
+          "product"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "The requested product (one record). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the product was created. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when the store does not state it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Product description as plain text, or null when the product has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "handle": {
+                    "kind": "string",
+                    "description": "Product handle, the slug after /products/ in the product URL; pass it to the Shopify Product SKU for the full product. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Main product image URL, or null when the product has no image. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, main image first; empty when the product has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when at least one variant can be bought now. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Lowest regular (compare-at) price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "onSale": {
+                    "kind": "boolean",
+                    "description": "True when at least one variant is priced below its regular price. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "options": {
+                    "kind": "array",
+                    "description": "Options the variants differ by, e.g. Size or Color, each with its values; empty when the product has a single variant.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Option name, e.g. \"Size\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "values": {
+                          "kind": "array",
+                          "description": "Values the option takes, in the store's order.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "values"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Lowest variant price in the store's currency. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "priceMax": {
+                    "kind": "number",
+                    "description": "Highest variant price in the store's currency; equals price when every variant costs the same. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "Shopify product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Product type the store assigns, e.g. \"Shoes\", or null when it sets none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publishedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the product was published to the store. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "tags": {
+                    "kind": "array",
+                    "description": "Tags the store attaches to the product, as the store writes them; empty when it has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the product was last updated. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "variants": {
+                    "kind": "array",
+                    "description": "Every purchasable variant of the product, e.g. one per size and color. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "inStock": {
+                          "kind": "boolean",
+                          "description": "True when this variant can be bought now.",
+                          "default": null
+                        },
+                        "listPrice": {
+                          "kind": "number",
+                          "description": "Regular (compare-at) price when the variant's product is on sale, or null when it is not discounted.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "options": {
+                          "kind": "array",
+                          "description": "This variant's value for each of the product's options, in option order.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        },
+                        "price": {
+                          "kind": "number",
+                          "description": "Variant price in the store's currency.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "sku": {
+                          "kind": "string",
+                          "description": "The store's SKU code for the variant, or null when it sets none.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Variant title, its option values joined, e.g. \"10 / Black\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "variantId": {
+                          "kind": "string",
+                          "description": "Shopify variant id.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "variantId",
+                        "title",
+                        "price",
+                        "inStock"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "vendor": {
+                    "kind": "string",
+                    "description": "Vendor (brand) the store lists the product under, or null when it sets none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title",
+                  "handle",
+                  "url",
+                  "price",
+                  "priceMax",
+                  "inStock",
+                  "onSale"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "handle",
+                  "image",
+                  "images",
+                  "inStock",
+                  "onSale",
+                  "price",
+                  "priceMax",
+                  "productId",
+                  "tags",
+                  "title",
+                  "url",
+                  "variants",
+                  "vendor"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "shopify.products",
+      "platform": "shopify",
+      "action": "products",
+      "operationId": "shopify_products",
+      "name": "Shopify Store Products",
+      "category": "shop",
+      "description": "List the products of any public Shopify store by its domain, a page at a time, with title, vendor, type, tags, price range, sale price, stock, images, options and every variant's SKU, price and stock. Filter by vendor, type, tag, title, SKU, price, sale, stock or recent arrivals. A domain that is not a public Shopify store comes back not found.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "shopify",
+      "tsMethod": "products",
+      "tsIterMethod": null,
+      "pyNamespace": "shopify",
+      "pyMethod": "products",
+      "pyIterMethod": null,
+      "inputTypeName": "ShopifyProductsInput",
+      "outputTypeName": "ShopifyProductsData",
+      "example": {
+        "limit": 10,
+        "store": "allbirds.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Products the store is asked for per page (1-250, default 50). The filters below are applied to that page, so a filtered page can hold fewer, even none while hasMore is true.",
+            "minimum": 1,
+            "maximum": 250,
+            "default": 50
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Only products priced at or below this, in the store's currency.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Only products priced at or above this, in the store's currency.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "onlyInStock": {
+            "kind": "boolean",
+            "description": "Only products with at least one variant in stock.",
+            "default": false
+          },
+          "onlyOnSale": {
+            "kind": "boolean",
+            "description": "Only products with at least one discounted variant.",
+            "default": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based page of the store's product list. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": null,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "productType": {
+            "kind": "string",
+            "description": "Only products whose product type contains this text, e.g. \"Shoes\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "publishedWithinDays": {
+            "kind": "integer",
+            "description": "Only products published to the store within the last this many days.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "skuContains": {
+            "kind": "string",
+            "description": "Only products with a variant whose SKU code contains this text.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "store": {
+            "kind": "string",
+            "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "tags": {
+            "kind": "array",
+            "description": "Only products carrying at least one of these tags.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "titleContains": {
+            "kind": "string",
+            "description": "Only products whose title contains this text.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "vendor": {
+            "kind": "string",
+            "description": "Only products whose vendor (brand) contains this text.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "store"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of the store's products follows this one (request it with page + 1), even when filters left this page empty; null when not reported.",
+              "nullable": true,
+              "default": null
+            },
+            "items": {
+              "kind": "array",
+              "description": "Products on the requested page, after any filters. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the product was created. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when the store does not state it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Product description as plain text, or null when the product has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "handle": {
+                    "kind": "string",
+                    "description": "Product handle, the slug after /products/ in the product URL; pass it to the Shopify Product SKU for the full product. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Main product image URL, or null when the product has no image. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, main image first; empty when the product has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when at least one variant can be bought now. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Lowest regular (compare-at) price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "onSale": {
+                    "kind": "boolean",
+                    "description": "True when at least one variant is priced below its regular price. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "options": {
+                    "kind": "array",
+                    "description": "Options the variants differ by, e.g. Size or Color, each with its values; empty when the product has a single variant.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "name": {
+                          "kind": "string",
+                          "description": "Option name, e.g. \"Size\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "values": {
+                          "kind": "array",
+                          "description": "Values the option takes, in the store's order.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "values"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Lowest variant price in the store's currency. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "priceMax": {
+                    "kind": "number",
+                    "description": "Highest variant price in the store's currency; equals price when every variant costs the same. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "Shopify product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Product type the store assigns, e.g. \"Shoes\", or null when it sets none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "publishedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the product was published to the store. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "tags": {
+                    "kind": "array",
+                    "description": "Tags the store attaches to the product, as the store writes them; empty when it has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "updatedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) when the product was last updated. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "variants": {
+                    "kind": "array",
+                    "description": "Every purchasable variant of the product, e.g. one per size and color. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "inStock": {
+                          "kind": "boolean",
+                          "description": "True when this variant can be bought now.",
+                          "default": null
+                        },
+                        "listPrice": {
+                          "kind": "number",
+                          "description": "Regular (compare-at) price when the variant's product is on sale, or null when it is not discounted.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "options": {
+                          "kind": "array",
+                          "description": "This variant's value for each of the product's options, in option order.",
+                          "items": {
+                            "kind": "string",
+                            "enum": null,
+                            "default": null,
+                            "format": null
+                          },
+                          "mustPopulate": false
+                        },
+                        "price": {
+                          "kind": "number",
+                          "description": "Variant price in the store's currency.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "sku": {
+                          "kind": "string",
+                          "description": "The store's SKU code for the variant, or null when it sets none.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "title": {
+                          "kind": "string",
+                          "description": "Variant title, its option values joined, e.g. \"10 / Black\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "variantId": {
+                          "kind": "string",
+                          "description": "Shopify variant id.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "variantId",
+                        "title",
+                        "price",
+                        "inStock"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": true
+                  },
+                  "vendor": {
+                    "kind": "string",
+                    "description": "Vendor (brand) the store lists the product under, or null when it sets none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title",
+                  "handle",
+                  "url",
+                  "price",
+                  "priceMax",
+                  "inStock",
+                  "onSale"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "handle",
+                  "image",
+                  "images",
+                  "inStock",
+                  "onSale",
+                  "price",
+                  "priceMax",
+                  "productId",
+                  "tags",
+                  "title",
+                  "url",
+                  "variants",
+                  "vendor"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "shopify.search",
+      "platform": "shopify",
+      "action": "search",
+      "operationId": "shopify_search",
+      "name": "Shopify Store Search",
+      "category": "shop",
+      "description": "Search one public Shopify store's products by keyword with the store's own search and get its top matches with title, vendor, type, tags, price range, sale price, stock and images. A domain that is not a public Shopify store comes back not found.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "shopify",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "shopify",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "ShopifySearchInput",
+      "outputTypeName": "ShopifySearchData",
+      "example": {
+        "query": "wool",
+        "store": "allbirds.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keywords, e.g. \"wool\" or \"hoodie\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "store": {
+            "kind": "string",
+            "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "store",
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "The store's top matches for the query, in its own order; Shopify's store search returns at most 10. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "currency": {
+                    "kind": "string",
+                    "description": "Price currency code, e.g. \"USD\", or null when the store does not state it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "handle": {
+                    "kind": "string",
+                    "description": "Product handle, the slug after /products/ in the product URL; pass it to the Shopify Product SKU for the full product. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Main product image URL, or null when the product has no image. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "All product image URLs, main image first; empty when the product has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "inStock": {
+                    "kind": "boolean",
+                    "description": "True when at least one variant can be bought now. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "listPrice": {
+                    "kind": "number",
+                    "description": "Lowest regular (compare-at) price when the product is on sale, or null when it is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "onSale": {
+                    "kind": "boolean",
+                    "description": "True when at least one variant is priced below its regular price. Populated whenever the provider has data for the entity.",
+                    "default": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Lowest variant price in the store's currency. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "priceMax": {
+                    "kind": "number",
+                    "description": "Highest variant price in the store's currency; equals price when every variant costs the same. Populated whenever the provider has data for the entity.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "productId": {
+                    "kind": "string",
+                    "description": "Shopify product id. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "productType": {
+                    "kind": "string",
+                    "description": "Product type the store assigns, e.g. \"Shoes\", or null when it sets none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "tags": {
+                    "kind": "array",
+                    "description": "Tags the store attaches to the product, as the store writes them; empty when it has none. Populated whenever the provider has data for the entity.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Product title. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Product page URL with tracking query parameters removed. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "vendor": {
+                    "kind": "string",
+                    "description": "Vendor (brand) the store lists the product under, or null when it sets none. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "productId",
+                  "title",
+                  "handle",
+                  "url",
+                  "price",
+                  "priceMax",
+                  "inStock",
+                  "onSale"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "handle",
+                  "image",
+                  "images",
+                  "inStock",
+                  "onSale",
+                  "price",
+                  "priceMax",
+                  "productId",
+                  "tags",
+                  "title",
+                  "url",
+                  "vendor"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "shopify.store",
+      "platform": "shopify",
+      "action": "store",
+      "operationId": "shopify_store",
+      "name": "Shopify Store Profile",
+      "category": "shop",
+      "description": "Look up any public Shopify store by its domain and get its name, description, currency, country and city, the countries it ships to, its published product and collection counts and its social links in one normalized response. A domain that is not a public Shopify store comes back not found.",
+      "pricing": {
+        "priceUsd": 0.00085,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "shopify",
+      "tsMethod": "store",
+      "tsIterMethod": null,
+      "pyNamespace": "shopify",
+      "pyMethod": "store",
+      "pyIterMethod": null,
+      "inputTypeName": "ShopifyStoreInput",
+      "outputTypeName": "ShopifyStoreData",
+      "example": {
+        "store": "allbirds.com"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "store": {
+            "kind": "string",
+            "description": "Domain or URL of a public Shopify store, e.g. allbirds.com or https://kith.com. A store on its own domain is addressed by that domain.",
+            "enum": null,
+            "default": null,
+            "format": null
+          }
+        },
+        "required": [
+          "store"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "The requested store (one record). Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "city": {
+                    "kind": "string",
+                    "description": "City of the store's business address, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "collectionsCount": {
+                    "kind": "integer",
+                    "description": "Number of collections the store publishes, as the store reports it, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "country": {
+                    "kind": "string",
+                    "description": "Two-letter country code of the store's business address, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "The store's currency code, e.g. \"USD\". Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Store description as the store publishes it, or null when it has none.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "domain": {
+                    "kind": "string",
+                    "description": "The store's primary domain, e.g. www.allbirds.com. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Store name. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "productsCount": {
+                    "kind": "integer",
+                    "description": "Number of products the store publishes, as the store reports it, or null when not reported. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "region": {
+                    "kind": "string",
+                    "description": "State or province of the store's business address, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shipsToCountries": {
+                    "kind": "array",
+                    "description": "Two-letter codes of the countries the store ships to; empty when not reported.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "shopifyDomain": {
+                    "kind": "string",
+                    "description": "The store's myshopify.com domain, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "socialLinks": {
+                    "kind": "array",
+                    "description": "Social profile URLs the store links to; empty when it lists none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Store home page URL, or null when not reported.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "name",
+                  "domain",
+                  "currency"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "collectionsCount",
+                  "country",
+                  "currency",
+                  "domain",
+                  "name",
+                  "productsCount"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "similarweb.overview",
       "platform": "similarweb",
       "action": "overview",

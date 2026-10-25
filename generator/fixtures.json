@@ -6392,6 +6392,97 @@
     "items": 1,
     "replayed": false
   },
+  "shopify.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "handle": "sample",
+            "url": "sample",
+            "price": 1.5,
+            "priceMax": 1.5,
+            "inStock": true,
+            "onSale": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "shopify.products": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "handle": "sample",
+            "url": "sample",
+            "price": 1.5,
+            "priceMax": 1.5,
+            "inStock": true,
+            "onSale": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "shopify.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "productId": "sample",
+            "title": "sample",
+            "handle": "sample",
+            "url": "sample",
+            "price": 1.5,
+            "priceMax": 1.5,
+            "inStock": true,
+            "onSale": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "shopify.store": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "name": "sample",
+            "domain": "sample",
+            "currency": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "similarweb.overview": {
     "output": {
       "found": true,

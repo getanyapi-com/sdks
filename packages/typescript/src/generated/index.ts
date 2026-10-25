@@ -76,6 +76,7 @@ export * from "./platforms/samsclub.js";
 export * from "./platforms/sec.js";
 export * from "./platforms/semrush.js";
 export * from "./platforms/seo.js";
+export * from "./platforms/shopify.js";
 export * from "./platforms/similarweb.js";
 export * from "./platforms/slickdeals.js";
 export * from "./platforms/snapchat.js";
