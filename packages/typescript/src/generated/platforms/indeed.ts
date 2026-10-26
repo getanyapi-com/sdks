@@ -25,7 +25,7 @@ export interface IndeedJobsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of results to return (1-20, default 20).
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -34,7 +34,7 @@ export interface IndeedJobsInput {
    */
   location?: string;
   /**
-   * Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates.
+   * Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates. This can raise your price: a dearer source serves a request that sets it, and you are quoted and charged its price.
    * One of: 24h, week.
    */
   postedLimit?: "24h" | "week";
@@ -48,7 +48,7 @@ export interface IndeedJobsInput {
    */
   query: string;
   /**
-   * Optional; omit it and routing is unchanged. Name the output fields this request must be able to return, for example `rating` or `streetAddress`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. The price is the same whichever source serves. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating` or `streetAddress`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
     | "admin2Code"
@@ -189,7 +189,7 @@ export class IndeedNamespace {
    *
    * Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.
    *
-   * Price: $0.00088 per request plus $0.00009 per result (maximum $0.00264).
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.indeed.jobs({ query: "data analyst", limit: 3, location: "Austin, TX" });

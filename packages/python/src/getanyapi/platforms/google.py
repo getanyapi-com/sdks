@@ -1047,7 +1047,7 @@ class GoogleNamespace:
         search, so the same prompt can return different wording and a different
         source list.
 
-        Price: $0.0048 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.google.ai_overview(prompt="How does photosynthesis work?")
@@ -1302,7 +1302,7 @@ class GoogleNamespace:
         further, or use google.search_100 for up to 100 ranked results in one call,
         which is normally cheaper past roughly 20 results.
 
-        Price: $0.0005 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
@@ -1377,7 +1377,7 @@ class GoogleNamespace:
         when omitted); both are echoed in the response. Interest over time only, not
         related queries or regions.
 
-        Price: $0.002 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
@@ -1450,7 +1450,7 @@ class AsyncGoogleNamespace:
         search, so the same prompt can return different wording and a different
         source list.
 
-        Price: $0.0048 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.google.ai_overview(prompt="How does photosynthesis work?")
@@ -1705,7 +1705,7 @@ class AsyncGoogleNamespace:
         further, or use google.search_100 for up to 100 ranked results in one call,
         which is normally cheaper past roughly 20 results.
 
-        Price: $0.0005 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.google.search(gl="us", hl="en", limit=10, query="best coffee maker")
@@ -1780,7 +1780,7 @@ class AsyncGoogleNamespace:
         when omitted); both are echoed in the response. Interest over time only, not
         related queries or regions.
 
-        Price: $0.002 per request.
+        Price: $0.018 per request.
 
         Example:
             res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
