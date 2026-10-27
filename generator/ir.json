@@ -50068,7 +50068,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50297,7 +50297,7 @@
       "category": "search",
       "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.",
       "pricing": {
-        "priceUsd": 0.024,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50493,7 +50493,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61330,7 +61330,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -75480,7 +75480,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132678,7 +132678,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146391,8 +146391,8 @@
       "category": "video",
       "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.",
       "pricing": {
-        "priceUsd": 0.0718,
-        "baseUsd": 0.0718,
+        "priceUsd": 0.132,
+        "baseUsd": 0.132,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
