@@ -43305,7 +43305,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -75480,7 +75480,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

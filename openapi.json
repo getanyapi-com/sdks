@@ -91899,7 +91899,7 @@
     },
     "/v1/run/gemini.search": {
       "post": {
-        "description": "Ask Gemini a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
+        "description": "Ask Gemini a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
         "operationId": "gemini_search",
         "parameters": [
           {
@@ -92378,7 +92378,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.004800",
+            "amount": "0.002000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -92420,7 +92420,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.004800",
+                "amount": "0.002000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -92452,7 +92452,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.004800",
+                "amount": "0.002000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -167266,7 +167266,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -167932,7 +167932,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.001200",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -167974,7 +167974,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001000",
+                "amount": "0.001200",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -168006,7 +168006,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.001200",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -233177,7 +233177,7 @@
                     "description": "SEO keywords to score for organic ranking difficulty.",
                     "items": {
                       "maxLength": 80,
-                      "minLength": 3,
+                      "minLength": 1,
                       "type": "string"
                     },
                     "maxItems": 1000,
@@ -233766,7 +233766,7 @@
                   "keywords": {
                     "description": "Seed SEO keywords used to generate related keyword ideas.",
                     "items": {
-                      "minLength": 3,
+                      "minLength": 1,
                       "type": "string"
                     },
                     "maxItems": 200,
@@ -234421,7 +234421,7 @@
                     "description": "SEO keywords to analyze.",
                     "items": {
                       "maxLength": 80,
-                      "minLength": 3,
+                      "minLength": 1,
                       "type": "string"
                     },
                     "maxItems": 700,
@@ -235059,7 +235059,7 @@
                   "keyword": {
                     "description": "Seed SEO keyword used to generate keyword suggestions.",
                     "maxLength": 80,
-                    "minLength": 3,
+                    "minLength": 1,
                     "type": "string"
                   },
                   "language": {
@@ -241295,7 +241295,7 @@
                   "keyword": {
                     "description": "Seed SEO keyword used to find related keywords.",
                     "maxLength": 80,
-                    "minLength": 3,
+                    "minLength": 1,
                     "type": "string"
                   },
                   "language": {
@@ -241956,7 +241956,7 @@
                     "description": "SEO keywords to classify by search intent.",
                     "items": {
                       "maxLength": 80,
-                      "minLength": 3,
+                      "minLength": 1,
                       "type": "string"
                     },
                     "maxItems": 1000,
@@ -242546,7 +242546,7 @@
                     "description": "SEO keyword phrases to retrieve search-volume metrics for.",
                     "items": {
                       "maxLength": 80,
-                      "minLength": 3,
+                      "minLength": 1,
                       "type": "string"
                     },
                     "maxItems": 1000,
