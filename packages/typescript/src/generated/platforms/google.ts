@@ -1497,7 +1497,7 @@ export class GoogleNamespace {
    *
    * Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.
    *
-   * Price: $0.0048 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.google.aiOverview({ prompt: "How does photosynthesis work?" });
@@ -1741,7 +1741,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.
    *
-   * Price: $0.0018 per request.
+   * Price: $0.024 per request.
    *
    * @example
    * const res = await client.google.search100({ query: "best crm software", gl: "us", hl: "en" });
@@ -1758,7 +1758,7 @@ export class GoogleNamespace {
    *
    * Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.
    *
-   * Price: $0.018 per request.
+   * Price: $0.002 per request.
    *
    * @example
    * const res = await client.google.trends({ keywords: ["coffee", "tea"], geo: "US", timeframe: "12m" });

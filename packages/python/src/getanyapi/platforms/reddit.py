@@ -1312,7 +1312,7 @@ class RedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.0006 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1707,7 +1707,7 @@ class AsyncRedditNamespace:
         permalink; use reddit.post_comments for full comment bodies and comment URLs
         on a given post.
 
-        Price: $0.0006 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")

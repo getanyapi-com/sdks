@@ -1566,7 +1566,7 @@ export class RedditNamespace {
    *
    * List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.
    *
-   * Price: $0.0006 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.reddit.userComments({ username: "spez" });
