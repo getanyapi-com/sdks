@@ -43305,7 +43305,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -72017,7 +72017,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132678,7 +132678,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
