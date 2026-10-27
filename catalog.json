@@ -25101,13 +25101,58 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 37.748391454267534,
+            "latencyP50Ms": 8547,
+            "uptimeSample": 56262,
+            "latencySample": 21238,
+            "requests": 56262,
+            "servedRequests": 21238
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -25198,51 +25243,6 @@
         }
       ],
       "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 37.748391454267534,
-            "latencyP50Ms": 8547,
-            "uptimeSample": 56262,
-            "latencySample": 21238,
-            "requests": 56262,
-            "servedRequests": 21238
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -26707,37 +26707,23 @@
         },
         {
           "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.00605,
-            "perUnitUsd": 0.00005,
-            "maxUsd": 0.0105,
-            "maxPer1kUsd": 10.5
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0035,
+            "maxPer1kUsd": 3.5
           },
           "source": {
-            "id": "anonymous-giraffe-6dd45a57",
-            "name": "Giraffe",
+            "id": "anonymous-chameleon-ee237f60",
+            "name": "Chameleon",
             "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 99.19007846114907,
-            "latencyP50Ms": 4452,
-            "uptimeSample": 3951,
-            "latencySample": 3919,
-            "requests": 3951,
-            "servedRequests": 3919
+            "artworkKey": "chameleon"
           },
           "fields": [
             "author",
             "authorUrl",
             "avatarUrl",
             "createdUtc",
-            "isLocalGuide",
             "items",
-            "likes",
-            "origin",
             "ownerResponse",
             "ownerResponseAt",
             "placeId",
@@ -26773,6 +26759,53 @@
             "latencySample": 1011,
             "requests": 1064,
             "servedRequests": 1011
+          },
+          "fields": [
+            "author",
+            "authorUrl",
+            "avatarUrl",
+            "createdUtc",
+            "isLocalGuide",
+            "items",
+            "likes",
+            "origin",
+            "ownerResponse",
+            "ownerResponseAt",
+            "placeId",
+            "publishedAgo",
+            "rating",
+            "reviewId",
+            "reviewerId",
+            "reviewerReviewsCount",
+            "text",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00605,
+            "perUnitUsd": 0.00005,
+            "maxUsd": 0.0105,
+            "maxPer1kUsd": 10.5
+          },
+          "source": {
+            "id": "anonymous-giraffe-6dd45a57",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 99.19007846114907,
+            "latencyP50Ms": 4452,
+            "uptimeSample": 3951,
+            "latencySample": 3919,
+            "requests": 3951,
+            "servedRequests": 3919
           },
           "fields": [
             "author",
@@ -38221,57 +38254,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0036,
+          "maxPer1kUsd": 3.6
         },
         "failoverMaxUsd": 0.0066,
         "failoverMaxPer1kUsd": 6.6
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 94.77124183006536,
-            "latencyP50Ms": 4040,
-            "uptimeSample": 1989,
-            "latencySample": 1885,
-            "requests": 1989,
-            "servedRequests": 1885
-          },
-          "fields": [
-            "authorHandle",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "authorVerified",
-            "collectCount",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "items",
-            "nextCursor",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
-            "text",
-            "url",
-            "videoUrl"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -38359,6 +38348,52 @@
             "playCount",
             "shareCount",
             "soundAuthor",
+            "soundTitle",
+            "text",
+            "url",
+            "videoUrl"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 94.77124183006536,
+            "latencyP50Ms": 4040,
+            "uptimeSample": 1989,
+            "latencySample": 1885,
+            "requests": 1989,
+            "servedRequests": 1885
+          },
+          "fields": [
+            "authorHandle",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "authorVerified",
+            "collectCount",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "items",
+            "nextCursor",
+            "soundAuthor",
+            "soundClipId",
             "soundTitle",
             "text",
             "url",
