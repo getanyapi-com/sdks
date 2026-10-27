@@ -75480,7 +75480,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146391,8 +146391,8 @@
       "category": "video",
       "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.",
       "pricing": {
-        "priceUsd": 0.132,
-        "baseUsd": 0.132,
+        "priceUsd": 0.0718,
+        "baseUsd": 0.0718,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
