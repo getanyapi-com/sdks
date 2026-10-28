@@ -430,7 +430,7 @@ export interface MapsReviewsInput {
     "isLocalGuide" | "likes" | "origin" | "ownerResponseAt" | "placeId"
   )[];
   /**
-   * Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking).
+   * Only return reviews that Google's review search matches for this keyword or phrase. It matches whole words, case-insensitive, so mail does not match email. Omit to return all reviews (e.g. parking).
    */
   reviewsFilterString?: string;
   /**

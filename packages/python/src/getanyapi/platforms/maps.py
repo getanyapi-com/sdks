@@ -128,7 +128,7 @@ class MapsReviewsInput(TypedDict, total=False):
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isLocalGuide` or `placeId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     reviewsFilterString: NotRequired[str]
-    """Only return reviews whose text contains this keyword or phrase (case-insensitive). Omit to return all reviews (e.g. parking)."""
+    """Only return reviews that Google's review search matches for this keyword or phrase. It matches whole words, case-insensitive, so mail does not match email. Omit to return all reviews (e.g. parking)."""
     sort: NotRequired[
         Literal["newest", "mostRelevant", "highestRanking", "lowestRanking"]
     ]
