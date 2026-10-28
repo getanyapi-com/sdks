@@ -26623,48 +26623,6 @@
             "maxPer1kUsd": 3.5
           },
           "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 84.22499036856298,
-            "latencyP50Ms": 8931,
-            "uptimeSample": 38935,
-            "latencySample": 32793,
-            "requests": 38947,
-            "servedRequests": 32793
-          },
-          "fields": [
-            "author",
-            "authorUrl",
-            "avatarUrl",
-            "createdUtc",
-            "isLocalGuide",
-            "items",
-            "likes",
-            "origin",
-            "ownerResponse",
-            "ownerResponseAt",
-            "publishedAgo",
-            "rating",
-            "reviewId",
-            "reviewerId",
-            "reviewerReviewsCount",
-            "text",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0035,
-            "maxPer1kUsd": 3.5
-          },
-          "source": {
             "id": "anonymous-lynx",
             "name": "Lynx",
             "kind": "anonymous",
@@ -26773,6 +26731,48 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0035,
+            "maxPer1kUsd": 3.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 84.22499036856298,
+            "latencyP50Ms": 8931,
+            "uptimeSample": 38935,
+            "latencySample": 32793,
+            "requests": 38947,
+            "servedRequests": 32793
+          },
+          "fields": [
+            "author",
+            "authorUrl",
+            "avatarUrl",
+            "createdUtc",
+            "isLocalGuide",
+            "items",
+            "likes",
+            "origin",
+            "ownerResponse",
+            "ownerResponseAt",
+            "publishedAgo",
+            "rating",
+            "reviewId",
+            "reviewerId",
+            "reviewerReviewsCount",
+            "text",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "linear",

@@ -3812,7 +3812,7 @@ export interface TiktokVideoTranscriptInput {
    */
   source?: string[];
   /**
-   * Full TikTok video URL.
+   * TikTok video URL on tiktok.com: a video or photo post (https://www.tiktok.com/@<user>/video/<id> or /photo/<id>) or a vm.tiktok.com, vt.tiktok.com or tiktok.com/t/ share link. A profile link (https://www.tiktok.com/@<user>), a /@<user>/<id> link without /video/ (TikTok sends it to the For You feed, not a video), a video file link (tiktokcdn.com) or a link to any other site is refused as invalid input, with no charge.
    */
   url: string;
 }
