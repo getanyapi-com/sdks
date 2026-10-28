@@ -913,19 +913,6 @@
     "items": 1,
     "replayed": false
   },
-  "company_enrichment.crustdata_v3": {
-    "output": {
-      "found": true,
-      "data": {
-        "domain": "sample",
-        "_extra": "passthrough"
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
   "company_enrichment.datalegion": {
     "output": {
       "found": true,

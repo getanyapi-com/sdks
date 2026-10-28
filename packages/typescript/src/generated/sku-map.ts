@@ -128,8 +128,6 @@ import type {
 import type {
   CompanyEnrichmentCrustdataData,
   CompanyEnrichmentCrustdataInput,
-  CompanyEnrichmentCrustdataV3Data,
-  CompanyEnrichmentCrustdataV3Input,
   CompanyEnrichmentDatalegionData,
   CompanyEnrichmentDatalegionInput,
   CompanyEnrichmentLushaData,
@@ -1354,11 +1352,6 @@ export interface SkuMap {
     input: CompanyEnrichmentCrustdataInput;
     data: CompanyEnrichmentCrustdataData;
     result: RunResult<CompanyEnrichmentCrustdataData>;
-  };
-  "company_enrichment.crustdata_v3": {
-    input: CompanyEnrichmentCrustdataV3Input;
-    data: CompanyEnrichmentCrustdataV3Data;
-    result: RunResult<CompanyEnrichmentCrustdataV3Data>;
   };
   "company_enrichment.datalegion": {
     input: CompanyEnrichmentDatalegionInput;
