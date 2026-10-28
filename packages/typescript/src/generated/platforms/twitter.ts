@@ -2225,7 +2225,7 @@ export class TwitterNamespace {
    *
    * Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.0001 per request.
    *
    * @example
    * const res = await client.twitter.trends({ limit: 10, location: "US" });

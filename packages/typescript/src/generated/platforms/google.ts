@@ -1704,7 +1704,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0004 per request.
    *
    * @example
    * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });
@@ -1758,7 +1758,7 @@ export class GoogleNamespace {
    *
    * Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.
    *
-   * Price: $0.018 per request.
+   * Price: $0.002 per request.
    *
    * @example
    * const res = await client.google.trends({ keywords: ["coffee", "tea"], geo: "US", timeframe: "12m" });
