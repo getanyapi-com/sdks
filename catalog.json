@@ -25039,48 +25039,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 82.00883967166934,
-            "latencyP50Ms": 4639,
-            "uptimeSample": 102945,
-            "latencySample": 84424,
-            "requests": 105879,
-            "servedRequests": 84424
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyLinkedinUrl",
-            "companyName",
-            "companyUrl",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "location",
-            "name",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -25163,6 +25121,50 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 82.00883967166934,
+            "latencyP50Ms": 4639,
+            "uptimeSample": 102945,
+            "latencySample": 84424,
+            "requests": 105879,
+            "servedRequests": 84424
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyLinkedinUrl",
+            "companyName",
+            "companyUrl",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "location",
+            "name",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
@@ -45215,6 +45217,48 @@
         },
         {
           "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00075,
+            "maxPer1kUsd": 0.75
+          },
+          "source": {
+            "id": "anonymous-capybara",
+            "name": "Capybara",
+            "kind": "anonymous",
+            "artworkKey": "capybara"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 85.4624100803987,
+            "latencyP50Ms": 1168,
+            "uptimeSample": 21269,
+            "latencySample": 18177,
+            "requests": 21269,
+            "servedRequests": 18177
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "canDm",
+            "coverUrl",
+            "createdUtc",
+            "followers",
+            "following",
+            "id",
+            "listedCount",
+            "location",
+            "name",
+            "nextCursor",
+            "posts",
+            "profileUrl",
+            "username",
+            "users",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.0001,
@@ -45236,50 +45280,6 @@
             "latencySample": 7711,
             "requests": 7834,
             "servedRequests": 7711
-          },
-          "fields": [
-            "avatarUrl",
-            "bio",
-            "canDm",
-            "coverUrl",
-            "createdUtc",
-            "followers",
-            "following",
-            "id",
-            "listedCount",
-            "location",
-            "name",
-            "nextCursor",
-            "posts",
-            "profileUrl",
-            "username",
-            "users",
-            "verified"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00075,
-            "maxPer1kUsd": 0.75
-          },
-          "source": {
-            "id": "anonymous-capybara",
-            "name": "Capybara",
-            "kind": "anonymous",
-            "artworkKey": "capybara"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 85.4624100803987,
-            "latencyP50Ms": 1168,
-            "uptimeSample": 21269,
-            "latencySample": 18177,
-            "requests": 21269,
-            "servedRequests": 18177
           },
           "fields": [
             "avatarUrl",

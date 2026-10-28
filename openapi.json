@@ -166133,7 +166133,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -224031,12 +224031,18 @@
                                       "items": {
                                         "properties": {
                                           "competition": {
-                                            "description": "Paid-search competition density, 0 to 1.",
-                                            "type": "number"
+                                            "description": "Paid-search competition density, 0 to 1, or null when Semrush has no data for the keyword.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
                                           },
                                           "cpcUsd": {
-                                            "description": "Average cost per click in USD.",
-                                            "type": "number"
+                                            "description": "Average cost per click in USD, or null when Semrush has no data for the keyword.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
                                           },
                                           "database": {
                                             "description": "Two-letter Semrush regional database the metrics are scoped to.",
@@ -224056,12 +224062,18 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "keywordDifficulty": {
-                                            "description": "Semrush Keyword Difficulty, 0 to 100.",
-                                            "type": "integer"
+                                            "description": "Semrush Keyword Difficulty, 0 to 100, or null when Semrush has no data for the keyword.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
                                           },
                                           "organicResultsCount": {
-                                            "description": "Number of organic results Google returns for the keyword.",
-                                            "type": "integer"
+                                            "description": "Number of organic results Google returns for the keyword, or null when Semrush has no data for the keyword.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
                                           },
                                           "questions": {
                                             "description": "Question-phrased keyword variations with their own volume and difficulty. Populated whenever the provider has data for the entity.",
@@ -224072,12 +224084,18 @@
                                                   "type": "string"
                                                 },
                                                 "keywordDifficulty": {
-                                                  "description": "Semrush Keyword Difficulty for the question keyword, 0 to 100.",
-                                                  "type": "integer"
+                                                  "description": "Semrush Keyword Difficulty for the question keyword, 0 to 100, or null when Semrush has no data for the keyword.",
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 },
                                                 "searchVolume": {
-                                                  "description": "Average monthly search volume for the question keyword.",
-                                                  "type": "integer"
+                                                  "description": "Average monthly search volume for the question keyword, or null when Semrush has no data for the keyword.",
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 }
                                               },
                                               "required": [
@@ -224089,8 +224107,11 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "referringDomainsMedian": {
-                                            "description": "Median number of referring domains across the ranking pages.",
-                                            "type": "integer"
+                                            "description": "Median number of referring domains across the ranking pages, or null when Semrush has no data for the keyword.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
                                           },
                                           "relatedKeywords": {
                                             "description": "Related keyword suggestions with their own volume and difficulty. Populated whenever the provider has data for the entity.",
@@ -224101,12 +224122,18 @@
                                                   "type": "string"
                                                 },
                                                 "keywordDifficulty": {
-                                                  "description": "Semrush Keyword Difficulty for the related keyword, 0 to 100.",
-                                                  "type": "integer"
+                                                  "description": "Semrush Keyword Difficulty for the related keyword, 0 to 100, or null when Semrush has no data for the keyword.",
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 },
                                                 "searchVolume": {
-                                                  "description": "Average monthly search volume for the related keyword.",
-                                                  "type": "integer"
+                                                  "description": "Average monthly search volume for the related keyword, or null when Semrush has no data for the keyword.",
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 }
                                               },
                                               "required": [
@@ -224118,8 +224145,11 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "searchVolume": {
-                                            "description": "Average monthly search volume in the selected database.",
-                                            "type": "integer"
+                                            "description": "Average monthly search volume in the selected database, or null when Semrush has no data for the keyword.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
                                           }
                                         },
                                         "required": [
@@ -224708,12 +224738,18 @@
                                             "type": "integer"
                                           },
                                           "mozDomainAuthority": {
-                                            "description": "Moz Domain Authority, 0-100 (only when includeMoz is true).",
-                                            "type": "integer"
+                                            "description": "Moz Domain Authority, 0-100, or null when includeMoz is false or Moz has no data for the domain.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
                                           },
                                           "mozSpamScore": {
-                                            "description": "Moz Spam Score as a percentage string (only when includeMoz is true).",
-                                            "type": "string"
+                                            "description": "Moz Spam Score as a percentage string, or null when includeMoz is false or Moz has no data for the domain.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
                                           },
                                           "nofollowBacklinks": {
                                             "description": "Number of nofollow backlinks.",
@@ -299940,7 +299976,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {

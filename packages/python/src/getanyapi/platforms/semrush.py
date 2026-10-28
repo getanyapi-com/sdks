@@ -61,10 +61,13 @@ class SemrushKeywordsItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
     competition: float | None = Field(
-        default=None, description="Paid-search competition density, 0 to 1."
+        default=None,
+        description="Paid-search competition density, 0 to 1, or null when Semrush has no data for the keyword.",
     )
     cpc_usd: float | None = Field(
-        default=None, alias="cpcUsd", description="Average cost per click in USD."
+        default=None,
+        alias="cpcUsd",
+        description="Average cost per click in USD, or null when Semrush has no data for the keyword.",
     )
     database: str | None = Field(
         default=None,
@@ -80,12 +83,12 @@ class SemrushKeywordsItem(BaseModel):
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Semrush Keyword Difficulty, 0 to 100.",
+        description="Semrush Keyword Difficulty, 0 to 100, or null when Semrush has no data for the keyword.",
     )
     organic_results_count: int | None = Field(
         default=None,
         alias="organicResultsCount",
-        description="Number of organic results Google returns for the keyword.",
+        description="Number of organic results Google returns for the keyword, or null when Semrush has no data for the keyword.",
     )
     questions: list[SemrushKeywordsQuestion] | None = Field(
         default=None,
@@ -94,7 +97,7 @@ class SemrushKeywordsItem(BaseModel):
     referring_domains_median: int | None = Field(
         default=None,
         alias="referringDomainsMedian",
-        description="Median number of referring domains across the ranking pages.",
+        description="Median number of referring domains across the ranking pages, or null when Semrush has no data for the keyword.",
     )
     related_keywords: list[SemrushKeywordsRelatedKeyword] | None = Field(
         default=None,
@@ -104,7 +107,7 @@ class SemrushKeywordsItem(BaseModel):
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume in the selected database.",
+        description="Average monthly search volume in the selected database, or null when Semrush has no data for the keyword.",
     )
 
 
@@ -115,12 +118,12 @@ class SemrushKeywordsQuestion(BaseModel):
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Semrush Keyword Difficulty for the question keyword, 0 to 100.",
+        description="Semrush Keyword Difficulty for the question keyword, 0 to 100, or null when Semrush has no data for the keyword.",
     )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the question keyword.",
+        description="Average monthly search volume for the question keyword, or null when Semrush has no data for the keyword.",
     )
 
 
@@ -131,12 +134,12 @@ class SemrushKeywordsRelatedKeyword(BaseModel):
     keyword_difficulty: int | None = Field(
         default=None,
         alias="keywordDifficulty",
-        description="Semrush Keyword Difficulty for the related keyword, 0 to 100.",
+        description="Semrush Keyword Difficulty for the related keyword, 0 to 100, or null when Semrush has no data for the keyword.",
     )
     search_volume: int | None = Field(
         default=None,
         alias="searchVolume",
-        description="Average monthly search volume for the related keyword.",
+        description="Average monthly search volume for the related keyword, or null when Semrush has no data for the keyword.",
     )
 
 
@@ -177,12 +180,12 @@ class SemrushOverviewItem(BaseModel):
     moz_domain_authority: int | None = Field(
         default=None,
         alias="mozDomainAuthority",
-        description="Moz Domain Authority, 0-100 (only when includeMoz is true).",
+        description="Moz Domain Authority, 0-100, or null when includeMoz is false or Moz has no data for the domain.",
     )
     moz_spam_score: str | None = Field(
         default=None,
         alias="mozSpamScore",
-        description="Moz Spam Score as a percentage string (only when includeMoz is true).",
+        description="Moz Spam Score as a percentage string, or null when includeMoz is false or Moz has no data for the domain.",
     )
     nofollow_backlinks: int | None = Field(
         default=None,

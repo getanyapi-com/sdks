@@ -41,13 +41,13 @@ export interface SemrushKeywordsInput {
 
 export interface SemrushKeywordsItem {
   /**
-   * Paid-search competition density, 0 to 1.
+   * Paid-search competition density, 0 to 1, or null when Semrush has no data for the keyword.
    */
-  competition?: number;
+  competition?: number | null;
   /**
-   * Average cost per click in USD.
+   * Average cost per click in USD, or null when Semrush has no data for the keyword.
    */
-  cpcUsd?: number;
+  cpcUsd?: number | null;
   /**
    * Two-letter Semrush regional database the metrics are scoped to.
    */
@@ -62,31 +62,31 @@ export interface SemrushKeywordsItem {
    */
   keyword: string;
   /**
-   * Semrush Keyword Difficulty, 0 to 100.
+   * Semrush Keyword Difficulty, 0 to 100, or null when Semrush has no data for the keyword.
    */
-  keywordDifficulty?: number;
+  keywordDifficulty?: number | null;
   /**
-   * Number of organic results Google returns for the keyword.
+   * Number of organic results Google returns for the keyword, or null when Semrush has no data for the keyword.
    */
-  organicResultsCount?: number;
+  organicResultsCount?: number | null;
   /**
    * Question-phrased keyword variations with their own volume and difficulty. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   questions?: SemrushKeywordsQuestion[];
   /**
-   * Median number of referring domains across the ranking pages.
+   * Median number of referring domains across the ranking pages, or null when Semrush has no data for the keyword.
    */
-  referringDomainsMedian?: number;
+  referringDomainsMedian?: number | null;
   /**
    * Related keyword suggestions with their own volume and difficulty. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   relatedKeywords?: SemrushKeywordsRelatedKeyword[];
   /**
-   * Average monthly search volume in the selected database.
+   * Average monthly search volume in the selected database, or null when Semrush has no data for the keyword.
    */
-  searchVolume?: number;
+  searchVolume?: number | null;
   [extra: string]: unknown;
 }
 
@@ -96,13 +96,13 @@ export interface SemrushKeywordsQuestion {
    */
   keyword: string;
   /**
-   * Semrush Keyword Difficulty for the question keyword, 0 to 100.
+   * Semrush Keyword Difficulty for the question keyword, 0 to 100, or null when Semrush has no data for the keyword.
    */
-  keywordDifficulty?: number;
+  keywordDifficulty?: number | null;
   /**
-   * Average monthly search volume for the question keyword.
+   * Average monthly search volume for the question keyword, or null when Semrush has no data for the keyword.
    */
-  searchVolume?: number;
+  searchVolume?: number | null;
   [extra: string]: unknown;
 }
 
@@ -112,13 +112,13 @@ export interface SemrushKeywordsRelatedKeyword {
    */
   keyword: string;
   /**
-   * Semrush Keyword Difficulty for the related keyword, 0 to 100.
+   * Semrush Keyword Difficulty for the related keyword, 0 to 100, or null when Semrush has no data for the keyword.
    */
-  keywordDifficulty?: number;
+  keywordDifficulty?: number | null;
   /**
-   * Average monthly search volume for the related keyword.
+   * Average monthly search volume for the related keyword, or null when Semrush has no data for the keyword.
    */
-  searchVolume?: number;
+  searchVolume?: number | null;
   [extra: string]: unknown;
 }
 
@@ -196,13 +196,13 @@ export interface SemrushOverviewItem {
    */
   followBacklinks?: number;
   /**
-   * Moz Domain Authority, 0-100 (only when includeMoz is true).
+   * Moz Domain Authority, 0-100, or null when includeMoz is false or Moz has no data for the domain.
    */
-  mozDomainAuthority?: number;
+  mozDomainAuthority?: number | null;
   /**
-   * Moz Spam Score as a percentage string (only when includeMoz is true).
+   * Moz Spam Score as a percentage string, or null when includeMoz is false or Moz has no data for the domain.
    */
-  mozSpamScore?: string;
+  mozSpamScore?: string | null;
   /**
    * Number of nofollow backlinks.
    */

@@ -106956,14 +106956,16 @@
                 "properties": {
                   "competition": {
                     "kind": "number",
-                    "description": "Paid-search competition density, 0 to 1.",
+                    "description": "Paid-search competition density, 0 to 1, or null when Semrush has no data for the keyword.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "cpcUsd": {
                     "kind": "number",
-                    "description": "Average cost per click in USD.",
+                    "description": "Average cost per click in USD, or null when Semrush has no data for the keyword.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -106995,14 +106997,16 @@
                   },
                   "keywordDifficulty": {
                     "kind": "integer",
-                    "description": "Semrush Keyword Difficulty, 0 to 100.",
+                    "description": "Semrush Keyword Difficulty, 0 to 100, or null when Semrush has no data for the keyword.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "organicResultsCount": {
                     "kind": "integer",
-                    "description": "Number of organic results Google returns for the keyword.",
+                    "description": "Number of organic results Google returns for the keyword, or null when Semrush has no data for the keyword.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -107022,14 +107026,16 @@
                         },
                         "keywordDifficulty": {
                           "kind": "integer",
-                          "description": "Semrush Keyword Difficulty for the question keyword, 0 to 100.",
+                          "description": "Semrush Keyword Difficulty for the question keyword, 0 to 100, or null when Semrush has no data for the keyword.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
                         },
                         "searchVolume": {
                           "kind": "integer",
-                          "description": "Average monthly search volume for the question keyword.",
+                          "description": "Average monthly search volume for the question keyword, or null when Semrush has no data for the keyword.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
@@ -107044,7 +107050,8 @@
                   },
                   "referringDomainsMedian": {
                     "kind": "integer",
-                    "description": "Median number of referring domains across the ranking pages.",
+                    "description": "Median number of referring domains across the ranking pages, or null when Semrush has no data for the keyword.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -107064,14 +107071,16 @@
                         },
                         "keywordDifficulty": {
                           "kind": "integer",
-                          "description": "Semrush Keyword Difficulty for the related keyword, 0 to 100.",
+                          "description": "Semrush Keyword Difficulty for the related keyword, 0 to 100, or null when Semrush has no data for the keyword.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
                         },
                         "searchVolume": {
                           "kind": "integer",
-                          "description": "Average monthly search volume for the related keyword.",
+                          "description": "Average monthly search volume for the related keyword, or null when Semrush has no data for the keyword.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
@@ -107086,7 +107095,8 @@
                   },
                   "searchVolume": {
                     "kind": "integer",
-                    "description": "Average monthly search volume in the selected database.",
+                    "description": "Average monthly search volume in the selected database, or null when Semrush has no data for the keyword.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -107265,14 +107275,16 @@
                   },
                   "mozDomainAuthority": {
                     "kind": "integer",
-                    "description": "Moz Domain Authority, 0-100 (only when includeMoz is true).",
+                    "description": "Moz Domain Authority, 0-100, or null when includeMoz is false or Moz has no data for the domain.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
                   },
                   "mozSpamScore": {
                     "kind": "string",
-                    "description": "Moz Spam Score as a percentage string (only when includeMoz is true).",
+                    "description": "Moz Spam Score as a percentage string, or null when includeMoz is false or Moz has no data for the domain.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
