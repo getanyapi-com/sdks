@@ -1629,7 +1629,7 @@ export interface YoutubeVideoTranscriptFullInput {
    */
   ignoreSources?: string[];
   /**
-   * Preferred caption language code (e.g. "en", "es"). Defaults to English. If the video has no captions in that language, you get the transcript in another language the video has; the `language` field in the result says which.
+   * Caption language code (e.g. "en", "es"). Defaults to English. If the video has no captions in that language, no transcript is returned, even when the video has captions in another language.
    */
   language?: string;
   /**
@@ -1638,7 +1638,7 @@ export interface YoutubeVideoTranscriptFullInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAiGenerated`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
     | "authorId"
@@ -1647,7 +1647,6 @@ export interface YoutubeVideoTranscriptFullInput {
     | "createdUtc"
     | "description"
     | "image"
-    | "isAiGenerated"
     | "keywords"
     | "likes"
     | "views"

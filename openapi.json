@@ -61049,7 +61049,7 @@
     },
     "/v1/run/email.find": {
       "post": {
-        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$15.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
+        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$30.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
         "operationId": "email_find",
         "parameters": [
           {
@@ -61535,7 +61535,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.015400",
+            "amount": "0.030800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -61577,7 +61577,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.015400",
+                "amount": "0.030800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -61609,7 +61609,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.015400",
+                "amount": "0.030800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -131264,7 +131264,7 @@
     },
     "/v1/run/instagram.post_comments": {
       "post": {
-        "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post Comments pricing and uptime](https://getanyapi.com/api/instagram/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post Comments pricing and uptime](https://getanyapi.com/api/instagram/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post_comments",
         "parameters": [
           {
@@ -167256,7 +167256,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -275667,7 +275667,7 @@
     },
     "/v1/run/tiktok.search_keyword": {
       "post": {
-        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_search_keyword",
         "parameters": [
           {
@@ -301062,7 +301062,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -328407,7 +328407,7 @@
     },
     "/v1/run/youtube.video_transcript_full": {
       "post": {
-        "description": "Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript (Provenance) pricing and uptime](https://getanyapi.com/api/youtube/video-transcript-full) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript (Provenance) pricing and uptime](https://getanyapi.com/api/youtube/video-transcript-full) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_video_transcript_full",
         "parameters": [
           {
@@ -328505,7 +328505,7 @@
                     "uniqueItems": true
                   },
                   "language": {
-                    "description": "Preferred caption language code (e.g. \"en\", \"es\"). Defaults to English. If the video has no captions in that language, you get the transcript in another language the video has; the `language` field in the result says which.",
+                    "description": "Caption language code (e.g. \"en\", \"es\"). Defaults to English. If the video has no captions in that language, no transcript is returned, even when the video has captions in another language.",
                     "type": "string"
                   },
                   "preferLatencyUnderMs": {
@@ -328514,7 +328514,7 @@
                     "type": "integer"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isAiGenerated`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
                         "authorId",
@@ -328523,7 +328523,6 @@
                         "createdUtc",
                         "description",
                         "image",
-                        "isAiGenerated",
                         "keywords",
                         "likes",
                         "views"
