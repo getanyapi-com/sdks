@@ -4671,7 +4671,7 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0021,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -13130,7 +13130,7 @@
       "category": "search",
       "description": "Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.00644,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -14315,8 +14315,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-26",
-        "checkOut": "2026-11-28",
+        "checkIn": "2026-11-27",
+        "checkOut": "2026-11-29",
         "limit": 3,
         "query": "New York"
       },
@@ -30854,7 +30854,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0308,
+        "priceUsd": 0.0154,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -52061,8 +52061,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-26",
-        "checkOut": "2026-11-28",
+        "checkIn": "2026-11-27",
+        "checkOut": "2026-11-29",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -52660,8 +52660,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-26",
-        "checkOut": "2026-11-28",
+        "checkIn": "2026-11-27",
+        "checkOut": "2026-11-29",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -62021,22 +62021,12 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `taggedUsers`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `audioId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
                 "audioId",
-                "carouselCount",
-                "locationId",
-                "locationLat",
-                "locationLng",
-                "locationName",
-                "paidPartnership",
-                "productType",
-                "reshares",
-                "soundAuthor",
-                "soundTitle",
-                "taggedUsers"
+                "carouselCount"
               ],
               "default": null,
               "format": null
@@ -72017,7 +72007,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -126588,7 +126578,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -140358,7 +140348,7 @@
       "category": "social",
       "description": "Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.",
       "pricing": {
-        "priceUsd": 0.0001,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146391,8 +146381,8 @@
       "category": "video",
       "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads.",
       "pricing": {
-        "priceUsd": 0.132,
-        "baseUsd": 0.132,
+        "priceUsd": 0.0718,
+        "baseUsd": 0.0718,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
