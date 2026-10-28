@@ -1912,7 +1912,7 @@ export class TwitterNamespace {
    *
    * Get a public X long-form article from its wrapper post URL, including its author, engagement, cover image, and structured content blocks.
    *
-   * Price: $0.00075 per request.
+   * Price: $0.00054 per request.
    *
    * @example
    * const res = await client.twitter.article({ url: "https://x.com/Decentralisedco/status/1905545699552375179" });
@@ -2091,7 +2091,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.0006 per request.
+   * Price: $0.00054 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -2208,7 +2208,7 @@ export class TwitterNamespace {
    *
    * Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.
    *
-   * Price: $0.00375 per request.
+   * Price: $0.00269 per request.
    *
    * @example
    * const res = await client.twitter.thread({ url: "https://x.com/SpaceX/status/1732824684683784516" });

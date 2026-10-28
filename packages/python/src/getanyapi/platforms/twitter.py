@@ -1482,7 +1482,7 @@ class TwitterNamespace:
         Get a public X long-form article from its wrapper post URL, including its
         author, engagement, cover image, and structured content blocks.
 
-        Price: $0.00075 per request.
+        Price: $0.00054 per request.
 
         Example:
             res = client.twitter.article(url="https://x.com/Decentralisedco/status/1905545699552375179")
@@ -1703,7 +1703,7 @@ class TwitterNamespace:
         per-page maximum; native pages contain approximately 20 tweets unless
         requireSinglePage selects a bulk lane.
 
-        Price: $0.0006 per request.
+        Price: $0.00054 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -1839,7 +1839,7 @@ class TwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.00375 per request.
+        Price: $0.00269 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -2020,7 +2020,7 @@ class AsyncTwitterNamespace:
         Get a public X long-form article from its wrapper post URL, including its
         author, engagement, cover image, and structured content blocks.
 
-        Price: $0.00075 per request.
+        Price: $0.00054 per request.
 
         Example:
             res = client.twitter.article(url="https://x.com/Decentralisedco/status/1905545699552375179")
@@ -2241,7 +2241,7 @@ class AsyncTwitterNamespace:
         per-page maximum; native pages contain approximately 20 tweets unless
         requireSinglePage selects a bulk lane.
 
-        Price: $0.0006 per request.
+        Price: $0.00054 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -2379,7 +2379,7 @@ class AsyncTwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.00375 per request.
+        Price: $0.00269 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
