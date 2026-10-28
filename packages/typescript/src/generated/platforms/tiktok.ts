@@ -4234,7 +4234,7 @@ export class TiktokNamespace {
    *
    * List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).
    *
-   * Price: $0.0036 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.hashtagVideos({ hashtag: "cooking", limit: 3 });
