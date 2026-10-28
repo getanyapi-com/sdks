@@ -1629,7 +1629,7 @@ export interface YoutubeVideoTranscriptFullInput {
    */
   ignoreSources?: string[];
   /**
-   * Caption language code (e.g. "en", "es"). Defaults to English. If the video has no captions in that language, no transcript is returned, even when the video has captions in another language.
+   * Preferred caption language code (e.g. "en", "es"). Defaults to English. If the video has no captions in that language, you get the transcript in another language the video has; the `language` field in the result says which. With `captionKind` set to "manual" or "automatic", no other language is returned.
    */
   language?: string;
   /**
@@ -2312,7 +2312,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.
    *
-   * Price: $0.002 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscriptFull({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });

@@ -25080,51 +25080,6 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 37.748391454267534,
-            "latencyP50Ms": 8547,
-            "uptimeSample": 56262,
-            "latencySample": 21238,
-            "requests": 56262,
-            "servedRequests": 21238
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -25245,6 +25200,53 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 37.748391454267534,
+            "latencyP50Ms": 8547,
+            "uptimeSample": 56262,
+            "latencySample": 21238,
+            "requests": 56262,
+            "servedRequests": 21238
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
@@ -39794,6 +39796,55 @@
             "maxPer1kUsd": 0.6
           },
           "source": {
+            "id": "anonymous-bison-cb2f8f3c",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 97.97607356486029,
+            "latencyP50Ms": 1396,
+            "uptimeSample": 112010,
+            "latencySample": 109743,
+            "requests": 112010,
+            "servedRequests": 109743
+          },
+          "fields": [
+            "author",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "likes",
+            "nextCursor",
+            "paidPartnership",
+            "region",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0006,
+            "maxPer1kUsd": 0.6
+          },
+          "source": {
             "id": "anonymous-flamingo",
             "name": "Flamingo",
             "kind": "anonymous",
@@ -40031,57 +40082,6 @@
             "saves",
             "shares",
             "soundClipId",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0006,
-            "maxPer1kUsd": 0.6
-          },
-          "source": {
-            "id": "anonymous-bison-cb2f8f3c",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 97.97607356486029,
-            "latencyP50Ms": 1396,
-            "uptimeSample": 112010,
-            "latencySample": 109743,
-            "requests": 112010,
-            "servedRequests": 109743
-          },
-          "fields": [
-            "author",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "likes",
-            "nextCursor",
-            "paidPartnership",
-            "region",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
             "url",
             "videoUrl",
             "videos",
@@ -49918,8 +49918,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.002,
-          "maxPer1kUsd": 2
+          "maxUsd": 0.0015,
+          "maxPer1kUsd": 1.5
         },
         "failoverMaxUsd": 0.003,
         "failoverMaxPer1kUsd": 3
@@ -49929,8 +49929,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.002,
-            "maxPer1kUsd": 2
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
           },
           "source": {
             "id": "anonymous-raccoon-1075425d",
@@ -49960,6 +49960,40 @@
             "transcript",
             "url",
             "videoId"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.002,
+            "maxPer1kUsd": 2
+          },
+          "source": {
+            "id": "anonymous-wombat",
+            "name": "Wombat",
+            "kind": "anonymous",
+            "artworkKey": "wombat"
+          },
+          "fields": [
+            "authorId",
+            "authorUrl",
+            "channel",
+            "description",
+            "durationSeconds",
+            "endSeconds",
+            "image",
+            "isAutoGenerated",
+            "keywords",
+            "language",
+            "segments",
+            "startSeconds",
+            "text",
+            "title",
+            "transcript",
+            "url",
+            "videoId",
+            "views"
           ]
         },
         {

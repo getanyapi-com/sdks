@@ -149765,7 +149765,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short transcript with timed segments and its provenance: whether the words are creator-written captions or machine speech recognition.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -149813,7 +149813,7 @@
           },
           "language": {
             "kind": "string",
-            "description": "Caption language code (e.g. \"en\", \"es\"). Defaults to English. If the video has no captions in that language, no transcript is returned, even when the video has captions in another language.",
+            "description": "Preferred caption language code (e.g. \"en\", \"es\"). Defaults to English. If the video has no captions in that language, you get the transcript in another language the video has; the `language` field in the result says which. With `captionKind` set to \"manual\" or \"automatic\", no other language is returned.",
             "enum": null,
             "default": null,
             "format": null
