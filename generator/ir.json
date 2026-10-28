@@ -3791,7 +3791,7 @@
           },
           "product": {
             "kind": "string",
-            "description": "Amazon product ASIN or full product URL (e.g. B006MIWDCC).",
+            "description": "Amazon product ASIN (e.g. B006MIWDCC) or a product link on one of the marketplaces listed under region, such as https://www.amazon.co.uk/dp/<ASIN>, with the ASIN after /dp/, /gp/product/ or /product-reviews/. A link without an ASIN, such as a search results page (/s?k=...), or a link to another site or marketplace is refused as invalid input, with no charge.",
             "enum": null,
             "default": null,
             "format": null
@@ -4464,7 +4464,7 @@
           },
           "product": {
             "kind": "string",
-            "description": "Amazon product ASIN or full product URL (e.g. B07CMS5Q6P).",
+            "description": "Amazon product ASIN (e.g. B07CMS5Q6P) or a product link on one of the marketplaces listed under region, such as https://www.amazon.co.uk/dp/<ASIN>, with the ASIN after /dp/, /gp/product/ or /product-reviews/. A link without an ASIN, such as a search results page (/s?k=...), or a link to another site or marketplace is refused as invalid input, with no charge.",
             "enum": null,
             "default": null,
             "format": null
@@ -30854,7 +30854,7 @@
       "category": "data",
       "description": "Find a person's work email address from their name and company domain.",
       "pricing": {
-        "priceUsd": 0.0154,
+        "priceUsd": 0.0308,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

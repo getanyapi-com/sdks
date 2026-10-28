@@ -11208,7 +11208,8 @@
                     "type": "integer"
                   },
                   "product": {
-                    "description": "Amazon product ASIN or full product URL (e.g. B006MIWDCC).",
+                    "description": "Amazon product ASIN (e.g. B006MIWDCC) or a product link on one of the marketplaces listed under region, such as https://www.amazon.co.uk/dp/<ASIN>, with the ASIN after /dp/, /gp/product/ or /product-reviews/. A link without an ASIN, such as a search results page (/s?k=...), or a link to another site or marketplace is refused as invalid input, with no charge.",
+                    "pattern": "^(?:[A-Za-z0-9]{10}|https?://(?:www\\.)?amazon\\.(?:com|co\\.uk|de|fr|it|es|nl|se|pl|ca|com\\.mx|com\\.br|co\\.jp|in|com\\.au|sg|ae|sa|com\\.tr|eg)/(?:[^?#]*/)?(?:dp|gp/product|product-reviews)/[A-Za-z0-9]{10}(?:[/?#].*)?)$",
                     "type": "string"
                   },
                   "region": {
@@ -12672,7 +12673,8 @@
                     "type": "integer"
                   },
                   "product": {
-                    "description": "Amazon product ASIN or full product URL (e.g. B07CMS5Q6P).",
+                    "description": "Amazon product ASIN (e.g. B07CMS5Q6P) or a product link on one of the marketplaces listed under region, such as https://www.amazon.co.uk/dp/<ASIN>, with the ASIN after /dp/, /gp/product/ or /product-reviews/. A link without an ASIN, such as a search results page (/s?k=...), or a link to another site or marketplace is refused as invalid input, with no charge.",
+                    "pattern": "^(?:[A-Za-z0-9]{10}|https?://(?:www\\.)?amazon\\.(?:com|ca|de|fr|co\\.uk|it|es|com\\.au|co\\.jp|com\\.br|com\\.mx|nl|ie|se|com\\.tr|ae|sg|sa|pl|com\\.be|eg|in)/(?:[^?#]*/)?(?:dp|gp/product|product-reviews)/[A-Za-z0-9]{10}(?:[/?#].*)?)$",
                     "type": "string"
                   },
                   "ratings": {
@@ -61049,7 +61051,7 @@
     },
     "/v1/run/email.find": {
       "post": {
-        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$15.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
+        "description": "Find a person's work email address from their name and company domain.\n\n**Price:** \\$30.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Email Finder pricing and uptime](https://getanyapi.com/api/email/find) - live USD price, lane routing, and measured 30-day uptime. [Every Email endpoint](https://getanyapi.com/api/email).\n\n**How it works:** AnyAPI runs up to three independent email finders in sequence, cheapest first. The first source that returns an address wins and the rest are never called, so most lookups are billed at the bottom of the published price range and only the harder ones reach the top. A source that holds no record of the person returns nothing rather than guessing a likely address, and the next source is tried. When none of them finds an address the response is found:false with a null data, and the call is not charged.",
         "operationId": "email_find",
         "parameters": [
           {
@@ -61535,7 +61537,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.015400",
+            "amount": "0.030800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -61577,7 +61579,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.015400",
+                "amount": "0.030800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -61609,7 +61611,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.015400",
+                "amount": "0.030800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -134449,7 +134451,7 @@
     },
     "/v1/run/instagram.reels_search": {
       "post": {
-        "description": "Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological. We remove overlap with recent pages, but older reels may reappear during a long search. nextCursor is null when a page contains only reels seen in recent pages. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Reels Search pricing and uptime](https://getanyapi.com/api/instagram/reels-search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological. We remove overlap with recent pages, but older reels may reappear during a long search. nextCursor is null when a page contains only reels seen in recent pages. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Reels Search pricing and uptime](https://getanyapi.com/api/instagram/reels-search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_reels_search",
         "parameters": [
           {

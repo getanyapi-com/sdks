@@ -362,7 +362,7 @@ export interface AmazonOffersInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Amazon product ASIN or full product URL (e.g. B006MIWDCC).
+   * Amazon product ASIN (e.g. B006MIWDCC) or a product link on one of the marketplaces listed under region, such as https://www.amazon.co.uk/dp/<ASIN>, with the ASIN after /dp/, /gp/product/ or /product-reviews/. A link without an ASIN, such as a search results page (/s?k=...), or a link to another site or marketplace is refused as invalid input, with no charge.
    */
   product: string;
   /**
@@ -696,7 +696,7 @@ export interface AmazonReviewsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Amazon product ASIN or full product URL (e.g. B07CMS5Q6P).
+   * Amazon product ASIN (e.g. B07CMS5Q6P) or a product link on one of the marketplaces listed under region, such as https://www.amazon.co.uk/dp/<ASIN>, with the ASIN after /dp/, /gp/product/ or /product-reviews/. A link without an ASIN, such as a search results page (/s?k=...), or a link to another site or marketplace is refused as invalid input, with no charge.
    */
   product: string;
   /**

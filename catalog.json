@@ -7459,41 +7459,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0154,
-          "maxPer1kUsd": 15.4
+          "maxUsd": 0.0308,
+          "maxPer1kUsd": 30.8
         },
         "failoverMaxUsd": 0.033,
         "failoverMaxPer1kUsd": 33
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0154,
-            "maxPer1kUsd": 15.4
-          },
-          "source": {
-            "id": "datagma",
-            "name": "Datagma",
-            "kind": "brand",
-            "artworkKey": "datagma"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 65.38627535606388,
-            "latencyP50Ms": 6730,
-            "uptimeSample": 2317,
-            "latencySample": 1515,
-            "requests": 2381,
-            "servedRequests": 1515
-          },
-          "fields": [
-            "email",
-            "items",
-            "status"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -7543,6 +7515,36 @@
             "latencySample": 1957,
             "requests": 2007,
             "servedRequests": 1957
+          },
+          "fields": [
+            "email",
+            "items",
+            "status"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0154,
+            "maxPer1kUsd": 15.4
+          },
+          "source": {
+            "id": "datagma",
+            "name": "Datagma",
+            "kind": "brand",
+            "artworkKey": "datagma"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 65.38627535606388,
+            "latencyP50Ms": 6730,
+            "uptimeSample": 2317,
+            "latencySample": 1515,
+            "requests": 2381,
+            "servedRequests": 1515
           },
           "fields": [
             "email",
@@ -19179,8 +19181,8 @@
           "maxUsd": 0.0011,
           "maxPer1kUsd": 1.1
         },
-        "failoverMaxUsd": 0.00188,
-        "failoverMaxPer1kUsd": 1.88
+        "failoverMaxUsd": 0.0024,
+        "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
         {
@@ -19287,9 +19289,7 @@
             "videoUrl",
             "views"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
