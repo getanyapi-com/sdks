@@ -176054,7 +176054,7 @@
     },
     "/v1/run/maps.reviews": {
       "post": {
-        "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.\n\n**Price:** billed per result - \\$0.15 per 1,000 requests base + \\$0.02 per 1,000 results, capped at \\$2.15 per 1,000 requests.\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Reviews pricing and uptime](https://getanyapi.com/api/maps/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
+        "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Reviews pricing and uptime](https://getanyapi.com/api/maps/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
         "operationId": "maps_reviews",
         "parameters": [
           {
@@ -176624,10 +176624,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.003000",
             "currency": "USD",
-            "max": "0.002150",
-            "min": "0.000150",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -176667,11 +176666,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.003000",
                 "currency": "USD",
-                "max": "0.002150",
-                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -176700,11 +176698,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.003000",
                 "currency": "USD",
-                "max": "0.002150",
-                "min": "0.000150",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -215387,7 +215384,7 @@
     },
     "/v1/run/reddit.user_comments": {
       "post": {
-        "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text comes back as a roughly 300-character preview rather than the full body, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Reddit User Comments pricing and uptime](https://getanyapi.com/api/reddit/user-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "List a Reddit user's comments by username, sorted by new, top, hot, or controversial, with the parent post title and subreddit on every item and cursor pagination. Comment text may be truncated to a roughly 300-character preview, and this endpoint carries no per-comment permalink; use reddit.post_comments for full comment bodies and comment URLs on a given post.\n\n**Price:** \\$1.07 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit User Comments pricing and uptime](https://getanyapi.com/api/reddit/user-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_user_comments",
         "parameters": [
           {
@@ -215566,7 +215563,7 @@
                                   "additionalProperties": false,
                                   "properties": {
                                     "comments": {
-                                      "description": "The user's comments in feed order (newest first by default). Each item carries a truncated body preview plus the parent post it was made on; there is no per-comment permalink available from this endpoint. Populated whenever the provider has data for the entity.",
+                                      "description": "The user's comments in feed order (newest first by default). Each item carries the comment text, which may be truncated to a preview, plus the parent post it was made on; there is no per-comment permalink available from this endpoint. Populated whenever the provider has data for the entity.",
                                       "items": {
                                         "properties": {
                                           "author": {
@@ -215575,7 +215572,7 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "bodyPreview": {
-                                            "description": "A preview of the comment text, not the full comment body: the upstream truncates it to roughly 300 characters and cuts mid-word. It is plain text rather than Markdown, and it is empty on the occasional comment for which the upstream returns no preview at all. For full comment bodies and comment permalinks, use the reddit.post_comments SKU against the parent post.",
+                                            "description": "The comment text. Depending on the source it is either the full comment body in Markdown or a plain-text preview truncated to roughly 300 characters, cut mid-word. It is empty on the occasional comment for which the upstream returns no text at all. For guaranteed full comment bodies and comment permalinks, use the reddit.post_comments SKU against the parent post.",
                                             "type": "string"
                                           },
                                           "createdUtc": {
@@ -215904,7 +215901,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.001070",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -215946,7 +215943,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001070",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -215978,7 +215975,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001070",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

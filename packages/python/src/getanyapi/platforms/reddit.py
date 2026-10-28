@@ -850,7 +850,7 @@ class RedditUserCommentsData(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
     comments: list[RedditUserCommentsComment] = Field(
-        description="The user's comments in feed order (newest first by default). Each item carries a truncated body preview plus the parent post it was made on; there is no per-comment permalink available from this endpoint. Populated whenever the provider has data for the entity."
+        description="The user's comments in feed order (newest first by default). Each item carries the comment text, which may be truncated to a preview, plus the parent post it was made on; there is no per-comment permalink available from this endpoint. Populated whenever the provider has data for the entity."
     )
     next_cursor: str | None = Field(
         alias="nextCursor",
@@ -867,7 +867,7 @@ class RedditUserCommentsComment(BaseModel):
     body_preview: str | None = Field(
         default=None,
         alias="bodyPreview",
-        description="A preview of the comment text, not the full comment body: the upstream truncates it to roughly 300 characters and cuts mid-word. It is plain text rather than Markdown, and it is empty on the occasional comment for which the upstream returns no preview at all. For full comment bodies and comment permalinks, use the reddit.post_comments SKU against the parent post.",
+        description="The comment text. Depending on the source it is either the full comment body in Markdown or a plain-text preview truncated to roughly 300 characters, cut mid-word. It is empty on the occasional comment for which the upstream returns no text at all. For guaranteed full comment bodies and comment permalinks, use the reddit.post_comments SKU against the parent post.",
     )
     created_utc: float = Field(
         alias="createdUtc",
@@ -1307,12 +1307,12 @@ class RedditNamespace:
 
         List a Reddit user's comments by username, sorted by new, top, hot, or
         controversial, with the parent post title and subreddit on every item and
-        cursor pagination. Comment text comes back as a roughly 300-character
-        preview rather than the full body, and this endpoint carries no per-comment
-        permalink; use reddit.post_comments for full comment bodies and comment URLs
-        on a given post.
+        cursor pagination. Comment text may be truncated to a roughly 300-character
+        preview, and this endpoint carries no per-comment permalink; use
+        reddit.post_comments for full comment bodies and comment URLs on a given
+        post.
 
-        Price: $0.0012 per request.
+        Price: $0.00107 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
@@ -1702,12 +1702,12 @@ class AsyncRedditNamespace:
 
         List a Reddit user's comments by username, sorted by new, top, hot, or
         controversial, with the parent post title and subreddit on every item and
-        cursor pagination. Comment text comes back as a roughly 300-character
-        preview rather than the full body, and this endpoint carries no per-comment
-        permalink; use reddit.post_comments for full comment bodies and comment URLs
-        on a given post.
+        cursor pagination. Comment text may be truncated to a roughly 300-character
+        preview, and this endpoint carries no per-comment permalink; use
+        reddit.post_comments for full comment bodies and comment URLs on a given
+        post.
 
-        Price: $0.0012 per request.
+        Price: $0.00107 per request.
 
         Example:
             res = client.reddit.user_comments(username="spez")
