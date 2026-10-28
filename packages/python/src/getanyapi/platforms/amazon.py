@@ -1086,7 +1086,7 @@ class AmazonNamespace:
         Price: $0.00085 per request.
 
         Example:
-            res = client.amazon.offers(product="B006MIWDCC")
+            res = client.amazon.offers(product="B00000IZJB")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.offers", dict(input), options
@@ -1289,7 +1289,7 @@ class AsyncAmazonNamespace:
         Price: $0.00085 per request.
 
         Example:
-            res = client.amazon.offers(product="B006MIWDCC")
+            res = client.amazon.offers(product="B00000IZJB")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "amazon.offers", dict(input), options

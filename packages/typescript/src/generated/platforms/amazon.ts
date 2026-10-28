@@ -1255,7 +1255,7 @@ export class AmazonNamespace {
    * Price: $0.00085 per request.
    *
    * @example
-   * const res = await client.amazon.offers({ product: "B006MIWDCC" });
+   * const res = await client.amazon.offers({ product: "B00000IZJB" });
    */
   offers(
     input: AmazonOffersInput,
