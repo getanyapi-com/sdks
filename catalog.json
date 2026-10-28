@@ -25037,6 +25037,48 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 82.00883967166934,
+            "latencyP50Ms": 4639,
+            "uptimeSample": 102945,
+            "latencySample": 84424,
+            "requests": 105879,
+            "servedRequests": 84424
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyLinkedinUrl",
+            "companyName",
+            "companyUrl",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "location",
+            "name",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -25119,50 +25161,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 82.00883967166934,
-            "latencyP50Ms": 4639,
-            "uptimeSample": 102945,
-            "latencySample": 84424,
-            "requests": 105879,
-            "servedRequests": 84424
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyLinkedinUrl",
-            "companyName",
-            "companyUrl",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "location",
-            "name",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
@@ -31029,13 +31027,53 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.00038,
+          "maxPer1kUsd": 0.38
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00038,
+            "maxPer1kUsd": 0.38
+          },
+          "source": {
+            "id": "anonymous-bison-9321fc54",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.46934266249309,
+            "latencyP50Ms": 1661,
+            "uptimeSample": 21724,
+            "latencySample": 20957,
+            "requests": 21724,
+            "servedRequests": 20957
+          },
+          "fields": [
+            "author",
+            "authorId",
+            "createdUtc",
+            "id",
+            "nextCursor",
+            "nsfw",
+            "numComments",
+            "permalink",
+            "posts",
+            "score",
+            "selftext",
+            "subreddit",
+            "title",
+            "upvoteRatio",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -31111,48 +31149,6 @@
             "permalink",
             "posts",
             "score",
-            "subreddit",
-            "title",
-            "upvoteRatio",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00038,
-            "maxPer1kUsd": 0.38
-          },
-          "source": {
-            "id": "anonymous-bison-9321fc54",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.46934266249309,
-            "latencyP50Ms": 1661,
-            "uptimeSample": 21724,
-            "latencySample": 20957,
-            "requests": 21724,
-            "servedRequests": 20957
-          },
-          "fields": [
-            "author",
-            "authorId",
-            "createdUtc",
-            "id",
-            "nextCursor",
-            "nsfw",
-            "numComments",
-            "permalink",
-            "posts",
-            "score",
-            "selftext",
             "subreddit",
             "title",
             "upvoteRatio",
