@@ -3503,8 +3503,8 @@
           "maxUsd": 0.00085,
           "maxPer1kUsd": 0.85
         },
-        "failoverMaxUsd": 0.00085,
-        "failoverMaxPer1kUsd": 0.85
+        "failoverMaxUsd": 0.00644,
+        "failoverMaxPer1kUsd": 6.44
       },
       "lanes": [
         {
@@ -3537,9 +3537,7 @@
             "title",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -3587,7 +3585,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "bing.search",
@@ -13710,13 +13708,47 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0018,
-          "maxPer1kUsd": 1.8
+          "maxUsd": 0.0015,
+          "maxPer1kUsd": 1.5
         },
-        "failoverMaxUsd": 0.0018,
-        "failoverMaxPer1kUsd": 1.8
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 76.57657657657657,
+            "latencyP50Ms": 5879,
+            "uptimeSample": 6771,
+            "latencySample": 5185,
+            "requests": 6781,
+            "servedRequests": 5185
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -13771,42 +13803,6 @@
             "latencySample": 312,
             "requests": 955,
             "servedRequests": 312
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 76.57657657657657,
-            "latencyP50Ms": 5879,
-            "uptimeSample": 6771,
-            "latencySample": 5185,
-            "requests": 6781,
-            "servedRequests": 5185
           },
           "fields": [
             "answer",
@@ -21243,53 +21239,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0036,
-            "maxPer1kUsd": 3.6
-          },
-          "source": {
-            "id": "anonymous-fox",
-            "name": "Fox",
-            "kind": "anonymous",
-            "artworkKey": "fox"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.21872410936206,
-            "latencyP50Ms": 11403,
-            "uptimeSample": 2414,
-            "latencySample": 2371,
-            "requests": 2415,
-            "servedRequests": 2371
-          },
-          "fields": [
-            "avatarUrl",
-            "caption",
-            "coauthors",
-            "comments",
-            "createdUtc",
-            "displayName",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "isPinned",
-            "likes",
-            "media",
-            "mentions",
-            "nextCursor",
-            "reels",
-            "shortcode",
-            "userId",
-            "username",
-            "verified",
-            "views"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0024,
             "maxPer1kUsd": 2.4
           },
@@ -21331,6 +21280,51 @@
             "shortcode",
             "soundAuthor",
             "soundTitle",
+            "userId",
+            "username",
+            "verified",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0036,
+            "maxPer1kUsd": 3.6
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.21872410936206,
+            "latencyP50Ms": 11403,
+            "uptimeSample": 2414,
+            "latencySample": 2371,
+            "requests": 2415,
+            "servedRequests": 2371
+          },
+          "fields": [
+            "avatarUrl",
+            "caption",
+            "coauthors",
+            "comments",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "isPinned",
+            "likes",
+            "media",
+            "mentions",
+            "nextCursor",
+            "reels",
+            "shortcode",
             "userId",
             "username",
             "verified",
@@ -39868,55 +39862,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 76.19926199261992,
-            "latencyP50Ms": 2160,
-            "uptimeSample": 542,
-            "latencySample": 413,
-            "requests": 542,
-            "servedRequests": 413
-          },
-          "fields": [
-            "author",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "likes",
-            "nextCursor",
-            "paidPartnership",
-            "region",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -40059,6 +40004,57 @@
             "saves",
             "shares",
             "soundClipId",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 76.19926199261992,
+            "latencyP50Ms": 2160,
+            "uptimeSample": 542,
+            "latencySample": 413,
+            "requests": 542,
+            "servedRequests": 413
+          },
+          "fields": [
+            "author",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "likes",
+            "nextCursor",
+            "paidPartnership",
+            "region",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
             "url",
             "videoUrl",
             "videos",
