@@ -3503,8 +3503,8 @@
           "maxUsd": 0.00085,
           "maxPer1kUsd": 0.85
         },
-        "failoverMaxUsd": 0.00644,
-        "failoverMaxPer1kUsd": 6.44
+        "failoverMaxUsd": 0.00085,
+        "failoverMaxPer1kUsd": 0.85
       },
       "lanes": [
         {
@@ -3537,7 +3537,9 @@
             "title",
             "url"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -3585,7 +3587,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "bing.search",
@@ -11766,36 +11768,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.03,
-            "maxPer1kUsd": 30
-          },
-          "source": {
-            "id": "anonymous-fox",
-            "name": "Fox",
-            "kind": "anonymous",
-            "artworkKey": "fox"
-          },
-          "fields": [
-            "authorId",
-            "authorImage",
-            "authorName",
-            "authorUrl",
-            "commentCount",
-            "createdUtc",
-            "id",
-            "image",
-            "items",
-            "reactionCount",
-            "reactions",
-            "shareCount",
-            "text",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00007,
@@ -11835,6 +11807,38 @@
             "shareCount",
             "text",
             "type",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.03,
+            "maxPer1kUsd": 30
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "fields": [
+            "authorId",
+            "authorImage",
+            "authorName",
+            "authorUrl",
+            "commentCount",
+            "createdUtc",
+            "id",
+            "image",
+            "items",
+            "reactionCount",
+            "reactions",
+            "shareCount",
+            "text",
             "url"
           ]
         }
@@ -13706,47 +13710,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0015,
-          "maxPer1kUsd": 1.5
+          "maxUsd": 0.0018,
+          "maxPer1kUsd": 1.8
         },
         "failoverMaxUsd": 0.0048,
         "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 76.57657657657657,
-            "latencyP50Ms": 5879,
-            "uptimeSample": 6771,
-            "latencySample": 5185,
-            "requests": 6781,
-            "servedRequests": 5185
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
-            "title",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -13835,6 +13805,42 @@
             "latencySample": 3584,
             "requests": 6158,
             "servedRequests": 3584
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 76.57657657657657,
+            "latencyP50Ms": 5879,
+            "uptimeSample": 6771,
+            "latencySample": 5185,
+            "requests": 6781,
+            "servedRequests": 5185
           },
           "fields": [
             "answer",
@@ -19071,8 +19077,8 @@
           "maxUsd": 0.0011,
           "maxPer1kUsd": 1.1
         },
-        "failoverMaxUsd": 0.00188,
-        "failoverMaxPer1kUsd": 1.88
+        "failoverMaxUsd": 0.0024,
+        "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
         {
@@ -19179,9 +19185,7 @@
             "videoUrl",
             "views"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -21236,6 +21240,53 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
+            "maxUsd": 0.0036,
+            "maxPer1kUsd": 3.6
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.21872410936206,
+            "latencyP50Ms": 11403,
+            "uptimeSample": 2414,
+            "latencySample": 2371,
+            "requests": 2415,
+            "servedRequests": 2371
+          },
+          "fields": [
+            "avatarUrl",
+            "caption",
+            "coauthors",
+            "comments",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "isPinned",
+            "likes",
+            "media",
+            "mentions",
+            "nextCursor",
+            "reels",
+            "shortcode",
+            "userId",
+            "username",
+            "verified",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
             "maxUsd": 0.0024,
             "maxPer1kUsd": 2.4
           },
@@ -21277,51 +21328,6 @@
             "shortcode",
             "soundAuthor",
             "soundTitle",
-            "userId",
-            "username",
-            "verified",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0036,
-            "maxPer1kUsd": 3.6
-          },
-          "source": {
-            "id": "anonymous-fox",
-            "name": "Fox",
-            "kind": "anonymous",
-            "artworkKey": "fox"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.21872410936206,
-            "latencyP50Ms": 11403,
-            "uptimeSample": 2414,
-            "latencySample": 2371,
-            "requests": 2415,
-            "servedRequests": 2371
-          },
-          "fields": [
-            "avatarUrl",
-            "caption",
-            "coauthors",
-            "comments",
-            "createdUtc",
-            "displayName",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "isPinned",
-            "likes",
-            "media",
-            "mentions",
-            "nextCursor",
-            "reels",
-            "shortcode",
             "userId",
             "username",
             "verified",
@@ -26500,61 +26506,15 @@
       },
       "pricing": {
         "from": {
-          "model": "linear",
-          "unit": "result",
-          "baseUsd": 0.00015,
-          "perUnitUsd": 0.00002,
-          "maxUsd": 0.00215,
-          "maxPer1kUsd": 2.15
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.003,
+          "maxPer1kUsd": 3
         },
         "failoverMaxUsd": 0.0441,
         "failoverMaxPer1kUsd": 44.1
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.00015,
-            "perUnitUsd": 0.00002,
-            "maxUsd": 0.00215,
-            "maxPer1kUsd": 2.15
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 84.22499036856298,
-            "latencyP50Ms": 8931,
-            "uptimeSample": 38935,
-            "latencySample": 32793,
-            "requests": 38947,
-            "servedRequests": 32793
-          },
-          "fields": [
-            "author",
-            "authorUrl",
-            "avatarUrl",
-            "createdUtc",
-            "isLocalGuide",
-            "items",
-            "likes",
-            "origin",
-            "ownerResponse",
-            "ownerResponseAt",
-            "publishedAgo",
-            "rating",
-            "reviewId",
-            "reviewerId",
-            "reviewerReviewsCount",
-            "text",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -26705,6 +26665,50 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00015,
+            "perUnitUsd": 0.00002,
+            "maxUsd": 0.00215,
+            "maxPer1kUsd": 2.15
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 84.22499036856298,
+            "latencyP50Ms": 8931,
+            "uptimeSample": 38935,
+            "latencySample": 32793,
+            "requests": 38947,
+            "servedRequests": 32793
+          },
+          "fields": [
+            "author",
+            "authorUrl",
+            "avatarUrl",
+            "createdUtc",
+            "isLocalGuide",
+            "items",
+            "likes",
+            "origin",
+            "ownerResponse",
+            "ownerResponseAt",
+            "publishedAgo",
+            "rating",
+            "reviewId",
+            "reviewerId",
+            "reviewerReviewsCount",
+            "text",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "linear",
@@ -30420,13 +30424,47 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0006,
+          "maxPer1kUsd": 0.6
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0006,
+            "maxPer1kUsd": 0.6
+          },
+          "source": {
+            "id": "anonymous-bison-9321fc54",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.07633901087625,
+            "latencyP50Ms": 818,
+            "uptimeSample": 24365,
+            "latencySample": 23409,
+            "requests": 24365,
+            "servedRequests": 23409
+          },
+          "fields": [
+            "author",
+            "body",
+            "comments",
+            "createdUtc",
+            "id",
+            "nextCursor",
+            "parentId",
+            "score",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -30482,42 +30520,6 @@
             "latencySample": 27168,
             "requests": 27544,
             "servedRequests": 27168
-          },
-          "fields": [
-            "author",
-            "body",
-            "comments",
-            "createdUtc",
-            "id",
-            "nextCursor",
-            "parentId",
-            "score",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0006,
-            "maxPer1kUsd": 0.6
-          },
-          "source": {
-            "id": "anonymous-bison-9321fc54",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.07633901087625,
-            "latencyP50Ms": 818,
-            "uptimeSample": 24365,
-            "latencySample": 23409,
-            "requests": 24365,
-            "servedRequests": 23409
           },
           "fields": [
             "author",
@@ -30736,6 +30738,45 @@
             "maxPer1kUsd": 0.35
           },
           "source": {
+            "id": "anonymous-bison-9321fc54",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.12463806851085,
+            "latencyP50Ms": 992,
+            "uptimeSample": 359184,
+            "latencySample": 352448,
+            "requests": 359184,
+            "servedRequests": 352448
+          },
+          "fields": [
+            "author",
+            "authorId",
+            "createdUtc",
+            "id",
+            "nextCursor",
+            "nsfw",
+            "numComments",
+            "permalink",
+            "posts",
+            "score",
+            "selftext",
+            "subreddit",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00038,
+            "maxPer1kUsd": 0.38
+          },
+          "source": {
             "id": "anonymous-octopus",
             "name": "Octopus",
             "kind": "anonymous",
@@ -30832,47 +30873,6 @@
             "latencySample": 907,
             "requests": 908,
             "servedRequests": 907
-          },
-          "fields": [
-            "author",
-            "authorId",
-            "createdUtc",
-            "id",
-            "nextCursor",
-            "nsfw",
-            "numComments",
-            "permalink",
-            "posts",
-            "score",
-            "selftext",
-            "subreddit",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00038,
-            "maxPer1kUsd": 0.38
-          },
-          "source": {
-            "id": "anonymous-bison-9321fc54",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.12463806851085,
-            "latencyP50Ms": 992,
-            "uptimeSample": 359184,
-            "latencySample": 352448,
-            "requests": 359184,
-            "servedRequests": 352448
           },
           "fields": [
             "author",
@@ -31035,13 +31035,53 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.00038,
+          "maxPer1kUsd": 0.38
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00038,
+            "maxPer1kUsd": 0.38
+          },
+          "source": {
+            "id": "anonymous-bison-9321fc54",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.46934266249309,
+            "latencyP50Ms": 1661,
+            "uptimeSample": 21724,
+            "latencySample": 20957,
+            "requests": 21724,
+            "servedRequests": 20957
+          },
+          "fields": [
+            "author",
+            "authorId",
+            "createdUtc",
+            "id",
+            "nextCursor",
+            "nsfw",
+            "numComments",
+            "permalink",
+            "posts",
+            "score",
+            "selftext",
+            "subreddit",
+            "title",
+            "upvoteRatio",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -31124,48 +31164,6 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00038,
-            "maxPer1kUsd": 0.38
-          },
-          "source": {
-            "id": "anonymous-bison-9321fc54",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.46934266249309,
-            "latencyP50Ms": 1661,
-            "uptimeSample": 21724,
-            "latencySample": 20957,
-            "requests": 21724,
-            "servedRequests": 20957
-          },
-          "fields": [
-            "author",
-            "authorId",
-            "createdUtc",
-            "id",
-            "nextCursor",
-            "nsfw",
-            "numComments",
-            "permalink",
-            "posts",
-            "score",
-            "selftext",
-            "subreddit",
-            "title",
-            "upvoteRatio",
-            "url"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
       "failover": true
@@ -31199,6 +31197,45 @@
             "unit": "request",
             "maxUsd": 0.00035,
             "maxPer1kUsd": 0.35
+          },
+          "source": {
+            "id": "anonymous-bison-9321fc54",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 94.46717049157596,
+            "latencyP50Ms": 1097,
+            "uptimeSample": 14423,
+            "latencySample": 13625,
+            "requests": 14423,
+            "servedRequests": 13625
+          },
+          "fields": [
+            "author",
+            "authorId",
+            "createdUtc",
+            "id",
+            "nextCursor",
+            "nsfw",
+            "numComments",
+            "permalink",
+            "posts",
+            "score",
+            "selftext",
+            "subreddit",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00038,
+            "maxPer1kUsd": 0.38
           },
           "source": {
             "id": "anonymous-octopus",
@@ -31341,47 +31378,6 @@
             "id",
             "isArchived",
             "isLocked",
-            "nextCursor",
-            "nsfw",
-            "numComments",
-            "permalink",
-            "posts",
-            "score",
-            "selftext",
-            "subreddit",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00038,
-            "maxPer1kUsd": 0.38
-          },
-          "source": {
-            "id": "anonymous-bison-9321fc54",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 94.46717049157596,
-            "latencyP50Ms": 1097,
-            "uptimeSample": 14423,
-            "latencySample": 13625,
-            "requests": 14423,
-            "servedRequests": 13625
-          },
-          "fields": [
-            "author",
-            "authorId",
-            "createdUtc",
-            "id",
             "nextCursor",
             "nsfw",
             "numComments",
@@ -41090,8 +41086,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.0008,
-        "failoverMaxPer1kUsd": 0.8
+        "failoverMaxUsd": 0.0012,
+        "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
         {
@@ -41140,9 +41136,7 @@
             "videos",
             "views"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -41193,7 +41187,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "tiktok.trending_hashtags",
@@ -42148,34 +42142,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0011,
-            "maxPer1kUsd": 1.1
-          },
-          "source": {
-            "id": "anonymous-lemur",
-            "name": "Lemur",
-            "kind": "anonymous",
-            "artworkKey": "lemur"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 99.45121951219512,
-            "latencyP50Ms": 802,
-            "uptimeSample": 1640,
-            "latencySample": 1631,
-            "requests": 1686,
-            "servedRequests": 1631
-          },
-          "fields": [
-            "id",
-            "transcript",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -42212,6 +42178,36 @@
             "name": "Fox",
             "kind": "anonymous",
             "artworkKey": "fox"
+          },
+          "fields": [
+            "id",
+            "transcript",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
+            "id": "anonymous-lemur",
+            "name": "Lemur",
+            "kind": "anonymous",
+            "artworkKey": "lemur"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 99.45121951219512,
+            "latencyP50Ms": 802,
+            "uptimeSample": 1640,
+            "latencySample": 1631,
+            "requests": 1686,
+            "servedRequests": 1631
           },
           "fields": [
             "id",
@@ -50694,53 +50690,6 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 100,
-            "latencyP50Ms": 1228,
-            "uptimeSample": 1,
-            "latencySample": 1,
-            "requests": 1,
-            "servedRequests": 1
-          },
-          "fields": [
-            "baths",
-            "beds",
-            "brokerName",
-            "city",
-            "currency",
-            "image",
-            "items",
-            "latitude",
-            "livingArea",
-            "longitude",
-            "lotSize",
-            "lotSizeUnit",
-            "price",
-            "propertyType",
-            "rentZestimate",
-            "state",
-            "status",
-            "streetAddress",
-            "url",
-            "zestimate",
-            "zipcode",
-            "zpid"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
             "id": "anonymous-badger",
             "name": "Badger",
             "kind": "anonymous",
@@ -50882,6 +50831,55 @@
             "taxAssessedValue",
             "url",
             "yearBuilt",
+            "zestimate",
+            "zipcode",
+            "zpid"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 1228,
+            "uptimeSample": 1,
+            "latencySample": 1,
+            "requests": 1,
+            "servedRequests": 1
+          },
+          "fields": [
+            "baths",
+            "beds",
+            "brokerName",
+            "city",
+            "currency",
+            "image",
+            "items",
+            "latitude",
+            "livingArea",
+            "longitude",
+            "lotSize",
+            "lotSizeUnit",
+            "price",
+            "propertyType",
+            "rentZestimate",
+            "state",
+            "status",
+            "streetAddress",
+            "url",
             "zestimate",
             "zipcode",
             "zpid"
