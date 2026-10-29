@@ -25553,13 +25553,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.005,
-          "maxPer1kUsd": 5
+          "maxUsd": 0.004,
+          "maxPer1kUsd": 4
         },
         "failoverMaxUsd": 0.194,
         "failoverMaxPer1kUsd": 194
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.004,
+            "maxPer1kUsd": 4
+          },
+          "source": {
+            "id": "anonymous-walrus",
+            "name": "Walrus",
+            "kind": "anonymous",
+            "artworkKey": "walrus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.4431756389342,
+            "latencyP50Ms": 7884,
+            "uptimeSample": 7356,
+            "latencySample": 6653,
+            "requests": 7356,
+            "servedRequests": 6653
+          },
+          "fields": [
+            "author",
+            "createdUtc",
+            "engagement",
+            "id",
+            "posts",
+            "text",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -25685,40 +25717,6 @@
             "pollOptions",
             "pollQuestion",
             "pollTotalVotes",
-            "posts",
-            "text",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.004,
-            "maxPer1kUsd": 4
-          },
-          "source": {
-            "id": "anonymous-walrus",
-            "name": "Walrus",
-            "kind": "anonymous",
-            "artworkKey": "walrus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.4431756389342,
-            "latencyP50Ms": 7884,
-            "uptimeSample": 7356,
-            "latencySample": 6653,
-            "requests": 7356,
-            "servedRequests": 6653
-          },
-          "fields": [
-            "author",
-            "createdUtc",
-            "engagement",
-            "id",
             "posts",
             "text",
             "url"
@@ -39372,6 +39370,56 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
+            "maxUsd": 0.0006,
+            "maxPer1kUsd": 0.6
+          },
+          "source": {
+            "id": "anonymous-flamingo",
+            "name": "Flamingo",
+            "kind": "anonymous",
+            "artworkKey": "flamingo"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 92.72727272727273,
+            "latencyP50Ms": 2084,
+            "uptimeSample": 6820,
+            "latencySample": 6324,
+            "requests": 23069,
+            "servedRequests": 6324
+          },
+          "fields": [
+            "authorFollowers",
+            "authorHandle",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "authorVerified",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "isPinned",
+            "likes",
+            "paidPartnership",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
             "maxUsd": 0.0008,
             "maxPer1kUsd": 0.8
           },
@@ -39563,58 +39611,6 @@
             "saves",
             "shares",
             "soundClipId",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0006,
-            "maxPer1kUsd": 0.6
-          },
-          "source": {
-            "id": "anonymous-flamingo",
-            "name": "Flamingo",
-            "kind": "anonymous",
-            "artworkKey": "flamingo"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 92.72727272727273,
-            "latencyP50Ms": 2084,
-            "uptimeSample": 6820,
-            "latencySample": 6324,
-            "requests": 23069,
-            "servedRequests": 6324
-          },
-          "fields": [
-            "authorFollowers",
-            "authorHandle",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "authorVerified",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "isPinned",
-            "likes",
-            "paidPartnership",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
             "url",
             "videoUrl",
             "videos",
@@ -45248,6 +45244,45 @@
             "maxPer1kUsd": 0.54
           },
           "source": {
+            "id": "anonymous-lynx",
+            "name": "Lynx",
+            "kind": "anonymous",
+            "artworkKey": "lynx"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 82.21244500314268,
+            "latencyP50Ms": 977,
+            "uptimeSample": 28638,
+            "latencySample": 23544,
+            "requests": 28638,
+            "servedRequests": 23544
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "coverUrl",
+            "createdUtc",
+            "followers",
+            "following",
+            "id",
+            "name",
+            "nextCursor",
+            "posts",
+            "profileUrl",
+            "username",
+            "users",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0007,
+            "maxPer1kUsd": 0.7
+          },
+          "source": {
             "id": "anonymous-capybara",
             "name": "Capybara",
             "kind": "anonymous",
@@ -45317,47 +45352,6 @@
             "id",
             "listedCount",
             "location",
-            "name",
-            "nextCursor",
-            "posts",
-            "profileUrl",
-            "username",
-            "users",
-            "verified"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0007,
-            "maxPer1kUsd": 0.7
-          },
-          "source": {
-            "id": "anonymous-lynx",
-            "name": "Lynx",
-            "kind": "anonymous",
-            "artworkKey": "lynx"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 82.21244500314268,
-            "latencyP50Ms": 977,
-            "uptimeSample": 28638,
-            "latencySample": 23544,
-            "requests": 28638,
-            "servedRequests": 23544
-          },
-          "fields": [
-            "avatarUrl",
-            "bio",
-            "coverUrl",
-            "createdUtc",
-            "followers",
-            "following",
-            "id",
             "name",
             "nextCursor",
             "posts",
