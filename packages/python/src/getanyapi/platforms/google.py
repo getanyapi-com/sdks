@@ -1277,7 +1277,7 @@ class GoogleNamespace:
         Search Google Scholar for academic papers with title, authors, citation
         count, and PDF link.
 
-        Price: $0.00085 per request.
+        Price: $0.00099 per request.
 
         Example:
             res = client.google.scholar(query="attention is all you need")
@@ -1680,7 +1680,7 @@ class AsyncGoogleNamespace:
         Search Google Scholar for academic papers with title, authors, citation
         count, and PDF link.
 
-        Price: $0.00085 per request.
+        Price: $0.00099 per request.
 
         Example:
             res = client.google.scholar(query="attention is all you need")

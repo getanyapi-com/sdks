@@ -49095,7 +49095,7 @@
       "category": "search",
       "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.00099,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57818,6 +57818,7 @@
               "enum": [
                 "contactMethod",
                 "highlightsCount",
+                "isBusiness",
                 "posts"
               ],
               "default": null,
@@ -101120,7 +101121,7 @@
       "category": "social",
       "description": "Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -102448,7 +102449,7 @@
       "category": "social",
       "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -103662,7 +103663,7 @@
       "category": "social",
       "description": "List a Reddit user's posts by username, sorted by new, top, hot, or controversial, with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
