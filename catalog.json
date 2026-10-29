@@ -502,19 +502,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00213,
-        "failoverMaxPer1kUsd": 2.13
+        "failoverMaxUsd": 0.00187,
+        "failoverMaxPer1kUsd": 1.87
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -566,8 +566,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00213,
-            "maxPer1kUsd": 2.13
+            "maxUsd": 0.00187,
+            "maxPer1kUsd": 1.87
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -1101,8 +1101,8 @@
           "maxUsd": 0.00085,
           "maxPer1kUsd": 0.85
         },
-        "failoverMaxUsd": 0.00213,
-        "failoverMaxPer1kUsd": 2.13
+        "failoverMaxUsd": 0.00161,
+        "failoverMaxPer1kUsd": 1.61
       },
       "lanes": [
         {
@@ -1149,8 +1149,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00213,
-            "maxPer1kUsd": 2.13
+            "maxUsd": 0.00161,
+            "maxPer1kUsd": 1.61
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -3007,19 +3007,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00107,
-        "failoverMaxPer1kUsd": 1.07
+        "failoverMaxUsd": 0.00093,
+        "failoverMaxPer1kUsd": 0.93
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -3061,8 +3061,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00107,
-            "maxPer1kUsd": 1.07
+            "maxUsd": 0.00093,
+            "maxPer1kUsd": 0.93
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -3395,19 +3395,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00213,
-        "failoverMaxPer1kUsd": 2.13
+        "failoverMaxUsd": 0.00187,
+        "failoverMaxPer1kUsd": 1.87
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -3449,8 +3449,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00213,
-            "maxPer1kUsd": 2.13
+            "maxUsd": 0.00187,
+            "maxPer1kUsd": 1.87
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -4296,8 +4296,8 @@
           "maxUsd": 0.0935,
           "maxPer1kUsd": 93.5
         },
-        "failoverMaxUsd": 0.159,
-        "failoverMaxPer1kUsd": 159
+        "failoverMaxUsd": 0.1584,
+        "failoverMaxPer1kUsd": 158.4
       },
       "lanes": [
         {
@@ -4360,10 +4360,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
+            "baseUsd": 0.0054,
             "perUnitUsd": 0.00153,
-            "maxUsd": 0.159,
-            "maxPer1kUsd": 159
+            "maxUsd": 0.1584,
+            "maxPer1kUsd": 158.4
           },
           "source": {
             "id": "anonymous-chameleon-9f7f3a24",
@@ -4496,8 +4496,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0025,
-            "maxPer1kUsd": 2.5
+            "maxUsd": 0.0024,
+            "maxPer1kUsd": 2.4
           },
           "source": {
             "id": "anonymous-pelican",
@@ -6996,8 +6996,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00175,
-            "maxPer1kUsd": 1.75
+            "maxUsd": 0.00157,
+            "maxPer1kUsd": 1.57
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -8374,19 +8374,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00213,
-        "failoverMaxPer1kUsd": 2.13
+        "failoverMaxUsd": 0.00187,
+        "failoverMaxPer1kUsd": 1.87
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -8427,8 +8427,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00213,
-            "maxPer1kUsd": 2.13
+            "maxUsd": 0.00187,
+            "maxPer1kUsd": 1.87
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -8476,19 +8476,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00213,
-        "failoverMaxPer1kUsd": 2.13
+        "failoverMaxUsd": 0.00187,
+        "failoverMaxPer1kUsd": 1.87
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -8526,8 +8526,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00213,
-            "maxPer1kUsd": 2.13
+            "maxUsd": 0.00187,
+            "maxPer1kUsd": 1.87
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -8570,19 +8570,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00213,
-        "failoverMaxPer1kUsd": 2.13
+        "failoverMaxUsd": 0.00187,
+        "failoverMaxPer1kUsd": 1.87
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -8619,8 +8619,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00213,
-            "maxPer1kUsd": 2.13
+            "maxUsd": 0.00187,
+            "maxPer1kUsd": 1.87
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -8661,19 +8661,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00085,
-          "maxPer1kUsd": 0.85
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00107,
-        "failoverMaxPer1kUsd": 1.07
+        "failoverMaxUsd": 0.00093,
+        "failoverMaxPer1kUsd": 0.93
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
           },
           "source": {
             "id": "anonymous-badger",
@@ -8697,8 +8697,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00107,
-            "maxPer1kUsd": 1.07
+            "maxUsd": 0.00093,
+            "maxPer1kUsd": 0.93
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -9855,8 +9855,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0067,
-        "failoverMaxPer1kUsd": 6.7
+        "failoverMaxUsd": 0.00477,
+        "failoverMaxPer1kUsd": 4.77
       },
       "lanes": [
         {
@@ -9937,8 +9937,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0067,
-            "maxPer1kUsd": 6.7
+            "maxUsd": 0.00477,
+            "maxPer1kUsd": 4.77
           },
           "source": {
             "id": "anonymous-dolphin-4b1ed522",
@@ -10643,8 +10643,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0034,
-            "maxPer1kUsd": 3.4
+            "maxUsd": 0.00238,
+            "maxPer1kUsd": 2.38
           },
           "source": {
             "id": "anonymous-dolphin-4b1ed522",
@@ -10743,8 +10743,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0067,
-        "failoverMaxPer1kUsd": 6.7
+        "failoverMaxUsd": 0.00477,
+        "failoverMaxPer1kUsd": 4.77
       },
       "lanes": [
         {
@@ -10827,8 +10827,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0067,
-            "maxPer1kUsd": 6.7
+            "maxUsd": 0.00477,
+            "maxPer1kUsd": 4.77
           },
           "source": {
             "id": "anonymous-dolphin-4b1ed522",
@@ -11357,8 +11357,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0067,
-        "failoverMaxPer1kUsd": 6.7
+        "failoverMaxUsd": 0.00477,
+        "failoverMaxPer1kUsd": 4.77
       },
       "lanes": [
         {
@@ -11446,8 +11446,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0067,
-            "maxPer1kUsd": 6.7
+            "maxUsd": 0.00477,
+            "maxPer1kUsd": 4.77
           },
           "source": {
             "id": "anonymous-dolphin-4b1ed522",
@@ -14677,13 +14677,47 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00099,
-          "maxPer1kUsd": 0.99
+          "maxUsd": 0.00085,
+          "maxPer1kUsd": 0.85
         },
         "failoverMaxUsd": 0.00099,
         "failoverMaxPer1kUsd": 0.99
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-chameleon-ee237f60",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 95.02369668246446,
+            "latencyP50Ms": 7147,
+            "uptimeSample": 422,
+            "latencySample": 401,
+            "requests": 422,
+            "servedRequests": 401
+          },
+          "fields": [
+            "citedBy",
+            "id",
+            "link",
+            "pdfUrl",
+            "publicationInfo",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -14720,45 +14754,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
-          },
-          "source": {
-            "id": "anonymous-chameleon-ee237f60",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 95.02369668246446,
-            "latencyP50Ms": 7147,
-            "uptimeSample": 422,
-            "latencySample": 401,
-            "requests": 422,
-            "servedRequests": 401
-          },
-          "fields": [
-            "citedBy",
-            "id",
-            "link",
-            "pdfUrl",
-            "publicationInfo",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "google.search",
@@ -17863,8 +17861,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00272,
+            "maxPer1kUsd": 2.72
           },
           "source": {
             "id": "anonymous-lemur",
@@ -18193,8 +18191,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0011,
-            "maxPer1kUsd": 1.1,
+            "maxUsd": 0.00101,
+            "maxPer1kUsd": 1.01,
             "addons": [
               {
                 "id": "hosting",
@@ -20132,8 +20130,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0022,
-            "maxPer1kUsd": 2.2
+            "maxUsd": 0.00196,
+            "maxPer1kUsd": 1.96
           },
           "source": {
             "id": "anonymous-chameleon-6403d3f5",
@@ -20270,8 +20268,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0022,
-            "maxPer1kUsd": 2.2
+            "maxUsd": 0.00196,
+            "maxPer1kUsd": 1.96
           },
           "source": {
             "id": "anonymous-chameleon-6403d3f5",
@@ -20466,8 +20464,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0022,
-        "failoverMaxPer1kUsd": 2.2
+        "failoverMaxUsd": 0.00164,
+        "failoverMaxPer1kUsd": 1.64
       },
       "lanes": [
         {
@@ -20506,8 +20504,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00188,
-            "maxPer1kUsd": 1.88
+            "maxUsd": 0.00157,
+            "maxPer1kUsd": 1.57
           },
           "source": {
             "id": "anonymous-lynx",
@@ -20540,8 +20538,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0022,
-            "maxPer1kUsd": 2.2
+            "maxUsd": 0.00164,
+            "maxPer1kUsd": 1.64
           },
           "source": {
             "id": "anonymous-chameleon-6403d3f5",
@@ -22626,8 +22624,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00386,
+            "maxPer1kUsd": 3.86
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -22738,8 +22736,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.00253,
-        "failoverMaxPer1kUsd": 2.53
+        "failoverMaxUsd": 0.00242,
+        "failoverMaxPer1kUsd": 2.42
       },
       "lanes": [
         {
@@ -22776,8 +22774,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00253,
-            "maxPer1kUsd": 2.53
+            "maxUsd": 0.00242,
+            "maxPer1kUsd": 2.42
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -23788,8 +23786,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00386,
+            "maxPer1kUsd": 3.86
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -23950,8 +23948,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00386,
+            "maxPer1kUsd": 3.86
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -24349,8 +24347,8 @@
           "maxUsd": 0.0029,
           "maxPer1kUsd": 2.9
         },
-        "failoverMaxUsd": 0.005,
-        "failoverMaxPer1kUsd": 5
+        "failoverMaxUsd": 0.00386,
+        "failoverMaxPer1kUsd": 3.86
       },
       "lanes": [
         {
@@ -24390,8 +24388,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00386,
+            "maxPer1kUsd": 3.86
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -24901,8 +24899,8 @@
           "maxUsd": 0.0029,
           "maxPer1kUsd": 2.9
         },
-        "failoverMaxUsd": 0.005,
-        "failoverMaxPer1kUsd": 5
+        "failoverMaxUsd": 0.00386,
+        "failoverMaxPer1kUsd": 3.86
       },
       "lanes": [
         {
@@ -24941,8 +24939,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00386,
+            "maxPer1kUsd": 3.86
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -25471,8 +25469,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.008,
-            "maxPer1kUsd": 8
+            "maxUsd": 0.00242,
+            "maxPer1kUsd": 2.42
           },
           "source": {
             "id": "anonymous-hedgehog-338ce087",
@@ -29245,8 +29243,8 @@
           "maxUsd": 0.0666,
           "maxPer1kUsd": 66.6
         },
-        "failoverMaxUsd": 0.0933,
-        "failoverMaxPer1kUsd": 93.3
+        "failoverMaxUsd": 0.0932,
+        "failoverMaxPer1kUsd": 93.2
       },
       "lanes": [
         {
@@ -29305,10 +29303,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0125,
+            "baseUsd": 0.0124,
             "perUnitUsd": 0.00404,
-            "maxUsd": 0.0933,
-            "maxPer1kUsd": 93.3
+            "maxUsd": 0.0932,
+            "maxPer1kUsd": 93.2
           },
           "source": {
             "id": "anonymous-gecko",
@@ -37482,13 +37480,53 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.1018922852984,
+            "latencyP50Ms": 2742,
+            "uptimeSample": 1374,
+            "latencySample": 1238,
+            "requests": 1374,
+            "servedRequests": 1238
+          },
+          "fields": [
+            "adId",
+            "adTitle",
+            "ads",
+            "brandName",
+            "coverUrl",
+            "estimatedAudience",
+            "firstShownUtc",
+            "format",
+            "hasMore",
+            "lastShownUtc",
+            "nextCursor",
+            "status",
+            "total",
+            "url",
+            "videoUrl"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -37530,51 +37568,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.1018922852984,
-            "latencyP50Ms": 2742,
-            "uptimeSample": 1374,
-            "latencySample": 1238,
-            "requests": 1374,
-            "servedRequests": 1238
-          },
-          "fields": [
-            "adId",
-            "adTitle",
-            "ads",
-            "brandName",
-            "coverUrl",
-            "estimatedAudience",
-            "firstShownUtc",
-            "format",
-            "hasMore",
-            "lastShownUtc",
-            "nextCursor",
-            "status",
-            "total",
-            "url",
-            "videoUrl"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "tiktok.ad_transparency_search",
@@ -37664,8 +37660,8 @@
           "maxUsd": 0.018,
           "maxPer1kUsd": 18
         },
-        "failoverMaxUsd": 0.0312,
-        "failoverMaxPer1kUsd": 31.2
+        "failoverMaxUsd": 0.02862,
+        "failoverMaxPer1kUsd": 28.62
       },
       "lanes": [
         {
@@ -37702,8 +37698,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0312,
-            "maxPer1kUsd": 31.2
+            "maxUsd": 0.02862,
+            "maxPer1kUsd": 28.62
           },
           "source": {
             "id": "anonymous-giraffe",
@@ -43464,8 +43460,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00225,
-            "maxPer1kUsd": 2.25
+            "maxUsd": 0.00214,
+            "maxPer1kUsd": 2.14
           },
           "source": {
             "id": "anonymous-owl",
@@ -43503,8 +43499,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
+            "maxUsd": 0.00214,
+            "maxPer1kUsd": 2.14
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",
@@ -45452,8 +45448,8 @@
           "maxUsd": 0.0001,
           "maxPer1kUsd": 0.1
         },
-        "failoverMaxUsd": 0.00054,
-        "failoverMaxPer1kUsd": 0.54
+        "failoverMaxUsd": 0.00051,
+        "failoverMaxPer1kUsd": 0.51
       },
       "lanes": [
         {
@@ -45493,8 +45489,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00054,
-            "maxPer1kUsd": 0.54
+            "maxUsd": 0.00051,
+            "maxPer1kUsd": 0.51
           },
           "source": {
             "id": "anonymous-capybara",
@@ -46486,8 +46482,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00275,
-            "maxPer1kUsd": 2.75
+            "maxUsd": 0.00208,
+            "maxPer1kUsd": 2.08
           },
           "source": {
             "id": "anonymous-chameleon-d7366dd9",

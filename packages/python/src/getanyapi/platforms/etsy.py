@@ -398,7 +398,7 @@ class EtsyNamespace:
         rating, reviews count, shop, category, variations, stock, ship-from country,
         favorites and materials in one normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.product(listingId="1810545592")
@@ -418,7 +418,7 @@ class EtsyNamespace:
         original price, image, shop, rating and ad flag for each listing in one
         normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.search(query="cover letter template")
@@ -437,7 +437,7 @@ class EtsyNamespace:
         listings, rating, reviews count, followers, description, logo and banner in
         one normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.shop(shopName="StudioStelleHD")
@@ -459,7 +459,7 @@ class EtsyNamespace:
         title, price, original price and image for each listing in one normalized
         response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.shop_listings(shopName="StudioStelleHD")
@@ -488,7 +488,7 @@ class AsyncEtsyNamespace:
         rating, reviews count, shop, category, variations, stock, ship-from country,
         favorites and materials in one normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.product(listingId="1810545592")
@@ -508,7 +508,7 @@ class AsyncEtsyNamespace:
         original price, image, shop, rating and ad flag for each listing in one
         normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.search(query="cover letter template")
@@ -527,7 +527,7 @@ class AsyncEtsyNamespace:
         listings, rating, reviews count, followers, description, logo and banner in
         one normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.shop(shopName="StudioStelleHD")
@@ -549,7 +549,7 @@ class AsyncEtsyNamespace:
         title, price, original price and image for each listing in one normalized
         response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.etsy.shop_listings(shopName="StudioStelleHD")

@@ -620,7 +620,7 @@ export class AliexpressNamespace {
    *
    * Look up one AliExpress product by id and get its price, original price, rating, reviews count, images, options, variants with stock, specifications, store, ship-from country and delivery estimate in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.aliexpress.product({ productId: "3256807039224587" });

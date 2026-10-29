@@ -487,7 +487,7 @@ class BestbuyNamespace:
         filters and get title, price, rating, and brand for each product in one
         normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.bestbuy.search(query="airpods")
@@ -559,7 +559,7 @@ class AsyncBestbuyNamespace:
         filters and get title, price, rating, and brand for each product in one
         normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.bestbuy.search(query="airpods")

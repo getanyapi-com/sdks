@@ -280,7 +280,7 @@ class AsosNamespace:
         title, price, brand, colour, description, images, and per-size stock in one
         normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.asos.product(url="https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341")
@@ -328,7 +328,7 @@ class AsyncAsosNamespace:
         title, price, brand, colour, description, images, and per-size stock in one
         normalized response.
 
-        Price: $0.00085 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.asos.product(url="https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341")

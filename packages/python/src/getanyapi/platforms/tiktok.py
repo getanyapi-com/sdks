@@ -3296,7 +3296,7 @@ class TiktokNamespace:
         Search TikTok's public Ads Library by keyword or advertiser (advertiser,
         title, audience band, run dates, library link, and video).
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_library_search(query="spotify")
@@ -4429,7 +4429,7 @@ class AsyncTiktokNamespace:
         Search TikTok's public Ads Library by keyword or advertiser (advertiser,
         title, audience band, run dates, library link, and video).
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.tiktok.ad_library_search(query="spotify")

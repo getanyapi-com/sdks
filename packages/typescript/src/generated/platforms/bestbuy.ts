@@ -539,7 +539,7 @@ export class BestbuyNamespace {
    *
    * Search BestBuy.com by keyword with optional sort, price-range, and page filters and get title, price, rating, and brand for each product in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.bestbuy.search({ query: "airpods" });

@@ -319,7 +319,7 @@ export class AsosNamespace {
    *
    * Fetch an ASOS product by URL from any of its 11 country stores and get title, price, brand, colour, description, images, and per-size stock in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.asos.product({ url: "https://www.asos.com/pullbear/pullbear-casual-trainers-in-white/prd/211299341" });

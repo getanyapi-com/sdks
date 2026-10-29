@@ -6782,7 +6782,7 @@
     },
     "/v1/run/aliexpress.product": {
       "post": {
-        "description": "Look up one AliExpress product by id and get its price, original price, rating, reviews count, images, options, variants with stock, specifications, store, ship-from country and delivery estimate in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [AliExpress Product pricing and uptime](https://getanyapi.com/api/aliexpress/product) - live USD price, lane routing, and measured 30-day uptime. [Every Aliexpress endpoint](https://getanyapi.com/api/aliexpress).",
+        "description": "Look up one AliExpress product by id and get its price, original price, rating, reviews count, images, options, variants with stock, specifications, store, ship-from country and delivery estimate in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [AliExpress Product pricing and uptime](https://getanyapi.com/api/aliexpress/product) - live USD price, lane routing, and measured 30-day uptime. [Every Aliexpress endpoint](https://getanyapi.com/api/aliexpress).",
         "operationId": "aliexpress_product",
         "parameters": [
           {
@@ -7561,7 +7561,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -7635,7 +7635,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -25286,7 +25286,7 @@
     },
     "/v1/run/asos.product": {
       "post": {
-        "description": "Fetch an ASOS product by URL from any of its 11 country stores and get title, price, brand, colour, description, images, and per-size stock in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [ASOS Product pricing and uptime](https://getanyapi.com/api/asos/product) - live USD price, lane routing, and measured 30-day uptime. [Every Asos endpoint](https://getanyapi.com/api/asos).",
+        "description": "Fetch an ASOS product by URL from any of its 11 country stores and get title, price, brand, colour, description, images, and per-size stock in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [ASOS Product pricing and uptime](https://getanyapi.com/api/asos/product) - live USD price, lane routing, and measured 30-day uptime. [Every Asos endpoint](https://getanyapi.com/api/asos).",
         "operationId": "asos_product",
         "parameters": [
           {
@@ -25917,7 +25917,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -25991,7 +25991,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -28158,7 +28158,7 @@
     },
     "/v1/run/bestbuy.search": {
       "post": {
-        "description": "Search BestBuy.com by keyword with optional sort, price-range, and page filters and get title, price, rating, and brand for each product in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Best Buy Search pricing and uptime](https://getanyapi.com/api/bestbuy/search) - live USD price, lane routing, and measured 30-day uptime. [Every Bestbuy endpoint](https://getanyapi.com/api/bestbuy).",
+        "description": "Search BestBuy.com by keyword with optional sort, price-range, and page filters and get title, price, rating, and brand for each product in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Best Buy Search pricing and uptime](https://getanyapi.com/api/bestbuy/search) - live USD price, lane routing, and measured 30-day uptime. [Every Bestbuy endpoint](https://getanyapi.com/api/bestbuy).",
         "operationId": "bestbuy_search",
         "parameters": [
           {
@@ -28812,7 +28812,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -28886,7 +28886,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -68873,7 +68873,7 @@
     },
     "/v1/run/etsy.product": {
       "post": {
-        "description": "Look up one Etsy listing by id and get its price, images, description, rating, reviews count, shop, category, variations, stock, ship-from country, favorites and materials in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Product pricing and uptime](https://getanyapi.com/api/etsy/product) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
+        "description": "Look up one Etsy listing by id and get its price, images, description, rating, reviews count, shop, category, variations, stock, ship-from country, favorites and materials in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Product pricing and uptime](https://getanyapi.com/api/etsy/product) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
         "operationId": "etsy_product",
         "parameters": [
           {
@@ -69484,7 +69484,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -69558,7 +69558,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -69587,7 +69587,7 @@
     },
     "/v1/run/etsy.search": {
       "post": {
-        "description": "Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Search pricing and uptime](https://getanyapi.com/api/etsy/search) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
+        "description": "Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Search pricing and uptime](https://getanyapi.com/api/etsy/search) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
         "operationId": "etsy_search",
         "parameters": [
           {
@@ -70166,7 +70166,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -70240,7 +70240,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -70269,7 +70269,7 @@
     },
     "/v1/run/etsy.shop": {
       "post": {
-        "description": "Look up one Etsy shop by name and get its id, location, sales, active listings, rating, reviews count, followers, description, logo and banner in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Shop pricing and uptime](https://getanyapi.com/api/etsy/shop) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
+        "description": "Look up one Etsy shop by name and get its id, location, sales, active listings, rating, reviews count, followers, description, logo and banner in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Shop pricing and uptime](https://getanyapi.com/api/etsy/shop) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
         "operationId": "etsy_shop",
         "parameters": [
           {
@@ -70822,7 +70822,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -70896,7 +70896,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -70925,7 +70925,7 @@
     },
     "/v1/run/etsy.shop_listings": {
       "post": {
-        "description": "List one Etsy shop's active listings by shop name, a page at a time, and get title, price, original price and image for each listing in one normalized response.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Shop Listings pricing and uptime](https://getanyapi.com/api/etsy/shop-listings) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
+        "description": "List one Etsy shop's active listings by shop name, a page at a time, and get title, price, original price and image for each listing in one normalized response.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Etsy Shop Listings pricing and uptime](https://getanyapi.com/api/etsy/shop-listings) - live USD price, lane routing, and measured 30-day uptime. [Every Etsy endpoint](https://getanyapi.com/api/etsy).",
         "operationId": "etsy_shop_listings",
         "parameters": [
           {
@@ -71434,7 +71434,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -71508,7 +71508,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -109170,7 +109170,7 @@
     },
     "/v1/run/google.scholar": {
       "post": {
-        "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Scholar pricing and uptime](https://getanyapi.com/api/google/scholar) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Scholar pricing and uptime](https://getanyapi.com/api/google/scholar) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_scholar",
         "parameters": [
           {
@@ -109667,7 +109667,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000990",
+            "amount": "0.000850",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -109741,7 +109741,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000990",
+                "amount": "0.000850",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -263623,7 +263623,7 @@
     },
     "/v1/run/tiktok.ad_library_search": {
       "post": {
-        "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Ad Library Search pricing and uptime](https://getanyapi.com/api/tiktok/ad-library-search) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Ad Library Search pricing and uptime](https://getanyapi.com/api/tiktok/ad-library-search) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_ad_library_search",
         "parameters": [
           {
@@ -264171,7 +264171,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.000800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -264213,7 +264213,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -264245,7 +264245,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.000800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

@@ -475,7 +475,7 @@ export class EtsyNamespace {
    *
    * Look up one Etsy listing by id and get its price, images, description, rating, reviews count, shop, category, variations, stock, ship-from country, favorites and materials in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.etsy.product({ listingId: "1810545592" });
@@ -492,7 +492,7 @@ export class EtsyNamespace {
    *
    * Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.etsy.search({ query: "cover letter template" });
@@ -509,7 +509,7 @@ export class EtsyNamespace {
    *
    * Look up one Etsy shop by name and get its id, location, sales, active listings, rating, reviews count, followers, description, logo and banner in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.etsy.shop({ shopName: "StudioStelleHD" });
@@ -526,7 +526,7 @@ export class EtsyNamespace {
    *
    * List one Etsy shop's active listings by shop name, a page at a time, and get title, price, original price and image for each listing in one normalized response.
    *
-   * Price: $0.00085 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.etsy.shopListings({ shopName: "StudioStelleHD" });

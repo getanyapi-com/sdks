@@ -1783,7 +1783,7 @@
       "category": "shop",
       "description": "Look up one AliExpress product by id and get its price, original price, rating, reviews count, images, options, variants with stock, specifications, store, ship-from country and delivery estimate in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -11500,7 +11500,7 @@
       "category": "shop",
       "description": "Fetch an ASOS product by URL from any of its 11 country stores and get title, price, brand, colour, description, images, and per-size stock in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -12767,7 +12767,7 @@
       "category": "shop",
       "description": "Search BestBuy.com by keyword with optional sort, price-range, and page filters and get title, price, rating, and brand for each product in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33266,7 +33266,7 @@
       "category": "shop",
       "description": "Look up one Etsy listing by id and get its price, images, description, rating, reviews count, shop, category, variations, stock, ship-from country, favorites and materials in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33581,7 +33581,7 @@
       "category": "shop",
       "description": "Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -33850,7 +33850,7 @@
       "category": "shop",
       "description": "Look up one Etsy shop by name and get its id, location, sales, active listings, rating, reviews count, followers, description, logo and banner in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -34091,7 +34091,7 @@
       "category": "shop",
       "description": "List one Etsy shop's active listings by shop name, a page at a time, and get title, price, original price and image for each listing in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49095,7 +49095,7 @@
       "category": "search",
       "description": "Search Google Scholar for academic papers with title, authors, citation count, and PDF link.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -124426,7 +124426,7 @@
       "category": "social",
       "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
