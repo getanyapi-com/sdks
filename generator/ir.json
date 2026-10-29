@@ -49710,7 +49710,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60548,7 +60548,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.027,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -123445,7 +123445,7 @@
       "category": "social",
       "description": "Fetch a Threads user's public profile (bio, follower count, verification, profile picture) by username.",
       "pricing": {
-        "priceUsd": 0.0011,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

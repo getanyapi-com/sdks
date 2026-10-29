@@ -1758,7 +1758,7 @@ export class GoogleNamespace {
    *
    * Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.
    *
-   * Price: $0.002 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.google.trends({ keywords: ["coffee", "tea"], geo: "US", timeframe: "12m" });
