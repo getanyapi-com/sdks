@@ -47050,7 +47050,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49514,7 +49514,7 @@
       "category": "search",
       "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60547,7 +60547,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.027,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -79921,10 +79921,10 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.003,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.00215,
+        "baseUsd": 0.00015,
+        "perItemUsd": 0.00002,
+        "perItemUnit": "result"
       },
       "tsNamespace": "maps",
       "tsMethod": "reviews",
@@ -127180,8 +127180,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00187,
-        "baseUsd": 0.00187,
+        "priceUsd": 0.00116,
+        "baseUsd": 0.00116,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -138887,7 +138887,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.00054,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
