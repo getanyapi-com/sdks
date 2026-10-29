@@ -79921,10 +79921,10 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.003,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.00215,
+        "baseUsd": 0.00015,
+        "perItemUsd": 0.00002,
+        "perItemUnit": "result"
       },
       "tsNamespace": "maps",
       "tsMethod": "reviews",
@@ -145173,7 +145173,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
