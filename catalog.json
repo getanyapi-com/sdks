@@ -26496,15 +26496,61 @@
       },
       "pricing": {
         "from": {
-          "model": "flat",
-          "unit": "request",
-          "maxUsd": 0.003,
-          "maxPer1kUsd": 3
+          "model": "linear",
+          "unit": "result",
+          "baseUsd": 0.00015,
+          "perUnitUsd": 0.00002,
+          "maxUsd": 0.00215,
+          "maxPer1kUsd": 2.15
         },
         "failoverMaxUsd": 0.0441,
         "failoverMaxPer1kUsd": 44.1
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00015,
+            "perUnitUsd": 0.00002,
+            "maxUsd": 0.00215,
+            "maxPer1kUsd": 2.15
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 84.22499036856298,
+            "latencyP50Ms": 8931,
+            "uptimeSample": 38935,
+            "latencySample": 32793,
+            "requests": 38947,
+            "servedRequests": 32793
+          },
+          "fields": [
+            "author",
+            "authorUrl",
+            "avatarUrl",
+            "createdUtc",
+            "isLocalGuide",
+            "items",
+            "likes",
+            "origin",
+            "ownerResponse",
+            "ownerResponseAt",
+            "publishedAgo",
+            "rating",
+            "reviewId",
+            "reviewerId",
+            "reviewerReviewsCount",
+            "text",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -26655,50 +26701,6 @@
         }
       ],
       "notServingSources": [
-        {
-          "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.00015,
-            "perUnitUsd": 0.00002,
-            "maxUsd": 0.00215,
-            "maxPer1kUsd": 2.15
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 84.22499036856298,
-            "latencyP50Ms": 8931,
-            "uptimeSample": 38935,
-            "latencySample": 32793,
-            "requests": 38947,
-            "servedRequests": 32793
-          },
-          "fields": [
-            "author",
-            "authorUrl",
-            "avatarUrl",
-            "createdUtc",
-            "isLocalGuide",
-            "items",
-            "likes",
-            "origin",
-            "ownerResponse",
-            "ownerResponseAt",
-            "publishedAgo",
-            "rating",
-            "reviewId",
-            "reviewerId",
-            "reviewerReviewsCount",
-            "text",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "linear",

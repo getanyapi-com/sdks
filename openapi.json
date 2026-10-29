@@ -176054,7 +176054,7 @@
     },
     "/v1/run/maps.reviews": {
       "post": {
-        "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Reviews pricing and uptime](https://getanyapi.com/api/maps/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
+        "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.\n\n**Price:** billed per result - \\$0.15 per 1,000 requests base + \\$0.02 per 1,000 results, capped at \\$2.15 per 1,000 requests.\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Reviews pricing and uptime](https://getanyapi.com/api/maps/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
         "operationId": "maps_reviews",
         "parameters": [
           {
@@ -176624,9 +176624,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.003000",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.002150",
+            "min": "0.000150",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -176666,10 +176667,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003000",
                 "currency": "USD",
+                "max": "0.002150",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -176698,10 +176700,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003000",
                 "currency": "USD",
+                "max": "0.002150",
+                "min": "0.000150",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
