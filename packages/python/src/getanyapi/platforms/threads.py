@@ -334,7 +334,7 @@ class ThreadsNamespace:
         Fetch a Threads user's public profile (bio, follower count, verification,
         profile picture) by username.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.threads.profile(username="zuck")
@@ -446,7 +446,7 @@ class AsyncThreadsNamespace:
         Fetch a Threads user's public profile (bio, follower count, verification,
         profile picture) by username.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.threads.profile(username="zuck")
