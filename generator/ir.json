@@ -79921,10 +79921,10 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00215,
-        "baseUsd": 0.00015,
-        "perItemUsd": 0.00002,
-        "perItemUnit": "result"
+        "priceUsd": 0.003,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "maps",
       "tsMethod": "reviews",
@@ -133683,7 +133683,7 @@
       "category": "shop",
       "description": "Fetch TikTok Shop product details (title, price, sales, seller, and ratings) from a product URL.",
       "pricing": {
-        "priceUsd": 0.00095,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -138887,7 +138887,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.00054,
+        "priceUsd": 0.0007,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

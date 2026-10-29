@@ -757,7 +757,7 @@ class TiktokShopNamespace:
         Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
         from a product URL.
 
-        Price: $0.00095 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
@@ -979,7 +979,7 @@ class AsyncTiktokShopNamespace:
         Fetch TikTok Shop product details (title, price, sales, seller, and ratings)
         from a product URL.
 
-        Price: $0.00095 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok_shop.product(url="https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799")
