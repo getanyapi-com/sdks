@@ -14315,8 +14315,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-11-27",
-        "checkOut": "2026-11-29",
+        "checkIn": "2026-11-28",
+        "checkOut": "2026-11-30",
         "limit": 3,
         "query": "New York"
       },
@@ -47050,7 +47050,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -51278,8 +51278,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-11-27",
-        "checkOut": "2026-11-29",
+        "checkIn": "2026-11-28",
+        "checkOut": "2026-11-30",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51877,8 +51877,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-11-27",
-        "checkOut": "2026-11-29",
+        "checkIn": "2026-11-28",
+        "checkOut": "2026-11-30",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -76371,7 +76371,7 @@
       "category": "social",
       "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.",
       "pricing": {
-        "priceUsd": 0.004,
+        "priceUsd": 0.005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -102620,7 +102620,7 @@
       "category": "social",
       "description": "Fetch posts from a subreddit listing (hot, new, or top).",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -125807,7 +125807,7 @@
       "category": "video",
       "description": "List recent TikTok videos for a hashtag (creator, caption, views, likes, shares).",
       "pricing": {
-        "priceUsd": 0.0036,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -127180,8 +127180,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00116,
-        "baseUsd": 0.00116,
+        "priceUsd": 0.00187,
+        "baseUsd": 0.00187,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },

@@ -3536,7 +3536,7 @@ class TiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.0036 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -3687,7 +3687,7 @@ class TiktokNamespace:
         each labelled with where it came from. Returns the creator's profile stats
         and linked social accounts alongside.
 
-        Price: $0.00116 per request plus $0 per result (maximum $0.00116).
+        Price: $0.00187 per request plus $0 per result (maximum $0.00187).
 
         Example:
             res = client.tiktok.profile_contact(handle="gordonramsayofficial")
@@ -4669,7 +4669,7 @@ class AsyncTiktokNamespace:
         List recent TikTok videos for a hashtag (creator, caption, views, likes,
         shares).
 
-        Price: $0.0036 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.hashtag_videos(hashtag="cooking", limit=3)
@@ -4820,7 +4820,7 @@ class AsyncTiktokNamespace:
         each labelled with where it came from. Returns the creator's profile stats
         and linked social accounts alongside.
 
-        Price: $0.00116 per request plus $0 per result (maximum $0.00116).
+        Price: $0.00187 per request plus $0 per result (maximum $0.00187).
 
         Example:
             res = client.tiktok.profile_contact(handle="gordonramsayofficial")

@@ -6108,7 +6108,7 @@ class LinkedinNamespace:
         Search public LinkedIn posts with rich author, engagement, attachment, and
         poll details.
 
-        Price: $0.004 per request.
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")
@@ -7054,7 +7054,7 @@ class AsyncLinkedinNamespace:
         Search public LinkedIn posts with rich author, engagement, attachment, and
         poll details.
 
-        Price: $0.004 per request.
+        Price: $0.005 per request.
 
         Example:
             res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")

@@ -1466,7 +1466,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top).
    *
-   * Price: $0.00038 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.reddit.subredditPosts({ subreddit: "programming", limit: 5 });
