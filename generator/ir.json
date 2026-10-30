@@ -60563,7 +60563,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.027,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -79937,10 +79937,10 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.003,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.00215,
+        "baseUsd": 0.00015,
+        "perItemUsd": 0.00002,
+        "perItemUnit": "result"
       },
       "tsNamespace": "maps",
       "tsMethod": "reviews",
