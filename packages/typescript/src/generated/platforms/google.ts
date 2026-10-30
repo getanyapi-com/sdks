@@ -1704,7 +1704,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.
    *
-   * Price: $0.0005 per request.
+   * Price: $0.0004 per request.
    *
    * @example
    * const res = await client.google.search({ query: "best coffee maker", gl: "us", hl: "en", limit: 10 });
@@ -1741,7 +1741,7 @@ export class GoogleNamespace {
    *
    * Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.
    *
-   * Price: $0.024 per request.
+   * Price: $0.0018 per request.
    *
    * @example
    * const res = await client.google.search100({ query: "best crm software", gl: "us", hl: "en" });
