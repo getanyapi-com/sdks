@@ -32187,8 +32187,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-11-28",
-                "checkOut": "2026-11-30",
+                "checkIn": "2026-11-29",
+                "checkOut": "2026-12-01",
                 "limit": 3,
                 "query": "New York"
               },
@@ -32196,8 +32196,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-11-28",
-                  "checkOut": "2026-11-30",
+                  "checkIn": "2026-11-29",
+                  "checkOut": "2026-12-01",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -81175,7 +81175,7 @@
     },
     "/v1/run/facebook.page_contact": {
       "post": {
-        "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Page Contact Info pricing and uptime](https://getanyapi.com/api/facebook/page-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Page Contact Info pricing and uptime](https://getanyapi.com/api/facebook/page-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_page_contact",
         "parameters": [
           {
@@ -81275,6 +81275,19 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
                     "minimum": 1,
                     "type": "integer"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `createdUtc` or `adStatus`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a page that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "items": {
+                      "enum": [
+                        "adStatus",
+                        "createdUtc",
+                        "followers"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
                   },
                   "source": {
                     "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -81376,7 +81389,7 @@
                                             "type": "string"
                                           },
                                           "followers": {
-                                            "description": "The page's follower count.",
+                                            "description": "The page's follower count. Some sources read it from Facebook's rounded label, so \"474K followers\" comes back as 474000; name it in requireFields for the exact count.",
                                             "type": "integer"
                                           },
                                           "image": {
@@ -115446,16 +115459,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-28",
-                "checkOut": "2026-11-30",
+                "checkIn": "2026-11-29",
+                "checkOut": "2026-12-01",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-28",
-                  "checkOut": "2026-11-30",
+                  "checkIn": "2026-11-29",
+                  "checkOut": "2026-12-01",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -116440,16 +116453,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-28",
-                "checkOut": "2026-11-30",
+                "checkIn": "2026-11-29",
+                "checkOut": "2026-12-01",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-28",
-                  "checkOut": "2026-11-30",
+                  "checkIn": "2026-11-29",
+                  "checkOut": "2026-12-01",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -176055,7 +176068,7 @@
     },
     "/v1/run/maps.reviews": {
       "post": {
-        "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Reviews pricing and uptime](https://getanyapi.com/api/maps/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
+        "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.\n\n**Price:** billed per result - \\$0.15 per 1,000 requests base + \\$0.02 per 1,000 results, capped at \\$2.15 per 1,000 requests.\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Reviews pricing and uptime](https://getanyapi.com/api/maps/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
         "operationId": "maps_reviews",
         "parameters": [
           {
@@ -176625,9 +176638,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.003000",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.002150",
+            "min": "0.000150",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -176667,10 +176681,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003000",
                 "currency": "USD",
+                "max": "0.002150",
+                "min": "0.001000",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -176699,10 +176714,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003000",
                 "currency": "USD",
+                "max": "0.002150",
+                "min": "0.000150",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
