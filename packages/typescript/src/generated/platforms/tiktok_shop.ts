@@ -954,7 +954,7 @@ export class TiktokShopNamespace {
    *
    * Fetch TikTok Shop product details (title, price, sales, seller, and ratings) from a product URL.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktokShop.product({ url: "https://www.tiktok.com/shop/pdp/goli-ashwagandha-gummies-with-vitamin-d-ksm-66-vegan-non-gmo/1729587769570529799" });
