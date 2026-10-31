@@ -475,7 +475,7 @@ export class EtsyNamespace {
    *
    * Look up one Etsy listing by id and get its price, images, description, rating, reviews count, shop, category, variations, stock, ship-from country, favorites and materials in one normalized response.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00187 per request.
    *
    * @example
    * const res = await client.etsy.product({ listingId: "1810545592" });

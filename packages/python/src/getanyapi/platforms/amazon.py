@@ -1125,7 +1125,7 @@ class AmazonNamespace:
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL:
         rating, title, text, date, and verified-purchase badge.
 
-        Price: $0.018 per request.
+        Price: $0.0013 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
@@ -1328,7 +1328,7 @@ class AsyncAmazonNamespace:
         Pull up to 50 customer reviews for any Amazon product by ASIN or URL:
         rating, title, text, date, and verified-purchase badge.
 
-        Price: $0.018 per request.
+        Price: $0.0013 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")

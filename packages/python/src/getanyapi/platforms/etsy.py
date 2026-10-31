@@ -398,7 +398,7 @@ class EtsyNamespace:
         rating, reviews count, shop, category, variations, stock, ship-from country,
         favorites and materials in one normalized response.
 
-        Price: $0.0009 per request.
+        Price: $0.00187 per request.
 
         Example:
             res = client.etsy.product(listingId="1810545592")
@@ -488,7 +488,7 @@ class AsyncEtsyNamespace:
         rating, reviews count, shop, category, variations, stock, ship-from country,
         favorites and materials in one normalized response.
 
-        Price: $0.0009 per request.
+        Price: $0.00187 per request.
 
         Example:
             res = client.etsy.product(listingId="1810545592")
