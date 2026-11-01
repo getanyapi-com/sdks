@@ -12561,7 +12561,7 @@
     },
     "/v1/run/amazon.reviews": {
       "post": {
-        "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Amazon Reviews pricing and uptime](https://getanyapi.com/api/amazon/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
+        "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.\n\n**Price:** \\$18.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Amazon Reviews pricing and uptime](https://getanyapi.com/api/amazon/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
         "operationId": "amazon_reviews",
         "parameters": [
           {
@@ -13131,7 +13131,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001300",
+            "amount": "0.018000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -13173,7 +13173,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001300",
+                "amount": "0.018000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -13205,7 +13205,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001300",
+                "amount": "0.018000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -32187,8 +32187,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-11-30",
-                "checkOut": "2026-12-02",
+                "checkIn": "2026-12-01",
+                "checkOut": "2026-12-03",
                 "limit": 3,
                 "query": "New York"
               },
@@ -32196,8 +32196,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-11-30",
-                  "checkOut": "2026-12-02",
+                  "checkIn": "2026-12-01",
+                  "checkOut": "2026-12-03",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -115459,16 +115459,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-30",
-                "checkOut": "2026-12-02",
+                "checkIn": "2026-12-01",
+                "checkOut": "2026-12-03",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-30",
-                  "checkOut": "2026-12-02",
+                  "checkIn": "2026-12-01",
+                  "checkOut": "2026-12-03",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -116453,16 +116453,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-11-30",
-                "checkOut": "2026-12-02",
+                "checkIn": "2026-12-01",
+                "checkOut": "2026-12-03",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-11-30",
-                  "checkOut": "2026-12-02",
+                  "checkIn": "2026-12-01",
+                  "checkOut": "2026-12-03",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -282026,7 +282026,7 @@
     },
     "/v1/run/tiktok.video": {
       "post": {
-        "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video pricing and uptime](https://getanyapi.com/api/tiktok/video) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video pricing and uptime](https://getanyapi.com/api/tiktok/video) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video",
         "parameters": [
           {
@@ -282605,7 +282605,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000400",
+            "amount": "0.000450",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -282679,7 +282679,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000400",
+                "amount": "0.000450",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

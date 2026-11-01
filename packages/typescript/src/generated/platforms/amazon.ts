@@ -1286,7 +1286,7 @@ export class AmazonNamespace {
    *
    * Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.
    *
-   * Price: $0.0013 per request.
+   * Price: $0.018 per request.
    *
    * @example
    * const res = await client.amazon.reviews({ product: "B07PXGQC1Q", limit: 3 });
