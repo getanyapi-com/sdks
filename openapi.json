@@ -283336,7 +283336,7 @@
     },
     "/v1/run/tiktok.video_download": {
       "post": {
-        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_download",
         "parameters": [
           {
@@ -289176,7 +289176,8 @@
                     "uniqueItems": true
                   },
                   "url": {
-                    "description": "TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/...).",
+                    "description": "TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/<name>/<id> or https://shop.tiktok.com/us/store/<name>/<id>). A vt.tiktok.com or vm.tiktok.com share link, or any link that is not a store page, is refused as invalid input, with no charge; send the store page link (tiktok.com/shop/store/...) instead.",
+                    "pattern": "^(?:https?://)?(?:[A-Za-z0-9-]+\\.)*tiktok\\.com/(?:[^/?#]+/)?store/",
                     "type": "string"
                   }
                 },

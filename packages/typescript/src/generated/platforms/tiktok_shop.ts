@@ -741,7 +741,7 @@ export interface TiktokShopShopProductsInput {
    */
   source?: string[];
   /**
-   * TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/...).
+   * TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/<name>/<id> or https://shop.tiktok.com/us/store/<name>/<id>). A vt.tiktok.com or vm.tiktok.com share link, or any link that is not a store page, is refused as invalid input, with no charge; send the store page link (tiktok.com/shop/store/...) instead.
    */
   url: string;
 }

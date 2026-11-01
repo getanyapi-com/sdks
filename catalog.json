@@ -42008,19 +42008,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
+            "id": "anonymous-giraffe",
+            "name": "Giraffe",
             "kind": "anonymous",
-            "artworkKey": "tiger"
+            "artworkKey": "giraffe"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 30.2,
-            "latencyP50Ms": 743,
-            "uptimeSample": 500,
-            "latencySample": 151,
-            "requests": 526,
-            "servedRequests": 151
+            "uptimePct": 99.75124378109453,
+            "latencyP50Ms": 5191,
+            "uptimeSample": 402,
+            "latencySample": 401,
+            "requests": 403,
+            "servedRequests": 401
           },
           "fields": [
             "authorFollowers",
@@ -42046,7 +42046,9 @@
             "watermarkedUrl",
             "width"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -42055,19 +42057,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-giraffe",
-            "name": "Giraffe",
+            "id": "anonymous-tiger",
+            "name": "Tiger",
             "kind": "anonymous",
-            "artworkKey": "giraffe"
+            "artworkKey": "tiger"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.75124378109453,
-            "latencyP50Ms": 5191,
-            "uptimeSample": 402,
-            "latencySample": 401,
-            "requests": 403,
-            "servedRequests": 401
+            "uptimePct": 30.2,
+            "latencyP50Ms": 743,
+            "uptimeSample": 500,
+            "latencySample": 151,
+            "requests": 526,
+            "servedRequests": 151
           },
           "fields": [
             "authorFollowers",
