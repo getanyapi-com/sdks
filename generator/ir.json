@@ -4671,7 +4671,7 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0013,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50277,6 +50277,35 @@
               "default": null,
               "format": null
             },
+            "regions": {
+              "kind": "array",
+              "description": "Regions where Google shows this creative. Empty when Google lists none.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "code": {
+                    "kind": "string",
+                    "description": "Two-letter region code, e.g. US.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Region name, e.g. United States.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "code",
+                  "name"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
             "url": {
               "kind": "string",
               "description": "Google Ads Transparency Center URL for the creative.",
@@ -50341,6 +50370,7 @@
             "lastShown",
             "impressionsMin",
             "impressionsMax",
+            "regions",
             "variations"
           ],
           "open": false,
@@ -50791,7 +50821,7 @@
       "operationId": "google_ads_search",
       "name": "Google Ads Transparency",
       "category": "search",
-      "description": "Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.",
+      "description": "Pull the ads an advertiser is running from the Google Ads Transparency Center (creative details, formats, run dates, and headline and text where Google publishes them) as clean JSON. Each ad's detail page is read, so a 20-ad call can take a minute or more; many text ads come back only as an image of the ad.",
       "pricing": {
         "priceUsd": 0.0287,
         "baseUsd": 0.00006,
@@ -127196,8 +127226,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00187,
-        "baseUsd": 0.00187,
+        "priceUsd": 0.00116,
+        "baseUsd": 0.00116,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -148179,7 +148209,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -148855,7 +148885,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

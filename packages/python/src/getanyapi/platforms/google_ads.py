@@ -129,12 +129,22 @@ class GoogleAdsAdDetailsData(BaseModel):
         description="Lower bound of the impressions range. Null when Google does not publish one for this creative.",
     )
     last_shown: str = Field(alias="lastShown", description="ISO 8601 date.")
+    regions: list[GoogleAdsAdDetailsRegion] = Field(
+        description="Regions where Google shows this creative. Empty when Google lists none."
+    )
     url: str | None = Field(
         default=None, description="Google Ads Transparency Center URL for the creative."
     )
     variations: list[GoogleAdsAdDetailsVariation] = Field(
         description="Populated whenever the provider has data for the entity."
     )
+
+
+class GoogleAdsAdDetailsRegion(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    code: str = Field(description="Two-letter region code, e.g. US.")
+    name: str = Field(description="Region name, e.g. United States.")
 
 
 class GoogleAdsAdDetailsVariation(BaseModel):
@@ -384,9 +394,11 @@ class GoogleAdsNamespace:
     ) -> RunResult[GoogleAdsSearchData]:
         """Google Ads Transparency
 
-        Pull the ads an advertiser is currently running from the Google Ads
-        Transparency Center (creative details, formats, and run dates) as clean
-        JSON.
+        Pull the ads an advertiser is running from the Google Ads Transparency
+        Center (creative details, formats, run dates, and headline and text where
+        Google publishes them) as clean JSON. Each ad's detail page is read, so a
+        20-ad call can take a minute or more; many text ads come back only as an
+        image of the ad.
 
         Price: $0.00006 per request plus $0.00143 per result (maximum $0.0287).
 
@@ -501,9 +513,11 @@ class AsyncGoogleAdsNamespace:
     ) -> RunResult[GoogleAdsSearchData]:
         """Google Ads Transparency
 
-        Pull the ads an advertiser is currently running from the Google Ads
-        Transparency Center (creative details, formats, and run dates) as clean
-        JSON.
+        Pull the ads an advertiser is running from the Google Ads Transparency
+        Center (creative details, formats, run dates, and headline and text where
+        Google publishes them) as clean JSON. Each ad's detail page is read, so a
+        20-ad call can take a minute or more; many text ads come back only as an
+        image of the ad.
 
         Price: $0.00006 per request plus $0.00143 per result (maximum $0.0287).
 

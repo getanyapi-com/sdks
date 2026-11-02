@@ -3080,6 +3080,13 @@
         "lastShown": "sample",
         "impressionsMin": 1,
         "impressionsMax": 1,
+        "regions": [
+          {
+            "code": "sample",
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ],
         "variations": [
           {
             "headline": "sample",

@@ -36,6 +36,18 @@ export interface GoogleAdsAdDetailsInput {
   url: string;
 }
 
+export interface GoogleAdsAdDetailsRegion {
+  /**
+   * Two-letter region code, e.g. US.
+   */
+  code: string;
+  /**
+   * Region name, e.g. United States.
+   */
+  name: string;
+  [extra: string]: unknown;
+}
+
 export interface GoogleAdsAdDetailsVariation {
   allText: string;
   description: string;
@@ -77,6 +89,10 @@ export interface GoogleAdsAdDetailsData {
    * ISO 8601 date.
    */
   lastShown: string;
+  /**
+   * Regions where Google shows this creative. Empty when Google lists none.
+   */
+  regions: GoogleAdsAdDetailsRegion[];
   /**
    * Google Ads Transparency Center URL for the creative.
    */
@@ -457,7 +473,7 @@ export class GoogleAdsNamespace {
   /**
    * Google Ads Transparency
    *
-   * Pull the ads an advertiser is currently running from the Google Ads Transparency Center (creative details, formats, and run dates) as clean JSON.
+   * Pull the ads an advertiser is running from the Google Ads Transparency Center (creative details, formats, run dates, and headline and text where Google publishes them) as clean JSON. Each ad's detail page is read, so a 20-ad call can take a minute or more; many text ads come back only as an image of the ad.
    *
    * Price: $0.00006 per request plus $0.00143 per result (maximum $0.0287).
    *
