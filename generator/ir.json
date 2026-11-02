@@ -131356,7 +131356,8 @@
             "items": {
               "kind": "string",
               "enum": [
-                "industryIds"
+                "industryIds",
+                "topCreators"
               ],
               "default": null,
               "format": null
@@ -145247,7 +145248,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

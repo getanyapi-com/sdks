@@ -26591,46 +26591,6 @@
         },
         {
           "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0,
-            "perUnitUsd": 0.00004,
-            "maxUsd": 0.0035,
-            "maxPer1kUsd": 3.5
-          },
-          "source": {
-            "id": "anonymous-lynx",
-            "name": "Lynx",
-            "kind": "anonymous",
-            "artworkKey": "lynx"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 97.8265116733418,
-            "latencyP50Ms": 2627,
-            "uptimeSample": 20474,
-            "latencySample": 20029,
-            "requests": 20474,
-            "servedRequests": 20029
-          },
-          "fields": [
-            "author",
-            "authorUrl",
-            "avatarUrl",
-            "createdUtc",
-            "items",
-            "ownerResponse",
-            "publishedAgo",
-            "rating",
-            "reviewId",
-            "reviewerId",
-            "reviewerReviewsCount",
-            "text",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.0035,
@@ -26739,6 +26699,46 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0,
+            "perUnitUsd": 0.00004,
+            "maxUsd": 0.0035,
+            "maxPer1kUsd": 3.5
+          },
+          "source": {
+            "id": "anonymous-lynx",
+            "name": "Lynx",
+            "kind": "anonymous",
+            "artworkKey": "lynx"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 97.8265116733418,
+            "latencyP50Ms": 2627,
+            "uptimeSample": 20474,
+            "latencySample": 20029,
+            "requests": 20474,
+            "servedRequests": 20029
+          },
+          "fields": [
+            "author",
+            "authorUrl",
+            "avatarUrl",
+            "createdUtc",
+            "items",
+            "ownerResponse",
+            "publishedAgo",
+            "rating",
+            "reviewId",
+            "reviewerId",
+            "reviewerReviewsCount",
+            "text",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "linear",
@@ -41240,6 +41240,29 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
+            "id": "anonymous-walrus",
+            "name": "Walrus",
+            "kind": "anonymous",
+            "artworkKey": "walrus"
+          },
+          "fields": [
+            "hashtag",
+            "hashtagId",
+            "items",
+            "popularity",
+            "posts",
+            "rank",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.025,
+            "maxPer1kUsd": 25
+          },
+          "source": {
             "id": "anonymous-tiger",
             "name": "Tiger",
             "kind": "anonymous",
@@ -47963,47 +47986,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00045,
-          "maxPer1kUsd": 0.45
+          "maxUsd": 0.0005,
+          "maxPer1kUsd": 0.5
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.35550480540489,
-            "latencyP50Ms": 671,
-            "uptimeSample": 10509,
-            "latencySample": 10126,
-            "requests": 10525,
-            "servedRequests": 10126
-          },
-          "fields": [
-            "avatarUrl",
-            "channelId",
-            "description",
-            "handle",
-            "subscribers",
-            "title",
-            "url",
-            "videos",
-            "views"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -48137,6 +48126,42 @@
             "subscribers",
             "title",
             "url",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.35550480540489,
+            "latencyP50Ms": 671,
+            "uptimeSample": 10509,
+            "latencySample": 10126,
+            "requests": 10525,
+            "servedRequests": 10126
+          },
+          "fields": [
+            "avatarUrl",
+            "channelId",
+            "description",
+            "handle",
+            "subscribers",
+            "title",
+            "url",
+            "videos",
             "views"
           ]
         }
