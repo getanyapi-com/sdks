@@ -313,7 +313,7 @@ class GoogleAdsNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.google_ads.ad_details(url="https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217")
+            res = client.google_ads.ad_details(url="https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.ad_details", dict(input), options
@@ -432,7 +432,7 @@ class AsyncGoogleAdsNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.google_ads.ad_details(url="https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217")
+            res = client.google_ads.ad_details(url="https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "google_ads.ad_details", dict(input), options

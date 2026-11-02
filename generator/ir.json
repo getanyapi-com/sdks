@@ -50169,7 +50169,7 @@
       "inputTypeName": "GoogleAdsAdDetailsInput",
       "outputTypeName": "GoogleAdsAdDetailsData",
       "example": {
-        "url": "https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217"
+        "url": "https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089"
       },
       "input": {
         "kind": "object",
@@ -127226,8 +127226,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00116,
-        "baseUsd": 0.00116,
+        "priceUsd": 0.00187,
+        "baseUsd": 0.00187,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },

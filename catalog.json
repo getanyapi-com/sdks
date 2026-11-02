@@ -38983,66 +38983,15 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00116,
+          "baseUsd": 0.00187,
           "perUnitUsd": 0,
-          "maxUsd": 0.00116,
-          "maxPer1kUsd": 1.16
+          "maxUsd": 0.00187,
+          "maxPer1kUsd": 1.87
         },
         "failoverMaxUsd": 0.00187,
         "failoverMaxPer1kUsd": 1.87
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.00116,
-            "perUnitUsd": 0,
-            "maxUsd": 0.00116,
-            "maxPer1kUsd": 1.16
-          },
-          "source": {
-            "id": "anonymous-octopus",
-            "name": "Octopus",
-            "kind": "anonymous",
-            "artworkKey": "octopus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 93.56460691923344,
-            "latencyP50Ms": 2952,
-            "uptimeSample": 31622,
-            "latencySample": 29587,
-            "requests": 31623,
-            "servedRequests": 29587
-          },
-          "fields": [
-            "avatarUrl",
-            "bio",
-            "displayName",
-            "domain",
-            "domainHealth",
-            "email",
-            "emails",
-            "externalUrl",
-            "followers",
-            "following",
-            "handle",
-            "likes",
-            "platform",
-            "primaryEmail",
-            "private",
-            "profileUrl",
-            "seller",
-            "socialLinks",
-            "sourceType",
-            "sourceUrl",
-            "url",
-            "userId",
-            "verified",
-            "videos"
-          ]
-        },
         {
           "pricing": {
             "model": "linear",
@@ -39093,9 +39042,62 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00116,
+            "perUnitUsd": 0,
+            "maxUsd": 0.00116,
+            "maxPer1kUsd": 1.16
+          },
+          "source": {
+            "id": "anonymous-octopus",
+            "name": "Octopus",
+            "kind": "anonymous",
+            "artworkKey": "octopus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 93.56460691923344,
+            "latencyP50Ms": 2952,
+            "uptimeSample": 31622,
+            "latencySample": 29587,
+            "requests": 31623,
+            "servedRequests": 29587
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "displayName",
+            "domain",
+            "domainHealth",
+            "email",
+            "emails",
+            "externalUrl",
+            "followers",
+            "following",
+            "handle",
+            "likes",
+            "platform",
+            "primaryEmail",
+            "private",
+            "profileUrl",
+            "seller",
+            "socialLinks",
+            "sourceType",
+            "sourceUrl",
+            "url",
+            "userId",
+            "verified",
+            "videos"
+          ]
+        }
+      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "tiktok.profile_playlists",

@@ -407,7 +407,7 @@ export class GoogleAdsNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.googleAds.adDetails({ url: "https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217" });
+   * const res = await client.googleAds.adDetails({ url: "https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089" });
    */
   adDetails(
     input: GoogleAdsAdDetailsInput,

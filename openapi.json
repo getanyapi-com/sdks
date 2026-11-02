@@ -112366,12 +112366,12 @@
           "content": {
             "application/json": {
               "example": {
-                "url": "https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217"
+                "url": "https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "url": "https://adstransparency.google.com/advertiser/AR01614014350098432001/creative/CR10449491775734153217"
+                  "url": "https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089"
                 },
                 "properties": {
                   "allowFallbacks": {
@@ -270748,7 +270748,7 @@
     },
     "/v1/run/tiktok.profile_contact": {
       "post": {
-        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$1.16 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.16 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$1.87 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.87 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_contact",
         "parameters": [
           {
@@ -271313,8 +271313,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.001160",
-            "min": "0.001160",
+            "max": "0.001870",
+            "min": "0.001870",
             "mode": "dynamic"
           },
           "protocols": [
@@ -271356,8 +271356,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001160",
-                "min": "0.001160",
+                "max": "0.001870",
+                "min": "0.001870",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -271389,8 +271389,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001160",
-                "min": "0.001160",
+                "max": "0.001870",
+                "min": "0.001870",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
