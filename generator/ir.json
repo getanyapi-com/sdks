@@ -4396,7 +4396,7 @@
       "operationId": "amazon_reviews",
       "name": "Amazon Reviews",
       "category": "shop",
-      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
+      "description": "Pull customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
         "priceUsd": 0.0013,
         "baseUsd": null,

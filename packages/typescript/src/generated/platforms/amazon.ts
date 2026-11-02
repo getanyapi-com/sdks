@@ -1284,7 +1284,7 @@ export class AmazonNamespace {
   /**
    * Amazon Reviews
    *
-   * Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.
+   * Pull customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.
    *
    * Price: $0.0013 per request.
    *

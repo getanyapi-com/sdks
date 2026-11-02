@@ -1377,7 +1377,7 @@
       "slug": "amazon.reviews",
       "category": "shop",
       "name": "Amazon Reviews",
-      "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
+      "description": "Pull customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "method": "POST",
       "path": "/v1/run/amazon.reviews",
       "provider": "AnyAPI",
