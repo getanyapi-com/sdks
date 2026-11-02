@@ -2124,7 +2124,7 @@ export interface FacebookPageContactInput {
    */
   language?: string;
   /**
-   * Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa).
+   * Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa). A link to a post, video, photo or reels tab on a page is read as that page. A link to Facebook's own business, about, videos, photos or reels section names no page and is refused as invalid input, with no charge.
    */
   page: string;
   /**
@@ -2703,7 +2703,7 @@ export interface FacebookProfileInput {
    */
   source?: string[];
   /**
-   * Full Facebook page URL.
+   * Full Facebook page URL. profile.php without an id value names no page and is refused as invalid input, with no charge.
    */
   url?: string;
 }
@@ -2880,7 +2880,7 @@ export interface FacebookProfilePostsInput {
    */
   source?: string[];
   /**
-   * Facebook page or profile link, e.g. https://www.facebook.com/nike. Accepted: facebook.com/<name>, /p/<name>-<id>, /pages/<name>/<id>, /pg/<name>, /people/<name>/<id>, profile.php?id=<id>, and share links to a page (/share/<id> or /share/p/<id>), on facebook.com or fb.com with or without www, m, mbasic, web, business or a language subdomain. Anything after the page, such as a tab, is fine. Any other Facebook link, such as a single event, group, reel, video, video or reel share link (/share/v/ or /share/r/), hashtag, search or login page, is refused as invalid input, with no charge; facebook.event_details reads one event and facebook.post reads one post.
+   * Facebook page or profile link, e.g. https://www.facebook.com/nike. Accepted: facebook.com/<name>, /p/<name>-<id>, /pages/<name>/<id>, /pg/<name>, /people/<name>/<id>, profile.php?id=<id>, and share links to a page (/share/<id> or /share/p/<id>), on facebook.com or fb.com with or without www, m, mbasic, web, business or a language subdomain. Anything after the page, such as a tab, is fine. Any other Facebook link, such as a single event, group, reel, video, video or reel share link (/share/v/ or /share/r/), hashtag, search, login, about or fb-answers page, is refused as invalid input, with no charge; facebook.event_details reads one event and facebook.post reads one post.
    */
   url?: string;
 }

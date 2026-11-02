@@ -1654,7 +1654,7 @@ export interface InstagramPostCommentsInput {
    */
   source?: string[];
   /**
-   * Full Instagram post or reel URL.
+   * Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result - send that account's handle to instagram.user_posts to list its posts.
    */
   url: string;
 }

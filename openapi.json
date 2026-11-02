@@ -81268,7 +81268,10 @@
                     "type": "string"
                   },
                   "page": {
-                    "description": "Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa).",
+                    "description": "Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa). A link to a post, video, photo or reels tab on a page is read as that page. A link to Facebook's own business, about, videos, photos or reels section names no page and is refused as invalid input, with no charge.",
+                    "not": {
+                      "pattern": "^(?:[A-Za-z]+://)?[^/?#]*(?:[Ff][Aa][Cc][Ee][Bb][Oo][Oo][Kk]|[Ff][Bb])\\.[Cc][Oo][Mm]/+(?:(?:business|about)(?:[/?#]|$)|(?:videos|photos|reels)/*(?:[?#]|$))"
+                    },
                     "type": "string"
                   },
                   "preferLatencyUnderMs": {
@@ -85006,7 +85009,10 @@
                     "uniqueItems": true
                   },
                   "url": {
-                    "description": "Full Facebook page URL.",
+                    "description": "Full Facebook page URL. profile.php without an id value names no page and is refused as invalid input, with no charge.",
+                    "not": {
+                      "pattern": "^(?:[A-Za-z]+://)?[^/?#]*(?:[Ff][Aa][Cc][Ee][Bb][Oo][Oo][Kk]|[Ff][Bb])\\.[Cc][Oo][Mm]/+profile\\.php/*(?:\\?(?:[^i&#][^&#]*|i(?:[^d&#][^&#]*)?|id(?:[^=&#][^&#]*)?|id=)?(?:&(?:[^i&#][^&#]*|i(?:[^d&#][^&#]*)?|id(?:[^=&#][^&#]*)?|id=)?)*)?(?:#|$)"
+                    },
                     "type": "string"
                   }
                 },
@@ -86259,9 +86265,9 @@
                     "uniqueItems": true
                   },
                   "url": {
-                    "description": "Facebook page or profile link, e.g. https://www.facebook.com/nike. Accepted: facebook.com/<name>, /p/<name>-<id>, /pages/<name>/<id>, /pg/<name>, /people/<name>/<id>, profile.php?id=<id>, and share links to a page (/share/<id> or /share/p/<id>), on facebook.com or fb.com with or without www, m, mbasic, web, business or a language subdomain. Anything after the page, such as a tab, is fine. Any other Facebook link, such as a single event, group, reel, video, video or reel share link (/share/v/ or /share/r/), hashtag, search or login page, is refused as invalid input, with no charge; facebook.event_details reads one event and facebook.post reads one post.",
+                    "description": "Facebook page or profile link, e.g. https://www.facebook.com/nike. Accepted: facebook.com/<name>, /p/<name>-<id>, /pages/<name>/<id>, /pg/<name>, /people/<name>/<id>, profile.php?id=<id>, and share links to a page (/share/<id> or /share/p/<id>), on facebook.com or fb.com with or without www, m, mbasic, web, business or a language subdomain. Anything after the page, such as a tab, is fine. Any other Facebook link, such as a single event, group, reel, video, video or reel share link (/share/v/ or /share/r/), hashtag, search, login, about or fb-answers page, is refused as invalid input, with no charge; facebook.event_details reads one event and facebook.post reads one post.",
                     "not": {
-                      "pattern": "^(?:[A-Za-z]+://)?[^/?#]*/+(?:(?:events|groups|reels?|videos|watch|stories|hashtag|search|sharer|photo|plugins|legal|login|help|privacy)(?:[/?#]|$)|share/?(?:[?#]|$)|share/[A-Za-oq-z](?:[/?#]|$)|(?:[^/?#]{0,6}|[^/?#]{8,}|[^p/?#][^/?#]{6}|p[^r/?#][^/?#]{5}|pr[^o/?#][^/?#]{4}|pro[^f/?#][^/?#]{3}|prof[^i/?#][^/?#]{2}|profi[^l/?#][^/?#]|profil[^e/?#])\\.php(?:[/?#]|$))"
+                      "pattern": "^(?:[A-Za-z]+://)?[^/?#]*/+(?:(?:events|groups|reels?|videos|watch|stories|hashtag|search|sharer|photo|plugins|legal|login|help|privacy|fb-answers|about)(?:[/?#]|$)|share/?(?:[?#]|$)|share/[A-Za-oq-z](?:[/?#]|$)|(?:[^/?#]{0,6}|[^/?#]{8,}|[^p/?#][^/?#]{6}|p[^r/?#][^/?#]{5}|pr[^o/?#][^/?#]{4}|pro[^f/?#][^/?#]{3}|prof[^i/?#][^/?#]{2}|profi[^l/?#][^/?#]|profil[^e/?#])\\.php(?:[/?#]|$))"
                     },
                     "pattern": "^(?:[Hh][Tt][Tt][Pp][Ss]?://)?(?:(?:[Ww][Ww][Ww]|[Mm]|[Mm][Bb][Aa][Ss][Ii][Cc]|[Ww][Ee][Bb]|[Bb][Uu][Ss][Ii][Nn][Ee][Ss][Ss]|[A-Za-z]{2}-[A-Za-z]{2})\\.)?(?:[Ff][Aa][Cc][Ee][Bb][Oo][Oo][Kk]|[Ff][Bb])\\.[Cc][Oo][Mm]/+[^/?#]",
                     "type": "string"
@@ -130272,7 +130278,8 @@
                     "uniqueItems": true
                   },
                   "url": {
-                    "description": "Full Instagram post or reel URL.",
+                    "description": "Full Instagram post or reel URL, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is rejected instead of charged for an empty result - send that account's handle to instagram.user_posts to list its posts.",
+                    "pattern": "^[Hh][Tt][Tt][Pp][Ss]?://(?:[Ww][Ww][Ww]\\.)?[Ii][Nn][Ss][Tt][Aa][Gg][Rr][Aa][Mm]\\.[Cc][Oo][Mm]/(?:[A-Za-z0-9_.]+/)?(?:p|reel|reels|tv)/[A-Za-z0-9_-]+/?(?:[?#].*)?$",
                     "type": "string"
                   }
                 },
