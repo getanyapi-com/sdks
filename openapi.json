@@ -270748,7 +270748,7 @@
     },
     "/v1/run/tiktok.profile_contact": {
       "post": {
-        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$1.87 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.87 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$1.16 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.16 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_contact",
         "parameters": [
           {
@@ -271313,8 +271313,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.001870",
-            "min": "0.001870",
+            "max": "0.001160",
+            "min": "0.001160",
             "mode": "dynamic"
           },
           "protocols": [
@@ -271356,8 +271356,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001870",
-                "min": "0.001870",
+                "max": "0.001160",
+                "min": "0.001160",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -271389,8 +271389,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001870",
-                "min": "0.001870",
+                "max": "0.001160",
+                "min": "0.001160",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -290462,6 +290462,10 @@
                     "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
                     "type": "boolean"
                   },
+                  "cursor": {
+                    "description": "Pagination cursor from a previous response's nextCursor. Omit for the first page.",
+                    "type": "string"
+                  },
                   "ignoreSources": {
                     "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
                     "items": {
@@ -290472,14 +290476,14 @@
                     "uniqueItems": true
                   },
                   "languages": {
-                    "description": "Only return reviews in these ISO 639-1 languages (e.g. [\"en\", \"es\"]); omit for all languages.",
+                    "description": "Only return reviews originally written in these ISO 639-1 languages (e.g. [\"en\", \"es\"]); omit for all languages. Reviews are never translated. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.",
                     "items": {
                       "type": "string"
                     },
                     "type": "array"
                   },
                   "limit": {
-                    "description": "Maximum number of results to return (1-20, default 20).",
+                    "description": "Reviews per page (1-20, default 20). Sources that page return one page of up to `limit` reviews, newest first, with a nextCursor for the next page; sources that cannot page return up to `limit` reviews in one call with no nextCursor.",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -290502,6 +290506,17 @@
                       "type": "string"
                     },
                     "type": "array"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. nextCursor is null on the last page. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+                    "items": {
+                      "enum": [
+                        "nextCursor"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
                   },
                   "since": {
                     "description": "Only return reviews newer than this date, YYYY-MM-DD or a relative window like '3 months' (e.g. 2026-01-01).",
@@ -290605,7 +290620,7 @@
                                             "type": "string"
                                           },
                                           "language": {
-                                            "description": "Language code the review was written in.",
+                                            "description": "ISO 639-1 code of the language the review was originally written in (e.g. en, es). On some requests `title` and `text` are Tripadvisor's English machine translation of a review written in another language; this code still names the original language. A request with `languages` always returns the original text.",
                                             "type": "string"
                                           },
                                           "ownerResponseText": {
@@ -290660,6 +290675,13 @@
                                       },
                                       "type": "array",
                                       "x-anyapi-must-populate": true
+                                    },
+                                    "nextCursor": {
+                                      "description": "Opaque cursor for the next page of reviews, or null when there are no more. Pass it back as cursor to continue. Absent on sources that cannot page.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
                                     }
                                   },
                                   "required": [
@@ -291256,7 +291278,7 @@
                                             "type": "string"
                                           },
                                           "category": {
-                                            "description": "High-level category (e.g. hotel, restaurant, attraction).",
+                                            "description": "High-level category: hotel, restaurant, attraction, or geo for a destination such as a city.",
                                             "type": "string"
                                           },
                                           "city": {
@@ -291332,7 +291354,7 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "type": {
-                                            "description": "Tripadvisor place type (e.g. HOTEL, RESTAURANT, ATTRACTION).",
+                                            "description": "Tripadvisor place type: HOTEL, RESTAURANT, ATTRACTION, or GEO for a destination such as a city.",
                                             "type": "string"
                                           },
                                           "url": {

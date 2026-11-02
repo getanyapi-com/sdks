@@ -2,9 +2,11 @@
 
 import type {
   ClientCore,
+  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for Tripadvisor Reviews (tripadvisor.reviews).
@@ -16,15 +18,19 @@ export interface TripadvisorReviewsInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Pagination cursor from a previous response's nextCursor. Omit for the first page.
+   */
+  cursor?: string;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
-   * Only return reviews in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages.
+   * Only return reviews originally written in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages. Reviews are never translated. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.
    */
   languages?: string[];
   /**
-   * Maximum number of results to return (1-20, default 20).
+   * Reviews per page (1-20, default 20). Sources that page return one page of up to `limit` reviews, newest first, with a nextCursor for the next page; sources that cannot page return up to `limit` reviews in one call with no nextCursor.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -37,6 +43,10 @@ export interface TripadvisorReviewsInput {
    * Only return reviews whose bubble rating is in this set (e.g. ["5", "4"] for 4 and 5 star reviews); omit for all ratings.
    */
   ratings?: ("1" | "2" | "3" | "4" | "5")[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. nextCursor is null on the last page. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.
+   */
+  requireFields?: "nextCursor"[];
   /**
    * Only return reviews newer than this date, YYYY-MM-DD or a relative window like '3 months' (e.g. 2026-01-01).
    */
@@ -86,7 +96,7 @@ export interface TripadvisorReviewsItem {
    */
   id?: string;
   /**
-   * Language code the review was written in.
+   * ISO 639-1 code of the language the review was originally written in (e.g. en, es). On some requests `title` and `text` are Tripadvisor's English machine translation of a review written in another language; this code still names the original language. A request with `languages` always returns the original text.
    */
   language?: string;
   /**
@@ -142,6 +152,10 @@ export interface TripadvisorReviewsData {
    * Review records for the place: rating, title, review text, publish date, trip type, and reviewer details. Populated whenever the provider has data for the entity.
    */
   items: TripadvisorReviewsItem[];
+  /**
+   * Opaque cursor for the next page of reviews, or null when there are no more. Pass it back as cursor to continue. Absent on sources that cannot page.
+   */
+  nextCursor?: string | null;
 }
 
 /**
@@ -221,7 +235,7 @@ export interface TripadvisorSearchItem {
    */
   address?: string;
   /**
-   * High-level category (e.g. hotel, restaurant, attraction).
+   * High-level category: hotel, restaurant, attraction, or geo for a destination such as a city.
    */
   category?: string;
   /**
@@ -289,7 +303,7 @@ export interface TripadvisorSearchItem {
    */
   title: string;
   /**
-   * Tripadvisor place type (e.g. HOTEL, RESTAURANT, ATTRACTION).
+   * Tripadvisor place type: HOTEL, RESTAURANT, ATTRACTION, or GEO for a destination such as a city.
    */
   type?: string;
   /**
@@ -335,6 +349,26 @@ export class TripadvisorNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<TripadvisorReviewsData>> {
     return this._core.run("tripadvisor.reviews", input, options);
+  }
+
+  /**
+   * Iterate every result of Tripadvisor Reviews across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterReviews(
+    input: TripadvisorReviewsInput,
+    options?: RequestOptions,
+  ): Paginator<TripadvisorReviewsItem, RunResult<TripadvisorReviewsData>> {
+    return paginate<TripadvisorReviewsItem, RunResult<TripadvisorReviewsData>>(
+      this._core,
+      "tripadvisor.reviews",
+      input as unknown as Record<string, unknown>,
+      "items",
+      false,
+      options,
+    );
   }
 
   /**
