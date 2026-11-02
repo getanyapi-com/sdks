@@ -4398,7 +4398,7 @@
       "category": "shop",
       "description": "Pull up to 50 customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.018,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -14315,8 +14315,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-01",
-        "checkOut": "2026-12-03",
+        "checkIn": "2026-12-02",
+        "checkOut": "2026-12-04",
         "limit": 3,
         "query": "New York"
       },
@@ -42537,7 +42537,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49529,7 +49529,7 @@
       "category": "search",
       "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -51293,8 +51293,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-01",
-        "checkOut": "2026-12-03",
+        "checkIn": "2026-12-02",
+        "checkOut": "2026-12-04",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51892,8 +51892,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-01",
-        "checkOut": "2026-12-03",
+        "checkIn": "2026-12-02",
+        "checkOut": "2026-12-04",
         "country": "us",
         "query": "hotels near times square new york"
       },
