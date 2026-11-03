@@ -988,7 +988,7 @@ export class TiktokShopNamespace {
    *
    * Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.
    *
-   * Price: $0.00095 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktokShop.search({ query: "phone case", limit: 3 });
