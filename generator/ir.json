@@ -49529,7 +49529,7 @@
       "category": "search",
       "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.",
       "pricing": {
-        "priceUsd": 0.024,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -66428,10 +66428,10 @@
       },
       "tsNamespace": "linkedin",
       "tsMethod": "adsSearch",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterAdsSearch",
       "pyNamespace": "linkedin",
       "pyMethod": "ads_search",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_ads_search",
       "inputTypeName": "LinkedinAdsSearchInput",
       "outputTypeName": "LinkedinAdsSearchData",
       "example": {
@@ -66467,6 +66467,13 @@
             "default": null,
             "format": null
           },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
           "endDate": {
             "kind": "string",
             "description": "Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates. When you send startDate without endDate, the search ends yesterday in UTC, the latest day LinkedIn accepts.",
@@ -66494,7 +66501,7 @@
           },
           "paginationToken": {
             "kind": "string",
-            "description": "Opaque pagination token from a previous response's nextCursor.",
+            "description": "Legacy pagination alias. Prefer `cursor`; omit both fields for the first page.",
             "enum": null,
             "default": null,
             "format": null
@@ -66647,6 +66654,7 @@
             },
             "nextCursor": {
               "kind": "string",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -66670,10 +66678,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "ads",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {

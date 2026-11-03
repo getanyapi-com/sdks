@@ -192,6 +192,10 @@ export interface LinkedinAdsSearchInput {
    */
   countries?: string;
   /**
+   * Opaque pagination cursor from a previous response's `nextCursor`; omit for the first page.
+   */
+  cursor?: string;
+  /**
    * Search end date in YYYY-MM-DD format. Today or a later date is moved back to yesterday in UTC when your range overlaps LinkedIn's accepted dates. When you send startDate without endDate, the search ends yesterday in UTC, the latest day LinkedIn accepts.
    */
   endDate?: string;
@@ -204,7 +208,7 @@ export interface LinkedinAdsSearchInput {
    */
   keyword?: string;
   /**
-   * Opaque pagination token from a previous response's nextCursor.
+   * Legacy pagination alias. Prefer `cursor`; omit both fields for the first page.
    */
   paginationToken?: string;
   /**
@@ -262,7 +266,7 @@ export interface LinkedinAdsSearchData {
    * Populated whenever the provider has data for the entity.
    */
   ads: LinkedinAdsSearchAd[];
-  nextCursor: string;
+  nextCursor: string | null;
   totalAds: number;
 }
 
@@ -6626,6 +6630,26 @@ export class LinkedinNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<LinkedinAdsSearchData>> {
     return this._core.run("linkedin.ads_search", input, options);
+  }
+
+  /**
+   * Iterate every result of LinkedIn Ad Search across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterAdsSearch(
+    input: LinkedinAdsSearchInput,
+    options?: RequestOptions,
+  ): Paginator<LinkedinAdsSearchAd, RunResult<LinkedinAdsSearchData>> {
+    return paginate<LinkedinAdsSearchAd, RunResult<LinkedinAdsSearchData>>(
+      this._core,
+      "linkedin.ads_search",
+      input as unknown as Record<string, unknown>,
+      "ads",
+      false,
+      options,
+    );
   }
 
   /**
