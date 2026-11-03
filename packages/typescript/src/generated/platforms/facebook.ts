@@ -2124,7 +2124,7 @@ export interface FacebookPageContactInput {
    */
   language?: string;
   /**
-   * Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa). A link to a post, video, photo or reels tab on a page is read as that page. A link to Facebook's own business, about, videos, photos or reels section names no page and is refused as invalid input, with no charge.
+   * Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa). A link to a post, video, photo or reels tab on a page is read as that page. A link to Facebook's own business, about, marketplace, fb-answers, videos, photos or reels section, a pages link without the page's id, or profile.php without its id= names no page and is refused as invalid input, with no charge.
    */
   page: string;
   /**

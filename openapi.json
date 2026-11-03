@@ -81268,9 +81268,9 @@
                     "type": "string"
                   },
                   "page": {
-                    "description": "Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa). A link to a post, video, photo or reels tab on a page is read as that page. A link to Facebook's own business, about, videos, photos or reels section names no page and is refused as invalid input, with no charge.",
+                    "description": "Facebook Page URL or page ID to look up (e.g. https://www.facebook.com/nasa). A link to a post, video, photo or reels tab on a page is read as that page. A link to Facebook's own business, about, marketplace, fb-answers, videos, photos or reels section, a pages link without the page's id, or profile.php without its id= names no page and is refused as invalid input, with no charge.",
                     "not": {
-                      "pattern": "^(?:[A-Za-z]+://)?[^/?#]*(?:[Ff][Aa][Cc][Ee][Bb][Oo][Oo][Kk]|[Ff][Bb])\\.[Cc][Oo][Mm]/+(?:(?:business|about)(?:[/?#]|$)|(?:videos|photos|reels)/*(?:[?#]|$))"
+                      "pattern": "^(?:[A-Za-z]+://)?[^/?#]*(?:[Ff][Aa][Cc][Ee][Bb][Oo][Oo][Kk]|[Ff][Bb])\\.[Cc][Oo][Mm]/+(?:(?:business|about|marketplace|fb-answers)(?:[/?#]|$)|pages(?:/+[^/?#]*)?/*(?:[?#]|$)|profile\\.php/*(?:\\?(?:[^i&#][^&#]*|i(?:[^d&#][^&#]*)?|id(?:[^=&#][^&#]*)?|id=)?(?:&(?:[^i&#][^&#]*|i(?:[^d&#][^&#]*)?|id(?:[^=&#][^&#]*)?|id=)?)*)?(?:#|$)|(?:videos|photos|reels)/*(?:[?#]|$))"
                     },
                     "type": "string"
                   },
@@ -88757,7 +88757,7 @@
     },
     "/v1/run/facebook.search_posts": {
       "post": {
-        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$30.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$30.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_search_posts",
         "parameters": [
           {
