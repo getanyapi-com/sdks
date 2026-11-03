@@ -124164,7 +124164,7 @@
     },
     "/v1/run/instagram.followers": {
       "post": {
-        "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.\n\n**Price:** \\$1.88 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Followers pricing and uptime](https://getanyapi.com/api/instagram/followers) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.\n\n**Price:** \\$1.73 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Followers pricing and uptime](https://getanyapi.com/api/instagram/followers) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_followers",
         "parameters": [
           {
@@ -124661,7 +124661,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001880",
+            "amount": "0.001730",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -124703,7 +124703,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001730",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -124735,7 +124735,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001730",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -124764,7 +124764,7 @@
     },
     "/v1/run/instagram.following": {
       "post": {
-        "description": "List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.\n\n**Price:** \\$1.88 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Following pricing and uptime](https://getanyapi.com/api/instagram/following) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.\n\n**Price:** \\$1.73 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Following pricing and uptime](https://getanyapi.com/api/instagram/following) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_following",
         "parameters": [
           {
@@ -125261,7 +125261,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001880",
+            "amount": "0.001730",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -125303,7 +125303,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001730",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -125335,7 +125335,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001730",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -127459,7 +127459,7 @@
     },
     "/v1/run/instagram.highlight_detail": {
       "post": {
-        "description": "Fetch the details and media items of a single Instagram story highlight by id.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Highlight Detail pricing and uptime](https://getanyapi.com/api/instagram/highlight-detail) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch the details and media items of a single Instagram story highlight by id.\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Highlight Detail pricing and uptime](https://getanyapi.com/api/instagram/highlight-detail) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_highlight_detail",
         "parameters": [
           {
@@ -127984,7 +127984,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.001100",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -128026,7 +128026,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001100",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -128058,7 +128058,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001100",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -130806,7 +130806,7 @@
     },
     "/v1/run/instagram.post_likers": {
       "post": {
-        "description": "List the accounts that liked a public Instagram post, one page of likers per call, with each liker's handle, display name, verified flag and avatar.\n\n**Price:** \\$2.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Post Likers pricing and uptime](https://getanyapi.com/api/instagram/post-likers) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the accounts that liked a public Instagram post, one page of likers per call, with each liker's handle, display name, verified flag and avatar.\n\n**Price:** \\$1.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post Likers pricing and uptime](https://getanyapi.com/api/instagram/post-likers) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post_likers",
         "parameters": [
           {
@@ -131290,7 +131290,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.002400",
+            "amount": "0.001100",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -131332,7 +131332,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002400",
+                "amount": "0.001100",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -131364,7 +131364,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002400",
+                "amount": "0.001100",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -143207,7 +143207,7 @@
     },
     "/v1/run/instagram.user_reels": {
       "post": {
-        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_reels",
         "parameters": [
           {

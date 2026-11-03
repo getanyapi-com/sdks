@@ -4725,7 +4725,7 @@ export class InstagramNamespace {
    *
    * List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.
    *
-   * Price: $0.00188 per request.
+   * Price: $0.00173 per request.
    *
    * @example
    * const res = await client.instagram.followers({ username: "nasa" });
@@ -4762,7 +4762,7 @@ export class InstagramNamespace {
    *
    * List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.
    *
-   * Price: $0.00188 per request.
+   * Price: $0.00173 per request.
    *
    * @example
    * const res = await client.instagram.following({ username: "nasa" });
@@ -4902,7 +4902,7 @@ export class InstagramNamespace {
    *
    * Fetch the details and media items of a single Instagram story highlight by id.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.instagram.highlightDetail({ id: "18201653992314974" });
@@ -5039,7 +5039,7 @@ export class InstagramNamespace {
    *
    * List the accounts that liked a public Instagram post, one page of likers per call, with each liker's handle, display name, verified flag and avatar.
    *
-   * Price: $0.0024 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.instagram.postLikers({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });

@@ -54829,7 +54829,7 @@
       "category": "social",
       "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.",
       "pricing": {
-        "priceUsd": 0.00188,
+        "priceUsd": 0.00173,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -55018,7 +55018,7 @@
       "category": "social",
       "description": "List about the first 50 accounts a public Instagram user follows: usernames, names, and profile details. Instagram caps these lists, so this returns one page, not the whole list.",
       "pricing": {
-        "priceUsd": 0.00188,
+        "priceUsd": 0.00173,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -56181,7 +56181,7 @@
       "category": "social",
       "description": "Fetch the details and media items of a single Instagram story highlight by id.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57634,7 +57634,7 @@
       "category": "social",
       "description": "List the accounts that liked a public Instagram post, one page of likers per call, with each liker's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

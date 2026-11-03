@@ -3951,7 +3951,7 @@ class InstagramNamespace:
         username: follower usernames, names, and profile details. Instagram caps
         follower lists, so this returns one page, not the whole list.
 
-        Price: $0.00188 per request.
+        Price: $0.00173 per request.
 
         Example:
             res = client.instagram.followers(username="nasa")
@@ -3996,7 +3996,7 @@ class InstagramNamespace:
         names, and profile details. Instagram caps these lists, so this returns one
         page, not the whole list.
 
-        Price: $0.00188 per request.
+        Price: $0.00173 per request.
 
         Example:
             res = client.instagram.following(username="nasa")
@@ -4157,7 +4157,7 @@ class InstagramNamespace:
         Fetch the details and media items of a single Instagram story highlight by
         id.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.highlight_detail(id="18201653992314974")
@@ -4310,7 +4310,7 @@ class InstagramNamespace:
         List the accounts that liked a public Instagram post, one page of likers per
         call, with each liker's handle, display name, verified flag and avatar.
 
-        Price: $0.0024 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.post_likers(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -5125,7 +5125,7 @@ class AsyncInstagramNamespace:
         username: follower usernames, names, and profile details. Instagram caps
         follower lists, so this returns one page, not the whole list.
 
-        Price: $0.00188 per request.
+        Price: $0.00173 per request.
 
         Example:
             res = client.instagram.followers(username="nasa")
@@ -5170,7 +5170,7 @@ class AsyncInstagramNamespace:
         names, and profile details. Instagram caps these lists, so this returns one
         page, not the whole list.
 
-        Price: $0.00188 per request.
+        Price: $0.00173 per request.
 
         Example:
             res = client.instagram.following(username="nasa")
@@ -5333,7 +5333,7 @@ class AsyncInstagramNamespace:
         Fetch the details and media items of a single Instagram story highlight by
         id.
 
-        Price: $0.0012 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.highlight_detail(id="18201653992314974")
@@ -5486,7 +5486,7 @@ class AsyncInstagramNamespace:
         List the accounts that liked a public Instagram post, one page of likers per
         call, with each liker's handle, display name, verified flag and avatar.
 
-        Price: $0.0024 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.post_likers(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
