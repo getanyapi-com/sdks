@@ -741,7 +741,7 @@ export interface TiktokShopShopProductsInput {
    */
   source?: string[];
   /**
-   * TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/<name>/<id> or https://shop.tiktok.com/us/store/<name>/<id>). A vt.tiktok.com or vm.tiktok.com share link, or any link that is not a store page, is refused as invalid input, with no charge; send the store page link (tiktok.com/shop/store/...) instead.
+   * TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/<name>/<id> or https://shop.tiktok.com/us/store/<name>/<id>). The link must include the store's numeric id, the long number after the store name: a link with only the name (tiktok.com/shop/store/<name>) does not open a store page on TikTok. A link without the store id, a vt.tiktok.com or vm.tiktok.com share link, or any link that is not a store page, is refused as invalid input, with no charge; send the store page link with its id (tiktok.com/shop/store/<name>/<id>) instead.
    */
   url: string;
 }
@@ -988,7 +988,7 @@ export class TiktokShopNamespace {
    *
    * Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00095 per request.
    *
    * @example
    * const res = await client.tiktokShop.search({ query: "phone case", limit: 3 });

@@ -177,7 +177,7 @@ class TiktokShopShopProductsInput(TypedDict, total=False):
     source: NotRequired[list[str]]
     """Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: Required[str]
-    """TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/<name>/<id> or https://shop.tiktok.com/us/store/<name>/<id>). A vt.tiktok.com or vm.tiktok.com share link, or any link that is not a store page, is refused as invalid input, with no charge; send the store page link (tiktok.com/shop/store/...) instead."""
+    """TikTok Shop store URL (e.g. https://www.tiktok.com/shop/store/<name>/<id> or https://shop.tiktok.com/us/store/<name>/<id>). The link must include the store's numeric id, the long number after the store name: a link with only the name (tiktok.com/shop/store/<name>) does not open a store page on TikTok. A link without the store id, a vt.tiktok.com or vm.tiktok.com share link, or any link that is not a store page, is refused as invalid input, with no charge; send the store page link with its id (tiktok.com/shop/store/<name>/<id>) instead."""
 
 
 class TiktokShopUserShowcaseInput(TypedDict, total=False):
@@ -799,7 +799,7 @@ class TiktokShopNamespace:
         Search TikTok Shop products by keyword across 15 countries: price, sales,
         rating, and seller info per product, in one normalized response.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
@@ -1021,7 +1021,7 @@ class AsyncTiktokShopNamespace:
         Search TikTok Shop products by keyword across 15 countries: price, sales,
         rating, and seller info per product, in one normalized response.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")

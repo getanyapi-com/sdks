@@ -397,7 +397,7 @@ export interface WebScreenshotItem {
    */
   image?: string;
   /**
-   * The final page URL that was captured. Populated whenever the provider has data for the entity.
+   * The captured page's final URL after redirects when the source reports it, otherwise the URL you requested. Populated whenever the provider has data for the entity.
    */
   url: string;
   [extra: string]: unknown;
