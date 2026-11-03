@@ -92050,7 +92050,7 @@
     },
     "/v1/run/github.repository": {
       "post": {
-        "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [GitHub Repository pricing and uptime](https://getanyapi.com/api/github/repository) - live USD price, lane routing, and measured 30-day uptime. [Every Github endpoint](https://getanyapi.com/api/github).",
+        "description": "Fetch a GitHub repository's metadata by URL (stars, forks, language, topics, license, and timestamps).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [GitHub Repository pricing and uptime](https://getanyapi.com/api/github/repository) - live USD price, lane routing, and measured 30-day uptime. [Every Github endpoint](https://getanyapi.com/api/github).",
         "operationId": "github_repository",
         "parameters": [
           {
@@ -143207,7 +143207,7 @@
     },
     "/v1/run/instagram.user_reels": {
       "post": {
-        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_reels",
         "parameters": [
           {
@@ -291761,7 +291761,7 @@
     },
     "/v1/run/trustpilot.reviews": {
       "post": {
-        "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Trustpilot Reviews pricing and uptime](https://getanyapi.com/api/trustpilot/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Trustpilot endpoint](https://getanyapi.com/api/trustpilot).",
+        "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.\n\n**Price:** \\$2.14 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Trustpilot Reviews pricing and uptime](https://getanyapi.com/api/trustpilot/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Trustpilot endpoint](https://getanyapi.com/api/trustpilot).",
         "operationId": "trustpilot_reviews",
         "parameters": [
           {
@@ -292324,7 +292324,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.002140",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -292366,7 +292366,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001000",
+                "amount": "0.002140",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -292398,7 +292398,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.002140",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
