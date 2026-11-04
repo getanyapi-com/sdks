@@ -13130,7 +13130,7 @@
       "category": "search",
       "description": "Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.00644,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -47065,7 +47065,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -51290,6 +51290,407 @@
           "open": false,
           "mustPopulate": [
             "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "google_flights.search",
+      "platform": "google_flights",
+      "action": "search",
+      "operationId": "google_flights_search",
+      "name": "Google Flights Search",
+      "category": "travel",
+      "description": "Search Google Flights between two airports on a date and get about 20 itineraries: price, airline, stops, total duration, CO2 emissions against the typical figure for the route, and every leg's airline code, flight number, airports, local departure and arrival times and duration, as normalized JSON. Filter by cabin class, stops, airlines and maximum price. One-way searches return the total fare for all passengers. With a returnDate, each result is an outbound option priced at the cheapest round trip that starts with it (priceType round_trip_starting); the return flights are not included.",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "googleFlights",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "google_flights",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "GoogleFlightsSearchInput",
+      "outputTypeName": "GoogleFlightsSearchData",
+      "example": {
+        "departureDate": "2026-12-04",
+        "destination": "LHR",
+        "origin": "JFK"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "adults": {
+            "kind": "integer",
+            "description": "Number of adult passengers (1-9, default 1). Prices are for all passengers together.",
+            "minimum": 1,
+            "maximum": 9,
+            "default": 1
+          },
+          "airlines": {
+            "kind": "array",
+            "description": "Only itineraries flown by these airlines, as two-character IATA codes (e.g. [\"BA\", \"AA\"]).",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cabinClass": {
+            "kind": "string",
+            "description": "Cabin class (default economy).",
+            "enum": [
+              "economy",
+              "premium_economy",
+              "business",
+              "first"
+            ],
+            "default": "economy",
+            "format": null
+          },
+          "children": {
+            "kind": "integer",
+            "description": "Number of child passengers aged 2-11 (e.g. 1).",
+            "minimum": 0,
+            "maximum": 8,
+            "default": null
+          },
+          "currency": {
+            "kind": "string",
+            "description": "ISO 4217 currency code for prices (e.g. USD, EUR, GBP; default USD).",
+            "enum": null,
+            "default": "USD",
+            "format": null
+          },
+          "departureDate": {
+            "kind": "string",
+            "description": "Departure date in YYYY-MM-DD format (e.g. 2027-01-12). Today or later.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "destination": {
+            "kind": "string",
+            "description": "Arrival airport as a three-letter IATA code in capitals (e.g. LHR).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "maxPrice": {
+            "kind": "integer",
+            "description": "Highest total price to return, in currency (e.g. 600).",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "maxStops": {
+            "kind": "string",
+            "description": "Most stops an itinerary may have (default any).",
+            "enum": [
+              "any",
+              "nonstop",
+              "one_or_fewer",
+              "two_or_fewer"
+            ],
+            "default": "any",
+            "format": null
+          },
+          "origin": {
+            "kind": "string",
+            "description": "Departure airport as a three-letter IATA code in capitals (e.g. JFK).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `typicalCo2Kg`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an itinerary that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "typicalCo2Kg"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "returnDate": {
+            "kind": "string",
+            "description": "Return date in YYYY-MM-DD format for a round trip (e.g. 2027-01-19). Omit it for one way. With it, each result is an outbound option priced at the cheapest round trip that starts with it, and the return flights are not included.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "sortBy": {
+            "kind": "string",
+            "description": "Result order: top_flights (Google's best flights first, the default), cheapest, departure_time, arrival_time, duration or emissions.",
+            "enum": [
+              "top_flights",
+              "cheapest",
+              "departure_time",
+              "arrival_time",
+              "duration",
+              "emissions"
+            ],
+            "default": "top_flights",
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "origin",
+          "destination",
+          "departureDate"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "itineraries": {
+              "kind": "array",
+              "description": "Itineraries in Google Flights' order for the chosen sort. On a round trip each one is an outbound option. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "airline": {
+                    "kind": "string",
+                    "description": "Name of the airline Google Flights shows for the itinerary (e.g. British Airways). The airline of each leg is in legs. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "bookingToken": {
+                    "kind": "string",
+                    "description": "Google Flights' token for this itinerary's fare, or null when not given.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "co2Kg": {
+                    "kind": "number",
+                    "description": "Estimated CO2 emissions of the itinerary in kilograms, or null when not shown (usually on round trips).",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "ISO 4217 currency code of price. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "departureToken": {
+                    "kind": "string",
+                    "description": "On a round trip, the source's token for this outbound option; null on a one-way search.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "legs": {
+                    "kind": "array",
+                    "description": "Flights of the itinerary in order (the outbound journey on a round trip).",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "airlineCode": {
+                          "kind": "string",
+                          "description": "IATA code of the airline flying this leg (e.g. BA).",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "arrivalAirport": {
+                          "kind": "string",
+                          "description": "IATA code of the arrival airport.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "arrivalDate": {
+                          "kind": "string",
+                          "description": "Arrival date in YYYY-MM-DD, local time at the arrival airport.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "arrivalTime": {
+                          "kind": "string",
+                          "description": "Arrival time as 24-hour HH:MM, local time at the arrival airport.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "departureAirport": {
+                          "kind": "string",
+                          "description": "IATA code of the departure airport.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "departureDate": {
+                          "kind": "string",
+                          "description": "Departure date in YYYY-MM-DD, local time at the departure airport.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "departureTime": {
+                          "kind": "string",
+                          "description": "Departure time as 24-hour HH:MM, local time at the departure airport.",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "durationMinutes": {
+                          "kind": "integer",
+                          "description": "Flight time of this leg in minutes.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "flightNumber": {
+                          "kind": "string",
+                          "description": "Flight number without the airline code (e.g. 112).",
+                          "nullable": true,
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "departureAirport",
+                        "arrivalAirport"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Price for all passengers together, in currency, or null when Google shows no price. What it covers is in priceType. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "priceType": {
+                    "kind": "string",
+                    "description": "total: the one-way fare for all passengers. round_trip_starting: the cheapest round-trip fare that starts with this outbound option; the return flights are not included.",
+                    "enum": [
+                      "total",
+                      "round_trip_starting"
+                    ],
+                    "default": null,
+                    "format": null
+                  },
+                  "stops": {
+                    "kind": "integer",
+                    "description": "Number of stops (0 for nonstop); on a round trip, of the outbound journey. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "totalDurationMinutes": {
+                    "kind": "integer",
+                    "description": "Total travel time in minutes, layovers included; on a round trip, of the outbound journey. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "typicalCo2Kg": {
+                    "kind": "number",
+                    "description": "Typical CO2 emissions in kilograms for this route, to compare co2Kg against, or null when not shown.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "priceType",
+                  "legs"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "airline",
+                  "currency",
+                  "price",
+                  "stops",
+                  "totalDurationMinutes"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "itineraries"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "itineraries"
           ]
         }
       },
@@ -141607,6 +142008,376 @@
                   "jobId",
                   "title",
                   "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "vrbo.search",
+      "platform": "vrbo",
+      "action": "search",
+      "operationId": "vrbo_search",
+      "name": "Vrbo Search",
+      "category": "travel",
+      "description": "Search Vrbo vacation rentals by destination and dates, with guest, bedroom, bed, bathroom and price filters, and get up to 50 listings per call: Vrbo property ID and link, name, summary line, property type, bedrooms, beds, guest rating and review count, nightly and total stay price with the original nightly price before any discount, and photos as normalized JSON. Page with offset; the price is the same whatever the limit.",
+      "pricing": {
+        "priceUsd": 0.001,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "vrbo",
+      "tsMethod": "search",
+      "tsIterMethod": null,
+      "pyNamespace": "vrbo",
+      "pyMethod": "search",
+      "pyIterMethod": null,
+      "inputTypeName": "VrboSearchInput",
+      "outputTypeName": "VrboSearchData",
+      "example": {
+        "adults": 2,
+        "checkIn": "2026-12-04",
+        "checkOut": "2026-12-07",
+        "limit": 5,
+        "location": "Lake Tahoe"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "adults": {
+            "kind": "integer",
+            "description": "Number of adult guests (e.g. 2).",
+            "minimum": 1,
+            "maximum": 20,
+            "default": null
+          },
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "checkIn": {
+            "kind": "string",
+            "description": "Check-in date in YYYY-MM-DD format (e.g. 2027-01-15). Today or later.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "checkOut": {
+            "kind": "string",
+            "description": "Check-out date in YYYY-MM-DD format (e.g. 2027-01-18). After the check-in date.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "childrenAges": {
+            "kind": "array",
+            "description": "Age of each child guest, one entry per child (e.g. [5, 8] for two children aged 5 and 8). Omit it when no children are staying.",
+            "items": {
+              "kind": "integer",
+              "minimum": 0,
+              "maximum": 17,
+              "default": null
+            },
+            "mustPopulate": false
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of listings to return (1-50, default 20). The price is the same whatever the limit.",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 20
+          },
+          "location": {
+            "kind": "string",
+            "description": "Destination to search rentals in: a city, region or area (e.g. Lake Tahoe, Lisbon, Outer Banks, North Carolina).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "minBathrooms": {
+            "kind": "integer",
+            "description": "Minimum number of bathrooms (e.g. 2).",
+            "minimum": 1,
+            "maximum": 50,
+            "default": null
+          },
+          "minBedrooms": {
+            "kind": "integer",
+            "description": "Minimum number of bedrooms (e.g. 3).",
+            "minimum": 0,
+            "maximum": 50,
+            "default": null
+          },
+          "minBeds": {
+            "kind": "integer",
+            "description": "Minimum number of beds (e.g. 4).",
+            "minimum": 1,
+            "maximum": 20,
+            "default": null
+          },
+          "offset": {
+            "kind": "integer",
+            "description": "Number of listings to skip, for paging: send offset 20 with limit 20 for the second page.",
+            "minimum": 0,
+            "maximum": 1000,
+            "default": 0
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "priceMax": {
+            "kind": "integer",
+            "description": "Maximum price in the currency results are priced in (each listing's currency), per night or for the whole stay as priceType says (e.g. 400). With a price filter, only listings Vrbo prices for your dates are returned.",
+            "minimum": 1,
+            "maximum": 1000000,
+            "default": null
+          },
+          "priceMin": {
+            "kind": "integer",
+            "description": "Minimum price in the currency results are priced in (each listing's currency), per night or for the whole stay as priceType says (e.g. 100).",
+            "minimum": 0,
+            "maximum": 1000000,
+            "default": null
+          },
+          "priceType": {
+            "kind": "string",
+            "description": "Whether priceMin and priceMax are a nightly price (default) or the total for the stay.",
+            "enum": [
+              "nightly",
+              "total"
+            ],
+            "default": "nightly",
+            "format": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "Result order: recommended (Vrbo's default), price_low_to_high, price_high_to_low, review (highest rated first) or review_count (most reviewed first).",
+            "enum": [
+              "recommended",
+              "price_low_to_high",
+              "price_high_to_low",
+              "review",
+              "review_count"
+            ],
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "location",
+          "checkIn",
+          "checkOut"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Vrbo listings priced for the requested dates and guests, in Vrbo's order. A listing Vrbo shows without a price for the dates is left out. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "bedrooms": {
+                    "kind": "integer",
+                    "description": "Number of bedrooms. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "beds": {
+                    "kind": "integer",
+                    "description": "Number of beds. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "currency": {
+                    "kind": "string",
+                    "description": "ISO 4217 currency code of the prices (e.g. USD). Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "feesNote": {
+                    "kind": "string",
+                    "description": "Vrbo's note on what the price includes (e.g. All fees included).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Vrbo property ID.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "images": {
+                    "kind": "array",
+                    "description": "Listing photo URLs. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": true
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Listing name. Vrbo often shows a generic name such as \"Condo in Kings Beach\".",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "nights": {
+                    "kind": "integer",
+                    "description": "Number of nights the total price covers.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "originalPricePerNight": {
+                    "kind": "number",
+                    "description": "Nightly price before Vrbo's discount, or null when the listing is not discounted.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "overview": {
+                    "kind": "string",
+                    "description": "Vrbo's one-line summary of the listing (e.g. \"3 bedrooms · 6 beds · Free cancellation until Dec 16\"). Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "pricePerNight": {
+                    "kind": "number",
+                    "description": "Nightly price for the requested dates and guests, in currency. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "propertyType": {
+                    "kind": "string",
+                    "description": "Property type (e.g. Condo, House), or null when Vrbo does not state it in search results.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "number",
+                    "description": "Average guest rating out of 10, or null when the listing has no rating. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "ratingLabel": {
+                    "kind": "string",
+                    "description": "Vrbo's word for the rating (e.g. Exceptional, Wonderful).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "reviewsCount": {
+                    "kind": "integer",
+                    "description": "Number of guest reviews, or null when Vrbo does not show a count.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "totalPrice": {
+                    "kind": "number",
+                    "description": "Total price for the whole stay, in currency. Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Vrbo listing URL.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "id",
+                  "url",
+                  "name"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "bedrooms",
+                  "beds",
+                  "currency",
+                  "images",
+                  "overview",
+                  "pricePerNight",
+                  "rating",
+                  "totalPrice"
                 ]
               },
               "mustPopulate": true

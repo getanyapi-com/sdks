@@ -391,6 +391,10 @@ import type {
   GoogleFinanceQuoteInput,
 } from "./platforms/google_finance.js";
 import type {
+  GoogleFlightsSearchData,
+  GoogleFlightsSearchInput,
+} from "./platforms/google_flights.js";
+import type {
   GoogleHotelsDetailsData,
   GoogleHotelsDetailsInput,
   GoogleHotelsSearchData,
@@ -1011,6 +1015,7 @@ import type {
   UnsplashSearchPhotosInput,
 } from "./platforms/unsplash.js";
 import type { UpworkJobsData, UpworkJobsInput } from "./platforms/upwork.js";
+import type { VrboSearchData, VrboSearchInput } from "./platforms/vrbo.js";
 import type {
   WalmartProductData,
   WalmartProductInput,
@@ -1912,6 +1917,11 @@ export interface SkuMap {
     input: GoogleFinanceQuoteInput;
     data: GoogleFinanceQuoteData;
     result: RunResult<GoogleFinanceQuoteData>;
+  };
+  "google_flights.search": {
+    input: GoogleFlightsSearchInput;
+    data: GoogleFlightsSearchData;
+    result: RunResult<GoogleFlightsSearchData>;
   };
   "google_hotels.details": {
     input: GoogleHotelsDetailsInput;
@@ -3252,6 +3262,11 @@ export interface SkuMap {
     input: UpworkJobsInput;
     data: UpworkJobsData;
     result: RunResult<UpworkJobsData>;
+  };
+  "vrbo.search": {
+    input: VrboSearchInput;
+    data: VrboSearchData;
+    result: RunResult<VrboSearchData>;
   };
   "walmart.product": {
     input: WalmartProductInput;

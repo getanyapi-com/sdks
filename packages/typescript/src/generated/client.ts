@@ -44,6 +44,7 @@ import { GlassdoorNamespace } from "./platforms/glassdoor.js";
 import { GoogleNamespace } from "./platforms/google.js";
 import { GoogleAdsNamespace } from "./platforms/google_ads.js";
 import { GoogleFinanceNamespace } from "./platforms/google_finance.js";
+import { GoogleFlightsNamespace } from "./platforms/google_flights.js";
 import { GoogleHotelsNamespace } from "./platforms/google_hotels.js";
 import { GoogleShoppingNamespace } from "./platforms/google_shopping.js";
 import { HackernewsNamespace } from "./platforms/hackernews.js";
@@ -94,6 +95,7 @@ import { TruthsocialNamespace } from "./platforms/truthsocial.js";
 import { TwitterNamespace } from "./platforms/twitter.js";
 import { UnsplashNamespace } from "./platforms/unsplash.js";
 import { UpworkNamespace } from "./platforms/upwork.js";
+import { VrboNamespace } from "./platforms/vrbo.js";
 import { WalmartNamespace } from "./platforms/walmart.js";
 import { WebNamespace } from "./platforms/web.js";
 import { WeiboNamespace } from "./platforms/weibo.js";
@@ -470,6 +472,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["googleFinance"] ??= new GoogleFinanceNamespace(
       this._core,
     )) as GoogleFinanceNamespace;
+  }
+
+  /**
+   * Typed methods for the google_flights platform.
+   */
+  get googleFlights(): GoogleFlightsNamespace {
+    return (this._namespaces["googleFlights"] ??= new GoogleFlightsNamespace(
+      this._core,
+    )) as GoogleFlightsNamespace;
   }
 
   /**
@@ -918,6 +929,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["upwork"] ??= new UpworkNamespace(
       this._core,
     )) as UpworkNamespace;
+  }
+
+  /**
+   * Typed methods for the vrbo platform.
+   */
+  get vrbo(): VrboNamespace {
+    return (this._namespaces["vrbo"] ??= new VrboNamespace(
+      this._core,
+    )) as VrboNamespace;
   }
 
   /**

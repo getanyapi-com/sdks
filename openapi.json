@@ -28915,7 +28915,7 @@
     },
     "/v1/run/bing.copilot": {
       "post": {
-        "description": "Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Microsoft Copilot Search pricing and uptime](https://getanyapi.com/api/bing/copilot) - live USD price, lane routing, and measured 30-day uptime. [Every Bing endpoint](https://getanyapi.com/api/bing).",
+        "description": "Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.\n\n**Price:** \\$6.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Microsoft Copilot Search pricing and uptime](https://getanyapi.com/api/bing/copilot) - live USD price, lane routing, and measured 30-day uptime. [Every Bing endpoint](https://getanyapi.com/api/bing).",
         "operationId": "bing_copilot",
         "parameters": [
           {
@@ -29573,7 +29573,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000850",
+            "amount": "0.006440",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -29615,7 +29615,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001000",
+                "amount": "0.006440",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -29647,7 +29647,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000850",
+                "amount": "0.006440",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -103034,7 +103034,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -103533,7 +103533,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001500",
+            "amount": "0.001800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -103575,7 +103575,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001500",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -103607,7 +103607,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001500",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -115397,6 +115397,805 @@
                 "min": "0.000550",
                 "minimumUsd": null,
                 "mode": "dynamic",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/google_flights.search": {
+      "post": {
+        "description": "Search Google Flights between two airports on a date and get about 20 itineraries: price, airline, stops, total duration, CO2 emissions against the typical figure for the route, and every leg's airline code, flight number, airports, local departure and arrival times and duration, as normalized JSON. Filter by cabin class, stops, airlines and maximum price. One-way searches return the total fare for all passengers. With a returnDate, each result is an outbound option priced at the cheapest round trip that starts with it (priceType round_trip_starting); the return flights are not included.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Flights Search pricing and uptime](https://getanyapi.com/api/google-flights/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google_flights endpoint](https://getanyapi.com/api/google-flights).",
+        "operationId": "google_flights_search",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "departureDate": "2026-12-04",
+                "destination": "LHR",
+                "origin": "JFK"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "departureDate": "2026-12-04",
+                  "destination": "LHR",
+                  "origin": "JFK"
+                },
+                "properties": {
+                  "adults": {
+                    "default": 1,
+                    "description": "Number of adult passengers (1-9, default 1). Prices are for all passengers together.",
+                    "maximum": 9,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "airlines": {
+                    "description": "Only itineraries flown by these airlines, as two-character IATA codes (e.g. [\"BA\", \"AA\"]).",
+                    "items": {
+                      "pattern": "^[A-Z0-9]{2}$",
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "cabinClass": {
+                    "default": "economy",
+                    "description": "Cabin class (default economy).",
+                    "enum": [
+                      "economy",
+                      "premium_economy",
+                      "business",
+                      "first"
+                    ],
+                    "type": "string"
+                  },
+                  "children": {
+                    "description": "Number of child passengers aged 2-11 (e.g. 1).",
+                    "maximum": 8,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "currency": {
+                    "default": "USD",
+                    "description": "ISO 4217 currency code for prices (e.g. USD, EUR, GBP; default USD).",
+                    "pattern": "^[A-Z]{3}$",
+                    "type": "string"
+                  },
+                  "departureDate": {
+                    "description": "Departure date in YYYY-MM-DD format (e.g. 2027-01-12). Today or later.",
+                    "format": "date",
+                    "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                    "type": "string"
+                  },
+                  "destination": {
+                    "description": "Arrival airport as a three-letter IATA code in capitals (e.g. LHR).",
+                    "pattern": "^[A-Z]{3}$",
+                    "type": "string"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "maxPrice": {
+                    "description": "Highest total price to return, in currency (e.g. 600).",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "maxStops": {
+                    "default": "any",
+                    "description": "Most stops an itinerary may have (default any).",
+                    "enum": [
+                      "any",
+                      "nonstop",
+                      "one_or_fewer",
+                      "two_or_fewer"
+                    ],
+                    "type": "string"
+                  },
+                  "origin": {
+                    "description": "Departure airport as a three-letter IATA code in capitals (e.g. JFK).",
+                    "pattern": "^[A-Z]{3}$",
+                    "type": "string"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `typicalCo2Kg`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an itinerary that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "items": {
+                      "enum": [
+                        "typicalCo2Kg"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "returnDate": {
+                    "description": "Return date in YYYY-MM-DD format for a round trip (e.g. 2027-01-19). Omit it for one way. With it, each result is an outbound option priced at the cheapest round trip that starts with it, and the return flights are not included.",
+                    "format": "date",
+                    "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                    "type": "string"
+                  },
+                  "sortBy": {
+                    "default": "top_flights",
+                    "description": "Result order: top_flights (Google's best flights first, the default), cheapest, departure_time, arrival_time, duration or emissions.",
+                    "enum": [
+                      "top_flights",
+                      "cheapest",
+                      "departure_time",
+                      "arrival_time",
+                      "duration",
+                      "emissions"
+                    ],
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "origin",
+                  "destination",
+                  "departureDate"
+                ],
+                "title": "Google Flights search input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "Result payload, or null when nothing was found.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "itineraries": {
+                                      "description": "Itineraries in Google Flights' order for the chosen sort. On a round trip each one is an outbound option. Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "airline": {
+                                            "description": "Name of the airline Google Flights shows for the itinerary (e.g. British Airways). The airline of each leg is in legs. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "bookingToken": {
+                                            "description": "Google Flights' token for this itinerary's fare, or null when not given.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "co2Kg": {
+                                            "description": "Estimated CO2 emissions of the itinerary in kilograms, or null when not shown (usually on round trips).",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "currency": {
+                                            "description": "ISO 4217 currency code of price. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "departureToken": {
+                                            "description": "On a round trip, the source's token for this outbound option; null on a one-way search.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "legs": {
+                                            "description": "Flights of the itinerary in order (the outbound journey on a round trip).",
+                                            "items": {
+                                              "properties": {
+                                                "airlineCode": {
+                                                  "description": "IATA code of the airline flying this leg (e.g. BA).",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "arrivalAirport": {
+                                                  "description": "IATA code of the arrival airport.",
+                                                  "type": "string"
+                                                },
+                                                "arrivalDate": {
+                                                  "description": "Arrival date in YYYY-MM-DD, local time at the arrival airport.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "arrivalTime": {
+                                                  "description": "Arrival time as 24-hour HH:MM, local time at the arrival airport.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "departureAirport": {
+                                                  "description": "IATA code of the departure airport.",
+                                                  "type": "string"
+                                                },
+                                                "departureDate": {
+                                                  "description": "Departure date in YYYY-MM-DD, local time at the departure airport.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "departureTime": {
+                                                  "description": "Departure time as 24-hour HH:MM, local time at the departure airport.",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "durationMinutes": {
+                                                  "description": "Flight time of this leg in minutes.",
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
+                                                },
+                                                "flightNumber": {
+                                                  "description": "Flight number without the airline code (e.g. 112).",
+                                                  "type": [
+                                                    "string",
+                                                    "null"
+                                                  ]
+                                                }
+                                              },
+                                              "required": [
+                                                "departureAirport",
+                                                "arrivalAirport"
+                                              ],
+                                              "type": "object"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "price": {
+                                            "description": "Price for all passengers together, in currency, or null when Google shows no price. What it covers is in priceType. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "priceType": {
+                                            "description": "total: the one-way fare for all passengers. round_trip_starting: the cheapest round-trip fare that starts with this outbound option; the return flights are not included.",
+                                            "enum": [
+                                              "total",
+                                              "round_trip_starting"
+                                            ],
+                                            "type": "string"
+                                          },
+                                          "stops": {
+                                            "description": "Number of stops (0 for nonstop); on a round trip, of the outbound journey. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "totalDurationMinutes": {
+                                            "description": "Total travel time in minutes, layovers included; on a round trip, of the outbound journey. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "typicalCo2Kg": {
+                                            "description": "Typical CO2 emissions in kilograms for this route, to compare co2Kg against, or null when not shown.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          }
+                                        },
+                                        "required": [
+                                          "priceType",
+                                          "legs"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "itineraries"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "Whether any itineraries were found.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Google Flights search output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Google Flights Search",
+        "tags": [
+          "google-flights"
+        ],
+        "x-mint": {
+          "href": "/api-reference/google-flights/search"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.001000",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -129439,7 +130238,7 @@
     },
     "/v1/run/instagram.post": {
       "post": {
-        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post",
         "parameters": [
           {
@@ -274636,7 +275435,7 @@
     },
     "/v1/run/tiktok.search_keyword": {
       "post": {
-        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_search_keyword",
         "parameters": [
           {
@@ -306150,6 +306949,782 @@
         }
       }
     },
+    "/v1/run/vrbo.search": {
+      "post": {
+        "description": "Search Vrbo vacation rentals by destination and dates, with guest, bedroom, bed, bathroom and price filters, and get up to 50 listings per call: Vrbo property ID and link, name, summary line, property type, bedrooms, beds, guest rating and review count, nightly and total stay price with the original nightly price before any discount, and photos as normalized JSON. Page with offset; the price is the same whatever the limit.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Vrbo Search pricing and uptime](https://getanyapi.com/api/vrbo/search) - live USD price, lane routing, and measured 30-day uptime. [Every Vrbo endpoint](https://getanyapi.com/api/vrbo).",
+        "operationId": "vrbo_search",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "adults": 2,
+                "checkIn": "2026-12-04",
+                "checkOut": "2026-12-07",
+                "limit": 5,
+                "location": "Lake Tahoe"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "adults": 2,
+                  "checkIn": "2026-12-04",
+                  "checkOut": "2026-12-07",
+                  "limit": 5,
+                  "location": "Lake Tahoe"
+                },
+                "properties": {
+                  "adults": {
+                    "description": "Number of adult guests (e.g. 2).",
+                    "maximum": 20,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "checkIn": {
+                    "description": "Check-in date in YYYY-MM-DD format (e.g. 2027-01-15). Today or later.",
+                    "format": "date",
+                    "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                    "type": "string"
+                  },
+                  "checkOut": {
+                    "description": "Check-out date in YYYY-MM-DD format (e.g. 2027-01-18). After the check-in date.",
+                    "format": "date",
+                    "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                    "type": "string"
+                  },
+                  "childrenAges": {
+                    "description": "Age of each child guest, one entry per child (e.g. [5, 8] for two children aged 5 and 8). Omit it when no children are staying.",
+                    "items": {
+                      "maximum": 17,
+                      "minimum": 0,
+                      "type": "integer"
+                    },
+                    "maxItems": 8,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "limit": {
+                    "default": 20,
+                    "description": "Maximum number of listings to return (1-50, default 20). The price is the same whatever the limit.",
+                    "maximum": 50,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "location": {
+                    "description": "Destination to search rentals in: a city, region or area (e.g. Lake Tahoe, Lisbon, Outer Banks, North Carolina).",
+                    "maxLength": 120,
+                    "minLength": 2,
+                    "type": "string"
+                  },
+                  "minBathrooms": {
+                    "description": "Minimum number of bathrooms (e.g. 2).",
+                    "maximum": 50,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "minBedrooms": {
+                    "description": "Minimum number of bedrooms (e.g. 3).",
+                    "maximum": 50,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "minBeds": {
+                    "description": "Minimum number of beds (e.g. 4).",
+                    "maximum": 20,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "offset": {
+                    "default": 0,
+                    "description": "Number of listings to skip, for paging: send offset 20 with limit 20 for the second page.",
+                    "maximum": 1000,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "priceMax": {
+                    "description": "Maximum price in the currency results are priced in (each listing's currency), per night or for the whole stay as priceType says (e.g. 400). With a price filter, only listings Vrbo prices for your dates are returned.",
+                    "maximum": 1000000,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "priceMin": {
+                    "description": "Minimum price in the currency results are priced in (each listing's currency), per night or for the whole stay as priceType says (e.g. 100).",
+                    "maximum": 1000000,
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "priceType": {
+                    "default": "nightly",
+                    "description": "Whether priceMin and priceMax are a nightly price (default) or the total for the stay.",
+                    "enum": [
+                      "nightly",
+                      "total"
+                    ],
+                    "type": "string"
+                  },
+                  "sort": {
+                    "description": "Result order: recommended (Vrbo's default), price_low_to_high, price_high_to_low, review (highest rated first) or review_count (most reviewed first).",
+                    "enum": [
+                      "recommended",
+                      "price_low_to_high",
+                      "price_high_to_low",
+                      "review",
+                      "review_count"
+                    ],
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "required": [
+                  "location",
+                  "checkIn",
+                  "checkOut"
+                ],
+                "title": "Vrbo search input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "Result payload, or null when nothing was found.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "items": {
+                                      "description": "Vrbo listings priced for the requested dates and guests, in Vrbo's order. A listing Vrbo shows without a price for the dates is left out. Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "bedrooms": {
+                                            "description": "Number of bedrooms. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "beds": {
+                                            "description": "Number of beds. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "currency": {
+                                            "description": "ISO 4217 currency code of the prices (e.g. USD). Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "feesNote": {
+                                            "description": "Vrbo's note on what the price includes (e.g. All fees included).",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "id": {
+                                            "description": "Vrbo property ID.",
+                                            "type": "string"
+                                          },
+                                          "images": {
+                                            "description": "Listing photo URLs. Populated whenever the provider has data for the entity.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": [
+                                              "array",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "name": {
+                                            "description": "Listing name. Vrbo often shows a generic name such as \"Condo in Kings Beach\".",
+                                            "type": "string"
+                                          },
+                                          "nights": {
+                                            "description": "Number of nights the total price covers.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
+                                          },
+                                          "originalPricePerNight": {
+                                            "description": "Nightly price before Vrbo's discount, or null when the listing is not discounted.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
+                                          },
+                                          "overview": {
+                                            "description": "Vrbo's one-line summary of the listing (e.g. \"3 bedrooms · 6 beds · Free cancellation until Dec 16\"). Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "pricePerNight": {
+                                            "description": "Nightly price for the requested dates and guests, in currency. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "propertyType": {
+                                            "description": "Property type (e.g. Condo, House), or null when Vrbo does not state it in search results.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "rating": {
+                                            "description": "Average guest rating out of 10, or null when the listing has no rating. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "ratingLabel": {
+                                            "description": "Vrbo's word for the rating (e.g. Exceptional, Wonderful).",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
+                                          "reviewsCount": {
+                                            "description": "Number of guest reviews, or null when Vrbo does not show a count.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
+                                          },
+                                          "totalPrice": {
+                                            "description": "Total price for the whole stay, in currency. Populated whenever the provider has data for the entity.",
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ],
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "url": {
+                                            "description": "Vrbo listing URL.",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "id",
+                                          "url",
+                                          "name"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "Whether any priced listings were found.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "Vrbo search output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Pass its `id` back as `source` to prefer it again, or as `ignoreSources` to avoid it. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "Vrbo Search",
+        "tags": [
+          "vrbo"
+        ],
+        "x-mint": {
+          "href": "/api-reference/vrbo/search"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.001000",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.001000",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
     "/v1/run/walmart.product": {
       "post": {
         "description": "Fetch a Walmart product page by URL and get full product details (title, price, availability, ratings, images, and specs) in one normalized response.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Walmart Product pricing and uptime](https://getanyapi.com/api/walmart/product) - live USD price, lane routing, and measured 30-day uptime. [Every Walmart endpoint](https://getanyapi.com/api/walmart).",
@@ -333454,6 +335029,10 @@
       "x-group": "Google Finance"
     },
     {
+      "name": "google-flights",
+      "x-group": "Google_flights"
+    },
+    {
       "name": "google-hotels",
       "x-group": "Google Hotels"
     },
@@ -333652,6 +335231,10 @@
     {
       "name": "upwork",
       "x-group": "Upwork"
+    },
+    {
+      "name": "vrbo",
+      "x-group": "Vrbo"
     },
     {
       "name": "walmart",
