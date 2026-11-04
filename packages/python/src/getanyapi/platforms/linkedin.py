@@ -5532,7 +5532,7 @@ class LinkedinNamespace:
         Post text and link only. No engagement counts, author details, media, or
         reaction breakdown - for those use linkedin.company_posts.
 
-        Price: $0.0012 per request.
+        Price: $0.00242 per request.
 
         Example:
             res = client.linkedin.company_posts_thin(url="https://www.linkedin.com/company/stripe")
@@ -6501,7 +6501,7 @@ class AsyncLinkedinNamespace:
         Post text and link only. No engagement counts, author details, media, or
         reaction breakdown - for those use linkedin.company_posts.
 
-        Price: $0.0012 per request.
+        Price: $0.00242 per request.
 
         Example:
             res = client.linkedin.company_posts_thin(url="https://www.linkedin.com/company/stripe")
