@@ -23263,13 +23263,43 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00242,
-          "maxPer1kUsd": 2.42
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.00242,
         "failoverMaxPer1kUsd": 2.42
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
+            "id": "anonymous-giraffe",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.02803919935593,
+            "latencyP50Ms": 2329,
+            "uptimeSample": 36021,
+            "latencySample": 32429,
+            "requests": 36029,
+            "servedRequests": 32429
+          },
+          "fields": [
+            "createdUtc",
+            "id",
+            "items",
+            "text",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -23301,41 +23331,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
-            "id": "anonymous-giraffe",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.02803919935593,
-            "latencyP50Ms": 2329,
-            "uptimeSample": 36021,
-            "latencySample": 32429,
-            "requests": 36029,
-            "servedRequests": 32429
-          },
-          "fields": [
-            "createdUtc",
-            "id",
-            "items",
-            "text",
-            "url"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "linkedin.company_thin",

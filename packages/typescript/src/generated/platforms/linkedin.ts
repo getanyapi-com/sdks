@@ -6759,7 +6759,7 @@ export class LinkedinNamespace {
    *
    * Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.
    *
-   * Price: $0.00242 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.companyPostsThin({ url: "https://www.linkedin.com/company/stripe" });
