@@ -799,7 +799,7 @@ class TiktokShopNamespace:
         Search TikTok Shop products by keyword across 15 countries: price, sales,
         rating, and seller info per product, in one normalized response.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
@@ -1021,7 +1021,7 @@ class AsyncTiktokShopNamespace:
         Search TikTok Shop products by keyword across 15 countries: price, sales,
         rating, and seller info per product, in one normalized response.
 
-        Price: $0.0012 per request.
+        Price: $0.00095 per request.
 
         Example:
             res = client.tiktok_shop.search(limit=3, query="phone case")
