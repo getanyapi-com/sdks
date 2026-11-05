@@ -211,7 +211,7 @@ export class VrboNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.vrbo.search({ checkIn: "2026-12-04", checkOut: "2026-12-07", location: "Lake Tahoe", adults: 2, limit: 5 });
+   * const res = await client.vrbo.search({ checkIn: "2026-12-05", checkOut: "2026-12-08", location: "Lake Tahoe", adults: 2, limit: 5 });
    */
   search(
     input: VrboSearchInput,

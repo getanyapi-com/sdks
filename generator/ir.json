@@ -13130,7 +13130,7 @@
       "category": "search",
       "description": "Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.",
       "pricing": {
-        "priceUsd": 0.00644,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -14315,8 +14315,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-04",
-        "checkOut": "2026-12-06",
+        "checkIn": "2026-12-05",
+        "checkOut": "2026-12-07",
         "limit": 3,
         "query": "New York"
       },
@@ -47065,7 +47065,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -51323,7 +51323,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-04",
+        "departureDate": "2026-12-05",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -51724,8 +51724,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-04",
-        "checkOut": "2026-12-06",
+        "checkIn": "2026-12-05",
+        "checkOut": "2026-12-07",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -52323,8 +52323,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-04",
-        "checkOut": "2026-12-06",
+        "checkIn": "2026-12-05",
+        "checkOut": "2026-12-07",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -60994,7 +60994,7 @@
       "category": "social",
       "description": "List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.",
       "pricing": {
-        "priceUsd": 0.0024,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134670,7 +134670,7 @@
       "category": "shop",
       "description": "Search TikTok Shop products by keyword across 15 countries: price, sales, rating, and seller info per product, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00095,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -142053,8 +142053,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-04",
-        "checkOut": "2026-12-07",
+        "checkIn": "2026-12-05",
+        "checkOut": "2026-12-08",
         "limit": 5,
         "location": "Lake Tahoe"
       },

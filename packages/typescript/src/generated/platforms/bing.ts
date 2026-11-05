@@ -318,7 +318,7 @@ export class BingNamespace {
    *
    * Ask Microsoft Copilot (the AI answer in Bing) a question and get its web-grounded answer with the sources it cites as clean JSON - for tracking how Copilot answers and which sites it cites.
    *
-   * Price: $0.00644 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.bing.copilot({ prompt: "what is the capital of australia and why" });
