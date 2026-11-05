@@ -5416,6 +5416,20 @@
     "items": 1,
     "replayed": false
   },
+  "pinterest.pin": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "url": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "pinterest.search": {
     "output": {
       "found": true,

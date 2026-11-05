@@ -654,6 +654,8 @@ import type {
   PexelsSearchPhotosInput,
 } from "./platforms/pexels.js";
 import type {
+  PinterestPinData,
+  PinterestPinInput,
   PinterestSearchData,
   PinterestSearchInput,
 } from "./platforms/pinterest.js";
@@ -2497,6 +2499,11 @@ export interface SkuMap {
     input: PexelsSearchPhotosInput;
     data: PexelsSearchPhotosData;
     result: RunResult<PexelsSearchPhotosData>;
+  };
+  "pinterest.pin": {
+    input: PinterestPinInput;
+    data: PinterestPinData;
+    result: RunResult<PinterestPinData>;
   };
   "pinterest.search": {
     input: PinterestSearchInput;
