@@ -220,7 +220,7 @@ export class GoogleFlightsNamespace {
    * Price: $0.001 per request.
    *
    * @example
-   * const res = await client.googleFlights.search({ departureDate: "2026-12-05", destination: "LHR", origin: "JFK" });
+   * const res = await client.googleFlights.search({ departureDate: "2026-12-06", destination: "LHR", origin: "JFK" });
    */
   search(
     input: GoogleFlightsSearchInput,

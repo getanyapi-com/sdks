@@ -32187,8 +32187,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-05",
-                "checkOut": "2026-12-07",
+                "checkIn": "2026-12-06",
+                "checkOut": "2026-12-08",
                 "limit": 3,
                 "query": "New York"
               },
@@ -32196,8 +32196,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-05",
-                  "checkOut": "2026-12-07",
+                  "checkIn": "2026-12-06",
+                  "checkOut": "2026-12-08",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -115487,14 +115487,14 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDate": "2026-12-05",
+                "departureDate": "2026-12-06",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDate": "2026-12-05",
+                  "departureDate": "2026-12-06",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -116286,16 +116286,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-05",
-                "checkOut": "2026-12-07",
+                "checkIn": "2026-12-06",
+                "checkOut": "2026-12-08",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-05",
-                  "checkOut": "2026-12-07",
+                  "checkIn": "2026-12-06",
+                  "checkOut": "2026-12-08",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -117280,16 +117280,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-05",
-                "checkOut": "2026-12-07",
+                "checkIn": "2026-12-06",
+                "checkOut": "2026-12-08",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-05",
-                  "checkOut": "2026-12-07",
+                  "checkIn": "2026-12-06",
+                  "checkOut": "2026-12-08",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -307684,8 +307684,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-05",
-                "checkOut": "2026-12-08",
+                "checkIn": "2026-12-06",
+                "checkOut": "2026-12-09",
                 "limit": 5,
                 "location": "Lake Tahoe"
               },
@@ -307693,8 +307693,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-05",
-                  "checkOut": "2026-12-08",
+                  "checkIn": "2026-12-06",
+                  "checkOut": "2026-12-09",
                   "limit": 5,
                   "location": "Lake Tahoe"
                 },

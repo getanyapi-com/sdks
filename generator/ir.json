@@ -14315,8 +14315,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-05",
-        "checkOut": "2026-12-07",
+        "checkIn": "2026-12-06",
+        "checkOut": "2026-12-08",
         "limit": 3,
         "query": "New York"
       },
@@ -51323,7 +51323,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-05",
+        "departureDate": "2026-12-06",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -51724,8 +51724,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-05",
-        "checkOut": "2026-12-07",
+        "checkIn": "2026-12-06",
+        "checkOut": "2026-12-08",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -52323,8 +52323,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-05",
-        "checkOut": "2026-12-07",
+        "checkIn": "2026-12-06",
+        "checkOut": "2026-12-08",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -142318,8 +142318,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-05",
-        "checkOut": "2026-12-08",
+        "checkIn": "2026-12-06",
+        "checkOut": "2026-12-09",
         "limit": 5,
         "location": "Lake Tahoe"
       },
