@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import Literal, TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
@@ -33,11 +33,13 @@ class BookingSearchInput(TypedDict, total=False):
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     limit: NotRequired[int]
-    """Maximum number of hotels to return (1-20, default 20). You are billed per result returned, so a lower limit costs less. Range: 1 to 20."""
+    """Maximum number of hotels to return (1-20, default 20). Some sources bill per result returned, so a lower limit can cost less. Range: 1 to 20."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     query: Required[str]
     """Destination city to search for stays in (e.g. Paris)."""
+    requireFields: NotRequired[list[Literal["discountBadge"]]]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountBadge`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hotel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     rooms: NotRequired[int]
     """Number of rooms to book (e.g. 1). Minimum: 1."""
     source: NotRequired[list[str]]
@@ -60,7 +62,7 @@ class BookingSearchItem(BaseModel):
     discount_badge: str | None = Field(
         default=None,
         alias="discountBadge",
-        description="Promotion label Booking.com shows on the offer (e.g. Getaway Deal).",
+        description="Promotion label Booking.com shows on the offer (e.g. Getaway Deal). Not every source returns it; name it in requireFields to be served by one that does.",
     )
     distance_from_center: str | None = Field(
         default=None,
@@ -150,7 +152,7 @@ class BookingNamespace:
         room occupancy and get hotel results (name, price, review score, location)
         as normalized JSON.
 
-        Price: $0.0022 per request plus $0.00495 per result (maximum $0.102).
+        Price: $0.0008 per request.
 
         Example:
             res = client.booking.search(adults=2, checkIn="2026-12-14", checkOut="2026-12-16", limit=3, query="New York")
@@ -179,7 +181,7 @@ class AsyncBookingNamespace:
         room occupancy and get hotel results (name, price, review score, location)
         as normalized JSON.
 
-        Price: $0.0022 per request plus $0.00495 per result (maximum $0.102).
+        Price: $0.0008 per request.
 
         Example:
             res = client.booking.search(adults=2, checkIn="2026-12-14", checkOut="2026-12-16", limit=3, query="New York")

@@ -9439,10 +9439,10 @@
       "category": "travel",
       "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.102,
-        "baseUsd": 0.0022,
-        "perItemUsd": 0.00495,
-        "perItemUnit": "result"
+        "priceUsd": 0.0008,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "booking",
       "tsMethod": "search",
@@ -9515,7 +9515,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of hotels to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+            "description": "Maximum number of hotels to return (1-20, default 20). Some sources bill per result returned, so a lower limit can cost less.",
             "minimum": 1,
             "maximum": 20,
             "default": null
@@ -9533,6 +9533,19 @@
             "enum": null,
             "default": null,
             "format": null
+          },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountBadge`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hotel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "discountBadge"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
           },
           "rooms": {
             "kind": "integer",
@@ -9596,7 +9609,8 @@
                   },
                   "discountBadge": {
                     "kind": "string",
-                    "description": "Promotion label Booking.com shows on the offer (e.g. Getaway Deal).",
+                    "description": "Promotion label Booking.com shows on the offer (e.g. Getaway Deal). Not every source returns it; name it in requireFields to be served by one that does.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null

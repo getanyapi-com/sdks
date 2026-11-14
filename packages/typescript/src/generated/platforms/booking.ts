@@ -43,7 +43,7 @@ export interface BookingSearchInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of hotels to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.
+   * Maximum number of hotels to return (1-20, default 20). Some sources bill per result returned, so a lower limit can cost less.
    * Range: minimum 1, maximum 20.
    */
   limit?: number;
@@ -56,6 +56,10 @@ export interface BookingSearchInput {
    * Destination city to search for stays in (e.g. Paris).
    */
   query: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountBadge`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hotel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "discountBadge"[];
   /**
    * Number of rooms to book (e.g. 1).
    * Range: minimum 1.
@@ -76,9 +80,9 @@ export interface BookingSearchItem {
   country?: string;
   currency?: string;
   /**
-   * Promotion label Booking.com shows on the offer (e.g. Getaway Deal).
+   * Promotion label Booking.com shows on the offer (e.g. Getaway Deal). Not every source returns it; name it in requireFields to be served by one that does.
    */
-  discountBadge?: string;
+  discountBadge?: string | null;
   /**
    * Distance from the city center as Booking.com phrases it.
    */
@@ -182,7 +186,7 @@ export class BookingNamespace {
    *
    * Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.
    *
-   * Price: $0.0022 per request plus $0.00495 per result (maximum $0.102).
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.booking.search({ query: "New York", adults: 2, checkIn: "2026-12-14", checkOut: "2026-12-16", limit: 3 });

@@ -30231,7 +30231,7 @@
     },
     "/v1/run/booking.search": {
       "post": {
-        "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.\n\n**Price:** billed per result - \\$2.20 per 1,000 requests base + \\$4.95 per 1,000 results, capped at \\$102.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Booking.com Search pricing and uptime](https://getanyapi.com/api/booking/search) - live USD price, lane routing, and measured 30-day uptime. [Every Booking endpoint](https://getanyapi.com/api/booking).",
+        "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Booking.com Search pricing and uptime](https://getanyapi.com/api/booking/search) - live USD price, lane routing, and measured 30-day uptime. [Every Booking endpoint](https://getanyapi.com/api/booking).",
         "operationId": "booking_search",
         "parameters": [
           {
@@ -30352,7 +30352,7 @@
                     "uniqueItems": true
                   },
                   "limit": {
-                    "description": "Maximum number of hotels to return (1-20, default 20). You are billed per result returned, so a lower limit costs less.",
+                    "description": "Maximum number of hotels to return (1-20, default 20). Some sources bill per result returned, so a lower limit can cost less.",
                     "maximum": 20,
                     "minimum": 1,
                     "type": "integer"
@@ -30365,6 +30365,17 @@
                   "query": {
                     "description": "Destination city to search for stays in (e.g. Paris).",
                     "type": "string"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountBadge`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a hotel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "items": {
+                      "enum": [
+                        "discountBadge"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
                   },
                   "rooms": {
                     "description": "Number of rooms to book (e.g. 1).",
@@ -30444,8 +30455,11 @@
                                             "type": "string"
                                           },
                                           "discountBadge": {
-                                            "description": "Promotion label Booking.com shows on the offer (e.g. Getaway Deal).",
-                                            "type": "string"
+                                            "description": "Promotion label Booking.com shows on the offer (e.g. Getaway Deal). Not every source returns it; name it in requireFields to be served by one that does.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
                                           },
                                           "distanceFromCenter": {
                                             "description": "Distance from the city center as Booking.com phrases it.",
@@ -30824,10 +30838,9 @@
         },
         "x-payment-info": {
           "price": {
+            "amount": "0.000800",
             "currency": "USD",
-            "max": "0.102000",
-            "min": "0.002200",
-            "mode": "dynamic"
+            "mode": "fixed"
           },
           "protocols": [
             {
@@ -30867,11 +30880,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.001800",
                 "currency": "USD",
-                "max": "0.103000",
-                "min": "0.003200",
                 "minimumUsd": "0.001000",
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -30900,11 +30912,10 @@
                 ]
               },
               "pricing": {
+                "amount": "0.000800",
                 "currency": "USD",
-                "max": "0.102000",
-                "min": "0.002200",
                 "minimumUsd": null,
-                "mode": "dynamic",
+                "mode": "fixed",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -108193,7 +108204,7 @@
     },
     "/v1/run/google.images": {
       "post": {
-        "description": "Run a Google Images search and get structured results: image URLs, dimensions, titles, and source pages.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Images pricing and uptime](https://getanyapi.com/api/google/images) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Run a Google Images search and get structured results: image URLs, dimensions, titles, and source pages.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Images pricing and uptime](https://getanyapi.com/api/google/images) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_images",
         "parameters": [
           {
