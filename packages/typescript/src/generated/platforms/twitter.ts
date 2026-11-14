@@ -1912,7 +1912,7 @@ export class TwitterNamespace {
    *
    * Get a public X long-form article from its wrapper post URL, including its author, engagement, cover image, and structured content blocks.
    *
-   * Price: $0.00054 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.article({ url: "https://x.com/Decentralisedco/status/1905545699552375179" });
@@ -1963,7 +1963,7 @@ export class TwitterNamespace {
    *
    * Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.followers({ username: "nasa", limit: 200 });
@@ -2054,7 +2054,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20" });
@@ -2091,7 +2091,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.00054 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -2171,7 +2171,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.
    *
-   * Price: $0.00054 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.searchUsers({ query: "ai agents" });
@@ -2208,7 +2208,7 @@ export class TwitterNamespace {
    *
    * Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.
    *
-   * Price: $0.00269 per request.
+   * Price: $0.00212 per request.
    *
    * @example
    * const res = await client.twitter.thread({ url: "https://x.com/SpaceX/status/1732824684683784516" });
@@ -2276,7 +2276,7 @@ export class TwitterNamespace {
    *
    * Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.userPosts({ handle: "levelsio" });
@@ -2313,7 +2313,7 @@ export class TwitterNamespace {
    *
    * Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });
