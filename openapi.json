@@ -77307,7 +77307,11 @@
                                                 },
                                                 "image": {
                                                   "description": "Card image URL. For a video card this is the poster frame.",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "linkDescription": {
                                                   "description": "Card secondary description line.",
@@ -77323,7 +77327,11 @@
                                                 },
                                                 "videoUrl": {
                                                   "description": "Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 }
                                               },
                                               "type": "object"
@@ -77382,12 +77390,20 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -77430,11 +77446,20 @@
                                           "pageProfilePicture": {
                                             "description": "Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "pageUrl": {
                                             "description": "Canonical Facebook URL of the advertising page.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "facebook.com",
+                                              "instagram.com",
+                                              "whatsapp.com"
+                                            ]
                                           },
                                           "platforms": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -77448,6 +77473,7 @@
                                             "description": "Inspectable Meta Ad Library URL for this ad. Populated whenever the provider has data for the entity.",
                                             "format": "uri",
                                             "type": "string",
+                                            "x-anyapi-domain": "facebook.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "startDate": {
@@ -78776,7 +78802,11 @@
                                                 },
                                                 "image": {
                                                   "description": "Card image URL. For a video card this is the poster frame.",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "linkDescription": {
                                                   "description": "Card secondary description line.",
@@ -78792,7 +78822,11 @@
                                                 },
                                                 "videoUrl": {
                                                   "description": "Card video file URL (HD when supplied, otherwise SD). Present only on video cards.",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 }
                                               },
                                               "type": "object"
@@ -78851,12 +78885,20 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -78899,11 +78941,20 @@
                                           "pageProfilePicture": {
                                             "description": "Profile picture of the advertising page. This is the advertiser's identity image, not ad creative.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "pageUrl": {
                                             "description": "Canonical Facebook URL of the advertising page.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "facebook.com",
+                                              "instagram.com",
+                                              "whatsapp.com"
+                                            ]
                                           },
                                           "platforms": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -79514,6 +79565,10 @@
                                     "coverPhotoUrl": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "creatorId": {
@@ -79569,7 +79624,11 @@
                                           },
                                           "image": {
                                             "description": "Profile picture URL of the host.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "name": {
                                             "description": "Display name of the host.",
@@ -79581,7 +79640,8 @@
                                           },
                                           "url": {
                                             "description": "Canonical Facebook URL of the host.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "facebook.com"
                                           },
                                           "verified": {
                                             "description": "Whether the host carries a Facebook verification badge.",
@@ -79654,6 +79714,7 @@
                                     "url": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": "facebook.com",
                                       "x-anyapi-must-populate": true
                                     }
                                   },
@@ -80221,7 +80282,11 @@
                                         "properties": {
                                           "coverImage": {
                                             "description": "Cover photo image URL of the event.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "dayTimeSentence": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -80276,6 +80341,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "facebook.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -82097,7 +82163,11 @@
                                           },
                                           "image": {
                                             "description": "URL of the post's first image. Absent when the post has no image.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "publishTime": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -82149,6 +82219,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "facebook.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -86634,7 +86705,11 @@
                                     },
                                     "authorImage": {
                                       "description": "Profile picture URL of the page or profile that posted.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ]
                                     },
                                     "authorName": {
                                       "description": "Display name of the page or profile that posted.",
@@ -86669,7 +86744,11 @@
                                     },
                                     "image": {
                                       "description": "Preview image or video thumbnail URL for the post.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ]
                                     },
                                     "likes": {
                                       "type": "integer"
@@ -86721,7 +86800,8 @@
                                     },
                                     "url": {
                                       "description": "Canonical Facebook URL of the post.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "facebook.com"
                                     },
                                     "videoId": {
                                       "description": "Facebook video id of the post's reel or video, the id that appears in its /reel/<id> URL. Null when the post carries no video or this lane cannot read it.",
@@ -86735,6 +86815,10 @@
                                       "type": [
                                         "string",
                                         "null"
+                                      ],
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
                                       ]
                                     },
                                     "views": {
@@ -89773,7 +89857,11 @@
                                           },
                                           "image": {
                                             "description": "Preview image or video thumbnail URL for the post.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "likes": {
                                             "description": "Total reaction count on the post.",
@@ -89794,12 +89882,20 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -89863,6 +89959,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "facebook.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -128619,6 +128716,10 @@
                                     "avatarUrl": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "bio": {
@@ -136902,7 +137003,11 @@
                                     },
                                     "avatarUrl": {
                                       "description": "Profile picture URL of the posting account.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ]
                                     },
                                     "bytes": {
                                       "description": "Size of the hosted MP4 in bytes. Present only when the request set `hostVideo` to true.",
@@ -136935,6 +137040,10 @@
                                     "displayUrl": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "durationSeconds": {
@@ -136963,7 +137072,8 @@
                                     "hostedUrl": {
                                       "description": "AnyAPI-hosted MP4 of this post's video, playable without an Instagram session. Present only when the request set `hostVideo` to true.",
                                       "format": "uri",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "media.getanyapi.com"
                                     },
                                     "id": {
                                       "description": "Populated whenever the provider has data for the entity.",
@@ -137055,7 +137165,11 @@
                                       "type": "boolean"
                                     },
                                     "videoUrl": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ]
                                     }
                                   },
                                   "required": [
@@ -137625,7 +137739,11 @@
                                           },
                                           "avatarUrl": {
                                             "description": "URL of the commenting account's profile avatar image.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "createdUtc": {
                                             "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
@@ -138844,6 +138962,10 @@
                                     "avatarUrl": {
                                       "description": "Profile picture URL. Often the highest resolution the account exposes, but it can be a 150 by 150 pixel version. Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "fbcdn.net",
+                                        "cdninstagram.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "bio": {
@@ -138927,7 +139049,11 @@
                                           },
                                           "avatarUrl": {
                                             "description": "Profile picture URL of the posting account.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "caption": {
                                             "type": "string"
@@ -139056,12 +139182,20 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -139146,7 +139280,8 @@
                                             ]
                                           },
                                           "url": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "instagram.com"
                                           },
                                           "userId": {
                                             "description": "Instagram user id of the posting account. Null when the serving source does not report it.",
@@ -141090,7 +141225,11 @@
                                           },
                                           "avatarUrl": {
                                             "description": "Profile picture URL of the author.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "caption": {
                                             "description": "Reel caption text. Populated whenever the provider has data for the entity.",
@@ -141204,11 +141343,16 @@
                                           "thumbnail": {
                                             "description": "URL of the reel thumbnail image. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "url": {
                                             "description": "Canonical URL of the reel. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "instagram.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "userId": {
@@ -141226,7 +141370,11 @@
                                           },
                                           "videoUrl": {
                                             "description": "Direct URL to the reel video.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "views": {
                                             "description": "Play count of the reel.",
@@ -151925,7 +152073,11 @@
                                           },
                                           "avatarUrl": {
                                             "description": "Profile picture URL of the posting account.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "caption": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -152058,12 +152210,20 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -152151,6 +152311,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "instagram.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "userId": {
@@ -152779,7 +152940,11 @@
                                         "properties": {
                                           "avatarUrl": {
                                             "description": "Profile picture URL of the posting account.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "fbcdn.net",
+                                              "cdninstagram.com"
+                                            ]
                                           },
                                           "caption": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -152905,12 +153070,20 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "fbcdn.net",
+                                                    "cdninstagram.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -164895,7 +165068,8 @@
                                       "type": [
                                         "string",
                                         "null"
-                                      ]
+                                      ],
+                                      "x-anyapi-domain": "licdn.com"
                                     },
                                     "description": {
                                       "description": "Company about/description text. Populated whenever the provider has data for the entity.",
@@ -164925,11 +165099,13 @@
                                     },
                                     "linkedinUrl": {
                                       "description": "Canonical LinkedIn company page URL.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "linkedin.com"
                                     },
                                     "logoUrl": {
                                       "description": "Company logo image URL. Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": "licdn.com",
                                       "x-anyapi-must-populate": true
                                     },
                                     "name": {
@@ -167803,11 +167979,13 @@
                                         },
                                         "linkedinUrl": {
                                           "description": "Canonical LinkedIn company URL.",
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-anyapi-domain": "linkedin.com"
                                         },
                                         "logo": {
                                           "description": "Company logo image URL.",
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-anyapi-domain": "licdn.com"
                                         },
                                         "name": {
                                           "description": "Company name. Populated whenever the provider has data for the entity.",
@@ -167844,7 +168022,8 @@
                                     },
                                     "easyApplyUrl": {
                                       "description": "LinkedIn Easy Apply URL when available.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "linkedin.com"
                                     },
                                     "employmentType": {
                                       "description": "Employment type (e.g. full_time, contract, part_time).",
@@ -167865,7 +168044,8 @@
                                         "properties": {
                                           "linkedinUrl": {
                                             "description": "Canonical LinkedIn profile URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           },
                                           "name": {
                                             "description": "Member name.",
@@ -167932,7 +168112,8 @@
                                     },
                                     "url": {
                                       "description": "Canonical LinkedIn job posting URL.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "linkedin.com"
                                     },
                                     "views": {
                                       "description": "Number of views LinkedIn reports for the posting.",
@@ -169391,7 +169572,8 @@
                                           },
                                           "companyUrl": {
                                             "description": "Canonical LinkedIn company URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           },
                                           "createdUtc": {
                                             "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
@@ -169408,7 +169590,8 @@
                                           },
                                           "logoUrl": {
                                             "description": "Hiring company logo image URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "licdn.com"
                                           },
                                           "title": {
                                             "description": "Job title. Populated whenever the provider has data for the entity.",
@@ -169418,6 +169601,7 @@
                                           "url": {
                                             "description": "Canonical LinkedIn job listing URL. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "linkedin.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -169993,11 +170177,13 @@
                                       "type": [
                                         "string",
                                         "null"
-                                      ]
+                                      ],
+                                      "x-anyapi-domain": "licdn.com"
                                     },
                                     "authorUrl": {
                                       "description": "LinkedIn URL of the post author.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "linkedin.com"
                                     },
                                     "comments": {
                                       "description": "Number of comments on the post.",
@@ -170013,7 +170199,8 @@
                                       "type": [
                                         "string",
                                         "null"
-                                      ]
+                                      ],
+                                      "x-anyapi-domain": "licdn.com"
                                     },
                                     "likes": {
                                       "description": "Number of likes on the post.",
@@ -170031,6 +170218,7 @@
                                     "url": {
                                       "description": "Canonical URL of the post. Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": "linkedin.com",
                                       "x-anyapi-must-populate": true
                                     }
                                   },
@@ -172438,7 +172626,8 @@
                                     },
                                     "coverImage": {
                                       "description": "Profile cover (banner) image URL. The query string is a signed token, so keep the URL intact.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "licdn.com"
                                     },
                                     "creator": {
                                       "description": "Whether the member is in LinkedIn creator mode.",
@@ -172454,7 +172643,8 @@
                                           },
                                           "companyLinkedinUrl": {
                                             "description": "Company LinkedIn URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           },
                                           "companyName": {
                                             "description": "Company name.",
@@ -172506,7 +172696,8 @@
                                           },
                                           "schoolUrl": {
                                             "description": "School LinkedIn URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           },
                                           "startDate": {
                                             "description": "Start date text.",
@@ -172530,7 +172721,8 @@
                                           },
                                           "companyLinkedinUrl": {
                                             "description": "Company LinkedIn URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           },
                                           "companyName": {
                                             "description": "Company name.",
@@ -172661,7 +172853,8 @@
                                     },
                                     "photo": {
                                       "description": "URL of the profile photo.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "licdn.com"
                                     },
                                     "premium": {
                                       "description": "Whether the member has LinkedIn Premium.",
@@ -172743,7 +172936,8 @@
                                     },
                                     "url": {
                                       "description": "Canonical LinkedIn profile URL.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "linkedin.com"
                                     },
                                     "verified": {
                                       "description": "Whether the profile is identity-verified.",
@@ -176443,7 +176637,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -180056,7 +180250,7 @@
     },
     "/v1/run/linkedin.search_posts_full": {
       "post": {
-        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$5.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$4.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_posts_full",
         "parameters": [
           {
@@ -180330,7 +180524,8 @@
                                           "attachmentImage": {
                                             "description": "Image URL associated with the attachment.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "licdn.com"
                                           },
                                           "attachmentSubtitle": {
                                             "description": "Subtitle of the attached structured content.",
@@ -180363,7 +180558,8 @@
                                               "image": {
                                                 "description": "Public profile or company image URL for the author.",
                                                 "format": "uri",
-                                                "type": "string"
+                                                "type": "string",
+                                                "x-anyapi-domain": "licdn.com"
                                               },
                                               "name": {
                                                 "description": "Display name of the author.",
@@ -180372,7 +180568,8 @@
                                               "profileUrl": {
                                                 "description": "Canonical LinkedIn profile or company URL for the author.",
                                                 "format": "uri",
-                                                "type": "string"
+                                                "type": "string",
+                                                "x-anyapi-domain": "linkedin.com"
                                               },
                                               "publicIdentifier": {
                                                 "description": "LinkedIn public identifier (vanity slug) for the author, for example \"williamhgates\". Stable across lanes, unlike the raw id.",
@@ -180489,6 +180686,7 @@
                                             "description": "Canonical URL of the LinkedIn post. Populated whenever the provider has data for the entity.",
                                             "format": "uri",
                                             "type": "string",
+                                            "x-anyapi-domain": "linkedin.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -180785,7 +180983,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.005000",
+            "amount": "0.004000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -180827,7 +181025,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.006000",
+                "amount": "0.005000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -180859,7 +181057,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.005000",
+                "amount": "0.004000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -187304,7 +187502,11 @@
                                           },
                                           "image": {
                                             "description": "Primary place photo URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "googleusercontent.com",
+                                              "streetviewpixels-pa.googleapis.com"
+                                            ]
                                           },
                                           "latitude": {
                                             "description": "Latitude of the place in decimal degrees.",
@@ -187359,6 +187561,7 @@
                                           "url": {
                                             "description": "Canonical Google Maps URL for the place. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "google.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "website": {
@@ -224969,6 +225172,11 @@
                                       "description": "URL of the profile avatar image, with sizing and signing query params stripped. Populated whenever the provider has data for the entity.",
                                       "format": "uri",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "redd.it",
+                                        "redditmedia.com",
+                                        "redditstatic.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "commentKarma": {
@@ -225000,6 +225208,7 @@
                                       "description": "Absolute reddit.com URL of the profile page. Populated whenever the provider has data for the entity.",
                                       "format": "uri",
                                       "type": "string",
+                                      "x-anyapi-domain": "reddit.com",
                                       "x-anyapi-must-populate": true
                                     },
                                     "username": {
@@ -226210,6 +226419,7 @@
                                           "url": {
                                             "description": "Permalink to the comment on reddit.com. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "reddit.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -226239,12 +226449,22 @@
                                           "url": {
                                             "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "redd.it",
+                                              "redditmedia.com",
+                                              "redditstatic.com"
+                                            ]
                                           },
                                           "videoUrl": {
                                             "description": "Playable video file URL. Present only for video and gif items.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "redd.it",
+                                              "redditmedia.com",
+                                              "redditstatic.com"
+                                            ]
                                           },
                                           "width": {
                                             "type": "integer"
@@ -228095,12 +228315,22 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "redd.it",
+                                                    "redditmedia.com",
+                                                    "redditstatic.com"
+                                                  ]
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": [
+                                                    "redd.it",
+                                                    "redditmedia.com",
+                                                    "redditstatic.com"
+                                                  ]
                                                 },
                                                 "width": {
                                                   "type": "integer"
@@ -228733,6 +228963,11 @@
                                     "iconUrl": {
                                       "description": "URL of the subreddit icon. Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "redd.it",
+                                        "redditmedia.com",
+                                        "redditstatic.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "id": {
@@ -286031,6 +286266,14 @@
                                     "avatarUrl": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "ibyteimg.com",
+                                        "ttcdn-us.com",
+                                        "lh3.googleusercontent.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "bio": {
@@ -289169,7 +289412,15 @@
                                           },
                                           "authorImage": {
                                             "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorName": {
                                             "description": "Author's display name.",
@@ -289217,7 +289468,15 @@
                                           },
                                           "image": {
                                             "description": "URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "isPinned": {
                                             "description": "Whether the video is pinned to the top of the creator's profile grid.",
@@ -289269,11 +289528,22 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "tiktok.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "videoUrl": {
                                             "description": "Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "tiktokv.com",
+                                              "tiktokv.us",
+                                              "tiktokv.eu",
+                                              "tiktok.com",
+                                              "tokcdn.com"
+                                            ]
                                           },
                                           "views": {
                                             "type": "integer"
@@ -290357,7 +290627,7 @@
     },
     "/v1/run/tiktok.search_keyword": {
       "post": {
-        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_search_keyword",
         "parameters": [
           {
@@ -290592,6 +290862,14 @@
                                           "authorImage": {
                                             "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "authorName": {
@@ -290643,6 +290921,14 @@
                                           "image": {
                                             "description": "URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "likes": {
@@ -290693,11 +290979,22 @@
                                           "url": {
                                             "description": "Canonical TikTok URL of the video. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "tiktok.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "videoUrl": {
                                             "description": "Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "tiktokv.com",
+                                              "tiktokv.us",
+                                              "tiktokv.eu",
+                                              "tiktok.com",
+                                              "tokcdn.com"
+                                            ]
                                           },
                                           "views": {
                                             "type": "integer"
@@ -292569,7 +292866,15 @@
                                           },
                                           "authorImage": {
                                             "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorName": {
                                             "description": "Author's display name.",
@@ -292618,7 +292923,15 @@
                                           },
                                           "image": {
                                             "description": "URL of the item's cover image. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "likes": {
                                             "type": "integer"
@@ -292653,11 +292966,22 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "tiktok.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "videoUrl": {
                                             "description": "Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "tiktokv.com",
+                                              "tiktokv.us",
+                                              "tiktokv.eu",
+                                              "tiktok.com",
+                                              "tokcdn.com"
+                                            ]
                                           },
                                           "views": {
                                             "type": "integer"
@@ -297983,7 +298307,15 @@
                                     },
                                     "authorImage": {
                                       "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "ibyteimg.com",
+                                        "ttcdn-us.com",
+                                        "lh3.googleusercontent.com"
+                                      ]
                                     },
                                     "authorName": {
                                       "description": "Author's display name.",
@@ -298031,7 +298363,15 @@
                                     },
                                     "image": {
                                       "description": "URL of the video's cover/thumbnail image. A signed, short-lived TikTok CDN URL (typically expires within about a day; query params are load-bearing and kept intact), often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support. Absent when the upstream provides no cover.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "ibyteimg.com",
+                                        "ttcdn-us.com",
+                                        "lh3.googleusercontent.com"
+                                      ]
                                     },
                                     "likes": {
                                       "description": "Number of likes. Some sources round large counts (2.9M instead of 2,884,604); name `likes` in requireFields to be served only by a source that returns the exact count.",
@@ -298045,7 +298385,17 @@
                                     },
                                     "sdVideoUrl": {
                                       "description": "Standard-resolution H.264 video URL without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "tiktokv.com",
+                                        "tiktokv.us",
+                                        "tiktokv.eu",
+                                        "tiktok.com",
+                                        "tokcdn.com"
+                                      ]
                                     },
                                     "shares": {
                                       "description": "Number of shares. Some sources round large counts (35.9K instead of 35,923); name `shares` in requireFields to be served only by a source that returns the exact count.",
@@ -298068,11 +298418,22 @@
                                     },
                                     "url": {
                                       "description": "Canonical TikTok URL of the video.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "tiktok.com"
                                     },
                                     "videoUrl": {
                                       "description": "Playable video URL without the watermark, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "tiktokv.com",
+                                        "tiktokv.us",
+                                        "tiktokv.eu",
+                                        "tiktok.com",
+                                        "tokcdn.com"
+                                      ]
                                     },
                                     "views": {
                                       "description": "Number of plays. Some sources round large counts (32.7M instead of 32,736,400); name `views` in requireFields to be served only by a source that returns the exact count.",
@@ -298649,7 +299010,15 @@
                                           },
                                           "authorImage": {
                                             "description": "Comment author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorName": {
                                             "description": "Comment author's display name.",
@@ -303815,7 +304184,15 @@
                                           },
                                           "image": {
                                             "description": "Product image URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "originalPrice": {
                                             "description": "Pre-discount list price. Omitted when the product is not on sale.",
@@ -303858,6 +304235,7 @@
                                           "url": {
                                             "description": "Canonical product detail page URL. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "tiktok.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -313332,6 +313710,7 @@
                                     "avatarUrl": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": "twimg.com",
                                       "x-anyapi-must-populate": true
                                     },
                                     "bio": {
@@ -313341,7 +313720,8 @@
                                     },
                                     "coverUrl": {
                                       "description": "Profile banner image URL of the account.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "twimg.com"
                                     },
                                     "createdUtc": {
                                       "description": "UTC epoch timestamp in seconds (Unix time) the account was created. Multiply by 1000 for a JS Date in milliseconds.",
@@ -314004,12 +314384,14 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -314043,6 +314425,10 @@
                                           "url": {
                                             "description": "Canonical x.com URL of the reply, with tracking query params stripped. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "x.com",
+                                              "twitter.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "viewCount": {
@@ -314672,7 +315058,8 @@
                                           },
                                           "authorImage": {
                                             "description": "Avatar image URL of the account that posted.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "twimg.com"
                                           },
                                           "authorName": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -314734,12 +315121,14 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -314771,6 +315160,10 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "x.com",
+                                              "twitter.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "viewCount": {
@@ -316595,7 +316988,8 @@
                                       "properties": {
                                         "avatarUrl": {
                                           "description": "Avatar image URL of the author.",
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-anyapi-domain": "twimg.com"
                                         },
                                         "bio": {
                                           "description": "Bio text on the author's profile.",
@@ -316607,7 +317001,8 @@
                                         },
                                         "coverUrl": {
                                           "description": "Profile banner image URL of the author.",
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-anyapi-domain": "twimg.com"
                                         },
                                         "createdUtc": {
                                           "description": "UTC epoch timestamp in seconds (Unix time) the author's account was created. Multiply by 1000 for a JS Date in milliseconds.",
@@ -316642,7 +317037,11 @@
                                         },
                                         "url": {
                                           "description": "Canonical X profile URL of the thread's author.",
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-anyapi-domain": [
+                                            "x.com",
+                                            "twitter.com"
+                                          ]
                                         },
                                         "verified": {
                                           "description": "Whether the author carries a legacy X verification badge.",
@@ -316737,12 +317136,14 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "width": {
                                                   "description": "Pixel width of the media item, when the lane reports it.",
@@ -316782,6 +317183,10 @@
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "format": "uri",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "x.com",
+                                              "twitter.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "viewCount": {
@@ -319200,7 +319605,8 @@
                                           },
                                           "authorImage": {
                                             "description": "Avatar image URL of the account that posted.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "twimg.com"
                                           },
                                           "authorName": {
                                             "description": "Display name of the account that posted.",
@@ -319257,12 +319663,14 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "width": {
                                                   "type": "integer"
@@ -319301,6 +319709,10 @@
                                             "description": "Canonical x.com URL of the post. Populated whenever the provider has data for the entity.",
                                             "format": "uri",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "x.com",
+                                              "twitter.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "views": {
@@ -319913,7 +320325,8 @@
                                           },
                                           "authorImage": {
                                             "description": "Avatar image URL of the account that posted.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "twimg.com"
                                           },
                                           "authorName": {
                                             "description": "Display name of the account that posted.",
@@ -319966,12 +320379,14 @@
                                                 "url": {
                                                   "description": "Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "videoUrl": {
                                                   "description": "Playable video file URL. Present only for video and gif items.",
                                                   "format": "uri",
-                                                  "type": "string"
+                                                  "type": "string",
+                                                  "x-anyapi-domain": "twimg.com"
                                                 },
                                                 "width": {
                                                   "type": "integer"
@@ -320006,6 +320421,10 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "x.com",
+                                              "twitter.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "views": {
@@ -340155,7 +340574,11 @@
                                         "properties": {
                                           "authorAvatarUrl": {
                                             "description": "URL of the publishing channel's avatar image.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "ggpht.com",
+                                              "yt3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorId": {
                                             "description": "YouTube channel ID of the publishing channel.",
@@ -340177,7 +340600,12 @@
                                           },
                                           "image": {
                                             "description": "URL of the video thumbnail image, tracking query parameters stripped.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "ytimg.com",
+                                              "youtube.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "lengthText": {
                                             "type": "string"
@@ -340195,6 +340623,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "youtube.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "views": {
@@ -342614,7 +343043,11 @@
                                   "properties": {
                                     "authorAvatarUrl": {
                                       "description": "URL of the publishing channel's avatar image.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "ggpht.com",
+                                        "yt3.googleusercontent.com"
+                                      ]
                                     },
                                     "authorId": {
                                       "description": "YouTube channel ID of the publishing channel.",
@@ -342622,7 +343055,8 @@
                                     },
                                     "authorUrl": {
                                       "description": "Canonical URL of the publishing channel, tracking query parameters stripped.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "youtube.com"
                                     },
                                     "category": {
                                       "description": "YouTube category the video is filed under, for example \"Music\".",
@@ -342657,7 +343091,12 @@
                                     },
                                     "image": {
                                       "description": "URL of the video thumbnail image.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "ytimg.com",
+                                        "youtube.com",
+                                        "lh3.googleusercontent.com"
+                                      ]
                                     },
                                     "keywords": {
                                       "description": "Keywords the uploader tagged the video with.",
@@ -343255,7 +343694,11 @@
                                           },
                                           "authorAvatarUrl": {
                                             "description": "URL of the comment author's avatar image.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "ggpht.com",
+                                              "yt3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorId": {
                                             "description": "The comment author's YouTube channel ID.",
@@ -343263,7 +343706,8 @@
                                           },
                                           "authorUrl": {
                                             "description": "Canonical URL of the comment author's channel, tracking query parameters stripped.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "youtube.com"
                                           },
                                           "id": {
                                             "description": "Populated whenever the provider has data for the entity.",
