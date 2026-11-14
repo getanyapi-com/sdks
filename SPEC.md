@@ -423,8 +423,16 @@ export interface RunResult<T> {
  *  the target does not exist, or returned nothing for it. `suspended`: the platform has
  *  suspended the account. `unavailable`: the platform did not show this to the source: it may
  *  not exist, or it may be visible only to signed-in users. `too_long`: the video is too long
- *  to transcribe. */
-export type NotFoundReason = "not_found" | "suspended" | "unavailable" | "too_long" | (string & {});
+ *  to transcribe. `banned`: the platform has banned the community. `private`: the community
+ *  is private, so only its approved members can see it. */
+export type NotFoundReason =
+  | "not_found"
+  | "suspended"
+  | "unavailable"
+  | "too_long"
+  | "banned"
+  | "private"
+  | (string & {});
 
 /** Discriminated union on `found`. When found is false, data is null and `reason` says why
  *  (absent only on a response from a gateway older than the field). */
