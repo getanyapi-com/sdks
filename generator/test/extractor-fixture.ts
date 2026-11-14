@@ -129,9 +129,18 @@ const bareData = {
   },
 };
 
-export function syntheticExtractorIr(): Ir {
-  return buildIrFromDocuments(
-    {
+export interface ExtractorDocuments {
+  openapi: { paths: Record<string, Record<string, unknown>> } & Record<
+    string,
+    unknown
+  >;
+  catalog: { apis: Array<Record<string, unknown>> };
+}
+
+/** A fresh copy of the synthetic documents, so a test can add or drop one operation or row. */
+export function syntheticExtractorDocuments(): ExtractorDocuments {
+  return {
+    openapi: {
       info: { version: "fixture-v1" },
       servers: [{ url: "https://fixture.invalid" }],
       paths: {
@@ -155,7 +164,7 @@ export function syntheticExtractorIr(): Ir {
         ),
       },
     },
-    {
+    catalog: {
       apis: [
         {
           slug: "fixture.flat",
@@ -192,7 +201,18 @@ export function syntheticExtractorIr(): Ir {
         },
       ],
     },
-  );
+  };
+}
+
+export function syntheticExtractorIr(): Ir {
+  const { openapi, catalog } = syntheticExtractorDocuments();
+  return buildIrFromDocuments(openapi, catalog);
+}
+
+/** An operation the gateway publishes schema-only, marked staged (not customer-callable). */
+export function stagedOperation(operationId: string, summary: string) {
+  const op = operation(operationId, summary, flatInput, foundOutput(flatData));
+  return { post: { ...op.post, "x-anyapi-availability": "staged" } };
 }
 
 export function fixtureSku(ir: Ir, slug: string): SkuEntry {

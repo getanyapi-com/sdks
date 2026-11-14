@@ -62,7 +62,7 @@ export function buildIrFromDocuments(
     ? (openapi.paths as Record<string, RawSchema>)
     : {};
   const slugs = Object.keys(paths)
-    .filter((p) => p.startsWith("/v1/run/"))
+    .filter((p) => p.startsWith("/v1/run/") && !isStaged(paths[p]!))
     .map((p) => p.slice("/v1/run/".length));
 
   const warnings: IrWarning[] = [];
@@ -100,6 +100,15 @@ export function buildIrFromDocuments(
     ...(warnings.length > 0 ? { warnings } : {}),
     skus,
   };
+}
+
+// SPEC 1.2 erratum (staged): the gateway keeps publishing a staged SKU's schema with
+// x-anyapi-availability "staged" while it is not customer-callable and has no discovery
+// row, so it gets no generated method. Every other operation must still have a complete
+// discovery price.
+function isStaged(pathItem: RawSchema): boolean {
+  const op = pathItem.post;
+  return isRawSchema(op) && op["x-anyapi-availability"] === "staged";
 }
 
 // SPEC 1.2 erratum (S8): a SKU that accepts a `cursor` input but whose closed output has no

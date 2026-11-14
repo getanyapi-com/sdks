@@ -1,13 +1,19 @@
 import { describe, expect, it } from "vitest";
 import {
   buildIr,
+  buildIrFromDocuments,
   extractCatalogPricing,
   serializeIr,
   stripGeneratedPrice,
 } from "../src/ir.js";
 import type { ArrayNode, ObjectNode } from "../src/types.js";
 import { validateIr } from "../src/validate.js";
-import { fixtureSku, syntheticExtractorIr } from "./extractor-fixture.js";
+import {
+  fixtureSku,
+  stagedOperation,
+  syntheticExtractorDocuments,
+  syntheticExtractorIr,
+} from "./extractor-fixture.js";
 
 const liveIr = buildIr();
 const fixtureIr = syntheticExtractorIr();
@@ -101,6 +107,42 @@ describe("synthetic extractor rules", () => {
     expect(sku.output.envelope).toBe("bare");
     expect((sku.output.data as ObjectNode).open).toBe(true);
     expect(sku.example).toBeNull();
+  });
+});
+
+describe("operation selection: staged operations are not runnable methods", () => {
+  // The gateway keeps publishing a staged SKU's schema in OpenAPI, marked
+  // x-anyapi-availability: "staged", while discovery drops its row because nothing
+  // can call it. Generation skips exactly that marker; an active operation without
+  // a discovery row still fails, so pricing never silently disappears.
+  it("excludes a staged operation with no discovery row and leaves active SKUs unchanged", () => {
+    const docs = syntheticExtractorDocuments();
+    docs.openapi.paths["/v1/run/fixture.staged"] = stagedOperation(
+      "fixture_staged",
+      "Fixture Staged",
+    );
+    // Other availability markers stay callable and are generated as before.
+    docs.openapi.paths["/v1/run/fixture.flat"]!.post = {
+      ...(docs.openapi.paths["/v1/run/fixture.flat"]!.post as object),
+      "x-anyapi-availability": "beta",
+    };
+    const mixed = buildIrFromDocuments(docs.openapi, docs.catalog);
+    expect(mixed.skus.map((sku) => sku.slug)).toEqual([
+      "fixture.bare",
+      "fixture.flat",
+      "fixture.linear",
+    ]);
+    expect(mixed).toEqual(fixtureIr);
+  });
+
+  it("still fails an active operation whose discovery row is missing", () => {
+    const docs = syntheticExtractorDocuments();
+    docs.catalog.apis = docs.catalog.apis.filter(
+      (api) => api.slug !== "fixture.linear",
+    );
+    expect(() => buildIrFromDocuments(docs.openapi, docs.catalog)).toThrow(
+      "SKU fixture.linear: missing catalog discovery entry",
+    );
   });
 });
 
