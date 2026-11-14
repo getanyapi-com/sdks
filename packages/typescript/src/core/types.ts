@@ -64,8 +64,17 @@ export interface RequestSnapshot<T = unknown> {
  * - `unavailable`: the platform did not show this to the source: it may not exist, or it may
  *   be visible only to signed-in users.
  * - `too_long`: the video is too long to transcribe.
+ * - `banned`: the platform has banned the community.
+ * - `private`: the community is private, so only its approved members can see it.
  */
-export const NOT_FOUND_REASONS = ["not_found", "suspended", "unavailable", "too_long"] as const;
+export const NOT_FOUND_REASONS = [
+  "not_found",
+  "suspended",
+  "unavailable",
+  "too_long",
+  "banned",
+  "private",
+] as const;
 export type NotFoundReason = (typeof NOT_FOUND_REASONS)[number] | (string & {});
 
 /**
