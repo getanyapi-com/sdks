@@ -9,11 +9,67 @@ import type {
 import { paginate } from "../../core/index.js";
 
 /**
+ * Input for Instagram About This Account (instagram.account_about).
+ */
+export interface InstagramAccountAboutInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Instagram username without the leading @.
+   */
+  handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+/**
+ * The `data` payload of Instagram About This Account (instagram.account_about).
+ */
+export interface InstagramAccountAboutData {
+  /**
+   * Country the account is based in, as Instagram names it. Null when the account does not share it.
+   */
+  country?: string | null;
+  /**
+   * How many former usernames Instagram's About page lists for the account; 0 when it lists none. The former usernames themselves are not returned.
+   */
+  formerUsernamesCount?: number;
+  /**
+   * Month and year the account joined Instagram, as Instagram shows it, such as "January 2020". Instagram does not show the day. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  joined?: string;
+  /**
+   * The account's current username. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * True when the account carries a verified badge.
+   */
+  verified?: boolean;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for Instagram Reels by Audio (instagram.audio_reels).
  */
 export interface InstagramAudioReelsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -26,7 +82,7 @@ export interface InstagramAudioReelsInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -48,7 +104,7 @@ export interface InstagramAudioReelsInput {
     | "taggedUsers"
   )[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -175,12 +231,12 @@ export interface InstagramAudioReelsData {
  */
 export interface InstagramBasicProfileInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -193,7 +249,7 @@ export interface InstagramBasicProfileInput {
    */
   requireFields?: ("bioLinks" | "isBusiness" | "posts" | "title" | "url")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -256,11 +312,86 @@ export interface InstagramBasicProfileData {
 }
 
 /**
+ * Input for Instagram Comment Likers (instagram.comment_likers).
+ */
+export interface InstagramCommentLikersInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Instagram's numeric comment id, as instagram.post_comments returns it in a comment's id. An id that is not a number is refused as invalid input, with no charge.
+   */
+  commentId: string;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface InstagramCommentLikersLiker {
+  /**
+   * Profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl: string;
+  /**
+   * Account display name. Can be empty.
+   */
+  displayName: string;
+  /**
+   * Whether the account is private.
+   */
+  private: boolean;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId: string;
+  /**
+   * Instagram username without the leading @. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Comment Likers (instagram.comment_likers).
+ */
+export interface InstagramCommentLikersData {
+  /**
+   * One page of accounts that liked the comment, up to 50 per call. Populated whenever the provider has data for the entity.
+   */
+  likers: InstagramCommentLikersLiker[];
+  /**
+   * Opaque cursor for the next page of likers, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+}
+
+/**
  * Input for Instagram Comment Replies (instagram.comment_replies).
  */
 export interface InstagramCommentRepliesInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -273,7 +404,7 @@ export interface InstagramCommentRepliesInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -282,11 +413,11 @@ export interface InstagramCommentRepliesInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
-   * Full Instagram post or reel URL the comment belongs to.
+   * Full Instagram post or reel URL the comment belongs to, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is refused as invalid input, with no charge.
    */
   url: string;
 }
@@ -346,7 +477,7 @@ export interface InstagramCommentRepliesData {
  */
 export interface InstagramEmbedInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -355,7 +486,7 @@ export interface InstagramEmbedInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -364,7 +495,7 @@ export interface InstagramEmbedInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -385,7 +516,7 @@ export interface InstagramEmbedData {
  */
 export interface InstagramFollowersInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -394,7 +525,7 @@ export interface InstagramFollowersInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -407,7 +538,7 @@ export interface InstagramFollowersInput {
    */
   requireFields?: "private"[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -467,7 +598,7 @@ export interface InstagramFollowersData {
  */
 export interface InstagramFollowingInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -476,7 +607,7 @@ export interface InstagramFollowingInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -489,7 +620,7 @@ export interface InstagramFollowingInput {
    */
   requireFields?: "private"[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -549,7 +680,7 @@ export interface InstagramFollowingData {
  */
 export interface InstagramHashtagAnalyticsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -558,7 +689,7 @@ export interface InstagramHashtagAnalyticsInput {
    */
   hashtag: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -572,7 +703,7 @@ export interface InstagramHashtagAnalyticsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -618,7 +749,7 @@ export interface InstagramHashtagAnalyticsData {
  */
 export interface InstagramHashtagRecentPostsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -631,7 +762,7 @@ export interface InstagramHashtagRecentPostsInput {
    */
   hashtag: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -640,7 +771,7 @@ export interface InstagramHashtagRecentPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -795,7 +926,7 @@ export interface InstagramHashtagRecentPostsData {
  */
 export interface InstagramHashtagTopPostsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -808,7 +939,7 @@ export interface InstagramHashtagTopPostsInput {
    */
   hashtag: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -820,7 +951,6 @@ export interface InstagramHashtagTopPostsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    | "audioId"
     | "coauthors"
     | "locationId"
     | "locationLat"
@@ -834,7 +964,7 @@ export interface InstagramHashtagTopPostsInput {
     | "taggedUsers"
   )[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -1025,16 +1155,16 @@ export interface InstagramHashtagTopPostsData {
  */
 export interface InstagramHighlightDetailInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * The id of the highlight to retrieve details for.
+   * The highlight to retrieve: its numeric id (e.g. 18201653992314974), the highlight:<id> form, or its highlight URL (https://www.instagram.com/stories/highlights/<id>/). instagram.user_highlights returns the id of each highlight.
    */
   id: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1043,7 +1173,7 @@ export interface InstagramHighlightDetailInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -1140,11 +1270,90 @@ export interface InstagramHighlightDetailData {
 }
 
 /**
+ * Input for Instagram Location Details (instagram.location_details).
+ */
+export interface InstagramLocationDetailsInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Instagram's numeric location id, as instagram.search_locations returns it. An id that is not a number is refused as invalid input, with no charge.
+   */
+  locationId: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+/**
+ * The `data` payload of Instagram Location Details (instagram.location_details).
+ */
+export interface InstagramLocationDetailsData {
+  /**
+   * Street address. Usually present for businesses and absent for cities and regions.
+   */
+  address?: string;
+  /**
+   * Username of the Instagram business account linked to the place, without the leading @.
+   */
+  businessUsername?: string;
+  /**
+   * Kind of place, such as City, Coffee shop or Monument.
+   */
+  category: string;
+  /**
+   * Instagram location id. Pass it to instagram.location_posts as locationId. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Latitude in decimal degrees.
+   */
+  latitude: number;
+  /**
+   * Longitude in decimal degrees.
+   */
+  longitude: number;
+  /**
+   * Place name as Instagram shows it. Populated whenever the provider has data for the entity.
+   */
+  name: string;
+  /**
+   * Phone number listed for the place.
+   */
+  phone?: string;
+  /**
+   * Postal code. On a city or region page it can be a list or range of codes rather than one value.
+   */
+  postalCode?: string;
+  /**
+   * Number of posts tagged at the location.
+   */
+  postsCount: number;
+  /**
+   * URL slug of the location's Instagram page.
+   */
+  slug: string;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for Instagram Location Posts (instagram.location_posts).
  */
 export interface InstagramLocationPostsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -1153,7 +1362,7 @@ export interface InstagramLocationPostsInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1166,12 +1375,16 @@ export interface InstagramLocationPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `carouselCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: ("captionEdited" | "carouselCount" | "hasAudio")[];
+  /**
    * Order the posts by Instagram's top ranking or by newest first. Defaults to ranked.
    * One of: ranked, recent.
    */
   sort?: "ranked" | "recent";
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -1213,11 +1426,11 @@ export interface InstagramLocationPostsPost {
   /**
    * Whether the caption has been edited since posting.
    */
-  captionEdited?: boolean;
+  captionEdited?: boolean | null;
   /**
    * Number of slides, present on carousel posts only.
    */
-  carouselCount?: number;
+  carouselCount?: number | null;
   /**
    * Accounts listed as coauthors of the post.
    */
@@ -1237,7 +1450,7 @@ export interface InstagramLocationPostsPost {
   /**
    * Whether the video carries an audio track.
    */
-  hasAudio?: boolean;
+  hasAudio?: boolean | null;
   /**
    * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
@@ -1378,12 +1591,12 @@ export interface InstagramLocationPostsData {
  */
 export interface InstagramMediaTranscriptInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1396,7 +1609,7 @@ export interface InstagramMediaTranscriptInput {
    */
   requireFields?: "durationSeconds"[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -1440,7 +1653,7 @@ export interface InstagramMediaTranscriptData {
  */
 export interface InstagramPostInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -1450,7 +1663,7 @@ export interface InstagramPostInput {
    */
   hostVideo?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1480,7 +1693,7 @@ export interface InstagramPostInput {
    */
   requirePlayCount?: boolean;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -1628,7 +1841,7 @@ export interface InstagramPostData {
  */
 export interface InstagramPostCommentsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -1637,7 +1850,7 @@ export interface InstagramPostCommentsInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1650,7 +1863,7 @@ export interface InstagramPostCommentsInput {
    */
   requireFields?: ("replies" | "userId")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -1715,12 +1928,12 @@ export interface InstagramPostCommentsData {
  */
 export interface InstagramPostLikersInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1729,11 +1942,11 @@ export interface InstagramPostLikersInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
-   * Canonical URL of a public Instagram post or reel.
+   * Canonical URL of a public Instagram post or reel, carrying the media shortcode: /p/, /reel/, /reels/, or /tv/. A profile URL such as https://www.instagram.com/username names no post, so it is refused as invalid input, with no charge - send that account's handle to instagram.user_posts to list its posts.
    * Format: uri.
    */
   url: string;
@@ -1791,7 +2004,7 @@ export interface InstagramPostLikersData {
  */
 export interface InstagramProfileInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -1800,7 +2013,7 @@ export interface InstagramProfileInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1812,10 +2025,29 @@ export interface InstagramProfileInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `contactMethod`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    "contactMethod" | "highlightsCount" | "isBusiness" | "posts"
+    | "caption"
+    | "category"
+    | "coauthors"
+    | "comments"
+    | "contactMethod"
+    | "createdUtc"
+    | "durationSeconds"
+    | "hashtags"
+    | "highlightsCount"
+    | "id"
+    | "isBusiness"
+    | "isPinned"
+    | "latestPosts"
+    | "likes"
+    | "media"
+    | "mentions"
+    | "posts"
+    | "taggedUsers"
+    | "username"
+    | "views"
   )[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -1832,12 +2064,190 @@ export interface InstagramProfileBioLink {
   [extra: string]: unknown;
 }
 
+export interface InstagramProfileLatestPost {
+  /**
+   * Instagram audio id of the post's sound, licensed track or original audio, the audioId instagram.audio_reels takes to list other reels using it. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  audioId?: string | null;
+  /**
+   * Profile picture URL of the posting account.
+   */
+  avatarUrl?: string;
+  caption: string;
+  /**
+   * Number of slides, present on carousel posts only. Null when the serving source does not report it.
+   */
+  carouselCount?: number | null;
+  /**
+   * Accounts listed as coauthors of the post. Null when the serving source does not report it.
+   */
+  coauthors?: InstagramProfileCoauthor[] | null;
+  comments?: number;
+  /**
+   * Whether the author has hidden the like and view counts. Null when the serving source does not report it.
+   */
+  countsHidden?: boolean | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number;
+  /**
+   * Display name of the posting account.
+   */
+  displayName?: string;
+  /**
+   * Video duration in seconds. Absent on photo posts.
+   */
+  durationSeconds?: number;
+  /**
+   * Hashtags carried in the caption, each including its leading #.
+   */
+  hashtags?: string[];
+  /**
+   * Instagram media id.
+   */
+  id: string;
+  /**
+   * Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.
+   */
+  isPinned?: boolean | null;
+  likes?: number;
+  /**
+   * Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: InstagramProfileMedia[];
+  /**
+   * Accounts @mentioned in the caption, each including its leading @.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.
+   */
+  reshares?: number | null;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound on a reel or a post with music. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Accounts tagged in the media. Null when the serving source does not report it.
+   */
+  taggedUsers?: InstagramProfileTaggedUser[] | null;
+  url: string;
+  /**
+   * Instagram user id of the posting account. Null when the serving source does not report it.
+   */
+  userId?: string | null;
+  /**
+   * Username of the account that posted. A profile feed includes collaborator posts, so this is not always the requested handle.
+   */
+  username: string;
+  /**
+   * True when the posting account is verified.
+   */
+  verified?: boolean;
+  /**
+   * Play count, present on video posts and reels only.
+   */
+  views?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramProfileCoauthor {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified?: boolean;
+  [extra: string]: unknown;
+}
+
+export interface InstagramProfileMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramProfileTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
 /**
  * The `data` payload of Instagram Profile (instagram.profile).
  */
 export interface InstagramProfileData {
   /**
-   * Profile picture URL at the highest resolution the account exposes. Populated whenever the provider has data for the entity.
+   * Profile picture URL. Often the highest resolution the account exposes, but it can be a 150 by 150 pixel version. Populated whenever the provider has data for the entity.
    */
   avatarUrl: string;
   /**
@@ -1850,8 +2260,7 @@ export interface InstagramProfileData {
    */
   bioLinks?: InstagramProfileBioLink[];
   /**
-   * Instagram's category label for the account (for example "Government Agencies" or "Coffee shop"). Absent when the account publishes no category. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * Instagram's category label for the account (for example "Government Agencies" or "Coffee shop"). Absent when the account publishes no category.
    */
   category?: string;
   /**
@@ -1888,7 +2297,11 @@ export interface InstagramProfileData {
    */
   isBusiness?: boolean;
   /**
-   * Total number of posts on the account. Null when the serving source does not report it.
+   * The account's most recent posts, up to about 12. Best-effort: returned when you name latestPosts in requireFields, or whenever the serving source has them, and absent otherwise. Each post has the same fields as instagram.user_posts returns, except that verified, likes, comments and createdUtc are absent when the source does not report them. Empty when the account is private or has not posted.
+   */
+  latestPosts?: InstagramProfileLatestPost[];
+  /**
+   * Total number of posts on the account. On some responses this is rounded from the count Instagram displays (for example 1.2M), so it can be approximate; name posts in requireFields for an exact count. Null when the serving source does not report it.
    */
   posts: number | null;
   /**
@@ -1912,7 +2325,7 @@ export interface InstagramProfileData {
  */
 export interface InstagramProfileContactInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -1921,7 +2334,7 @@ export interface InstagramProfileContactInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1934,7 +2347,7 @@ export interface InstagramProfileContactInput {
    */
   requireFields?: ("bioLinks" | "isBusiness" | "title" | "url")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -2012,7 +2425,7 @@ export interface InstagramProfileContactData {
  */
 export interface InstagramReelTranscriptInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -2022,7 +2435,7 @@ export interface InstagramReelTranscriptInput {
    */
   hostVideo?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2031,7 +2444,7 @@ export interface InstagramReelTranscriptInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -2166,7 +2579,7 @@ export interface InstagramReelTranscriptData {
  */
 export interface InstagramReelsSearchInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -2175,7 +2588,7 @@ export interface InstagramReelsSearchInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2191,10 +2604,10 @@ export interface InstagramReelsSearchInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    "audioId" | "locationId" | "locationLat" | "locationLng" | "locationName"
+    "locationId" | "locationLat" | "locationLng" | "locationName"
   )[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -2347,12 +2760,12 @@ export interface InstagramReelsSearchData {
  */
 export interface InstagramSearchInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2372,9 +2785,9 @@ export interface InstagramSearchInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `postsCount`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "postsCount"[];
+  requireFields?: ("bio" | "followers" | "following" | "postsCount")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -2387,17 +2800,17 @@ export interface InstagramSearchInput {
 
 export interface InstagramSearchItem {
   /**
-   * The account's bio text. Empty when the account has none.
+   * The account's bio text. Empty when the account has none; null when the serving source does not report it.
    */
-  bio?: string;
+  bio?: string | null;
   /**
-   * The account's follower count. May be 0 when the lane does not return it in search results.
+   * The account's follower count. May be 0 when the lane does not return it in search results; null when the serving source does not report it.
    */
-  followers?: number;
+  followers?: number | null;
   /**
-   * The number of accounts the account follows. May be 0 when the lane does not return it in search results.
+   * The number of accounts the account follows. May be 0 when the lane does not return it in search results; null when the serving source does not report it.
    */
-  following?: number;
+  following?: number | null;
   /**
    * The account's username, without the @ prefix. Populated whenever the provider has data for the entity.
    */
@@ -2440,16 +2853,81 @@ export interface InstagramSearchData {
 }
 
 /**
- * Input for Instagram Search Followers (instagram.search_followers).
+ * Input for Instagram Audio Search (instagram.search_audio).
  */
-export interface InstagramSearchFollowersInput {
+export interface InstagramSearchAudioInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Words to search Instagram's audio for, such as a song title, an artist, or a phrase. One call returns one page of up to about 13 results; there is no next page.
+   */
+  query: string;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface InstagramSearchAudioItem {
+  /**
+   * The track's artist as Instagram displays it, or the username of the creator who recorded an original sound. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  artist?: string;
+  /**
+   * Audio length in seconds.
+   */
+  durationSeconds?: number | null;
+  /**
+   * Audio id. Pass it as audioId to instagram.audio_reels to list the reels using this audio. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * "track" for licensed music, "original sound" for audio a creator recorded. Populated whenever the provider has data for the entity.
+   * One of: track, original sound.
+   */
+  kind: "track" | "original sound";
+  /**
+   * Track title. An original sound is usually titled "Original audio". Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  title?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Audio Search (instagram.search_audio).
+ */
+export interface InstagramSearchAudioData {
+  /**
+   * Matching audio in Instagram's order: licensed tracks first, then creators' original sounds. Instagram returns some results even for a query that matches nothing well, so check the titles. Populated whenever the provider has data for the entity.
+   */
+  items: InstagramSearchAudioItem[];
+}
+
+/**
+ * Input for Instagram Search Followers (instagram.search_followers).
+ */
+export interface InstagramSearchFollowersInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2462,7 +2940,7 @@ export interface InstagramSearchFollowersInput {
    */
   query: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -2518,12 +2996,12 @@ export interface InstagramSearchFollowersData {
  */
 export interface InstagramSearchFollowingInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2536,7 +3014,7 @@ export interface InstagramSearchFollowingInput {
    */
   query: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -2592,7 +3070,7 @@ export interface InstagramSearchFollowingData {
  */
 export interface InstagramSearchHashtagInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -2611,7 +3089,7 @@ export interface InstagramSearchHashtagInput {
    */
   hashtag: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2625,7 +3103,7 @@ export interface InstagramSearchHashtagInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -2762,12 +3240,12 @@ export interface InstagramSearchHashtagData {
  */
 export interface InstagramSearchLocationsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2780,7 +3258,7 @@ export interface InstagramSearchLocationsInput {
    */
   query: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -2832,7 +3310,7 @@ export interface InstagramSearchLocationsData {
  */
 export interface InstagramSearchProfilesInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -2841,7 +3319,7 @@ export interface InstagramSearchProfilesInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2858,7 +3336,7 @@ export interface InstagramSearchProfilesInput {
    */
   requireFields?: ("bioLinks" | "category" | "isBusiness" | "private")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -2958,7 +3436,7 @@ export interface InstagramSearchProfilesData {
  */
 export interface InstagramSearchProfilesContactInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -2967,7 +3445,7 @@ export interface InstagramSearchProfilesContactInput {
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -2986,7 +3464,7 @@ export interface InstagramSearchProfilesContactInput {
    */
   query: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -3077,7 +3555,7 @@ export interface InstagramSearchProfilesContactData {
  */
 export interface InstagramSimilarProfilesInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -3086,7 +3564,7 @@ export interface InstagramSimilarProfilesInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3095,7 +3573,7 @@ export interface InstagramSimilarProfilesInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -3134,7 +3612,7 @@ export interface InstagramSimilarProfilesProfile {
  */
 export interface InstagramSimilarProfilesData {
   /**
-   * Accounts Instagram recommends as similar to the requested profile. Populated whenever the provider has data for the entity.
+   * Accounts Instagram's website lists as related to the requested profile. Populated whenever the provider has data for the entity.
    */
   profiles: InstagramSimilarProfilesProfile[];
 }
@@ -3144,12 +3622,12 @@ export interface InstagramSimilarProfilesData {
  */
 export interface InstagramStoriesFullInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3162,7 +3640,7 @@ export interface InstagramStoriesFullInput {
    */
   requireFields?: ("audioId" | "soundAuthor" | "soundTitle")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -3283,12 +3761,12 @@ export interface InstagramStoriesFullData {
  */
 export interface InstagramStoriesThinInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3301,7 +3779,7 @@ export interface InstagramStoriesThinInput {
    */
   requireFields?: "durationSeconds"[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -3364,11 +3842,206 @@ export interface InstagramStoriesThinData {
 }
 
 /**
+ * Input for Instagram Story (instagram.story).
+ */
+export interface InstagramStoryInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * The story's link, such as https://www.instagram.com/stories/nasa/4029751009399397766/, or its numeric id alone. Short share links (instagram.com/s/...) are not accepted and are refused with no charge. A story stays available for 24 hours after it is posted.
+   */
+  url: string;
+}
+
+export interface InstagramStorySticker {
+  /**
+   * Sticker identifier.
+   */
+  id?: string;
+  /**
+   * Text shown on a link sticker.
+   */
+  linkTitle?: string;
+  /**
+   * Destination of a link sticker.
+   */
+  linkUrl?: string;
+  /**
+   * Sticker kind as Instagram names it.
+   */
+  type?: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Story (instagram.story).
+ */
+export interface InstagramStoryData {
+  /**
+   * Profile picture URL of the account that posted the story.
+   */
+  avatarUrl?: string;
+  /**
+   * Instagram media shortcode of the story.
+   */
+  code?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  createdUtc?: number;
+  /**
+   * Display name of the account that posted the story.
+   */
+  displayName?: string;
+  /**
+   * Video length in seconds. Null on an image story.
+   */
+  durationSeconds?: number | null;
+  /**
+   * Story identifier. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * URL of the story image, or of the video's cover frame. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  image?: string;
+  /**
+   * Web links placed on the story. Empty when it carries none.
+   */
+  links?: string[];
+  /**
+   * Whether the story is an image or a video. Populated whenever the provider has data for the entity.
+   * One of: image, video.
+   * Present whenever the upstream returns this record.
+   */
+  mediaType?: "image" | "video";
+  /**
+   * Usernames of the accounts tagged with a mention sticker on the story, without the leading @. Empty when it tags none.
+   */
+  mentions?: string[];
+  /**
+   * True when the posting account is private.
+   */
+  private?: boolean;
+  /**
+   * Instagram's product type for the media, "story" for a story.
+   */
+  productType?: string;
+  /**
+   * Interactive stickers placed on the story. Empty when it carries none.
+   */
+  stickers?: InstagramStorySticker[];
+  /**
+   * Numeric id of the account that posted the story.
+   */
+  userId?: string;
+  /**
+   * Username of the account that posted the story. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  username?: string;
+  /**
+   * True when the posting account carries a verified badge.
+   */
+  verified?: boolean;
+  /**
+   * Direct URL to the story video. Null on an image story.
+   */
+  videoUrl?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Instagram Suggested Profiles (instagram.suggested_profiles).
+ */
+export interface InstagramSuggestedProfilesInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Instagram username without the leading @.
+   */
+  handle: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface InstagramSuggestedProfilesProfile {
+  /**
+   * Profile picture URL, as Instagram's CDN serves it.
+   * Format: uri.
+   */
+  avatarUrl: string;
+  /**
+   * Account display name.
+   */
+  displayName: string;
+  /**
+   * Whether the account is private. Null when the source does not report it.
+   */
+  private: boolean | null;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId: string;
+  /**
+   * Instagram username without the leading @. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified: boolean;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram Suggested Profiles (instagram.suggested_profiles).
+ */
+export interface InstagramSuggestedProfilesData {
+  /**
+   * Accounts Instagram suggests as similar to the requested profile. Populated whenever the provider has data for the entity.
+   */
+  profiles: InstagramSuggestedProfilesProfile[];
+}
+
+/**
  * Input for Instagram Tagged Posts (instagram.tagged_posts).
  */
 export interface InstagramTaggedPostsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -3381,7 +4054,7 @@ export interface InstagramTaggedPostsInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3394,7 +4067,7 @@ export interface InstagramTaggedPostsInput {
    */
   requireFields?: ("audioId" | "carouselCount")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -3541,12 +4214,12 @@ export interface InstagramTaggedPostsData {
  */
 export interface InstagramTrendingReelsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3555,7 +4228,7 @@ export interface InstagramTrendingReelsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -3647,7 +4320,7 @@ export interface InstagramTrendingReelsData {
  */
 export interface InstagramUserHighlightsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -3656,7 +4329,7 @@ export interface InstagramUserHighlightsInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3669,7 +4342,7 @@ export interface InstagramUserHighlightsInput {
    */
   requireFields?: ("createdUtc" | "mediaCount")[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -3729,7 +4402,7 @@ export interface InstagramUserHighlightsData {
  */
 export interface InstagramUserPostsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -3742,7 +4415,7 @@ export interface InstagramUserPostsInput {
    */
   handle: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -3772,7 +4445,7 @@ export interface InstagramUserPostsInput {
     | "userId"
   )[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -3982,7 +4655,7 @@ export interface InstagramUserPostsData {
  */
 export interface InstagramUserReelsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -3995,7 +4668,7 @@ export interface InstagramUserReelsInput {
    */
   handle?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -4022,7 +4695,7 @@ export interface InstagramUserReelsInput {
     | "taggedUsers"
   )[];
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -4221,20 +4894,24 @@ export interface InstagramUserReelsData {
 }
 
 /**
- * Input for Instagram User Reposts (instagram.user_reposts).
+ * Input for Instagram User Reels (Logged In) (instagram.user_reels_logged_in).
  */
-export interface InstagramUserRepostsInput {
+export interface InstagramUserReelsLoggedInInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
   /**
-   * Pagination cursor from a previous response's nextCursor.
+   * Pagination cursor (max_id) from a previous response's nextCursor.
    */
   cursor?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Instagram handle.
+   */
+  handle?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -4243,7 +4920,272 @@ export interface InstagramUserRepostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    "locationId" | "locationLat" | "locationLng" | "locationName"
+  )[];
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * Instagram user id (faster than handle when known).
+   */
+  userId?: string;
+}
+
+export interface InstagramUserReelsLoggedInReel {
+  /**
+   * Profile picture URL of the posting account.
+   */
+  avatarUrl?: string;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  caption: string;
+  /**
+   * Signed link to the reel's auto-generated caption track (SRT). Null when the reel has no caption track.
+   * Format: uri.
+   */
+  captionsUrl?: string | null;
+  /**
+   * Accounts listed as coauthors of the post. Null when the serving source does not report it.
+   */
+  coauthors?: InstagramUserReelsLoggedInCoauthor[] | null;
+  /**
+   * Instagram comments, excluding Facebook comments of a cross-posted reel.
+   */
+  comments: number;
+  /**
+   * Whether the author has hidden the like and view counts. Null when the serving source does not report it.
+   */
+  countsHidden?: boolean | null;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc: number;
+  /**
+   * Display name of the posting account.
+   */
+  displayName?: string;
+  /**
+   * Reel duration in seconds.
+   */
+  durationSeconds: number;
+  /**
+   * Comments on the reel on Facebook when it is cross-posted there. Null when the reel is not cross-posted to Facebook.
+   */
+  facebookComments?: number | null;
+  /**
+   * Likes of the reel on Facebook when it is cross-posted there. Null when the reel is not cross-posted to Facebook.
+   */
+  facebookLikes?: number | null;
+  /**
+   * Plays of the reel on Facebook when it is cross-posted there. Null when the reel is not cross-posted to Facebook.
+   */
+  facebookViews?: number | null;
+  /**
+   * Hashtags carried in the caption, each including its leading #. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  hashtags?: string[];
+  /**
+   * Instagram media id. Populated whenever the provider has data for the entity.
+   */
+  id: string;
+  /**
+   * Whether the post is pinned to the top of a profile grid. On a collaboration post this can be true because a coauthor pinned it to their own profile. Null when the serving source does not report it.
+   */
+  isPinned?: boolean | null;
+  /**
+   * Instagram likes, excluding Facebook likes of a cross-posted reel.
+   */
+  likes: number;
+  /**
+   * Instagram location id the post is tagged at. Absent when the post has no location. Null when the serving source does not report it.
+   */
+  locationId?: string | null;
+  /**
+   * Latitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLat?: number | null;
+  /**
+   * Longitude of the tagged location, in decimal degrees. Null when the serving source does not report it.
+   */
+  locationLng?: number | null;
+  /**
+   * Name of the location the post is tagged at. Null when the serving source does not report it.
+   */
+  locationName?: string | null;
+  /**
+   * Photo, video, and GIF attachments on the post. Empty when the post has none.
+   */
+  media?: InstagramUserReelsLoggedInMedia[];
+  /**
+   * Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity.
+   * Present whenever the upstream returns this record.
+   */
+  mentions?: string[];
+  /**
+   * Whether the post is tagged as a paid partnership. Null when the serving source does not report it.
+   */
+  paidPartnership?: boolean | null;
+  /**
+   * Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.
+   */
+  productType?: string | null;
+  /**
+   * Number of times the reel has been reposted to other accounts' profiles, as Instagram reports it to a logged-in viewer. Null when the serving source does not report it.
+   */
+  reposts?: number | null;
+  /**
+   * Number of times the post has been reshared, when Instagram reports it. Null when the serving source does not report it.
+   */
+  reshares?: number | null;
+  /**
+   * Number of times the reel has been saved, as Instagram reports it to a logged-in viewer. Null when the serving source does not report it.
+   */
+  saves?: number | null;
+  /**
+   * True when the reel is cross-posted to Facebook and Instagram reports its Facebook figures. Null when the serving source does not report it.
+   */
+  sharedToFacebook?: boolean | null;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  shortcode: string;
+  /**
+   * Credited artist of a licensed track, or the username of the account whose original audio it is. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundAuthor?: string | null;
+  /**
+   * Name of the sound on a reel or a post with music. "Original audio" means the creator's own audio rather than a licensed track. Absent when the post has no sound. Null when the serving source does not report it.
+   */
+  soundTitle?: string | null;
+  /**
+   * Accounts tagged in the media. Null when the serving source does not report it.
+   */
+  taggedUsers?: InstagramUserReelsLoggedInTaggedUser[] | null;
+  /**
+   * Instagram user id of the posting account.
+   */
+  userId?: string;
+  /**
+   * Username of the account that posted the reel. A reels tab includes collaborator reels, so this is not always the requested handle. Populated whenever the provider has data for the entity.
+   */
+  username: string;
+  /**
+   * True when the posting account is verified.
+   */
+  verified: boolean;
+  /**
+   * Instagram plays of the reel, excluding Facebook plays of a cross-posted reel.
+   */
+  views: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserReelsLoggedInCoauthor {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  /**
+   * Whether the account carries Instagram's verified badge.
+   */
+  verified?: boolean;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserReelsLoggedInMedia {
+  /**
+   * Pixel height of the media item, when the lane reports it.
+   */
+  height?: number;
+  /**
+   * One of photo, video, or gif.
+   */
+  type: string;
+  /**
+   * Image URL. For a video or GIF this is the poster/thumbnail frame.
+   * Format: uri.
+   */
+  url: string;
+  /**
+   * Playable video file URL. Present only for video and gif items.
+   * Format: uri.
+   */
+  videoUrl?: string;
+  /**
+   * Pixel width of the media item, when the lane reports it.
+   */
+  width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramUserReelsLoggedInTaggedUser {
+  /**
+   * Account display name.
+   */
+  displayName?: string;
+  /**
+   * Instagram's numeric account id, as a string.
+   */
+  userId?: string;
+  /**
+   * Instagram username without the leading @.
+   */
+  username: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Instagram User Reels (Logged In) (instagram.user_reels_logged_in).
+ */
+export interface InstagramUserReelsLoggedInData {
+  /**
+   * Opaque cursor for the next page of reels, or null when this lane has no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Populated whenever the provider has data for the entity.
+   */
+  reels: InstagramUserReelsLoggedInReel[];
+}
+
+/**
+ * Input for Instagram User Reposts (instagram.user_reposts).
+ */
+export interface InstagramUserRepostsInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Pagination cursor from a previous response's nextCursor.
+   */
+  cursor?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -4474,7 +5416,7 @@ export interface InstagramUserRepostsData {
  */
 export interface InstagramWebReelsSearchInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -4484,7 +5426,7 @@ export interface InstagramWebReelsSearchInput {
    */
   datePosted?: "last-week" | "last-month" | "last-year";
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -4503,7 +5445,7 @@ export interface InstagramWebReelsSearchInput {
    */
   query: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -4604,6 +5546,23 @@ export class InstagramNamespace {
   constructor(private readonly _core: ClientCore) {}
 
   /**
+   * Instagram About This Account
+   *
+   * Get what Instagram's About this account page shows for a handle: when the account joined, the country it is based in, how many times it changed its username, and whether it is verified.
+   *
+   * Price: $0.0022 per request.
+   *
+   * @example
+   * const res = await client.instagram.accountAbout({ handle: "meta" });
+   */
+  accountAbout(
+    input: InstagramAccountAboutInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramAccountAboutData>> {
+    return this._core.run("instagram.account_about", input, options);
+  }
+
+  /**
    * Instagram Reels by Audio
    *
    * List Instagram reels that use a given audio track by audio id.
@@ -4658,6 +5617,49 @@ export class InstagramNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<InstagramBasicProfileData>> {
     return this._core.run("instagram.basic_profile", input, options);
+  }
+
+  /**
+   * Instagram Comment Likers
+   *
+   * List the accounts that liked an Instagram comment, one page of up to 50 likers per call with cursor pagination, with each liker's handle, display name, verified and private flags and avatar.
+   *
+   * Price: $0.0011 per request.
+   *
+   * @example
+   * const res = await client.instagram.commentLikers({ commentId: "18094024946698045" });
+   */
+  commentLikers(
+    input: InstagramCommentLikersInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramCommentLikersData>> {
+    return this._core.run("instagram.comment_likers", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram Comment Likers across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterCommentLikers(
+    input: InstagramCommentLikersInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramCommentLikersLiker,
+    RunResult<InstagramCommentLikersData>
+  > {
+    return paginate<
+      InstagramCommentLikersLiker,
+      RunResult<InstagramCommentLikersData>
+    >(
+      this._core,
+      "instagram.comment_likers",
+      input as unknown as Record<string, unknown>,
+      "likers",
+      false,
+      options,
+    );
   }
 
   /**
@@ -4816,7 +5818,7 @@ export class InstagramNamespace {
    *
    * Instagram posts published under a hashtag, newest first, read from its live chronological feed rather than a web search index. Built for monitoring: results arrive within a couple of minutes of posting, so engagement counts are usually still zero and reels do not appear (Instagram keeps those on a separate tab). For engagement-ranked results use instagram.hashtag_top_posts; for older relevance-ranked results use instagram.search_hashtag.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00188 per request.
    *
    * @example
    * const res = await client.instagram.hashtagRecentPosts({ hashtag: "skincare" });
@@ -4859,7 +5861,7 @@ export class InstagramNamespace {
    *
    * Instagram's own top-ranked posts for a hashtag, read from its live hashtag feed rather than a web search index, with view, like, and comment counts. Reels-heavy and engagement-ranked, so it answers what is performing on a tag right now. For older relevance-ranked results with date and media-type filters use instagram.search_hashtag; for the chronological feed use instagram.hashtag_recent_posts.
    *
-   * Price: $0.0011 per request.
+   * Price: $0.00188 per request.
    *
    * @example
    * const res = await client.instagram.hashtagTopPosts({ hashtag: "skincare" });
@@ -4900,7 +5902,7 @@ export class InstagramNamespace {
   /**
    * Instagram Highlight Detail
    *
-   * Fetch the details and media items of a single Instagram story highlight by id.
+   * Fetch the details and media items of a single Instagram story highlight by id or highlight URL.
    *
    * Price: $0.0011 per request.
    *
@@ -4915,11 +5917,28 @@ export class InstagramNamespace {
   }
 
   /**
+   * Instagram Location Details
+   *
+   * Look up one Instagram location by id: its name, category, coordinates, number of tagged posts and page slug, plus the street address, postal code, phone and linked business account when Instagram lists them.
+   *
+   * Price: $0.0011 per request.
+   *
+   * @example
+   * const res = await client.instagram.locationDetails({ locationId: "407473226252797" });
+   */
+  locationDetails(
+    input: InstagramLocationDetailsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramLocationDetailsData>> {
+    return this._core.run("instagram.location_details", input, options);
+  }
+
+  /**
    * Instagram Location Posts
    *
    * List public Instagram posts tagged at a location, ranked or most recent, with cursor pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.instagram.locationPosts({ locationId: "103912118089363", sort: "recent" });
@@ -5056,7 +6075,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0009 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -5107,10 +6126,10 @@ export class InstagramNamespace {
    *
    * Search Instagram Reels by keyword against Instagram's own reels search and get matching reels with view, like and comment counts, caption, creator and duration. Results are relevance-ranked, not chronological. We remove overlap with recent pages, but older reels may reappear during a long search. nextCursor is null when a page contains only reels seen in recent pages. For a web-search-index view of the same keyword, with a recency filter and numbered pages, use instagram.web_reels_search.
    *
-   * Price: $0.0011 per request.
+   * Price: $0.00188 per request.
    *
    * @example
-   * const res = await client.instagram.reelsSearch({ query: "collab" });
+   * const res = await client.instagram.reelsSearch({ query: "travel" });
    */
   reelsSearch(
     input: InstagramReelsSearchInput,
@@ -5147,7 +6166,7 @@ export class InstagramNamespace {
    *
    * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
    *
-   * Price: $0.0036 per request.
+   * Price: $0.00126 per request.
    *
    * @example
    * const res = await client.instagram.search({ query: "nasa" });
@@ -5157,6 +6176,23 @@ export class InstagramNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<InstagramSearchData>> {
     return this._core.run("instagram.search", input, options);
+  }
+
+  /**
+   * Instagram Audio Search
+   *
+   * Search Instagram's audio library by keyword and get licensed tracks and creators' original sounds, each with an audio id you can pass to instagram.audio_reels, its title, artist, and length.
+   *
+   * Price: $0.0011 per request.
+   *
+   * @example
+   * const res = await client.instagram.searchAudio({ query: "despacito" });
+   */
+  searchAudio(
+    input: InstagramSearchAudioInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramSearchAudioData>> {
+    return this._core.run("instagram.search_audio", input, options);
   }
 
   /**
@@ -5301,7 +6337,7 @@ export class InstagramNamespace {
    *
    * Search public Instagram profiles by a bio or caption keyword and get each account's country, the month it joined, and the public email and phone number it lists. Charged per profile that comes back with those details.
    *
-   * Price: $0.0036 per request plus $0.0072 per profile (maximum $0.09).
+   * Price: $0.0032 per request plus $0.0064 per profile (maximum $0.08).
    *
    * @example
    * const res = await client.instagram.searchProfilesContact({ query: "skincare" });
@@ -5342,7 +6378,7 @@ export class InstagramNamespace {
   /**
    * Instagram Similar Profiles
    *
-   * List the accounts Instagram recommends as similar to a public profile, with each account's handle, display name, verified flag and avatar.
+   * List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.
    *
    * Price: $0.00175 per request.
    *
@@ -5388,6 +6424,40 @@ export class InstagramNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<InstagramStoriesThinData>> {
     return this._core.run("instagram.stories_thin", input, options);
+  }
+
+  /**
+   * Instagram Story
+   *
+   * Fetch one live Instagram story by its link or id, with its image or video, posting time, author, and the accounts, links and stickers placed on it.
+   *
+   * Price: $0.0022 per request.
+   *
+   * @example
+   * const res = await client.instagram.story({ url: "https://www.instagram.com/stories/nasa/4029751009399397766/" });
+   */
+  story(
+    input: InstagramStoryInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramStoryData>> {
+    return this._core.run("instagram.story", input, options);
+  }
+
+  /**
+   * Instagram Suggested Profiles
+   *
+   * List the full set of accounts Instagram suggests as similar to a public profile, the list its app shows, with each account's handle, display name, verified flag, private flag and avatar. For the shorter related-profiles list Instagram's website shows, at a lower price, use instagram.similar_profiles.
+   *
+   * Price: $0.0022 per request.
+   *
+   * @example
+   * const res = await client.instagram.suggestedProfiles({ handle: "nasa" });
+   */
+  suggestedProfiles(
+    input: InstagramSuggestedProfilesInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramSuggestedProfilesData>> {
+    return this._core.run("instagram.suggested_profiles", input, options);
   }
 
   /**
@@ -5472,7 +6542,7 @@ export class InstagramNamespace {
    * Price: $0.0008 per request.
    *
    * @example
-   * const res = await client.instagram.userPosts({ handle: "natgeo" });
+   * const res = await client.instagram.userPosts({ handle: "nasa" });
    */
   userPosts(
     input: InstagramUserPostsInput,
@@ -5531,6 +6601,49 @@ export class InstagramNamespace {
     return paginate<InstagramUserReelsReel, RunResult<InstagramUserReelsData>>(
       this._core,
       "instagram.user_reels",
+      input as unknown as Record<string, unknown>,
+      "reels",
+      false,
+      options,
+    );
+  }
+
+  /**
+   * Instagram User Reels (Logged In)
+   *
+   * List an Instagram account's reels by handle as a logged-in Instagram viewer sees them, with cursor pagination: everything instagram.user_reels returns plus saves, reposts, the caption-track URL and, for reels cross-posted to Facebook, the Facebook views, likes and comments. Views, likes and comments are Instagram-only; the Facebook figures are reported separately.
+   *
+   * Price: $0.00173 per request.
+   *
+   * @example
+   * const res = await client.instagram.userReelsLoggedIn({ handle: "nasa" });
+   */
+  userReelsLoggedIn(
+    input: InstagramUserReelsLoggedInInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<InstagramUserReelsLoggedInData>> {
+    return this._core.run("instagram.user_reels_logged_in", input, options);
+  }
+
+  /**
+   * Iterate every result of Instagram User Reels (Logged In) across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserReelsLoggedIn(
+    input: InstagramUserReelsLoggedInInput,
+    options?: RequestOptions,
+  ): Paginator<
+    InstagramUserReelsLoggedInReel,
+    RunResult<InstagramUserReelsLoggedInData>
+  > {
+    return paginate<
+      InstagramUserReelsLoggedInReel,
+      RunResult<InstagramUserReelsLoggedInData>
+    >(
+      this._core,
+      "instagram.user_reels_logged_in",
       input as unknown as Record<string, unknown>,
       "reels",
       false,

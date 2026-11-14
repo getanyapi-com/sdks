@@ -11,7 +11,6 @@ import { AirbnbNamespace } from "./platforms/airbnb.js";
 import { AlibabaNamespace } from "./platforms/alibaba.js";
 import { AliexpressNamespace } from "./platforms/aliexpress.js";
 import { AmazonNamespace } from "./platforms/amazon.js";
-import { ApolloNamespace } from "./platforms/apollo.js";
 import { AppstoreNamespace } from "./platforms/appstore.js";
 import { AsosNamespace } from "./platforms/asos.js";
 import { BestbuyNamespace } from "./platforms/bestbuy.js";
@@ -22,7 +21,6 @@ import { BraveNamespace } from "./platforms/brave.js";
 import { CapterraNamespace } from "./platforms/capterra.js";
 import { ChatgptNamespace } from "./platforms/chatgpt.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
-import { CompanyNamespace } from "./platforms/company.js";
 import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
 import { CompanyIdentifyNamespace } from "./platforms/company_identify.js";
 import { CompanySearchNamespace } from "./platforms/company_search.js";
@@ -56,6 +54,7 @@ import { LevelsNamespace } from "./platforms/levels.js";
 import { LinkedinNamespace } from "./platforms/linkedin.js";
 import { LinktreeNamespace } from "./platforms/linktree.js";
 import { MapsNamespace } from "./platforms/maps.js";
+import { MercariNamespace } from "./platforms/mercari.js";
 import { MobilePhoneNamespace } from "./platforms/mobile_phone.js";
 import { NaverNamespace } from "./platforms/naver.js";
 import { NextdoorNamespace } from "./platforms/nextdoor.js";
@@ -182,15 +181,6 @@ export class AnyAPI extends AnyAPIBase {
   }
 
   /**
-   * Typed methods for the apollo platform.
-   */
-  get apollo(): ApolloNamespace {
-    return (this._namespaces["apollo"] ??= new ApolloNamespace(
-      this._core,
-    )) as ApolloNamespace;
-  }
-
-  /**
    * Typed methods for the appstore platform.
    */
   get appstore(): AppstoreNamespace {
@@ -278,15 +268,6 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["coinmarketcap"] ??= new CoinmarketcapNamespace(
       this._core,
     )) as CoinmarketcapNamespace;
-  }
-
-  /**
-   * Typed methods for the company platform.
-   */
-  get company(): CompanyNamespace {
-    return (this._namespaces["company"] ??= new CompanyNamespace(
-      this._core,
-    )) as CompanyNamespace;
   }
 
   /**
@@ -580,6 +561,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["maps"] ??= new MapsNamespace(
       this._core,
     )) as MapsNamespace;
+  }
+
+  /**
+   * Typed methods for the mercari platform.
+   */
+  get mercari(): MercariNamespace {
+    return (this._namespaces["mercari"] ??= new MercariNamespace(
+      this._core,
+    )) as MercariNamespace;
   }
 
   /**

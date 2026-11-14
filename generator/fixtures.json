@@ -355,158 +355,6 @@
     "items": 1,
     "replayed": false
   },
-  "apollo.organization": {
-    "output": {
-      "found": true,
-      "data": {
-        "id": "sample",
-        "name": "sample",
-        "_extra": "passthrough"
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.organization_enrich": {
-    "output": {
-      "found": true,
-      "data": {
-        "id": "sample",
-        "name": "sample",
-        "_extra": "passthrough"
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.organization_jobs": {
-    "output": {
-      "found": true,
-      "data": {
-        "jobs": [
-          {
-            "id": "sample",
-            "title": "sample",
-            "url": "https://example.com/x",
-            "_extra": "passthrough"
-          }
-        ],
-        "page": 1,
-        "limit": 1,
-        "total": 1,
-        "totalPages": 1
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.organization_news": {
-    "output": {
-      "found": true,
-      "data": {
-        "articles": [
-          {
-            "id": "sample",
-            "title": "sample",
-            "url": "https://example.com/x",
-            "_extra": "passthrough"
-          }
-        ],
-        "page": 1,
-        "limit": 1,
-        "total": 1,
-        "totalPages": 1
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.organizations_bulk_enrich": {
-    "output": {
-      "found": true,
-      "data": {
-        "organizations": [
-          {
-            "id": "sample",
-            "name": "sample",
-            "_extra": "passthrough"
-          }
-        ],
-        "requested": 1,
-        "enriched": 1,
-        "missing": 1
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.organizations_search": {
-    "output": {
-      "found": true,
-      "data": {
-        "organizations": [
-          {
-            "id": "sample",
-            "name": "sample",
-            "_extra": "passthrough"
-          }
-        ],
-        "page": 1,
-        "limit": 1,
-        "total": 1,
-        "totalPages": 1
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.people_search": {
-    "output": {
-      "found": true,
-      "data": {
-        "people": [
-          {
-            "id": "sample",
-            "firstName": "sample",
-            "_extra": "passthrough"
-          }
-        ],
-        "total": 1
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
-  "apollo.person_enrich": {
-    "output": {
-      "found": true,
-      "data": {
-        "id": "sample",
-        "name": "sample",
-        "firstName": "sample",
-        "lastName": "sample",
-        "_extra": "passthrough"
-      }
-    },
-    "provider": "AnyAPI",
-    "costUsd": 0.001,
-    "items": 1,
-    "replayed": false
-  },
   "appstore.app": {
     "output": {
       "found": true,
@@ -888,7 +736,78 @@
     "items": 1,
     "replayed": false
   },
-  "company.research": {
+  "company_enrichment.aviato": {
+    "output": {
+      "found": true,
+      "data": {
+        "name": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.aviato_financials": {
+    "output": {
+      "found": true,
+      "data": {
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.aviato_founders": {
+    "output": {
+      "found": true,
+      "data": {
+        "founders": [
+          {
+            "fullName": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.aviato_funding_rounds": {
+    "output": {
+      "found": true,
+      "data": {
+        "fundingRounds": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.aviato_social_metrics": {
+    "output": {
+      "found": true,
+      "data": {
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_enrichment.aviato_web_traffic": {
     "output": {
       "found": true,
       "data": {
@@ -994,6 +913,23 @@
         "size": 1,
         "total": 1,
         "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "company_search.aviato": {
+    "output": {
+      "found": true,
+      "data": {
+        "companies": [
+          {
+            "name": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -1136,6 +1072,24 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "contact_enrichment.aviato": {
+    "output": {
+      "found": true,
+      "data": {
+        "emails": [
+          {
+            "email": "sample",
+            "_extra": "passthrough"
+          }
+        ],
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -2963,6 +2917,25 @@
     "items": 1,
     "replayed": false
   },
+  "google.resolve_links": {
+    "output": {
+      "found": true,
+      "data": {
+        "results": [
+          {
+            "gotoUrl": "sample",
+            "url": "sample",
+            "resolved": true,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google.scholar": {
     "output": {
       "found": true,
@@ -3186,6 +3159,30 @@
     "items": 1,
     "replayed": false
   },
+  "google_flights.calendar": {
+    "output": {
+      "found": true,
+      "data": {
+        "origin": "sample",
+        "destination": "sample",
+        "departureDateFrom": "sample",
+        "departureDateTo": "sample",
+        "tripType": "one_way",
+        "currency": "sample",
+        "dates": [
+          {
+            "departureDate": "sample",
+            "price": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "google_flights.search": {
     "output": {
       "found": true,
@@ -3373,6 +3370,19 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.account_about": {
+    "output": {
+      "found": true,
+      "data": {
+        "username": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.audio_reels": {
     "output": {
       "found": true,
@@ -3412,6 +3422,29 @@
         "externalUrl": "sample",
         "avatarUrl": "sample",
         "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.comment_likers": {
+    "output": {
+      "found": true,
+      "data": {
+        "likers": [
+          {
+            "username": "sample",
+            "userId": "sample",
+            "displayName": "sample",
+            "verified": true,
+            "private": true,
+            "avatarUrl": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",
@@ -3562,6 +3595,25 @@
         "createdUtc": 1.5,
         "ownerHandle": "sample",
         "coverUrl": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.location_details": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "name": "sample",
+        "category": "sample",
+        "latitude": 1.5,
+        "longitude": 1.5,
+        "postsCount": 1,
+        "slug": "sample",
         "_extra": "passthrough"
       }
     },
@@ -3781,6 +3833,24 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.search_audio": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "kind": "track",
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.search_followers": {
     "output": {
       "found": true,
@@ -3969,6 +4039,41 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.story": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.suggested_profiles": {
+    "output": {
+      "found": true,
+      "data": {
+        "profiles": [
+          {
+            "username": "sample",
+            "userId": "sample",
+            "displayName": "sample",
+            "verified": true,
+            "private": true,
+            "avatarUrl": "https://example.com/x",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.tagged_posts": {
     "output": {
       "found": true,
@@ -4062,6 +4167,33 @@
     "replayed": false
   },
   "instagram.user_reels": {
+    "output": {
+      "found": true,
+      "data": {
+        "reels": [
+          {
+            "id": "sample",
+            "shortcode": "sample",
+            "caption": "sample",
+            "views": 1,
+            "likes": 1,
+            "comments": 1,
+            "createdUtc": 1.5,
+            "username": "sample",
+            "verified": true,
+            "durationSeconds": 1.5,
+            "_extra": "passthrough"
+          }
+        ],
+        "nextCursor": "sample"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "instagram.user_reels_logged_in": {
     "output": {
       "found": true,
       "data": {
@@ -4975,6 +5107,63 @@
     "items": 1,
     "replayed": false
   },
+  "mercari.product": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "mercari.search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "mercari.sold_listings": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "mobile_phone.ai_ark": {
     "output": {
       "found": true,
@@ -5081,6 +5270,40 @@
         "size": 1,
         "total": 1,
         "totalPages": 1
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.aviato": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "personId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "people_search.aviato_company_employees": {
+    "output": {
+      "found": true,
+      "data": {
+        "people": [
+          {
+            "personId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
       }
     },
     "provider": "AnyAPI",
@@ -5267,6 +5490,19 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "person_enrichment.aviato": {
+    "output": {
+      "found": true,
+      "data": {
+        "fullName": "sample",
+        "_extra": "passthrough"
       }
     },
     "provider": "AnyAPI",
@@ -8536,6 +8772,20 @@
             "_extra": "passthrough"
           }
         ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "vrbo.listing": {
+    "output": {
+      "found": true,
+      "data": {
+        "id": "sample",
+        "url": "https://example.com/x",
+        "name": "sample"
       }
     },
     "provider": "AnyAPI",

@@ -7,11 +7,988 @@ import type {
 } from "../../core/index.js";
 
 /**
+ * Input for Company Enrichment - Aviato (company_enrichment.aviato).
+ */
+export interface CompanyEnrichmentAviatoInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Aviato company id, as any Aviato SKU's companyId output returns it.
+   */
+  companyId?: string;
+  /**
+   * Company website domain, e.g. posthog.com. A full URL works too; only its host is sent.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn company page URL, e.g. https://www.linkedin.com/company/posthog.
+   */
+  linkedinUrl?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentAviatoHeadcountHistory {
+  /**
+   * Employee count that month.
+   */
+  headcount?: number | null;
+  /**
+   * Start of the month. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  monthUtc?: number | null;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentAviatoJobOpening {
+  /**
+   * True when the job is remote.
+   */
+  isRemote?: boolean | null;
+  /**
+   * Job title.
+   */
+  title?: string | null;
+  /**
+   * Job listing URL.
+   * Format: uri.
+   */
+  url?: string | null;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentAviatoOffice {
+  /**
+   * Office city.
+   */
+  city?: string | null;
+  /**
+   * Office country code, e.g. US.
+   */
+  country?: string | null;
+  /**
+   * True for the headquarters.
+   */
+  headquarters?: boolean | null;
+  /**
+   * Latitude.
+   */
+  latitude?: number | null;
+  /**
+   * Longitude.
+   */
+  longitude?: number | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Enrichment - Aviato (company_enrichment.aviato).
+ */
+export interface CompanyEnrichmentAviatoData {
+  /**
+   * Other names the company is known by.
+   */
+  alternateNames?: string[] | null;
+  /**
+   * Headquarters city.
+   */
+  city?: string | null;
+  /**
+   * Aviato company id. Send it back as the companyId input of any Aviato company SKU.
+   */
+  companyId?: string | null;
+  /**
+   * Headquarters country.
+   */
+  country?: string | null;
+  /**
+   * Crunchbase profile URL.
+   * Format: uri.
+   */
+  crunchbaseUrl?: string | null;
+  /**
+   * Customer types served, e.g. B2B.
+   */
+  customerTypes?: string[] | null;
+  /**
+   * Company description.
+   */
+  description?: string | null;
+  /**
+   * Primary website domain.
+   */
+  domain?: string | null;
+  /**
+   * High end of the company's stated employee range.
+   */
+  employeesMax?: number | null;
+  /**
+   * Low end of the company's stated employee range.
+   */
+  employeesMin?: number | null;
+  /**
+   * Facebook page likes.
+   */
+  facebookLikes?: number | null;
+  /**
+   * Facebook page URL.
+   * Format: uri.
+   */
+  facebookUrl?: string | null;
+  /**
+   * Financing status, e.g. Venture Capital-Backed.
+   */
+  financingStatus?: string | null;
+  /**
+   * When the company was founded. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  foundedUtc?: number | null;
+  /**
+   * Number of funding rounds.
+   */
+  fundingRoundCount?: number | null;
+  /**
+   * Current employee count.
+   */
+  headcount?: number | null;
+  /**
+   * Headcount change over recent periods.
+   */
+  headcountGrowth?: {
+    /**
+     * Change in headcount over the last month.
+     */
+    monthlyChange?: number | null;
+    /**
+     * Change in headcount over the last month, as a fraction (0.18 is 18 percent).
+     */
+    monthlyPercent?: number | null;
+    /**
+     * Change in headcount over the last three months.
+     */
+    quarterlyChange?: number | null;
+    /**
+     * Change in headcount over the last three months, as a fraction (0.18 is 18 percent).
+     */
+    quarterlyPercent?: number | null;
+    /**
+     * Change in headcount over the last year.
+     */
+    yearlyChange?: number | null;
+    /**
+     * Change in headcount over the last year, as a fraction (0.18 is 18 percent).
+     */
+    yearlyPercent?: number | null;
+  } | null;
+  /**
+   * Monthly headcount history, oldest first.
+   */
+  headcountHistory?: CompanyEnrichmentAviatoHeadcountHistory[] | null;
+  /**
+   * Aviato industry labels, e.g. Software & SaaS.
+   */
+  industries?: string[] | null;
+  /**
+   * Number of investors.
+   */
+  investorCount?: number | null;
+  /**
+   * True when the company has been acquired.
+   */
+  isAcquired?: boolean | null;
+  /**
+   * True when the company has exited.
+   */
+  isExited?: boolean | null;
+  /**
+   * True for a government body.
+   */
+  isGovernment?: boolean | null;
+  /**
+   * True for a non-profit.
+   */
+  isNonProfit?: boolean | null;
+  /**
+   * True when the company has shut down.
+   */
+  isShutDown?: boolean | null;
+  /**
+   * Open job listings.
+   */
+  jobOpenings?: CompanyEnrichmentAviatoJobOpening[] | null;
+  /**
+   * Size of the latest deal, in USD.
+   */
+  latestDealAmountUsd?: number | null;
+  /**
+   * Type of the latest deal, e.g. Series E.
+   */
+  latestDealType?: string | null;
+  /**
+   * When the latest deal closed. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  latestDealUtc?: number | null;
+  /**
+   * Registered legal name.
+   */
+  legalName?: string | null;
+  /**
+   * LinkedIn's own numeric identifier for the company page.
+   */
+  linkedinCompanyId?: string | null;
+  /**
+   * LinkedIn followers.
+   */
+  linkedinFollowers?: number | null;
+  /**
+   * Industries the company lists on LinkedIn.
+   */
+  linkedinIndustries?: string[] | null;
+  /**
+   * LinkedIn company page URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string | null;
+  /**
+   * LinkedIn company page vanity name.
+   */
+  linkedinUsername?: string | null;
+  /**
+   * Estimated website visits in the latest month.
+   */
+  monthlyWebVisits?: number | null;
+  /**
+   * Company name.
+   */
+  name: string | null;
+  /**
+   * Office locations.
+   */
+  offices?: CompanyEnrichmentAviatoOffice[] | null;
+  /**
+   * Ownership status, e.g. Privately Held (backing).
+   */
+  ownershipStatus?: string | null;
+  /**
+   * Headquarters state or region.
+   */
+  region?: string | null;
+  /**
+   * Estimated annual revenue range in USD, or null when Aviato holds no estimate.
+   */
+  revenue?: {
+    /**
+     * Revenue band, e.g. $10M-$50M.
+     */
+    band?: string | null;
+    /**
+     * Aviato's confidence in the estimate, e.g. high.
+     */
+    confidence?: string | null;
+    /**
+     * High end of the estimate, in USD.
+     */
+    highUsd?: number | null;
+    /**
+     * Low end of the estimate, in USD.
+     */
+    lowUsd?: number | null;
+    /**
+     * Midpoint of the estimate, in USD.
+     */
+    midUsd?: number | null;
+  } | null;
+  /**
+   * Operating status, e.g. active.
+   */
+  status?: string | null;
+  /**
+   * One-line tagline.
+   */
+  tagline?: string | null;
+  /**
+   * Target markets, e.g. business.
+   */
+  targetMarkets?: string[] | null;
+  /**
+   * Technologies the company is seen using.
+   */
+  technologies?: string[] | null;
+  /**
+   * Total funding raised, in USD.
+   */
+  totalFundingUsd?: number | null;
+  /**
+   * X (Twitter) followers.
+   */
+  twitterFollowers?: number | null;
+  /**
+   * X (Twitter) profile URL.
+   * Format: uri.
+   */
+  twitterUrl?: string | null;
+  /**
+   * Company website URL.
+   * Format: uri.
+   */
+  website?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Company Financials - Aviato (company_enrichment.aviato_financials).
+ */
+export interface CompanyEnrichmentAviatoFinancialsInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Aviato company id, as any Aviato SKU's companyId output returns it.
+   */
+  companyId?: string;
+  /**
+   * Company website domain, e.g. posthog.com. A full URL works too; only its host is sent.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn company page URL, e.g. https://www.linkedin.com/company/posthog.
+   */
+  linkedinUrl?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentAviatoFinancialsFundingRound {
+  /**
+   * Money raised in the round, in USD.
+   */
+  amountUsd?: number | null;
+  /**
+   * When the round was announced. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  announcedUtc?: number | null;
+  /**
+   * Names of firms that took part in the round.
+   */
+  companyInvestors?: string[] | null;
+  /**
+   * Names of firms that led the round.
+   */
+  leadCompanyInvestors?: string[] | null;
+  /**
+   * Names of individuals who led the round.
+   */
+  leadPersonInvestors?: string[] | null;
+  /**
+   * Round name, e.g. Series B - PostHog.
+   */
+  name?: string | null;
+  /**
+   * Names of individuals who took part in the round.
+   */
+  personInvestors?: string[] | null;
+  /**
+   * Aviato funding round id.
+   */
+  roundId?: string | null;
+  /**
+   * Round stage, e.g. Seed or Series B.
+   */
+  stage?: string | null;
+  /**
+   * Valuation at the round, in USD, when known.
+   */
+  valuationUsd?: number | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Financials - Aviato (company_enrichment.aviato_financials).
+ */
+export interface CompanyEnrichmentAviatoFinancialsData {
+  /**
+   * Number of companies this company has acquired.
+   */
+  acquisitionCount?: number | null;
+  /**
+   * Financing status, e.g. Venture Capital-Backed.
+   */
+  financingStatus?: string | null;
+  /**
+   * Every funding round Aviato holds for the company.
+   */
+  fundingRounds?: CompanyEnrichmentAviatoFinancialsFundingRound[] | null;
+  /**
+   * Number of investors.
+   */
+  investorCount?: number | null;
+  /**
+   * Size of the latest deal, in USD.
+   */
+  latestDealAmountUsd?: number | null;
+  /**
+   * Type of the latest deal, e.g. Series E.
+   */
+  latestDealType?: string | null;
+  /**
+   * When the latest deal closed. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  latestDealUtc?: number | null;
+  /**
+   * Number of investors that led a round.
+   */
+  leadInvestorCount?: number | null;
+  /**
+   * Ownership status, e.g. Privately Held (backing).
+   */
+  ownershipStatus?: string | null;
+  /**
+   * Estimated annual revenue range in USD, or null when Aviato holds no estimate.
+   */
+  revenue?: {
+    /**
+     * Revenue band, e.g. $10M-$50M.
+     */
+    band?: string | null;
+    /**
+     * Aviato's confidence in the estimate, e.g. high.
+     */
+    confidence?: string | null;
+    /**
+     * High end of the estimate, in USD.
+     */
+    highUsd?: number | null;
+    /**
+     * Low end of the estimate, in USD.
+     */
+    lowUsd?: number | null;
+    /**
+     * Midpoint of the estimate, in USD.
+     */
+    midUsd?: number | null;
+  } | null;
+  /**
+   * Total funding raised, in USD.
+   */
+  totalFundingUsd?: number | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Company Founders - Aviato (company_enrichment.aviato_founders).
+ */
+export interface CompanyEnrichmentAviatoFoundersInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Aviato company id, as any Aviato SKU's companyId output returns it.
+   */
+  companyId?: string;
+  /**
+   * Company website domain, e.g. posthog.com. A full URL works too; only its host is sent.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn company page URL, e.g. https://www.linkedin.com/company/posthog.
+   */
+  linkedinUrl?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentAviatoFoundersFounder {
+  /**
+   * Crunchbase profile URL.
+   * Format: uri.
+   */
+  crunchbaseUrl?: string | null;
+  /**
+   * First name, as the founder wrote it on their profile.
+   */
+  firstName?: string | null;
+  /**
+   * Founder's full name.
+   */
+  fullName: string | null;
+  /**
+   * Last name, as the founder wrote it on their profile.
+   */
+  lastName?: string | null;
+  /**
+   * LinkedIn profile URL.
+   * Format: uri.
+   */
+  linkedinUrl?: string | null;
+  /**
+   * Location, e.g. San Francisco, California, United States.
+   */
+  location?: string | null;
+  /**
+   * Aviato person id. Send it back as the personId input of Person Enrichment - Aviato.
+   */
+  personId?: string | null;
+  /**
+   * X (Twitter) profile URL.
+   * Format: uri.
+   */
+  twitterUrl?: string | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Founders - Aviato (company_enrichment.aviato_founders).
+ */
+export interface CompanyEnrichmentAviatoFoundersData {
+  /**
+   * Founders, in Aviato's order.
+   */
+  founders: CompanyEnrichmentAviatoFoundersFounder[];
+  /**
+   * Founders Aviato holds for the company.
+   */
+  totalResults?: number | null;
+}
+
+/**
+ * Input for Company Funding Rounds - Aviato (company_enrichment.aviato_funding_rounds).
+ */
+export interface CompanyEnrichmentAviatoFundingRoundsInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Aviato company id, as any Aviato SKU's companyId output returns it.
+   */
+  companyId?: string;
+  /**
+   * Company website domain, e.g. posthog.com. A full URL works too; only its host is sent.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn company page URL, e.g. https://www.linkedin.com/company/posthog.
+   */
+  linkedinUrl?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentAviatoFundingRoundsFundingRound {
+  /**
+   * Money raised in the round, in USD.
+   */
+  amountUsd?: number | null;
+  /**
+   * When the round was announced. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  announcedUtc?: number | null;
+  /**
+   * Names of firms that took part in the round.
+   */
+  companyInvestors?: string[] | null;
+  /**
+   * Names of firms that led the round.
+   */
+  leadCompanyInvestors?: string[] | null;
+  /**
+   * Names of individuals who led the round.
+   */
+  leadPersonInvestors?: string[] | null;
+  /**
+   * Round name, e.g. Series B - PostHog.
+   */
+  name: string | null;
+  /**
+   * Names of individuals who took part in the round.
+   */
+  personInvestors?: string[] | null;
+  /**
+   * Aviato funding round id.
+   */
+  roundId?: string | null;
+  /**
+   * Round stage, e.g. Seed or Series B.
+   */
+  stage?: string | null;
+  /**
+   * Valuation at the round, in USD, when known.
+   */
+  valuationUsd?: number | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Funding Rounds - Aviato (company_enrichment.aviato_funding_rounds).
+ */
+export interface CompanyEnrichmentAviatoFundingRoundsData {
+  /**
+   * Funding rounds, in Aviato's order.
+   */
+  fundingRounds: CompanyEnrichmentAviatoFundingRoundsFundingRound[];
+  /**
+   * Funding rounds Aviato holds for the company.
+   */
+  totalResults?: number | null;
+}
+
+/**
+ * Input for Company Social Metrics - Aviato (company_enrichment.aviato_social_metrics).
+ */
+export interface CompanyEnrichmentAviatoSocialMetricsInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Aviato company id, as any Aviato SKU's companyId output returns it.
+   */
+  companyId?: string;
+  /**
+   * Company website domain, e.g. posthog.com. A full URL works too; only its host is sent.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn company page URL, e.g. https://www.linkedin.com/company/posthog.
+   */
+  linkedinUrl?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentAviatoSocialMetricsFacebookHistory {
+  /**
+   * When the count was taken. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  dateUtc?: number | null;
+  /**
+   * Likes at that time.
+   */
+  likes?: number | null;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentAviatoSocialMetricsTwitterHistory {
+  /**
+   * When the count was taken. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  dateUtc?: number | null;
+  /**
+   * Followers at that time.
+   */
+  followers?: number | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Social Metrics - Aviato (company_enrichment.aviato_social_metrics).
+ */
+export interface CompanyEnrichmentAviatoSocialMetricsData {
+  /**
+   * Change in Facebook likes over recent periods.
+   */
+  facebookGrowth?: {
+    /**
+     * Change in Facebook likes over the last month.
+     */
+    monthlyChange?: number | null;
+    /**
+     * Change in Facebook likes over the last month, as a fraction (0.18 is 18 percent).
+     */
+    monthlyPercent?: number | null;
+    /**
+     * Change in Facebook likes over the last three months.
+     */
+    quarterlyChange?: number | null;
+    /**
+     * Change in Facebook likes over the last three months, as a fraction (0.18 is 18 percent).
+     */
+    quarterlyPercent?: number | null;
+    /**
+     * Change in Facebook likes over the last week.
+     */
+    weeklyChange?: number | null;
+    /**
+     * Change in Facebook likes over the last week, as a fraction (0.18 is 18 percent).
+     */
+    weeklyPercent?: number | null;
+    /**
+     * Change in Facebook likes over the last year.
+     */
+    yearlyChange?: number | null;
+    /**
+     * Change in Facebook likes over the last year, as a fraction (0.18 is 18 percent).
+     */
+    yearlyPercent?: number | null;
+  } | null;
+  /**
+   * Facebook like counts over time, oldest first.
+   */
+  facebookHistory?:
+    CompanyEnrichmentAviatoSocialMetricsFacebookHistory[] | null;
+  /**
+   * Facebook page likes.
+   */
+  facebookLikes?: number | null;
+  /**
+   * LinkedIn followers.
+   */
+  linkedinFollowers?: number | null;
+  /**
+   * X (Twitter) followers.
+   */
+  twitterFollowers?: number | null;
+  /**
+   * Change in X (Twitter) followers over recent periods.
+   */
+  twitterGrowth?: {
+    /**
+     * Change in X (Twitter) followers over the last month.
+     */
+    monthlyChange?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last month, as a fraction (0.18 is 18 percent).
+     */
+    monthlyPercent?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last three months.
+     */
+    quarterlyChange?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last three months, as a fraction (0.18 is 18 percent).
+     */
+    quarterlyPercent?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last week.
+     */
+    weeklyChange?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last week, as a fraction (0.18 is 18 percent).
+     */
+    weeklyPercent?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last year.
+     */
+    yearlyChange?: number | null;
+    /**
+     * Change in X (Twitter) followers over the last year, as a fraction (0.18 is 18 percent).
+     */
+    yearlyPercent?: number | null;
+  } | null;
+  /**
+   * X (Twitter) follower counts over time, oldest first.
+   */
+  twitterHistory?: CompanyEnrichmentAviatoSocialMetricsTwitterHistory[] | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * Input for Company Web Traffic - Aviato (company_enrichment.aviato_web_traffic).
+ */
+export interface CompanyEnrichmentAviatoWebTrafficInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Aviato company id, as any Aviato SKU's companyId output returns it.
+   */
+  companyId?: string;
+  /**
+   * Company website domain, e.g. posthog.com. A full URL works too; only its host is sent.
+   */
+  domain?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * LinkedIn company page URL, e.g. https://www.linkedin.com/company/posthog.
+   */
+  linkedinUrl?: string;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+}
+
+export interface CompanyEnrichmentAviatoWebTrafficTopCountrie {
+  /**
+   * Country name, lower case as Aviato gives it.
+   */
+  country?: string | null;
+  /**
+   * Share of visits from the country, as a fraction of 1.
+   */
+  share?: number | null;
+  [extra: string]: unknown;
+}
+
+export interface CompanyEnrichmentAviatoWebTrafficVisitsHistory {
+  /**
+   * Start of the month. UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  monthUtc?: number | null;
+  /**
+   * Estimated visits that month.
+   */
+  visits?: number | null;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of Company Web Traffic - Aviato (company_enrichment.aviato_web_traffic).
+ */
+export interface CompanyEnrichmentAviatoWebTrafficData {
+  /**
+   * Estimated website visits in the latest month.
+   */
+  monthlyVisits?: number | null;
+  /**
+   * Countries sending the most visits.
+   */
+  topCountries?: CompanyEnrichmentAviatoWebTrafficTopCountrie[] | null;
+  /**
+   * Share of visits by source, each a fraction of 1.
+   */
+  trafficSources?: {
+    /**
+     * Share of visits typed in directly or bookmarked.
+     */
+    direct?: number | null;
+    /**
+     * Share of visits from email.
+     */
+    mail?: number | null;
+    /**
+     * Share of visits from paid placements.
+     */
+    paidReferrals?: number | null;
+    /**
+     * Share of visits from links on other sites.
+     */
+    referrals?: number | null;
+    /**
+     * Share of visits from search engines.
+     */
+    search?: number | null;
+    /**
+     * Share of visits from social networks.
+     */
+    social?: number | null;
+  } | null;
+  /**
+   * Change in monthly visits over recent periods.
+   */
+  visitsGrowth?: {
+    /**
+     * Change in monthly visits over the last month.
+     */
+    monthlyChange?: number | null;
+    /**
+     * Change in monthly visits over the last month, as a fraction (0.18 is 18 percent).
+     */
+    monthlyPercent?: number | null;
+    /**
+     * Change in monthly visits over the last three months.
+     */
+    quarterlyChange?: number | null;
+    /**
+     * Change in monthly visits over the last three months, as a fraction (0.18 is 18 percent).
+     */
+    quarterlyPercent?: number | null;
+    /**
+     * Change in monthly visits over the last year.
+     */
+    yearlyChange?: number | null;
+    /**
+     * Change in monthly visits over the last year, as a fraction (0.18 is 18 percent).
+     */
+    yearlyPercent?: number | null;
+  } | null;
+  /**
+   * Monthly visit estimates, oldest first.
+   */
+  visitsHistory?: CompanyEnrichmentAviatoWebTrafficVisitsHistory[] | null;
+  [extra: string]: unknown;
+}
+
+/**
  * Input for Company Enrichment - Crustdata (company_enrichment.crustdata).
  */
 export interface CompanyEnrichmentCrustdataInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -25,7 +1002,7 @@ export interface CompanyEnrichmentCrustdataInput {
   exactMatch?: boolean;
   fields?: unknown;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -34,7 +1011,7 @@ export interface CompanyEnrichmentCrustdataInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -326,7 +1303,7 @@ export interface CompanyEnrichmentCrustdataData {
  */
 export interface CompanyEnrichmentDatalegionInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -335,7 +1312,7 @@ export interface CompanyEnrichmentDatalegionInput {
    */
   domain?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -357,7 +1334,7 @@ export interface CompanyEnrichmentDatalegionInput {
    */
   required?: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -649,7 +1626,7 @@ export interface CompanyEnrichmentDatalegionData {
  */
 export interface CompanyEnrichmentLushaInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -666,7 +1643,7 @@ export interface CompanyEnrichmentLushaInput {
    */
   domain?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -675,7 +1652,7 @@ export interface CompanyEnrichmentLushaInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -898,7 +1875,7 @@ export interface CompanyEnrichmentLushaData {
  */
 export interface CompanyEnrichmentPeopledatalabsInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -911,7 +1888,7 @@ export interface CompanyEnrichmentPeopledatalabsInput {
    */
   domain?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -937,7 +1914,7 @@ export interface CompanyEnrichmentPeopledatalabsInput {
    */
   required?: string;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
   /**
@@ -1290,7 +2267,7 @@ export interface CompanyEnrichmentPeopledatalabsData {
  */
 export interface CompanyEnrichmentProspeoInput {
   /**
-   * Optional, default true. When false, only the sources listed in `source` may serve; the request is refused with no charge if none of them can. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
    * Default: true.
    */
   allowFallbacks?: boolean;
@@ -1312,7 +2289,7 @@ export interface CompanyEnrichmentProspeoInput {
    */
   companyWebsite?: string;
   /**
-   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves and the price is that of the dearest remaining source. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
   /**
@@ -1321,7 +2298,7 @@ export interface CompanyEnrichmentProspeoInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. Source ids to prefer, in order, taken from this endpoint's `lanes[].source.id` in /catalog or /apis. Omit it and the cheapest source serves, with automatic failover. Listed sources are tried first in the order given, then the others, unless `allowFallbacks` is false. A single source with `allowFallbacks` false is served only by that source at its price, quoted and charged exactly, with no failover. The price is that of the dearest source that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
 }
@@ -1635,6 +2612,124 @@ export interface CompanyEnrichmentProspeoData {
  */
 export class CompanyEnrichmentNamespace {
   constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * Company Enrichment - Aviato
+   *
+   * Enrich one company into firmographics, funding, revenue estimate, headcount history, web traffic, social following, offices, technologies and open jobs from a domain, a LinkedIn company URL, or an Aviato company id.
+   *
+   * Price: $0.18 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.aviato({ domain: "posthog.com" });
+   */
+  aviato(
+    input: CompanyEnrichmentAviatoInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentAviatoData>> {
+    return this._core.run("company_enrichment.aviato", input, options);
+  }
+
+  /**
+   * Company Financials - Aviato
+   *
+   * Get one company's financing and ownership status, latest deal, total funding, investor and acquisition counts, revenue estimate and every funding round from a domain, a LinkedIn company URL, or an Aviato company id.
+   *
+   * Price: $0.12 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.aviatoFinancials({ domain: "posthog.com" });
+   */
+  aviatoFinancials(
+    input: CompanyEnrichmentAviatoFinancialsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentAviatoFinancialsData>> {
+    return this._core.run(
+      "company_enrichment.aviato_financials",
+      input,
+      options,
+    );
+  }
+
+  /**
+   * Company Founders - Aviato
+   *
+   * List the founders of one company with their LinkedIn, X (Twitter) and Crunchbase profiles and an Aviato person id for Person Enrichment - Aviato, from a domain, a LinkedIn company URL, or an Aviato company id.
+   *
+   * Price: $0.012 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.aviatoFounders({ domain: "posthog.com" });
+   */
+  aviatoFounders(
+    input: CompanyEnrichmentAviatoFoundersInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentAviatoFoundersData>> {
+    return this._core.run("company_enrichment.aviato_founders", input, options);
+  }
+
+  /**
+   * Company Funding Rounds - Aviato
+   *
+   * List one company's funding rounds with stage, date, amount raised, valuation where known, and the firms and individuals that led or joined each round, from a domain, a LinkedIn company URL, or an Aviato company id.
+   *
+   * Price: $0.012 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.aviatoFundingRounds({ domain: "posthog.com" });
+   */
+  aviatoFundingRounds(
+    input: CompanyEnrichmentAviatoFundingRoundsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentAviatoFundingRoundsData>> {
+    return this._core.run(
+      "company_enrichment.aviato_funding_rounds",
+      input,
+      options,
+    );
+  }
+
+  /**
+   * Company Social Metrics - Aviato
+   *
+   * Get one company's LinkedIn, X (Twitter) and Facebook following, its weekly to yearly follower growth and the follower history behind it from a domain, a LinkedIn company URL, or an Aviato company id.
+   *
+   * Price: $0.06 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.aviatoSocialMetrics({ domain: "posthog.com" });
+   */
+  aviatoSocialMetrics(
+    input: CompanyEnrichmentAviatoSocialMetricsInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentAviatoSocialMetricsData>> {
+    return this._core.run(
+      "company_enrichment.aviato_social_metrics",
+      input,
+      options,
+    );
+  }
+
+  /**
+   * Company Web Traffic - Aviato
+   *
+   * Get one company's estimated monthly website visits, visit growth, traffic sources, top visitor countries and monthly visit history from a domain, a LinkedIn company URL, or an Aviato company id.
+   *
+   * Price: $0.036 per request.
+   *
+   * @example
+   * const res = await client.companyEnrichment.aviatoWebTraffic({ domain: "posthog.com" });
+   */
+  aviatoWebTraffic(
+    input: CompanyEnrichmentAviatoWebTrafficInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<CompanyEnrichmentAviatoWebTrafficData>> {
+    return this._core.run(
+      "company_enrichment.aviato_web_traffic",
+      input,
+      options,
+    );
+  }
 
   /**
    * Company Enrichment - Crustdata

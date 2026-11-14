@@ -51,24 +51,6 @@ import type {
   AmazonSellerProductsInput,
 } from "./platforms/amazon.js";
 import type {
-  ApolloOrganizationData,
-  ApolloOrganizationEnrichData,
-  ApolloOrganizationEnrichInput,
-  ApolloOrganizationInput,
-  ApolloOrganizationJobsData,
-  ApolloOrganizationJobsInput,
-  ApolloOrganizationNewsData,
-  ApolloOrganizationNewsInput,
-  ApolloOrganizationsBulkEnrichData,
-  ApolloOrganizationsBulkEnrichInput,
-  ApolloOrganizationsSearchData,
-  ApolloOrganizationsSearchInput,
-  ApolloPeopleSearchData,
-  ApolloPeopleSearchInput,
-  ApolloPersonEnrichData,
-  ApolloPersonEnrichInput,
-} from "./platforms/apollo.js";
-import type {
   AppstoreAppData,
   AppstoreAppInput,
   AppstoreReviewsData,
@@ -122,10 +104,18 @@ import type {
   CoinmarketcapListingsInput,
 } from "./platforms/coinmarketcap.js";
 import type {
-  CompanyResearchData,
-  CompanyResearchInput,
-} from "./platforms/company.js";
-import type {
+  CompanyEnrichmentAviatoData,
+  CompanyEnrichmentAviatoFinancialsData,
+  CompanyEnrichmentAviatoFinancialsInput,
+  CompanyEnrichmentAviatoFoundersData,
+  CompanyEnrichmentAviatoFoundersInput,
+  CompanyEnrichmentAviatoFundingRoundsData,
+  CompanyEnrichmentAviatoFundingRoundsInput,
+  CompanyEnrichmentAviatoInput,
+  CompanyEnrichmentAviatoSocialMetricsData,
+  CompanyEnrichmentAviatoSocialMetricsInput,
+  CompanyEnrichmentAviatoWebTrafficData,
+  CompanyEnrichmentAviatoWebTrafficInput,
   CompanyEnrichmentCrustdataData,
   CompanyEnrichmentCrustdataInput,
   CompanyEnrichmentDatalegionData,
@@ -144,6 +134,8 @@ import type {
 import type {
   CompanySearchAiArkData,
   CompanySearchAiArkInput,
+  CompanySearchAviatoData,
+  CompanySearchAviatoInput,
   CompanySearchCrustdataData,
   CompanySearchCrustdataInput,
   CompanySearchCrustdataV3Data,
@@ -164,6 +156,8 @@ import type {
   CongressTradesInput,
 } from "./platforms/congress.js";
 import type {
+  ContactEnrichmentAviatoData,
+  ContactEnrichmentAviatoInput,
   ContactEnrichmentCrustdataV3Data,
   ContactEnrichmentCrustdataV3Input,
 } from "./platforms/contact_enrichment.js";
@@ -365,6 +359,8 @@ import type {
   GoogleNewsInput,
   GooglePatentsData,
   GooglePatentsInput,
+  GoogleResolveLinksData,
+  GoogleResolveLinksInput,
   GoogleScholarData,
   GoogleScholarInput,
   GoogleSearch100Data,
@@ -391,6 +387,8 @@ import type {
   GoogleFinanceQuoteInput,
 } from "./platforms/google_finance.js";
 import type {
+  GoogleFlightsCalendarData,
+  GoogleFlightsCalendarInput,
   GoogleFlightsSearchData,
   GoogleFlightsSearchInput,
 } from "./platforms/google_flights.js";
@@ -417,10 +415,14 @@ import type {
 import type { IkeaSearchData, IkeaSearchInput } from "./platforms/ikea.js";
 import type { IndeedJobsData, IndeedJobsInput } from "./platforms/indeed.js";
 import type {
+  InstagramAccountAboutData,
+  InstagramAccountAboutInput,
   InstagramAudioReelsData,
   InstagramAudioReelsInput,
   InstagramBasicProfileData,
   InstagramBasicProfileInput,
+  InstagramCommentLikersData,
+  InstagramCommentLikersInput,
   InstagramCommentRepliesData,
   InstagramCommentRepliesInput,
   InstagramEmbedData,
@@ -437,6 +439,8 @@ import type {
   InstagramHashtagTopPostsInput,
   InstagramHighlightDetailData,
   InstagramHighlightDetailInput,
+  InstagramLocationDetailsData,
+  InstagramLocationDetailsInput,
   InstagramLocationPostsData,
   InstagramLocationPostsInput,
   InstagramMediaTranscriptData,
@@ -455,6 +459,8 @@ import type {
   InstagramReelTranscriptInput,
   InstagramReelsSearchData,
   InstagramReelsSearchInput,
+  InstagramSearchAudioData,
+  InstagramSearchAudioInput,
   InstagramSearchData,
   InstagramSearchFollowersData,
   InstagramSearchFollowersInput,
@@ -475,6 +481,10 @@ import type {
   InstagramStoriesFullInput,
   InstagramStoriesThinData,
   InstagramStoriesThinInput,
+  InstagramStoryData,
+  InstagramStoryInput,
+  InstagramSuggestedProfilesData,
+  InstagramSuggestedProfilesInput,
   InstagramTaggedPostsData,
   InstagramTaggedPostsInput,
   InstagramTrendingReelsData,
@@ -485,6 +495,8 @@ import type {
   InstagramUserPostsInput,
   InstagramUserReelsData,
   InstagramUserReelsInput,
+  InstagramUserReelsLoggedInData,
+  InstagramUserReelsLoggedInInput,
   InstagramUserRepostsData,
   InstagramUserRepostsInput,
   InstagramWebReelsSearchData,
@@ -586,6 +598,14 @@ import type {
   MapsSearchNearbyInput,
 } from "./platforms/maps.js";
 import type {
+  MercariProductData,
+  MercariProductInput,
+  MercariSearchData,
+  MercariSearchInput,
+  MercariSoldListingsData,
+  MercariSoldListingsInput,
+} from "./platforms/mercari.js";
+import type {
   MobilePhoneAiArkData,
   MobilePhoneAiArkInput,
   MobilePhoneLeadmagicData,
@@ -604,6 +624,10 @@ import type {
 import type {
   PeopleSearchAiArkData,
   PeopleSearchAiArkInput,
+  PeopleSearchAviatoCompanyEmployeesData,
+  PeopleSearchAviatoCompanyEmployeesInput,
+  PeopleSearchAviatoData,
+  PeopleSearchAviatoInput,
   PeopleSearchCrustdataData,
   PeopleSearchCrustdataInput,
   PeopleSearchCrustdataV3Data,
@@ -630,6 +654,8 @@ import type {
   PersonSkipTraceInput,
 } from "./platforms/person.js";
 import type {
+  PersonEnrichmentAviatoData,
+  PersonEnrichmentAviatoInput,
   PersonEnrichmentBettercontactData,
   PersonEnrichmentBettercontactInput,
   PersonEnrichmentCrustdataV3Data,
@@ -1017,7 +1043,12 @@ import type {
   UnsplashSearchPhotosInput,
 } from "./platforms/unsplash.js";
 import type { UpworkJobsData, UpworkJobsInput } from "./platforms/upwork.js";
-import type { VrboSearchData, VrboSearchInput } from "./platforms/vrbo.js";
+import type {
+  VrboListingData,
+  VrboListingInput,
+  VrboSearchData,
+  VrboSearchInput,
+} from "./platforms/vrbo.js";
 import type {
   WalmartProductData,
   WalmartProductInput,
@@ -1220,46 +1251,6 @@ export interface SkuMap {
     data: AmazonSellerProductsData;
     result: RunResult<AmazonSellerProductsData>;
   };
-  "apollo.organization": {
-    input: ApolloOrganizationInput;
-    data: ApolloOrganizationData;
-    result: RunResult<ApolloOrganizationData>;
-  };
-  "apollo.organization_enrich": {
-    input: ApolloOrganizationEnrichInput;
-    data: ApolloOrganizationEnrichData;
-    result: RunResult<ApolloOrganizationEnrichData>;
-  };
-  "apollo.organization_jobs": {
-    input: ApolloOrganizationJobsInput;
-    data: ApolloOrganizationJobsData;
-    result: RunResult<ApolloOrganizationJobsData>;
-  };
-  "apollo.organization_news": {
-    input: ApolloOrganizationNewsInput;
-    data: ApolloOrganizationNewsData;
-    result: RunResult<ApolloOrganizationNewsData>;
-  };
-  "apollo.organizations_bulk_enrich": {
-    input: ApolloOrganizationsBulkEnrichInput;
-    data: ApolloOrganizationsBulkEnrichData;
-    result: RunResult<ApolloOrganizationsBulkEnrichData>;
-  };
-  "apollo.organizations_search": {
-    input: ApolloOrganizationsSearchInput;
-    data: ApolloOrganizationsSearchData;
-    result: RunResult<ApolloOrganizationsSearchData>;
-  };
-  "apollo.people_search": {
-    input: ApolloPeopleSearchInput;
-    data: ApolloPeopleSearchData;
-    result: RunResult<ApolloPeopleSearchData>;
-  };
-  "apollo.person_enrich": {
-    input: ApolloPersonEnrichInput;
-    data: ApolloPersonEnrichData;
-    result: RunResult<ApolloPersonEnrichData>;
-  };
   "appstore.app": {
     input: AppstoreAppInput;
     data: AppstoreAppData;
@@ -1350,10 +1341,35 @@ export interface SkuMap {
     data: CoinmarketcapListingsData;
     result: RunResult<CoinmarketcapListingsData>;
   };
-  "company.research": {
-    input: CompanyResearchInput;
-    data: CompanyResearchData;
-    result: RunResult<CompanyResearchData>;
+  "company_enrichment.aviato": {
+    input: CompanyEnrichmentAviatoInput;
+    data: CompanyEnrichmentAviatoData;
+    result: RunResult<CompanyEnrichmentAviatoData>;
+  };
+  "company_enrichment.aviato_financials": {
+    input: CompanyEnrichmentAviatoFinancialsInput;
+    data: CompanyEnrichmentAviatoFinancialsData;
+    result: RunResult<CompanyEnrichmentAviatoFinancialsData>;
+  };
+  "company_enrichment.aviato_founders": {
+    input: CompanyEnrichmentAviatoFoundersInput;
+    data: CompanyEnrichmentAviatoFoundersData;
+    result: RunResult<CompanyEnrichmentAviatoFoundersData>;
+  };
+  "company_enrichment.aviato_funding_rounds": {
+    input: CompanyEnrichmentAviatoFundingRoundsInput;
+    data: CompanyEnrichmentAviatoFundingRoundsData;
+    result: RunResult<CompanyEnrichmentAviatoFundingRoundsData>;
+  };
+  "company_enrichment.aviato_social_metrics": {
+    input: CompanyEnrichmentAviatoSocialMetricsInput;
+    data: CompanyEnrichmentAviatoSocialMetricsData;
+    result: RunResult<CompanyEnrichmentAviatoSocialMetricsData>;
+  };
+  "company_enrichment.aviato_web_traffic": {
+    input: CompanyEnrichmentAviatoWebTrafficInput;
+    data: CompanyEnrichmentAviatoWebTrafficData;
+    result: RunResult<CompanyEnrichmentAviatoWebTrafficData>;
   };
   "company_enrichment.crustdata": {
     input: CompanyEnrichmentCrustdataInput;
@@ -1389,6 +1405,11 @@ export interface SkuMap {
     input: CompanySearchAiArkInput;
     data: CompanySearchAiArkData;
     result: RunResult<CompanySearchAiArkData>;
+  };
+  "company_search.aviato": {
+    input: CompanySearchAviatoInput;
+    data: CompanySearchAviatoData;
+    result: RunResult<CompanySearchAviatoData>;
   };
   "company_search.crustdata": {
     input: CompanySearchCrustdataInput;
@@ -1429,6 +1450,11 @@ export interface SkuMap {
     input: CongressTradesInput;
     data: CongressTradesData;
     result: RunResult<CongressTradesData>;
+  };
+  "contact_enrichment.aviato": {
+    input: ContactEnrichmentAviatoInput;
+    data: ContactEnrichmentAviatoData;
+    result: RunResult<ContactEnrichmentAviatoData>;
   };
   "contact_enrichment.crustdata_v3": {
     input: ContactEnrichmentCrustdataV3Input;
@@ -1870,6 +1896,11 @@ export interface SkuMap {
     data: GooglePatentsData;
     result: RunResult<GooglePatentsData>;
   };
+  "google.resolve_links": {
+    input: GoogleResolveLinksInput;
+    data: GoogleResolveLinksData;
+    result: RunResult<GoogleResolveLinksData>;
+  };
   "google.scholar": {
     input: GoogleScholarInput;
     data: GoogleScholarData;
@@ -1919,6 +1950,11 @@ export interface SkuMap {
     input: GoogleFinanceQuoteInput;
     data: GoogleFinanceQuoteData;
     result: RunResult<GoogleFinanceQuoteData>;
+  };
+  "google_flights.calendar": {
+    input: GoogleFlightsCalendarInput;
+    data: GoogleFlightsCalendarData;
+    result: RunResult<GoogleFlightsCalendarData>;
   };
   "google_flights.search": {
     input: GoogleFlightsSearchInput;
@@ -1970,6 +2006,11 @@ export interface SkuMap {
     data: IndeedJobsData;
     result: RunResult<IndeedJobsData>;
   };
+  "instagram.account_about": {
+    input: InstagramAccountAboutInput;
+    data: InstagramAccountAboutData;
+    result: RunResult<InstagramAccountAboutData>;
+  };
   "instagram.audio_reels": {
     input: InstagramAudioReelsInput;
     data: InstagramAudioReelsData;
@@ -1979,6 +2020,11 @@ export interface SkuMap {
     input: InstagramBasicProfileInput;
     data: InstagramBasicProfileData;
     result: RunResult<InstagramBasicProfileData>;
+  };
+  "instagram.comment_likers": {
+    input: InstagramCommentLikersInput;
+    data: InstagramCommentLikersData;
+    result: RunResult<InstagramCommentLikersData>;
   };
   "instagram.comment_replies": {
     input: InstagramCommentRepliesInput;
@@ -2019,6 +2065,11 @@ export interface SkuMap {
     input: InstagramHighlightDetailInput;
     data: InstagramHighlightDetailData;
     result: RunResult<InstagramHighlightDetailData>;
+  };
+  "instagram.location_details": {
+    input: InstagramLocationDetailsInput;
+    data: InstagramLocationDetailsData;
+    result: RunResult<InstagramLocationDetailsData>;
   };
   "instagram.location_posts": {
     input: InstagramLocationPostsInput;
@@ -2070,6 +2121,11 @@ export interface SkuMap {
     data: InstagramSearchData;
     result: RunResult<InstagramSearchData>;
   };
+  "instagram.search_audio": {
+    input: InstagramSearchAudioInput;
+    data: InstagramSearchAudioData;
+    result: RunResult<InstagramSearchAudioData>;
+  };
   "instagram.search_followers": {
     input: InstagramSearchFollowersInput;
     data: InstagramSearchFollowersData;
@@ -2115,6 +2171,16 @@ export interface SkuMap {
     data: InstagramStoriesThinData;
     result: RunResult<InstagramStoriesThinData>;
   };
+  "instagram.story": {
+    input: InstagramStoryInput;
+    data: InstagramStoryData;
+    result: RunResult<InstagramStoryData>;
+  };
+  "instagram.suggested_profiles": {
+    input: InstagramSuggestedProfilesInput;
+    data: InstagramSuggestedProfilesData;
+    result: RunResult<InstagramSuggestedProfilesData>;
+  };
   "instagram.tagged_posts": {
     input: InstagramTaggedPostsInput;
     data: InstagramTaggedPostsData;
@@ -2139,6 +2205,11 @@ export interface SkuMap {
     input: InstagramUserReelsInput;
     data: InstagramUserReelsData;
     result: RunResult<InstagramUserReelsData>;
+  };
+  "instagram.user_reels_logged_in": {
+    input: InstagramUserReelsLoggedInInput;
+    data: InstagramUserReelsLoggedInData;
+    result: RunResult<InstagramUserReelsLoggedInData>;
   };
   "instagram.user_reposts": {
     input: InstagramUserRepostsInput;
@@ -2370,6 +2441,21 @@ export interface SkuMap {
     data: MapsSearchNearbyData;
     result: RunResult<MapsSearchNearbyData>;
   };
+  "mercari.product": {
+    input: MercariProductInput;
+    data: MercariProductData;
+    result: RunResult<MercariProductData>;
+  };
+  "mercari.search": {
+    input: MercariSearchInput;
+    data: MercariSearchData;
+    result: RunResult<MercariSearchData>;
+  };
+  "mercari.sold_listings": {
+    input: MercariSoldListingsInput;
+    data: MercariSoldListingsData;
+    result: RunResult<MercariSoldListingsData>;
+  };
   "mobile_phone.ai_ark": {
     input: MobilePhoneAiArkInput;
     data: MobilePhoneAiArkData;
@@ -2399,6 +2485,16 @@ export interface SkuMap {
     input: PeopleSearchAiArkInput;
     data: PeopleSearchAiArkData;
     result: RunResult<PeopleSearchAiArkData>;
+  };
+  "people_search.aviato": {
+    input: PeopleSearchAviatoInput;
+    data: PeopleSearchAviatoData;
+    result: RunResult<PeopleSearchAviatoData>;
+  };
+  "people_search.aviato_company_employees": {
+    input: PeopleSearchAviatoCompanyEmployeesInput;
+    data: PeopleSearchAviatoCompanyEmployeesData;
+    result: RunResult<PeopleSearchAviatoCompanyEmployeesData>;
   };
   "people_search.crustdata": {
     input: PeopleSearchCrustdataInput;
@@ -2449,6 +2545,11 @@ export interface SkuMap {
     input: PersonSkipTraceInput;
     data: PersonSkipTraceData;
     result: RunResult<PersonSkipTraceData>;
+  };
+  "person_enrichment.aviato": {
+    input: PersonEnrichmentAviatoInput;
+    data: PersonEnrichmentAviatoData;
+    result: RunResult<PersonEnrichmentAviatoData>;
   };
   "person_enrichment.bettercontact": {
     input: PersonEnrichmentBettercontactInput;
@@ -3269,6 +3370,11 @@ export interface SkuMap {
     input: UpworkJobsInput;
     data: UpworkJobsData;
     result: RunResult<UpworkJobsData>;
+  };
+  "vrbo.listing": {
+    input: VrboListingInput;
+    data: VrboListingData;
+    result: RunResult<VrboListingData>;
   };
   "vrbo.search": {
     input: VrboSearchInput;
