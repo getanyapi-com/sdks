@@ -112,7 +112,9 @@ openapi.json + catalog.json   (committed upstream snapshots)
 The emitters read ONLY `ir.json`, never the raw OpenAPI. During generation, snapshot pricing
 is checked for the fields required to document generated methods and every USD amount must be
 finite and non-negative rather than silently becoming zero. This build-time snapshot check is
-separate from the handwritten tolerant discovery readers.
+separate from the handwritten tolerant discovery readers. An operation OpenAPI marks
+`x-anyapi-availability: "staged"` is not customer-callable and gets no generated method; every
+other operation without a complete discovery price fails generation (SPEC 1.2).
 `pnpm generate` runs the whole
 pipeline; `pnpm generate:check` regenerates in memory and byte-compares against the
 committed output (the CI drift gate). Two runs on the same snapshots are byte-identical.

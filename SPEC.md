@@ -130,6 +130,13 @@ Runtimes type that result so `output` IS the data (TS `BareRunResult<T>` / Pytho
 Synthetic fixtures retain this conditional shape even when the current IR has no bare operation.
 Found-data SKUs are unchanged.
 
+**(v1 erratum) Staged operations are not generated.** The gateway keeps publishing a staged
+SKU's schema in OpenAPI with `x-anyapi-availability: "staged"` while the SKU is not
+customer-callable, and discovery omits its row. The extractor skips exactly the operations
+carrying that marker, so neither language gets a method, type, or fixture for them. Every other
+`/v1/run/` operation, including `durable` and `beta` ones, still requires its complete discovery
+row and price: a missing or malformed row on an active operation fails generation as above.
+
 **(v1 erratum) IR `warnings`.** The top-level IR may carry a `warnings[]` array (each
 `{kind, slug, message}`, sorted). The extractor emits a `dead-cursor` warning (and logs a
 WARNING block) for a SKU that accepts a `cursor` input but whose surface cannot page it (no
