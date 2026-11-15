@@ -74875,7 +74875,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -141683,10 +141683,10 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.00049,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0021,
+        "baseUsd": 0.0001,
+        "perItemUsd": 0.0001,
+        "perItemUnit": "result"
       },
       "tsNamespace": "twitter",
       "tsMethod": "searchUsers",

@@ -6006,7 +6006,7 @@ class LinkedinNamespace:
         redacted). For full experience detail, skills, certifications, and verified
         flags use linkedin.profile.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -6975,7 +6975,7 @@ class AsyncLinkedinNamespace:
         redacted). For full experience detail, skills, certifications, and verified
         flags use linkedin.profile.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
