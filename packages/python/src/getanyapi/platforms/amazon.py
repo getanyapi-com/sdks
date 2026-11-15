@@ -1104,7 +1104,7 @@ class AmazonNamespace:
         Fetch full Amazon product details (title, brand, price when in stock,
         images, ratings, review count, variants, and attributes) from a product URL.
 
-        Price: $0.0008 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.amazon.product(url="https://www.amazon.com/dp/B00NTCH52W")
@@ -1125,7 +1125,7 @@ class AmazonNamespace:
         Pull customer reviews for any Amazon product by ASIN or URL: rating, title,
         text, date, and verified-purchase badge.
 
-        Price: $0.0013 per request.
+        Price: $0.016 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
@@ -1307,7 +1307,7 @@ class AsyncAmazonNamespace:
         Fetch full Amazon product details (title, brand, price when in stock,
         images, ratings, review count, variants, and attributes) from a product URL.
 
-        Price: $0.0008 per request.
+        Price: $0.0009 per request.
 
         Example:
             res = client.amazon.product(url="https://www.amazon.com/dp/B00NTCH52W")
@@ -1328,7 +1328,7 @@ class AsyncAmazonNamespace:
         Pull customer reviews for any Amazon product by ASIN or URL: rating, title,
         text, date, and verified-purchase badge.
 
-        Price: $0.0013 per request.
+        Price: $0.016 per request.
 
         Example:
             res = client.amazon.reviews(limit=3, product="B07PXGQC1Q")
