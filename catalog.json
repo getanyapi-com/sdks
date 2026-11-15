@@ -26545,58 +26545,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 56.784240289927986,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 214674,
-            "latencySample": 121901,
-            "requests": 214674,
-            "servedRequests": 121901
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -26687,6 +26642,51 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 56.784240289927986,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 214674,
+            "latencySample": 121901,
+            "requests": 214674,
+            "servedRequests": 121901
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
