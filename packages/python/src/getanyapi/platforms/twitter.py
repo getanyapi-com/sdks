@@ -1792,7 +1792,7 @@ class TwitterNamespace:
         records with follower, following, and post counts plus cursor pagination.
         Use twitter.search for posts.
 
-        Price: $0.0001 per request plus $0.0001 per result (maximum $0.0021).
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.search_users(query="ai agents")
@@ -2332,7 +2332,7 @@ class AsyncTwitterNamespace:
         records with follower, following, and post counts plus cursor pagination.
         Use twitter.search for posts.
 
-        Price: $0.0001 per request plus $0.0001 per result (maximum $0.0021).
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.search_users(query="ai agents")
