@@ -1482,7 +1482,7 @@ class TwitterNamespace:
         Get a public X long-form article from its wrapper post URL, including its
         author, engagement, cover image, and structured content blocks.
 
-        Price: $0.00042 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.article(url="https://x.com/Decentralisedco/status/1905545699552375179")
@@ -1545,7 +1545,7 @@ class TwitterNamespace:
         cursor pagination. Limit is a per-page maximum and a native page holds up to
         200 accounts; follow the response's nextCursor for more.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
@@ -1656,7 +1656,7 @@ class TwitterNamespace:
         text, and engagement. An empty result is valid and does not assert whether
         the target post exists.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.replies(url="https://x.com/jack/status/20")
@@ -1703,7 +1703,7 @@ class TwitterNamespace:
         per-page maximum; native pages contain approximately 20 tweets unless
         requireSinglePage selects a bulk lane.
 
-        Price: $0.00042 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -1794,7 +1794,7 @@ class TwitterNamespace:
         records with follower, following, and post counts plus cursor pagination.
         Use twitter.search for posts.
 
-        Price: $0.00042 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.search_users(query="ai agents")
@@ -1839,7 +1839,7 @@ class TwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.00212 per request.
+        Price: $0.00242 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -1924,7 +1924,7 @@ class TwitterNamespace:
         reverse-chronological authored posts, reposts, quotes, and self-thread
         continuations.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.user_posts(handle="levelsio")
@@ -1969,7 +1969,7 @@ class TwitterNamespace:
         (Twitter) account, with engagement, views, language, and cursor pagination
         where available.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -2020,7 +2020,7 @@ class AsyncTwitterNamespace:
         Get a public X long-form article from its wrapper post URL, including its
         author, engagement, cover image, and structured content blocks.
 
-        Price: $0.00042 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.article(url="https://x.com/Decentralisedco/status/1905545699552375179")
@@ -2083,7 +2083,7 @@ class AsyncTwitterNamespace:
         cursor pagination. Limit is a per-page maximum and a native page holds up to
         200 accounts; follow the response's nextCursor for more.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.followers(limit=200, username="nasa")
@@ -2194,7 +2194,7 @@ class AsyncTwitterNamespace:
         text, and engagement. An empty result is valid and does not assert whether
         the target post exists.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.replies(url="https://x.com/jack/status/20")
@@ -2241,7 +2241,7 @@ class AsyncTwitterNamespace:
         per-page maximum; native pages contain approximately 20 tweets unless
         requireSinglePage selects a bulk lane.
 
-        Price: $0.00042 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -2334,7 +2334,7 @@ class AsyncTwitterNamespace:
         records with follower, following, and post counts plus cursor pagination.
         Use twitter.search for posts.
 
-        Price: $0.00042 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.search_users(query="ai agents")
@@ -2379,7 +2379,7 @@ class AsyncTwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.00212 per request.
+        Price: $0.00242 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -2464,7 +2464,7 @@ class AsyncTwitterNamespace:
         reverse-chronological authored posts, reposts, quotes, and self-thread
         continuations.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.user_posts(handle="levelsio")
@@ -2509,7 +2509,7 @@ class AsyncTwitterNamespace:
         (Twitter) account, with engagement, views, language, and cursor pagination
         where available.
 
-        Price: $0.00042 per request.
+        Price: $0.00045 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)

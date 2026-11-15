@@ -9454,8 +9454,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-14",
-        "checkOut": "2026-12-16",
+        "checkIn": "2026-12-15",
+        "checkOut": "2026-12-17",
         "limit": 3,
         "query": "New York"
       },
@@ -33838,7 +33838,7 @@
       "category": "social",
       "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -34872,7 +34872,7 @@
       "category": "social",
       "description": "Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -36741,7 +36741,7 @@
       "category": "social",
       "description": "Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48771,8 +48771,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-14",
-        "departureDateTo": "2027-01-12",
+        "departureDateFrom": "2026-12-15",
+        "departureDateTo": "2027-01-13",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49062,7 +49062,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-14",
+        "departureDate": "2026-12-15",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49463,8 +49463,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-14",
-        "checkOut": "2026-12-16",
+        "checkIn": "2026-12-15",
+        "checkOut": "2026-12-17",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -50062,8 +50062,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-14",
-        "checkOut": "2026-12-16",
+        "checkIn": "2026-12-15",
+        "checkOut": "2026-12-17",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -55678,7 +55678,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57071,7 +57071,7 @@
       "category": "social",
       "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -71412,7 +71412,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00064,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -74875,7 +74875,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -139417,7 +139417,7 @@
       "category": "social",
       "description": "Get a public X long-form article from its wrapper post URL, including its author, engagement, cover image, and structured content blocks.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -140211,7 +140211,7 @@
       "category": "social",
       "description": "Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -140879,7 +140879,7 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -141167,7 +141167,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -141696,7 +141696,7 @@
       "category": "social",
       "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -141960,7 +141960,7 @@
       "category": "social",
       "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.",
       "pricing": {
-        "priceUsd": 0.00212,
+        "priceUsd": 0.00242,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -142977,7 +142977,7 @@
       "category": "social",
       "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143310,7 +143310,7 @@
       "category": "social",
       "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.",
       "pricing": {
-        "priceUsd": 0.00042,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144378,8 +144378,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-14",
-        "checkOut": "2026-12-17",
+        "checkIn": "2026-12-15",
+        "checkOut": "2026-12-18",
         "propertyId": "69764328"
       },
       "input": {
@@ -145152,8 +145152,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-14",
-        "checkOut": "2026-12-17",
+        "checkIn": "2026-12-15",
+        "checkOut": "2026-12-18",
         "location": "Lake Tahoe"
       },
       "input": {

@@ -3049,7 +3049,7 @@ class FacebookNamespace:
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
         venue, hosts, and attendance) as normalized JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.facebook.event_details(id="4045709448982422")
@@ -3179,7 +3179,7 @@ class FacebookNamespace:
         Fetch recent posts from any public Facebook group by URL: text, author,
         reactions, and comment counts.
 
-        Price: $0.0012 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
@@ -3399,7 +3399,7 @@ class FacebookNamespace:
         Fetch a single Facebook post by URL with its text and engagement counts
         (likes, comments, shares, views).
 
-        Price: $0.0012 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.facebook.post(url="https://www.facebook.com/reel/2166091230582141/")
@@ -3904,7 +3904,7 @@ class AsyncFacebookNamespace:
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
         venue, hosts, and attendance) as normalized JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.facebook.event_details(id="4045709448982422")
@@ -4034,7 +4034,7 @@ class AsyncFacebookNamespace:
         Fetch recent posts from any public Facebook group by URL: text, author,
         reactions, and comment counts.
 
-        Price: $0.0012 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
@@ -4254,7 +4254,7 @@ class AsyncFacebookNamespace:
         Fetch a single Facebook post by URL with its text and engagement counts
         (likes, comments, shares, views).
 
-        Price: $0.0012 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.facebook.post(url="https://www.facebook.com/reel/2166091230582141/")

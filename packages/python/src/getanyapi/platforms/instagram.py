@@ -5128,7 +5128,7 @@ class InstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.0005 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -5236,7 +5236,7 @@ class InstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00175 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -6512,7 +6512,7 @@ class AsyncInstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.0005 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -6620,7 +6620,7 @@ class AsyncInstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00175 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")

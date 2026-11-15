@@ -5763,7 +5763,7 @@ class LinkedinNamespace:
         Fetch a single LinkedIn post or article by URL (title, text, author, like
         and comment counts, publish date).
 
-        Price: $0.0008 per request.
+        Price: $0.00064 per request.
 
         Example:
             res = client.linkedin.post(url="https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs")
@@ -6006,7 +6006,7 @@ class LinkedinNamespace:
         redacted). For full experience detail, skills, certifications, and verified
         flags use linkedin.profile.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")
@@ -6732,7 +6732,7 @@ class AsyncLinkedinNamespace:
         Fetch a single LinkedIn post or article by URL (title, text, author, like
         and comment counts, publish date).
 
-        Price: $0.0008 per request.
+        Price: $0.00064 per request.
 
         Example:
             res = client.linkedin.post(url="https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs")
@@ -6975,7 +6975,7 @@ class AsyncLinkedinNamespace:
         redacted). For full experience detail, skills, certifications, and verified
         flags use linkedin.profile.
 
-        Price: $0.0012 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.profile_thin(url="https://www.linkedin.com/in/williamhgates")

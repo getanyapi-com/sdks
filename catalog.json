@@ -9530,13 +9530,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0004,
+          "maxPer1kUsd": 0.4
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -9601,7 +9615,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "facebook.events",
@@ -9887,13 +9901,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.00072,
+          "maxPer1kUsd": 0.72
         },
         "failoverMaxUsd": 0.00477,
         "failoverMaxPer1kUsd": 4.77
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00072,
+            "maxPer1kUsd": 0.72
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -10657,13 +10685,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.00072,
+          "maxPer1kUsd": 0.72
         },
         "failoverMaxUsd": 0.0032,
         "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00072,
+            "maxPer1kUsd": 0.72
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -18701,21 +18743,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5,
-          "addons": [
-            {
-              "id": "hosting",
-              "label": "hosted MP4 link",
-              "field": "hostVideo",
-              "usd": 0.0045
-            }
-          ]
+          "maxUsd": 0.0004,
+          "maxPer1kUsd": 0.4
         },
         "failoverMaxUsd": 0.00638,
         "failoverMaxPer1kUsd": 6.38
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -19650,13 +19698,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00175,
-          "maxPer1kUsd": 1.75
+          "maxUsd": 0.0004,
+          "maxPer1kUsd": 0.4
         },
         "failoverMaxUsd": 0.00721,
         "failoverMaxPer1kUsd": 7.21
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -25048,13 +25110,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.00064,
+          "maxPer1kUsd": 0.64
         },
         "failoverMaxUsd": 0.00253,
         "failoverMaxPer1kUsd": 2.53
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00064,
+            "maxPer1kUsd": 0.64
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -26469,13 +26545,58 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 56.784240289927986,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 214674,
+            "latencySample": 121901,
+            "requests": 214674,
+            "servedRequests": 121901
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -26566,51 +26687,6 @@
         }
       ],
       "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 56.784240289927986,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 214674,
-            "latencySample": 121901,
-            "requests": 214674,
-            "servedRequests": 121901
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -46762,19 +46838,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00049,
+          "maxPer1kUsd": 0.49
         },
-        "failoverMaxUsd": 0.00042,
-        "failoverMaxPer1kUsd": 0.42
+        "failoverMaxUsd": 0.00049,
+        "failoverMaxPer1kUsd": 0.49
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
@@ -47145,19 +47221,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00045,
+          "maxPer1kUsd": 0.45
         },
-        "failoverMaxUsd": 0.00045,
-        "failoverMaxPer1kUsd": 0.45
+        "failoverMaxUsd": 0.00049,
+        "failoverMaxPer1kUsd": 0.49
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
           },
           "source": {
             "id": "anonymous-lynx",
@@ -47191,8 +47267,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
@@ -47439,8 +47515,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
@@ -47579,8 +47655,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00045,
+          "maxPer1kUsd": 0.45
         },
         "failoverMaxUsd": 0.00886,
         "failoverMaxPer1kUsd": 8.86
@@ -47590,8 +47666,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
           },
           "source": {
             "id": "anonymous-lynx",
@@ -47629,8 +47705,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
@@ -47768,8 +47844,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00049,
+          "maxPer1kUsd": 0.49
         },
         "failoverMaxUsd": 0.0154,
         "failoverMaxPer1kUsd": 15.4
@@ -47779,8 +47855,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-lynx",
@@ -48056,8 +48132,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00049,
+          "maxPer1kUsd": 0.49
         },
         "failoverMaxUsd": 0.0021,
         "failoverMaxPer1kUsd": 2.1
@@ -48067,8 +48143,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-lynx",
@@ -48209,19 +48285,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00212,
-          "maxPer1kUsd": 2.12
+          "maxUsd": 0.00242,
+          "maxPer1kUsd": 2.42
         },
-        "failoverMaxUsd": 0.00212,
-        "failoverMaxPer1kUsd": 2.12
+        "failoverMaxUsd": 0.00242,
+        "failoverMaxPer1kUsd": 2.42
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00212,
-            "maxPer1kUsd": 2.12
+            "maxUsd": 0.00242,
+            "maxPer1kUsd": 2.42
           },
           "source": {
             "id": "anonymous-capybara",
@@ -48288,8 +48364,8 @@
           "maxUsd": 0.0001,
           "maxPer1kUsd": 0.1
         },
-        "failoverMaxUsd": 0.0004,
-        "failoverMaxPer1kUsd": 0.4
+        "failoverMaxUsd": 0.00046,
+        "failoverMaxPer1kUsd": 0.46
       },
       "lanes": [
         {
@@ -48329,8 +48405,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
+            "maxUsd": 0.00046,
+            "maxPer1kUsd": 0.46
           },
           "source": {
             "id": "anonymous-capybara",
@@ -48486,8 +48562,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
@@ -48676,8 +48752,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00045,
+          "maxPer1kUsd": 0.45
         },
         "failoverMaxUsd": 0.0021,
         "failoverMaxPer1kUsd": 2.1
@@ -48687,8 +48763,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
           },
           "source": {
             "id": "anonymous-lynx",
@@ -48733,8 +48809,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
@@ -48845,8 +48921,8 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00042,
-          "maxPer1kUsd": 0.42
+          "maxUsd": 0.00045,
+          "maxPer1kUsd": 0.45
         },
         "failoverMaxUsd": 0.0101,
         "failoverMaxPer1kUsd": 10.1
@@ -48856,8 +48932,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00042,
-            "maxPer1kUsd": 0.42
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
           },
           "source": {
             "id": "anonymous-lynx",
@@ -48902,8 +48978,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-capybara",
