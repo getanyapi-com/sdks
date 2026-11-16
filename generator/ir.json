@@ -44368,7 +44368,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -46748,7 +46748,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -149551,12 +149551,12 @@
       "operationId": "youtube_channel_contact",
       "name": "YouTube Channel Contact Email",
       "category": "video",
-      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. A lookup the source has not revealed yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found.",
+      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found.",
       "pricing": {
-        "priceUsd": 0.132,
-        "baseUsd": 0.132,
-        "perItemUsd": 0,
-        "perItemUnit": "result"
+        "priceUsd": 0.11,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "youtube",
       "tsMethod": "channelContact",
@@ -149574,8 +149574,8 @@
         "properties": {
           "allowFallbacks": {
             "kind": "boolean",
-            "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
-            "default": true
+            "description": "Has no effect on this API. One source serves each request and there is no automatic failover to another source, whether this is true, false or left out. Use `source` to choose the source.",
+            "default": null
           },
           "channelId": {
             "kind": "string",
@@ -149593,7 +149593,7 @@
           },
           "ignoreSources": {
             "kind": "array",
-            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "description": "Optional. Source ids to skip, from this endpoint's `lanes[].source.id`. It never moves a request to another source: if the source that would serve (the one chosen with `source`, otherwise the lowest-priced) is in this list, the request is refused as invalid input with no charge. An id that does not serve this endpoint, or that is also in `source`, is rejected the same way.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -149611,7 +149611,7 @@
           },
           "source": {
             "kind": "array",
-            "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "description": "Optional. One source serves each request to this API, and a request never moves to another source: there is no automatic failover. Leave it out and the lowest-priced source is used. To choose a source, list its id from this endpoint's `lanes[].source.id` in /catalog or /apis; if you list several, the lowest-priced of them is used. You are charged that source's price. If the chosen source is not serving right now, or costs more than your `max_cost_usd` (the REST query parameter or MCP `run_api` argument), the request is refused with no charge and is never sent to another source. An id that does not serve this endpoint is rejected as invalid input with no charge.",
             "items": {
               "kind": "string",
               "enum": null,

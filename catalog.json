@@ -6988,41 +6988,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00157,
-            "maxPer1kUsd": 1.57
-          },
-          "source": {
-            "id": "anonymous-chameleon-d7366dd9",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.05734767025089,
-            "latencyP50Ms": 4186,
-            "uptimeSample": 279,
-            "latencySample": 268,
-            "requests": 279,
-            "servedRequests": 268
-          },
-          "fields": [
-            "bidCount",
-            "condition",
-            "currency",
-            "image",
-            "itemId",
-            "items",
-            "price",
-            "shippingCost",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.0011,
@@ -7057,6 +7022,43 @@
             "sellerFeedbackCount",
             "sellerFeedbackPercent",
             "sellerName",
+            "shippingCost",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00157,
+            "maxPer1kUsd": 1.57
+          },
+          "source": {
+            "id": "anonymous-chameleon-d7366dd9",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.05734767025089,
+            "latencyP50Ms": 4186,
+            "uptimeSample": 279,
+            "latencySample": 268,
+            "requests": 279,
+            "servedRequests": 268
+          },
+          "fields": [
+            "bidCount",
+            "condition",
+            "currency",
+            "image",
+            "itemId",
+            "items",
+            "price",
             "shippingCost",
             "title",
             "url"
@@ -11893,45 +11895,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.03,
-            "maxPer1kUsd": 30
-          },
-          "source": {
-            "id": "anonymous-fox",
-            "name": "Fox",
-            "kind": "anonymous",
-            "artworkKey": "fox"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 59.436619718309856,
-            "latencyP50Ms": 11288,
-            "uptimeSample": 710,
-            "latencySample": 422,
-            "requests": 710,
-            "servedRequests": 422
-          },
-          "fields": [
-            "authorId",
-            "authorImage",
-            "authorName",
-            "authorUrl",
-            "commentCount",
-            "createdUtc",
-            "id",
-            "image",
-            "items",
-            "reactionCount",
-            "reactions",
-            "shareCount",
-            "text",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00007,
@@ -11971,6 +11934,47 @@
             "shareCount",
             "text",
             "type",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.03,
+            "maxPer1kUsd": 30
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 59.436619718309856,
+            "latencyP50Ms": 11288,
+            "uptimeSample": 710,
+            "latencySample": 422,
+            "requests": 710,
+            "servedRequests": 422
+          },
+          "fields": [
+            "authorId",
+            "authorImage",
+            "authorName",
+            "authorUrl",
+            "commentCount",
+            "createdUtc",
+            "id",
+            "image",
+            "items",
+            "reactionCount",
+            "reactions",
+            "shareCount",
+            "text",
             "url"
           ]
         }
@@ -13905,47 +13909,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0015,
-          "maxPer1kUsd": 1.5
+          "maxUsd": 0.0048,
+          "maxPer1kUsd": 4.8
         },
         "failoverMaxUsd": 0.0048,
         "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 78.21208327537441,
-            "latencyP50Ms": 18900,
-            "uptimeSample": 21567,
-            "latencySample": 16868,
-            "requests": 21569,
-            "servedRequests": 16868
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
-            "title",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -13982,6 +13952,40 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 78.21208327537441,
+            "latencyP50Ms": 18900,
+            "uptimeSample": 21567,
+            "latencySample": 16868,
+            "requests": 21569,
+            "servedRequests": 16868
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -14052,7 +14056,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "google.ai_overview_preview",
@@ -15097,45 +15101,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0004,
-          "maxPer1kUsd": 0.4
+          "maxUsd": 0.0005,
+          "maxPer1kUsd": 0.5
         },
         "failoverMaxUsd": 0.002,
         "failoverMaxPer1kUsd": 2
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.84833701447376,
-            "latencyP50Ms": 6207,
-            "uptimeSample": 123603,
-            "latencySample": 101167,
-            "requests": 123617,
-            "servedRequests": 101167
-          },
-          "fields": [
-            "link",
-            "nextCursor",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -15221,6 +15193,40 @@
             "latencySample": 644,
             "requests": 731,
             "servedRequests": 644
+          },
+          "fields": [
+            "link",
+            "nextCursor",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.84833701447376,
+            "latencyP50Ms": 6207,
+            "uptimeSample": 123603,
+            "latencySample": 101167,
+            "requests": 123617,
+            "servedRequests": 101167
           },
           "fields": [
             "link",
@@ -51725,7 +51731,7 @@
       "slug": "youtube.channel_contact",
       "category": "video",
       "name": "YouTube Channel Contact Email",
-      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. A lookup the source has not revealed yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found.",
+      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found.",
       "method": "POST",
       "path": "/v1/run/youtube.channel_contact",
       "provider": "AnyAPI",
@@ -51734,17 +51740,32 @@
       },
       "pricing": {
         "from": {
-          "model": "linear",
-          "unit": "result",
-          "baseUsd": 0.132,
-          "perUnitUsd": 0,
-          "maxUsd": 0.132,
-          "maxPer1kUsd": 132
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.11,
+          "maxPer1kUsd": 110
         },
         "failoverMaxUsd": 0.132,
         "failoverMaxPer1kUsd": 132
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.11,
+            "maxPer1kUsd": 110
+          },
+          "source": {
+            "id": "anonymous-kestrel",
+            "name": "Kestrel",
+            "kind": "anonymous",
+            "artworkKey": "kestrel"
+          },
+          "fields": [
+            "email"
+          ]
+        },
         {
           "pricing": {
             "model": "linear",
