@@ -1430,7 +1430,7 @@ class YoutubeNamespace:
         takes minutes to hours: it is charged when the lookup starts, refunded
         automatically if no email is found within 48 hours, and the call returns a
         request id at once with a link that collects the answer later with no API
-        key.
+        key. A finished answer stays readable for 3 days after it is found.
 
         Price: $0.132 per request plus $0 per result (maximum $0.132).
 
@@ -2074,7 +2074,7 @@ class AsyncYoutubeNamespace:
         takes minutes to hours: it is charged when the lookup starts, refunded
         automatically if no email is found within 48 hours, and the call returns a
         request id at once with a link that collects the answer later with no API
-        key.
+        key. A finished answer stays readable for 3 days after it is found.
 
         Price: $0.132 per request plus $0 per result (maximum $0.132).
 
