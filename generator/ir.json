@@ -56449,7 +56449,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00056,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -56596,7 +56596,8 @@
             },
             "category": {
               "kind": "string",
-              "description": "Instagram's category label for the account (for example \"Government Agencies\" or \"Coffee shop\"). Absent when the account publishes no category.",
+              "description": "Instagram's category label for the account (for example \"Government Agencies\" or \"Coffee shop\"). Absent when the account publishes no category. Null when the serving source does not report it; name category in requireFields to get it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -56653,7 +56654,8 @@
             },
             "isBusiness": {
               "kind": "boolean",
-              "description": "Whether Instagram flags the account as a business account.",
+              "description": "Whether Instagram flags the account as a business account. Null when the serving source does not report it; name isBusiness in requireFields to get it.",
+              "nullable": true,
               "default": null
             },
             "latestPosts": {
@@ -60816,7 +60818,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00188,
+        "priceUsd": 0.00135,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60879,7 +60881,8 @@
               "kind": "string",
               "enum": [
                 "audioId",
-                "carouselCount"
+                "carouselCount",
+                "reshares"
               ],
               "default": null,
               "format": null

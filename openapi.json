@@ -138779,7 +138779,7 @@
     },
     "/v1/run/instagram.profile": {
       "post": {
-        "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile pricing and uptime](https://getanyapi.com/api/instagram/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.\n\n**Price:** \\$0.56 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile pricing and uptime](https://getanyapi.com/api/instagram/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_profile",
         "parameters": [
           {
@@ -138998,8 +138998,11 @@
                                       "x-anyapi-must-populate": true
                                     },
                                     "category": {
-                                      "description": "Instagram's category label for the account (for example \"Government Agencies\" or \"Coffee shop\"). Absent when the account publishes no category.",
-                                      "type": "string"
+                                      "description": "Instagram's category label for the account (for example \"Government Agencies\" or \"Coffee shop\"). Absent when the account publishes no category. Null when the serving source does not report it; name category in requireFields to get it.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
                                     },
                                     "contactMethod": {
                                       "description": "The contact button Instagram shows on the profile, for example CALL, TEXT, EMAIL, or UNKNOWN. Absent when the account exposes no contact button. Instagram no longer publishes the underlying email or phone number to unauthenticated callers.",
@@ -139036,8 +139039,11 @@
                                       ]
                                     },
                                     "isBusiness": {
-                                      "description": "Whether Instagram flags the account as a business account.",
-                                      "type": "boolean"
+                                      "description": "Whether Instagram flags the account as a business account. Null when the serving source does not report it; name isBusiness in requireFields to get it.",
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "latestPosts": {
                                       "description": "The account's most recent posts, up to about 12. Best-effort: returned when you name latestPosts in requireFields, or whenever the serving source has them, and absent otherwise. Each post has the same fields as instagram.user_posts returns, except that verified, likes, comments and createdUtc are absent when the source does not report them. Empty when the account is private or has not posted.",
@@ -139624,7 +139630,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000900",
+            "amount": "0.000560",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -139666,7 +139672,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001900",
+                "amount": "0.001560",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -139698,7 +139704,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000900",
+                "amount": "0.000560",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -149885,7 +149891,7 @@
     },
     "/v1/run/instagram.tagged_posts": {
       "post": {
-        "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).\n\n**Price:** \\$1.88 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Tagged Posts pricing and uptime](https://getanyapi.com/api/instagram/tagged-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).\n\n**Price:** \\$1.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Tagged Posts pricing and uptime](https://getanyapi.com/api/instagram/tagged-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_tagged_posts",
         "parameters": [
           {
@@ -149990,7 +149996,8 @@
                     "items": {
                       "enum": [
                         "audioId",
-                        "carouselCount"
+                        "carouselCount",
+                        "reshares"
                       ],
                       "type": "string"
                     },
@@ -150533,7 +150540,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001880",
+            "amount": "0.001350",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -150575,7 +150582,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002880",
+                "amount": "0.002350",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -150607,7 +150614,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001350",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
