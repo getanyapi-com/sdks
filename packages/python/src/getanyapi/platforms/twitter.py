@@ -1701,7 +1701,7 @@ class TwitterNamespace:
         per-page maximum; native pages contain approximately 20 tweets unless
         requireSinglePage selects a bulk lane.
 
-        Price: $0.00049 per request.
+        Price: $0.00048 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -1922,7 +1922,7 @@ class TwitterNamespace:
         reverse-chronological authored posts, reposts, quotes, and self-thread
         continuations.
 
-        Price: $0.00045 per request.
+        Price: $0.00044 per request.
 
         Example:
             res = client.twitter.user_posts(handle="levelsio")
@@ -1967,7 +1967,7 @@ class TwitterNamespace:
         (Twitter) account, with engagement, views, language, and cursor pagination
         where available.
 
-        Price: $0.00045 per request.
+        Price: $0.00044 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -2239,7 +2239,7 @@ class AsyncTwitterNamespace:
         per-page maximum; native pages contain approximately 20 tweets unless
         requireSinglePage selects a bulk lane.
 
-        Price: $0.00049 per request.
+        Price: $0.00048 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -2462,7 +2462,7 @@ class AsyncTwitterNamespace:
         reverse-chronological authored posts, reposts, quotes, and self-thread
         continuations.
 
-        Price: $0.00045 per request.
+        Price: $0.00044 per request.
 
         Example:
             res = client.twitter.user_posts(handle="levelsio")
@@ -2507,7 +2507,7 @@ class AsyncTwitterNamespace:
         (Twitter) account, with engagement, views, language, and cursor pagination
         where available.
 
-        Price: $0.00045 per request.
+        Price: $0.00044 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
