@@ -34872,7 +34872,7 @@
       "category": "social",
       "description": "Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -46977,7 +46977,7 @@
       "category": "search",
       "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -141167,7 +141167,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
