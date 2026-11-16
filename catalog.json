@@ -1236,55 +1236,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
         "failoverMaxUsd": 0.00682,
         "failoverMaxPer1kUsd": 6.82
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 80.92307692307692,
-            "latencyP50Ms": 7962,
-            "uptimeSample": 325,
-            "latencySample": 263,
-            "requests": 327,
-            "servedRequests": 263
-          },
-          "fields": [
-            "asin",
-            "brand",
-            "category",
-            "currency",
-            "description",
-            "features",
-            "image",
-            "images",
-            "inStock",
-            "items",
-            "price",
-            "rating",
-            "reviewsCount",
-            "sellerName",
-            "title",
-            "url",
-            "variantAsins"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -1437,6 +1395,50 @@
             "brand",
             "category",
             "condition",
+            "currency",
+            "description",
+            "features",
+            "image",
+            "images",
+            "inStock",
+            "items",
+            "price",
+            "rating",
+            "reviewsCount",
+            "sellerName",
+            "title",
+            "url",
+            "variantAsins"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 80.92307692307692,
+            "latencyP50Ms": 7962,
+            "uptimeSample": 325,
+            "latencySample": 263,
+            "requests": 327,
+            "servedRequests": 263
+          },
+          "fields": [
+            "asin",
+            "brand",
+            "category",
             "currency",
             "description",
             "features",
@@ -6988,6 +6990,41 @@
         },
         {
           "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00157,
+            "maxPer1kUsd": 1.57
+          },
+          "source": {
+            "id": "anonymous-chameleon-d7366dd9",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.05734767025089,
+            "latencyP50Ms": 4186,
+            "uptimeSample": 279,
+            "latencySample": 268,
+            "requests": 279,
+            "servedRequests": 268
+          },
+          "fields": [
+            "bidCount",
+            "condition",
+            "currency",
+            "image",
+            "itemId",
+            "items",
+            "price",
+            "shippingCost",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.0011,
@@ -7022,43 +7059,6 @@
             "sellerFeedbackCount",
             "sellerFeedbackPercent",
             "sellerName",
-            "shippingCost",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00157,
-            "maxPer1kUsd": 1.57
-          },
-          "source": {
-            "id": "anonymous-chameleon-d7366dd9",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.05734767025089,
-            "latencyP50Ms": 4186,
-            "uptimeSample": 279,
-            "latencySample": 268,
-            "requests": 279,
-            "servedRequests": 268
-          },
-          "fields": [
-            "bidCount",
-            "condition",
-            "currency",
-            "image",
-            "itemId",
-            "items",
-            "price",
             "shippingCost",
             "title",
             "url"
@@ -48128,13 +48128,36 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00049,
-          "maxPer1kUsd": 0.49
+          "maxUsd": 0.00048,
+          "maxPer1kUsd": 0.48
         },
         "failoverMaxUsd": 0.0051,
         "failoverMaxPer1kUsd": 5.1
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00048,
+            "maxPer1kUsd": 0.48
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 100,
+            "latencyP50Ms": 4366,
+            "uptimeSample": 68,
+            "latencySample": 68,
+            "requests": 68,
+            "servedRequests": 68
+          }
+        },
         {
           "pricing": {
             "model": "flat",
