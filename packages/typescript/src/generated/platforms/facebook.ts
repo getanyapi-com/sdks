@@ -3992,7 +3992,7 @@ export class FacebookNamespace {
    *
    * Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).
    *
-   * Price: $0.00072 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.facebook.post({ url: "https://www.facebook.com/reel/2166091230582141/" });
