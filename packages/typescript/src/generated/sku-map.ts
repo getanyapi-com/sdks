@@ -1089,8 +1089,6 @@ import type { YelpSearchData, YelpSearchInput } from "./platforms/yelp.js";
 import type {
   YoutubeChannelCommunityPostsData,
   YoutubeChannelCommunityPostsInput,
-  YoutubeChannelContactData,
-  YoutubeChannelContactInput,
   YoutubeChannelData,
   YoutubeChannelInput,
   YoutubeChannelLivesData,
@@ -3465,11 +3463,6 @@ export interface SkuMap {
     input: YoutubeChannelCommunityPostsInput;
     data: YoutubeChannelCommunityPostsData;
     result: RunResult<YoutubeChannelCommunityPostsData>;
-  };
-  "youtube.channel_contact": {
-    input: YoutubeChannelContactInput;
-    data: YoutubeChannelContactData;
-    result: RunResult<YoutubeChannelContactData>;
   };
   "youtube.channel_lives": {
     input: YoutubeChannelLivesInput;
