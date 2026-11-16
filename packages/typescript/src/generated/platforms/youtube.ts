@@ -199,6 +199,11 @@ export interface YoutubeChannelContactInput {
    */
   channelId?: string;
   /**
+   * Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.44 per email found instead of this API's normal $0.11 or $0.132; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.44 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes.
+   * Default: false.
+   */
+  fresh?: boolean;
+  /**
    * YouTube channel handle, with or without the leading @.
    */
   handle?: string;
@@ -212,7 +217,7 @@ export interface YoutubeChannelContactInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Optional. One source serves each request to this API, and a request never moves to another source: there is no automatic failover. Leave it out and the lowest-priced source is used. To choose a source, list its id from this endpoint's `lanes[].source.id` in /catalog or /apis; if you list several, the lowest-priced of them is used. You are charged that source's price. If the chosen source is not serving right now, or costs more than your `max_cost_usd` (the REST query parameter or MCP `run_api` argument), the request is refused with no charge and is never sent to another source. An id that does not serve this endpoint is rejected as invalid input with no charge.
+   * Optional. One source serves each request to this API, and a request never moves to another source: there is no automatic failover. Leave it out and the lowest-priced source is used, or with `fresh` on the one source that offers it. To choose a source, list its id from this endpoint's `lanes[].source.id` in /catalog or /apis; if you list several, the lowest-priced of them is used. You are charged that source's price. If the chosen source is not serving right now, or costs more than your `max_cost_usd` (the REST query parameter or MCP `run_api` argument), the request is refused with no charge and is never sent to another source. An id that does not serve this endpoint is rejected as invalid input with no charge.
    */
   source?: string[];
 }
@@ -1833,7 +1838,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Channel Contact Email
    *
-   * Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found.
+   * Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.44 per email found instead of the normal $0.11 or $0.132, and it runs only on the source that offers it.
    *
    * Price: $0.11 per request.
    *

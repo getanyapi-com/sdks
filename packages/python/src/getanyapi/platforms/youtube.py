@@ -66,6 +66,8 @@ class YoutubeChannelContactInput(TypedDict, total=False):
     """Has no effect on this API. One source serves each request and there is no automatic failover to another source, whether this is true, false or left out. Use `source` to choose the source."""
     channelId: NotRequired[str]
     """YouTube channel ID (UC...)."""
+    fresh: NotRequired[bool]
+    """Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.44 per email found instead of this API's normal $0.11 or $0.132; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.44 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes. Default: false."""
     handle: NotRequired[str]
     """YouTube channel handle, with or without the leading @."""
     ignoreSources: NotRequired[list[str]]
@@ -73,7 +75,7 @@ class YoutubeChannelContactInput(TypedDict, total=False):
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     source: NotRequired[list[str]]
-    """Optional. One source serves each request to this API, and a request never moves to another source: there is no automatic failover. Leave it out and the lowest-priced source is used. To choose a source, list its id from this endpoint's `lanes[].source.id` in /catalog or /apis; if you list several, the lowest-priced of them is used. You are charged that source's price. If the chosen source is not serving right now, or costs more than your `max_cost_usd` (the REST query parameter or MCP `run_api` argument), the request is refused with no charge and is never sent to another source. An id that does not serve this endpoint is rejected as invalid input with no charge."""
+    """Optional. One source serves each request to this API, and a request never moves to another source: there is no automatic failover. Leave it out and the lowest-priced source is used, or with `fresh` on the one source that offers it. To choose a source, list its id from this endpoint's `lanes[].source.id` in /catalog or /apis; if you list several, the lowest-priced of them is used. You are charged that source's price. If the chosen source is not serving right now, or costs more than your `max_cost_usd` (the REST query parameter or MCP `run_api` argument), the request is refused with no charge and is never sent to another source. An id that does not serve this endpoint is rejected as invalid input with no charge."""
 
 
 class YoutubeChannelLivesInput(TypedDict, total=False):
@@ -1433,7 +1435,10 @@ class YoutubeNamespace:
         to hours: it is charged when the lookup starts, refunded automatically if no
         email is found within 48 hours, and the call returns a request id at once
         with a link that collects the answer later with no API key. A finished
-        answer stays readable for 3 days after it is found.
+        answer stays readable for 3 days after it is found. Set `fresh` to true to
+        have the address read from YouTube now instead of one a source already
+        holds: that costs more, $0.44 per email found instead of the normal $0.11 or
+        $0.132, and it runs only on the source that offers it.
 
         Price: $0.11 per request.
 
@@ -2080,7 +2085,10 @@ class AsyncYoutubeNamespace:
         to hours: it is charged when the lookup starts, refunded automatically if no
         email is found within 48 hours, and the call returns a request id at once
         with a link that collects the answer later with no API key. A finished
-        answer stays readable for 3 days after it is found.
+        answer stays readable for 3 days after it is found. Set `fresh` to true to
+        have the address read from YouTube now instead of one a source already
+        holds: that costs more, $0.44 per email found instead of the normal $0.11 or
+        $0.132, and it runs only on the source that offers it.
 
         Price: $0.11 per request.
 

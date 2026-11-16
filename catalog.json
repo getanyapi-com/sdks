@@ -51790,7 +51790,7 @@
       "slug": "youtube.channel_contact",
       "category": "video",
       "name": "YouTube Channel Contact Email",
-      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found.",
+      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.44 per email found instead of the normal $0.11 or $0.132, and it runs only on the source that offers it.",
       "method": "POST",
       "path": "/v1/run/youtube.channel_contact",
       "provider": "AnyAPI",
@@ -51804,8 +51804,8 @@
           "maxUsd": 0.11,
           "maxPer1kUsd": 110
         },
-        "failoverMaxUsd": 0.132,
-        "failoverMaxPer1kUsd": 132
+        "failoverMaxUsd": 0.44,
+        "failoverMaxPer1kUsd": 440
       },
       "lanes": [
         {
@@ -51832,7 +51832,15 @@
             "baseUsd": 0.132,
             "perUnitUsd": 0,
             "maxUsd": 0.132,
-            "maxPer1kUsd": 132
+            "maxPer1kUsd": 132,
+            "addons": [
+              {
+                "id": "fresh",
+                "label": "up-to-date email read",
+                "field": "fresh",
+                "usd": 0.308
+              }
+            ]
           },
           "source": {
             "id": "anonymous-fox-e3aeaf23",
