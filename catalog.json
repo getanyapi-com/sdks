@@ -15083,45 +15083,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0004,
-          "maxPer1kUsd": 0.4
+          "maxUsd": 0.0005,
+          "maxPer1kUsd": 0.5
         },
         "failoverMaxUsd": 0.002,
         "failoverMaxPer1kUsd": 2
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.20527905867388,
-            "latencyP50Ms": 6674,
-            "uptimeSample": 119491,
-            "latencySample": 97033,
-            "requests": 119547,
-            "servedRequests": 97033
-          },
-          "fields": [
-            "link",
-            "nextCursor",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -15207,6 +15175,40 @@
             "latencySample": 662,
             "requests": 753,
             "servedRequests": 662
+          },
+          "fields": [
+            "link",
+            "nextCursor",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.20527905867388,
+            "latencyP50Ms": 6674,
+            "uptimeSample": 119491,
+            "latencySample": 97033,
+            "requests": 119547,
+            "servedRequests": 97033
           },
           "fields": [
             "link",
