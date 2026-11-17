@@ -427,7 +427,13 @@ export interface MapsReviewsInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isLocalGuide` or `placeId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    "isLocalGuide" | "likes" | "origin" | "ownerResponseAt" | "placeId"
+    | "avatarUrl"
+    | "isLocalGuide"
+    | "likes"
+    | "origin"
+    | "ownerResponseAt"
+    | "placeId"
+    | "publishedAgo"
   )[];
   /**
    * Only return reviews that Google's review search matches for this keyword or phrase. It matches whole words, case-insensitive, so mail does not match email. Omit to return all reviews (e.g. parking).
@@ -481,7 +487,7 @@ export interface MapsReviewsItem {
    */
   ownerResponse?: string;
   /**
-   * ISO 8601 timestamp of the owner's reply; empty when there is none.
+   * ISO 8601 timestamp of the owner's reply; empty when there is none. One source knows it only for the first few reviews of a call and omits it on later replies; name it in requireFields to be served by a source that returns it for every reply.
    */
   ownerResponseAt?: string;
   /**

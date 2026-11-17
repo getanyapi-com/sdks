@@ -14242,40 +14242,6 @@
             "maxPer1kUsd": 0.85
           },
           "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.3840830449827,
-            "latencyP50Ms": 2784,
-            "uptimeSample": 1445,
-            "latencySample": 1176,
-            "requests": 1445,
-            "servedRequests": 1176
-          },
-          "fields": [
-            "height",
-            "items",
-            "position",
-            "source",
-            "sourceUrl",
-            "thumbnailUrl",
-            "title",
-            "url",
-            "width"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
-          },
-          "source": {
             "id": "anonymous-chameleon-ee237f60",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -14325,6 +14291,42 @@
             "latencySample": 3949,
             "requests": 3949,
             "servedRequests": 3949
+          },
+          "fields": [
+            "height",
+            "items",
+            "position",
+            "source",
+            "sourceUrl",
+            "thumbnailUrl",
+            "title",
+            "url",
+            "width"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.3840830449827,
+            "latencyP50Ms": 2784,
+            "uptimeSample": 1445,
+            "latencySample": 1176,
+            "requests": 1445,
+            "servedRequests": 1176
           },
           "fields": [
             "height",
@@ -15083,13 +15085,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0004,
+          "maxPer1kUsd": 0.4
         },
         "failoverMaxUsd": 0.002,
         "failoverMaxPer1kUsd": 2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.20527905867388,
+            "latencyP50Ms": 6674,
+            "uptimeSample": 119491,
+            "latencySample": 97033,
+            "requests": 119547,
+            "servedRequests": 97033
+          },
+          "fields": [
+            "link",
+            "nextCursor",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -15175,40 +15209,6 @@
             "latencySample": 662,
             "requests": 753,
             "servedRequests": 662
-          },
-          "fields": [
-            "link",
-            "nextCursor",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.20527905867388,
-            "latencyP50Ms": 6674,
-            "uptimeSample": 119491,
-            "latencySample": 97033,
-            "requests": 119547,
-            "servedRequests": 97033
           },
           "fields": [
             "link",
@@ -28449,6 +28449,37 @@
             "items",
             "ownerResponse",
             "publishedAgo",
+            "rating",
+            "reviewId",
+            "reviewerId",
+            "reviewerReviewsCount",
+            "text",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00022,
+            "perUnitUsd": 0.00004,
+            "maxUsd": 0.0035,
+            "maxPer1kUsd": 3.5
+          },
+          "source": {
+            "id": "anonymous-starling",
+            "name": "Starling",
+            "kind": "anonymous",
+            "artworkKey": "starling"
+          },
+          "fields": [
+            "author",
+            "authorUrl",
+            "createdUtc",
+            "items",
+            "likes",
+            "ownerResponse",
+            "placeId",
             "rating",
             "reviewId",
             "reviewerId",
@@ -44201,13 +44232,60 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.56237879767292,
+            "latencyP50Ms": 5686,
+            "uptimeSample": 4641,
+            "latencySample": 4203,
+            "requests": 4643,
+            "servedRequests": 4203
+          },
+          "fields": [
+            "author",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "likes",
+            "region",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -44256,58 +44334,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.56237879767292,
-            "latencyP50Ms": 5686,
-            "uptimeSample": 4641,
-            "latencySample": 4203,
-            "requests": 4643,
-            "servedRequests": 4203
-          },
-          "fields": [
-            "author",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "likes",
-            "region",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "tiktok.trending_hashtags",
