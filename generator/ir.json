@@ -9454,8 +9454,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-16",
-        "checkOut": "2026-12-18",
+        "checkIn": "2026-12-17",
+        "checkOut": "2026-12-19",
         "limit": 3,
         "query": "New York"
       },
@@ -34872,7 +34872,7 @@
       "category": "social",
       "description": "Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.",
       "pricing": {
-        "priceUsd": 0.00072,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48771,8 +48771,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-16",
-        "departureDateTo": "2027-01-14",
+        "departureDateFrom": "2026-12-17",
+        "departureDateTo": "2027-01-15",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49062,7 +49062,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-16",
+        "departureDate": "2026-12-17",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49463,8 +49463,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-16",
-        "checkOut": "2026-12-18",
+        "checkIn": "2026-12-17",
+        "checkOut": "2026-12-19",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -50062,8 +50062,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-16",
-        "checkOut": "2026-12-18",
+        "checkIn": "2026-12-17",
+        "checkOut": "2026-12-19",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -144368,8 +144368,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-16",
-        "checkOut": "2026-12-19",
+        "checkIn": "2026-12-17",
+        "checkOut": "2026-12-20",
         "propertyId": "69764328"
       },
       "input": {
@@ -145142,8 +145142,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-16",
-        "checkOut": "2026-12-19",
+        "checkIn": "2026-12-17",
+        "checkOut": "2026-12-20",
         "location": "Lake Tahoe"
       },
       "input": {
