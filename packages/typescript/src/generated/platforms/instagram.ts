@@ -5998,7 +5998,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -6092,7 +6092,7 @@ export class InstagramNamespace {
    *
    * Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.00175 per request.
    *
    * @example
    * const res = await client.instagram.profileContact({ handle: "eminenceorganics" });
@@ -6465,7 +6465,7 @@ export class InstagramNamespace {
    *
    * List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).
    *
-   * Price: $0.00135 per request.
+   * Price: $0.00188 per request.
    *
    * @example
    * const res = await client.instagram.taggedPosts({ handle: "nasa" });

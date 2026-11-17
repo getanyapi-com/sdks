@@ -3049,7 +3049,7 @@ class FacebookNamespace:
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
         venue, hosts, and attendance) as normalized JSON.
 
-        Price: $0.0004 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.event_details(id="4045709448982422")
@@ -3904,7 +3904,7 @@ class AsyncFacebookNamespace:
         Fetch full details for a single Facebook event by ID or URL (name, schedule,
         venue, hosts, and attendance) as normalized JSON.
 
-        Price: $0.0004 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.event_details(id="4045709448982422")

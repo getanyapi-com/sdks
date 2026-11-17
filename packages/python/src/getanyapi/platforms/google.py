@@ -1085,7 +1085,7 @@ class GoogleNamespace:
         search, so the same prompt can return different wording and a different
         source list.
 
-        Price: $0.0015 per request.
+        Price: $0.0048 per request.
 
         Example:
             res = client.google.ai_overview(prompt="How does photosynthesis work?")
@@ -1415,7 +1415,7 @@ class GoogleNamespace:
         build the list, so a call can take up to about five minutes - use
         google.search when you want the first page back in a second.
 
-        Price: $0.024 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.google.search_100(gl="us", hl="en", query="best crm software")
@@ -1514,7 +1514,7 @@ class AsyncGoogleNamespace:
         search, so the same prompt can return different wording and a different
         source list.
 
-        Price: $0.0015 per request.
+        Price: $0.0048 per request.
 
         Example:
             res = client.google.ai_overview(prompt="How does photosynthesis work?")
@@ -1844,7 +1844,7 @@ class AsyncGoogleNamespace:
         build the list, so a call can take up to about five minutes - use
         google.search when you want the first page back in a second.
 
-        Price: $0.024 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.google.search_100(gl="us", hl="en", query="best crm software")

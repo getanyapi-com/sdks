@@ -2222,7 +2222,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.
    *
-   * Price: $0.00078 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.youtube.video({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
@@ -2239,7 +2239,7 @@ export class YoutubeNamespace {
    *
    * List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.00078 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.youtube.videoComments({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
