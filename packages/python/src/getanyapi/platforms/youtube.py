@@ -1723,7 +1723,7 @@ class YoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.00048 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -2373,7 +2373,7 @@ class AsyncYoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.00048 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")

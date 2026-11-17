@@ -2088,7 +2088,7 @@ export class YoutubeNamespace {
    *
    * Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.
    *
-   * Price: $0.00048 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.youtube.search({ query: "how to cook rice" });
