@@ -7,6 +7,10 @@
             "description": "Present when this API is published as beta. A maturity label only: a beta API routes, serves and bills exactly like any other.",
             "type": "boolean"
           },
+          "byNameOnly": {
+            "description": "True when every source of this API serves only requests that name it in `source`, so a request that names no source is not served and the published pricing is what a request naming one pays. Absent otherwise.",
+            "type": "boolean"
+          },
           "category": {
             "description": "The API's category, accepted back as the `category` scope.",
             "type": "string"
@@ -134,6 +138,10 @@
       },
       "APISourceOffer": {
         "properties": {
+          "byName": {
+            "description": "True when this source is not checked against AnyAPI's own answers and serves only requests that name it in `source`. A request that leaves it out is never sent to it, and it plays no part in this endpoint's starting price or failover. Absent otherwise.",
+            "type": "boolean"
+          },
           "fields": {
             "description": "The output fields this source returns, so you can see before calling which requireFields combinations one source can serve together. Absent when the set is not known for the source.",
             "items": {
@@ -168,6 +176,10 @@
         "properties": {
           "beta": {
             "description": "Present when this API is published as beta. A maturity label only: a beta API routes, serves and bills exactly like any other.",
+            "type": "boolean"
+          },
+          "byNameOnly": {
+            "description": "True when every source of this API serves only requests that name it in `source`, so a request that names no source is not served and the published pricing is what a request naming one pays. Absent otherwise.",
             "type": "boolean"
           },
           "category": {
@@ -299,6 +311,10 @@
             "description": "Present when this API is published as beta. A maturity label only: a beta API routes, serves and bills exactly like any other.",
             "type": "boolean"
           },
+          "byNameOnly": {
+            "description": "True when every source of this API serves only requests that name it in `source`, so a request that names no source is not served and the published pricing is what a request naming one pays. Absent otherwise.",
+            "type": "boolean"
+          },
           "category": {
             "description": "The API's category, accepted back as the `category` scope.",
             "type": "string"
@@ -402,6 +418,10 @@
       },
       "CatalogSearchResult": {
         "properties": {
+          "byNameOnly": {
+            "description": "True when a request that names no source in `source` is not served. Absent otherwise.",
+            "type": "boolean"
+          },
           "category": {
             "description": "The API's category, accepted back as the `category` scope.",
             "type": "string"
@@ -493,6 +513,10 @@
       },
       "CatalogSourceOffer": {
         "properties": {
+          "byName": {
+            "description": "True when this source is not checked against AnyAPI's own answers and serves only requests that name it in `source`. A request that leaves it out is never sent to it, and it plays no part in this endpoint's starting price or failover. Absent otherwise.",
+            "type": "boolean"
+          },
           "fields": {
             "description": "The output fields this source returns, so you can see before calling which requireFields combinations one source can serve together. Absent when the set is not known for the source.",
             "items": {
@@ -106556,7 +106580,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -107055,7 +107079,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001500",
+            "amount": "0.001800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -107097,7 +107121,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002500",
+                "amount": "0.002800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -107129,7 +107153,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001500",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -113895,7 +113919,7 @@
     },
     "/v1/run/google.search": {
       "post": {
-        "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Search pricing and uptime](https://getanyapi.com/api/google/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.\n\n**Price:** \\$0.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Search pricing and uptime](https://getanyapi.com/api/google/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_search",
         "parameters": [
           {
@@ -114436,7 +114460,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000400",
+            "amount": "0.000500",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -114478,7 +114502,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001400",
+                "amount": "0.001500",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -114510,7 +114534,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000400",
+                "amount": "0.000500",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -176647,7 +176671,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -299477,7 +299501,7 @@
     },
     "/v1/run/tiktok.video_download": {
       "post": {
-        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_download",
         "parameters": [
           {
@@ -307882,7 +307906,7 @@
     },
     "/v1/run/trustpilot.reviews": {
       "post": {
-        "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Trustpilot Reviews pricing and uptime](https://getanyapi.com/api/trustpilot/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Trustpilot endpoint](https://getanyapi.com/api/trustpilot).",
+        "description": "Pull Trustpilot reviews for any company by brand name: star ratings, review text, dates, and reviewer details as clean JSON.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Trustpilot Reviews pricing and uptime](https://getanyapi.com/api/trustpilot/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Trustpilot endpoint](https://getanyapi.com/api/trustpilot).",
         "operationId": "trustpilot_reviews",
         "parameters": [
           {
