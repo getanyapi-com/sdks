@@ -46748,7 +46748,7 @@
       "category": "search",
       "description": "Run a Google web search and get the organic results (title, link, snippet, position) as clean JSON. Returns about 10 results per call - Google stopped honoring bulk result counts in September 2025, so a limit above 10 is accepted but returns no more than a page. Send page 2, 3, ... to walk further, or use google.search_100 for up to 100 ranked results in one call, which is normally cheaper past roughly 20 results.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70215,7 +70215,7 @@
       "category": "data",
       "description": "Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
