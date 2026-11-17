@@ -6277,7 +6277,7 @@ export class InstagramNamespace {
    *
    * Search Instagram locations by keyword and return each place's id, name, address and coordinates.
    *
-   * Price: $0.0024 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.instagram.searchLocations({ query: "Eiffel Tower" });

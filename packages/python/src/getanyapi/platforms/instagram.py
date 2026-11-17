@@ -5475,7 +5475,7 @@ class InstagramNamespace:
         Search Instagram locations by keyword and return each place's id, name,
         address and coordinates.
 
-        Price: $0.0024 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.search_locations(query="Eiffel Tower")
@@ -6859,7 +6859,7 @@ class AsyncInstagramNamespace:
         Search Instagram locations by keyword and return each place's id, name,
         address and coordinates.
 
-        Price: $0.0024 per request.
+        Price: $0.0011 per request.
 
         Example:
             res = client.instagram.search_locations(query="Eiffel Tower")

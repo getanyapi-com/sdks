@@ -13936,46 +13936,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0018,
-          "maxPer1kUsd": 1.8
+          "maxUsd": 0.0048,
+          "maxPer1kUsd": 4.8
         },
         "failoverMaxUsd": 0.0048,
         "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0018,
-            "maxPer1kUsd": 1.8
-          },
-          "source": {
-            "id": "anonymous-narwhal",
-            "name": "Narwhal",
-            "kind": "anonymous",
-            "artworkKey": "narwhal"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 71.28496503496504,
-            "latencyP50Ms": 13254,
-            "uptimeSample": 9152,
-            "latencySample": 6524,
-            "requests": 9368,
-            "servedRequests": 6524
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "title",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -14054,6 +14021,39 @@
             "maxPer1kUsd": 1.8
           },
           "source": {
+            "id": "anonymous-narwhal",
+            "name": "Narwhal",
+            "kind": "anonymous",
+            "artworkKey": "narwhal"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 71.28496503496504,
+            "latencyP50Ms": 13254,
+            "uptimeSample": 9152,
+            "latencySample": 6524,
+            "requests": 9368,
+            "servedRequests": 6524
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0018,
+            "maxPer1kUsd": 1.8
+          },
+          "source": {
             "id": "anonymous-koala",
             "name": "Koala",
             "kind": "anonymous",
@@ -14083,7 +14083,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "google.ai_overview_preview",
@@ -20605,13 +20605,46 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0024,
-          "maxPer1kUsd": 2.4
+          "maxUsd": 0.0011,
+          "maxPer1kUsd": 1.1
         },
         "failoverMaxUsd": 0.0024,
         "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
+            "id": "anonymous-chameleon-6403d3f5",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 94.9119373776908,
+            "latencyP50Ms": 1624,
+            "uptimeSample": 8687,
+            "latencySample": 8245,
+            "requests": 8687,
+            "servedRequests": 8245
+          },
+          "fields": [
+            "address",
+            "city",
+            "id",
+            "latitude",
+            "locations",
+            "longitude",
+            "name",
+            "shortName"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -20646,44 +20679,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0011,
-            "maxPer1kUsd": 1.1
-          },
-          "source": {
-            "id": "anonymous-chameleon-6403d3f5",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 94.9119373776908,
-            "latencyP50Ms": 1624,
-            "uptimeSample": 8687,
-            "latencySample": 8245,
-            "requests": 8687,
-            "servedRequests": 8245
-          },
-          "fields": [
-            "address",
-            "city",
-            "id",
-            "latitude",
-            "locations",
-            "longitude",
-            "name",
-            "shortName"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_profiles",
@@ -20883,8 +20881,8 @@
           "maxUsd": 0.00175,
           "maxPer1kUsd": 1.75
         },
-        "failoverMaxUsd": 0.0022,
-        "failoverMaxPer1kUsd": 2.2
+        "failoverMaxUsd": 0.00175,
+        "failoverMaxPer1kUsd": 1.75
       },
       "lanes": [
         {
@@ -20918,7 +20916,9 @@
             "username",
             "verified"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -20954,7 +20954,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "instagram.stories_full",
@@ -28243,53 +28243,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-badger-23d97e8f",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 95.213996529786,
-            "latencyP50Ms": 2808,
-            "uptimeSample": 6916,
-            "latencySample": 6585,
-            "requests": 6916,
-            "servedRequests": 6585
-          },
-          "fields": [
-            "address",
-            "categories",
-            "category",
-            "city",
-            "countryCode",
-            "hours",
-            "image",
-            "items",
-            "latitude",
-            "longitude",
-            "name",
-            "permanentlyClosed",
-            "phone",
-            "placeId",
-            "postalCode",
-            "priceLevel",
-            "rating",
-            "reviewsCount",
-            "state",
-            "street",
-            "url",
-            "website"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00297,
             "maxPer1kUsd": 2.97
           },
@@ -28368,6 +28321,55 @@
             "phone",
             "placeId",
             "plusCode",
+            "postalCode",
+            "priceLevel",
+            "rating",
+            "reviewsCount",
+            "state",
+            "street",
+            "url",
+            "website"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-badger-23d97e8f",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 95.213996529786,
+            "latencyP50Ms": 2808,
+            "uptimeSample": 6916,
+            "latencySample": 6585,
+            "requests": 6916,
+            "servedRequests": 6585
+          },
+          "fields": [
+            "address",
+            "categories",
+            "category",
+            "city",
+            "countryCode",
+            "hours",
+            "image",
+            "items",
+            "latitude",
+            "longitude",
+            "name",
+            "permanentlyClosed",
+            "phone",
+            "placeId",
             "postalCode",
             "priceLevel",
             "rating",
@@ -41804,44 +41806,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
-          },
-          "source": {
-            "id": "anonymous-flamingo",
-            "name": "Flamingo",
-            "kind": "anonymous",
-            "artworkKey": "flamingo"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 95.86241276171485,
-            "latencyP50Ms": 1053,
-            "uptimeSample": 2006,
-            "latencySample": 1923,
-            "requests": 2285,
-            "servedRequests": 1923
-          },
-          "fields": [
-            "avatarUrl",
-            "bio",
-            "displayName",
-            "externalUrl",
-            "followers",
-            "following",
-            "handle",
-            "likes",
-            "private",
-            "secUid",
-            "userId",
-            "verified",
-            "videos"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0005,
             "maxPer1kUsd": 0.5
           },
@@ -42035,6 +41999,44 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
+          },
+          "source": {
+            "id": "anonymous-flamingo",
+            "name": "Flamingo",
+            "kind": "anonymous",
+            "artworkKey": "flamingo"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 95.86241276171485,
+            "latencyP50Ms": 1053,
+            "uptimeSample": 2006,
+            "latencySample": 1923,
+            "requests": 2285,
+            "servedRequests": 1923
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "displayName",
+            "externalUrl",
+            "followers",
+            "following",
+            "handle",
+            "likes",
+            "private",
+            "secUid",
+            "userId",
+            "verified",
+            "videos"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -49324,52 +49326,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
-          },
-          "source": {
-            "id": "anonymous-lynx",
-            "name": "Lynx",
-            "kind": "anonymous",
-            "artworkKey": "lynx"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.22862133708495,
-            "latencyP50Ms": 1418,
-            "uptimeSample": 382414,
-            "latencySample": 375640,
-            "requests": 382414,
-            "servedRequests": 375640
-          },
-          "fields": [
-            "authorHandle",
-            "authorId",
-            "authorImage",
-            "authorName",
-            "bookmarks",
-            "conversationId",
-            "createdUtc",
-            "id",
-            "isReply",
-            "lang",
-            "likes",
-            "media",
-            "nextCursor",
-            "quotes",
-            "replies",
-            "retweets",
-            "source",
-            "text",
-            "tweets",
-            "url",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00049,
             "maxPer1kUsd": 0.49
           },
@@ -49436,6 +49392,54 @@
             "latencySample": 12060,
             "requests": 12511,
             "servedRequests": 12060
+          },
+          "fields": [
+            "authorHandle",
+            "authorId",
+            "authorImage",
+            "authorName",
+            "bookmarks",
+            "conversationId",
+            "createdUtc",
+            "id",
+            "isReply",
+            "lang",
+            "likes",
+            "media",
+            "nextCursor",
+            "quotes",
+            "replies",
+            "retweets",
+            "source",
+            "text",
+            "tweets",
+            "url",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
+          },
+          "source": {
+            "id": "anonymous-lynx",
+            "name": "Lynx",
+            "kind": "anonymous",
+            "artworkKey": "lynx"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.22862133708495,
+            "latencyP50Ms": 1418,
+            "uptimeSample": 382414,
+            "latencySample": 375640,
+            "requests": 382414,
+            "servedRequests": 375640
           },
           "fields": [
             "authorHandle",
