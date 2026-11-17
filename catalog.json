@@ -15085,13 +15085,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0004,
+          "maxPer1kUsd": 0.4
         },
         "failoverMaxUsd": 0.002,
         "failoverMaxPer1kUsd": 2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.20527905867388,
+            "latencyP50Ms": 6674,
+            "uptimeSample": 119491,
+            "latencySample": 97033,
+            "requests": 119547,
+            "servedRequests": 97033
+          },
+          "fields": [
+            "link",
+            "nextCursor",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -15177,40 +15209,6 @@
             "latencySample": 662,
             "requests": 753,
             "servedRequests": 662
-          },
-          "fields": [
-            "link",
-            "nextCursor",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.20527905867388,
-            "latencyP50Ms": 6674,
-            "uptimeSample": 119491,
-            "latencySample": 97033,
-            "requests": 119547,
-            "servedRequests": 97033
           },
           "fields": [
             "link",
@@ -19465,59 +19463,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0009,
-            "maxPer1kUsd": 0.9
-          },
-          "source": {
-            "id": "anonymous-badger-23d97e8f",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.8193786433203,
-            "latencyP50Ms": 1958,
-            "uptimeSample": 45803,
-            "latencySample": 41598,
-            "requests": 45803,
-            "servedRequests": 41598
-          },
-          "fields": [
-            "avatarUrl",
-            "bio",
-            "bioLinks",
-            "caption",
-            "coauthors",
-            "comments",
-            "createdUtc",
-            "displayName",
-            "durationSeconds",
-            "externalUrl",
-            "followers",
-            "following",
-            "handle",
-            "hashtags",
-            "id",
-            "isPinned",
-            "latestPosts",
-            "likes",
-            "media",
-            "mentions",
-            "private",
-            "taggedUsers",
-            "title",
-            "url",
-            "userId",
-            "username",
-            "verified",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.001,
             "maxPer1kUsd": 1
           },
@@ -19716,6 +19661,61 @@
             "url",
             "userId",
             "verified"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0009,
+            "maxPer1kUsd": 0.9
+          },
+          "source": {
+            "id": "anonymous-badger-23d97e8f",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.8193786433203,
+            "latencyP50Ms": 1958,
+            "uptimeSample": 45803,
+            "latencySample": 41598,
+            "requests": 45803,
+            "servedRequests": 41598
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "bioLinks",
+            "caption",
+            "coauthors",
+            "comments",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "externalUrl",
+            "followers",
+            "following",
+            "handle",
+            "hashtags",
+            "id",
+            "isPinned",
+            "latestPosts",
+            "likes",
+            "media",
+            "mentions",
+            "private",
+            "taggedUsers",
+            "title",
+            "url",
+            "userId",
+            "username",
+            "verified",
+            "views"
           ]
         }
       ],
@@ -26704,51 +26704,6 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.28253636277213,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 210380,
-            "latencySample": 120511,
-            "requests": 210380,
-            "servedRequests": 120511
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -26869,6 +26824,53 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.28253636277213,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 210380,
+            "latencySample": 120511,
+            "requests": 210380,
+            "servedRequests": 120511
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
