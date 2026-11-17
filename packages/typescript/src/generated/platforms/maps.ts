@@ -951,7 +951,7 @@ export class MapsNamespace {
    *
    * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.00148 per request.
    *
    * @example
    * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3 });
