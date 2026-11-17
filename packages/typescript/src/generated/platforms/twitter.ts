@@ -2309,7 +2309,7 @@ export class TwitterNamespace {
    *
    * Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00049 per request.
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio", limit: 20 });

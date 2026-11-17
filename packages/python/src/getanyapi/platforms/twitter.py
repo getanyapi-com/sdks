@@ -1967,7 +1967,7 @@ class TwitterNamespace:
         (Twitter) account, with engagement, views, language, and cursor pagination
         where available.
 
-        Price: $0.00045 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
@@ -2507,7 +2507,7 @@ class AsyncTwitterNamespace:
         (Twitter) account, with engagement, views, language, and cursor pagination
         where available.
 
-        Price: $0.00045 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.twitter.user_tweets(handle="levelsio", limit=20)
