@@ -4530,7 +4530,7 @@ export class SeoNamespace {
    *
    * Get the Google local pack for a keyword in a city: the short list of businesses Google shows in the map box on its normal search results page, in pack order, with rating, review count, address, category, opening hours, phone, website, booking link, and Google listing ids. Sponsored listings are left out. For the full Google Maps results list, use maps.search.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0024 per request plus $0 per result (maximum $0.0024).
    *
    * @example
    * const res = await client.seo.localPack({ keyword: "coffee shop", location: "New York,New York,United States", language: "en" });
