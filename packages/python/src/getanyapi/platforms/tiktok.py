@@ -4186,7 +4186,7 @@ class TiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -5319,7 +5319,7 @@ class AsyncTiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
