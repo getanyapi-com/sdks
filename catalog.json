@@ -19837,36 +19837,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0004,
-          "maxPer1kUsd": 0.4
+          "maxUsd": 0.00175,
+          "maxPer1kUsd": 1.75
         },
         "failoverMaxUsd": 0.00721,
         "failoverMaxPer1kUsd": 7.21
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
-          },
-          "source": {
-            "id": "anonymous-giraffe-5e3cbaa1",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 99.16040653999116,
-            "latencyP50Ms": 1284,
-            "uptimeSample": 2263,
-            "latencySample": 2244,
-            "requests": 2263,
-            "servedRequests": 2244
-          }
-        },
         {
           "pricing": {
             "model": "flat",
@@ -20014,6 +19991,31 @@
             "publicPhone",
             "verified"
           ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 99.16040653999116,
+            "latencyP50Ms": 1284,
+            "uptimeSample": 2263,
+            "latencySample": 2244,
+            "requests": 2263,
+            "servedRequests": 2244
+          }
         }
       ],
       "tryEligible": true,
