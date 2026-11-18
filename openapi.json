@@ -111529,7 +111529,7 @@
     },
     "/v1/run/google.news": {
       "post": {
-        "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.\n\n**Price:** \\$0.99 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google News pricing and uptime](https://getanyapi.com/api/google/news) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.\n\n**Price:** \\$0.89 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google News pricing and uptime](https://getanyapi.com/api/google/news) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_news",
         "parameters": [
           {
@@ -112032,7 +112032,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000990",
+            "amount": "0.000890",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -112074,7 +112074,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001990",
+                "amount": "0.001890",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -112106,7 +112106,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000990",
+                "amount": "0.000890",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -206393,7 +206393,7 @@
     },
     "/v1/run/perplexity.search": {
       "post": {
-        "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Perplexity Search pricing and uptime](https://getanyapi.com/api/perplexity/search) - live USD price, lane routing, and measured 30-day uptime. [Every Perplexity endpoint](https://getanyapi.com/api/perplexity).",
+        "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Perplexity Search pricing and uptime](https://getanyapi.com/api/perplexity/search) - live USD price, lane routing, and measured 30-day uptime. [Every Perplexity endpoint](https://getanyapi.com/api/perplexity).",
         "operationId": "perplexity_search",
         "parameters": [
           {

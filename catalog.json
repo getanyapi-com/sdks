@@ -14806,13 +14806,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00099,
-          "maxPer1kUsd": 0.99
+          "maxUsd": 0.00089,
+          "maxPer1kUsd": 0.89
         },
         "failoverMaxUsd": 0.00099,
         "failoverMaxPer1kUsd": 0.99
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00089,
+            "maxPer1kUsd": 0.89
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -30906,38 +30920,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0025,
-            "maxPer1kUsd": 2.5
-          },
-          "source": {
-            "id": "anonymous-pelican",
-            "name": "Pelican",
-            "kind": "anonymous",
-            "artworkKey": "pelican"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.09895337773548,
-            "latencyP50Ms": 15102,
-            "uptimeSample": 3153,
-            "latencySample": 3030,
-            "requests": 3156,
-            "servedRequests": 3030
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "prompt",
-            "snippet",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
@@ -30965,6 +30947,40 @@
             "answerMarkdown",
             "citations",
             "createdUtc",
+            "prompt",
+            "snippet",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0025,
+            "maxPer1kUsd": 2.5
+          },
+          "source": {
+            "id": "anonymous-pelican",
+            "name": "Pelican",
+            "kind": "anonymous",
+            "artworkKey": "pelican"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.09895337773548,
+            "latencyP50Ms": 15102,
+            "uptimeSample": 3153,
+            "latencySample": 3030,
+            "requests": 3156,
+            "servedRequests": 3030
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
             "prompt",
             "snippet",
             "title",
