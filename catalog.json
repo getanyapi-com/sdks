@@ -53420,37 +53420,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 95.17938559792353,
-            "latencyP50Ms": 7001,
-            "uptimeSample": 58561,
-            "latencySample": 55738,
-            "requests": 58577,
-            "servedRequests": 55738
-          },
-          "fields": [
-            "durationSeconds",
-            "language",
-            "segments",
-            "startSeconds",
-            "text",
-            "transcript"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -53530,6 +53499,39 @@
             "latencySample": 269,
             "requests": 269,
             "servedRequests": 269
+          },
+          "fields": [
+            "durationSeconds",
+            "language",
+            "segments",
+            "startSeconds",
+            "text",
+            "transcript"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 95.17938559792353,
+            "latencyP50Ms": 7001,
+            "uptimeSample": 58561,
+            "latencySample": 55738,
+            "requests": 58577,
+            "servedRequests": 55738
           },
           "fields": [
             "durationSeconds",
