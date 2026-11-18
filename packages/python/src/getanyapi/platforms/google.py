@@ -1085,7 +1085,7 @@ class GoogleNamespace:
         search, so the same prompt can return different wording and a different
         source list.
 
-        Price: $0.0018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.google.ai_overview(prompt="How does photosynthesis work?")
@@ -1273,7 +1273,7 @@ class GoogleNamespace:
         Search Google News by keyword and get fresh articles (headlines, sources,
         links, and publish times) as clean JSON.
 
-        Price: $0.00089 per request.
+        Price: $0.00099 per request.
 
         Example:
             res = client.google.news(gl="us", hl="en", query="openai")
@@ -1514,7 +1514,7 @@ class AsyncGoogleNamespace:
         search, so the same prompt can return different wording and a different
         source list.
 
-        Price: $0.0018 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.google.ai_overview(prompt="How does photosynthesis work?")
@@ -1702,7 +1702,7 @@ class AsyncGoogleNamespace:
         Search Google News by keyword and get fresh articles (headlines, sources,
         links, and publish times) as clean JSON.
 
-        Price: $0.00089 per request.
+        Price: $0.00099 per request.
 
         Example:
             res = client.google.news(gl="us", hl="en", query="openai")

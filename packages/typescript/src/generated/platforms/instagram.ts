@@ -6092,7 +6092,7 @@ export class InstagramNamespace {
    *
    * Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.00175 per request.
    *
    * @example
    * const res = await client.instagram.profileContact({ handle: "eminenceorganics" });
@@ -6465,7 +6465,7 @@ export class InstagramNamespace {
    *
    * List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).
    *
-   * Price: $0.00188 per request.
+   * Price: $0.00135 per request.
    *
    * @example
    * const res = await client.instagram.taggedPosts({ handle: "nasa" });
