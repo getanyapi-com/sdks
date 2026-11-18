@@ -25,6 +25,10 @@ export interface DouyinProfileInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shortId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "shortId"[];
+  /**
    * Douyin sec_user_id for the public account.
    */
   secUserId: string;
@@ -667,7 +671,7 @@ export class DouyinNamespace {
    *
    * Look up a public Douyin profile by sec_user_id and return normalized profile statistics.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.001 per request.
    *
    * @example
    * const res = await client.douyin.profile({ secUserId: "MS4wLjABAAAANXSltcLCzDGmdNFI2Q_QixVTr67NiYzjKOIP5s03CAE" });
@@ -718,7 +722,7 @@ export class DouyinNamespace {
    *
    * Fetch a public Douyin video by share URL with normalized author and engagement data.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.001 per request.
    *
    * @example
    * const res = await client.douyin.video({ url: "https://www.douyin.com/video/6894784055775071503" });
