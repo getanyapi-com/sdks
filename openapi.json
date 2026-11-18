@@ -11328,7 +11328,7 @@
     },
     "/v1/run/amazon.product": {
       "post": {
-        "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Amazon Product pricing and uptime](https://getanyapi.com/api/amazon/product) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
+        "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Amazon Product pricing and uptime](https://getanyapi.com/api/amazon/product) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
         "operationId": "amazon_product",
         "parameters": [
           {
@@ -11874,7 +11874,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -11916,7 +11916,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.001900",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -11948,7 +11948,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -106577,7 +106577,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -107076,7 +107076,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.004800",
+            "amount": "0.001800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -107118,7 +107118,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.005800",
+                "amount": "0.002800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -107150,7 +107150,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.004800",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -176668,7 +176668,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -286757,7 +286757,7 @@
     },
     "/v1/run/tiktok.profile_contact": {
       "post": {
-        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$0.88 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$0.88 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$0.88 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$0.88 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_contact",
         "parameters": [
           {
@@ -286859,6 +286859,8 @@
                     "items": {
                       "enum": [
                         "domain",
+                        "domainHealth",
+                        "private",
                         "sourceUrl"
                       ],
                       "type": "string"
@@ -286995,8 +286997,11 @@
                                       "type": "string"
                                     },
                                     "private": {
-                                      "description": "Whether the account is private.",
-                                      "type": "boolean"
+                                      "description": "Whether the account is private. Null when the source that served the request does not report it.",
+                                      "type": [
+                                        "boolean",
+                                        "null"
+                                      ]
                                     },
                                     "profileUrl": {
                                       "description": "Canonical URL of the TikTok profile.",
