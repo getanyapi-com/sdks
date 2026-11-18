@@ -2737,7 +2737,10 @@ export interface FacebookProfileData {
    * UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.
    */
   createdUtc?: number;
-  followers: number;
+  /**
+   * Follower count, or null when Facebook does not show it (age-restricted Pages).
+   */
+  followers: number | null;
   /**
    * Numeric Facebook id of the page or profile.
    */

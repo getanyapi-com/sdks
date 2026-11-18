@@ -1477,13 +1477,46 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.016,
-          "maxPer1kUsd": 16
+          "maxUsd": 0.0013,
+          "maxPer1kUsd": 1.3
         },
         "failoverMaxUsd": 0.226,
         "failoverMaxPer1kUsd": 226
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0013,
+            "maxPer1kUsd": 1.3
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 70.30812324929973,
+            "latencyP50Ms": 7027,
+            "uptimeSample": 1071,
+            "latencySample": 753,
+            "requests": 1111,
+            "servedRequests": 753
+          },
+          "fields": [
+            "createdUtc",
+            "helpfulVotes",
+            "items",
+            "rating",
+            "reviewer",
+            "text",
+            "title",
+            "verifiedPurchase"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -1555,41 +1588,6 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0013,
-            "maxPer1kUsd": 1.3
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 70.30812324929973,
-            "latencyP50Ms": 7027,
-            "uptimeSample": 1071,
-            "latencySample": 753,
-            "requests": 1111,
-            "servedRequests": 753
-          },
-          "fields": [
-            "createdUtc",
-            "helpfulVotes",
-            "items",
-            "rating",
-            "reviewer",
-            "text",
-            "title",
-            "verifiedPurchase"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
       "failover": true
@@ -1610,13 +1608,50 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0013,
-          "maxPer1kUsd": 1.3
+          "maxUsd": 0.00075,
+          "maxPer1kUsd": 0.75
         },
         "failoverMaxUsd": 0.0021,
         "failoverMaxPer1kUsd": 2.1
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00075,
+            "maxPer1kUsd": 0.75
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.56966490299824,
+            "latencyP50Ms": 7021,
+            "uptimeSample": 1134,
+            "latencySample": 925,
+            "requests": 1176,
+            "servedRequests": 925
+          },
+          "fields": [
+            "asin",
+            "currency",
+            "image",
+            "isSponsored",
+            "items",
+            "listPrice",
+            "position",
+            "price",
+            "rating",
+            "reviewsCount",
+            "title",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -1675,45 +1710,6 @@
             "latencySample": 822,
             "requests": 857,
             "servedRequests": 822
-          },
-          "fields": [
-            "asin",
-            "currency",
-            "image",
-            "isSponsored",
-            "items",
-            "listPrice",
-            "position",
-            "price",
-            "rating",
-            "reviewsCount",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00075,
-            "maxPer1kUsd": 0.75
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.56966490299824,
-            "latencyP50Ms": 7021,
-            "uptimeSample": 1134,
-            "latencySample": 925,
-            "requests": 1176,
-            "servedRequests": 925
           },
           "fields": [
             "asin",
@@ -3683,45 +3679,6 @@
             "maxPer1kUsd": 0.85
           },
           "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 82.88590604026845,
-            "latencyP50Ms": 4801,
-            "uptimeSample": 298,
-            "latencySample": 247,
-            "requests": 299,
-            "servedRequests": 247
-          },
-          "fields": [
-            "displayUrl",
-            "domain",
-            "durationSeconds",
-            "image",
-            "items",
-            "position",
-            "publishedUtc",
-            "query",
-            "relatedSearches",
-            "snippet",
-            "source",
-            "title",
-            "url",
-            "videos"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
-          },
-          "source": {
             "id": "anonymous-quokka",
             "name": "Quokka",
             "kind": "anonymous",
@@ -3782,11 +3739,50 @@
             "title",
             "url"
           ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 82.88590604026845,
+            "latencyP50Ms": 4801,
+            "uptimeSample": 298,
+            "latencySample": 247,
+            "requests": 299,
+            "servedRequests": 247
+          },
+          "fields": [
+            "displayUrl",
+            "domain",
+            "durationSeconds",
+            "image",
+            "items",
+            "position",
+            "publishedUtc",
+            "query",
+            "relatedSearches",
+            "snippet",
+            "source",
+            "title",
+            "url",
+            "videos"
+          ]
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "capterra.reviews",
@@ -13999,34 +13995,34 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0048,
-          "maxPer1kUsd": 4.8
+          "maxUsd": 0.0018,
+          "maxPer1kUsd": 1.8
         },
-        "failoverMaxUsd": 0.0048,
-        "failoverMaxPer1kUsd": 4.8
+        "failoverMaxUsd": 0.0018,
+        "failoverMaxPer1kUsd": 1.8
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
+            "maxUsd": 0.0018,
+            "maxPer1kUsd": 1.8
           },
           "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
+            "id": "anonymous-narwhal",
+            "name": "Narwhal",
             "kind": "anonymous",
-            "artworkKey": "owl"
+            "artworkKey": "narwhal"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 64.3979057591623,
-            "latencyP50Ms": 9567,
-            "uptimeSample": 13943,
-            "latencySample": 8979,
-            "requests": 13943,
-            "servedRequests": 8979
+            "uptimePct": 71.28496503496504,
+            "latencyP50Ms": 13254,
+            "uptimeSample": 9152,
+            "latencySample": 6524,
+            "requests": 9368,
+            "servedRequests": 6524
           },
           "fields": [
             "answer",
@@ -14035,7 +14031,6 @@
             "index",
             "language",
             "prompt",
-            "scrapedAt",
             "title",
             "url"
           ]
@@ -14084,39 +14079,6 @@
             "maxPer1kUsd": 1.8
           },
           "source": {
-            "id": "anonymous-narwhal",
-            "name": "Narwhal",
-            "kind": "anonymous",
-            "artworkKey": "narwhal"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 71.28496503496504,
-            "latencyP50Ms": 13254,
-            "uptimeSample": 9152,
-            "latencySample": 6524,
-            "requests": 9368,
-            "servedRequests": 6524
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0018,
-            "maxPer1kUsd": 1.8
-          },
-          "source": {
             "id": "anonymous-koala",
             "name": "Koala",
             "kind": "anonymous",
@@ -14130,6 +14092,40 @@
             "latencySample": 432,
             "requests": 1226,
             "servedRequests": 432
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
+          },
+          "source": {
+            "id": "anonymous-owl",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 64.3979057591623,
+            "latencyP50Ms": 9567,
+            "uptimeSample": 13943,
+            "latencySample": 8979,
+            "requests": 13943,
+            "servedRequests": 8979
           },
           "fields": [
             "answer",
@@ -28298,6 +28294,53 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-badger-23d97e8f",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 95.213996529786,
+            "latencyP50Ms": 2808,
+            "uptimeSample": 6916,
+            "latencySample": 6585,
+            "requests": 6916,
+            "servedRequests": 6585
+          },
+          "fields": [
+            "address",
+            "categories",
+            "category",
+            "city",
+            "countryCode",
+            "hours",
+            "image",
+            "items",
+            "latitude",
+            "longitude",
+            "name",
+            "permanentlyClosed",
+            "phone",
+            "placeId",
+            "postalCode",
+            "priceLevel",
+            "rating",
+            "reviewsCount",
+            "state",
+            "street",
+            "url",
+            "website"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
             "maxUsd": 0.00297,
             "maxPer1kUsd": 2.97
           },
@@ -28376,55 +28419,6 @@
             "phone",
             "placeId",
             "plusCode",
-            "postalCode",
-            "priceLevel",
-            "rating",
-            "reviewsCount",
-            "state",
-            "street",
-            "url",
-            "website"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-badger-23d97e8f",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 95.213996529786,
-            "latencyP50Ms": 2808,
-            "uptimeSample": 6916,
-            "latencySample": 6585,
-            "requests": 6916,
-            "servedRequests": 6585
-          },
-          "fields": [
-            "address",
-            "categories",
-            "category",
-            "city",
-            "countryCode",
-            "hours",
-            "image",
-            "items",
-            "latitude",
-            "longitude",
-            "name",
-            "permanentlyClosed",
-            "phone",
-            "placeId",
             "postalCode",
             "priceLevel",
             "rating",
@@ -49408,52 +49402,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
-          },
-          "source": {
-            "id": "anonymous-lynx",
-            "name": "Lynx",
-            "kind": "anonymous",
-            "artworkKey": "lynx"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.22862133708495,
-            "latencyP50Ms": 1418,
-            "uptimeSample": 382414,
-            "latencySample": 375640,
-            "requests": 382414,
-            "servedRequests": 375640
-          },
-          "fields": [
-            "authorHandle",
-            "authorId",
-            "authorImage",
-            "authorName",
-            "bookmarks",
-            "conversationId",
-            "createdUtc",
-            "id",
-            "isReply",
-            "lang",
-            "likes",
-            "media",
-            "nextCursor",
-            "quotes",
-            "replies",
-            "retweets",
-            "source",
-            "text",
-            "tweets",
-            "url",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00049,
             "maxPer1kUsd": 0.49
           },
@@ -49520,6 +49468,54 @@
             "latencySample": 12060,
             "requests": 12511,
             "servedRequests": 12060
+          },
+          "fields": [
+            "authorHandle",
+            "authorId",
+            "authorImage",
+            "authorName",
+            "bookmarks",
+            "conversationId",
+            "createdUtc",
+            "id",
+            "isReply",
+            "lang",
+            "likes",
+            "media",
+            "nextCursor",
+            "quotes",
+            "replies",
+            "retweets",
+            "source",
+            "text",
+            "tweets",
+            "url",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
+          },
+          "source": {
+            "id": "anonymous-lynx",
+            "name": "Lynx",
+            "kind": "anonymous",
+            "artworkKey": "lynx"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.22862133708495,
+            "latencyP50Ms": 1418,
+            "uptimeSample": 382414,
+            "latencySample": 375640,
+            "requests": 382414,
+            "servedRequests": 375640
           },
           "fields": [
             "authorHandle",

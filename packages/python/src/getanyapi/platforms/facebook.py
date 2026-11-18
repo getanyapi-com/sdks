@@ -2357,7 +2357,9 @@ class FacebookProfileData(BaseModel):
         alias="createdUtc",
         description="UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.",
     )
-    followers: int
+    followers: int | None = Field(
+        description="Follower count, or null when Facebook does not show it (age-restricted Pages)."
+    )
     id: str | None = Field(
         default=None, description="Numeric Facebook id of the page or profile."
     )
