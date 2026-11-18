@@ -12298,34 +12298,34 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0025,
-          "maxPer1kUsd": 2.5
+          "maxUsd": 0.0048,
+          "maxPer1kUsd": 4.8
         },
-        "failoverMaxUsd": 0.0025,
-        "failoverMaxPer1kUsd": 2.5
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0025,
-            "maxPer1kUsd": 2.5
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
           },
           "source": {
-            "id": "anonymous-pelican",
-            "name": "Pelican",
+            "id": "anonymous-owl",
+            "name": "Owl",
             "kind": "anonymous",
-            "artworkKey": "pelican"
+            "artworkKey": "owl"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 51.29032258064516,
-            "latencyP50Ms": 15090,
-            "uptimeSample": 310,
-            "latencySample": 159,
-            "requests": 310,
-            "servedRequests": 159
+            "uptimePct": 65.67567567567568,
+            "latencyP50Ms": 20114,
+            "uptimeSample": 740,
+            "latencySample": 486,
+            "requests": 740,
+            "servedRequests": 486
           },
           "fields": [
             "answer",
@@ -12373,23 +12373,23 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
+            "maxUsd": 0.0025,
+            "maxPer1kUsd": 2.5
           },
           "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
+            "id": "anonymous-pelican",
+            "name": "Pelican",
             "kind": "anonymous",
-            "artworkKey": "owl"
+            "artworkKey": "pelican"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 65.67567567567568,
-            "latencyP50Ms": 20114,
-            "uptimeSample": 740,
-            "latencySample": 486,
-            "requests": 740,
-            "servedRequests": 486
+            "uptimePct": 51.29032258064516,
+            "latencyP50Ms": 15090,
+            "uptimeSample": 310,
+            "latencySample": 159,
+            "requests": 310,
+            "servedRequests": 159
           },
           "fields": [
             "answer",
@@ -15213,13 +15213,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0005,
-          "maxPer1kUsd": 0.5
+          "maxUsd": 0.0004,
+          "maxPer1kUsd": 0.4
         },
         "failoverMaxUsd": 0.002,
         "failoverMaxPer1kUsd": 2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0004,
+            "maxPer1kUsd": 0.4
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 80.96817176948002,
+            "latencyP50Ms": 8208,
+            "uptimeSample": 132084,
+            "latencySample": 106946,
+            "requests": 132140,
+            "servedRequests": 106946
+          },
+          "fields": [
+            "link",
+            "nextCursor",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -15305,40 +15337,6 @@
             "latencySample": 662,
             "requests": 753,
             "servedRequests": 662
-          },
-          "fields": [
-            "link",
-            "nextCursor",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0004,
-            "maxPer1kUsd": 0.4
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 80.96817176948002,
-            "latencyP50Ms": 8208,
-            "uptimeSample": 132084,
-            "latencySample": 106946,
-            "requests": 132140,
-            "servedRequests": 106946
           },
           "fields": [
             "link",
@@ -20955,38 +20953,6 @@
             "maxPer1kUsd": 1.75
           },
           "source": {
-            "id": "anonymous-pangolin",
-            "name": "Pangolin",
-            "kind": "anonymous",
-            "artworkKey": "pangolin"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 67.31680641633248,
-            "latencyP50Ms": 669,
-            "uptimeSample": 5486,
-            "latencySample": 3693,
-            "requests": 5486,
-            "servedRequests": 3693
-          },
-          "fields": [
-            "avatarUrl",
-            "displayName",
-            "private",
-            "profiles",
-            "userId",
-            "username",
-            "verified"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00175,
-            "maxPer1kUsd": 1.75
-          },
-          "source": {
             "id": "anonymous-manatee",
             "name": "Manatee",
             "kind": "anonymous",
@@ -21023,6 +20989,40 @@
             "latencySample": 1539,
             "requests": 1805,
             "servedRequests": 1539
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "private",
+            "profiles",
+            "userId",
+            "username",
+            "verified"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00175,
+            "maxPer1kUsd": 1.75
+          },
+          "source": {
+            "id": "anonymous-pangolin",
+            "name": "Pangolin",
+            "kind": "anonymous",
+            "artworkKey": "pangolin"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 67.31680641633248,
+            "latencyP50Ms": 669,
+            "uptimeSample": 5486,
+            "latencySample": 3693,
+            "requests": 5486,
+            "servedRequests": 3693
           },
           "fields": [
             "avatarUrl",
@@ -26844,51 +26844,6 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -27009,6 +26964,53 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
@@ -30920,6 +30922,38 @@
         },
         {
           "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0025,
+            "maxPer1kUsd": 2.5
+          },
+          "source": {
+            "id": "anonymous-pelican",
+            "name": "Pelican",
+            "kind": "anonymous",
+            "artworkKey": "pelican"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.09895337773548,
+            "latencyP50Ms": 15102,
+            "uptimeSample": 3153,
+            "latencySample": 3030,
+            "requests": 3156,
+            "servedRequests": 3030
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "prompt",
+            "snippet",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
@@ -30947,40 +30981,6 @@
             "answerMarkdown",
             "citations",
             "createdUtc",
-            "prompt",
-            "snippet",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0025,
-            "maxPer1kUsd": 2.5
-          },
-          "source": {
-            "id": "anonymous-pelican",
-            "name": "Pelican",
-            "kind": "anonymous",
-            "artworkKey": "pelican"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.09895337773548,
-            "latencyP50Ms": 15102,
-            "uptimeSample": 3153,
-            "latencySample": 3030,
-            "requests": 3156,
-            "servedRequests": 3030
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
             "prompt",
             "snippet",
             "title",
@@ -49507,52 +49507,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
-          },
-          "source": {
-            "id": "anonymous-lynx",
-            "name": "Lynx",
-            "kind": "anonymous",
-            "artworkKey": "lynx"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.22862133708495,
-            "latencyP50Ms": 1418,
-            "uptimeSample": 382414,
-            "latencySample": 375640,
-            "requests": 382414,
-            "servedRequests": 375640
-          },
-          "fields": [
-            "authorHandle",
-            "authorId",
-            "authorImage",
-            "authorName",
-            "bookmarks",
-            "conversationId",
-            "createdUtc",
-            "id",
-            "isReply",
-            "lang",
-            "likes",
-            "media",
-            "nextCursor",
-            "quotes",
-            "replies",
-            "retweets",
-            "source",
-            "text",
-            "tweets",
-            "url",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00049,
             "maxPer1kUsd": 0.49
           },
@@ -49619,6 +49573,54 @@
             "latencySample": 12060,
             "requests": 12511,
             "servedRequests": 12060
+          },
+          "fields": [
+            "authorHandle",
+            "authorId",
+            "authorImage",
+            "authorName",
+            "bookmarks",
+            "conversationId",
+            "createdUtc",
+            "id",
+            "isReply",
+            "lang",
+            "likes",
+            "media",
+            "nextCursor",
+            "quotes",
+            "replies",
+            "retweets",
+            "source",
+            "text",
+            "tweets",
+            "url",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
+          },
+          "source": {
+            "id": "anonymous-lynx",
+            "name": "Lynx",
+            "kind": "anonymous",
+            "artworkKey": "lynx"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.22862133708495,
+            "latencyP50Ms": 1418,
+            "uptimeSample": 382414,
+            "latencySample": 375640,
+            "requests": 382414,
+            "servedRequests": 375640
           },
           "fields": [
             "authorHandle",
