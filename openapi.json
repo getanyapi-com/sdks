@@ -106592,7 +106592,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -248628,7 +248628,7 @@
     },
     "/v1/run/seo.keyword_ideas": {
       "post": {
-        "description": "Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.\n\n**Price:** billed per result - \\$14.96 per 1,000 requests base + \\$0.16 per 1,000 results, capped at \\$174.96 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [SEO Keyword Ideas pricing and uptime](https://getanyapi.com/api/seo/keyword-ideas) - live USD price, lane routing, and measured 30-day uptime. [Every Seo endpoint](https://getanyapi.com/api/seo).",
+        "description": "Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON. Ideas are broad: they come from the product and service categories of the seeds, so many will not contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true; for Google's related searches use seo.related_keywords.\n\n**Price:** billed per result - \\$14.96 per 1,000 requests base + \\$0.16 per 1,000 results, capped at \\$174.96 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [SEO Keyword Ideas pricing and uptime](https://getanyapi.com/api/seo/keyword-ideas) - live USD price, lane routing, and measured 30-day uptime. [Every Seo endpoint](https://getanyapi.com/api/seo).",
         "operationId": "seo_keyword_ideas",
         "parameters": [
           {
@@ -248717,7 +248717,7 @@
                     "type": "boolean"
                   },
                   "closelyVariants": {
-                    "description": "When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas.",
+                    "description": "When true, match the seeds by phrase match instead of broad match (the default, false). Ideas still come from the categories of the seeds, so not every idea will contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true.",
                     "type": "boolean"
                   },
                   "ignoreSources": {
@@ -248730,7 +248730,7 @@
                     "uniqueItems": true
                   },
                   "keywords": {
-                    "description": "Seed SEO keywords used to generate related keyword ideas.",
+                    "description": "Seed SEO keywords. Ideas are drawn from the product and service categories these seeds belong to, so results are broad and many ideas will not contain the seed words.",
                     "items": {
                       "minLength": 1,
                       "type": "string"
@@ -321638,7 +321638,7 @@
     },
     "/v1/run/upwork.jobs": {
       "post": {
-        "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.\n\n**Price:** \\$7.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Upwork Jobs pricing and uptime](https://getanyapi.com/api/upwork/jobs) - live USD price, lane routing, and measured 30-day uptime. [Every Upwork endpoint](https://getanyapi.com/api/upwork).",
+        "description": "Search Upwork job postings by keyword, with up to 25 fresh listings per request.\n\n**Price:** \\$7.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Upwork Jobs pricing and uptime](https://getanyapi.com/api/upwork/jobs) - live USD price, lane routing, and measured 30-day uptime. [Every Upwork endpoint](https://getanyapi.com/api/upwork).",
         "operationId": "upwork_jobs",
         "parameters": [
           {

@@ -1558,7 +1558,7 @@ export interface SeoKeywordIdeasInput {
    */
   allowFallbacks?: boolean;
   /**
-   * When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas.
+   * When true, match the seeds by phrase match instead of broad match (the default, false). Ideas still come from the categories of the seeds, so not every idea will contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true.
    */
   closelyVariants?: boolean;
   /**
@@ -1566,7 +1566,7 @@ export interface SeoKeywordIdeasInput {
    */
   ignoreSources?: string[];
   /**
-   * Seed SEO keywords used to generate related keyword ideas.
+   * Seed SEO keywords. Ideas are drawn from the product and service categories these seeds belong to, so results are broad and many ideas will not contain the seed words.
    */
   keywords: string[];
   /**
@@ -4409,7 +4409,7 @@ export class SeoNamespace {
   /**
    * SEO Keyword Ideas
    *
-   * Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.
+   * Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON. Ideas are broad: they come from the product and service categories of the seeds, so many will not contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true; for Google's related searches use seo.related_keywords.
    *
    * Price: $0.01496 per request plus $0.00016 per result (maximum $0.17496).
    *

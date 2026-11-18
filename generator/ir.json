@@ -113379,7 +113379,7 @@
       "operationId": "seo_keyword_ideas",
       "name": "SEO Keyword Ideas",
       "category": "search",
-      "description": "Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.",
+      "description": "Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON. Ideas are broad: they come from the product and service categories of the seeds, so many will not contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true; for Google's related searches use seo.related_keywords.",
       "pricing": {
         "priceUsd": 0.17496,
         "baseUsd": 0.01496,
@@ -113412,7 +113412,7 @@
           },
           "closelyVariants": {
             "kind": "boolean",
-            "description": "When true, generate only close variants of the seed keywords; when false (the default), generate a broader set of related ideas.",
+            "description": "When true, match the seeds by phrase match instead of broad match (the default, false). Ideas still come from the categories of the seeds, so not every idea will contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true.",
             "default": null
           },
           "ignoreSources": {
@@ -113428,7 +113428,7 @@
           },
           "keywords": {
             "kind": "array",
-            "description": "Seed SEO keywords used to generate related keyword ideas.",
+            "description": "Seed SEO keywords. Ideas are drawn from the product and service categories these seeds belong to, so results are broad and many ideas will not contain the seed words.",
             "items": {
               "kind": "string",
               "enum": null,

@@ -13992,8 +13992,8 @@
           "maxUsd": 0.0018,
           "maxPer1kUsd": 1.8
         },
-        "failoverMaxUsd": 0.0018,
-        "failoverMaxPer1kUsd": 1.8
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
         {
@@ -14025,42 +14025,6 @@
             "index",
             "language",
             "prompt",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 77.71380856113211,
-            "latencyP50Ms": 19465,
-            "uptimeSample": 22754,
-            "latencySample": 17683,
-            "requests": 22756,
-            "servedRequests": 17683
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
             "title",
             "url"
           ]
@@ -14134,9 +14098,45 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 77.71380856113211,
+            "latencyP50Ms": 19465,
+            "uptimeSample": 22754,
+            "latencySample": 17683,
+            "requests": 22756,
+            "servedRequests": 17683
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        }
+      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "google.ai_overview_preview",
@@ -36642,7 +36642,7 @@
       "slug": "seo.keyword_ideas",
       "category": "search",
       "name": "SEO Keyword Ideas",
-      "description": "Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON.",
+      "description": "Find AnyAPI SEO keyword ideas from seed terms with volume, CPC, competition, difficulty, and intent as normalized JSON. Ideas are broad: they come from the product and service categories of the seeds, so many will not contain the seed words. For ideas that contain the seed phrase use seo.keyword_suggestions with exactMatch set to true; for Google's related searches use seo.related_keywords.",
       "method": "POST",
       "path": "/v1/run/seo.keyword_ideas",
       "provider": "AnyAPI",
@@ -49761,51 +49761,6 @@
             "maxPer1kUsd": 7
           },
           "source": {
-            "id": "anonymous-walrus",
-            "name": "Walrus",
-            "kind": "anonymous",
-            "artworkKey": "walrus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 89.7161936560935,
-            "latencyP50Ms": 9227,
-            "uptimeSample": 2995,
-            "latencySample": 2687,
-            "requests": 2995,
-            "servedRequests": 2687
-          },
-          "fields": [
-            "budget",
-            "clientLocation",
-            "clientRating",
-            "clientReviewCount",
-            "clientTotalSpent",
-            "createdUtc",
-            "currency",
-            "description",
-            "duration",
-            "experienceLevel",
-            "hourlyRateMax",
-            "hourlyRateMin",
-            "items",
-            "jobId",
-            "jobType",
-            "paymentVerified",
-            "proposals",
-            "tags",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.007,
-            "maxPer1kUsd": 7
-          },
-          "source": {
             "id": "anonymous-giraffe-e3d7e4f7",
             "name": "Giraffe",
             "kind": "anonymous",
@@ -49887,6 +49842,53 @@
             "premium",
             "proposals",
             "reposted",
+            "tags",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.007,
+            "maxPer1kUsd": 7
+          },
+          "source": {
+            "id": "anonymous-walrus",
+            "name": "Walrus",
+            "kind": "anonymous",
+            "artworkKey": "walrus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 89.7161936560935,
+            "latencyP50Ms": 9227,
+            "uptimeSample": 2995,
+            "latencySample": 2687,
+            "requests": 2995,
+            "servedRequests": 2687
+          },
+          "fields": [
+            "budget",
+            "clientLocation",
+            "clientRating",
+            "clientReviewCount",
+            "clientTotalSpent",
+            "createdUtc",
+            "currency",
+            "description",
+            "duration",
+            "experienceLevel",
+            "hourlyRateMax",
+            "hourlyRateMin",
+            "items",
+            "jobId",
+            "jobType",
+            "paymentVerified",
+            "proposals",
             "tags",
             "title",
             "url"
