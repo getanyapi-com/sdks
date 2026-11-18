@@ -1840,7 +1840,7 @@ class TwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.0004 per request.
+        Price: $0.00242 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
@@ -2381,7 +2381,7 @@ class AsyncTwitterNamespace:
         through the author's linked continuations. This excludes replies from other
         users.
 
-        Price: $0.0004 per request.
+        Price: $0.00242 per request.
 
         Example:
             res = client.twitter.thread(url="https://x.com/SpaceX/status/1732824684683784516")
