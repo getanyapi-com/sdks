@@ -313,7 +313,7 @@ export class SimilarwebNamespace {
    *
    * Get the Similarweb traffic overview for any website: estimated monthly visits and a three-month history, global, country, and category rank, bounce rate, pages per visit, visit duration, traffic sources including AI chatbots, top countries, and top search keywords - as normalized JSON.
    *
-   * Price: $0.00002 per request plus $0.00165 per result (maximum $0.00167).
+   * Price: $0 per request plus $0.00082 per result (maximum $0.00082).
    *
    * @example
    * const res = await client.similarweb.overview({ domain: "stripe.com" });
@@ -330,7 +330,7 @@ export class SimilarwebNamespace {
    *
    * Find the websites Similarweb ranks as most similar to any website: up to 20 competitor and alternative sites in similarity order, each with its similarity score, category, top-country rank, estimated monthly visits, and description - as normalized JSON.
    *
-   * Price: $0.00002 per request plus $0.00165 per result (maximum $0.00167).
+   * Price: $0 per request plus $0.00083 per result (maximum $0.00083).
    *
    * @example
    * const res = await client.similarweb.similarSites({ domain: "stripe.com" });
