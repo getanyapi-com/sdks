@@ -1236,13 +1236,55 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0009,
-          "maxPer1kUsd": 0.9
+          "maxUsd": 0.0008,
+          "maxPer1kUsd": 0.8
         },
         "failoverMaxUsd": 0.00682,
         "failoverMaxPer1kUsd": 6.82
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 79.21052631578948,
+            "latencyP50Ms": 7879,
+            "uptimeSample": 380,
+            "latencySample": 301,
+            "requests": 382,
+            "servedRequests": 301
+          },
+          "fields": [
+            "asin",
+            "brand",
+            "category",
+            "currency",
+            "description",
+            "features",
+            "image",
+            "images",
+            "inStock",
+            "items",
+            "price",
+            "rating",
+            "reviewsCount",
+            "sellerName",
+            "title",
+            "url",
+            "variantAsins"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -1395,50 +1437,6 @@
             "brand",
             "category",
             "condition",
-            "currency",
-            "description",
-            "features",
-            "image",
-            "images",
-            "inStock",
-            "items",
-            "price",
-            "rating",
-            "reviewsCount",
-            "sellerName",
-            "title",
-            "url",
-            "variantAsins"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 79.21052631578948,
-            "latencyP50Ms": 7879,
-            "uptimeSample": 380,
-            "latencySample": 301,
-            "requests": 382,
-            "servedRequests": 301
-          },
-          "fields": [
-            "asin",
-            "brand",
-            "category",
             "currency",
             "description",
             "features",
@@ -20281,45 +20279,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00126,
-          "maxPer1kUsd": 1.26
+          "maxUsd": 0.0032,
+          "maxPer1kUsd": 3.2
         },
         "failoverMaxUsd": 0.033,
         "failoverMaxPer1kUsd": 33
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00126,
-            "maxPer1kUsd": 1.26
-          },
-          "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.73289183222958,
-            "latencyP50Ms": 3259,
-            "uptimeSample": 2265,
-            "latencySample": 2191,
-            "requests": 2265,
-            "servedRequests": 2191
-          },
-          "fields": [
-            "handle",
-            "id",
-            "image",
-            "items",
-            "name",
-            "url",
-            "verified"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -20389,6 +20355,40 @@
             "items",
             "name",
             "postsCount",
+            "url",
+            "verified"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00126,
+            "maxPer1kUsd": 1.26
+          },
+          "source": {
+            "id": "anonymous-tiger",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.73289183222958,
+            "latencyP50Ms": 3259,
+            "uptimeSample": 2265,
+            "latencySample": 2191,
+            "requests": 2265,
+            "servedRequests": 2191
+          },
+          "fields": [
+            "handle",
+            "id",
+            "image",
+            "items",
+            "name",
             "url",
             "verified"
           ]
@@ -26837,6 +26837,51 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -26957,53 +27002,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
