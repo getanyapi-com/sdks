@@ -2210,7 +2210,7 @@ export class TwitterNamespace {
    *
    * Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.
    *
-   * Price: $0.00242 per request.
+   * Price: $0.0004 per request.
    *
    * @example
    * const res = await client.twitter.thread({ url: "https://x.com/SpaceX/status/1732824684683784516" });

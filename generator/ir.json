@@ -46017,7 +46017,7 @@
       "category": "search",
       "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00089,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -72198,7 +72198,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.0029,
+        "priceUsd": 0.0025,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -104951,7 +104951,7 @@
           },
           "query": {
             "kind": "string",
-            "description": "Free-text search across all of Reddit. Reddit's field operators are supported inside the string: subreddit:<name> to scope to one subreddit, author:<user>, title:<text>, selftext:<text>, self:yes|no, nsfw:yes|no, and boolean AND/OR/NOT. To restrict to a single subreddit you can use subreddit:<name> here, or use the reddit.subreddit_posts SKU for a plain subreddit listing.",
+            "description": "Free-text search across all of Reddit. The words are searched exactly as given: Reddit's default spelling correction is not applied. Reddit's field operators are supported inside the string: subreddit:<name> to scope to one subreddit, author:<user>, title:<text>, selftext:<text>, self:yes|no, nsfw:yes|no, and boolean AND/OR/NOT. To restrict to a single subreddit you can use subreddit:<name> here, or use the reddit.subreddit_posts SKU for a plain subreddit listing.",
             "enum": null,
             "default": null,
             "format": null
@@ -141980,7 +141980,7 @@
       "category": "social",
       "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.",
       "pricing": {
-        "priceUsd": 0.00242,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -152156,7 +152156,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00078,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

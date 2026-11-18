@@ -7012,7 +7012,7 @@ export class LinkedinNamespace {
    *
    * Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.
    *
-   * Price: $0.0029 per request.
+   * Price: $0.0025 per request.
    *
    * @example
    * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/patrickcollison" });
