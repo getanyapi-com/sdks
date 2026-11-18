@@ -140030,7 +140030,7 @@
       "operationId": "twitter_community_tweets",
       "name": "Twitter Community Tweets",
       "category": "social",
-      "description": "List recent tweets posted in a Twitter/X community by URL.",
+      "description": "List tweets posted in a Twitter/X community by URL: top tweets by default, or the newest with sort=latest.",
       "pricing": {
         "priceUsd": 0.00045,
         "baseUsd": null,
@@ -140073,6 +140073,16 @@
             "minimum": 1,
             "maximum": null,
             "default": null
+          },
+          "sort": {
+            "kind": "string",
+            "description": "top returns ranked tweets chosen by the source; the time window they cover varies by source. latest returns the newest tweets first; fewer sources serve it and it can cost more.",
+            "enum": [
+              "top",
+              "latest"
+            ],
+            "default": "top",
+            "format": null
           },
           "source": {
             "kind": "array",
