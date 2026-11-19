@@ -12065,45 +12065,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.03,
-            "maxPer1kUsd": 30
-          },
-          "source": {
-            "id": "anonymous-fox",
-            "name": "Fox",
-            "kind": "anonymous",
-            "artworkKey": "fox"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 59.94729907773386,
-            "latencyP50Ms": 11469,
-            "uptimeSample": 759,
-            "latencySample": 455,
-            "requests": 759,
-            "servedRequests": 455
-          },
-          "fields": [
-            "authorId",
-            "authorImage",
-            "authorName",
-            "authorUrl",
-            "commentCount",
-            "createdUtc",
-            "id",
-            "image",
-            "items",
-            "reactionCount",
-            "reactions",
-            "shareCount",
-            "text",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00007,
@@ -12143,6 +12104,47 @@
             "shareCount",
             "text",
             "type",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.03,
+            "maxPer1kUsd": 30
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 59.94729907773386,
+            "latencyP50Ms": 11469,
+            "uptimeSample": 759,
+            "latencySample": 455,
+            "requests": 759,
+            "servedRequests": 455
+          },
+          "fields": [
+            "authorId",
+            "authorImage",
+            "authorName",
+            "authorUrl",
+            "commentCount",
+            "createdUtc",
+            "id",
+            "image",
+            "items",
+            "reactionCount",
+            "reactions",
+            "shareCount",
+            "text",
             "url"
           ]
         }
@@ -21182,29 +21184,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00175,
-            "maxPer1kUsd": 1.75
-          },
-          "source": {
-            "id": "anonymous-manatee",
-            "name": "Manatee",
-            "kind": "anonymous",
-            "artworkKey": "manatee"
-          },
-          "fields": [
-            "avatarUrl",
-            "displayName",
-            "private",
-            "profiles",
-            "userId",
-            "username",
-            "verified"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0022,
             "maxPer1kUsd": 2.2
           },
@@ -21222,6 +21201,31 @@
             "latencySample": 1539,
             "requests": 1805,
             "servedRequests": 1539
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "private",
+            "profiles",
+            "userId",
+            "username",
+            "verified"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00175,
+            "maxPer1kUsd": 1.75
+          },
+          "source": {
+            "id": "anonymous-manatee",
+            "name": "Manatee",
+            "kind": "anonymous",
+            "artworkKey": "manatee"
           },
           "fields": [
             "avatarUrl",
@@ -24758,36 +24762,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.001,
+          "maxPer1kUsd": 1
         },
         "failoverMaxUsd": 0.00253,
         "failoverMaxPer1kUsd": 2.53
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-giraffe-5e3cbaa1",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 100,
-            "latencyP50Ms": 3601,
-            "uptimeSample": 28,
-            "latencySample": 28,
-            "requests": 28,
-            "servedRequests": 28
-          }
-        },
         {
           "pricing": {
             "model": "flat",
@@ -53540,8 +53521,8 @@
           "maxUsd": 0.00072,
           "maxPer1kUsd": 0.72
         },
-        "failoverMaxUsd": 0.0012,
-        "failoverMaxPer1kUsd": 1.2
+        "failoverMaxUsd": 0.0032,
+        "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
         {
@@ -53664,6 +53645,36 @@
             "category",
             "channel",
             "createdUtc",
+            "durationMs",
+            "id",
+            "image",
+            "keywords",
+            "likes",
+            "title",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0032,
+            "maxPer1kUsd": 3.2
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "fields": [
+            "authorId",
+            "authorUrl",
+            "category",
+            "channel",
+            "comments",
+            "createdUtc",
+            "description",
             "durationMs",
             "id",
             "image",
