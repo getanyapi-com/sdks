@@ -560,7 +560,7 @@ export interface EbaySoldListingsInput {
    */
   returnsAccepted?: boolean;
   /**
-   * Not supported by the current sources: a request that sets it is refused without charge.
+   * Only this eBay seller's sold listings (eBay username).
    */
   seller?: string;
   /**

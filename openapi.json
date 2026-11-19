@@ -6313,7 +6313,6 @@
                       "enum": [
                         "freeShipping",
                         "returnPolicy",
-                        "shippingCost",
                         "video",
                         "wishlistCount"
                       ],
@@ -59253,7 +59252,7 @@
     },
     "/v1/run/duckduckgo.search": {
       "post": {
-        "description": "Run a DuckDuckGo web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON, ads left out. Returns up to 10 results per call; page deeper with page and pick the country DuckDuckGo searches from.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [DuckDuckGo Search pricing and uptime](https://getanyapi.com/api/duckduckgo/search) - live USD price, lane routing, and measured 30-day uptime. [Every Duckduckgo endpoint](https://getanyapi.com/api/duckduckgo).",
+        "description": "Run a DuckDuckGo web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON, ads left out. Returns up to 10 results per call; page deeper with page and pick the country DuckDuckGo searches from.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [DuckDuckGo Search pricing and uptime](https://getanyapi.com/api/duckduckgo/search) - live USD price, lane routing, and measured 30-day uptime. [Every Duckduckgo endpoint](https://getanyapi.com/api/duckduckgo).",
         "operationId": "duckduckgo_search",
         "parameters": [
           {
@@ -62150,7 +62149,7 @@
                     "type": "boolean"
                   },
                   "seller": {
-                    "description": "Not supported by the current sources: a request that sets it is refused without charge.",
+                    "description": "Only this eBay seller's sold listings (eBay username).",
                     "type": "string"
                   },
                   "site": {
@@ -86661,13 +86660,12 @@
                     "type": "integer"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoId` or `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoUrl` or `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
                         "authorVerified",
                         "feedbackId",
                         "reactions",
-                        "videoId",
                         "videoUrl",
                         "views"
                       ],
@@ -145495,7 +145493,7 @@
     },
     "/v1/run/instagram.search_profiles": {
       "post": {
-        "description": "Search public Instagram profiles by a bio or caption keyword.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Profile Search pricing and uptime](https://getanyapi.com/api/instagram/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search public Instagram profiles by a bio or caption keyword.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Search pricing and uptime](https://getanyapi.com/api/instagram/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_search_profiles",
         "parameters": [
           {
@@ -145602,6 +145600,7 @@
                         "bioLinks",
                         "category",
                         "isBusiness",
+                        "posts",
                         "private"
                       ],
                       "type": "string"
@@ -148181,17 +148180,6 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
                     "minimum": 1,
                     "type": "integer"
-                  },
-                  "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `durationSeconds`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a story that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
-                    "items": {
-                      "enum": [
-                        "durationSeconds"
-                      ],
-                      "type": "string"
-                    },
-                    "type": "array",
-                    "uniqueItems": true
                   },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -152010,25 +151998,22 @@
                     "type": "integer"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `userId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
                         "audioId",
                         "carouselCount",
-                        "coauthors",
                         "countsHidden",
                         "isPinned",
                         "locationId",
                         "locationLat",
                         "locationLng",
                         "locationName",
-                        "paidPartnership",
                         "productType",
                         "reshares",
                         "soundAuthor",
                         "soundTitle",
-                        "taggedUsers",
-                        "userId"
+                        "taggedUsers"
                       ],
                       "type": "string"
                     },
@@ -152896,7 +152881,6 @@
                         "locationLat",
                         "locationLng",
                         "locationName",
-                        "paidPartnership",
                         "productType",
                         "reshares",
                         "soundAuthor",
@@ -176677,7 +176661,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -283613,9 +283597,7 @@
                         "nextCursor",
                         "playCount",
                         "shareCount",
-                        "soundAuthor",
-                        "soundClipId",
-                        "soundTitle"
+                        "soundClipId"
                       ],
                       "type": "string"
                     },
@@ -289372,10 +289354,7 @@
                         "authorFollowers",
                         "authorVerified",
                         "locationName",
-                        "nextCursor",
-                        "paidPartnership",
-                        "soundAuthor",
-                        "soundTitle"
+                        "nextCursor"
                       ],
                       "type": "string"
                     },
@@ -290097,12 +290076,10 @@
                     "type": "string"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `soundTitle` or `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
                     "items": {
                       "enum": [
-                        "locationName",
-                        "soundAuthor",
-                        "soundTitle"
+                        "locationName"
                       ],
                       "type": "string"
                     },
@@ -290804,10 +290781,7 @@
                         "authorFollowers",
                         "authorVerified",
                         "locationName",
-                        "nextCursor",
-                        "paidPartnership",
-                        "soundAuthor",
-                        "soundTitle"
+                        "nextCursor"
                       ],
                       "type": "string"
                     },
@@ -292817,9 +292791,7 @@
                         "authorFollowers",
                         "contentType",
                         "nextCursor",
-                        "soundAuthor",
-                        "soundClipId",
-                        "soundTitle"
+                        "soundClipId"
                       ],
                       "type": "string"
                     },
@@ -302821,13 +302793,11 @@
                     "type": "string"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sellerLocation`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `brand`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a product that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
                         "brand",
-                        "category",
                         "name",
-                        "sellerLocation",
                         "specifications",
                         "value"
                       ],
@@ -303482,10 +303452,9 @@
                     "type": "string"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `images`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be empty on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be empty on a review that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
-                        "images",
                         "rating"
                       ],
                       "type": "string"

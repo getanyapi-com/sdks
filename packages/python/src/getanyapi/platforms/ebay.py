@@ -121,7 +121,7 @@ class EbaySoldListingsInput(TypedDict, total=False):
     returnsAccepted: NotRequired[bool]
     """Not supported by the current sources: only false (no filter) is accepted; true is refused without charge."""
     seller: NotRequired[str]
-    """Not supported by the current sources: a request that sets it is refused without charge."""
+    """Only this eBay seller's sold listings (eBay username)."""
     site: NotRequired[Literal["ebay.com"]]
     """eBay country site to search. Sold-listing coverage is currently US only. Default: ebay.com."""
     sort: NotRequired[Literal["ended_recently", "price_low", "price_high"]]

@@ -553,6 +553,7 @@
             "sellerOpenedUtc",
             "sellerScore",
             "shipFrom",
+            "shippingCost",
             "specifications",
             "storeId",
             "storeName",
@@ -1352,6 +1353,7 @@
           "fields": [
             "asin",
             "brand",
+            "category",
             "currency",
             "description",
             "features",
@@ -2273,7 +2275,8 @@
             "items",
             "rating",
             "text",
-            "title"
+            "title",
+            "version"
           ]
         }
       ],
@@ -6698,39 +6701,6 @@
             "maxPer1kUsd": 0.85
           },
           "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 55.223880597014926,
-            "latencyP50Ms": 2017,
-            "uptimeSample": 67,
-            "latencySample": 37,
-            "requests": 67,
-            "servedRequests": 37
-          },
-          "fields": [
-            "displayUrl",
-            "domain",
-            "items",
-            "position",
-            "query",
-            "snippet",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
-          },
-          "source": {
             "id": "anonymous-chameleon-ee237f60",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -6810,6 +6780,41 @@
             "latencySample": 21,
             "requests": 22,
             "servedRequests": 21
+          },
+          "fields": [
+            "displayUrl",
+            "domain",
+            "items",
+            "position",
+            "query",
+            "snippet",
+            "title",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 55.223880597014926,
+            "latencyP50Ms": 2017,
+            "uptimeSample": 67,
+            "latencySample": 37,
+            "requests": 67,
+            "servedRequests": 37
           },
           "fields": [
             "displayUrl",
@@ -10925,6 +10930,7 @@
             "shares",
             "text",
             "url",
+            "videoId",
             "views"
           ]
         }
@@ -17590,6 +17596,7 @@
             "followers",
             "following",
             "handle",
+            "posts",
             "private",
             "userId",
             "verified"
@@ -20347,6 +20354,7 @@
             "image",
             "items",
             "name",
+            "postsCount",
             "url",
             "verified"
           ]
@@ -20803,8 +20811,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0012,
-        "failoverMaxPer1kUsd": 1.2
+        "failoverMaxUsd": 0.0032,
+        "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
         {
@@ -20847,9 +20855,7 @@
             "url",
             "verified"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -20882,6 +20888,7 @@
             "handle",
             "id",
             "nextCursor",
+            "posts",
             "profiles",
             "url",
             "verified"
@@ -20890,7 +20897,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_profiles_contact",
@@ -20955,6 +20962,7 @@
             "joined",
             "nextCursor",
             "phone",
+            "posts",
             "profiles",
             "url",
             "verified"
@@ -21318,6 +21326,7 @@
             "avatarUrl",
             "createdUtc",
             "displayName",
+            "durationSeconds",
             "id",
             "items",
             "mediaUrl",
@@ -22280,6 +22289,8 @@
           "fields": [
             "avatarUrl",
             "caption",
+            "carouselCount",
+            "coauthors",
             "comments",
             "createdUtc",
             "displayName",
@@ -22288,11 +22299,17 @@
             "id",
             "isPinned",
             "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
             "media",
             "mentions",
             "nextCursor",
+            "paidPartnership",
             "posts",
             "url",
+            "userId",
             "username",
             "verified",
             "views"
@@ -22732,6 +22749,7 @@
             "media",
             "mentions",
             "nextCursor",
+            "paidPartnership",
             "reels",
             "shortcode",
             "userId",
@@ -26883,6 +26901,51 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -27003,53 +27066,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
@@ -41479,7 +41495,9 @@
             "nextCursor",
             "playCount",
             "shareCount",
+            "soundAuthor",
             "soundClipId",
+            "soundTitle",
             "text",
             "url",
             "videoUrl"
@@ -42865,9 +42883,12 @@
             "isPinned",
             "likes",
             "nextCursor",
+            "paidPartnership",
             "saves",
             "shares",
+            "soundAuthor",
             "soundClipId",
+            "soundTitle",
             "url",
             "videoUrl",
             "videos",
@@ -43042,7 +43063,9 @@
             "nextCursor",
             "saves",
             "shares",
+            "soundAuthor",
             "soundClipId",
+            "soundTitle",
             "url",
             "videoUrl",
             "videos",
@@ -43265,10 +43288,13 @@
             "image",
             "likes",
             "nextCursor",
+            "paidPartnership",
             "region",
             "saves",
             "shares",
+            "soundAuthor",
             "soundClipId",
+            "soundTitle",
             "url",
             "videoUrl",
             "videos",
@@ -43754,7 +43780,9 @@
             "nextCursor",
             "saves",
             "shares",
+            "soundAuthor",
             "soundClipId",
+            "soundTitle",
             "url",
             "videoUrl",
             "views"
@@ -46003,22 +46031,20 @@
             "servedRequests": 7
           },
           "fields": [
-            "brand",
+            "category",
             "currency",
             "images",
-            "name",
             "originalPrice",
             "price",
             "productId",
             "rating",
             "reviewCount",
             "sellerId",
+            "sellerLocation",
             "sellerName",
             "soldCount",
-            "specifications",
             "title",
-            "url",
-            "value"
+            "url"
           ]
         }
       ],
@@ -46146,6 +46172,7 @@
             "createdUtc",
             "hasMore",
             "id",
+            "images",
             "productId",
             "reviewerName",
             "reviews",
