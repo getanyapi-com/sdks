@@ -3625,7 +3625,7 @@ class TiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.00039 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
@@ -4756,7 +4756,7 @@ class AsyncTiktokNamespace:
         Fetch a TikTok creator's public profile (followers, likes, bio,
         verification) by handle.
 
-        Price: $0.00039 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.profile(handle="zachking")
