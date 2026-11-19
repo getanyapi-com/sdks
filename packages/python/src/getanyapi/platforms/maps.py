@@ -178,7 +178,6 @@ class MapsSearchInput(TypedDict, total=False):
                 "countryCode",
                 "hours",
                 "permanentlyClosed",
-                "phone",
                 "postalCode",
                 "priceLevel",
                 "state",

@@ -591,7 +591,6 @@ export interface MapsSearchInput {
     | "countryCode"
     | "hours"
     | "permanentlyClosed"
-    | "phone"
     | "postalCode"
     | "priceLevel"
     | "state"

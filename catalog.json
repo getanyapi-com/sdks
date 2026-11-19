@@ -6698,6 +6698,39 @@
             "maxPer1kUsd": 0.85
           },
           "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 55.223880597014926,
+            "latencyP50Ms": 2017,
+            "uptimeSample": 67,
+            "latencySample": 37,
+            "requests": 67,
+            "servedRequests": 37
+          },
+          "fields": [
+            "displayUrl",
+            "domain",
+            "items",
+            "position",
+            "query",
+            "snippet",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00085,
+            "maxPer1kUsd": 0.85
+          },
+          "source": {
             "id": "anonymous-chameleon-ee237f60",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -6777,41 +6810,6 @@
             "latencySample": 21,
             "requests": 22,
             "servedRequests": 21
-          },
-          "fields": [
-            "displayUrl",
-            "domain",
-            "items",
-            "position",
-            "query",
-            "snippet",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00085,
-            "maxPer1kUsd": 0.85
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 55.223880597014926,
-            "latencyP50Ms": 2017,
-            "uptimeSample": 67,
-            "latencySample": 37,
-            "requests": 67,
-            "servedRequests": 37
           },
           "fields": [
             "displayUrl",
@@ -15154,7 +15152,8 @@
             "query",
             "results",
             "snippet",
-            "title"
+            "title",
+            "year"
           ]
         },
         {
@@ -16480,10 +16479,13 @@
             "servedRequests": 840
           },
           "fields": [
+            "discountPercent",
             "image",
             "items",
             "listPrice",
+            "listPriceText",
             "price",
+            "priceText",
             "productId",
             "rating",
             "reviewsCount",
@@ -20801,8 +20803,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0032,
-        "failoverMaxPer1kUsd": 3.2
+        "failoverMaxUsd": 0.0012,
+        "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
         {
@@ -20845,7 +20847,9 @@
             "url",
             "verified"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -20886,7 +20890,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "instagram.search_profiles_contact",
@@ -29085,6 +29089,7 @@
             "latitude",
             "longitude",
             "name",
+            "phone",
             "placeId",
             "priceLevel",
             "rating",
@@ -33707,6 +33712,7 @@
             "authorId",
             "createdUtc",
             "id",
+            "media",
             "nextCursor",
             "nsfw",
             "numComments",
@@ -49584,52 +49590,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00045,
-            "maxPer1kUsd": 0.45
-          },
-          "source": {
-            "id": "anonymous-lynx",
-            "name": "Lynx",
-            "kind": "anonymous",
-            "artworkKey": "lynx"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.22862133708495,
-            "latencyP50Ms": 1418,
-            "uptimeSample": 382414,
-            "latencySample": 375640,
-            "requests": 382414,
-            "servedRequests": 375640
-          },
-          "fields": [
-            "authorHandle",
-            "authorId",
-            "authorImage",
-            "authorName",
-            "bookmarks",
-            "conversationId",
-            "createdUtc",
-            "id",
-            "isReply",
-            "lang",
-            "likes",
-            "media",
-            "nextCursor",
-            "quotes",
-            "replies",
-            "retweets",
-            "source",
-            "text",
-            "tweets",
-            "url",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00048,
             "maxPer1kUsd": 0.48
           },
@@ -49710,6 +49670,54 @@
             "latencySample": 12060,
             "requests": 12511,
             "servedRequests": 12060
+          },
+          "fields": [
+            "authorHandle",
+            "authorId",
+            "authorImage",
+            "authorName",
+            "bookmarks",
+            "conversationId",
+            "createdUtc",
+            "id",
+            "isReply",
+            "lang",
+            "likes",
+            "media",
+            "nextCursor",
+            "quotes",
+            "replies",
+            "retweets",
+            "source",
+            "text",
+            "tweets",
+            "url",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00045,
+            "maxPer1kUsd": 0.45
+          },
+          "source": {
+            "id": "anonymous-lynx",
+            "name": "Lynx",
+            "kind": "anonymous",
+            "artworkKey": "lynx"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.22862133708495,
+            "latencyP50Ms": 1418,
+            "uptimeSample": 382414,
+            "latencySample": 375640,
+            "requests": 382414,
+            "servedRequests": 375640
           },
           "fields": [
             "authorHandle",

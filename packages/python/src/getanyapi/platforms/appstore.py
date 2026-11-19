@@ -216,7 +216,7 @@ class AppstoreAppData(BaseModel):
     rating_histogram: AppstoreAppRatingHistogram | None = Field(
         default=None,
         alias="ratingHistogram",
-        description="Number of ratings at each star level.",
+        description="Number of ratings at each star level. A star level is null when the serving source leaves it out, even if the app has ratings at it.",
     )
     release_notes: str | None = Field(
         default=None,

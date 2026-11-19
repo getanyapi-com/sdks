@@ -246,7 +246,7 @@ export interface AppstoreAppData {
    */
   ratingCount?: number | null;
   /**
-   * Number of ratings at each star level.
+   * Number of ratings at each star level. A star level is null when the serving source leaves it out, even if the app has ratings at it.
    */
   ratingHistogram?: {
     /**
