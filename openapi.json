@@ -59920,7 +59920,7 @@
     },
     "/v1/run/ebay.accepted_offers": {
       "post": {
-        "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [eBay Accepted Offer Prices pricing and uptime](https://getanyapi.com/api/ebay/accepted-offers) - live USD price, lane routing, and measured 30-day uptime. [Every Ebay endpoint](https://getanyapi.com/api/ebay).",
+        "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023. Auctions are never Best Offers, so look at fixed-price sales. Results come back newest first, so with a small limit the sales can cover only the last few days of a date window; raise limit (up to 240) to cover more of it.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [eBay Accepted Offer Prices pricing and uptime](https://getanyapi.com/api/ebay/accepted-offers) - live USD price, lane routing, and measured 30-day uptime. [Every Ebay endpoint](https://getanyapi.com/api/ebay).",
         "operationId": "ebay_accepted_offers",
         "parameters": [
           {
@@ -60120,7 +60120,7 @@
                                       "items": {
                                         "properties": {
                                           "bestOfferAccepted": {
-                                            "description": "True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). False when it was not identified as one, which does not prove a full-price sale. Absent when it could not be determined.",
+                                            "description": "True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). Auctions are never Best Offers, so it is true only on fixed-price sales. False when it was not identified as one, which does not prove a full-price sale; sales from the last few hours are often not flagged yet. Absent when it could not be determined: on busy searches some older date windows come back with no Best Offer flag at all.",
                                             "type": "boolean"
                                           },
                                           "bidCount": {
@@ -142454,7 +142454,7 @@
     },
     "/v1/run/instagram.search": {
       "post": {
-        "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.\n\n**Price:** \\$3.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Search pricing and uptime](https://getanyapi.com/api/instagram/search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.\n\n**Price:** \\$1.26 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Search pricing and uptime](https://getanyapi.com/api/instagram/search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_search",
         "parameters": [
           {
@@ -142985,7 +142985,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.003200",
+            "amount": "0.001260",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -143027,7 +143027,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.004200",
+                "amount": "0.002260",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -143059,7 +143059,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003200",
+                "amount": "0.001260",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -315482,7 +315482,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.47 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
@@ -316101,7 +316101,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000470",
+            "amount": "0.000480",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -316143,7 +316143,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001470",
+                "amount": "0.001480",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -316175,7 +316175,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000470",
+                "amount": "0.000480",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

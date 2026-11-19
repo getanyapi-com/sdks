@@ -200,7 +200,7 @@ class EbayAcceptedOffersItem(BaseModel):
     best_offer_accepted: bool | None = Field(
         default=None,
         alias="bestOfferAccepted",
-        description="True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). False when it was not identified as one, which does not prove a full-price sale. Absent when it could not be determined.",
+        description="True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). Auctions are never Best Offers, so it is true only on fixed-price sales. False when it was not identified as one, which does not prove a full-price sale; sales from the last few hours are often not flagged yet. Absent when it could not be determined: on busy searches some older date windows come back with no Best Offer flag at all.",
     )
     bid_count: int | None = Field(
         default=None,
@@ -774,7 +774,10 @@ class EbayNamespace:
         Retrieve completed eBay sales for any keyword with the price the buyer
         actually paid, including accepted Best Offer amounts where available, plus
         the sale date, units sold, shipping, and format. History is available back
-        to December 2023.
+        to December 2023. Auctions are never Best Offers, so look at fixed-price
+        sales. Results come back newest first, so with a small limit the sales can
+        cover only the last few days of a date window; raise limit (up to 240) to
+        cover more of it.
 
         Price: $0.003 per request.
 
@@ -914,7 +917,10 @@ class AsyncEbayNamespace:
         Retrieve completed eBay sales for any keyword with the price the buyer
         actually paid, including accepted Best Offer amounts where available, plus
         the sale date, units sold, shipping, and format. History is available back
-        to December 2023.
+        to December 2023. Auctions are never Best Offers, so look at fixed-price
+        sales. Results come back newest first, so with a small limit the sales can
+        cover only the last few days of a date window; raise limit (up to 240) to
+        cover more of it.
 
         Price: $0.003 per request.
 

@@ -6846,7 +6846,7 @@
       "slug": "ebay.accepted_offers",
       "category": "shop",
       "name": "eBay Accepted Offer Prices",
-      "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023.",
+      "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023. Auctions are never Best Offers, so look at fixed-price sales. Results come back newest first, so with a small limit the sales can cover only the last few days of a date window; raise limit (up to 240) to cover more of it.",
       "method": "POST",
       "path": "/v1/run/ebay.accepted_offers",
       "provider": "AnyAPI",
@@ -20429,13 +20429,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0032,
-          "maxPer1kUsd": 3.2
+          "maxUsd": 0.00126,
+          "maxPer1kUsd": 1.26
         },
         "failoverMaxUsd": 0.0032,
         "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00126,
+            "maxPer1kUsd": 1.26
+          },
+          "source": {
+            "id": "anonymous-tiger",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 96.73289183222958,
+            "latencyP50Ms": 3259,
+            "uptimeSample": 2265,
+            "latencySample": 2191,
+            "requests": 2265,
+            "servedRequests": 2191
+          },
+          "fields": [
+            "handle",
+            "id",
+            "image",
+            "items",
+            "name",
+            "url",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -20474,38 +20506,6 @@
         }
       ],
       "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00126,
-            "maxPer1kUsd": 1.26
-          },
-          "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 96.73289183222958,
-            "latencyP50Ms": 3259,
-            "uptimeSample": 2265,
-            "latencySample": 2191,
-            "requests": 2265,
-            "servedRequests": 2191
-          },
-          "fields": [
-            "handle",
-            "id",
-            "image",
-            "items",
-            "name",
-            "url",
-            "verified"
-          ]
-        },
         {
           "pricing": {
             "model": "linear",
@@ -20547,7 +20547,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_audio",
@@ -48613,36 +48613,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00047,
-          "maxPer1kUsd": 0.47
+          "maxUsd": 0.00048,
+          "maxPer1kUsd": 0.48
         },
         "failoverMaxUsd": 0.0051,
         "failoverMaxPer1kUsd": 5.1
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00047,
-            "maxPer1kUsd": 0.47
-          },
-          "source": {
-            "id": "anonymous-giraffe-5e3cbaa1",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.26498422712933,
-            "latencyP50Ms": 1618,
-            "uptimeSample": 6340,
-            "latencySample": 6230,
-            "requests": 6340,
-            "servedRequests": 6230
-          }
-        },
         {
           "pricing": {
             "model": "flat",
