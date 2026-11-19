@@ -137542,7 +137542,7 @@
     },
     "/v1/run/instagram.post": {
       "post": {
-        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.38 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.38 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post",
         "parameters": [
           {
@@ -170053,7 +170053,7 @@
     },
     "/v1/run/linkedin.jobs_thin": {
       "post": {
-        "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.\n\n**Price:** \\$0.57 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Jobs (index) pricing and uptime](https://getanyapi.com/api/linkedin/jobs-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.\n\n**Price:** \\$0.58 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Jobs (index) pricing and uptime](https://getanyapi.com/api/linkedin/jobs-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_jobs_thin",
         "parameters": [
           {
@@ -170626,7 +170626,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000570",
+            "amount": "0.000580",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -170668,7 +170668,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001570",
+                "amount": "0.001580",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -170700,7 +170700,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000570",
+                "amount": "0.000580",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -181079,7 +181079,7 @@
                     "type": "array"
                   },
                   "authorKeywords": {
-                    "description": "Only return posts whose author profile headline or job title contains at least one of these keywords.",
+                    "description": "Only return posts whose author headline or job title contains these keywords. To match any of several words, join them with OR (psicologa OR psicologo); spaces or commas between words do not do that. If an accented word returns no results, try it without accents.",
                     "minLength": 1,
                     "type": "string"
                   },

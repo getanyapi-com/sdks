@@ -19073,66 +19073,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00101,
-            "maxPer1kUsd": 1.01,
-            "addons": [
-              {
-                "id": "hosting",
-                "label": "hosted MP4 link",
-                "field": "hostVideo",
-                "usd": 0.0045
-              }
-            ]
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 91.76040262919062,
-            "latencyP50Ms": 4239,
-            "uptimeSample": 36361,
-            "latencySample": 33365,
-            "requests": 36363,
-            "servedRequests": 33365
-          },
-          "fields": [
-            "audioId",
-            "avatarUrl",
-            "caption",
-            "comments",
-            "countsHidden",
-            "createdUtc",
-            "displayName",
-            "displayUrl",
-            "hasAudio",
-            "hashtags",
-            "id",
-            "likes",
-            "locationId",
-            "locationLat",
-            "locationLng",
-            "locationName",
-            "mentions",
-            "owner",
-            "paidPartnership",
-            "productType",
-            "shortcode",
-            "soundAuthor",
-            "soundTitle",
-            "type",
-            "userId",
-            "verified",
-            "videoUrl"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0011,
             "maxPer1kUsd": 1.1,
             "addons": [
@@ -19307,6 +19247,68 @@
             "plays",
             "productType",
             "reshares",
+            "shortcode",
+            "soundAuthor",
+            "soundTitle",
+            "type",
+            "userId",
+            "verified",
+            "videoUrl"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00101,
+            "maxPer1kUsd": 1.01,
+            "addons": [
+              {
+                "id": "hosting",
+                "label": "hosted MP4 link",
+                "field": "hostVideo",
+                "usd": 0.0045
+              }
+            ]
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 91.76040262919062,
+            "latencyP50Ms": 4239,
+            "uptimeSample": 36361,
+            "latencySample": 33365,
+            "requests": 36363,
+            "servedRequests": 33365
+          },
+          "fields": [
+            "audioId",
+            "avatarUrl",
+            "caption",
+            "comments",
+            "countsHidden",
+            "createdUtc",
+            "displayName",
+            "displayUrl",
+            "hasAudio",
+            "hashtags",
+            "id",
+            "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
+            "mentions",
+            "owner",
+            "paidPartnership",
+            "productType",
             "shortcode",
             "soundAuthor",
             "soundTitle",
@@ -25414,36 +25416,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00057,
-          "maxPer1kUsd": 0.57
+          "maxUsd": 0.00058,
+          "maxPer1kUsd": 0.58
         },
         "failoverMaxUsd": 0.0008,
         "failoverMaxPer1kUsd": 0.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00057,
-            "maxPer1kUsd": 0.57
-          },
-          "source": {
-            "id": "anonymous-giraffe-5e3cbaa1",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.7633965375103,
-            "latencyP50Ms": 2580,
-            "uptimeSample": 1213,
-            "latencySample": 1198,
-            "requests": 1213,
-            "servedRequests": 1198
-          }
-        },
         {
           "pricing": {
             "model": "flat",

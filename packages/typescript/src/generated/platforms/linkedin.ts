@@ -5335,7 +5335,7 @@ export interface LinkedinSearchPostsFullInput {
    */
   authorIndustryIds?: string[];
   /**
-   * Only return posts whose author profile headline or job title contains at least one of these keywords.
+   * Only return posts whose author headline or job title contains these keywords. To match any of several words, join them with OR (psicologa OR psicologo); spaces or commas between words do not do that. If an accented word returns no results, try it without accents.
    */
   authorKeywords?: string;
   /**
@@ -6908,7 +6908,7 @@ export class LinkedinNamespace {
    *
    * Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.
    *
-   * Price: $0.00057 per request.
+   * Price: $0.00058 per request.
    *
    * @example
    * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });

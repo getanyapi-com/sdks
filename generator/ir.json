@@ -71394,7 +71394,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.00057,
+        "priceUsd": 0.00058,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -76875,7 +76875,7 @@
           },
           "authorKeywords": {
             "kind": "string",
-            "description": "Only return posts whose author profile headline or job title contains at least one of these keywords.",
+            "description": "Only return posts whose author headline or job title contains these keywords. To match any of several words, join them with OR (psicologa OR psicologo); spaces or commas between words do not do that. If an accented word returns no results, try it without accents.",
             "enum": null,
             "default": null,
             "format": null
