@@ -6569,7 +6569,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.00069 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });
