@@ -3564,15 +3564,13 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `discountPercent`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a deal that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `badge`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a deal that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
                 "badge",
                 "dealType",
-                "discountPercent",
-                "inStock",
-                "url"
+                "inStock"
               ],
               "default": null,
               "format": null
@@ -5222,8 +5220,7 @@
                 "isBestSeller",
                 "isPrime",
                 "listPrice",
-                "totalResults",
-                "url"
+                "totalResults"
               ],
               "default": null,
               "format": null
@@ -6383,10 +6380,7 @@
             "items": {
               "kind": "string",
               "enum": [
-                "bundleId",
-                "screenshots",
-                "sizeBytes",
-                "updatedUtc"
+                "sizeBytes"
               ],
               "default": null,
               "format": null
@@ -10634,14 +10628,11 @@
                 "description",
                 "domain",
                 "entities",
-                "model",
                 "name",
                 "phone",
                 "places",
                 "position",
                 "reviewCount",
-                "searchQueries",
-                "searchResults",
                 "snippet",
                 "webSearchTriggered",
                 "websiteUrl"
@@ -30638,7 +30629,6 @@
               "enum": [
                 "favoriteCount",
                 "materials",
-                "quantityAvailable",
                 "shipFrom",
                 "video"
               ],
@@ -49767,7 +49757,6 @@
             "items": {
               "kind": "string",
               "enum": [
-                "images",
                 "stars",
                 "totalPrice"
               ],
@@ -54238,6 +54227,7 @@
             "items": {
               "kind": "string",
               "enum": [
+                "audioId",
                 "coauthors",
                 "locationId",
                 "locationLat",
@@ -57666,14 +57656,11 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `locationName`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `audioId`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a reel that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
-                "locationId",
-                "locationLat",
-                "locationLng",
-                "locationName"
+                "audioId"
               ],
               "default": null,
               "format": null
@@ -61696,6 +61683,7 @@
                 "audioId",
                 "carouselCount",
                 "countsHidden",
+                "durationSeconds",
                 "isPinned",
                 "locationId",
                 "locationLat",
@@ -62195,7 +62183,6 @@
             "items": {
               "kind": "string",
               "enum": [
-                "coauthors",
                 "countsHidden",
                 "isPinned",
                 "locationId",

@@ -1105,13 +1105,15 @@
           "fields": [
             "asin",
             "currency",
+            "discountPercent",
             "image",
             "inStock",
             "items",
             "listPrice",
             "position",
             "price",
-            "title"
+            "title",
+            "url"
           ]
         }
       ],
@@ -1929,7 +1931,8 @@
             "price",
             "rating",
             "reviewsCount",
-            "title"
+            "title",
+            "url"
           ]
         }
       ],
@@ -2415,6 +2418,7 @@
           },
           "fields": [
             "appId",
+            "bundleId",
             "contentRating",
             "currency",
             "description",
@@ -2429,8 +2433,10 @@
             "rating",
             "ratingCount",
             "releasedUtc",
+            "screenshots",
             "sizeBytes",
             "title",
+            "updatedUtc",
             "url",
             "version"
           ]
@@ -4078,6 +4084,7 @@
             "entities",
             "image",
             "merchants",
+            "model",
             "name",
             "phone",
             "places",
@@ -4086,6 +4093,8 @@
             "prompt",
             "rating",
             "reviewCount",
+            "searchQueries",
+            "searchResults",
             "shoppingCards",
             "snippet",
             "title",
@@ -8522,6 +8531,7 @@
             "listingId",
             "materials",
             "price",
+            "quantityAvailable",
             "rating",
             "reviewsCount",
             "shopId",
@@ -14014,8 +14024,8 @@
           "maxUsd": 0.0018,
           "maxPer1kUsd": 1.8
         },
-        "failoverMaxUsd": 0.0048,
-        "failoverMaxPer1kUsd": 4.8
+        "failoverMaxUsd": 0.0018,
+        "failoverMaxPer1kUsd": 1.8
       },
       "lanes": [
         {
@@ -14047,40 +14057,6 @@
             "index",
             "language",
             "prompt",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
-          },
-          "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 64.3979057591623,
-            "latencyP50Ms": 9567,
-            "uptimeSample": 13943,
-            "latencySample": 8979,
-            "requests": 13943,
-            "servedRequests": 8979
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
             "title",
             "url"
           ]
@@ -14154,11 +14130,45 @@
             "title",
             "url"
           ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
+          },
+          "source": {
+            "id": "anonymous-owl",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 64.3979057591623,
+            "latencyP50Ms": 9567,
+            "uptimeSample": 13943,
+            "latencySample": 8979,
+            "requests": 13943,
+            "servedRequests": 8979
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "google.ai_overview_preview",
@@ -16271,6 +16281,7 @@
             "checkInTime",
             "checkOutTime",
             "currency",
+            "images",
             "latitude",
             "longitude",
             "name",
@@ -18359,6 +18370,7 @@
             "servedRequests": 8329
           },
           "fields": [
+            "audioId",
             "avatarUrl",
             "caption",
             "comments",
@@ -19187,6 +19199,7 @@
             "servedRequests": 25357
           },
           "fields": [
+            "audioId",
             "avatarUrl",
             "caption",
             "comments",
@@ -20210,6 +20223,7 @@
             "servedRequests": 76763
           },
           "fields": [
+            "audioId",
             "avatarUrl",
             "caption",
             "comments",
@@ -20221,6 +20235,10 @@
             "hashtags",
             "id",
             "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
             "mentions",
             "nextCursor",
             "paidPartnership",
@@ -20811,8 +20829,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0032,
-        "failoverMaxPer1kUsd": 3.2
+        "failoverMaxUsd": 0.0012,
+        "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
         {
@@ -20855,7 +20873,9 @@
             "url",
             "verified"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -20897,7 +20917,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "instagram.search_profiles_contact",
@@ -21676,6 +21696,7 @@
             "servedRequests": 4215
           },
           "fields": [
+            "audioId",
             "author",
             "avatarUrl",
             "caption",
@@ -22035,7 +22056,6 @@
             "comments",
             "createdUtc",
             "displayName",
-            "durationSeconds",
             "hashtags",
             "id",
             "likes",
@@ -22182,6 +22202,7 @@
             "servedRequests": 6203
           },
           "fields": [
+            "audioId",
             "avatarUrl",
             "caption",
             "coauthors",
@@ -22427,6 +22448,7 @@
           "fields": [
             "avatarUrl",
             "caption",
+            "coauthors",
             "comments",
             "createdUtc",
             "displayName",
@@ -24151,6 +24173,8 @@
           },
           "fields": [
             "city",
+            "companyId",
+            "companyUrl",
             "country",
             "handle",
             "image",
@@ -28624,6 +28648,7 @@
             "createdUtc",
             "items",
             "ownerResponse",
+            "placeId",
             "publishedAgo",
             "rating",
             "reviewId",
@@ -49132,6 +49157,7 @@
             "text",
             "type",
             "url",
+            "videoUrl",
             "views",
             "width"
           ]
