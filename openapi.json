@@ -80069,7 +80069,7 @@
     },
     "/v1/run/facebook.event_details": {
       "post": {
-        "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Event Details pricing and uptime](https://getanyapi.com/api/facebook/event-details) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.\n\n**Price:** \\$0.96 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Event Details pricing and uptime](https://getanyapi.com/api/facebook/event-details) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_event_details",
         "parameters": [
           {
@@ -80689,7 +80689,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000400",
+            "amount": "0.000960",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -80731,7 +80731,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001400",
+                "amount": "0.001960",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -80763,7 +80763,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000400",
+                "amount": "0.000960",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -92970,7 +92970,7 @@
     },
     "/v1/run/facebook.search_posts": {
       "post": {
-        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$30.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$30.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_search_posts",
         "parameters": [
           {
@@ -152711,6 +152711,7 @@
                         "locationLat",
                         "locationLng",
                         "locationName",
+                        "paidPartnership",
                         "productType",
                         "reshares",
                         "soundAuthor",
@@ -152978,7 +152979,8 @@
                                             "type": [
                                               "boolean",
                                               "null"
-                                            ]
+                                            ],
+                                            "x-anyapi-source-dependent": true
                                           },
                                           "productType": {
                                             "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
@@ -153582,6 +153584,7 @@
                         "locationLat",
                         "locationLng",
                         "locationName",
+                        "paidPartnership",
                         "productType",
                         "reshares",
                         "soundAuthor",
@@ -153836,7 +153839,8 @@
                                             "type": [
                                               "boolean",
                                               "null"
-                                            ]
+                                            ],
+                                            "x-anyapi-source-dependent": true
                                           },
                                           "productType": {
                                             "description": "Instagram's own surface label for the post, such as feed, clips or carousel_container. Null when the serving source does not report it.",
@@ -228811,7 +228815,7 @@
     },
     "/v1/run/reddit.search": {
       "post": {
-        "description": "Search Reddit posts across all subreddits by query.\n\n**Price:** \\$0.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Search pricing and uptime](https://getanyapi.com/api/reddit/search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Search Reddit posts across all subreddits by query.\n\n**Price:** \\$0.34 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Search pricing and uptime](https://getanyapi.com/api/reddit/search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_search",
         "parameters": [
           {
@@ -229420,7 +229424,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000350",
+            "amount": "0.000340",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -229462,7 +229466,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001350",
+                "amount": "0.001340",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -229494,7 +229498,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000350",
+                "amount": "0.000340",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

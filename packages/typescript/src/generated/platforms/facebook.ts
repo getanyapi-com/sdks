@@ -3693,7 +3693,7 @@ export class FacebookNamespace {
    *
    * Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.00096 per request.
    *
    * @example
    * const res = await client.facebook.eventDetails({ id: "4045709448982422" });

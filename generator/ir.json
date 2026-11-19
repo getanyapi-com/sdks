@@ -34106,7 +34106,7 @@
       "category": "social",
       "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00096,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61988,6 +61988,7 @@
                 "locationLat",
                 "locationLng",
                 "locationName",
+                "paidPartnership",
                 "productType",
                 "reshares",
                 "soundAuthor",
@@ -62488,6 +62489,7 @@
                 "locationLat",
                 "locationLng",
                 "locationName",
+                "paidPartnership",
                 "productType",
                 "reshares",
                 "soundAuthor",
@@ -105158,7 +105160,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.00035,
+        "priceUsd": 0.00034,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
