@@ -6735,7 +6735,7 @@ export class LinkedinNamespace {
    *
    * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.
    *
-   * Price: $0.02 per request.
+   * Price: $0.006 per request.
    *
    * @example
    * const res = await client.linkedin.companyEmployees({ company: "stripe", limit: 3 });
@@ -6854,7 +6854,7 @@ export class LinkedinNamespace {
    *
    * Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0015 per request.
    *
    * @example
    * const res = await client.linkedin.job({ url: "https://www.linkedin.com/jobs/view/4431721875/" });

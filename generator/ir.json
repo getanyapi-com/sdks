@@ -4395,7 +4395,7 @@
       "category": "shop",
       "description": "Pull customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.016,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -68176,7 +68176,7 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.02,
+        "priceUsd": 0.006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70475,7 +70475,7 @@
       "category": "data",
       "description": "Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -105158,7 +105158,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.00034,
+        "priceUsd": 0.00035,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -130231,8 +130231,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00088,
-        "baseUsd": 0.00088,
+        "priceUsd": 0.00109,
+        "baseUsd": 0.00109,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -134928,7 +134928,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
