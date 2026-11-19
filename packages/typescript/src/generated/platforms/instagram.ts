@@ -6160,7 +6160,7 @@ export class InstagramNamespace {
    *
    * Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.
    *
-   * Price: $0.00126 per request.
+   * Price: $0.0032 per request.
    *
    * @example
    * const res = await client.instagram.search({ query: "nasa" });
