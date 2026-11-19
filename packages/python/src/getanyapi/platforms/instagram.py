@@ -5594,7 +5594,7 @@ class InstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.00175 per request.
+        Price: $0.0022 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -6979,7 +6979,7 @@ class AsyncInstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.00175 per request.
+        Price: $0.0022 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
