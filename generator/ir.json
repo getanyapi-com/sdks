@@ -56042,6 +56042,7 @@
                 "locationId",
                 "locationLat",
                 "locationLng",
+                "paidPartnership",
                 "plays",
                 "reshares",
                 "soundAuthor",
@@ -56258,7 +56259,8 @@
             },
             "paidPartnership": {
               "kind": "boolean",
-              "description": "True when the post is tagged as a paid partnership.",
+              "description": "True when the post is tagged as a paid partnership. Null when this source does not report it.",
+              "nullable": true,
               "default": null
             },
             "plays": {
@@ -59236,7 +59238,8 @@
                   },
                   "paidPartnership": {
                     "kind": "boolean",
-                    "description": "True when the post is tagged as a paid partnership.",
+                    "description": "True when the post is tagged as a paid partnership. Null when this source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "productType": {
@@ -64083,7 +64086,8 @@
                   },
                   "paidPartnership": {
                     "kind": "boolean",
-                    "description": "True when the reel is a paid partnership.",
+                    "description": "True when the reel is a paid partnership. Null when this source does not report it.",
+                    "nullable": true,
                     "default": null
                   },
                   "productType": {
@@ -134924,7 +134928,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

@@ -1693,6 +1693,7 @@ export interface InstagramPostInput {
     | "locationId"
     | "locationLat"
     | "locationLng"
+    | "paidPartnership"
     | "plays"
     | "reshares"
     | "soundAuthor"
@@ -1809,9 +1810,9 @@ export interface InstagramPostData {
    */
   owner: string;
   /**
-   * True when the post is tagged as a paid partnership.
+   * True when the post is tagged as a paid partnership. Null when this source does not report it.
    */
-  paidPartnership?: boolean;
+  paidPartnership?: boolean | null;
   /**
    * Number of plays of the reel or video. Absent when Instagram does not expose a play count for this media, and on lanes that cannot serve it.
    */
@@ -3188,9 +3189,9 @@ export interface InstagramSearchHashtagPost {
    */
   mentions?: string[];
   /**
-   * True when the post is tagged as a paid partnership.
+   * True when the post is tagged as a paid partnership. Null when this source does not report it.
    */
-  paidPartnership?: boolean;
+  paidPartnership?: boolean | null;
   /**
    * Instagram product type of the media, for example feed, clips or igtv.
    */
@@ -5491,9 +5492,9 @@ export interface InstagramWebReelsSearchReel {
    */
   mentions?: string[];
   /**
-   * True when the reel is a paid partnership.
+   * True when the reel is a paid partnership. Null when this source does not report it.
    */
-  paidPartnership: boolean;
+  paidPartnership: boolean | null;
   /**
    * Instagram's own surface label for the reel, such as clips.
    */

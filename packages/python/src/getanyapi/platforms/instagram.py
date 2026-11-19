@@ -342,6 +342,7 @@ class InstagramPostInput(TypedDict, total=False):
                 "locationId",
                 "locationLat",
                 "locationLng",
+                "paidPartnership",
                 "plays",
                 "reshares",
                 "soundAuthor",
@@ -2029,7 +2030,7 @@ class InstagramPostData(BaseModel):
     paid_partnership: bool | None = Field(
         default=None,
         alias="paidPartnership",
-        description="True when the post is tagged as a paid partnership.",
+        description="True when the post is tagged as a paid partnership. Null when this source does not report it.",
     )
     plays: int | None = Field(
         default=None,
@@ -2946,7 +2947,7 @@ class InstagramSearchHashtagPost(BaseModel):
     paid_partnership: bool | None = Field(
         default=None,
         alias="paidPartnership",
-        description="True when the post is tagged as a paid partnership.",
+        description="True when the post is tagged as a paid partnership. Null when this source does not report it.",
     )
     product_type: str | None = Field(
         default=None,
@@ -4570,8 +4571,9 @@ class InstagramWebReelsSearchReel(BaseModel):
         default=None,
         description="Accounts @mentioned in the caption, each including its leading @. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
-    paid_partnership: bool = Field(
-        alias="paidPartnership", description="True when the reel is a paid partnership."
+    paid_partnership: bool | None = Field(
+        alias="paidPartnership",
+        description="True when the reel is a paid partnership. Null when this source does not report it.",
     )
     product_type: str | None = Field(
         default=None,
