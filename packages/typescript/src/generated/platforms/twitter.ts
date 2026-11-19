@@ -694,7 +694,7 @@ export interface TwitterRepliesInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price.
+   * Most replies to return (1-40, default 40). Ignored on sources that page: each call returns one full page of up to about 36 replies, never trimmed; follow nextCursor for more. Sources that cannot page return up to `limit` replies in one call with no nextCursor, and per-result ones cost less at lower limits; a source that bills its native page may cost up to the advertised request price.
    * Range: minimum 1, maximum 40.
    */
   limit?: number;

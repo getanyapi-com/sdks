@@ -875,17 +875,17 @@ export interface YoutubePlaylistData {
    */
   nextCursor: string | null;
   /**
-   * Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.
+   * Name of the channel that owns the playlist. Filled on the first page only; null on a page fetched with cursor. Populated whenever the provider has data for the entity.
    */
-  owner: string;
+  owner: string | null;
   /**
-   * Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.
+   * Playlist title. Filled on the first page only; null on a page fetched with cursor. Populated whenever the provider has data for the entity.
    */
-  title: string;
+  title: string | null;
   /**
-   * Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.
+   * Number of videos in the playlist. Filled on the first page only; null on a page fetched with cursor.
    */
-  totalVideos: number;
+  totalVideos: number | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

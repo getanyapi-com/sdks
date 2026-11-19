@@ -2847,6 +2847,7 @@ export interface LinkedinPostReactionsInput {
   /**
    * Maximum number of reactions to return (1-100, default 100).
    * Range: minimum 1, maximum 100.
+   * Default: 100.
    */
   limit?: number;
   /**

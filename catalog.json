@@ -2985,8 +2985,8 @@
           "maxUsd": 0.00085,
           "maxPer1kUsd": 0.85
         },
-        "failoverMaxUsd": 0.00085,
-        "failoverMaxPer1kUsd": 0.85
+        "failoverMaxUsd": 0.00644,
+        "failoverMaxPer1kUsd": 6.44
       },
       "lanes": [
         {
@@ -3019,9 +3019,7 @@
             "title",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -3069,7 +3067,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "bing.search",
@@ -12414,39 +12412,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
-          },
-          "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 65.67567567567568,
-            "latencyP50Ms": 20114,
-            "uptimeSample": 740,
-            "latencySample": 486,
-            "requests": 740,
-            "servedRequests": 486
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "prompt",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0025,
             "maxPer1kUsd": 2.5
           },
@@ -12464,6 +12429,37 @@
             "latencySample": 159,
             "requests": 310,
             "servedRequests": 159
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "prompt",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
+          },
+          "source": {
+            "id": "anonymous-owl",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 65.67567567567568,
+            "latencyP50Ms": 20114,
+            "uptimeSample": 740,
+            "latencySample": 486,
+            "requests": 740,
+            "servedRequests": 486
           },
           "fields": [
             "answer",
@@ -13388,20 +13384,14 @@
           "fields": [
             "avatarUrl",
             "bio",
-            "blog",
-            "company",
             "createdUtc",
             "followers",
             "following",
             "id",
-            "location",
             "login",
             "name",
             "profileUrl",
-            "publicGists",
-            "publicRepos",
-            "twitterUsername",
-            "type"
+            "publicRepos"
           ]
         }
       ],
@@ -18605,7 +18595,6 @@
             "avatarUrl",
             "code",
             "coverUrl",
-            "createdUtc",
             "durationSeconds",
             "hasAudio",
             "height",
@@ -21660,63 +21649,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00135,
-          "maxPer1kUsd": 1.35
+          "maxUsd": 0.00188,
+          "maxPer1kUsd": 1.88
         },
         "failoverMaxUsd": 0.0024,
         "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00135,
-            "maxPer1kUsd": 1.35
-          },
-          "source": {
-            "id": "anonymous-badger",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 59.5427435387674,
-            "latencyP50Ms": 6167,
-            "uptimeSample": 1006,
-            "latencySample": 599,
-            "requests": 1006,
-            "servedRequests": 599
-          },
-          "fields": [
-            "audioId",
-            "author",
-            "avatarUrl",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "likes",
-            "locationId",
-            "locationLat",
-            "locationLng",
-            "locationName",
-            "mentions",
-            "nextCursor",
-            "paidPartnership",
-            "posts",
-            "productType",
-            "soundAuthor",
-            "soundTitle",
-            "taggedUsers",
-            "url",
-            "verified",
-            "views"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -21864,6 +21803,58 @@
             "posts",
             "productType",
             "reshares",
+            "soundAuthor",
+            "soundTitle",
+            "taggedUsers",
+            "url",
+            "verified",
+            "views"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00135,
+            "maxPer1kUsd": 1.35
+          },
+          "source": {
+            "id": "anonymous-badger",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 59.5427435387674,
+            "latencyP50Ms": 6167,
+            "uptimeSample": 1006,
+            "latencySample": 599,
+            "requests": 1006,
+            "servedRequests": 599
+          },
+          "fields": [
+            "audioId",
+            "author",
+            "avatarUrl",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
+            "mentions",
+            "nextCursor",
+            "paidPartnership",
+            "posts",
+            "productType",
             "soundAuthor",
             "soundTitle",
             "taggedUsers",
@@ -44637,60 +44628,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.52518756698821,
-            "latencyP50Ms": 5676,
-            "uptimeSample": 4665,
-            "latencySample": 4223,
-            "requests": 4667,
-            "servedRequests": 4223
-          },
-          "fields": [
-            "author",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "likes",
-            "region",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -44739,16 +44683,65 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.52518756698821,
+            "latencyP50Ms": 5676,
+            "uptimeSample": 4665,
+            "latencySample": 4223,
+            "requests": 4667,
+            "servedRequests": 4223
+          },
+          "fields": [
+            "author",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "likes",
+            "region",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        }
+      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "tiktok.trending_hashtags",
       "slug": "tiktok.trending_hashtags",
       "category": "social",
       "name": "TikTok Trending Hashtags",
-      "description": "Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. TikTok publishes only the top 3 hashtags per board to anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to a dearer authenticated source that returns the full ranking. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.",
+      "description": "Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. Returns up to the top 100 hashtags of a board in one call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.",
       "method": "POST",
       "path": "/v1/run/tiktok.trending_hashtags",
       "provider": "AnyAPI",
@@ -48450,6 +48443,7 @@
             "items",
             "likeCount",
             "media",
+            "nextCursor",
             "quoteCount",
             "replyCount",
             "repostCount",
@@ -48545,6 +48539,7 @@
             "items",
             "likeCount",
             "media",
+            "nextCursor",
             "quoteCount",
             "replyCount",
             "repostCount",

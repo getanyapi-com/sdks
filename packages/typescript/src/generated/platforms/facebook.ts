@@ -2144,9 +2144,17 @@ export interface FacebookPageContactInput {
 
 export interface FacebookPageContactItem {
   /**
+   * The page's intro text.
+   */
+  about?: string;
+  /**
    * The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.
    */
   adLibraryPageId?: string;
+  /**
+   * Facebook Ad Library status sentence for the page, or null when the source does not report it.
+   */
+  adStatus?: string | null;
   /**
    * The page's public physical address. Empty when the page lists none.
    */
@@ -2157,13 +2165,25 @@ export interface FacebookPageContactItem {
    */
   category?: string;
   /**
+   * Cover photo image URL of the page.
+   */
+  coverPhotoUrl?: string;
+  /**
+   * UTC epoch timestamp in seconds (Unix time) the page was created, or null when the source does not report it. Absent when Facebook shows no creation date, as on age-restricted Pages. Multiply by 1000 for a JS Date in milliseconds.
+   */
+  createdUtc?: number | null;
+  /**
    * The page's public contact email. Empty when the page lists none.
    */
   email?: string;
   /**
-   * The page's follower count. Some sources read it from Facebook's rounded label, so "474K followers" comes back as 474000; name it in requireFields for the exact count.
+   * The page's follower count, or null when the source does not report it. Some sources read it from Facebook's rounded label, so "474K followers" comes back as 474000; name it in requireFields for the exact count.
    */
-  followers?: number;
+  followers?: number | null;
+  /**
+   * Numeric Facebook id of the page, as a string.
+   */
+  id?: string;
   /**
    * URL of the page's profile picture, a signed CDN URL whose query must be kept. Empty when the upstream omits it.
    */
@@ -2176,6 +2196,18 @@ export interface FacebookPageContactItem {
    * The page's public phone number. Empty when the page lists none.
    */
   phone?: string;
+  /**
+   * Price range the page advertises, e.g. "$$".
+   */
+  priceRange?: string;
+  /**
+   * Recommendation summary Facebook shows for the page, e.g. "94% recommend (14,553 reviews)", or null when the source does not report it.
+   */
+  rating?: string | null;
+  /**
+   * Services the page lists, e.g. dine-in or online booking.
+   */
+  services?: string;
   /**
    * The page's public name. Populated whenever the provider has data for the entity.
    */
@@ -2196,41 +2228,9 @@ export interface FacebookPageContactItem {
  */
 export interface FacebookPageContactData {
   /**
-   * The page's intro text.
-   */
-  about?: string;
-  /**
-   * Facebook Ad Library status sentence for the page.
-   */
-  adStatus?: string;
-  /**
-   * Cover photo image URL of the page.
-   */
-  coverPhotoUrl?: string;
-  /**
-   * UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.
-   */
-  createdUtc?: number;
-  /**
-   * Numeric Facebook id of the page, as a string.
-   */
-  id?: string;
-  /**
    * Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity.
    */
   items: FacebookPageContactItem[];
-  /**
-   * Price range the page advertises, e.g. "$$".
-   */
-  priceRange?: string;
-  /**
-   * Recommendation summary Facebook shows for the page, e.g. "94% recommend (14,553 reviews)".
-   */
-  rating?: string;
-  /**
-   * Services the page lists, e.g. dine-in or online booking.
-   */
-  services?: string;
 }
 
 /**

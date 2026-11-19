@@ -3056,7 +3056,7 @@ export interface TiktokTrendingHashtagsInput {
     | "travel"
     | "vehicle_transportation";
   /**
-   * Maximum number of ranked hashtags to return, from 1 through 100 (default 3). TikTok publishes only the top 3 hashtags per board to anonymous callers, so 1 through 3 is served by the cheapest source; a higher limit routes to a dearer source that reads the full ranking.
+   * Maximum number of ranked hashtags to return, from 1 through 100 (default 3), counted from the top of the board.
    * Range: minimum 1, maximum 100.
    * Default: 3.
    */
@@ -4771,7 +4771,7 @@ export class TiktokNamespace {
    *
    * Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.
    *
-   * Price: $0.0008 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.trendingFeed({ region: "US" });
@@ -4786,7 +4786,7 @@ export class TiktokNamespace {
   /**
    * TikTok Trending Hashtags
    *
-   * Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. TikTok publishes only the top 3 hashtags per board to anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to a dearer authenticated source that returns the full ranking. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
+   * Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. Returns up to the top 100 hashtags of a board in one call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
    *
    * Price: $0.0012 per request.
    *

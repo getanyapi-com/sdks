@@ -813,15 +813,15 @@ class YoutubePlaylistData(BaseModel):
         alias="nextCursor",
         description="Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.",
     )
-    owner: str = Field(
-        description="Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity."
+    owner: str | None = Field(
+        description="Name of the channel that owns the playlist. Filled on the first page only; null on a page fetched with cursor. Populated whenever the provider has data for the entity."
     )
-    title: str = Field(
-        description="Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity."
+    title: str | None = Field(
+        description="Playlist title. Filled on the first page only; null on a page fetched with cursor. Populated whenever the provider has data for the entity."
     )
-    total_videos: int = Field(
+    total_videos: int | None = Field(
         alias="totalVideos",
-        description="Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.",
+        description="Number of videos in the playlist. Filled on the first page only; null on a page fetched with cursor.",
     )
     videos: list[YoutubePlaylistVideo] = Field(
         description="Populated whenever the provider has data for the entity."

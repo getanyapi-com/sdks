@@ -1995,52 +1995,24 @@ class FacebookMarketplaceLocationSearchLocation(BaseModel):
 
 
 class FacebookPageContactData(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    about: str | None = Field(default=None, description="The page's intro text.")
-    ad_status: str | None = Field(
-        default=None,
-        alias="adStatus",
-        description="Facebook Ad Library status sentence for the page.",
-    )
-    cover_photo_url: str | None = Field(
-        default=None,
-        alias="coverPhotoUrl",
-        description="Cover photo image URL of the page.",
-    )
-    created_utc: float | None = Field(
-        default=None,
-        alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.",
-    )
-    id: str | None = Field(
-        default=None, description="Numeric Facebook id of the page, as a string."
-    )
     items: list[FacebookPageContactItem] = Field(
         description="Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity."
-    )
-    price_range: str | None = Field(
-        default=None,
-        alias="priceRange",
-        description='Price range the page advertises, e.g. "$$".',
-    )
-    rating: str | None = Field(
-        default=None,
-        description='Recommendation summary Facebook shows for the page, e.g. "94% recommend (14,553 reviews)".',
-    )
-    services: str | None = Field(
-        default=None,
-        description="Services the page lists, e.g. dine-in or online booking.",
     )
 
 
 class FacebookPageContactItem(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
+    about: str | None = Field(default=None, description="The page's intro text.")
     ad_library_page_id: str | None = Field(
         default=None,
         alias="adLibraryPageId",
         description="The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+    )
+    ad_status: str | None = Field(
+        default=None,
+        alias="adStatus",
+        description="Facebook Ad Library status sentence for the page, or null when the source does not report it.",
     )
     address: str | None = Field(
         default=None,
@@ -2050,13 +2022,26 @@ class FacebookPageContactItem(BaseModel):
         default=None,
         description='The page\'s primary category (e.g. "Seafood Restaurant"). Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.',
     )
+    cover_photo_url: str | None = Field(
+        default=None,
+        alias="coverPhotoUrl",
+        description="Cover photo image URL of the page.",
+    )
+    created_utc: float | None = Field(
+        default=None,
+        alias="createdUtc",
+        description="UTC epoch timestamp in seconds (Unix time) the page was created, or null when the source does not report it. Absent when Facebook shows no creation date, as on age-restricted Pages. Multiply by 1000 for a JS Date in milliseconds.",
+    )
     email: str | None = Field(
         default=None,
         description="The page's public contact email. Empty when the page lists none.",
     )
     followers: int | None = Field(
         default=None,
-        description="The page's follower count. Some sources read it from Facebook's rounded label, so \"474K followers\" comes back as 474000; name it in requireFields for the exact count.",
+        description="The page's follower count, or null when the source does not report it. Some sources read it from Facebook's rounded label, so \"474K followers\" comes back as 474000; name it in requireFields for the exact count.",
+    )
+    id: str | None = Field(
+        default=None, description="Numeric Facebook id of the page, as a string."
     )
     image: str | None = Field(
         default=None,
@@ -2069,6 +2054,19 @@ class FacebookPageContactItem(BaseModel):
     phone: str | None = Field(
         default=None,
         description="The page's public phone number. Empty when the page lists none.",
+    )
+    price_range: str | None = Field(
+        default=None,
+        alias="priceRange",
+        description='Price range the page advertises, e.g. "$$".',
+    )
+    rating: str | None = Field(
+        default=None,
+        description='Recommendation summary Facebook shows for the page, e.g. "94% recommend (14,553 reviews)", or null when the source does not report it.',
+    )
+    services: str | None = Field(
+        default=None,
+        description="Services the page lists, e.g. dine-in or online booking.",
     )
     title: str = Field(
         description="The page's public name. Populated whenever the provider has data for the entity."

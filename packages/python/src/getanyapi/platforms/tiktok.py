@@ -609,7 +609,7 @@ class TiktokTrendingHashtagsInput(TypedDict, total=False):
     ]
     """Restrict the ranking to one industry. Omit for the all-industries board."""
     limit: NotRequired[int]
-    """Maximum number of ranked hashtags to return, from 1 through 100 (default 3). TikTok publishes only the top 3 hashtags per board to anonymous callers, so 1 through 3 is served by the cheapest source; a higher limit routes to a dearer source that reads the full ranking. Range: 1 to 100. Default: 3."""
+    """Maximum number of ranked hashtags to return, from 1 through 100 (default 3), counted from the top of the board. Range: 1 to 100. Default: 3."""
     period: NotRequired[int]
     """Lookback window in days that the ranking and the popularity curve cover (default 7). Default: 7."""
     preferLatencyUnderMs: NotRequired[int]
@@ -4147,7 +4147,7 @@ class TiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -4168,11 +4168,9 @@ class TiktokNamespace:
         Rank TikTok's trending hashtags for one country and industry, with each
         hashtag's daily popularity curve, post count, video views, and leading
         creators. Ranks 15 industry categories, or omit industry for the
-        all-industries board. TikTok publishes only the top 3 hashtags per board to
-        anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to
-        a dearer authenticated source that returns the full ranking. Covers 27
-        markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX,
-        MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
+        all-industries board. Returns up to the top 100 hashtags of a board in one
+        call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL,
+        IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
 
         Price: $0.0012 per request.
 
@@ -5280,7 +5278,7 @@ class AsyncTiktokNamespace:
         views, likes, comments, author). Returns a rotating sample, not a ranked
         chart.
 
-        Price: $0.0008 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_feed(region="US")
@@ -5301,11 +5299,9 @@ class AsyncTiktokNamespace:
         Rank TikTok's trending hashtags for one country and industry, with each
         hashtag's daily popularity curve, post count, video views, and leading
         creators. Ranks 15 industry categories, or omit industry for the
-        all-industries board. TikTok publishes only the top 3 hashtags per board to
-        anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to
-        a dearer authenticated source that returns the full ranking. Covers 27
-        markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX,
-        MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
+        all-industries board. Returns up to the top 100 hashtags of a board in one
+        call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL,
+        IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
 
         Price: $0.0012 per request.
 

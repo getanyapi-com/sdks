@@ -36445,50 +36445,30 @@
         "data": {
           "kind": "object",
           "properties": {
-            "about": {
-              "kind": "string",
-              "description": "The page's intro text.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "adStatus": {
-              "kind": "string",
-              "description": "Facebook Ad Library status sentence for the page.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "coverPhotoUrl": {
-              "kind": "string",
-              "description": "Cover photo image URL of the page.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "createdUtc": {
-              "kind": "number",
-              "description": "UTC epoch timestamp in seconds (Unix time) the page was created. Multiply by 1000 for a JS Date in milliseconds.",
-              "minimum": null,
-              "maximum": null,
-              "default": null
-            },
-            "id": {
-              "kind": "string",
-              "description": "Numeric Facebook id of the page, as a string.",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
             "items": {
               "kind": "array",
               "description": "Contact record for the requested Facebook Page (one item). Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
+                  "about": {
+                    "kind": "string",
+                    "description": "The page's intro text.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "adLibraryPageId": {
                     "kind": "string",
                     "description": "The page's Facebook Ad Library id, the `pageId` facebook.company_ads takes. It differs from `id`. Absent when Facebook shows none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "adStatus": {
+                    "kind": "string",
+                    "description": "Facebook Ad Library status sentence for the page, or null when the source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -36507,6 +36487,21 @@
                     "default": null,
                     "format": null
                   },
+                  "coverPhotoUrl": {
+                    "kind": "string",
+                    "description": "Cover photo image URL of the page.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "createdUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time) the page was created, or null when the source does not report it. Absent when Facebook shows no creation date, as on age-restricted Pages. Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
                   "email": {
                     "kind": "string",
                     "description": "The page's public contact email. Empty when the page lists none.",
@@ -36516,10 +36511,18 @@
                   },
                   "followers": {
                     "kind": "integer",
-                    "description": "The page's follower count. Some sources read it from Facebook's rounded label, so \"474K followers\" comes back as 474000; name it in requireFields for the exact count.",
+                    "description": "The page's follower count, or null when the source does not report it. Some sources read it from Facebook's rounded label, so \"474K followers\" comes back as 474000; name it in requireFields for the exact count.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "id": {
+                    "kind": "string",
+                    "description": "Numeric Facebook id of the page, as a string.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
                   },
                   "image": {
                     "kind": "string",
@@ -36542,6 +36545,28 @@
                   "phone": {
                     "kind": "string",
                     "description": "The page's public phone number. Empty when the page lists none.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "priceRange": {
+                    "kind": "string",
+                    "description": "Price range the page advertises, e.g. \"$$\".",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "rating": {
+                    "kind": "string",
+                    "description": "Recommendation summary Facebook shows for the page, e.g. \"94% recommend (14,553 reviews)\", or null when the source does not report it.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "services": {
+                    "kind": "string",
+                    "description": "Services the page lists, e.g. dine-in or online booking.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -36580,27 +36605,6 @@
                 ]
               },
               "mustPopulate": true
-            },
-            "priceRange": {
-              "kind": "string",
-              "description": "Price range the page advertises, e.g. \"$$\".",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "rating": {
-              "kind": "string",
-              "description": "Recommendation summary Facebook shows for the page, e.g. \"94% recommend (14,553 reviews)\".",
-              "enum": null,
-              "default": null,
-              "format": null
-            },
-            "services": {
-              "kind": "string",
-              "description": "Services the page lists, e.g. dine-in or online booking.",
-              "enum": null,
-              "default": null,
-              "format": null
             }
           },
           "required": [
@@ -42673,6 +42677,24 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `company`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be empty on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "blog",
+                "company",
+                "location",
+                "publicGists",
+                "twitterUsername",
+                "type"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -42712,14 +42734,16 @@
             },
             "blog": {
               "kind": "string",
-              "description": "Blog or website URL from the profile.",
+              "description": "Blog or website URL from the profile, or null when the source does not report it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
             },
             "company": {
               "kind": "string",
-              "description": "Company listed on the profile.",
+              "description": "Company listed on the profile, or null when the source does not report it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -42754,7 +42778,8 @@
             },
             "location": {
               "kind": "string",
-              "description": "Location listed on the profile.",
+              "description": "Location listed on the profile, or null when the source does not report it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -42782,7 +42807,8 @@
             },
             "publicGists": {
               "kind": "integer",
-              "description": "Count of public gists.",
+              "description": "Count of public gists, or null when the source does not report it.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
@@ -42796,14 +42822,16 @@
             },
             "twitterUsername": {
               "kind": "string",
-              "description": "Linked X/Twitter username.",
+              "description": "Linked X/Twitter username, or null when the source does not report it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
             },
             "type": {
               "kind": "string",
-              "description": "\"User\" or \"Organization\".",
+              "description": "\"User\" or \"Organization\", or null when the source does not report it.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
@@ -54935,6 +54963,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `createdUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "createdUtc"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -54973,7 +55014,8 @@
             },
             "createdUtc": {
               "kind": "number",
-              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "description": "UTC epoch timestamp in seconds (Unix time) the highlight was created, or null when the source does not report it. Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
@@ -61053,7 +61095,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00135,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -72119,7 +72161,7 @@
             "description": "Maximum number of reactions to return (1-100, default 100).",
             "minimum": 1,
             "maximum": 100,
-            "default": null
+            "default": 100
           },
           "preferLatencyUnderMs": {
             "kind": "integer",
@@ -133888,7 +133930,7 @@
       "category": "social",
       "description": "Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134170,7 +134212,7 @@
       "operationId": "tiktok_trending_hashtags",
       "name": "TikTok Trending Hashtags",
       "category": "social",
-      "description": "Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. TikTok publishes only the top 3 hashtags per board to anonymous callers, so limit 1-3 is served cheaply; a limit above 3 routes to a dearer authenticated source that returns the full ranking. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.",
+      "description": "Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. Returns up to the top 100 hashtags of a board in one call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.",
       "pricing": {
         "priceUsd": 0.0012,
         "baseUsd": null,
@@ -134234,7 +134276,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of ranked hashtags to return, from 1 through 100 (default 3). TikTok publishes only the top 3 hashtags per board to anonymous callers, so 1 through 3 is served by the cheapest source; a higher limit routes to a dearer source that reads the full ranking.",
+            "description": "Maximum number of ranked hashtags to return, from 1 through 100 (default 3), counted from the top of the board.",
             "minimum": 1,
             "maximum": 100,
             "default": 3
@@ -141134,7 +141176,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-40, default 40). Per-result lanes cost less at lower limits; a backup that bills its native page may cost up to the advertised request price.",
+            "description": "Most replies to return (1-40, default 40). Ignored on sources that page: each call returns one full page of up to about 36 replies, never trimmed; follow nextCursor for more. Sources that cannot page return up to `limit` replies in one call with no nextCursor, and per-result ones cost less at lower limits; a source that bills its native page may cost up to the advertised request price.",
             "minimum": 1,
             "maximum": 40,
             "default": null
@@ -151320,21 +151362,24 @@
             },
             "owner": {
               "kind": "string",
-              "description": "Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.",
+              "description": "Name of the channel that owns the playlist. Filled on the first page only; null on a page fetched with cursor. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
             },
             "title": {
               "kind": "string",
-              "description": "Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.",
+              "description": "Playlist title. Filled on the first page only; null on a page fetched with cursor. Populated whenever the provider has data for the entity.",
+              "nullable": true,
               "enum": null,
               "default": null,
               "format": null
             },
             "totalVideos": {
               "kind": "integer",
-              "description": "Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.",
+              "description": "Number of videos in the playlist. Filled on the first page only; null on a page fetched with cursor.",
+              "nullable": true,
               "minimum": null,
               "maximum": null,
               "default": null
