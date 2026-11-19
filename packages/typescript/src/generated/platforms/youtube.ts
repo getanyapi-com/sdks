@@ -806,6 +806,10 @@ export interface YoutubePlaylistInput {
    */
   allowFallbacks?: boolean;
   /**
+   * The nextCursor from the previous page, to get the next page of videos. Send the same playlistId with it.
+   */
+  cursor?: string;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
@@ -867,13 +871,20 @@ export interface YoutubePlaylistData {
    */
   authorUrl?: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor: string | null;
+  /**
+   * Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.
    */
   owner: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.
    */
   title: string;
+  /**
+   * Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.
+   */
   totalVideos: number;
   /**
    * Populated whenever the provider has data for the entity.
@@ -1399,7 +1410,7 @@ export interface YoutubeVideoCommentsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `likes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded value for a field does not count as returning it.
    */
-  requireFields?: "likes"[];
+  requireFields?: ("likes" | "repliesContinuationToken")[];
   /**
    * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2085,6 +2096,26 @@ export class YoutubeNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<YoutubePlaylistData>> {
     return this._core.run("youtube.playlist", input, options);
+  }
+
+  /**
+   * Iterate every result of YouTube Playlist across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterPlaylist(
+    input: YoutubePlaylistInput,
+    options?: RequestOptions,
+  ): Paginator<YoutubePlaylistVideo, RunResult<YoutubePlaylistData>> {
+    return paginate<YoutubePlaylistVideo, RunResult<YoutubePlaylistData>>(
+      this._core,
+      "youtube.playlist",
+      input as unknown as Record<string, unknown>,
+      "videos",
+      false,
+      options,
+    );
   }
 
   /**

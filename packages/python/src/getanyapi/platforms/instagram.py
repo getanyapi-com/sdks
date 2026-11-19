@@ -409,6 +409,7 @@ class InstagramProfileInput(TypedDict, total=False):
                 "coauthors",
                 "comments",
                 "contactMethod",
+                "countsHidden",
                 "createdUtc",
                 "durationSeconds",
                 "hashtags",
@@ -420,7 +421,9 @@ class InstagramProfileInput(TypedDict, total=False):
                 "likes",
                 "media",
                 "mentions",
+                "paidPartnership",
                 "posts",
+                "productType",
                 "taggedUsers",
                 "username",
                 "views",
@@ -611,7 +614,7 @@ class InstagramSearchProfilesInput(TypedDict, total=False):
     query: Required[str]
     """Bio or caption keyword/phrase to search for."""
     requireFields: NotRequired[
-        list[Literal["bioLinks", "category", "isBusiness", "posts", "private"]]
+        list[Literal["bioLinks", "category", "isBusiness", "private"]]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `private`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a profile that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]

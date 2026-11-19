@@ -216,6 +216,8 @@ class YoutubePlaylistInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """The nextCursor from the previous page, to get the next page of videos. Send the same playlistId with it."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     playlistId: Required[str]
@@ -338,7 +340,7 @@ class YoutubeVideoCommentsInput(TypedDict, total=False):
     """Comment order (e.g. top, newest)."""
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
-    requireFields: NotRequired[list[Literal["likes"]]]
+    requireFields: NotRequired[list[Literal["likes", "repliesContinuationToken"]]]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `likes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded value for a field does not count as returning it."""
     source: NotRequired[list[str]]
     """Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
@@ -821,13 +823,20 @@ class YoutubePlaylistData(BaseModel):
         alias="authorUrl",
         description="Canonical URL of the playlist owner's channel, tracking query parameters stripped.",
     )
+    next_cursor: str | None = Field(
+        alias="nextCursor",
+        description="Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.",
+    )
     owner: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity."
     )
     title: str = Field(
-        description="Populated whenever the provider has data for the entity."
+        description="Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity."
     )
-    total_videos: int = Field(alias="totalVideos")
+    total_videos: int = Field(
+        alias="totalVideos",
+        description="Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.",
+    )
     videos: list[YoutubePlaylistVideo] = Field(
         description="Populated whenever the provider has data for the entity."
     )
@@ -1714,6 +1723,29 @@ class YoutubeNamespace:
         )
         return RunResult[YoutubePlaylistData].model_validate(raw)
 
+    def iter_playlist(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubePlaylistInput],
+    ) -> Paginator[YoutubePlaylistVideo, YoutubePlaylistData]:
+        """Iterate YouTube Playlist results, following pagination cursors.
+
+        Yields validated `YoutubePlaylistVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "youtube.playlist",
+            dict(input),
+            "videos",
+            item_model=YoutubePlaylistVideo,
+            data_model=YoutubePlaylistData,
+            bare=False,
+            options=options,
+        )
+
     def search(
         self,
         *,
@@ -2363,6 +2395,29 @@ class AsyncYoutubeNamespace:
             "youtube.playlist", dict(input), options
         )
         return RunResult[YoutubePlaylistData].model_validate(raw)
+
+    def iter_playlist(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[YoutubePlaylistInput],
+    ) -> AsyncPaginator[YoutubePlaylistVideo, YoutubePlaylistData]:
+        """Iterate YouTube Playlist results, following pagination cursors.
+
+        Yields validated `YoutubePlaylistVideo` items from the `videos` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "youtube.playlist",
+            dict(input),
+            "videos",
+            item_model=YoutubePlaylistVideo,
+            data_model=YoutubePlaylistData,
+            bare=False,
+            options=options,
+        )
 
     async def search(
         self,

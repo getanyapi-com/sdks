@@ -59918,6 +59918,661 @@
         }
       }
     },
+    "/v1/run/ebay.accepted_offers": {
+      "post": {
+        "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [eBay Accepted Offer Prices pricing and uptime](https://getanyapi.com/api/ebay/accepted-offers) - live USD price, lane routing, and measured 30-day uptime. [Every Ebay endpoint](https://getanyapi.com/api/ebay).",
+        "operationId": "ebay_accepted_offers",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "condition": "used",
+                "limit": 10,
+                "query": "Gibson Les Paul Standard 60s"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "example": {
+                  "condition": "used",
+                  "limit": 10,
+                  "query": "Gibson Les Paul Standard 60s"
+                },
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "condition": {
+                    "default": "any",
+                    "description": "Item condition filter (e.g. used).",
+                    "enum": [
+                      "any",
+                      "new",
+                      "used"
+                    ],
+                    "type": "string"
+                  },
+                  "endDate": {
+                    "description": "Last sale day to include, as YYYY-MM-DD (e.g. 2026-10-31).",
+                    "format": "date",
+                    "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                    "type": "string"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "limit": {
+                    "default": 240,
+                    "description": "Maximum number of sales to return (1-240, default 240). Sales without a listing title or image are left out, so a page can hold fewer.",
+                    "maximum": 240,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "maxPrice": {
+                    "description": "Optional maximum price paid, in USD (e.g. 2000). It trims the returned page; it does not search all history for sales at that price.",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "minPrice": {
+                    "description": "Optional minimum price paid, in USD (e.g. 200). It trims the returned page; it does not search all history for sales at that price.",
+                    "minimum": 0,
+                    "type": "number"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "query": {
+                    "description": "Search keyword for completed eBay sales (e.g. Gibson Les Paul Standard 60s).",
+                    "maxLength": 300,
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "startDate": {
+                    "description": "First sale day to include, as YYYY-MM-DD (e.g. 2026-10-01). History is available back to December 2023. With neither date set, the last 90 days are searched.",
+                    "format": "date",
+                    "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "title": "eBay accepted offer prices input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "items": {
+                                      "description": "Completed eBay sales, newest first: title, the price the buyer actually paid, sale date, units sold, shipping, format, and item URL. Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "properties": {
+                                          "bestOfferAccepted": {
+                                            "description": "True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). False when it was not identified as one, which does not prove a full-price sale. Absent when it could not be determined.",
+                                            "type": "boolean"
+                                          },
+                                          "bidCount": {
+                                            "description": "Number of bids the listing received, for auction sales.",
+                                            "type": "integer"
+                                          },
+                                          "condition": {
+                                            "description": "Item condition (new or used), returned only when the request filtered by condition.",
+                                            "type": "string"
+                                          },
+                                          "image": {
+                                            "description": "Primary listing image URL. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "itemId": {
+                                            "description": "eBay item identifier. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "listingType": {
+                                            "description": "Sale format: Auction or Fixed price.",
+                                            "type": "string"
+                                          },
+                                          "shippingCost": {
+                                            "description": "Shipping the buyer paid, in USD (e.g. \"$18\"; \"$0\" is free shipping).",
+                                            "type": "string"
+                                          },
+                                          "soldCurrency": {
+                                            "description": "ISO currency code of the price paid (USD).",
+                                            "type": "string"
+                                          },
+                                          "soldPrice": {
+                                            "description": "Price the buyer actually paid, in USD. On a Best Offer sale this is the accepted offer where available; when a listing sold more than one unit it is the average per unit (see unitsSold and totalSales).",
+                                            "type": "number"
+                                          },
+                                          "soldUtc": {
+                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                            "type": "number"
+                                          },
+                                          "title": {
+                                            "description": "Listing title as it appeared on eBay. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "totalSales": {
+                                            "description": "Total paid across all units sold, in USD, as the listing reported it. soldPrice is this total divided by unitsSold, rounded, so their product can differ slightly.",
+                                            "type": "number"
+                                          },
+                                          "unitsSold": {
+                                            "description": "Units sold in this sale; above 1 for a multi-unit listing.",
+                                            "type": "integer"
+                                          },
+                                          "url": {
+                                            "description": "Canonical listing URL. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          }
+                                        },
+                                        "required": [
+                                          "itemId",
+                                          "title",
+                                          "url",
+                                          "image",
+                                          "unitsSold",
+                                          "totalSales"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "eBay accepted offer prices output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Its `id` is the value `source` and `ignoreSources` accept; leave `source` out to keep automatic routing and failover. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "eBay Accepted Offer Prices",
+        "tags": [
+          "ebay"
+        ],
+        "x-mint": {
+          "href": "/api-reference/ebay/accepted-offers"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.003000",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.004000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.003000",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
     "/v1/run/ebay.product": {
       "post": {
         "description": "Fetch one eBay listing by URL and get the full offer record: price, condition, shipping, item location, seller feedback, quantity, watchers, and live auction state (bid count and end time).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [eBay Product pricing and uptime](https://getanyapi.com/api/ebay/product) - live USD price, lane routing, and measured 30-day uptime. [Every Ebay endpoint](https://getanyapi.com/api/ebay).",
@@ -138902,6 +139557,7 @@
                         "coauthors",
                         "comments",
                         "contactMethod",
+                        "countsHidden",
                         "createdUtc",
                         "durationSeconds",
                         "hashtags",
@@ -138913,7 +139569,9 @@
                         "likes",
                         "media",
                         "mentions",
+                        "paidPartnership",
                         "posts",
+                        "productType",
                         "taggedUsers",
                         "username",
                         "views"
@@ -145480,7 +146138,7 @@
     },
     "/v1/run/instagram.search_profiles": {
       "post": {
-        "description": "Search public Instagram profiles by a bio or caption keyword.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Profile Search pricing and uptime](https://getanyapi.com/api/instagram/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search public Instagram profiles by a bio or caption keyword.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Search pricing and uptime](https://getanyapi.com/api/instagram/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_search_profiles",
         "parameters": [
           {
@@ -145587,7 +146245,6 @@
                         "bioLinks",
                         "category",
                         "isBusiness",
-                        "posts",
                         "private"
                       ],
                       "type": "string"
@@ -176648,7 +177305,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -229499,12 +230156,11 @@
                     "type": "integer"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
                     "items": {
                       "enum": [
                         "isArchived",
-                        "isLocked",
-                        "selftext"
+                        "isLocked"
                       ],
                       "type": "string"
                     },
@@ -282274,13 +282930,11 @@
                     "type": "integer"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoCount` or `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
                     "items": {
                       "enum": [
-                        "likeCount",
                         "nextCursor",
-                        "secUid",
-                        "videoCount"
+                        "secUid"
                       ],
                       "type": "string"
                     },
@@ -283583,8 +284237,7 @@
                         "likeCount",
                         "nextCursor",
                         "playCount",
-                        "shareCount",
-                        "soundClipId"
+                        "shareCount"
                       ],
                       "type": "string"
                     },
@@ -320127,7 +320780,7 @@
     },
     "/v1/run/twitter.user_tweets": {
       "post": {
-        "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Tweets and Replies pricing and uptime](https://getanyapi.com/api/x-twitter/user-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Tweets and Replies pricing and uptime](https://getanyapi.com/api/x-twitter/user-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_user_tweets",
         "parameters": [
           {
@@ -339860,6 +340513,10 @@
                     "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
                     "type": "boolean"
                   },
+                  "cursor": {
+                    "description": "The nextCursor from the previous page, to get the next page of videos. Send the same playlistId with it.",
+                    "type": "string"
+                  },
                   "ignoreSources": {
                     "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
                     "items": {
@@ -339945,17 +340602,25 @@
                                       "description": "Canonical URL of the playlist owner's channel, tracking query parameters stripped.",
                                       "type": "string"
                                     },
+                                    "nextCursor": {
+                                      "description": "Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
                                     "owner": {
-                                      "description": "Populated whenever the provider has data for the entity.",
+                                      "description": "Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.",
                                       "type": "string",
                                       "x-anyapi-must-populate": true
                                     },
                                     "title": {
-                                      "description": "Populated whenever the provider has data for the entity.",
+                                      "description": "Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.",
                                       "type": "string",
                                       "x-anyapi-must-populate": true
                                     },
                                     "totalVideos": {
+                                      "description": "Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.",
                                       "type": "integer"
                                     },
                                     "videos": {
@@ -340013,7 +340678,8 @@
                                     "title",
                                     "owner",
                                     "totalVideos",
-                                    "videos"
+                                    "videos",
+                                    "nextCursor"
                                   ],
                                   "type": "object"
                                 }
@@ -343639,7 +344305,8 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `likes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted. A source that returns only a rounded value for a field does not count as returning it.",
                     "items": {
                       "enum": [
-                        "likes"
+                        "likes",
+                        "repliesContinuationToken"
                       ],
                       "type": "string"
                     },
@@ -350635,7 +351302,6 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `yearBuilt`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a listing that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
-                        "brokerName",
                         "daysOnZillow",
                         "images",
                         "isZillowOwned",

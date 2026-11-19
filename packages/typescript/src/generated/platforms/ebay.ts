@@ -7,6 +7,136 @@ import type {
 } from "../../core/index.js";
 
 /**
+ * Input for eBay Accepted Offer Prices (ebay.accepted_offers).
+ */
+export interface EbayAcceptedOffersInput {
+  /**
+   * Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.
+   * Default: true.
+   */
+  allowFallbacks?: boolean;
+  /**
+   * Item condition filter (e.g. used).
+   * One of: any, new, used.
+   * Default: any.
+   */
+  condition?: "any" | "new" | "used";
+  /**
+   * Last sale day to include, as YYYY-MM-DD (e.g. 2026-10-31).
+   * Format: date.
+   */
+  endDate?: string;
+  /**
+   * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
+   */
+  ignoreSources?: string[];
+  /**
+   * Maximum number of sales to return (1-240, default 240). Sales without a listing title or image are left out, so a page can hold fewer.
+   * Range: minimum 1, maximum 240.
+   * Default: 240.
+   */
+  limit?: number;
+  /**
+   * Optional maximum price paid, in USD (e.g. 2000). It trims the returned page; it does not search all history for sales at that price.
+   * Range: minimum 0.
+   */
+  maxPrice?: number;
+  /**
+   * Optional minimum price paid, in USD (e.g. 200). It trims the returned page; it does not search all history for sales at that price.
+   * Range: minimum 0.
+   */
+  minPrice?: number;
+  /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
+   * Range: minimum 1.
+   */
+  preferLatencyUnderMs?: number;
+  /**
+   * Search keyword for completed eBay sales (e.g. Gibson Les Paul Standard 60s).
+   */
+  query: string;
+  /**
+   * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
+   */
+  source?: string[];
+  /**
+   * First sale day to include, as YYYY-MM-DD (e.g. 2026-10-01). History is available back to December 2023. With neither date set, the last 90 days are searched.
+   * Format: date.
+   */
+  startDate?: string;
+}
+
+export interface EbayAcceptedOffersItem {
+  /**
+   * True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). False when it was not identified as one, which does not prove a full-price sale. Absent when it could not be determined.
+   */
+  bestOfferAccepted?: boolean;
+  /**
+   * Number of bids the listing received, for auction sales.
+   */
+  bidCount?: number;
+  /**
+   * Item condition (new or used), returned only when the request filtered by condition.
+   */
+  condition?: string;
+  /**
+   * Primary listing image URL. Populated whenever the provider has data for the entity.
+   */
+  image: string;
+  /**
+   * eBay item identifier. Populated whenever the provider has data for the entity.
+   */
+  itemId: string;
+  /**
+   * Sale format: Auction or Fixed price.
+   */
+  listingType?: string;
+  /**
+   * Shipping the buyer paid, in USD (e.g. "$18"; "$0" is free shipping).
+   */
+  shippingCost?: string;
+  /**
+   * ISO currency code of the price paid (USD).
+   */
+  soldCurrency?: string;
+  /**
+   * Price the buyer actually paid, in USD. On a Best Offer sale this is the accepted offer where available; when a listing sold more than one unit it is the average per unit (see unitsSold and totalSales).
+   */
+  soldPrice?: number;
+  /**
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   */
+  soldUtc?: number;
+  /**
+   * Listing title as it appeared on eBay. Populated whenever the provider has data for the entity.
+   */
+  title: string;
+  /**
+   * Total paid across all units sold, in USD, as the listing reported it. soldPrice is this total divided by unitsSold, rounded, so their product can differ slightly.
+   */
+  totalSales: number;
+  /**
+   * Units sold in this sale; above 1 for a multi-unit listing.
+   */
+  unitsSold: number;
+  /**
+   * Canonical listing URL. Populated whenever the provider has data for the entity.
+   */
+  url: string;
+  [extra: string]: unknown;
+}
+
+/**
+ * The `data` payload of eBay Accepted Offer Prices (ebay.accepted_offers).
+ */
+export interface EbayAcceptedOffersData {
+  /**
+   * Completed eBay sales, newest first: title, the price the buyer actually paid, sale date, units sold, shipping, format, and item URL. Populated whenever the provider has data for the entity.
+   */
+  items: EbayAcceptedOffersItem[];
+}
+
+/**
  * Input for eBay Product (ebay.product).
  */
 export interface EbayProductInput {
@@ -813,6 +943,23 @@ export interface EbaySoldListingsThinData {
  */
 export class EbayNamespace {
   constructor(private readonly _core: ClientCore) {}
+
+  /**
+   * eBay Accepted Offer Prices
+   *
+   * Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023.
+   *
+   * Price: $0.003 per request.
+   *
+   * @example
+   * const res = await client.ebay.acceptedOffers({ query: "Gibson Les Paul Standard 60s", condition: "used", limit: 10 });
+   */
+  acceptedOffers(
+    input: EbayAcceptedOffersInput,
+    options?: RequestOptions,
+  ): Promise<RunResult<EbayAcceptedOffersData>> {
+    return this._core.run("ebay.accepted_offers", input, options);
+  }
 
   /**
    * eBay Product

@@ -1220,6 +1220,28 @@
     "items": 1,
     "replayed": false
   },
+  "ebay.accepted_offers": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "itemId": "sample",
+            "title": "sample",
+            "url": "sample",
+            "image": "sample",
+            "unitsSold": 1,
+            "totalSales": 1.5,
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "ebay.product": {
     "output": {
       "found": true,
@@ -9290,7 +9312,8 @@
             "channel": "sample",
             "_extra": "passthrough"
           }
-        ]
+        ],
+        "nextCursor": "sample"
       }
     },
     "provider": "AnyAPI",

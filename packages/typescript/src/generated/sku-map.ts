@@ -178,6 +178,8 @@ import type {
   DuckduckgoSearchInput,
 } from "./platforms/duckduckgo.js";
 import type {
+  EbayAcceptedOffersData,
+  EbayAcceptedOffersInput,
   EbayProductData,
   EbayProductFullData,
   EbayProductFullInput,
@@ -1490,6 +1492,11 @@ export interface SkuMap {
     input: DuckduckgoSearchInput;
     data: DuckduckgoSearchData;
     result: RunResult<DuckduckgoSearchData>;
+  };
+  "ebay.accepted_offers": {
+    input: EbayAcceptedOffersInput;
+    data: EbayAcceptedOffersData;
+    result: RunResult<EbayAcceptedOffersData>;
   };
   "ebay.product": {
     input: EbayProductInput;

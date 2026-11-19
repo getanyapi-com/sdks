@@ -25745,6 +25745,272 @@
       }
     },
     {
+      "slug": "ebay.accepted_offers",
+      "platform": "ebay",
+      "action": "accepted_offers",
+      "operationId": "ebay_accepted_offers",
+      "name": "eBay Accepted Offer Prices",
+      "category": "shop",
+      "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023.",
+      "pricing": {
+        "priceUsd": 0.003,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "ebay",
+      "tsMethod": "acceptedOffers",
+      "tsIterMethod": null,
+      "pyNamespace": "ebay",
+      "pyMethod": "accepted_offers",
+      "pyIterMethod": null,
+      "inputTypeName": "EbayAcceptedOffersInput",
+      "outputTypeName": "EbayAcceptedOffersData",
+      "example": {
+        "condition": "used",
+        "limit": 10,
+        "query": "Gibson Les Paul Standard 60s"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "condition": {
+            "kind": "string",
+            "description": "Item condition filter (e.g. used).",
+            "enum": [
+              "any",
+              "new",
+              "used"
+            ],
+            "default": "any",
+            "format": null
+          },
+          "endDate": {
+            "kind": "string",
+            "description": "Last sale day to include, as YYYY-MM-DD (e.g. 2026-10-31).",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "limit": {
+            "kind": "integer",
+            "description": "Maximum number of sales to return (1-240, default 240). Sales without a listing title or image are left out, so a page can hold fewer.",
+            "minimum": 1,
+            "maximum": 240,
+            "default": 240
+          },
+          "maxPrice": {
+            "kind": "number",
+            "description": "Optional maximum price paid, in USD (e.g. 2000). It trims the returned page; it does not search all history for sales at that price.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "minPrice": {
+            "kind": "number",
+            "description": "Optional minimum price paid, in USD (e.g. 200). It trims the returned page; it does not search all history for sales at that price.",
+            "minimum": 0,
+            "maximum": null,
+            "default": null
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Search keyword for completed eBay sales (e.g. Gibson Les Paul Standard 60s).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "startDate": {
+            "kind": "string",
+            "description": "First sale day to include, as YYYY-MM-DD (e.g. 2026-10-01). History is available back to December 2023. With neither date set, the last 90 days are searched.",
+            "enum": null,
+            "default": null,
+            "format": "date"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "items": {
+              "kind": "array",
+              "description": "Completed eBay sales, newest first: title, the price the buyer actually paid, sale date, units sold, shipping, format, and item URL. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "bestOfferAccepted": {
+                    "kind": "boolean",
+                    "description": "True when the sale was identified as a Best Offer the seller accepted, so soldPrice is the accepted offer (on a multi-unit listing, the rounded average paid per unit). False when it was not identified as one, which does not prove a full-price sale. Absent when it could not be determined.",
+                    "default": null
+                  },
+                  "bidCount": {
+                    "kind": "integer",
+                    "description": "Number of bids the listing received, for auction sales.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "condition": {
+                    "kind": "string",
+                    "description": "Item condition (new or used), returned only when the request filtered by condition.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Primary listing image URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "itemId": {
+                    "kind": "string",
+                    "description": "eBay item identifier. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "listingType": {
+                    "kind": "string",
+                    "description": "Sale format: Auction or Fixed price.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shippingCost": {
+                    "kind": "string",
+                    "description": "Shipping the buyer paid, in USD (e.g. \"$18\"; \"$0\" is free shipping).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soldCurrency": {
+                    "kind": "string",
+                    "description": "ISO currency code of the price paid (USD).",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "soldPrice": {
+                    "kind": "number",
+                    "description": "Price the buyer actually paid, in USD. On a Best Offer sale this is the accepted offer where available; when a listing sold more than one unit it is the average per unit (see unitsSold and totalSales).",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soldUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Listing title as it appeared on eBay. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "totalSales": {
+                    "kind": "number",
+                    "description": "Total paid across all units sold, in USD, as the listing reported it. soldPrice is this total divided by unitsSold, rounded, so their product can differ slightly.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "unitsSold": {
+                    "kind": "integer",
+                    "description": "Units sold in this sale; above 1 for a multi-unit listing.",
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Canonical listing URL. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "title",
+                  "url",
+                  "image",
+                  "unitsSold",
+                  "totalSales"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "image",
+                  "itemId",
+                  "title",
+                  "url"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "ebay.product",
       "platform": "ebay",
       "action": "product",
@@ -56504,6 +56770,7 @@
                 "coauthors",
                 "comments",
                 "contactMethod",
+                "countsHidden",
                 "createdUtc",
                 "durationSeconds",
                 "hashtags",
@@ -56515,7 +56782,9 @@
                 "likes",
                 "media",
                 "mentions",
+                "paidPartnership",
                 "posts",
+                "productType",
                 "taggedUsers",
                 "username",
                 "views"
@@ -59276,7 +59545,6 @@
                 "bioLinks",
                 "category",
                 "isBusiness",
-                "posts",
                 "private"
               ],
               "default": null,
@@ -105422,13 +105690,12 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived` or `selftext`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `isArchived`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
                 "isArchived",
-                "isLocked",
-                "selftext"
+                "isLocked"
               ],
               "default": null,
               "format": null
@@ -128125,14 +128392,12 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoCount` or `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `secUid`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a follower that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
             "items": {
               "kind": "string",
               "enum": [
-                "likeCount",
                 "nextCursor",
-                "secUid",
-                "videoCount"
+                "secUid"
               ],
               "default": null,
               "format": null
@@ -128641,8 +128906,7 @@
                 "likeCount",
                 "nextCursor",
                 "playCount",
-                "shareCount",
-                "soundClipId"
+                "shareCount"
               ],
               "default": null,
               "format": null
@@ -150985,10 +151249,10 @@
       },
       "tsNamespace": "youtube",
       "tsMethod": "playlist",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterPlaylist",
       "pyNamespace": "youtube",
       "pyMethod": "playlist",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_playlist",
       "inputTypeName": "YoutubePlaylistInput",
       "outputTypeName": "YoutubePlaylistData",
       "example": {
@@ -151001,6 +151265,13 @@
             "kind": "boolean",
             "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "The nextCursor from the previous page, to get the next page of videos. Send the same playlistId with it.",
+            "enum": null,
+            "default": null,
+            "format": null
           },
           "ignoreSources": {
             "kind": "array",
@@ -151070,22 +151341,31 @@
               "default": null,
               "format": null
             },
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of videos, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "owner": {
               "kind": "string",
-              "description": "Populated whenever the provider has data for the entity.",
+              "description": "Name of the channel that owns the playlist. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
             },
             "title": {
               "kind": "string",
-              "description": "Populated whenever the provider has data for the entity.",
+              "description": "Playlist title. Filled on the first page only; empty on a page fetched with cursor. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
             },
             "totalVideos": {
               "kind": "integer",
+              "description": "Number of videos in the playlist. Filled on the first page only; 0 on a page fetched with cursor.",
               "minimum": null,
               "maximum": null,
               "default": null
@@ -151169,7 +151449,8 @@
             "title",
             "owner",
             "totalVideos",
-            "videos"
+            "videos",
+            "nextCursor"
           ],
           "open": false,
           "mustPopulate": [
@@ -151180,10 +151461,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "videos",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -152402,7 +152683,8 @@
             "items": {
               "kind": "string",
               "enum": [
-                "likes"
+                "likes",
+                "repliesContinuationToken"
               ],
               "default": null,
               "format": null
@@ -155092,7 +155374,6 @@
             "items": {
               "kind": "string",
               "enum": [
-                "brokerName",
                 "daysOnZillow",
                 "images",
                 "isZillowOwned",
