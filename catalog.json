@@ -17886,7 +17886,7 @@
       "slug": "instagram.followers",
       "category": "social",
       "name": "Instagram Followers",
-      "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.",
+      "description": "List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Set fullCoverage for more per page (about 80 to 100 in tests), billed per page at a higher price. Instagram caps follower lists, so this never returns the whole list.",
       "method": "POST",
       "path": "/v1/run/instagram.followers",
       "provider": "AnyAPI",
@@ -17900,8 +17900,8 @@
           "maxUsd": 0.00173,
           "maxPer1kUsd": 1.73
         },
-        "failoverMaxUsd": 0.016,
-        "failoverMaxPer1kUsd": 16
+        "failoverMaxUsd": 0.032,
+        "failoverMaxPer1kUsd": 32
       },
       "lanes": [
         {
@@ -18004,10 +18004,33 @@
             "url",
             "verified"
           ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.032,
+            "maxPer1kUsd": 32
+          },
+          "source": {
+            "id": "anonymous-fennec",
+            "name": "Fennec",
+            "kind": "anonymous",
+            "artworkKey": "fennec"
+          },
+          "fields": [
+            "handle",
+            "id",
+            "image",
+            "items",
+            "name",
+            "nextCursor",
+            "url",
+            "verified"
+          ]
         }
       ],
-      "tryEligible": true,
-      "tryMaxItems": 3,
+      "tryEligible": false,
       "failover": true
     },
     {

@@ -521,9 +521,14 @@ export interface InstagramFollowersInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Opaque pagination cursor from a previous response's nextCursor. Today every source behind this endpoint returns a single page of about 50 followers and no continuation cursor, so nextCursor comes back empty and there is no further page to request; this parameter is accepted but has nothing to resume from.
+   * Opaque pagination cursor from a previous response's nextCursor. Without fullCoverage, every source returns a single page of about 50 followers and nextCursor comes back empty. With fullCoverage:true, nextCursor can lead to one more page; send fullCoverage:true again with the cursor, or the page is refused as invalid input with no charge.
    */
   cursor?: string;
+  /**
+   * Ask for more of the follower list. In tests the first page returned about 80 to 100 followers instead of about 50, and nextCursor sometimes led to one more short page; Instagram limits how far any follower list goes, so this never returns the whole list. Each page is billed separately, at a higher price than a request without fullCoverage. Send it on every page of a walk, including cursor pages.
+   * Default: false.
+   */
+  fullCoverage?: boolean;
   /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
@@ -5725,7 +5730,7 @@ export class InstagramNamespace {
   /**
    * Instagram Followers
    *
-   * List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Instagram caps follower lists, so this returns one page, not the whole list.
+   * List about the first 50 followers of any public Instagram account by username: follower usernames, names, and profile details. Set fullCoverage for more per page (about 80 to 100 in tests), billed per page at a higher price. Instagram caps follower lists, so this never returns the whole list.
    *
    * Price: $0.00173 per request.
    *
