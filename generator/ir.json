@@ -52851,7 +52851,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.00099,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -55981,7 +55981,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61914,7 +61914,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00069,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70471,7 +70471,7 @@
       "category": "data",
       "description": "Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -80667,7 +80667,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00148,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -151490,7 +151490,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.00044,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
