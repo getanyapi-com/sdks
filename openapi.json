@@ -88543,7 +88543,7 @@
     },
     "/v1/run/facebook.post_transcript": {
       "post": {
-        "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Post Transcript pricing and uptime](https://getanyapi.com/api/facebook/post-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Transcript pricing and uptime](https://getanyapi.com/api/facebook/post-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_post_transcript",
         "parameters": [
           {
@@ -107281,7 +107281,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -118534,6 +118534,7 @@
                                           "adUrl": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "adstransparency.google.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "advertiserId": {
@@ -118565,7 +118566,8 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "imageUrl": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "googlesyndication.com"
                                           },
                                           "lastShown": {
                                             "description": "ISO 8601 date.",
@@ -140469,7 +140471,7 @@
     },
     "/v1/run/instagram.profile_contact": {
       "post": {
-        "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Contact Info pricing and uptime](https://getanyapi.com/api/instagram/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Contact Info pricing and uptime](https://getanyapi.com/api/instagram/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_profile_contact",
         "parameters": [
           {
@@ -140999,7 +141001,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001750",
+            "amount": "0.000400",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -141041,7 +141043,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002750",
+                "amount": "0.001400",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -141073,7 +141075,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001750",
+                "amount": "0.000400",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -160547,11 +160549,13 @@
                                             "x-anyapi-must-populate": true
                                           },
                                           "advertiserLinkedinPage": {
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           },
                                           "advertiserLogo": {
                                             "description": "Advertiser logo image URL. The query string is a signed token, so keep the URL intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "licdn.com"
                                           },
                                           "cta": {
                                             "type": "string"
@@ -160582,7 +160586,8 @@
                                           },
                                           "url": {
                                             "description": "Canonical LinkedIn Ad Library URL for this ad.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "linkedin.com"
                                           }
                                         },
                                         "required": [
@@ -163131,7 +163136,8 @@
                                       "properties": {
                                         "companyCrunchbaseUrl": {
                                           "description": "Crunchbase profile URL for the company.",
-                                          "type": "string"
+                                          "type": "string",
+                                          "x-anyapi-domain": "crunchbase.com"
                                         },
                                         "lastFundingType": {
                                           "description": "Type of the most recent funding round.",
@@ -163160,7 +163166,8 @@
                                     },
                                     "linkedinUrl": {
                                       "description": "Canonical LinkedIn company page URL.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "linkedin.com"
                                     },
                                     "locations": {
                                       "description": "Company office locations, including headquarters.",
@@ -163193,7 +163200,8 @@
                                     },
                                     "logoUrl": {
                                       "description": "Company logo image URL.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "licdn.com"
                                     },
                                     "name": {
                                       "description": "Company name.",
@@ -165199,6 +165207,7 @@
                                           "url": {
                                             "description": "Canonical URL of the post. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "linkedin.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -165596,7 +165605,7 @@
     },
     "/v1/run/linkedin.company_thin": {
       "post": {
-        "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_thin",
         "parameters": [
           {
@@ -170706,7 +170715,7 @@
     },
     "/v1/run/linkedin.post": {
       "post": {
-        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.64 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.64 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_post",
         "parameters": [
           {
@@ -186804,7 +186813,11 @@
                                           },
                                           "image": {
                                             "description": "URL of the primary place photo.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "googleusercontent.com",
+                                              "streetviewpixels-pa.googleapis.com"
+                                            ]
                                           },
                                           "latitude": {
                                             "description": "Populated whenever the provider has data for the entity.",
@@ -186867,6 +186880,10 @@
                                           "url": {
                                             "description": "Google Maps URL for the place. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "google.com",
+                                              "maps.app.goo.gl"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "website": {
@@ -280354,7 +280371,7 @@
     },
     "/v1/run/tiktok.ad_library_search": {
       "post": {
-        "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Ad Library Search pricing and uptime](https://getanyapi.com/api/tiktok/ad-library-search) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Ad Library Search pricing and uptime](https://getanyapi.com/api/tiktok/ad-library-search) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_ad_library_search",
         "parameters": [
           {
@@ -280902,7 +280919,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.001200",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -280944,7 +280961,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.002200",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -280976,7 +280993,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.001200",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -296657,7 +296674,7 @@
     },
     "/v1/run/tiktok.trending_feed": {
       "post": {
-        "description": "Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Trending Feed pricing and uptime](https://getanyapi.com/api/tiktok/trending-feed) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Sample TikTok's For You feed as served to a viewer in one country (caption, views, likes, comments, author). Returns a rotating sample, not a ranked chart.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Trending Feed pricing and uptime](https://getanyapi.com/api/tiktok/trending-feed) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_trending_feed",
         "parameters": [
           {
@@ -297204,7 +297221,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.000800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -297246,7 +297263,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002200",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -297278,7 +297295,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.000800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -319078,7 +319095,8 @@
                                     },
                                     "authorImage": {
                                       "description": "Avatar image URL of the account that posted.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "twimg.com"
                                     },
                                     "authorName": {
                                       "description": "Display name of the account that posted.",
@@ -319134,12 +319152,14 @@
                                           "url": {
                                             "description": "Image URL. For a video or GIF this is the poster/thumbnail frame. X media URLs on pbs.twimg.com are publicly fetchable without authentication; append ?name=orig for the full-resolution original.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "twimg.com"
                                           },
                                           "videoUrl": {
                                             "description": "Playable video file URL. Present only for video and gif items.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "twimg.com"
                                           },
                                           "width": {
                                             "description": "Pixel width of the media item, when the lane reports it.",
@@ -328887,7 +328907,7 @@
     },
     "/v1/run/web.screenshot": {
       "post": {
-        "description": "Capture a real-browser screenshot of any web page URL.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Website Screenshot pricing and uptime](https://getanyapi.com/api/web/screenshot) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Capture a real-browser screenshot of any web page URL.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Website Screenshot pricing and uptime](https://getanyapi.com/api/web/screenshot) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_screenshot",
         "parameters": [
           {
@@ -334675,7 +334695,11 @@
                                 {
                                   "properties": {
                                     "avatarUrl": {
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "ggpht.com",
+                                        "yt3.googleusercontent.com"
+                                      ]
                                     },
                                     "channelId": {
                                       "description": "Populated whenever the provider has data for the entity.",
@@ -334721,7 +334745,8 @@
                                     },
                                     "url": {
                                       "description": "Canonical URL of the channel page, tracking query parameters stripped.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "youtube.com"
                                     },
                                     "videos": {
                                       "type": "integer"
@@ -334763,7 +334788,8 @@
                             "data"
                           ],
                           "title": "YouTube channel output",
-                          "type": "object"
+                          "type": "object",
+                          "x-anyapi-result-list": false
                         },
                         {
                           "type": "null"
@@ -338862,7 +338888,12 @@
                                           },
                                           "image": {
                                             "description": "URL of the video thumbnail image, tracking query parameters stripped.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "ytimg.com",
+                                              "youtube.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "lengthText": {
                                             "description": "Video length as YouTube shows it, such as 11:56, or null when the serving source does not report it.",
@@ -338884,6 +338915,10 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "youtube.com",
+                                              "youtu.be"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "views": {
