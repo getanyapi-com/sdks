@@ -9454,8 +9454,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-18",
-        "checkOut": "2026-12-20",
+        "checkIn": "2026-12-19",
+        "checkOut": "2026-12-21",
         "limit": 3,
         "query": "New York"
       },
@@ -48786,8 +48786,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-18",
-        "departureDateTo": "2027-01-16",
+        "departureDateFrom": "2026-12-19",
+        "departureDateTo": "2027-01-17",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49077,7 +49077,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-18",
+        "departureDate": "2026-12-19",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49478,8 +49478,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-18",
-        "checkOut": "2026-12-20",
+        "checkIn": "2026-12-19",
+        "checkOut": "2026-12-21",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -50077,8 +50077,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-18",
-        "checkOut": "2026-12-20",
+        "checkIn": "2026-12-19",
+        "checkOut": "2026-12-21",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -144398,8 +144398,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-18",
-        "checkOut": "2026-12-21",
+        "checkIn": "2026-12-19",
+        "checkOut": "2026-12-22",
         "propertyId": "69764328"
       },
       "input": {
@@ -145172,8 +145172,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-18",
-        "checkOut": "2026-12-21",
+        "checkIn": "2026-12-19",
+        "checkOut": "2026-12-22",
         "location": "Lake Tahoe"
       },
       "input": {
