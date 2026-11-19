@@ -4398,7 +4398,7 @@
       "category": "shop",
       "description": "Pull customer reviews for any Amazon product by ASIN or URL: rating, title, text, date, and verified-purchase badge.",
       "pricing": {
-        "priceUsd": 0.0013,
+        "priceUsd": 0.016,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39855,7 +39855,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -56469,7 +56469,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00056,
+        "priceUsd": 0.00055,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -59785,7 +59785,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.0022,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -129772,7 +129772,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -140702,7 +140702,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00022,
+        "priceUsd": 0.00021,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

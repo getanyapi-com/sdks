@@ -2039,7 +2039,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.
    *
-   * Price: $0.00022 per request.
+   * Price: $0.00021 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
