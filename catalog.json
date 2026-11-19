@@ -19154,6 +19154,7 @@
             "displayName",
             "displayUrl",
             "durationSeconds",
+            "hasAudio",
             "hashtags",
             "id",
             "likes",
@@ -19166,6 +19167,7 @@
             "paidPartnership",
             "plays",
             "productType",
+            "reshares",
             "shortcode",
             "soundAuthor",
             "soundTitle",
@@ -19393,6 +19395,7 @@
             "id",
             "likes",
             "nextCursor",
+            "replies",
             "text",
             "userId",
             "verified"
@@ -20040,6 +20043,7 @@
           },
           "fields": [
             "bio",
+            "bioLinks",
             "displayName",
             "emails",
             "externalUrl",
@@ -20049,6 +20053,8 @@
             "private",
             "publicEmail",
             "publicPhone",
+            "title",
+            "url",
             "verified"
           ]
         },
@@ -20368,6 +20374,7 @@
             "servedRequests": 16244
           },
           "fields": [
+            "audioId",
             "avatarUrl",
             "caption",
             "comments",
@@ -20917,8 +20924,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0032,
-        "failoverMaxPer1kUsd": 3.2
+        "failoverMaxUsd": 0.0012,
+        "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
         {
@@ -20962,7 +20969,9 @@
             "url",
             "verified"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -21004,7 +21013,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "instagram.search_profiles_contact",
@@ -21834,6 +21843,7 @@
             "servedRequests": 9
           },
           "fields": [
+            "audioId",
             "author",
             "avatarUrl",
             "caption",
@@ -22346,6 +22356,7 @@
             "servedRequests": 151
           },
           "fields": [
+            "audioId",
             "avatarUrl",
             "caption",
             "carouselCount",
@@ -22359,6 +22370,10 @@
             "id",
             "isPinned",
             "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
             "media",
             "mentions",
             "nextCursor",
@@ -22707,6 +22722,10 @@
             "id",
             "isPinned",
             "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
             "media",
             "mentions",
             "nextCursor",
@@ -22813,6 +22832,10 @@
             "id",
             "isPinned",
             "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
             "media",
             "mentions",
             "nextCursor",
@@ -22942,6 +22965,10 @@
             "id",
             "isPinned",
             "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
             "media",
             "mentions",
             "nextCursor",
@@ -27020,6 +27047,51 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -27140,53 +27212,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
@@ -33563,9 +33588,11 @@
             "comments",
             "createdUtc",
             "id",
+            "media",
             "nextCursor",
             "parentId",
             "score",
+            "type",
             "url"
           ]
         },
@@ -41274,6 +41301,7 @@
             "followers",
             "followingCount",
             "likeCount",
+            "nextCursor",
             "nickname",
             "region",
             "secUid",
@@ -41423,6 +41451,7 @@
             "id",
             "instagramUrl",
             "likes",
+            "nextCursor",
             "private",
             "region",
             "secUid",
@@ -43061,6 +43090,8 @@
             "image",
             "isPinned",
             "likes",
+            "locationName",
+            "nextCursor",
             "paidPartnership",
             "saves",
             "shares",
@@ -43466,6 +43497,7 @@
             "id",
             "image",
             "likes",
+            "locationName",
             "paidPartnership",
             "region",
             "saves",
@@ -44412,6 +44444,7 @@
             "hashtags",
             "image",
             "likeCount",
+            "nextCursor",
             "playCount",
             "shareCount",
             "url",
@@ -45724,6 +45757,7 @@
           },
           "fields": [
             "id",
+            "language",
             "transcript",
             "url"
           ]
