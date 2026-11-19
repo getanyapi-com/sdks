@@ -14007,47 +14007,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0015,
-          "maxPer1kUsd": 1.5
+          "maxUsd": 0.0018,
+          "maxPer1kUsd": 1.8
         },
         "failoverMaxUsd": 0.0048,
         "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0015,
-            "maxPer1kUsd": 1.5
-          },
-          "source": {
-            "id": "anonymous-ibex",
-            "name": "Ibex",
-            "kind": "anonymous",
-            "artworkKey": "ibex"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 77.71380856113211,
-            "latencyP50Ms": 19465,
-            "uptimeSample": 22754,
-            "latencySample": 17683,
-            "requests": 22756,
-            "servedRequests": 17683
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
-            "title",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -14117,6 +14083,40 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0015,
+            "maxPer1kUsd": 1.5
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 77.71380856113211,
+            "latencyP50Ms": 19465,
+            "uptimeSample": 22754,
+            "latencySample": 17683,
+            "requests": 22756,
+            "servedRequests": 17683
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
