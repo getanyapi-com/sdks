@@ -77222,12 +77222,12 @@
           "content": {
             "application/json": {
               "example": {
-                "id": "931919822778200"
+                "id": "3152243841584775"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "id": "931919822778200"
+                  "id": "3152243841584775"
                 },
                 "properties": {
                   "allowFallbacks": {
@@ -77236,7 +77236,7 @@
                     "type": "boolean"
                   },
                   "id": {
-                    "description": "Meta Ad Library ad ID (e.g. \"1020359190509080\"). Provide either id or url.",
+                    "description": "Meta Ad Library ad ID (e.g. \"3152243841584775\"). Provide either id or url.",
                     "type": "string"
                   },
                   "ignoreSources": {
@@ -77263,7 +77263,7 @@
                     "uniqueItems": true
                   },
                   "url": {
-                    "description": "Meta Ad Library ad URL (e.g. \"https://www.facebook.com/ads/library?id=1020359190509080\"). Provide either id or url.",
+                    "description": "Meta Ad Library ad URL (e.g. \"https://www.facebook.com/ads/library?id=3152243841584775\"). Provide either id or url.",
                     "type": "string"
                   }
                 },
@@ -107235,7 +107235,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -177279,7 +177279,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -307218,7 +307218,7 @@
                     "uniqueItems": true
                   },
                   "languages": {
-                    "description": "Only return reviews originally written in these ISO 639-1 languages (e.g. [\"en\", \"es\"]); omit for all languages. Reviews are never translated. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.",
+                    "description": "Only return reviews originally written in these ISO 639-1 languages (e.g. [\"en\", \"es\"]); omit for all languages. Reviews filtered this way are never translated; without the filter, see `language` in the result. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.",
                     "items": {
                       "type": "string"
                     },
@@ -346100,18 +346100,12 @@
                     "type": "integer"
                   },
                   "requireFields": {
-                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `likes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
-                        "authorId",
-                        "authorUrl",
                         "category",
                         "createdUtc",
-                        "description",
-                        "image",
-                        "keywords",
-                        "likes",
-                        "views"
+                        "likes"
                       ],
                       "type": "string"
                     },

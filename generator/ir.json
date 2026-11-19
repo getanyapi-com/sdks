@@ -32695,7 +32695,7 @@
       "inputTypeName": "FacebookAdTranscriptInput",
       "outputTypeName": "FacebookAdTranscriptData",
       "example": {
-        "id": "931919822778200"
+        "id": "3152243841584775"
       },
       "input": {
         "kind": "object",
@@ -32707,7 +32707,7 @@
           },
           "id": {
             "kind": "string",
-            "description": "Meta Ad Library ad ID (e.g. \"1020359190509080\"). Provide either id or url.",
+            "description": "Meta Ad Library ad ID (e.g. \"3152243841584775\"). Provide either id or url.",
             "enum": null,
             "default": null,
             "format": null
@@ -32743,7 +32743,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "Meta Ad Library ad URL (e.g. \"https://www.facebook.com/ads/library?id=1020359190509080\"). Provide either id or url.",
+            "description": "Meta Ad Library ad URL (e.g. \"https://www.facebook.com/ads/library?id=3152243841584775\"). Provide either id or url.",
             "enum": null,
             "default": null,
             "format": null
@@ -138144,7 +138144,7 @@
           },
           "languages": {
             "kind": "array",
-            "description": "Only return reviews originally written in these ISO 639-1 languages (e.g. [\"en\", \"es\"]); omit for all languages. Reviews are never translated. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.",
+            "description": "Only return reviews originally written in these ISO 639-1 languages (e.g. [\"en\", \"es\"]); omit for all languages. Reviews filtered this way are never translated; without the filter, see `language` in the result. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.",
             "items": {
               "kind": "string",
               "enum": null,
@@ -153245,19 +153245,13 @@
           },
           "requireFields": {
             "kind": "array",
-            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `likes`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a transcript that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
             "items": {
               "kind": "string",
               "enum": [
-                "authorId",
-                "authorUrl",
                 "category",
                 "createdUtc",
-                "description",
-                "image",
-                "keywords",
-                "likes",
-                "views"
+                "likes"
               ],
               "default": null,
               "format": null

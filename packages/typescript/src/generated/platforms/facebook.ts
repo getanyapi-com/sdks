@@ -448,7 +448,7 @@ export interface FacebookAdTranscriptInput {
    */
   allowFallbacks?: boolean;
   /**
-   * Meta Ad Library ad ID (e.g. "1020359190509080"). Provide either id or url.
+   * Meta Ad Library ad ID (e.g. "3152243841584775"). Provide either id or url.
    */
   id?: string;
   /**
@@ -465,7 +465,7 @@ export interface FacebookAdTranscriptInput {
    */
   source?: string[];
   /**
-   * Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1020359190509080"). Provide either id or url.
+   * Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=3152243841584775"). Provide either id or url.
    */
   url?: string;
 }
@@ -3562,7 +3562,7 @@ export class FacebookNamespace {
    * Price: $0.0012 per request.
    *
    * @example
-   * const res = await client.facebook.adTranscript({ id: "931919822778200" });
+   * const res = await client.facebook.adTranscript({ id: "3152243841584775" });
    */
   adTranscript(
     input: FacebookAdTranscriptInput,

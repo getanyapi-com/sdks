@@ -59,7 +59,7 @@ class FacebookAdTranscriptInput(TypedDict, total=False):
     allowFallbacks: NotRequired[bool]
     """Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
     id: NotRequired[str]
-    """Meta Ad Library ad ID (e.g. "1020359190509080"). Provide either id or url."""
+    """Meta Ad Library ad ID (e.g. "3152243841584775"). Provide either id or url."""
     ignoreSources: NotRequired[list[str]]
     """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
     preferLatencyUnderMs: NotRequired[int]
@@ -67,7 +67,7 @@ class FacebookAdTranscriptInput(TypedDict, total=False):
     source: NotRequired[list[str]]
     """Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
     url: NotRequired[str]
-    """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=1020359190509080"). Provide either id or url."""
+    """Meta Ad Library ad URL (e.g. "https://www.facebook.com/ads/library?id=3152243841584775"). Provide either id or url."""
 
 
 class FacebookAdsSearchInput(TypedDict, total=False):
@@ -2892,7 +2892,7 @@ class FacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.ad_transcript(id="931919822778200")
+            res = client.facebook.ad_transcript(id="3152243841584775")
         """
         raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_transcript", dict(input), options
@@ -3747,7 +3747,7 @@ class AsyncFacebookNamespace:
         Price: $0.0012 per request.
 
         Example:
-            res = client.facebook.ad_transcript(id="931919822778200")
+            res = client.facebook.ad_transcript(id="3152243841584775")
         """
         raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
             "facebook.ad_transcript", dict(input), options

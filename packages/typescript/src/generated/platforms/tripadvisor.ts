@@ -26,7 +26,7 @@ export interface TripadvisorReviewsInput {
    */
   ignoreSources?: string[];
   /**
-   * Only return reviews originally written in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages. Reviews are never translated. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.
+   * Only return reviews originally written in these ISO 639-1 languages (e.g. ["en", "es"]); omit for all languages. Reviews filtered this way are never translated; without the filter, see `language` in the result. Each page is filtered after it is fetched, so a page can hold fewer than `limit` reviews, or none, while nextCursor still leads to more.
    */
   languages?: string[];
   /**
