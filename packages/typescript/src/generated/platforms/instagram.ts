@@ -6458,7 +6458,7 @@ export class InstagramNamespace {
    *
    * List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).
    *
-   * Price: $0.00188 per request.
+   * Price: $0.00135 per request.
    *
    * @example
    * const res = await client.instagram.taggedPosts({ handle: "nasa" });
@@ -6569,7 +6569,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.0008 per request.
+   * Price: $0.00069 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });

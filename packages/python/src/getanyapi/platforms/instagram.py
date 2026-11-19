@@ -5695,7 +5695,7 @@ class InstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.00188 per request.
+        Price: $0.00135 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
@@ -5824,7 +5824,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0008 per request.
+        Price: $0.00069 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -7080,7 +7080,7 @@ class AsyncInstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.00188 per request.
+        Price: $0.00135 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
@@ -7209,7 +7209,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.0008 per request.
+        Price: $0.00069 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")

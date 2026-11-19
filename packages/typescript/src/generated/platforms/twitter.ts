@@ -2093,7 +2093,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.
    *
-   * Price: $0.00048 per request.
+   * Price: $0.00047 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -2210,7 +2210,7 @@ export class TwitterNamespace {
    *
    * Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.
    *
-   * Price: $0.00242 per request.
+   * Price: $0.0024 per request.
    *
    * @example
    * const res = await client.twitter.thread({ url: "https://x.com/SpaceX/status/1732824684683784516" });

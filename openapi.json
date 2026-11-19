@@ -146187,7 +146187,7 @@
     },
     "/v1/run/instagram.search_profiles": {
       "post": {
-        "description": "Search public Instagram profiles by a bio or caption keyword.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Profile Search pricing and uptime](https://getanyapi.com/api/instagram/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search public Instagram profiles by a bio or caption keyword.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Search pricing and uptime](https://getanyapi.com/api/instagram/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_search_profiles",
         "parameters": [
           {
@@ -150602,7 +150602,7 @@
     },
     "/v1/run/instagram.tagged_posts": {
       "post": {
-        "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).\n\n**Price:** \\$1.88 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Tagged Posts pricing and uptime](https://getanyapi.com/api/instagram/tagged-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).\n\n**Price:** \\$1.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Tagged Posts pricing and uptime](https://getanyapi.com/api/instagram/tagged-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_tagged_posts",
         "parameters": [
           {
@@ -151250,7 +151250,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001880",
+            "amount": "0.001350",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -151292,7 +151292,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002880",
+                "amount": "0.002350",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -151324,7 +151324,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001350",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -153451,7 +153451,7 @@
     },
     "/v1/run/instagram.user_reels": {
       "post": {
-        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.69 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_reels",
         "parameters": [
           {
@@ -154203,7 +154203,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.000690",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -154245,7 +154245,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.001690",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -154277,7 +154277,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.000690",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -170706,7 +170706,7 @@
     },
     "/v1/run/linkedin.post": {
       "post": {
-        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.64 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.64 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_post",
         "parameters": [
           {
@@ -177340,7 +177340,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -280354,7 +280354,7 @@
     },
     "/v1/run/tiktok.ad_library_search": {
       "post": {
-        "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Ad Library Search pricing and uptime](https://getanyapi.com/api/tiktok/ad-library-search) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Ad Library Search pricing and uptime](https://getanyapi.com/api/tiktok/ad-library-search) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_ad_library_search",
         "parameters": [
           {
@@ -287435,7 +287435,7 @@
     },
     "/v1/run/tiktok.profile_contact": {
       "post": {
-        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$0.88 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$0.88 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$1.09 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.09 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_contact",
         "parameters": [
           {
@@ -288005,8 +288005,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.000880",
-            "min": "0.000880",
+            "max": "0.001090",
+            "min": "0.001090",
             "mode": "dynamic"
           },
           "protocols": [
@@ -288048,8 +288048,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001880",
-                "min": "0.001880",
+                "max": "0.002090",
+                "min": "0.002090",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -288081,8 +288081,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.000880",
-                "min": "0.000880",
+                "max": "0.001090",
+                "min": "0.001090",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -315543,7 +315543,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.47 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
@@ -316162,7 +316162,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000480",
+            "amount": "0.000470",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -316204,7 +316204,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001480",
+                "amount": "0.001470",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -316236,7 +316236,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000480",
+                "amount": "0.000470",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -317524,7 +317524,7 @@
     },
     "/v1/run/twitter.thread": {
       "post": {
-        "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.\n\n**Price:** \\$2.42 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Tweet Thread pricing and uptime](https://getanyapi.com/api/x-twitter/thread) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.\n\n**Price:** \\$2.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Tweet Thread pricing and uptime](https://getanyapi.com/api/x-twitter/thread) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_thread",
         "parameters": [
           {
@@ -318185,7 +318185,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.002420",
+            "amount": "0.002400",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -318227,7 +318227,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003420",
+                "amount": "0.003400",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -318259,7 +318259,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002420",
+                "amount": "0.002400",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -328887,7 +328887,7 @@
     },
     "/v1/run/web.screenshot": {
       "post": {
-        "description": "Capture a real-browser screenshot of any web page URL.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Website Screenshot pricing and uptime](https://getanyapi.com/api/web/screenshot) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Capture a real-browser screenshot of any web page URL.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Website Screenshot pricing and uptime](https://getanyapi.com/api/web/screenshot) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_screenshot",
         "parameters": [
           {
