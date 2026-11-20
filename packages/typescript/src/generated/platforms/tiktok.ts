@@ -4340,7 +4340,7 @@ export class TiktokNamespace {
    *
    * Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.
    *
-   * Price: $0.00109 per request plus $0 per result (maximum $0.00109).
+   * Price: $0.00088 per request plus $0 per result (maximum $0.00088).
    *
    * @example
    * const res = await client.tiktok.profileContact({ handle: "gordonramsayofficial" });
