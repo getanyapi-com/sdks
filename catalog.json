@@ -22154,13 +22154,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.00069,
+          "maxPer1kUsd": 0.69
         },
         "failoverMaxUsd": 0.0032,
         "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00069,
+            "maxPer1kUsd": 0.69
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -22559,13 +22573,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.00069,
+          "maxPer1kUsd": 0.69
         },
         "failoverMaxUsd": 0.0032,
         "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00069,
+            "maxPer1kUsd": 0.69
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -24264,13 +24292,52 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.02,
-          "maxPer1kUsd": 20
+          "maxUsd": 0.006,
+          "maxPer1kUsd": 6
         },
         "failoverMaxUsd": 0.11,
         "failoverMaxPer1kUsd": 110
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.006,
+            "maxPer1kUsd": 6
+          },
+          "source": {
+            "id": "anonymous-walrus",
+            "name": "Walrus",
+            "kind": "anonymous",
+            "artworkKey": "walrus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.39470782800441,
+            "latencyP50Ms": 17118,
+            "uptimeSample": 3628,
+            "latencySample": 2953,
+            "requests": 3628,
+            "servedRequests": 2953
+          },
+          "fields": [
+            "city",
+            "companyUrl",
+            "country",
+            "countryCode",
+            "handle",
+            "image",
+            "influencer",
+            "items",
+            "jobTitle",
+            "location",
+            "name",
+            "openToWork",
+            "premium",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -24382,47 +24449,6 @@
             "items",
             "jobTitle",
             "lastName",
-            "location",
-            "name",
-            "openToWork",
-            "premium",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.006,
-            "maxPer1kUsd": 6
-          },
-          "source": {
-            "id": "anonymous-walrus",
-            "name": "Walrus",
-            "kind": "anonymous",
-            "artworkKey": "walrus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.39470782800441,
-            "latencyP50Ms": 17118,
-            "uptimeSample": 3628,
-            "latencySample": 2953,
-            "requests": 3628,
-            "servedRequests": 2953
-          },
-          "fields": [
-            "city",
-            "companyUrl",
-            "country",
-            "countryCode",
-            "handle",
-            "image",
-            "influencer",
-            "items",
-            "jobTitle",
             "location",
             "name",
             "openToWork",
@@ -29091,6 +29117,20 @@
             "url",
             "website"
           ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00174,
+            "maxPer1kUsd": 1.74
+          },
+          "source": {
+            "id": "anonymous-koala-f4a6c170",
+            "name": "Koala",
+            "kind": "anonymous",
+            "artworkKey": "koala"
+          }
         },
         {
           "pricing": {

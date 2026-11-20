@@ -61950,7 +61950,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00069,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -62454,7 +62454,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00069,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -68211,7 +68211,7 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.02,
+        "priceUsd": 0.006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
