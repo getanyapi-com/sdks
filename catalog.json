@@ -20571,8 +20571,8 @@
           "maxUsd": 0.00126,
           "maxPer1kUsd": 1.26
         },
-        "failoverMaxUsd": 0.00126,
-        "failoverMaxPer1kUsd": 1.26
+        "failoverMaxUsd": 0.0032,
+        "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
         {
@@ -20606,9 +20606,7 @@
             "url",
             "verified"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -20644,7 +20642,9 @@
             "url",
             "verified"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "linear",
@@ -20686,7 +20686,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_audio",
@@ -45049,17 +45049,49 @@
       },
       "pricing": {
         "from": {
-          "model": "linear",
-          "unit": "result",
-          "baseUsd": 0.03,
-          "perUnitUsd": 0.0006,
-          "maxUsd": 0.09,
-          "maxPer1kUsd": 90
+          "model": "flat",
+          "unit": "request",
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.09,
         "failoverMaxPer1kUsd": 90
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
+            "id": "anonymous-tiger",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 97.12069418879831,
+            "latencyP50Ms": 678,
+            "uptimeSample": 7606,
+            "latencySample": 7387,
+            "requests": 7606,
+            "servedRequests": 7387
+          },
+          "fields": [
+            "hashtag",
+            "hashtagId",
+            "industryIds",
+            "items",
+            "popularity",
+            "posts",
+            "rank",
+            "topCreators",
+            "views"
+          ]
+        },
         {
           "pricing": {
             "model": "linear",
@@ -45101,40 +45133,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 97.12069418879831,
-            "latencyP50Ms": 678,
-            "uptimeSample": 7606,
-            "latencySample": 7387,
-            "requests": 7606,
-            "servedRequests": 7387
-          },
-          "fields": [
-            "hashtag",
-            "hashtagId",
-            "industryIds",
-            "items",
-            "popularity",
-            "posts",
-            "rank",
-            "topCreators",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.025,
             "maxPer1kUsd": 25
           },
@@ -45165,7 +45163,7 @@
         }
       ],
       "tryEligible": false,
-      "failover": false
+      "failover": true
     },
     {
       "id": "tiktok.user_stories",
@@ -45900,19 +45898,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-giraffe",
-            "name": "Giraffe",
+            "id": "anonymous-tiger",
+            "name": "Tiger",
             "kind": "anonymous",
-            "artworkKey": "giraffe"
+            "artworkKey": "tiger"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.89110707803992,
-            "latencyP50Ms": 4612,
-            "uptimeSample": 2755,
-            "latencySample": 2752,
-            "requests": 2758,
-            "servedRequests": 2752
+            "uptimePct": 71.72478793590952,
+            "latencyP50Ms": 671,
+            "uptimeSample": 5305,
+            "latencySample": 3805,
+            "requests": 5305,
+            "servedRequests": 3805
           },
           "fields": [
             "authorFollowers",
@@ -45938,9 +45936,7 @@
             "watermarkedUrl",
             "width"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -45949,19 +45945,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
+            "id": "anonymous-giraffe",
+            "name": "Giraffe",
             "kind": "anonymous",
-            "artworkKey": "tiger"
+            "artworkKey": "giraffe"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 71.72478793590952,
-            "latencyP50Ms": 671,
-            "uptimeSample": 5305,
-            "latencySample": 3805,
-            "requests": 5305,
-            "servedRequests": 3805
+            "uptimePct": 99.89110707803992,
+            "latencyP50Ms": 4612,
+            "uptimeSample": 2755,
+            "latencySample": 2752,
+            "requests": 2758,
+            "servedRequests": 2752
           },
           "fields": [
             "authorFollowers",

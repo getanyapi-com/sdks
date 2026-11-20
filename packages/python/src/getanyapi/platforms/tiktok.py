@@ -4174,7 +4174,7 @@ class TiktokNamespace:
         call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL,
         IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
 
-        Price: $0.03 per request plus $0.0006 per result (maximum $0.09).
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_hashtags(limit=3, period=7, region="US")
@@ -5305,7 +5305,7 @@ class AsyncTiktokNamespace:
         call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL,
         IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
 
-        Price: $0.03 per request plus $0.0006 per result (maximum $0.09).
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.trending_hashtags(limit=3, period=7, region="US")

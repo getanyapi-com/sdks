@@ -134274,10 +134274,10 @@
       "category": "social",
       "description": "Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. Returns up to the top 100 hashtags of a board in one call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.",
       "pricing": {
-        "priceUsd": 0.09,
-        "baseUsd": 0.03,
-        "perItemUsd": 0.0006,
-        "perItemUnit": "result"
+        "priceUsd": 0.0012,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "tiktok",
       "tsMethod": "trendingHashtags",
