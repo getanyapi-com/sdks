@@ -68211,7 +68211,7 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.02,
+        "priceUsd": 0.006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -92114,12 +92114,12 @@
       "operationId": "people_search_quickenrich_company",
       "name": "People Search - QuickEnrich Company Contacts",
       "category": "data",
-      "description": "List the known contacts at one company domain, with work emails and direct phone lines where they are held. Returns up to 20 people per page for a flat per-request price. Coverage is strongest for small and local businesses.",
+      "description": "List the known contacts at one company domain, with work emails and direct phone lines where they are held. Returns up to 20 people per page, charged per contact returned; a page with no contacts is free. Coverage is strongest for small and local businesses.",
       "pricing": {
-        "priceUsd": 0.0072,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.1356,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.00672,
+        "perItemUnit": "result"
       },
       "tsNamespace": "peopleSearch",
       "tsMethod": "quickenrichCompany",
@@ -130053,7 +130053,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134963,7 +134963,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00045,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
