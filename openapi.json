@@ -27803,7 +27803,7 @@
     },
     "/v1/run/bing.search": {
       "post": {
-        "description": "Run a Bing web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) plus Bing's related searches as clean JSON. Returns up to 10 results per call; pick the country Bing searches from.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Bing Search pricing and uptime](https://getanyapi.com/api/bing/search) - live USD price, lane routing, and measured 30-day uptime. [Every Bing endpoint](https://getanyapi.com/api/bing).",
+        "description": "Run a Bing web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) plus Bing's related searches as clean JSON. Returns up to 10 results per call; pick the country Bing searches from.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Bing Search pricing and uptime](https://getanyapi.com/api/bing/search) - live USD price, lane routing, and measured 30-day uptime. [Every Bing endpoint](https://getanyapi.com/api/bing).",
         "operationId": "bing_search",
         "parameters": [
           {
@@ -140730,7 +140730,7 @@
                                       ]
                                     },
                                     "phones": {
-                                      "description": "Every phone number found for the account, in E.164 form where the number could be normalized. Empty when the account publishes none.",
+                                      "description": "Phone numbers found for the account. A number read from the bio (written with + and a country code) is in E.164 form; a contact number a source supplies is as the source writes it, and a number found both ways appears once when the source writes it with its country code. Empty when none is found.",
                                       "items": {
                                         "type": "string"
                                       },

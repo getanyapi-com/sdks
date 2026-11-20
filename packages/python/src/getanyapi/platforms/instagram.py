@@ -2448,7 +2448,7 @@ class InstagramProfileContactData(BaseModel):
     )
     phones: list[str] | None = Field(
         default=None,
-        description="Every phone number found for the account, in E.164 form where the number could be normalized. Empty when the account publishes none.",
+        description="Phone numbers found for the account. A number read from the bio (written with + and a country code) is in E.164 form; a contact number a source supplies is as the source writes it, and a number found both ways appears once when the source writes it with its country code. Empty when none is found.",
     )
     private: bool | None = Field(
         default=None, description="Whether the account is private."
