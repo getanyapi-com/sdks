@@ -1569,7 +1569,7 @@ class YoutubeNamespace:
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination, views, and publish timestamps.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.youtube.channel_shorts(handle="@zachking", sort="latest")
@@ -2242,7 +2242,7 @@ class AsyncYoutubeNamespace:
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination, views, and publish timestamps.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.youtube.channel_shorts(handle="@zachking", sort="latest")

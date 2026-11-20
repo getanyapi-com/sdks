@@ -1962,7 +1962,7 @@ export class YoutubeNamespace {
    *
    * List a YouTube channel's Shorts by handle or channel ID with cursor pagination, views, and publish timestamps.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.youtube.channelShorts({ handle: "@zachking", sort: "latest" });

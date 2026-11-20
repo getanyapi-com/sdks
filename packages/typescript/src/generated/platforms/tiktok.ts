@@ -4793,7 +4793,7 @@ export class TiktokNamespace {
    *
    * Rank TikTok's trending hashtags for one country and industry, with each hashtag's daily popularity curve, post count, video views, and leading creators. Ranks 15 industry categories, or omit industry for the all-industries board. Returns up to the top 100 hashtags of a board in one call. Covers 27 markets: AE, AR, AU, BR, CA, CO, DE, EG, ES, FR, GB, ID, IL, IT, JP, KR, MX, MY, PH, SA, SG, TH, TR, TW, US, VN, ZA.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.03 per request plus $0.0006 per result (maximum $0.09).
    *
    * @example
    * const res = await client.tiktok.trendingHashtags({ limit: 3, period: 7, region: "US" });
