@@ -14085,48 +14085,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0018,
-          "maxPer1kUsd": 1.8
+          "maxUsd": 0.0015,
+          "maxPer1kUsd": 1.5
         },
-        "failoverMaxUsd": 0.0018,
-        "failoverMaxPer1kUsd": 1.8
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0018,
-            "maxPer1kUsd": 1.8
-          },
-          "source": {
-            "id": "anonymous-narwhal",
-            "name": "Narwhal",
-            "kind": "anonymous",
-            "artworkKey": "narwhal"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 71.28496503496504,
-            "latencyP50Ms": 13254,
-            "uptimeSample": 9152,
-            "latencySample": 6524,
-            "requests": 9368,
-            "servedRequests": 6524
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -14169,19 +14134,19 @@
             "maxPer1kUsd": 1.8
           },
           "source": {
-            "id": "anonymous-koala",
-            "name": "Koala",
+            "id": "anonymous-narwhal",
+            "name": "Narwhal",
             "kind": "anonymous",
-            "artworkKey": "koala"
+            "artworkKey": "narwhal"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 35.23654159869494,
-            "latencyP50Ms": 65528,
-            "uptimeSample": 1226,
-            "latencySample": 432,
-            "requests": 1226,
-            "servedRequests": 432
+            "uptimePct": 71.28496503496504,
+            "latencyP50Ms": 13254,
+            "uptimeSample": 9152,
+            "latencySample": 6524,
+            "requests": 9368,
+            "servedRequests": 6524
           },
           "fields": [
             "answer",
@@ -14190,7 +14155,6 @@
             "index",
             "language",
             "prompt",
-            "scrapedAt",
             "title",
             "url"
           ]
@@ -14230,9 +14194,45 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0018,
+            "maxPer1kUsd": 1.8
+          },
+          "source": {
+            "id": "anonymous-koala",
+            "name": "Koala",
+            "kind": "anonymous",
+            "artworkKey": "koala"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 35.23654159869494,
+            "latencyP50Ms": 65528,
+            "uptimeSample": 1226,
+            "latencySample": 432,
+            "requests": 1226,
+            "servedRequests": 432
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        }
+      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "google.ai_overview_preview",
@@ -21237,29 +21237,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00175,
-            "maxPer1kUsd": 1.75
-          },
-          "source": {
-            "id": "anonymous-manatee",
-            "name": "Manatee",
-            "kind": "anonymous",
-            "artworkKey": "manatee"
-          },
-          "fields": [
-            "avatarUrl",
-            "displayName",
-            "private",
-            "profiles",
-            "userId",
-            "username",
-            "verified"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0022,
             "maxPer1kUsd": 2.2
           },
@@ -21277,6 +21254,31 @@
             "latencySample": 1539,
             "requests": 1805,
             "servedRequests": 1539
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "private",
+            "profiles",
+            "userId",
+            "username",
+            "verified"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00175,
+            "maxPer1kUsd": 1.75
+          },
+          "source": {
+            "id": "anonymous-manatee",
+            "name": "Manatee",
+            "kind": "anonymous",
+            "artworkKey": "manatee"
           },
           "fields": [
             "avatarUrl",
@@ -27760,8 +27762,8 @@
           "maxUsd": 0.0025,
           "maxPer1kUsd": 2.5
         },
-        "failoverMaxUsd": 0.132,
-        "failoverMaxPer1kUsd": 132
+        "failoverMaxUsd": 0.194,
+        "failoverMaxPer1kUsd": 194
       },
       "lanes": [
         {
@@ -27895,9 +27897,7 @@
             "text",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "linear",
@@ -42601,66 +42601,15 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00088,
+          "baseUsd": 0.00109,
           "perUnitUsd": 0,
-          "maxUsd": 0.00088,
-          "maxPer1kUsd": 0.88
+          "maxUsd": 0.00109,
+          "maxPer1kUsd": 1.09
         },
         "failoverMaxUsd": 0.00352,
         "failoverMaxPer1kUsd": 3.52
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0.00088,
-            "perUnitUsd": 0,
-            "maxUsd": 0.00088,
-            "maxPer1kUsd": 0.88
-          },
-          "source": {
-            "id": "anonymous-octopus",
-            "name": "Octopus",
-            "kind": "anonymous",
-            "artworkKey": "octopus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.10629740289589,
-            "latencyP50Ms": 3097,
-            "uptimeSample": 174040,
-            "latencySample": 156821,
-            "requests": 174043,
-            "servedRequests": 156821
-          },
-          "fields": [
-            "avatarUrl",
-            "bio",
-            "displayName",
-            "domain",
-            "domainHealth",
-            "email",
-            "emails",
-            "externalUrl",
-            "followers",
-            "following",
-            "handle",
-            "likes",
-            "platform",
-            "primaryEmail",
-            "private",
-            "profileUrl",
-            "seller",
-            "socialLinks",
-            "sourceType",
-            "sourceUrl",
-            "url",
-            "userId",
-            "verified",
-            "videos"
-          ]
-        },
         {
           "pricing": {
             "model": "linear",
@@ -42742,6 +42691,59 @@
             "seller",
             "socialLinks",
             "sourceType",
+            "url",
+            "userId",
+            "verified",
+            "videos"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00088,
+            "perUnitUsd": 0,
+            "maxUsd": 0.00088,
+            "maxPer1kUsd": 0.88
+          },
+          "source": {
+            "id": "anonymous-octopus",
+            "name": "Octopus",
+            "kind": "anonymous",
+            "artworkKey": "octopus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.10629740289589,
+            "latencyP50Ms": 3097,
+            "uptimeSample": 174040,
+            "latencySample": 156821,
+            "requests": 174043,
+            "servedRequests": 156821
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "displayName",
+            "domain",
+            "domainHealth",
+            "email",
+            "emails",
+            "externalUrl",
+            "followers",
+            "following",
+            "handle",
+            "likes",
+            "platform",
+            "primaryEmail",
+            "private",
+            "profileUrl",
+            "seller",
+            "socialLinks",
+            "sourceType",
+            "sourceUrl",
             "url",
             "userId",
             "verified",
@@ -51234,6 +51236,35 @@
             "maxPer1kUsd": 1
           },
           "source": {
+            "id": "anonymous-badger-23d97e8f",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 93.71428571428571,
+            "latencyP50Ms": 3788,
+            "uptimeSample": 525,
+            "latencySample": 492,
+            "requests": 531,
+            "servedRequests": 492
+          },
+          "fields": [
+            "description",
+            "results",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
             "id": "anonymous-salamander",
             "name": "Salamander",
             "kind": "anonymous",
@@ -51256,40 +51287,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
-          },
-          "source": {
-            "id": "anonymous-badger-23d97e8f",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 93.71428571428571,
-            "latencyP50Ms": 3788,
-            "uptimeSample": 525,
-            "latencySample": 492,
-            "requests": 531,
-            "servedRequests": 492
-          },
-          "fields": [
-            "description",
-            "results",
-            "title",
-            "url"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "web.scrape",
