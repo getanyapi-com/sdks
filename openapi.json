@@ -30968,7 +30968,7 @@
     },
     "/v1/run/brave.search": {
       "post": {
-        "description": "Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call, with related searches and video results where the source has them; page deeper with page and pick the country Brave searches from.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Brave Search pricing and uptime](https://getanyapi.com/api/brave/search) - live USD price, lane routing, and measured 30-day uptime. [Every Brave endpoint](https://getanyapi.com/api/brave).",
+        "description": "Run a Brave web search and get the ranked organic results (title, URL, snippet, position, display URL, domain) as clean JSON. Brave answers from its own independent index. Returns up to 20 results per call, with related searches and video results where the source has them; page deeper with page and pick the country Brave searches from.\n\n**Price:** \\$0.85 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Brave Search pricing and uptime](https://getanyapi.com/api/brave/search) - live USD price, lane routing, and measured 30-day uptime. [Every Brave endpoint](https://getanyapi.com/api/brave).",
         "operationId": "brave_search",
         "parameters": [
           {
@@ -107311,7 +107311,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -163673,7 +163673,7 @@
     },
     "/v1/run/linkedin.company_employees": {
       "post": {
-        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$6.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$20.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_employees",
         "parameters": [
           {
@@ -164229,7 +164229,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.006000",
+            "amount": "0.020000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -164271,7 +164271,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.007000",
+                "amount": "0.021000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -164303,7 +164303,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.006000",
+                "amount": "0.020000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -327719,7 +327719,7 @@
     },
     "/v1/run/web.map": {
       "post": {
-        "description": "Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Web Map pricing and uptime](https://getanyapi.com/api/web/map) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Web Map pricing and uptime](https://getanyapi.com/api/web/map) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_map",
         "parameters": [
           {
