@@ -6613,7 +6613,7 @@ export class LinkedinNamespace {
    *
    * Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).
    *
-   * Price: $0.00011 per request plus $0.00061 per result (maximum $0.0123).
+   * Price: $0.00012 per request plus $0.00066 per result (maximum $0.0134).
    *
    * @example
    * const res = await client.linkedin.ads({ url: "https://www.linkedin.com/company/stripe", limit: 3 });
@@ -6667,7 +6667,7 @@ export class LinkedinNamespace {
    *
    * Read a public LinkedIn article or newsletter issue by URL, including its full body text, author, publication time, and engagement counts.
    *
-   * Price: $0.00565 per request plus $0 per result (maximum $0.00565).
+   * Price: $0.00616 per request plus $0 per result (maximum $0.00616).
    *
    * @example
    * const res = await client.linkedin.article({ url: "https://www.linkedin.com/pulse/artificial-intelligence-primer-stephen-dover" });
@@ -6735,7 +6735,7 @@ export class LinkedinNamespace {
    *
    * List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.
    *
-   * Price: $0.006 per request.
+   * Price: $0.02 per request.
    *
    * @example
    * const res = await client.linkedin.companyEmployees({ company: "stripe", limit: 3 });
@@ -6803,7 +6803,7 @@ export class LinkedinNamespace {
    *
    * Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.
    *
-   * Price: $0.011 per request plus $0 per result (maximum $0.011).
+   * Price: $0.012 per request plus $0 per result (maximum $0.012).
    *
    * @example
    * const res = await client.linkedin.email({ profileUrl: "https://www.linkedin.com/in/satyanadella" });
@@ -7275,7 +7275,7 @@ export class LinkedinNamespace {
    *
    * Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.
    *
-   * Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
+   * Price: $0.096 per request plus $0.0048 per result (maximum $0.216).
    *
    * @example
    * const res = await client.linkedin.searchProfiles({ query: "engineer", currentCompanies: ["Google"], limit: 3 });
@@ -7292,7 +7292,7 @@ export class LinkedinNamespace {
    *
    * People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. Email discovery is best effort and needs the profile to expose a resolvable company domain, so on a broad search many matches return an empty emails array while still billing the email rate. If you already have names and company domains, email.find, email_finding.icypeas, and email_finding.dropleads resolve addresses directly for less, and linkedin.email enriches a single known profile URL. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.
    *
-   * Price: $0.088 per request plus $0.0099 per result (maximum $0.336).
+   * Price: $0.096 per request plus $0.0108 per result (maximum $0.366).
    *
    * @example
    * const res = await client.linkedin.searchProfilesEmail({ query: "founder", companyHeadcount: ["B"], limit: 5 });

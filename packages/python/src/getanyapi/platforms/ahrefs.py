@@ -407,7 +407,7 @@ class AhrefsNamespace:
         Get the referring pages linking to a domain or URL, each with the source
         page, anchor text, linking domain rating, and page title.
 
-        Price: $0.00501 per request plus $0 per result (maximum $0.00501).
+        Price: $0.00546 per request plus $0 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
@@ -428,7 +428,7 @@ class AhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
@@ -450,7 +450,7 @@ class AhrefsNamespace:
         difficulty score (0-100) and the number of referring domains a page needs to
         rank in the top 10 - as normalized JSON.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
@@ -472,7 +472,7 @@ class AhrefsNamespace:
         backlinks, and referring domains - as normalized JSON. For the keywords a
         domain ranks for, use seo.ranked_keywords.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")
@@ -496,7 +496,7 @@ class AhrefsNamespace:
         history - as normalized JSON. For a domain's full ranked-keyword list with
         search volume and difficulty, use seo.ranked_keywords.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.traffic(mode="subdomains", url="ahrefs.com")
@@ -524,7 +524,7 @@ class AsyncAhrefsNamespace:
         Get the referring pages linking to a domain or URL, each with the source
         page, anchor text, linking domain rating, and page title.
 
-        Price: $0.00501 per request plus $0 per result (maximum $0.00501).
+        Price: $0.00546 per request plus $0 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.backlinks(mode="exact", url="ahrefs.com")
@@ -545,7 +545,7 @@ class AsyncAhrefsNamespace:
         Get related keyword suggestions for any seed term, each with an Ahrefs
         difficulty and search-volume bucket.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.keyword_ideas(country="us", keyword="coffee")
@@ -567,7 +567,7 @@ class AsyncAhrefsNamespace:
         difficulty score (0-100) and the number of referring domains a page needs to
         rank in the top 10 - as normalized JSON.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.keywords(country="us", keyword="seo tools")
@@ -589,7 +589,7 @@ class AsyncAhrefsNamespace:
         backlinks, and referring domains - as normalized JSON. For the keywords a
         domain ranks for, use seo.ranked_keywords.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.overview(mode="subdomains", url="ahrefs.com")
@@ -613,7 +613,7 @@ class AsyncAhrefsNamespace:
         history - as normalized JSON. For a domain's full ranked-keyword list with
         search volume and difficulty, use seo.ranked_keywords.
 
-        Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+        Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
 
         Example:
             res = client.ahrefs.traffic(mode="subdomains", url="ahrefs.com")

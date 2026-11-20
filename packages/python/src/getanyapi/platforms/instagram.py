@@ -5590,7 +5590,7 @@ class InstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.0022 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -5763,7 +5763,7 @@ class InstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")
@@ -6975,7 +6975,7 @@ class AsyncInstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.0022 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -7148,7 +7148,7 @@ class AsyncInstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.001 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")

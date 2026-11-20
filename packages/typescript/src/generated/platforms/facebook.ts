@@ -3542,7 +3542,7 @@ export class FacebookNamespace {
    *
    * Pull one Meta Ad Library ad with its creative: every carousel variant, image and video URL, headline, body, and call to action.
    *
-   * Price: $0.00374 per request plus $0 per result (maximum $0.00374).
+   * Price: $0.00408 per request plus $0 per result (maximum $0.00408).
    *
    * @example
    * const res = await client.facebook.adDetailsFull({ id: "962050096457659" });
@@ -4224,7 +4224,7 @@ export class FacebookNamespace {
    *
    * Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).
    *
-   * Price: $0.0011 per request plus $0.0099 per result (maximum $0.101).
+   * Price: $0.0012 per request plus $0.0108 per result (maximum $0.11).
    *
    * @example
    * const res = await client.facebook.searchPages({ query: "nike", limit: 3 });

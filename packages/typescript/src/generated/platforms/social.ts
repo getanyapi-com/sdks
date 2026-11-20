@@ -82,7 +82,7 @@ export class SocialNamespace {
    *
    * Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.
    *
-   * Price: $0.0011 per request plus $0.0022 per result (maximum $0.0231).
+   * Price: $0.0012 per request plus $0.0024 per result (maximum $0.0252).
    *
    * @example
    * const res = await client.social.finder({ name: "Elon Musk", limit: 3 });

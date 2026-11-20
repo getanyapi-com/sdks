@@ -5346,7 +5346,7 @@ class LinkedinNamespace:
         Search the LinkedIn Ad Library by search URL and list the matching ads
         (advertiser, creative text, format).
 
-        Price: $0.00011 per request plus $0.00061 per result (maximum $0.0123).
+        Price: $0.00012 per request plus $0.00066 per result (maximum $0.0134).
 
         Example:
             res = client.linkedin.ads(limit=3, url="https://www.linkedin.com/company/stripe")
@@ -5412,7 +5412,7 @@ class LinkedinNamespace:
         Read a public LinkedIn article or newsletter issue by URL, including its
         full body text, author, publication time, and engagement counts.
 
-        Price: $0.00565 per request plus $0 per result (maximum $0.00565).
+        Price: $0.00616 per request plus $0 per result (maximum $0.00616).
 
         Example:
             res = client.linkedin.article(url="https://www.linkedin.com/pulse/artificial-intelligence-primer-stephen-dover")
@@ -5497,7 +5497,7 @@ class LinkedinNamespace:
         List the employees of a LinkedIn company by name or company URL, with
         optional job-title filtering.
 
-        Price: $0.006 per request.
+        Price: $0.02 per request.
 
         Example:
             res = client.linkedin.company_employees(company="stripe", limit=3)
@@ -5584,7 +5584,7 @@ class LinkedinNamespace:
         or public ID. Returns each discovered email with its deliverability,
         validation status, and quality score, plus the person's name and headline.
 
-        Price: $0.011 per request plus $0 per result (maximum $0.011).
+        Price: $0.012 per request plus $0 per result (maximum $0.012).
 
         Example:
             res = client.linkedin.email(profileUrl="https://www.linkedin.com/in/satyanadella")
@@ -6166,7 +6166,7 @@ class LinkedinNamespace:
         linkedin.search_profiles_thin; add emails with
         linkedin.search_profiles_email.
 
-        Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
+        Price: $0.096 per request plus $0.0048 per result (maximum $0.216).
 
         Example:
             res = client.linkedin.search_profiles(currentCompanies=["Google"], limit=3, query="engineer")
@@ -6199,7 +6199,7 @@ class LinkedinNamespace:
         for a cheaper name/headline/URL-only search use
         linkedin.search_profiles_thin.
 
-        Price: $0.088 per request plus $0.0099 per result (maximum $0.336).
+        Price: $0.096 per request plus $0.0108 per result (maximum $0.366).
 
         Example:
             res = client.linkedin.search_profiles_email(companyHeadcount=["B"], limit=5, query="founder")
@@ -6315,7 +6315,7 @@ class AsyncLinkedinNamespace:
         Search the LinkedIn Ad Library by search URL and list the matching ads
         (advertiser, creative text, format).
 
-        Price: $0.00011 per request plus $0.00061 per result (maximum $0.0123).
+        Price: $0.00012 per request plus $0.00066 per result (maximum $0.0134).
 
         Example:
             res = client.linkedin.ads(limit=3, url="https://www.linkedin.com/company/stripe")
@@ -6381,7 +6381,7 @@ class AsyncLinkedinNamespace:
         Read a public LinkedIn article or newsletter issue by URL, including its
         full body text, author, publication time, and engagement counts.
 
-        Price: $0.00565 per request plus $0 per result (maximum $0.00565).
+        Price: $0.00616 per request plus $0 per result (maximum $0.00616).
 
         Example:
             res = client.linkedin.article(url="https://www.linkedin.com/pulse/artificial-intelligence-primer-stephen-dover")
@@ -6466,7 +6466,7 @@ class AsyncLinkedinNamespace:
         List the employees of a LinkedIn company by name or company URL, with
         optional job-title filtering.
 
-        Price: $0.006 per request.
+        Price: $0.02 per request.
 
         Example:
             res = client.linkedin.company_employees(company="stripe", limit=3)
@@ -6553,7 +6553,7 @@ class AsyncLinkedinNamespace:
         or public ID. Returns each discovered email with its deliverability,
         validation status, and quality score, plus the person's name and headline.
 
-        Price: $0.011 per request plus $0 per result (maximum $0.011).
+        Price: $0.012 per request plus $0 per result (maximum $0.012).
 
         Example:
             res = client.linkedin.email(profileUrl="https://www.linkedin.com/in/satyanadella")
@@ -7135,7 +7135,7 @@ class AsyncLinkedinNamespace:
         linkedin.search_profiles_thin; add emails with
         linkedin.search_profiles_email.
 
-        Price: $0.088 per request plus $0.0044 per result (maximum $0.198).
+        Price: $0.096 per request plus $0.0048 per result (maximum $0.216).
 
         Example:
             res = client.linkedin.search_profiles(currentCompanies=["Google"], limit=3, query="engineer")
@@ -7168,7 +7168,7 @@ class AsyncLinkedinNamespace:
         for a cheaper name/headline/URL-only search use
         linkedin.search_profiles_thin.
 
-        Price: $0.088 per request plus $0.0099 per result (maximum $0.336).
+        Price: $0.096 per request plus $0.0108 per result (maximum $0.366).
 
         Example:
             res = client.linkedin.search_profiles_email(companyHeadcount=["B"], limit=5, query="founder")

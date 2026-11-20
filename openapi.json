@@ -1691,7 +1691,7 @@
     },
     "/v1/run/ahrefs.backlinks": {
       "post": {
-        "description": "Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.\n\n**Price:** billed per result - \\$5.01 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$5.01 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Backlinks pricing and uptime](https://getanyapi.com/api/ahrefs/backlinks) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
+        "description": "Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.\n\n**Price:** billed per result - \\$5.46 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$5.46 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Backlinks pricing and uptime](https://getanyapi.com/api/ahrefs/backlinks) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
         "operationId": "ahrefs_backlinks",
         "parameters": [
           {
@@ -2176,8 +2176,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005010",
-            "min": "0.005010",
+            "max": "0.005460",
+            "min": "0.005460",
             "mode": "dynamic"
           },
           "protocols": [
@@ -2219,8 +2219,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006010",
-                "min": "0.006010",
+                "max": "0.006460",
+                "min": "0.006460",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -2252,8 +2252,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005010",
-                "min": "0.005010",
+                "max": "0.005460",
+                "min": "0.005460",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -2281,7 +2281,7 @@
     },
     "/v1/run/ahrefs.keyword_ideas": {
       "post": {
-        "description": "Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$4.95 per 1,000 results, capped at \\$5.01 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Keyword Ideas pricing and uptime](https://getanyapi.com/api/ahrefs/keyword-ideas) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
+        "description": "Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$5.40 per 1,000 results, capped at \\$5.46 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Keyword Ideas pricing and uptime](https://getanyapi.com/api/ahrefs/keyword-ideas) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
         "operationId": "ahrefs_keyword_ideas",
         "parameters": [
           {
@@ -2800,7 +2800,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005010",
+            "max": "0.005460",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -2843,7 +2843,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006010",
+                "max": "0.006460",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -2876,7 +2876,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005010",
+                "max": "0.005460",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -2905,7 +2905,7 @@
     },
     "/v1/run/ahrefs.keywords": {
       "post": {
-        "description": "Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$4.95 per 1,000 results, capped at \\$5.01 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Keyword Difficulty pricing and uptime](https://getanyapi.com/api/ahrefs/keywords) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
+        "description": "Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$5.40 per 1,000 results, capped at \\$5.46 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Keyword Difficulty pricing and uptime](https://getanyapi.com/api/ahrefs/keywords) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
         "operationId": "ahrefs_keywords",
         "parameters": [
           {
@@ -3385,7 +3385,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005010",
+            "max": "0.005460",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -3428,7 +3428,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006010",
+                "max": "0.006460",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -3461,7 +3461,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005010",
+                "max": "0.005460",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -3490,7 +3490,7 @@
     },
     "/v1/run/ahrefs.overview": {
       "post": {
-        "description": "Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON. For the keywords a domain ranks for, use seo.ranked_keywords.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$4.95 per 1,000 results, capped at \\$5.01 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Domain Overview pricing and uptime](https://getanyapi.com/api/ahrefs/overview) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
+        "description": "Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON. For the keywords a domain ranks for, use seo.ranked_keywords.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$5.40 per 1,000 results, capped at \\$5.46 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Domain Overview pricing and uptime](https://getanyapi.com/api/ahrefs/overview) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
         "operationId": "ahrefs_overview",
         "parameters": [
           {
@@ -3978,7 +3978,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005010",
+            "max": "0.005460",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -4021,7 +4021,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006010",
+                "max": "0.006460",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -4054,7 +4054,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005010",
+                "max": "0.005460",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -4083,7 +4083,7 @@
     },
     "/v1/run/ahrefs.traffic": {
       "post": {
-        "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$4.95 per 1,000 results, capped at \\$5.01 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Traffic Overview pricing and uptime](https://getanyapi.com/api/ahrefs/traffic) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
+        "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$5.40 per 1,000 results, capped at \\$5.46 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Traffic Overview pricing and uptime](https://getanyapi.com/api/ahrefs/traffic) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
         "operationId": "ahrefs_traffic",
         "parameters": [
           {
@@ -4651,7 +4651,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005010",
+            "max": "0.005460",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -4694,7 +4694,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006010",
+                "max": "0.006460",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -4727,7 +4727,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005010",
+                "max": "0.005460",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -4756,7 +4756,7 @@
     },
     "/v1/run/airbnb.search": {
       "post": {
-        "description": "Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.\n\n**Price:** billed per result - \\$0.08 per 1,000 requests base + \\$1.10 per 1,000 results, capped at \\$22.10 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Airbnb Search pricing and uptime](https://getanyapi.com/api/airbnb/search) - live USD price, lane routing, and measured 30-day uptime. [Every Airbnb endpoint](https://getanyapi.com/api/airbnb).",
+        "description": "Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.\n\n**Price:** billed per result - \\$0.09 per 1,000 requests base + \\$1.20 per 1,000 results, capped at \\$24.10 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Airbnb Search pricing and uptime](https://getanyapi.com/api/airbnb/search) - live USD price, lane routing, and measured 30-day uptime. [Every Airbnb endpoint](https://getanyapi.com/api/airbnb).",
         "operationId": "airbnb_search",
         "parameters": [
           {
@@ -5450,8 +5450,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.022100",
-            "min": "0.000080",
+            "max": "0.024100",
+            "min": "0.000090",
             "mode": "dynamic"
           },
           "protocols": [
@@ -5493,8 +5493,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.023100",
-                "min": "0.001080",
+                "max": "0.025100",
+                "min": "0.001090",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -5526,8 +5526,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.022100",
-                "min": "0.000080",
+                "max": "0.024100",
+                "min": "0.000090",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -5555,7 +5555,7 @@
     },
     "/v1/run/alibaba.search": {
       "post": {
-        "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.\n\n**Price:** billed per result - \\$0.77 per 1,000 results, capped at \\$19.30 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Alibaba Search pricing and uptime](https://getanyapi.com/api/alibaba/search) - live USD price, lane routing, and measured 30-day uptime. [Every Alibaba endpoint](https://getanyapi.com/api/alibaba).",
+        "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.\n\n**Price:** billed per result - \\$0.84 per 1,000 results, capped at \\$21.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Alibaba Search pricing and uptime](https://getanyapi.com/api/alibaba/search) - live USD price, lane routing, and measured 30-day uptime. [Every Alibaba endpoint](https://getanyapi.com/api/alibaba).",
         "operationId": "alibaba_search",
         "parameters": [
           {
@@ -6093,7 +6093,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.019300",
+            "max": "0.021000",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -6136,7 +6136,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.020300",
+                "max": "0.022000",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -6169,7 +6169,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.019300",
+                "max": "0.021000",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -8576,7 +8576,7 @@
     },
     "/v1/run/amazon.asins": {
       "post": {
-        "description": "Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.\n\n**Price:** billed per asin - \\$3.30 per 1,000 asins, capped at \\$33.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Amazon Products by ASIN pricing and uptime](https://getanyapi.com/api/amazon/asins) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
+        "description": "Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.\n\n**Price:** billed per asin - \\$3.60 per 1,000 asins, capped at \\$36.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Amazon Products by ASIN pricing and uptime](https://getanyapi.com/api/amazon/asins) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
         "operationId": "amazon_asins",
         "parameters": [
           {
@@ -9130,7 +9130,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.033000",
+            "max": "0.036000",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -9173,7 +9173,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.034000",
+                "max": "0.037000",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -9206,7 +9206,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.033000",
+                "max": "0.036000",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -11325,7 +11325,7 @@
     },
     "/v1/run/amazon.product": {
       "post": {
-        "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Amazon Product pricing and uptime](https://getanyapi.com/api/amazon/product) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
+        "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.\n\n**Price:** \\$0.90 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Amazon Product pricing and uptime](https://getanyapi.com/api/amazon/product) - live USD price, lane routing, and measured 30-day uptime. [Every Amazon endpoint](https://getanyapi.com/api/amazon).",
         "operationId": "amazon_product",
         "parameters": [
           {
@@ -11871,7 +11871,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.000900",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -11913,7 +11913,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.001900",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -11945,7 +11945,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.000900",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -31725,7 +31725,7 @@
     },
     "/v1/run/capterra.reviews": {
       "post": {
-        "description": "Pull Capterra software reviews for any product: overall and sub-ratings, pros and cons, reviewer job title, company size, and industry as clean JSON.\n\n**Price:** billed per result - \\$5.50 per 1,000 requests base + \\$0.77 per 1,000 results, capped at \\$82.50 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Capterra Reviews pricing and uptime](https://getanyapi.com/api/capterra/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Capterra endpoint](https://getanyapi.com/api/capterra).",
+        "description": "Pull Capterra software reviews for any product: overall and sub-ratings, pros and cons, reviewer job title, company size, and industry as clean JSON.\n\n**Price:** billed per result - \\$6.00 per 1,000 requests base + \\$0.84 per 1,000 results, capped at \\$90.00 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Capterra Reviews pricing and uptime](https://getanyapi.com/api/capterra/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every Capterra endpoint](https://getanyapi.com/api/capterra).",
         "operationId": "capterra_reviews",
         "parameters": [
           {
@@ -32380,8 +32380,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.082500",
-            "min": "0.005500",
+            "max": "0.090000",
+            "min": "0.006000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -32423,8 +32423,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.083500",
-                "min": "0.006500",
+                "max": "0.091000",
+                "min": "0.007000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -32456,8 +32456,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.082500",
-                "min": "0.005500",
+                "max": "0.090000",
+                "min": "0.006000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -33439,7 +33439,7 @@
     },
     "/v1/run/coinmarketcap.listings": {
       "post": {
-        "description": "Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.\n\n**Price:** billed per result - \\$1.98 per 1,000 results, capped at \\$49.50 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [CoinMarketCap Listings pricing and uptime](https://getanyapi.com/api/coinmarketcap/listings) - live USD price, lane routing, and measured 30-day uptime. [Every Coinmarketcap endpoint](https://getanyapi.com/api/coinmarketcap).",
+        "description": "Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.\n\n**Price:** billed per result - \\$2.16 per 1,000 results, capped at \\$54.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [CoinMarketCap Listings pricing and uptime](https://getanyapi.com/api/coinmarketcap/listings) - live USD price, lane routing, and measured 30-day uptime. [Every Coinmarketcap endpoint](https://getanyapi.com/api/coinmarketcap).",
         "operationId": "coinmarketcap_listings",
         "parameters": [
           {
@@ -34013,7 +34013,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.049500",
+            "max": "0.054000",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -34056,7 +34056,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.050500",
+                "max": "0.055000",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -34089,7 +34089,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.049500",
+                "max": "0.054000",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -54154,7 +54154,7 @@
     },
     "/v1/run/congress.trades": {
       "post": {
-        "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range. Results come newest filing first (by reportedUtc, not tradedUtc), so a recent filing can list trades made years earlier.\n\n**Price:** billed per result - \\$1.10 per 1,000 requests base + \\$1.81 per 1,000 results, capped at \\$46.20 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Congress Stock Trades pricing and uptime](https://getanyapi.com/api/congress/trades) - live USD price, lane routing, and measured 30-day uptime. [Every Congress endpoint](https://getanyapi.com/api/congress).",
+        "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range. Results come newest filing first (by reportedUtc, not tradedUtc), so a recent filing can list trades made years earlier.\n\n**Price:** billed per result - \\$1.20 per 1,000 requests base + \\$1.97 per 1,000 results, capped at \\$50.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Congress Stock Trades pricing and uptime](https://getanyapi.com/api/congress/trades) - live USD price, lane routing, and measured 30-day uptime. [Every Congress endpoint](https://getanyapi.com/api/congress).",
         "operationId": "congress_trades",
         "parameters": [
           {
@@ -54684,8 +54684,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.046200",
-            "min": "0.001100",
+            "max": "0.050400",
+            "min": "0.001200",
             "mode": "dynamic"
           },
           "protocols": [
@@ -54727,8 +54727,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.047200",
-                "min": "0.002100",
+                "max": "0.051400",
+                "min": "0.002200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -54760,8 +54760,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.046200",
-                "min": "0.001100",
+                "max": "0.050400",
+                "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -76453,7 +76453,7 @@
     },
     "/v1/run/facebook.ad_details_full": {
       "post": {
-        "description": "Pull one Meta Ad Library ad with its creative: every carousel variant, image and video URL, headline, body, and call to action.\n\n**Price:** billed per result - \\$3.74 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$3.74 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Ad Creative Details pricing and uptime](https://getanyapi.com/api/facebook/ad-details-full) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Pull one Meta Ad Library ad with its creative: every carousel variant, image and video URL, headline, body, and call to action.\n\n**Price:** billed per result - \\$4.08 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$4.08 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Ad Creative Details pricing and uptime](https://getanyapi.com/api/facebook/ad-details-full) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_ad_details_full",
         "parameters": [
           {
@@ -77082,8 +77082,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.003740",
-            "min": "0.003740",
+            "max": "0.004080",
+            "min": "0.004080",
             "mode": "dynamic"
           },
           "protocols": [
@@ -77125,8 +77125,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.004740",
-                "min": "0.004740",
+                "max": "0.005080",
+                "min": "0.005080",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -77158,8 +77158,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003740",
-                "min": "0.003740",
+                "max": "0.004080",
+                "min": "0.004080",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -92362,7 +92362,7 @@
     },
     "/v1/run/facebook.search_pages": {
       "post": {
-        "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).\n\n**Price:** billed per result - \\$1.10 per 1,000 requests base + \\$9.90 per 1,000 results, capped at \\$101.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Page Search pricing and uptime](https://getanyapi.com/api/facebook/search-pages) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).\n\n**Price:** billed per result - \\$1.20 per 1,000 requests base + \\$10.80 per 1,000 results, capped at \\$110.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Page Search pricing and uptime](https://getanyapi.com/api/facebook/search-pages) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_search_pages",
         "parameters": [
           {
@@ -92895,8 +92895,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.101000",
-            "min": "0.001100",
+            "max": "0.110000",
+            "min": "0.001200",
             "mode": "dynamic"
           },
           "protocols": [
@@ -92938,8 +92938,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.102000",
-                "min": "0.002100",
+                "max": "0.111000",
+                "min": "0.002200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -92971,8 +92971,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.101000",
-                "min": "0.001100",
+                "max": "0.110000",
+                "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -93705,7 +93705,7 @@
     },
     "/v1/run/fiverr.search": {
       "post": {
-        "description": "Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.\n\n**Price:** billed per result - \\$1.65 per 1,000 results, capped at \\$33.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Fiverr Gig Search pricing and uptime](https://getanyapi.com/api/fiverr/search) - live USD price, lane routing, and measured 30-day uptime. [Every Fiverr endpoint](https://getanyapi.com/api/fiverr).",
+        "description": "Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.\n\n**Price:** billed per result - \\$1.80 per 1,000 results, capped at \\$36.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Fiverr Gig Search pricing and uptime](https://getanyapi.com/api/fiverr/search) - live USD price, lane routing, and measured 30-day uptime. [Every Fiverr endpoint](https://getanyapi.com/api/fiverr).",
         "operationId": "fiverr_search",
         "parameters": [
           {
@@ -94218,7 +94218,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.033000",
+            "max": "0.036000",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -94261,7 +94261,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.034000",
+                "max": "0.037000",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -94294,7 +94294,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.033000",
+                "max": "0.036000",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -94323,7 +94323,7 @@
     },
     "/v1/run/g2.reviews": {
       "post": {
-        "description": "Pull G2 software reviews for any product: star rating, what reviewers like and dislike, problems solved, market segment, and G2's rating rubric as clean JSON.\n\n**Price:** billed per result - \\$0.15 per 1,000 requests base + \\$0.05 per 1,000 results, capped at \\$4.55 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [G2 Reviews pricing and uptime](https://getanyapi.com/api/g2/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every G2 endpoint](https://getanyapi.com/api/g2).",
+        "description": "Pull G2 software reviews for any product: star rating, what reviewers like and dislike, problems solved, market segment, and G2's rating rubric as clean JSON.\n\n**Price:** billed per result - \\$0.16 per 1,000 requests base + \\$0.05 per 1,000 results, capped at \\$4.96 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [G2 Reviews pricing and uptime](https://getanyapi.com/api/g2/reviews) - live USD price, lane routing, and measured 30-day uptime. [Every G2 endpoint](https://getanyapi.com/api/g2).",
         "operationId": "g2_reviews",
         "parameters": [
           {
@@ -94933,8 +94933,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.004550",
-            "min": "0.000150",
+            "max": "0.004960",
+            "min": "0.000160",
             "mode": "dynamic"
           },
           "protocols": [
@@ -94976,8 +94976,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005550",
-                "min": "0.001150",
+                "max": "0.005960",
+                "min": "0.001160",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -95009,8 +95009,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.004550",
-                "min": "0.000150",
+                "max": "0.004960",
+                "min": "0.000160",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -107311,7 +107311,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -119014,7 +119014,7 @@
     },
     "/v1/run/google_ads.search": {
       "post": {
-        "description": "Pull the ads an advertiser is running from the Google Ads Transparency Center (creative details, formats, run dates, and headline and text where Google publishes them) as clean JSON. Each ad's detail page is read, so a 20-ad call can take a minute or more; many text ads come back only as an image of the ad.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$0.99 per 1,000 results, capped at \\$19.90 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Ads Transparency pricing and uptime](https://getanyapi.com/api/google-ads/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google Ads endpoint](https://getanyapi.com/api/google-ads).",
+        "description": "Pull the ads an advertiser is running from the Google Ads Transparency Center (creative details, formats, run dates, and headline and text where Google publishes them) as clean JSON. Each ad's detail page is read, so a 20-ad call can take a minute or more; many text ads come back only as an image of the ad.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$1.08 per 1,000 results, capped at \\$21.70 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Ads Transparency pricing and uptime](https://getanyapi.com/api/google-ads/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google Ads endpoint](https://getanyapi.com/api/google-ads).",
         "operationId": "google_ads_search",
         "parameters": [
           {
@@ -119529,7 +119529,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.019900",
+            "max": "0.021700",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -119572,7 +119572,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.020900",
+                "max": "0.022700",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -119605,7 +119605,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.019900",
+                "max": "0.021700",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -119634,7 +119634,7 @@
     },
     "/v1/run/google_finance.quote": {
       "post": {
-        "description": "Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$1.10 per 1,000 results, capped at \\$1.16 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Finance Quote pricing and uptime](https://getanyapi.com/api/google-finance/quote) - live USD price, lane routing, and measured 30-day uptime. [Every Google Finance endpoint](https://getanyapi.com/api/google-finance).",
+        "description": "Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$1.20 per 1,000 results, capped at \\$1.26 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Finance Quote pricing and uptime](https://getanyapi.com/api/google-finance/quote) - live USD price, lane routing, and measured 30-day uptime. [Every Google Finance endpoint](https://getanyapi.com/api/google-finance).",
         "operationId": "google_finance_quote",
         "parameters": [
           {
@@ -120169,7 +120169,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.001160",
+            "max": "0.001260",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -120212,7 +120212,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.002160",
+                "max": "0.002260",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -120245,7 +120245,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001160",
+                "max": "0.001260",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -147570,7 +147570,7 @@
     },
     "/v1/run/instagram.similar_profiles": {
       "post": {
-        "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.\n\n**Price:** \\$2.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_similar_profiles",
         "parameters": [
           {
@@ -148050,7 +148050,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.002200",
+            "amount": "0.001750",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -148092,7 +148092,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003200",
+                "amount": "0.002750",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -148124,7 +148124,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002200",
+                "amount": "0.001750",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -152018,7 +152018,7 @@
     },
     "/v1/run/instagram.user_highlights": {
       "post": {
-        "description": "List an Instagram account's story highlight reels by handle.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Highlights pricing and uptime](https://getanyapi.com/api/instagram/user-highlights) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's story highlight reels by handle.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Highlights pricing and uptime](https://getanyapi.com/api/instagram/user-highlights) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_highlights",
         "parameters": [
           {
@@ -152525,7 +152525,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001000",
+            "amount": "0.001200",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -152567,7 +152567,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002000",
+                "amount": "0.002200",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -152599,7 +152599,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001000",
+                "amount": "0.001200",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -159806,7 +159806,7 @@
     },
     "/v1/run/linkedin.ads": {
       "post": {
-        "description": "Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).\n\n**Price:** billed per result - \\$0.11 per 1,000 requests base + \\$0.61 per 1,000 results, capped at \\$12.30 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Ads Library pricing and uptime](https://getanyapi.com/api/linkedin/ads) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).\n\n**Price:** billed per result - \\$0.12 per 1,000 requests base + \\$0.66 per 1,000 results, capped at \\$13.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Ads Library pricing and uptime](https://getanyapi.com/api/linkedin/ads) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_ads",
         "parameters": [
           {
@@ -160293,8 +160293,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.012300",
-            "min": "0.000110",
+            "max": "0.013400",
+            "min": "0.000120",
             "mode": "dynamic"
           },
           "protocols": [
@@ -160336,8 +160336,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.013300",
-                "min": "0.001110",
+                "max": "0.014400",
+                "min": "0.001120",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -160369,8 +160369,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.012300",
-                "min": "0.000110",
+                "max": "0.013400",
+                "min": "0.000120",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -161046,7 +161046,7 @@
     },
     "/v1/run/linkedin.article": {
       "post": {
-        "description": "Read a public LinkedIn article or newsletter issue by URL, including its full body text, author, publication time, and engagement counts.\n\n**Price:** billed per result - \\$5.65 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$5.65 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Article pricing and uptime](https://getanyapi.com/api/linkedin/article) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Read a public LinkedIn article or newsletter issue by URL, including its full body text, author, publication time, and engagement counts.\n\n**Price:** billed per result - \\$6.16 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$6.16 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Article pricing and uptime](https://getanyapi.com/api/linkedin/article) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_article",
         "parameters": [
           {
@@ -161541,8 +161541,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005650",
-            "min": "0.005650",
+            "max": "0.006160",
+            "min": "0.006160",
             "mode": "dynamic"
           },
           "protocols": [
@@ -161584,8 +161584,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006650",
-                "min": "0.006650",
+                "max": "0.007160",
+                "min": "0.007160",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -161617,8 +161617,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005650",
-                "min": "0.005650",
+                "max": "0.006160",
+                "min": "0.006160",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -163673,7 +163673,7 @@
     },
     "/v1/run/linkedin.company_employees": {
       "post": {
-        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$6.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$20.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_employees",
         "parameters": [
           {
@@ -164229,7 +164229,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.006000",
+            "amount": "0.020000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -164271,7 +164271,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.007000",
+                "amount": "0.021000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -164303,7 +164303,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.006000",
+                "amount": "0.020000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -166269,7 +166269,7 @@
     },
     "/v1/run/linkedin.email": {
       "post": {
-        "description": "Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.\n\n**Price:** billed per result - \\$11.00 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$11.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Email Finder pricing and uptime](https://getanyapi.com/api/linkedin/email) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.\n\n**Price:** billed per result - \\$12.00 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$12.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Email Finder pricing and uptime](https://getanyapi.com/api/linkedin/email) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_email",
         "parameters": [
           {
@@ -166830,8 +166830,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.011000",
-            "min": "0.011000",
+            "max": "0.012000",
+            "min": "0.012000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -166873,8 +166873,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.012000",
-                "min": "0.012000",
+                "max": "0.013000",
+                "min": "0.013000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -166906,8 +166906,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.011000",
-                "min": "0.011000",
+                "max": "0.012000",
+                "min": "0.012000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -181018,7 +181018,7 @@
     },
     "/v1/run/linkedin.search_posts_full": {
       "post": {
-        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$2.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$2.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_posts_full",
         "parameters": [
           {
@@ -181854,7 +181854,7 @@
     },
     "/v1/run/linkedin.search_profiles": {
       "post": {
-        "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.\n\n**Price:** billed per result - \\$88.00 per 1,000 requests base + \\$4.40 per 1,000 results, capped at \\$198.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Search pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.\n\n**Price:** billed per result - \\$96.00 per 1,000 requests base + \\$4.80 per 1,000 results, capped at \\$216.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Search pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_profiles",
         "parameters": [
           {
@@ -182738,8 +182738,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.198000",
-            "min": "0.088000",
+            "max": "0.216000",
+            "min": "0.096000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -182781,8 +182781,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.199000",
-                "min": "0.089000",
+                "max": "0.217000",
+                "min": "0.097000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -182814,8 +182814,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.198000",
-                "min": "0.088000",
+                "max": "0.216000",
+                "min": "0.096000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -182843,7 +182843,7 @@
     },
     "/v1/run/linkedin.search_profiles_email": {
       "post": {
-        "description": "People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. Email discovery is best effort and needs the profile to expose a resolvable company domain, so on a broad search many matches return an empty emails array while still billing the email rate. If you already have names and company domains, email.find, email_finding.icypeas, and email_finding.dropleads resolve addresses directly for less, and linkedin.email enriches a single known profile URL. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.\n\n**Price:** billed per result - \\$88.00 per 1,000 requests base + \\$9.90 per 1,000 results, capped at \\$336.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Search + Email pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles-email) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. Email discovery is best effort and needs the profile to expose a resolvable company domain, so on a broad search many matches return an empty emails array while still billing the email rate. If you already have names and company domains, email.find, email_finding.icypeas, and email_finding.dropleads resolve addresses directly for less, and linkedin.email enriches a single known profile URL. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.\n\n**Price:** billed per result - \\$96.00 per 1,000 requests base + \\$10.80 per 1,000 results, capped at \\$366.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Search + Email pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles-email) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_profiles_email",
         "parameters": [
           {
@@ -183738,8 +183738,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.336000",
-            "min": "0.088000",
+            "max": "0.366000",
+            "min": "0.096000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -183781,8 +183781,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.337000",
-                "min": "0.089000",
+                "max": "0.367000",
+                "min": "0.097000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -183814,8 +183814,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.336000",
-                "min": "0.088000",
+                "max": "0.366000",
+                "min": "0.096000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -193721,7 +193721,7 @@
     },
     "/v1/run/nextdoor.business": {
       "post": {
-        "description": "Fetch one Nextdoor business page by its slug, with phone, email, website, and street address.\n\n**Price:** billed per result - \\$5.50 per 1,000 requests base + \\$2.42 per 1,000 results, capped at \\$7.92 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Nextdoor Business pricing and uptime](https://getanyapi.com/api/nextdoor/business) - live USD price, lane routing, and measured 30-day uptime. [Every Nextdoor endpoint](https://getanyapi.com/api/nextdoor).",
+        "description": "Fetch one Nextdoor business page by its slug, with phone, email, website, and street address.\n\n**Price:** billed per result - \\$6.00 per 1,000 requests base + \\$2.64 per 1,000 results, capped at \\$8.64 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Nextdoor Business pricing and uptime](https://getanyapi.com/api/nextdoor/business) - live USD price, lane routing, and measured 30-day uptime. [Every Nextdoor endpoint](https://getanyapi.com/api/nextdoor).",
         "operationId": "nextdoor_business",
         "parameters": [
           {
@@ -194289,8 +194289,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.007920",
-            "min": "0.005500",
+            "max": "0.008640",
+            "min": "0.006000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -194332,8 +194332,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.008920",
-                "min": "0.006500",
+                "max": "0.009640",
+                "min": "0.007000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -194365,8 +194365,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.007920",
-                "min": "0.005500",
+                "max": "0.008640",
+                "min": "0.006000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -194394,7 +194394,7 @@
     },
     "/v1/run/nextdoor.search": {
       "post": {
-        "description": "Find local businesses listed on Nextdoor by city and trade category, with phone, email, website, and street address.\n\n**Price:** billed per result - \\$11.00 per 1,000 requests base + \\$2.42 per 1,000 results, capped at \\$59.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Nextdoor Business Search pricing and uptime](https://getanyapi.com/api/nextdoor/search) - live USD price, lane routing, and measured 30-day uptime. [Every Nextdoor endpoint](https://getanyapi.com/api/nextdoor).",
+        "description": "Find local businesses listed on Nextdoor by city and trade category, with phone, email, website, and street address.\n\n**Price:** billed per result - \\$12.00 per 1,000 requests base + \\$2.64 per 1,000 results, capped at \\$64.80 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Nextdoor Business Search pricing and uptime](https://getanyapi.com/api/nextdoor/search) - live USD price, lane routing, and measured 30-day uptime. [Every Nextdoor endpoint](https://getanyapi.com/api/nextdoor).",
         "operationId": "nextdoor_search",
         "parameters": [
           {
@@ -194972,8 +194972,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.059400",
-            "min": "0.011000",
+            "max": "0.064800",
+            "min": "0.012000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -195015,8 +195015,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.060400",
-                "min": "0.012000",
+                "max": "0.065800",
+                "min": "0.013000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -195048,8 +195048,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.059400",
-                "min": "0.011000",
+                "max": "0.064800",
+                "min": "0.012000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -207723,7 +207723,7 @@
     },
     "/v1/run/person.skip_trace": {
       "post": {
-        "description": "Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.\n\n**Price:** billed per result - \\$7.70 per 1,000 results, capped at \\$7.70 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Skip Trace pricing and uptime](https://getanyapi.com/api/person/skip-trace) - live USD price, lane routing, and measured 30-day uptime. [Every Person endpoint](https://getanyapi.com/api/person).",
+        "description": "Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.\n\n**Price:** billed per result - \\$8.40 per 1,000 results, capped at \\$8.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Skip Trace pricing and uptime](https://getanyapi.com/api/person/skip-trace) - live USD price, lane routing, and measured 30-day uptime. [Every Person endpoint](https://getanyapi.com/api/person).",
         "operationId": "person_skip_trace",
         "parameters": [
           {
@@ -208353,7 +208353,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.007700",
+            "max": "0.008400",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -208396,7 +208396,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.008700",
+                "max": "0.009400",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -208429,7 +208429,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.007700",
+                "max": "0.008400",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -218931,7 +218931,7 @@
     },
     "/v1/run/pexels.search_photos": {
       "post": {
-        "description": "Search Pexels for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Pexels page.\n\n**Price:** billed per result - \\$0.55 per 1,000 requests base + \\$3.30 per 1,000 results, capped at \\$66.60 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Pexels Photo Search pricing and uptime](https://getanyapi.com/api/pexels/search-photos) - live USD price, lane routing, and measured 30-day uptime. [Every Pexels endpoint](https://getanyapi.com/api/pexels).",
+        "description": "Search Pexels for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Pexels page.\n\n**Price:** billed per result - \\$0.60 per 1,000 requests base + \\$3.60 per 1,000 results, capped at \\$72.60 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Pexels Photo Search pricing and uptime](https://getanyapi.com/api/pexels/search-photos) - live USD price, lane routing, and measured 30-day uptime. [Every Pexels endpoint](https://getanyapi.com/api/pexels).",
         "operationId": "pexels_search_photos",
         "parameters": [
           {
@@ -219550,8 +219550,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.066600",
-            "min": "0.000550",
+            "max": "0.072600",
+            "min": "0.000600",
             "mode": "dynamic"
           },
           "protocols": [
@@ -219593,8 +219593,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.067600",
-                "min": "0.001550",
+                "max": "0.073600",
+                "min": "0.001600",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -219626,8 +219626,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.066600",
-                "min": "0.000550",
+                "max": "0.072600",
+                "min": "0.000600",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -223389,7 +223389,7 @@
     },
     "/v1/run/polymarket.markets": {
       "post": {
-        "description": "Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.\n\n**Price:** billed per result - \\$116.00 per 1,000 requests base + \\$0.66 per 1,000 results, capped at \\$132.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Polymarket Markets pricing and uptime](https://getanyapi.com/api/polymarket/markets) - live USD price, lane routing, and measured 30-day uptime. [Every Polymarket endpoint](https://getanyapi.com/api/polymarket).",
+        "description": "Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.\n\n**Price:** billed per result - \\$126.00 per 1,000 requests base + \\$0.72 per 1,000 results, capped at \\$144.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Polymarket Markets pricing and uptime](https://getanyapi.com/api/polymarket/markets) - live USD price, lane routing, and measured 30-day uptime. [Every Polymarket endpoint](https://getanyapi.com/api/polymarket).",
         "operationId": "polymarket_markets",
         "parameters": [
           {
@@ -224004,8 +224004,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.132000",
-            "min": "0.116000",
+            "max": "0.144000",
+            "min": "0.126000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -224047,8 +224047,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.133000",
-                "min": "0.117000",
+                "max": "0.145000",
+                "min": "0.127000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -224080,8 +224080,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.132000",
-                "min": "0.116000",
+                "max": "0.144000",
+                "min": "0.126000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -224969,7 +224969,7 @@
     },
     "/v1/run/realtor.search": {
       "post": {
-        "description": "Search Realtor.com listings by location with optional price, property-type, beds/baths, listing-status, and keyword filters and get property records (price, address, beds, baths) as normalized JSON.\n\n**Price:** billed per result - \\$5.50 per 1,000 requests base + \\$1.65 per 1,000 results, capped at \\$46.80 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Realtor.com Search pricing and uptime](https://getanyapi.com/api/realtor/search) - live USD price, lane routing, and measured 30-day uptime. [Every Realtor endpoint](https://getanyapi.com/api/realtor).",
+        "description": "Search Realtor.com listings by location with optional price, property-type, beds/baths, listing-status, and keyword filters and get property records (price, address, beds, baths) as normalized JSON.\n\n**Price:** billed per result - \\$6.00 per 1,000 requests base + \\$1.80 per 1,000 results, capped at \\$51.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Realtor.com Search pricing and uptime](https://getanyapi.com/api/realtor/search) - live USD price, lane routing, and measured 30-day uptime. [Every Realtor endpoint](https://getanyapi.com/api/realtor).",
         "operationId": "realtor_search",
         "parameters": [
           {
@@ -225688,8 +225688,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.046800",
-            "min": "0.005500",
+            "max": "0.051000",
+            "min": "0.006000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -225731,8 +225731,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.047800",
-                "min": "0.006500",
+                "max": "0.052000",
+                "min": "0.007000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -225764,8 +225764,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.046800",
-                "min": "0.005500",
+                "max": "0.051000",
+                "min": "0.006000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -230851,7 +230851,7 @@
     },
     "/v1/run/reddit.subreddit_search": {
       "post": {
-        "description": "Search posts within a single subreddit by query, sort, and timeframe.\n\n**Price:** \\$0.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Search pricing and uptime](https://getanyapi.com/api/reddit/subreddit-search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Search posts within a single subreddit by query, sort, and timeframe.\n\n**Price:** \\$0.34 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Search pricing and uptime](https://getanyapi.com/api/reddit/subreddit-search) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_search",
         "parameters": [
           {
@@ -231426,7 +231426,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000350",
+            "amount": "0.000340",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -231468,7 +231468,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001350",
+                "amount": "0.001340",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -231500,7 +231500,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000350",
+                "amount": "0.000340",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -240034,7 +240034,7 @@
     },
     "/v1/run/sec.filings": {
       "post": {
-        "description": "List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters.\n\n**Price:** billed per result - \\$2.20 per 1,000 requests base + \\$0.44 per 1,000 results, capped at \\$13.20 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [SEC EDGAR Filings pricing and uptime](https://getanyapi.com/api/sec/filings) - live USD price, lane routing, and measured 30-day uptime. [Every Sec endpoint](https://getanyapi.com/api/sec).",
+        "description": "List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters.\n\n**Price:** billed per result - \\$2.40 per 1,000 requests base + \\$0.48 per 1,000 results, capped at \\$14.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [SEC EDGAR Filings pricing and uptime](https://getanyapi.com/api/sec/filings) - live USD price, lane routing, and measured 30-day uptime. [Every Sec endpoint](https://getanyapi.com/api/sec).",
         "operationId": "sec_filings",
         "parameters": [
           {
@@ -240571,8 +240571,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.013200",
-            "min": "0.002200",
+            "max": "0.014400",
+            "min": "0.002400",
             "mode": "dynamic"
           },
           "protocols": [
@@ -240614,8 +240614,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.014200",
-                "min": "0.003200",
+                "max": "0.015400",
+                "min": "0.003400",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -240647,8 +240647,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.013200",
-                "min": "0.002200",
+                "max": "0.014400",
+                "min": "0.002400",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -240676,7 +240676,7 @@
     },
     "/v1/run/semrush.keywords": {
       "post": {
-        "description": "Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.\n\n**Price:** billed per result - \\$4.95 per 1,000 results, capped at \\$4.95 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Semrush Keyword Research pricing and uptime](https://getanyapi.com/api/semrush/keywords) - live USD price, lane routing, and measured 30-day uptime. [Every Semrush endpoint](https://getanyapi.com/api/semrush).",
+        "description": "Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.\n\n**Price:** billed per result - \\$5.40 per 1,000 results, capped at \\$5.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Semrush Keyword Research pricing and uptime](https://getanyapi.com/api/semrush/keywords) - live USD price, lane routing, and measured 30-day uptime. [Every Semrush endpoint](https://getanyapi.com/api/semrush).",
         "operationId": "semrush_keywords",
         "parameters": [
           {
@@ -241248,7 +241248,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.004950",
+            "max": "0.005400",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -241291,7 +241291,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005950",
+                "max": "0.006400",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -241324,7 +241324,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.004950",
+                "max": "0.005400",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -241353,7 +241353,7 @@
     },
     "/v1/run/semrush.overview": {
       "post": {
-        "description": "a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.\n\n**Price:** billed per result - \\$4.95 per 1,000 results, capped at \\$4.95 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Semrush Domain Overview pricing and uptime](https://getanyapi.com/api/semrush/overview) - live USD price, lane routing, and measured 30-day uptime. [Every Semrush endpoint](https://getanyapi.com/api/semrush).",
+        "description": "a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.\n\n**Price:** billed per result - \\$5.40 per 1,000 results, capped at \\$5.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Semrush Domain Overview pricing and uptime](https://getanyapi.com/api/semrush/overview) - live USD price, lane routing, and measured 30-day uptime. [Every Semrush endpoint](https://getanyapi.com/api/semrush).",
         "operationId": "semrush_overview",
         "parameters": [
           {
@@ -241940,7 +241940,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.004950",
+            "max": "0.005400",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -241983,7 +241983,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005950",
+                "max": "0.006400",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -242016,7 +242016,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.004950",
+                "max": "0.005400",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -265910,7 +265910,7 @@
     },
     "/v1/run/social.finder": {
       "post": {
-        "description": "Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.\n\n**Price:** billed per result - \\$1.10 per 1,000 requests base + \\$2.20 per 1,000 results, capped at \\$23.10 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Social Profile Finder pricing and uptime](https://getanyapi.com/api/social/finder) - live USD price, lane routing, and measured 30-day uptime. [Every Social endpoint](https://getanyapi.com/api/social).",
+        "description": "Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.\n\n**Price:** billed per result - \\$1.20 per 1,000 requests base + \\$2.40 per 1,000 results, capped at \\$25.20 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Social Profile Finder pricing and uptime](https://getanyapi.com/api/social/finder) - live USD price, lane routing, and measured 30-day uptime. [Every Social endpoint](https://getanyapi.com/api/social).",
         "operationId": "social_finder",
         "parameters": [
           {
@@ -266391,8 +266391,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.023100",
-            "min": "0.001100",
+            "max": "0.025200",
+            "min": "0.001200",
             "mode": "dynamic"
           },
           "protocols": [
@@ -266434,8 +266434,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.024100",
-                "min": "0.002100",
+                "max": "0.026200",
+                "min": "0.002200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -266467,8 +266467,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.023100",
-                "min": "0.001100",
+                "max": "0.025200",
+                "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -267789,7 +267789,7 @@
     },
     "/v1/run/spotify.play_count": {
       "post": {
-        "description": "Fetch stream counts and stats for a Spotify track, album, or artist URL.\n\n**Price:** billed per result - \\$2.20 per 1,000 results, capped at \\$2.20 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Spotify Play Count pricing and uptime](https://getanyapi.com/api/spotify/play-count) - live USD price, lane routing, and measured 30-day uptime. [Every Spotify endpoint](https://getanyapi.com/api/spotify).",
+        "description": "Fetch stream counts and stats for a Spotify track, album, or artist URL.\n\n**Price:** billed per result - \\$2.40 per 1,000 results, capped at \\$2.40 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Spotify Play Count pricing and uptime](https://getanyapi.com/api/spotify/play-count) - live USD price, lane routing, and measured 30-day uptime. [Every Spotify endpoint](https://getanyapi.com/api/spotify).",
         "operationId": "spotify_play_count",
         "parameters": [
           {
@@ -268289,7 +268289,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.002200",
+            "max": "0.002400",
             "min": "0.000000",
             "mode": "dynamic"
           },
@@ -268332,7 +268332,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.003200",
+                "max": "0.003400",
                 "min": "0.001000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -268365,7 +268365,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.002200",
+                "max": "0.002400",
                 "min": "0.000000",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -270835,7 +270835,7 @@
     },
     "/v1/run/substack.posts": {
       "post": {
-        "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the full article body as text, HTML and Markdown, and optional comment threads.\n\n**Price:** billed per result - \\$0.39 per 1,000 requests base + \\$2.64 per 1,000 results, capped at \\$265.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Substack Posts pricing and uptime](https://getanyapi.com/api/substack/posts) - live USD price, lane routing, and measured 30-day uptime. [Every Substack endpoint](https://getanyapi.com/api/substack).",
+        "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the full article body as text, HTML and Markdown, and optional comment threads.\n\n**Price:** billed per result - \\$0.42 per 1,000 requests base + \\$2.88 per 1,000 results, capped at \\$289.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Substack Posts pricing and uptime](https://getanyapi.com/api/substack/posts) - live USD price, lane routing, and measured 30-day uptime. [Every Substack endpoint](https://getanyapi.com/api/substack).",
         "operationId": "substack_posts",
         "parameters": [
           {
@@ -271646,8 +271646,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.265000",
-            "min": "0.000390",
+            "max": "0.289000",
+            "min": "0.000420",
             "mode": "dynamic"
           },
           "protocols": [
@@ -271689,8 +271689,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.266000",
-                "min": "0.001390",
+                "max": "0.290000",
+                "min": "0.001420",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -271722,8 +271722,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.265000",
-                "min": "0.000390",
+                "max": "0.289000",
+                "min": "0.000420",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -287517,7 +287517,7 @@
     },
     "/v1/run/tiktok.profile_contact": {
       "post": {
-        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$0.88 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$0.88 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$0.96 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$0.96 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_contact",
         "parameters": [
           {
@@ -288087,8 +288087,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.000880",
-            "min": "0.000880",
+            "max": "0.000960",
+            "min": "0.000960",
             "mode": "dynamic"
           },
           "protocols": [
@@ -288130,8 +288130,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001880",
-                "min": "0.001880",
+                "max": "0.001960",
+                "min": "0.001960",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -288163,8 +288163,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.000880",
-                "min": "0.000880",
+                "max": "0.000960",
+                "min": "0.000960",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -300244,7 +300244,7 @@
     },
     "/v1/run/tiktok.video_download": {
       "post": {
-        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_download",
         "parameters": [
           {
@@ -302740,7 +302740,7 @@
     },
     "/v1/run/tiktok_shop.creator": {
       "post": {
-        "description": "TikTok Shop creator performance by handle: GMV range, promoted product count, brand collaborations, follower age/gender/location demographics, category GMV split, and video versus live engagement.\n\n**Price:** billed per result - \\$5.50 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$5.50 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Shop Creator pricing and uptime](https://getanyapi.com/api/tiktok-shop/creator) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok Shop endpoint](https://getanyapi.com/api/tiktok-shop).",
+        "description": "TikTok Shop creator performance by handle: GMV range, promoted product count, brand collaborations, follower age/gender/location demographics, category GMV split, and video versus live engagement.\n\n**Price:** billed per result - \\$6.00 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$6.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Shop Creator pricing and uptime](https://getanyapi.com/api/tiktok-shop/creator) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok Shop endpoint](https://getanyapi.com/api/tiktok-shop).",
         "operationId": "tiktok_shop_creator",
         "parameters": [
           {
@@ -303347,8 +303347,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005500",
-            "min": "0.005500",
+            "max": "0.006000",
+            "min": "0.006000",
             "mode": "dynamic"
           },
           "protocols": [
@@ -303390,8 +303390,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006500",
-                "min": "0.006500",
+                "max": "0.007000",
+                "min": "0.007000",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -303423,8 +303423,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005500",
-                "min": "0.005500",
+                "max": "0.006000",
+                "min": "0.006000",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -321608,7 +321608,7 @@
     },
     "/v1/run/unsplash.search_photos": {
       "post": {
-        "description": "Search Unsplash for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Unsplash page.\n\n**Price:** billed per result - \\$0.55 per 1,000 requests base + \\$1.65 per 1,000 results, capped at \\$33.60 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Unsplash Photo Search pricing and uptime](https://getanyapi.com/api/unsplash/search-photos) - live USD price, lane routing, and measured 30-day uptime. [Every Unsplash endpoint](https://getanyapi.com/api/unsplash).",
+        "description": "Search Unsplash for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Unsplash page.\n\n**Price:** billed per result - \\$0.60 per 1,000 requests base + \\$1.80 per 1,000 results, capped at \\$36.60 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Unsplash Photo Search pricing and uptime](https://getanyapi.com/api/unsplash/search-photos) - live USD price, lane routing, and measured 30-day uptime. [Every Unsplash endpoint](https://getanyapi.com/api/unsplash).",
         "operationId": "unsplash_search_photos",
         "parameters": [
           {
@@ -322257,8 +322257,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.033600",
-            "min": "0.000550",
+            "max": "0.036600",
+            "min": "0.000600",
             "mode": "dynamic"
           },
           "protocols": [
@@ -322300,8 +322300,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.034600",
-                "min": "0.001550",
+                "max": "0.037600",
+                "min": "0.001600",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -322333,8 +322333,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.033600",
-                "min": "0.000550",
+                "max": "0.036600",
+                "min": "0.000600",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -333205,7 +333205,7 @@
     },
     "/v1/run/yahoo_finance.quote": {
       "post": {
-        "description": "Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$0.99 per 1,000 results, capped at \\$1.05 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Yahoo Finance Quote pricing and uptime](https://getanyapi.com/api/yahoo-finance/quote) - live USD price, lane routing, and measured 30-day uptime. [Every Yahoo Finance endpoint](https://getanyapi.com/api/yahoo-finance).",
+        "description": "Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$1.08 per 1,000 results, capped at \\$1.14 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Yahoo Finance Quote pricing and uptime](https://getanyapi.com/api/yahoo-finance/quote) - live USD price, lane routing, and measured 30-day uptime. [Every Yahoo Finance endpoint](https://getanyapi.com/api/yahoo-finance).",
         "operationId": "yahoo_finance_quote",
         "parameters": [
           {
@@ -333709,7 +333709,7 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.001050",
+            "max": "0.001140",
             "min": "0.000060",
             "mode": "dynamic"
           },
@@ -333752,7 +333752,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.002050",
+                "max": "0.002140",
                 "min": "0.001060",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
@@ -333785,7 +333785,7 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001050",
+                "max": "0.001140",
                 "min": "0.000060",
                 "minimumUsd": null,
                 "mode": "dynamic",
@@ -335840,7 +335840,7 @@
     },
     "/v1/run/youtube.channel_contact": {
       "post": {
-        "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.44 per email found instead of the normal $0.11 or $0.132, and it runs only on the source that offers it.\n\n**Price:** \\$110.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [YouTube Channel Contact Email pricing and uptime](https://getanyapi.com/api/youtube/channel-contact) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.452 per email found instead of the normal $0.11 or $0.144, and it runs only on the source that offers it.\n\n**Price:** \\$110.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [YouTube Channel Contact Email pricing and uptime](https://getanyapi.com/api/youtube/channel-contact) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_channel_contact",
         "parameters": [
           {
@@ -335945,7 +335945,7 @@
                   },
                   "fresh": {
                     "default": false,
-                    "description": "Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.44 per email found instead of this API's normal $0.11 or $0.132; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.44 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes.",
+                    "description": "Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.452 per email found instead of this API's normal $0.11 or $0.144; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.452 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes.",
                     "type": "boolean"
                   },
                   "handle": {

@@ -195,7 +195,7 @@ class G2Namespace:
         and dislike, problems solved, market segment, and G2's rating rubric as
         clean JSON.
 
-        Price: $0.00015 per request plus $0.00005 per result (maximum $0.00455).
+        Price: $0.00016 per request plus $0.00005 per result (maximum $0.00496).
 
         Example:
             res = client.g2.reviews(limit=50, product="hubspot-marketing-hub", sortBy="recent")
@@ -221,7 +221,7 @@ class AsyncG2Namespace:
         and dislike, problems solved, market segment, and G2's rating rubric as
         clean JSON.
 
-        Price: $0.00015 per request plus $0.00005 per result (maximum $0.00455).
+        Price: $0.00016 per request plus $0.00005 per result (maximum $0.00496).
 
         Example:
             res = client.g2.reviews(limit=50, product="hubspot-marketing-hub", sortBy="recent")

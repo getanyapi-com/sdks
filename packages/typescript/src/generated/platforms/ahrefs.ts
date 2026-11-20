@@ -490,7 +490,7 @@ export class AhrefsNamespace {
    *
    * Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.
    *
-   * Price: $0.00501 per request plus $0 per result (maximum $0.00501).
+   * Price: $0.00546 per request plus $0 per result (maximum $0.00546).
    *
    * @example
    * const res = await client.ahrefs.backlinks({ url: "ahrefs.com", mode: "exact" });
@@ -507,7 +507,7 @@ export class AhrefsNamespace {
    *
    * Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.
    *
-   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+   * Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
    *
    * @example
    * const res = await client.ahrefs.keywordIdeas({ keyword: "coffee", country: "us" });
@@ -524,7 +524,7 @@ export class AhrefsNamespace {
    *
    * Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.
    *
-   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+   * Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
    *
    * @example
    * const res = await client.ahrefs.keywords({ keyword: "seo tools", country: "us" });
@@ -541,7 +541,7 @@ export class AhrefsNamespace {
    *
    * Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON. For the keywords a domain ranks for, use seo.ranked_keywords.
    *
-   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+   * Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
    *
    * @example
    * const res = await client.ahrefs.overview({ url: "ahrefs.com", mode: "subdomains" });
@@ -558,7 +558,7 @@ export class AhrefsNamespace {
    *
    * Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.
    *
-   * Price: $0.00006 per request plus $0.00495 per result (maximum $0.00501).
+   * Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
    *
    * @example
    * const res = await client.ahrefs.traffic({ url: "ahrefs.com", mode: "subdomains" });

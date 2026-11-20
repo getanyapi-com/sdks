@@ -215,7 +215,7 @@ export class PolymarketNamespace {
    *
    * Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.
    *
-   * Price: $0.116 per request plus $0.00066 per result (maximum $0.132).
+   * Price: $0.126 per request plus $0.00072 per result (maximum $0.144).
    *
    * @example
    * const res = await client.polymarket.markets({ query: "election", limit: 10 });

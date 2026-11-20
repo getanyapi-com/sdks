@@ -244,7 +244,7 @@ export class CapterraNamespace {
    *
    * Pull Capterra software reviews for any product: overall and sub-ratings, pros and cons, reviewer job title, company size, and industry as clean JSON.
    *
-   * Price: $0.0055 per request plus $0.00077 per result (maximum $0.0825).
+   * Price: $0.006 per request plus $0.00084 per result (maximum $0.09).
    *
    * @example
    * const res = await client.capterra.reviews({ product: "https://www.capterra.com/p/135003/Slack/", limit: 25, sortBy: "recent" });

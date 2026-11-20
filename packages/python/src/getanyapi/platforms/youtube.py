@@ -67,7 +67,7 @@ class YoutubeChannelContactInput(TypedDict, total=False):
     channelId: NotRequired[str]
     """YouTube channel ID (UC...)."""
     fresh: NotRequired[bool]
-    """Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.44 per email found instead of this API's normal $0.11 or $0.132; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.44 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes. Default: false."""
+    """Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.452 per email found instead of this API's normal $0.11 or $0.144; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.452 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes. Default: false."""
     handle: NotRequired[str]
     """YouTube channel handle, with or without the leading @."""
     ignoreSources: NotRequired[list[str]]
@@ -1434,8 +1434,8 @@ class YoutubeNamespace:
         with a link that collects the answer later with no API key. A finished
         answer stays readable for 3 days after it is found. Set `fresh` to true to
         have the address read from YouTube now instead of one a source already
-        holds: that costs more, $0.44 per email found instead of the normal $0.11 or
-        $0.132, and it runs only on the source that offers it.
+        holds: that costs more, $0.452 per email found instead of the normal $0.11
+        or $0.144, and it runs only on the source that offers it.
 
         Price: $0.11 per request.
 
@@ -2107,8 +2107,8 @@ class AsyncYoutubeNamespace:
         with a link that collects the answer later with no API key. A finished
         answer stays readable for 3 days after it is found. Set `fresh` to true to
         have the address read from YouTube now instead of one a source already
-        holds: that costs more, $0.44 per email found instead of the normal $0.11 or
-        $0.132, and it runs only on the source that offers it.
+        holds: that costs more, $0.452 per email found instead of the normal $0.11
+        or $0.144, and it runs only on the source that offers it.
 
         Price: $0.11 per request.
 

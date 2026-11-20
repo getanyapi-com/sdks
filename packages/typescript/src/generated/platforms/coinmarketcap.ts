@@ -187,7 +187,7 @@ export class CoinmarketcapNamespace {
    *
    * Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.
    *
-   * Price: $0 per request plus $0.00198 per result (maximum $0.0495).
+   * Price: $0 per request plus $0.00216 per result (maximum $0.054).
    *
    * @example
    * const res = await client.coinmarketcap.listings({ limit: 5 });

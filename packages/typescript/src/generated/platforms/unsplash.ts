@@ -228,7 +228,7 @@ export class UnsplashNamespace {
    *
    * Search Unsplash for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Unsplash page.
    *
-   * Price: $0.00055 per request plus $0.00165 per result (maximum $0.0336).
+   * Price: $0.0006 per request plus $0.0018 per result (maximum $0.0366).
    *
    * @example
    * const res = await client.unsplash.searchPhotos({ query: "coffee", limit: 2 });

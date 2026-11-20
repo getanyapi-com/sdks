@@ -16,23 +16,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00501,
+          "baseUsd": 0.00546,
           "perUnitUsd": 0,
-          "maxUsd": 0.00501,
-          "maxPer1kUsd": 5.01
+          "maxUsd": 0.00546,
+          "maxPer1kUsd": 5.46
         },
-        "failoverMaxUsd": 0.00501,
-        "failoverMaxPer1kUsd": 5.01
+        "failoverMaxUsd": 0.00546,
+        "failoverMaxPer1kUsd": 5.46
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00501,
+            "baseUsd": 0.00546,
             "perUnitUsd": 0,
-            "maxUsd": 0.00501,
-            "maxPer1kUsd": 5.01
+            "maxUsd": 0.00546,
+            "maxPer1kUsd": 5.46
           },
           "source": {
             "id": "anonymous-octopus",
@@ -82,12 +82,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.00495,
-          "maxUsd": 0.00501,
-          "maxPer1kUsd": 5.01
+          "perUnitUsd": 0.0054,
+          "maxUsd": 0.00546,
+          "maxPer1kUsd": 5.46
         },
-        "failoverMaxUsd": 0.00501,
-        "failoverMaxPer1kUsd": 5.01
+        "failoverMaxUsd": 0.00546,
+        "failoverMaxPer1kUsd": 5.46
       },
       "lanes": [
         {
@@ -95,9 +95,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.00501,
-            "maxPer1kUsd": 5.01
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.00546,
+            "maxPer1kUsd": 5.46
           },
           "source": {
             "id": "anonymous-octopus",
@@ -145,12 +145,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.00495,
-          "maxUsd": 0.00501,
-          "maxPer1kUsd": 5.01
+          "perUnitUsd": 0.0054,
+          "maxUsd": 0.00546,
+          "maxPer1kUsd": 5.46
         },
-        "failoverMaxUsd": 0.00501,
-        "failoverMaxPer1kUsd": 5.01
+        "failoverMaxUsd": 0.00546,
+        "failoverMaxPer1kUsd": 5.46
       },
       "lanes": [
         {
@@ -158,9 +158,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.00501,
-            "maxPer1kUsd": 5.01
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.00546,
+            "maxPer1kUsd": 5.46
           },
           "source": {
             "id": "anonymous-octopus",
@@ -210,12 +210,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.00495,
-          "maxUsd": 0.00501,
-          "maxPer1kUsd": 5.01
+          "perUnitUsd": 0.0054,
+          "maxUsd": 0.00546,
+          "maxPer1kUsd": 5.46
         },
-        "failoverMaxUsd": 0.00501,
-        "failoverMaxPer1kUsd": 5.01
+        "failoverMaxUsd": 0.00546,
+        "failoverMaxPer1kUsd": 5.46
       },
       "lanes": [
         {
@@ -223,9 +223,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.00501,
-            "maxPer1kUsd": 5.01
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.00546,
+            "maxPer1kUsd": 5.46
           },
           "source": {
             "id": "anonymous-octopus",
@@ -275,12 +275,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.00495,
-          "maxUsd": 0.00501,
-          "maxPer1kUsd": 5.01
+          "perUnitUsd": 0.0054,
+          "maxUsd": 0.00546,
+          "maxPer1kUsd": 5.46
         },
-        "failoverMaxUsd": 0.00501,
-        "failoverMaxPer1kUsd": 5.01
+        "failoverMaxUsd": 0.00546,
+        "failoverMaxPer1kUsd": 5.46
       },
       "lanes": [
         {
@@ -288,9 +288,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.00501,
-            "maxPer1kUsd": 5.01
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.00546,
+            "maxPer1kUsd": 5.46
           },
           "source": {
             "id": "anonymous-octopus",
@@ -340,23 +340,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00008,
-          "perUnitUsd": 0.0011,
-          "maxUsd": 0.0221,
-          "maxPer1kUsd": 22.1
+          "baseUsd": 0.00009,
+          "perUnitUsd": 0.0012,
+          "maxUsd": 0.0241,
+          "maxPer1kUsd": 24.1
         },
-        "failoverMaxUsd": 0.0221,
-        "failoverMaxPer1kUsd": 22.1
+        "failoverMaxUsd": 0.0241,
+        "failoverMaxPer1kUsd": 24.1
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00008,
-            "perUnitUsd": 0.0011,
-            "maxUsd": 0.0221,
-            "maxPer1kUsd": 22.1
+            "baseUsd": 0.00009,
+            "perUnitUsd": 0.0012,
+            "maxUsd": 0.0241,
+            "maxPer1kUsd": 24.1
           },
           "source": {
             "id": "anonymous-octopus",
@@ -428,12 +428,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00077,
-          "maxUsd": 0.0193,
-          "maxPer1kUsd": 19.3
+          "perUnitUsd": 0.00084,
+          "maxUsd": 0.021,
+          "maxPer1kUsd": 21
         },
-        "failoverMaxUsd": 0.0193,
-        "failoverMaxPer1kUsd": 19.3
+        "failoverMaxUsd": 0.021,
+        "failoverMaxPer1kUsd": 21
       },
       "lanes": [
         {
@@ -441,9 +441,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00077,
-            "maxUsd": 0.0193,
-            "maxPer1kUsd": 19.3
+            "perUnitUsd": 0.00084,
+            "maxUsd": 0.021,
+            "maxPer1kUsd": 21
           },
           "source": {
             "id": "anonymous-octopus",
@@ -861,12 +861,12 @@
           "model": "linear",
           "unit": "asin",
           "baseUsd": 0,
-          "perUnitUsd": 0.0033,
-          "maxUsd": 0.033,
-          "maxPer1kUsd": 33
+          "perUnitUsd": 0.0036,
+          "maxUsd": 0.036,
+          "maxPer1kUsd": 36
         },
-        "failoverMaxUsd": 0.033,
-        "failoverMaxPer1kUsd": 33
+        "failoverMaxUsd": 0.036,
+        "failoverMaxPer1kUsd": 36
       },
       "lanes": [
         {
@@ -874,9 +874,9 @@
             "model": "linear",
             "unit": "asin",
             "baseUsd": 0,
-            "perUnitUsd": 0.0033,
-            "maxUsd": 0.033,
-            "maxPer1kUsd": 33
+            "perUnitUsd": 0.0036,
+            "maxUsd": 0.036,
+            "maxPer1kUsd": 36
           },
           "source": {
             "id": "anonymous-octopus",
@@ -937,8 +937,8 @@
           "maxUsd": 0.00105,
           "maxPer1kUsd": 1.05
         },
-        "failoverMaxUsd": 0.0704,
-        "failoverMaxPer1kUsd": 70.4
+        "failoverMaxUsd": 0.0768,
+        "failoverMaxPer1kUsd": 76.8
       },
       "lanes": [
         {
@@ -981,9 +981,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00352,
-            "maxUsd": 0.0704,
-            "maxPer1kUsd": 70.4
+            "perUnitUsd": 0.00384,
+            "maxUsd": 0.0768,
+            "maxPer1kUsd": 76.8
           },
           "source": {
             "id": "anonymous-octopus",
@@ -1239,55 +1239,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0009,
+          "maxPer1kUsd": 0.9
         },
-        "failoverMaxUsd": 0.00682,
-        "failoverMaxPer1kUsd": 6.82
+        "failoverMaxUsd": 0.00744,
+        "failoverMaxPer1kUsd": 7.44
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 79.21052631578948,
-            "latencyP50Ms": 7879,
-            "uptimeSample": 380,
-            "latencySample": 301,
-            "requests": 382,
-            "servedRequests": 301
-          },
-          "fields": [
-            "asin",
-            "brand",
-            "category",
-            "currency",
-            "description",
-            "features",
-            "image",
-            "images",
-            "inStock",
-            "items",
-            "price",
-            "rating",
-            "reviewsCount",
-            "sellerName",
-            "title",
-            "url",
-            "variantAsins"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -1417,9 +1375,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00682,
-            "maxUsd": 0.00682,
-            "maxPer1kUsd": 6.82
+            "perUnitUsd": 0.00744,
+            "maxUsd": 0.00744,
+            "maxPer1kUsd": 7.44
           },
           "source": {
             "id": "anonymous-octopus",
@@ -1441,6 +1399,50 @@
             "brand",
             "category",
             "condition",
+            "currency",
+            "description",
+            "features",
+            "image",
+            "images",
+            "inStock",
+            "items",
+            "price",
+            "rating",
+            "reviewsCount",
+            "sellerName",
+            "title",
+            "url",
+            "variantAsins"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 79.21052631578948,
+            "latencyP50Ms": 7879,
+            "uptimeSample": 380,
+            "latencySample": 301,
+            "requests": 382,
+            "servedRequests": 301
+          },
+          "fields": [
+            "asin",
+            "brand",
+            "category",
             "currency",
             "description",
             "features",
@@ -1482,8 +1484,8 @@
           "maxUsd": 0.0013,
           "maxPer1kUsd": 1.3
         },
-        "failoverMaxUsd": 0.226,
-        "failoverMaxPer1kUsd": 226
+        "failoverMaxUsd": 0.246,
+        "failoverMaxPer1kUsd": 246
       },
       "lanes": [
         {
@@ -1557,10 +1559,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
-            "perUnitUsd": 0.0044,
-            "maxUsd": 0.226,
-            "maxPer1kUsd": 226
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.0048,
+            "maxUsd": 0.246,
+            "maxPer1kUsd": 246
           },
           "source": {
             "id": "anonymous-octopus",
@@ -2215,9 +2217,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00011,
-            "maxUsd": 0.011,
-            "maxPer1kUsd": 11
+            "perUnitUsd": 0.00012,
+            "maxUsd": 0.012,
+            "maxPer1kUsd": 12
           },
           "source": {
             "id": "anonymous-octopus",
@@ -3537,8 +3539,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.102,
-        "failoverMaxPer1kUsd": 102
+        "failoverMaxUsd": 0.111,
+        "failoverMaxPer1kUsd": 111
       },
       "lanes": [
         {
@@ -3597,10 +3599,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0022,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.102,
-            "maxPer1kUsd": 102
+            "baseUsd": 0.0024,
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.111,
+            "maxPer1kUsd": 111
           },
           "source": {
             "id": "anonymous-octopus",
@@ -3805,23 +3807,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0055,
-          "perUnitUsd": 0.00077,
-          "maxUsd": 0.0825,
-          "maxPer1kUsd": 82.5
+          "baseUsd": 0.006,
+          "perUnitUsd": 0.00084,
+          "maxUsd": 0.09,
+          "maxPer1kUsd": 90
         },
-        "failoverMaxUsd": 0.1584,
-        "failoverMaxPer1kUsd": 158.4
+        "failoverMaxUsd": 0.173,
+        "failoverMaxPer1kUsd": 173
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
-            "perUnitUsd": 0.00077,
-            "maxUsd": 0.0825,
-            "maxPer1kUsd": 82.5
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.00084,
+            "maxUsd": 0.09,
+            "maxPer1kUsd": 90
           },
           "source": {
             "id": "anonymous-octopus",
@@ -3874,10 +3876,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0054,
-            "perUnitUsd": 0.00153,
-            "maxUsd": 0.1584,
-            "maxPer1kUsd": 158.4
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.00167,
+            "maxUsd": 0.173,
+            "maxPer1kUsd": 173
           },
           "source": {
             "id": "anonymous-chameleon-9f7f3a24",
@@ -4122,12 +4124,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00198,
-          "maxUsd": 0.0495,
-          "maxPer1kUsd": 49.5
+          "perUnitUsd": 0.00216,
+          "maxUsd": 0.054,
+          "maxPer1kUsd": 54
         },
-        "failoverMaxUsd": 0.0495,
-        "failoverMaxPer1kUsd": 49.5
+        "failoverMaxUsd": 0.054,
+        "failoverMaxPer1kUsd": 54
       },
       "lanes": [
         {
@@ -4135,9 +4137,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00198,
-            "maxUsd": 0.0495,
-            "maxPer1kUsd": 49.5
+            "perUnitUsd": 0.00216,
+            "maxUsd": 0.054,
+            "maxPer1kUsd": 54
           },
           "source": {
             "id": "anonymous-octopus",
@@ -6083,23 +6085,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0011,
-          "perUnitUsd": 0.00181,
-          "maxUsd": 0.0462,
-          "maxPer1kUsd": 46.2
+          "baseUsd": 0.0012,
+          "perUnitUsd": 0.00197,
+          "maxUsd": 0.0504,
+          "maxPer1kUsd": 50.4
         },
-        "failoverMaxUsd": 0.0462,
-        "failoverMaxPer1kUsd": 46.2
+        "failoverMaxUsd": 0.0504,
+        "failoverMaxPer1kUsd": 50.4
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0011,
-            "perUnitUsd": 0.00181,
-            "maxUsd": 0.0462,
-            "maxPer1kUsd": 46.2
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.00197,
+            "maxUsd": 0.0504,
+            "maxPer1kUsd": 50.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -7082,8 +7084,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0671,
-        "failoverMaxPer1kUsd": 67.1
+        "failoverMaxUsd": 0.0732,
+        "failoverMaxPer1kUsd": 73.2
       },
       "lanes": [
         {
@@ -7164,10 +7166,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0011,
-            "perUnitUsd": 0.00264,
-            "maxUsd": 0.0671,
-            "maxPer1kUsd": 67.1
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.00288,
+            "maxUsd": 0.0732,
+            "maxPer1kUsd": 73.2
           },
           "source": {
             "id": "anonymous-octopus",
@@ -7343,8 +7345,8 @@
           "maxUsd": 0.003,
           "maxPer1kUsd": 3
         },
-        "failoverMaxUsd": 0.166,
-        "failoverMaxPer1kUsd": 166
+        "failoverMaxUsd": 0.181,
+        "failoverMaxPer1kUsd": 181
       },
       "lanes": [
         {
@@ -7427,10 +7429,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00011,
-            "perUnitUsd": 0.00275,
-            "maxUsd": 0.166,
-            "maxPer1kUsd": 166
+            "baseUsd": 0.00012,
+            "perUnitUsd": 0.003,
+            "maxUsd": 0.181,
+            "maxPer1kUsd": 181
           },
           "source": {
             "id": "anonymous-octopus",
@@ -9058,23 +9060,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00374,
+          "baseUsd": 0.00408,
           "perUnitUsd": 0,
-          "maxUsd": 0.00374,
-          "maxPer1kUsd": 3.74
+          "maxUsd": 0.00408,
+          "maxPer1kUsd": 4.08
         },
-        "failoverMaxUsd": 0.00374,
-        "failoverMaxPer1kUsd": 3.74
+        "failoverMaxUsd": 0.00408,
+        "failoverMaxPer1kUsd": 4.08
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00374,
+            "baseUsd": 0.00408,
             "perUnitUsd": 0,
-            "maxUsd": 0.00374,
-            "maxPer1kUsd": 3.74
+            "maxUsd": 0.00408,
+            "maxPer1kUsd": 4.08
           },
           "source": {
             "id": "anonymous-octopus",
@@ -9986,8 +9988,8 @@
           "maxUsd": 0.063,
           "maxPer1kUsd": 63
         },
-        "failoverMaxUsd": 0.099,
-        "failoverMaxPer1kUsd": 99
+        "failoverMaxUsd": 0.108,
+        "failoverMaxPer1kUsd": 108
       },
       "lanes": [
         {
@@ -10028,9 +10030,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.099,
-            "maxPer1kUsd": 99
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.108,
+            "maxPer1kUsd": 108
           },
           "source": {
             "id": "anonymous-octopus",
@@ -10534,8 +10536,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.011,
-        "failoverMaxPer1kUsd": 11
+        "failoverMaxUsd": 0.012,
+        "failoverMaxPer1kUsd": 12
       },
       "lanes": [
         {
@@ -10628,10 +10630,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00187,
-            "perUnitUsd": 0.00913,
-            "maxUsd": 0.011,
-            "maxPer1kUsd": 11
+            "baseUsd": 0.00204,
+            "perUnitUsd": 0.00996,
+            "maxUsd": 0.012,
+            "maxPer1kUsd": 12
           },
           "source": {
             "id": "anonymous-octopus",
@@ -11956,23 +11958,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0011,
-          "perUnitUsd": 0.0099,
-          "maxUsd": 0.101,
-          "maxPer1kUsd": 101
+          "baseUsd": 0.0012,
+          "perUnitUsd": 0.0108,
+          "maxUsd": 0.11,
+          "maxPer1kUsd": 110
         },
-        "failoverMaxUsd": 0.101,
-        "failoverMaxPer1kUsd": 101
+        "failoverMaxUsd": 0.11,
+        "failoverMaxPer1kUsd": 110
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0011,
-            "perUnitUsd": 0.0099,
-            "maxUsd": 0.101,
-            "maxPer1kUsd": 101
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.0108,
+            "maxUsd": 0.11,
+            "maxPer1kUsd": 110
           },
           "source": {
             "id": "anonymous-octopus",
@@ -12186,12 +12188,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00165,
-          "maxUsd": 0.033,
-          "maxPer1kUsd": 33
+          "perUnitUsd": 0.0018,
+          "maxUsd": 0.036,
+          "maxPer1kUsd": 36
         },
-        "failoverMaxUsd": 0.033,
-        "failoverMaxPer1kUsd": 33
+        "failoverMaxUsd": 0.036,
+        "failoverMaxPer1kUsd": 36
       },
       "lanes": [
         {
@@ -12199,9 +12201,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00165,
-            "maxUsd": 0.033,
-            "maxPer1kUsd": 33
+            "perUnitUsd": 0.0018,
+            "maxUsd": 0.036,
+            "maxPer1kUsd": 36
           },
           "source": {
             "id": "anonymous-octopus",
@@ -12257,23 +12259,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00015,
+          "baseUsd": 0.00016,
           "perUnitUsd": 0.00005,
-          "maxUsd": 0.00455,
-          "maxPer1kUsd": 4.55
+          "maxUsd": 0.00496,
+          "maxPer1kUsd": 4.96
         },
-        "failoverMaxUsd": 0.1155,
-        "failoverMaxPer1kUsd": 115.5
+        "failoverMaxUsd": 0.126,
+        "failoverMaxPer1kUsd": 126
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00015,
+            "baseUsd": 0.00016,
             "perUnitUsd": 0.00005,
-            "maxUsd": 0.00455,
-            "maxPer1kUsd": 4.55
+            "maxUsd": 0.00496,
+            "maxPer1kUsd": 4.96
           },
           "source": {
             "id": "anonymous-giraffe-6dd45a57",
@@ -12319,10 +12321,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
-            "perUnitUsd": 0.0011,
-            "maxUsd": 0.1155,
-            "maxPer1kUsd": 115.5
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.0012,
+            "maxUsd": 0.126,
+            "maxPer1kUsd": 126
           },
           "source": {
             "id": "anonymous-octopus",
@@ -13884,8 +13886,8 @@
           "maxUsd": 0.007,
           "maxPer1kUsd": 7
         },
-        "failoverMaxUsd": 0.11,
-        "failoverMaxPer1kUsd": 110
+        "failoverMaxUsd": 0.12,
+        "failoverMaxPer1kUsd": 120
       },
       "lanes": [
         {
@@ -13931,10 +13933,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
-            "perUnitUsd": 0.00523,
-            "maxUsd": 0.11,
-            "maxPer1kUsd": 110
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.0057,
+            "maxUsd": 0.12,
+            "maxPer1kUsd": 120
           },
           "source": {
             "id": "anonymous-octopus",
@@ -14165,42 +14167,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0048,
-            "maxPer1kUsd": 4.8
-          },
-          "source": {
-            "id": "anonymous-owl",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 64.3979057591623,
-            "latencyP50Ms": 9567,
-            "uptimeSample": 13943,
-            "latencySample": 8979,
-            "requests": 13943,
-            "servedRequests": 8979
-          },
-          "fields": [
-            "answer",
-            "answerMarkdown",
-            "citations",
-            "index",
-            "language",
-            "prompt",
-            "scrapedAt",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0018,
             "maxPer1kUsd": 1.8
           },
@@ -14218,6 +14184,40 @@
             "latencySample": 432,
             "requests": 1226,
             "servedRequests": 432
+          },
+          "fields": [
+            "answer",
+            "answerMarkdown",
+            "citations",
+            "index",
+            "language",
+            "prompt",
+            "scrapedAt",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0048,
+            "maxPer1kUsd": 4.8
+          },
+          "source": {
+            "id": "anonymous-owl",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 64.3979057591623,
+            "latencyP50Ms": 9567,
+            "uptimeSample": 13943,
+            "latencySample": 8979,
+            "requests": 13943,
+            "servedRequests": 8979
           },
           "fields": [
             "answer",
@@ -16024,12 +16024,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.00099,
-          "maxUsd": 0.0199,
-          "maxPer1kUsd": 19.9
+          "perUnitUsd": 0.00108,
+          "maxUsd": 0.0217,
+          "maxPer1kUsd": 21.7
         },
-        "failoverMaxUsd": 0.0199,
-        "failoverMaxPer1kUsd": 19.9
+        "failoverMaxUsd": 0.0217,
+        "failoverMaxPer1kUsd": 21.7
       },
       "lanes": [
         {
@@ -16037,9 +16037,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00099,
-            "maxUsd": 0.0199,
-            "maxPer1kUsd": 19.9
+            "perUnitUsd": 0.00108,
+            "maxUsd": 0.0217,
+            "maxPer1kUsd": 21.7
           },
           "source": {
             "id": "anonymous-octopus",
@@ -16092,12 +16092,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.0011,
-          "maxUsd": 0.00116,
-          "maxPer1kUsd": 1.16
+          "perUnitUsd": 0.0012,
+          "maxUsd": 0.00126,
+          "maxPer1kUsd": 1.26
         },
-        "failoverMaxUsd": 0.00116,
-        "failoverMaxPer1kUsd": 1.16
+        "failoverMaxUsd": 0.00126,
+        "failoverMaxPer1kUsd": 1.26
       },
       "lanes": [
         {
@@ -16105,9 +16105,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.0011,
-            "maxUsd": 0.00116,
-            "maxPer1kUsd": 1.16
+            "perUnitUsd": 0.0012,
+            "maxUsd": 0.00126,
+            "maxPer1kUsd": 1.26
           },
           "source": {
             "id": "anonymous-octopus",
@@ -16566,8 +16566,8 @@
           "maxUsd": 0.016,
           "maxPer1kUsd": 16
         },
-        "failoverMaxUsd": 0.0638,
-        "failoverMaxPer1kUsd": 63.8
+        "failoverMaxUsd": 0.0696,
+        "failoverMaxPer1kUsd": 69.6
       },
       "lanes": [
         {
@@ -16649,10 +16649,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0088,
-            "perUnitUsd": 0.0055,
-            "maxUsd": 0.0638,
-            "maxPer1kUsd": 63.8
+            "baseUsd": 0.0096,
+            "perUnitUsd": 0.006,
+            "maxUsd": 0.0696,
+            "maxPer1kUsd": 69.6
           },
           "source": {
             "id": "anonymous-octopus",
@@ -17152,8 +17152,8 @@
           "maxUsd": 0.00125,
           "maxPer1kUsd": 1.25
         },
-        "failoverMaxUsd": 0.00231,
-        "failoverMaxPer1kUsd": 2.31
+        "failoverMaxUsd": 0.00252,
+        "failoverMaxPer1kUsd": 2.52
       },
       "lanes": [
         {
@@ -17208,10 +17208,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00077,
-            "perUnitUsd": 0.00008,
-            "maxUsd": 0.00231,
-            "maxPer1kUsd": 2.31
+            "baseUsd": 0.00084,
+            "perUnitUsd": 0.00009,
+            "maxUsd": 0.00252,
+            "maxPer1kUsd": 2.52
           },
           "source": {
             "id": "anonymous-octopus",
@@ -20105,8 +20105,8 @@
           "maxUsd": 0.0004,
           "maxPer1kUsd": 0.4
         },
-        "failoverMaxUsd": 0.00721,
-        "failoverMaxPer1kUsd": 7.21
+        "failoverMaxUsd": 0.00786,
+        "failoverMaxPer1kUsd": 7.86
       },
       "lanes": [
         {
@@ -20253,10 +20253,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00721,
+            "baseUsd": 0.00786,
             "perUnitUsd": 0,
-            "maxUsd": 0.00721,
-            "maxPer1kUsd": 7.21
+            "maxUsd": 0.00786,
+            "maxPer1kUsd": 7.86
           },
           "source": {
             "id": "anonymous-octopus",
@@ -20545,8 +20545,8 @@
           "maxUsd": 0.00126,
           "maxPer1kUsd": 1.26
         },
-        "failoverMaxUsd": 0.033,
-        "failoverMaxPer1kUsd": 33
+        "failoverMaxUsd": 0.036,
+        "failoverMaxPer1kUsd": 36
       },
       "lanes": [
         {
@@ -20622,9 +20622,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00165,
-            "maxUsd": 0.033,
-            "maxPer1kUsd": 33
+            "perUnitUsd": 0.0018,
+            "maxUsd": 0.036,
+            "maxPer1kUsd": 36
           },
           "source": {
             "id": "anonymous-octopus",
@@ -21213,13 +21213,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0022,
-          "maxPer1kUsd": 2.2
+          "maxUsd": 0.00175,
+          "maxPer1kUsd": 1.75
         },
         "failoverMaxUsd": 0.0022,
         "failoverMaxPer1kUsd": 2.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00175,
+            "maxPer1kUsd": 1.75
+          },
+          "source": {
+            "id": "anonymous-pangolin",
+            "name": "Pangolin",
+            "kind": "anonymous",
+            "artworkKey": "pangolin"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 67.31680641633248,
+            "latencyP50Ms": 669,
+            "uptimeSample": 5486,
+            "latencySample": 3693,
+            "requests": 5486,
+            "servedRequests": 3693
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "private",
+            "profiles",
+            "userId",
+            "username",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -21262,38 +21294,6 @@
             "maxPer1kUsd": 1.75
           },
           "source": {
-            "id": "anonymous-pangolin",
-            "name": "Pangolin",
-            "kind": "anonymous",
-            "artworkKey": "pangolin"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 67.31680641633248,
-            "latencyP50Ms": 669,
-            "uptimeSample": 5486,
-            "latencySample": 3693,
-            "requests": 5486,
-            "servedRequests": 3693
-          },
-          "fields": [
-            "avatarUrl",
-            "displayName",
-            "private",
-            "profiles",
-            "userId",
-            "username",
-            "verified"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00175,
-            "maxPer1kUsd": 1.75
-          },
-          "source": {
             "id": "anonymous-manatee",
             "name": "Manatee",
             "kind": "anonymous",
@@ -21312,7 +21312,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.stories_full",
@@ -22078,36 +22078,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.001,
-          "maxPer1kUsd": 1
+          "maxUsd": 0.0012,
+          "maxPer1kUsd": 1.2
         },
         "failoverMaxUsd": 0.00164,
         "failoverMaxPer1kUsd": 1.64
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
-          },
-          "source": {
-            "id": "anonymous-manatee",
-            "name": "Manatee",
-            "kind": "anonymous",
-            "artworkKey": "manatee"
-          },
-          "fields": [
-            "avatarUrl",
-            "coverUrl",
-            "highlights",
-            "id",
-            "ownerHandle",
-            "title",
-            "userId"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -22203,6 +22180,31 @@
             "highlights",
             "id",
             "mediaCount",
+            "ownerHandle",
+            "title",
+            "userId"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
+            "id": "anonymous-manatee",
+            "name": "Manatee",
+            "kind": "anonymous",
+            "artworkKey": "manatee"
+          },
+          "fields": [
+            "avatarUrl",
+            "coverUrl",
+            "highlights",
+            "id",
             "ownerHandle",
             "title",
             "userId"
@@ -23761,23 +23763,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00011,
-          "perUnitUsd": 0.00061,
-          "maxUsd": 0.0123,
-          "maxPer1kUsd": 12.3
+          "baseUsd": 0.00012,
+          "perUnitUsd": 0.00066,
+          "maxUsd": 0.0134,
+          "maxPer1kUsd": 13.4
         },
-        "failoverMaxUsd": 0.0123,
-        "failoverMaxPer1kUsd": 12.3
+        "failoverMaxUsd": 0.0134,
+        "failoverMaxPer1kUsd": 13.4
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00011,
-            "perUnitUsd": 0.00061,
-            "maxUsd": 0.0123,
-            "maxPer1kUsd": 12.3
+            "baseUsd": 0.00012,
+            "perUnitUsd": 0.00066,
+            "maxUsd": 0.0134,
+            "maxPer1kUsd": 13.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -23936,23 +23938,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00565,
+          "baseUsd": 0.00616,
           "perUnitUsd": 0,
-          "maxUsd": 0.00565,
-          "maxPer1kUsd": 5.65
+          "maxUsd": 0.00616,
+          "maxPer1kUsd": 6.16
         },
-        "failoverMaxUsd": 0.00565,
-        "failoverMaxPer1kUsd": 5.65
+        "failoverMaxUsd": 0.00616,
+        "failoverMaxPer1kUsd": 6.16
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00565,
+            "baseUsd": 0.00616,
             "perUnitUsd": 0,
-            "maxUsd": 0.00565,
-            "maxPer1kUsd": 5.65
+            "maxUsd": 0.00616,
+            "maxPer1kUsd": 6.16
           },
           "source": {
             "id": "anonymous-octopus",
@@ -24236,10 +24238,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00132,
+            "baseUsd": 0.00144,
             "perUnitUsd": 0,
-            "maxUsd": 0.00132,
-            "maxPer1kUsd": 1.32
+            "maxUsd": 0.00144,
+            "maxPer1kUsd": 1.44
           },
           "source": {
             "id": "anonymous-octopus",
@@ -24395,52 +24397,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.006,
-          "maxPer1kUsd": 6
+          "maxUsd": 0.02,
+          "maxPer1kUsd": 20
         },
-        "failoverMaxUsd": 0.11,
-        "failoverMaxPer1kUsd": 110
+        "failoverMaxUsd": 0.12,
+        "failoverMaxPer1kUsd": 120
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.006,
-            "maxPer1kUsd": 6
-          },
-          "source": {
-            "id": "anonymous-walrus",
-            "name": "Walrus",
-            "kind": "anonymous",
-            "artworkKey": "walrus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.39470782800441,
-            "latencyP50Ms": 17118,
-            "uptimeSample": 3628,
-            "latencySample": 2953,
-            "requests": 3628,
-            "servedRequests": 2953
-          },
-          "fields": [
-            "city",
-            "companyUrl",
-            "country",
-            "countryCode",
-            "handle",
-            "image",
-            "influencer",
-            "items",
-            "jobTitle",
-            "location",
-            "name",
-            "openToWork",
-            "premium",
-            "url"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -24518,9 +24481,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.011,
-            "maxUsd": 0.11,
-            "maxPer1kUsd": 110
+            "perUnitUsd": 0.012,
+            "maxUsd": 0.12,
+            "maxPer1kUsd": 120
           },
           "source": {
             "id": "anonymous-octopus",
@@ -24560,6 +24523,47 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.006,
+            "maxPer1kUsd": 6
+          },
+          "source": {
+            "id": "anonymous-walrus",
+            "name": "Walrus",
+            "kind": "anonymous",
+            "artworkKey": "walrus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.39470782800441,
+            "latencyP50Ms": 17118,
+            "uptimeSample": 3628,
+            "latencySample": 2953,
+            "requests": 3628,
+            "servedRequests": 2953
+          },
+          "fields": [
+            "city",
+            "companyUrl",
+            "country",
+            "countryCode",
+            "handle",
+            "image",
+            "influencer",
+            "items",
+            "jobTitle",
+            "location",
+            "name",
+            "openToWork",
+            "premium",
+            "url"
+          ]
+        }
+      ],
       "tryEligible": false,
       "failover": true
     },
@@ -24582,8 +24586,8 @@
           "maxUsd": 0.0029,
           "maxPer1kUsd": 2.9
         },
-        "failoverMaxUsd": 0.0975,
-        "failoverMaxPer1kUsd": 97.5
+        "failoverMaxUsd": 0.107,
+        "failoverMaxPer1kUsd": 107
       },
       "lanes": [
         {
@@ -24680,10 +24684,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00116,
-            "perUnitUsd": 0.00193,
-            "maxUsd": 0.0975,
-            "maxPer1kUsd": 97.5
+            "baseUsd": 0.00126,
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.107,
+            "maxPer1kUsd": 107
           },
           "source": {
             "id": "anonymous-octopus",
@@ -25073,23 +25077,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.011,
+          "baseUsd": 0.012,
           "perUnitUsd": 0,
-          "maxUsd": 0.011,
-          "maxPer1kUsd": 11
+          "maxUsd": 0.012,
+          "maxPer1kUsd": 12
         },
-        "failoverMaxUsd": 0.011,
-        "failoverMaxPer1kUsd": 11
+        "failoverMaxUsd": 0.012,
+        "failoverMaxPer1kUsd": 12
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.011,
+            "baseUsd": 0.012,
             "perUnitUsd": 0,
-            "maxUsd": 0.011,
-            "maxPer1kUsd": 11
+            "maxUsd": 0.012,
+            "maxPer1kUsd": 12
           },
           "source": {
             "id": "anonymous-octopus",
@@ -25417,8 +25421,8 @@
           "maxUsd": 0.0195,
           "maxPer1kUsd": 19.5
         },
-        "failoverMaxUsd": 0.0286,
-        "failoverMaxPer1kUsd": 28.6
+        "failoverMaxUsd": 0.0312,
+        "failoverMaxPer1kUsd": 31.2
       },
       "lanes": [
         {
@@ -25477,10 +25481,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0286,
+            "baseUsd": 0.0312,
             "perUnitUsd": 0,
-            "maxUsd": 0.0286,
-            "maxPer1kUsd": 28.6
+            "maxUsd": 0.0312,
+            "maxPer1kUsd": 31.2
           },
           "source": {
             "id": "anonymous-octopus",
@@ -25907,8 +25911,8 @@
           "maxUsd": 0.0029,
           "maxPer1kUsd": 2.9
         },
-        "failoverMaxUsd": 0.22,
-        "failoverMaxPer1kUsd": 220
+        "failoverMaxUsd": 0.24,
+        "failoverMaxPer1kUsd": 240
       },
       "lanes": [
         {
@@ -25984,9 +25988,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00132,
-            "maxUsd": 0.132,
-            "maxPer1kUsd": 132
+            "perUnitUsd": 0.00144,
+            "maxUsd": 0.144,
+            "maxPer1kUsd": 144
           },
           "source": {
             "id": "anonymous-octopus",
@@ -26020,9 +26024,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0022,
-            "maxUsd": 0.22,
-            "maxPer1kUsd": 220
+            "perUnitUsd": 0.0024,
+            "maxUsd": 0.24,
+            "maxPer1kUsd": 240
           },
           "source": {
             "id": "anonymous-honeybee",
@@ -26075,8 +26079,8 @@
           "maxUsd": 0.0029,
           "maxPer1kUsd": 2.9
         },
-        "failoverMaxUsd": 0.22,
-        "failoverMaxPer1kUsd": 220
+        "failoverMaxUsd": 0.24,
+        "failoverMaxPer1kUsd": 240
       },
       "lanes": [
         {
@@ -26142,9 +26146,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0022,
-            "maxUsd": 0.22,
-            "maxPer1kUsd": 220
+            "perUnitUsd": 0.0024,
+            "maxUsd": 0.24,
+            "maxPer1kUsd": 240
           },
           "source": {
             "id": "anonymous-octopus",
@@ -26634,8 +26638,8 @@
           "maxUsd": 0.005,
           "maxPer1kUsd": 5
         },
-        "failoverMaxUsd": 0.194,
-        "failoverMaxPer1kUsd": 194
+        "failoverMaxUsd": 0.212,
+        "failoverMaxPer1kUsd": 212
       },
       "lanes": [
         {
@@ -26782,10 +26786,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00116,
-            "perUnitUsd": 0.00193,
-            "maxUsd": 0.194,
-            "maxPer1kUsd": 194
+            "baseUsd": 0.00126,
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.212,
+            "maxPer1kUsd": 212
           },
           "source": {
             "id": "anonymous-octopus",
@@ -26874,8 +26878,8 @@
           "maxUsd": 0.005,
           "maxPer1kUsd": 5
         },
-        "failoverMaxUsd": 0.194,
-        "failoverMaxPer1kUsd": 194
+        "failoverMaxUsd": 0.212,
+        "failoverMaxPer1kUsd": 212
       },
       "lanes": [
         {
@@ -26985,9 +26989,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00132,
-            "maxUsd": 0.132,
-            "maxPer1kUsd": 132
+            "perUnitUsd": 0.00144,
+            "maxUsd": 0.144,
+            "maxPer1kUsd": 144
           },
           "source": {
             "id": "anonymous-octopus",
@@ -27036,10 +27040,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00116,
-            "perUnitUsd": 0.00193,
-            "maxUsd": 0.194,
-            "maxPer1kUsd": 194
+            "baseUsd": 0.00126,
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.212,
+            "maxPer1kUsd": 212
           },
           "source": {
             "id": "anonymous-honeybee",
@@ -27394,8 +27398,8 @@
           "maxUsd": 0.005,
           "maxPer1kUsd": 5
         },
-        "failoverMaxUsd": 0.0226,
-        "failoverMaxPer1kUsd": 22.6
+        "failoverMaxUsd": 0.0246,
+        "failoverMaxPer1kUsd": 24.6
       },
       "lanes": [
         {
@@ -27437,10 +27441,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00055,
-            "perUnitUsd": 0.0011,
-            "maxUsd": 0.0226,
-            "maxPer1kUsd": 22.6
+            "baseUsd": 0.0006,
+            "perUnitUsd": 0.0012,
+            "maxUsd": 0.0246,
+            "maxPer1kUsd": 24.6
           },
           "source": {
             "id": "anonymous-octopus",
@@ -27795,8 +27799,8 @@
           "maxUsd": 0.0025,
           "maxPer1kUsd": 2.5
         },
-        "failoverMaxUsd": 0.194,
-        "failoverMaxPer1kUsd": 194
+        "failoverMaxUsd": 0.212,
+        "failoverMaxPer1kUsd": 212
       },
       "lanes": [
         {
@@ -27847,12 +27851,54 @@
         },
         {
           "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.005,
+            "maxPer1kUsd": 5
+          },
+          "source": {
+            "id": "anonymous-hedgehog-338ce087",
+            "name": "Hedgehog",
+            "kind": "anonymous",
+            "artworkKey": "hedgehog"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.61220111965677,
+            "latencyP50Ms": 2955,
+            "uptimeSample": 76452,
+            "latencySample": 75391,
+            "requests": 76452,
+            "servedRequests": 75391
+          },
+          "fields": [
+            "attachmentDescription",
+            "attachmentImage",
+            "attachmentSubtitle",
+            "attachmentTitle",
+            "attachmentType",
+            "attachmentUrl",
+            "author",
+            "createdUtc",
+            "engagement",
+            "id",
+            "pollClosed",
+            "pollOptions",
+            "pollQuestion",
+            "pollTotalVotes",
+            "posts",
+            "text",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00132,
-            "maxUsd": 0.132,
-            "maxPer1kUsd": 132
+            "perUnitUsd": 0.00144,
+            "maxUsd": 0.144,
+            "maxPer1kUsd": 144
           },
           "source": {
             "id": "anonymous-octopus",
@@ -27893,10 +27939,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00116,
-            "perUnitUsd": 0.00193,
-            "maxUsd": 0.194,
-            "maxPer1kUsd": 194
+            "baseUsd": 0.00126,
+            "perUnitUsd": 0.0021,
+            "maxUsd": 0.212,
+            "maxPer1kUsd": 212
           },
           "source": {
             "id": "anonymous-honeybee",
@@ -27912,50 +27958,6 @@
             "latencySample": 2069,
             "requests": 2141,
             "servedRequests": 2069
-          },
-          "fields": [
-            "attachmentDescription",
-            "attachmentImage",
-            "attachmentSubtitle",
-            "attachmentTitle",
-            "attachmentType",
-            "attachmentUrl",
-            "author",
-            "createdUtc",
-            "engagement",
-            "id",
-            "pollClosed",
-            "pollOptions",
-            "pollQuestion",
-            "pollTotalVotes",
-            "posts",
-            "text",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.005,
-            "maxPer1kUsd": 5
-          },
-          "source": {
-            "id": "anonymous-hedgehog-338ce087",
-            "name": "Hedgehog",
-            "kind": "anonymous",
-            "artworkKey": "hedgehog"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.61220111965677,
-            "latencyP50Ms": 2955,
-            "uptimeSample": 76452,
-            "latencySample": 75391,
-            "requests": 76452,
-            "servedRequests": 75391
           },
           "fields": [
             "attachmentDescription",
@@ -27998,23 +28000,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.088,
-          "perUnitUsd": 0.0044,
-          "maxUsd": 0.198,
-          "maxPer1kUsd": 198
+          "baseUsd": 0.096,
+          "perUnitUsd": 0.0048,
+          "maxUsd": 0.216,
+          "maxPer1kUsd": 216
         },
-        "failoverMaxUsd": 0.198,
-        "failoverMaxPer1kUsd": 198
+        "failoverMaxUsd": 0.216,
+        "failoverMaxPer1kUsd": 216
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.088,
-            "perUnitUsd": 0.0044,
-            "maxUsd": 0.198,
-            "maxPer1kUsd": 198
+            "baseUsd": 0.096,
+            "perUnitUsd": 0.0048,
+            "maxUsd": 0.216,
+            "maxPer1kUsd": 216
           },
           "source": {
             "id": "anonymous-octopus",
@@ -28137,23 +28139,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.088,
-          "perUnitUsd": 0.0099,
-          "maxUsd": 0.336,
-          "maxPer1kUsd": 336
+          "baseUsd": 0.096,
+          "perUnitUsd": 0.0108,
+          "maxUsd": 0.366,
+          "maxPer1kUsd": 366
         },
-        "failoverMaxUsd": 0.336,
-        "failoverMaxPer1kUsd": 336
+        "failoverMaxUsd": 0.366,
+        "failoverMaxPer1kUsd": 366
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.088,
-            "perUnitUsd": 0.0099,
-            "maxUsd": 0.336,
-            "maxPer1kUsd": 336
+            "baseUsd": 0.096,
+            "perUnitUsd": 0.0108,
+            "maxUsd": 0.366,
+            "maxPer1kUsd": 366
           },
           "source": {
             "id": "anonymous-octopus",
@@ -28512,8 +28514,8 @@
           "maxUsd": 0.00325,
           "maxPer1kUsd": 3.25
         },
-        "failoverMaxUsd": 0.0991,
-        "failoverMaxPer1kUsd": 99.1
+        "failoverMaxUsd": 0.109,
+        "failoverMaxPer1kUsd": 109
       },
       "lanes": [
         {
@@ -28571,9 +28573,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.0991,
-            "maxPer1kUsd": 99.1
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.109,
+            "maxPer1kUsd": 109
           },
           "source": {
             "id": "anonymous-octopus",
@@ -28649,8 +28651,8 @@
           "maxUsd": 0.001,
           "maxPer1kUsd": 1
         },
-        "failoverMaxUsd": 0.0099,
-        "failoverMaxPer1kUsd": 9.9
+        "failoverMaxUsd": 0.0108,
+        "failoverMaxPer1kUsd": 10.8
       },
       "lanes": [
         {
@@ -28788,10 +28790,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0033,
-            "perUnitUsd": 0.0055,
-            "maxUsd": 0.0099,
-            "maxPer1kUsd": 9.9
+            "baseUsd": 0.0036,
+            "perUnitUsd": 0.006,
+            "maxUsd": 0.0108,
+            "maxPer1kUsd": 10.8
           },
           "source": {
             "id": "anonymous-octopus",
@@ -28861,8 +28863,8 @@
           "maxUsd": 0.00215,
           "maxPer1kUsd": 2.15
         },
-        "failoverMaxUsd": 0.0331,
-        "failoverMaxPer1kUsd": 33.1
+        "failoverMaxUsd": 0.0361,
+        "failoverMaxPer1kUsd": 36.1
       },
       "lanes": [
         {
@@ -29076,9 +29078,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00033,
-            "maxUsd": 0.0331,
-            "maxPer1kUsd": 33.1
+            "perUnitUsd": 0.00036,
+            "maxUsd": 0.0361,
+            "maxPer1kUsd": 36.1
           },
           "source": {
             "id": "anonymous-octopus",
@@ -29122,10 +29124,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00605,
+            "baseUsd": 0.0066,
             "perUnitUsd": 0.00005,
-            "maxUsd": 0.0105,
-            "maxPer1kUsd": 10.5
+            "maxUsd": 0.0114,
+            "maxPer1kUsd": 11.4
           },
           "source": {
             "id": "anonymous-giraffe-6dd45a57",
@@ -29187,8 +29189,8 @@
           "maxUsd": 0.00149,
           "maxPer1kUsd": 1.49
         },
-        "failoverMaxUsd": 0.0705,
-        "failoverMaxPer1kUsd": 70.5
+        "failoverMaxUsd": 0.0769,
+        "failoverMaxPer1kUsd": 76.9
       },
       "lanes": [
         {
@@ -29427,9 +29429,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00352,
-            "maxUsd": 0.0705,
-            "maxPer1kUsd": 70.5
+            "perUnitUsd": 0.00384,
+            "maxUsd": 0.0769,
+            "maxPer1kUsd": 76.9
           },
           "source": {
             "id": "anonymous-octopus",
@@ -30163,23 +30165,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0055,
-          "perUnitUsd": 0.00242,
-          "maxUsd": 0.00792,
-          "maxPer1kUsd": 7.92
+          "baseUsd": 0.006,
+          "perUnitUsd": 0.00264,
+          "maxUsd": 0.00864,
+          "maxPer1kUsd": 8.64
         },
-        "failoverMaxUsd": 0.00792,
-        "failoverMaxPer1kUsd": 7.92
+        "failoverMaxUsd": 0.00864,
+        "failoverMaxPer1kUsd": 8.64
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
-            "perUnitUsd": 0.00242,
-            "maxUsd": 0.00792,
-            "maxPer1kUsd": 7.92
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.00264,
+            "maxUsd": 0.00864,
+            "maxPer1kUsd": 8.64
           },
           "source": {
             "id": "anonymous-octopus",
@@ -30244,23 +30246,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.011,
-          "perUnitUsd": 0.00242,
-          "maxUsd": 0.0594,
-          "maxPer1kUsd": 59.4
+          "baseUsd": 0.012,
+          "perUnitUsd": 0.00264,
+          "maxUsd": 0.0648,
+          "maxPer1kUsd": 64.8
         },
-        "failoverMaxUsd": 0.0594,
-        "failoverMaxPer1kUsd": 59.4
+        "failoverMaxUsd": 0.0648,
+        "failoverMaxPer1kUsd": 64.8
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.011,
-            "perUnitUsd": 0.00242,
-            "maxUsd": 0.0594,
-            "maxPer1kUsd": 59.4
+            "baseUsd": 0.012,
+            "perUnitUsd": 0.00264,
+            "maxUsd": 0.0648,
+            "maxPer1kUsd": 64.8
           },
           "source": {
             "id": "anonymous-octopus",
@@ -31276,8 +31278,8 @@
           "maxUsd": 0.002,
           "maxPer1kUsd": 2
         },
-        "failoverMaxUsd": 0.00996,
-        "failoverMaxPer1kUsd": 9.96
+        "failoverMaxUsd": 0.0109,
+        "failoverMaxPer1kUsd": 10.9
       },
       "lanes": [
         {
@@ -31350,9 +31352,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.0099,
-            "maxUsd": 0.00996,
-            "maxPer1kUsd": 9.96
+            "perUnitUsd": 0.0108,
+            "maxUsd": 0.0109,
+            "maxPer1kUsd": 10.9
           },
           "source": {
             "id": "anonymous-octopus",
@@ -31402,12 +31404,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0077,
-          "maxUsd": 0.0077,
-          "maxPer1kUsd": 7.7
+          "perUnitUsd": 0.0084,
+          "maxUsd": 0.0084,
+          "maxPer1kUsd": 8.4
         },
-        "failoverMaxUsd": 0.0077,
-        "failoverMaxPer1kUsd": 7.7
+        "failoverMaxUsd": 0.0084,
+        "failoverMaxPer1kUsd": 8.4
       },
       "lanes": [
         {
@@ -31415,9 +31417,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0077,
-            "maxUsd": 0.0077,
-            "maxPer1kUsd": 7.7
+            "perUnitUsd": 0.0084,
+            "maxUsd": 0.0084,
+            "maxPer1kUsd": 8.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -32399,23 +32401,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00055,
-          "perUnitUsd": 0.0033,
-          "maxUsd": 0.0666,
-          "maxPer1kUsd": 66.6
+          "baseUsd": 0.0006,
+          "perUnitUsd": 0.0036,
+          "maxUsd": 0.0726,
+          "maxPer1kUsd": 72.6
         },
-        "failoverMaxUsd": 0.0932,
-        "failoverMaxPer1kUsd": 93.2
+        "failoverMaxUsd": 0.1018,
+        "failoverMaxPer1kUsd": 101.8
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00055,
-            "perUnitUsd": 0.0033,
-            "maxUsd": 0.0666,
-            "maxPer1kUsd": 66.6
+            "baseUsd": 0.0006,
+            "perUnitUsd": 0.0036,
+            "maxUsd": 0.0726,
+            "maxPer1kUsd": 72.6
           },
           "source": {
             "id": "anonymous-octopus",
@@ -32464,10 +32466,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0124,
-            "perUnitUsd": 0.00404,
-            "maxUsd": 0.0932,
-            "maxPer1kUsd": 93.2
+            "baseUsd": 0.0136,
+            "perUnitUsd": 0.00441,
+            "maxUsd": 0.1018,
+            "maxPer1kUsd": 101.8
           },
           "source": {
             "id": "anonymous-gecko",
@@ -32966,9 +32968,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00011,
-            "maxUsd": 0.011,
-            "maxPer1kUsd": 11
+            "perUnitUsd": 0.00012,
+            "maxUsd": 0.012,
+            "maxPer1kUsd": 12
           },
           "source": {
             "id": "anonymous-octopus",
@@ -33114,23 +33116,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.116,
-          "perUnitUsd": 0.00066,
-          "maxUsd": 0.132,
-          "maxPer1kUsd": 132
+          "baseUsd": 0.126,
+          "perUnitUsd": 0.00072,
+          "maxUsd": 0.144,
+          "maxPer1kUsd": 144
         },
-        "failoverMaxUsd": 0.132,
-        "failoverMaxPer1kUsd": 132
+        "failoverMaxUsd": 0.144,
+        "failoverMaxPer1kUsd": 144
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.116,
-            "perUnitUsd": 0.00066,
-            "maxUsd": 0.132,
-            "maxPer1kUsd": 132
+            "baseUsd": 0.126,
+            "perUnitUsd": 0.00072,
+            "maxUsd": 0.144,
+            "maxPer1kUsd": 144
           },
           "source": {
             "id": "anonymous-octopus",
@@ -33286,23 +33288,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0055,
-          "perUnitUsd": 0.00165,
-          "maxUsd": 0.0468,
-          "maxPer1kUsd": 46.8
+          "baseUsd": 0.006,
+          "perUnitUsd": 0.0018,
+          "maxUsd": 0.051,
+          "maxPer1kUsd": 51
         },
-        "failoverMaxUsd": 0.0468,
-        "failoverMaxPer1kUsd": 46.8
+        "failoverMaxUsd": 0.051,
+        "failoverMaxPer1kUsd": 51
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
-            "perUnitUsd": 0.00165,
-            "maxUsd": 0.0468,
-            "maxPer1kUsd": 46.8
+            "baseUsd": 0.006,
+            "perUnitUsd": 0.0018,
+            "maxUsd": 0.051,
+            "maxPer1kUsd": 51
           },
           "source": {
             "id": "anonymous-octopus",
@@ -34561,13 +34563,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00035,
-          "maxPer1kUsd": 0.35
+          "maxUsd": 0.00034,
+          "maxPer1kUsd": 0.34
         },
         "failoverMaxUsd": 0.0012,
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00034,
+            "maxPer1kUsd": 0.34
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -35231,8 +35247,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.0136,
-        "failoverMaxPer1kUsd": 13.6
+        "failoverMaxUsd": 0.0148,
+        "failoverMaxPer1kUsd": 14.8
       },
       "lanes": [
         {
@@ -35283,10 +35299,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00253,
-            "perUnitUsd": 0.00044,
-            "maxUsd": 0.0136,
-            "maxPer1kUsd": 13.6
+            "baseUsd": 0.00276,
+            "perUnitUsd": 0.00048,
+            "maxUsd": 0.0148,
+            "maxPer1kUsd": 14.8
           },
           "source": {
             "id": "anonymous-octopus",
@@ -36038,23 +36054,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0022,
-          "perUnitUsd": 0.00044,
-          "maxUsd": 0.0132,
-          "maxPer1kUsd": 13.2
+          "baseUsd": 0.0024,
+          "perUnitUsd": 0.00048,
+          "maxUsd": 0.0144,
+          "maxPer1kUsd": 14.4
         },
-        "failoverMaxUsd": 0.0132,
-        "failoverMaxPer1kUsd": 13.2
+        "failoverMaxUsd": 0.0144,
+        "failoverMaxPer1kUsd": 14.4
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0022,
-            "perUnitUsd": 0.00044,
-            "maxUsd": 0.0132,
-            "maxPer1kUsd": 13.2
+            "baseUsd": 0.0024,
+            "perUnitUsd": 0.00048,
+            "maxUsd": 0.0144,
+            "maxPer1kUsd": 14.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -36110,12 +36126,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00495,
-          "maxUsd": 0.00495,
-          "maxPer1kUsd": 4.95
+          "perUnitUsd": 0.0054,
+          "maxUsd": 0.0054,
+          "maxPer1kUsd": 5.4
         },
-        "failoverMaxUsd": 0.00495,
-        "failoverMaxPer1kUsd": 4.95
+        "failoverMaxUsd": 0.0054,
+        "failoverMaxPer1kUsd": 5.4
       },
       "lanes": [
         {
@@ -36123,9 +36139,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.00495,
-            "maxPer1kUsd": 4.95
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.0054,
+            "maxPer1kUsd": 5.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -36179,12 +36195,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.00495,
-          "maxUsd": 0.00495,
-          "maxPer1kUsd": 4.95
+          "perUnitUsd": 0.0054,
+          "maxUsd": 0.0054,
+          "maxPer1kUsd": 5.4
         },
-        "failoverMaxUsd": 0.00495,
-        "failoverMaxPer1kUsd": 4.95
+        "failoverMaxUsd": 0.0054,
+        "failoverMaxPer1kUsd": 5.4
       },
       "lanes": [
         {
@@ -36192,9 +36208,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00495,
-            "maxUsd": 0.00495,
-            "maxPer1kUsd": 4.95
+            "perUnitUsd": 0.0054,
+            "maxUsd": 0.0054,
+            "maxPer1kUsd": 5.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -38845,8 +38861,8 @@
           "maxUsd": 0.0011,
           "maxPer1kUsd": 1.1
         },
-        "failoverMaxUsd": 0.0033,
-        "failoverMaxPer1kUsd": 3.3
+        "failoverMaxUsd": 0.0036,
+        "failoverMaxPer1kUsd": 3.6
       },
       "lanes": [
         {
@@ -38923,10 +38939,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0011,
-            "perUnitUsd": 0.0022,
-            "maxUsd": 0.0033,
-            "maxPer1kUsd": 3.3
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.0024,
+            "maxUsd": 0.0036,
+            "maxPer1kUsd": 3.6
           },
           "source": {
             "id": "anonymous-octopus",
@@ -38968,23 +38984,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0011,
-          "perUnitUsd": 0.0022,
-          "maxUsd": 0.0231,
-          "maxPer1kUsd": 23.1
+          "baseUsd": 0.0012,
+          "perUnitUsd": 0.0024,
+          "maxUsd": 0.0252,
+          "maxPer1kUsd": 25.2
         },
-        "failoverMaxUsd": 0.0231,
-        "failoverMaxPer1kUsd": 23.1
+        "failoverMaxUsd": 0.0252,
+        "failoverMaxPer1kUsd": 25.2
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0011,
-            "perUnitUsd": 0.0022,
-            "maxUsd": 0.0231,
-            "maxPer1kUsd": 23.1
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.0024,
+            "maxUsd": 0.0252,
+            "maxPer1kUsd": 25.2
           },
           "source": {
             "id": "anonymous-octopus",
@@ -39168,12 +39184,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0,
-          "perUnitUsd": 0.0022,
-          "maxUsd": 0.0022,
-          "maxPer1kUsd": 2.2
+          "perUnitUsd": 0.0024,
+          "maxUsd": 0.0024,
+          "maxPer1kUsd": 2.4
         },
-        "failoverMaxUsd": 0.0022,
-        "failoverMaxPer1kUsd": 2.2
+        "failoverMaxUsd": 0.0024,
+        "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
         {
@@ -39181,9 +39197,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0022,
-            "maxUsd": 0.0022,
-            "maxPer1kUsd": 2.2
+            "perUnitUsd": 0.0024,
+            "maxUsd": 0.0024,
+            "maxPer1kUsd": 2.4
           },
           "source": {
             "id": "anonymous-octopus",
@@ -39493,23 +39509,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00039,
-          "perUnitUsd": 0.00264,
-          "maxUsd": 0.265,
-          "maxPer1kUsd": 265
+          "baseUsd": 0.00042,
+          "perUnitUsd": 0.00288,
+          "maxUsd": 0.289,
+          "maxPer1kUsd": 289
         },
-        "failoverMaxUsd": 0.265,
-        "failoverMaxPer1kUsd": 265
+        "failoverMaxUsd": 0.289,
+        "failoverMaxPer1kUsd": 289
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00039,
-            "perUnitUsd": 0.00264,
-            "maxUsd": 0.265,
-            "maxPer1kUsd": 265
+            "baseUsd": 0.00042,
+            "perUnitUsd": 0.00288,
+            "maxUsd": 0.289,
+            "maxPer1kUsd": 289
           },
           "source": {
             "id": "anonymous-octopus",
@@ -41795,8 +41811,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0066,
-        "failoverMaxPer1kUsd": 6.6
+        "failoverMaxUsd": 0.0072,
+        "failoverMaxPer1kUsd": 7.2
       },
       "lanes": [
         {
@@ -41896,9 +41912,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00033,
-            "maxUsd": 0.0066,
-            "maxPer1kUsd": 6.6
+            "perUnitUsd": 0.00036,
+            "maxUsd": 0.0072,
+            "maxPer1kUsd": 7.2
           },
           "source": {
             "id": "anonymous-octopus",
@@ -42632,23 +42648,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00088,
+          "baseUsd": 0.00096,
           "perUnitUsd": 0,
-          "maxUsd": 0.00088,
-          "maxPer1kUsd": 0.88
+          "maxUsd": 0.00096,
+          "maxPer1kUsd": 0.96
         },
-        "failoverMaxUsd": 0.00352,
-        "failoverMaxPer1kUsd": 3.52
+        "failoverMaxUsd": 0.00384,
+        "failoverMaxPer1kUsd": 3.84
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00088,
+            "baseUsd": 0.00096,
             "perUnitUsd": 0,
-            "maxUsd": 0.00088,
-            "maxPer1kUsd": 0.88
+            "maxUsd": 0.00096,
+            "maxPer1kUsd": 0.96
           },
           "source": {
             "id": "anonymous-octopus",
@@ -42696,10 +42712,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00109,
+            "baseUsd": 0.00119,
             "perUnitUsd": 0,
-            "maxUsd": 0.00109,
-            "maxPer1kUsd": 1.09
+            "maxUsd": 0.00119,
+            "maxPer1kUsd": 1.19
           },
           "source": {
             "id": "anonymous-koala-a39d7725",
@@ -42734,10 +42750,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00352,
+            "baseUsd": 0.00384,
             "perUnitUsd": 0,
-            "maxUsd": 0.00352,
-            "maxPer1kUsd": 3.52
+            "maxUsd": 0.00384,
+            "maxPer1kUsd": 3.84
           },
           "source": {
             "id": "anonymous-tiger-30456175",
@@ -44994,8 +45010,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.0825,
-        "failoverMaxPer1kUsd": 82.5
+        "failoverMaxUsd": 0.09,
+        "failoverMaxPer1kUsd": 90
       },
       "lanes": [
         {
@@ -45036,10 +45052,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0275,
-            "perUnitUsd": 0.00055,
-            "maxUsd": 0.0825,
-            "maxPer1kUsd": 82.5
+            "baseUsd": 0.03,
+            "perUnitUsd": 0.0006,
+            "maxUsd": 0.09,
+            "maxPer1kUsd": 90
           },
           "source": {
             "id": "anonymous-octopus",
@@ -45824,19 +45840,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-giraffe",
-            "name": "Giraffe",
+            "id": "anonymous-tiger",
+            "name": "Tiger",
             "kind": "anonymous",
-            "artworkKey": "giraffe"
+            "artworkKey": "tiger"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 99.89110707803992,
-            "latencyP50Ms": 4612,
-            "uptimeSample": 2755,
-            "latencySample": 2752,
-            "requests": 2758,
-            "servedRequests": 2752
+            "uptimePct": 71.72478793590952,
+            "latencyP50Ms": 671,
+            "uptimeSample": 5305,
+            "latencySample": 3805,
+            "requests": 5305,
+            "servedRequests": 3805
           },
           "fields": [
             "authorFollowers",
@@ -45862,9 +45878,7 @@
             "watermarkedUrl",
             "width"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -45873,19 +45887,19 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
+            "id": "anonymous-giraffe",
+            "name": "Giraffe",
             "kind": "anonymous",
-            "artworkKey": "tiger"
+            "artworkKey": "giraffe"
           },
           "health": {
             "window": "30d",
-            "uptimePct": 71.72478793590952,
-            "latencyP50Ms": 671,
-            "uptimeSample": 5305,
-            "latencySample": 3805,
-            "requests": 5305,
-            "servedRequests": 3805
+            "uptimePct": 99.89110707803992,
+            "latencyP50Ms": 4612,
+            "uptimeSample": 2755,
+            "latencySample": 2752,
+            "requests": 2758,
+            "servedRequests": 2752
           },
           "fields": [
             "authorFollowers",
@@ -46226,23 +46240,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.0055,
+          "baseUsd": 0.006,
           "perUnitUsd": 0,
-          "maxUsd": 0.0055,
-          "maxPer1kUsd": 5.5
+          "maxUsd": 0.006,
+          "maxPer1kUsd": 6
         },
-        "failoverMaxUsd": 0.0055,
-        "failoverMaxPer1kUsd": 5.5
+        "failoverMaxUsd": 0.006,
+        "failoverMaxPer1kUsd": 6
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0055,
+            "baseUsd": 0.006,
             "perUnitUsd": 0,
-            "maxUsd": 0.0055,
-            "maxPer1kUsd": 5.5
+            "maxUsd": 0.006,
+            "maxPer1kUsd": 6
           },
           "source": {
             "id": "anonymous-octopus",
@@ -47042,8 +47056,8 @@
           "maxUsd": 0.003,
           "maxPer1kUsd": 3
         },
-        "failoverMaxUsd": 0.011,
-        "failoverMaxPer1kUsd": 11
+        "failoverMaxUsd": 0.012,
+        "failoverMaxPer1kUsd": 12
       },
       "lanes": [
         {
@@ -47097,9 +47111,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00055,
-            "maxUsd": 0.011,
-            "maxPer1kUsd": 11
+            "perUnitUsd": 0.0006,
+            "maxUsd": 0.012,
+            "maxPer1kUsd": 12
           },
           "source": {
             "id": "anonymous-octopus",
@@ -47163,8 +47177,8 @@
           "maxUsd": 0.003,
           "maxPer1kUsd": 3
         },
-        "failoverMaxUsd": 0.0442,
-        "failoverMaxPer1kUsd": 44.2
+        "failoverMaxUsd": 0.0482,
+        "failoverMaxPer1kUsd": 48.2
       },
       "lanes": [
         {
@@ -47205,10 +47219,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00011,
-            "perUnitUsd": 0.0022,
-            "maxUsd": 0.0442,
-            "maxPer1kUsd": 44.2
+            "baseUsd": 0.00012,
+            "perUnitUsd": 0.0024,
+            "maxUsd": 0.0482,
+            "maxPer1kUsd": 48.2
           },
           "source": {
             "id": "anonymous-octopus",
@@ -47274,8 +47288,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.138,
-        "failoverMaxPer1kUsd": 138
+        "failoverMaxUsd": 0.15,
+        "failoverMaxPer1kUsd": 150
       },
       "lanes": [
         {
@@ -47398,10 +47412,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0275,
-            "perUnitUsd": 0.00055,
-            "maxUsd": 0.138,
-            "maxPer1kUsd": 138
+            "baseUsd": 0.03,
+            "perUnitUsd": 0.0006,
+            "maxUsd": 0.15,
+            "maxPer1kUsd": 150
           },
           "source": {
             "id": "anonymous-octopus",
@@ -48663,8 +48677,8 @@
           "maxUsd": 0.00044,
           "maxPer1kUsd": 0.44
         },
-        "failoverMaxUsd": 0.00886,
-        "failoverMaxPer1kUsd": 8.86
+        "failoverMaxUsd": 0.00966,
+        "failoverMaxPer1kUsd": 9.66
       },
       "lanes": [
         {
@@ -48822,9 +48836,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00022,
-            "maxUsd": 0.00886,
-            "maxPer1kUsd": 8.86
+            "perUnitUsd": 0.00024,
+            "maxUsd": 0.00966,
+            "maxPer1kUsd": 9.66
           },
           "source": {
             "id": "anonymous-octopus",
@@ -50217,23 +50231,23 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00055,
-          "perUnitUsd": 0.00165,
-          "maxUsd": 0.0336,
-          "maxPer1kUsd": 33.6
+          "baseUsd": 0.0006,
+          "perUnitUsd": 0.0018,
+          "maxUsd": 0.0366,
+          "maxPer1kUsd": 36.6
         },
-        "failoverMaxUsd": 0.0336,
-        "failoverMaxPer1kUsd": 33.6
+        "failoverMaxUsd": 0.0366,
+        "failoverMaxPer1kUsd": 36.6
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00055,
-            "perUnitUsd": 0.00165,
-            "maxUsd": 0.0336,
-            "maxPer1kUsd": 33.6
+            "baseUsd": 0.0006,
+            "perUnitUsd": 0.0018,
+            "maxUsd": 0.0366,
+            "maxPer1kUsd": 36.6
           },
           "source": {
             "id": "anonymous-octopus",
@@ -50308,8 +50322,8 @@
           "maxUsd": 0.007,
           "maxPer1kUsd": 7
         },
-        "failoverMaxUsd": 0.0286,
-        "failoverMaxPer1kUsd": 28.6
+        "failoverMaxUsd": 0.0312,
+        "failoverMaxPer1kUsd": 31.2
       },
       "lanes": [
         {
@@ -50406,10 +50420,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.0011,
-            "perUnitUsd": 0.0011,
-            "maxUsd": 0.0286,
-            "maxPer1kUsd": 28.6
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.0012,
+            "maxUsd": 0.0312,
+            "maxPer1kUsd": 31.2
           },
           "source": {
             "id": "anonymous-octopus",
@@ -50643,8 +50657,8 @@
           "maxUsd": 0.001,
           "maxPer1kUsd": 1
         },
-        "failoverMaxUsd": 0.00327,
-        "failoverMaxPer1kUsd": 3.27
+        "failoverMaxUsd": 0.00357,
+        "failoverMaxPer1kUsd": 3.57
       },
       "lanes": [
         {
@@ -50781,10 +50795,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00327,
+            "baseUsd": 0.00357,
             "perUnitUsd": 0,
-            "maxUsd": 0.00327,
-            "maxPer1kUsd": 3.27
+            "maxUsd": 0.00357,
+            "maxPer1kUsd": 3.57
           },
           "source": {
             "id": "anonymous-octopus",
@@ -52049,12 +52063,12 @@
           "model": "linear",
           "unit": "result",
           "baseUsd": 0.00006,
-          "perUnitUsd": 0.00099,
-          "maxUsd": 0.00105,
-          "maxPer1kUsd": 1.05
+          "perUnitUsd": 0.00108,
+          "maxUsd": 0.00114,
+          "maxPer1kUsd": 1.14
         },
-        "failoverMaxUsd": 0.00105,
-        "failoverMaxPer1kUsd": 1.05
+        "failoverMaxUsd": 0.00114,
+        "failoverMaxPer1kUsd": 1.14
       },
       "lanes": [
         {
@@ -52062,9 +52076,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00006,
-            "perUnitUsd": 0.00099,
-            "maxUsd": 0.00105,
-            "maxPer1kUsd": 1.05
+            "perUnitUsd": 0.00108,
+            "maxUsd": 0.00114,
+            "maxPer1kUsd": 1.14
           },
           "source": {
             "id": "anonymous-octopus",
@@ -52124,8 +52138,8 @@
           "maxUsd": 0.0025,
           "maxPer1kUsd": 2.5
         },
-        "failoverMaxUsd": 0.0275,
-        "failoverMaxPer1kUsd": 27.5
+        "failoverMaxUsd": 0.03,
+        "failoverMaxPer1kUsd": 30
       },
       "lanes": [
         {
@@ -52178,10 +52192,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.011,
-            "perUnitUsd": 0.00083,
-            "maxUsd": 0.0275,
-            "maxPer1kUsd": 27.5
+            "baseUsd": 0.012,
+            "perUnitUsd": 0.0009,
+            "maxUsd": 0.03,
+            "maxPer1kUsd": 30
           },
           "source": {
             "id": "anonymous-octopus",
@@ -52575,7 +52589,7 @@
       "slug": "youtube.channel_contact",
       "category": "video",
       "name": "YouTube Channel Contact Email",
-      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.44 per email found instead of the normal $0.11 or $0.132, and it runs only on the source that offers it.",
+      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.452 per email found instead of the normal $0.11 or $0.144, and it runs only on the source that offers it.",
       "method": "POST",
       "path": "/v1/run/youtube.channel_contact",
       "provider": "AnyAPI",
@@ -52589,8 +52603,8 @@
           "maxUsd": 0.11,
           "maxPer1kUsd": 110
         },
-        "failoverMaxUsd": 0.44,
-        "failoverMaxPer1kUsd": 440
+        "failoverMaxUsd": 0.452,
+        "failoverMaxPer1kUsd": 452
       },
       "lanes": [
         {
@@ -52614,10 +52628,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.132,
+            "baseUsd": 0.144,
             "perUnitUsd": 0,
-            "maxUsd": 0.132,
-            "maxPer1kUsd": 132,
+            "maxUsd": 0.144,
+            "maxPer1kUsd": 144,
             "addons": [
               {
                 "id": "fresh",
@@ -54891,8 +54905,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.00869,
-        "failoverMaxPer1kUsd": 8.69
+        "failoverMaxUsd": 0.00948,
+        "failoverMaxPer1kUsd": 9.48
       },
       "lanes": [
         {
@@ -54938,10 +54952,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00869,
+            "baseUsd": 0.00948,
             "perUnitUsd": 0,
-            "maxUsd": 0.00869,
-            "maxPer1kUsd": 8.69
+            "maxUsd": 0.00948,
+            "maxPer1kUsd": 9.48
           },
           "source": {
             "id": "anonymous-octopus",
@@ -54999,8 +55013,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.00264,
-        "failoverMaxPer1kUsd": 2.64
+        "failoverMaxUsd": 0.00288,
+        "failoverMaxPer1kUsd": 2.88
       },
       "lanes": [
         {
@@ -55060,9 +55074,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.0011,
-            "maxUsd": 0.0011,
-            "maxPer1kUsd": 1.1
+            "perUnitUsd": 0.0012,
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
           },
           "source": {
             "id": "anonymous-tiger-77b7a9d6",
@@ -55114,9 +55128,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00264,
-            "maxUsd": 0.00264,
-            "maxPer1kUsd": 2.64
+            "perUnitUsd": 0.00288,
+            "maxUsd": 0.00288,
+            "maxPer1kUsd": 2.88
           },
           "source": {
             "id": "anonymous-octopus",
@@ -55188,8 +55202,8 @@
           "maxUsd": 0.0008,
           "maxPer1kUsd": 0.8
         },
-        "failoverMaxUsd": 0.0553,
-        "failoverMaxPer1kUsd": 55.3
+        "failoverMaxUsd": 0.0603,
+        "failoverMaxPer1kUsd": 60.3
       },
       "lanes": [
         {
@@ -55295,9 +55309,9 @@
             "model": "linear",
             "unit": "result",
             "baseUsd": 0,
-            "perUnitUsd": 0.00099,
-            "maxUsd": 0.0248,
-            "maxPer1kUsd": 24.8
+            "perUnitUsd": 0.00108,
+            "maxUsd": 0.027,
+            "maxPer1kUsd": 27
           },
           "source": {
             "id": "anonymous-otter",
@@ -55346,10 +55360,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00055,
-            "perUnitUsd": 0.00219,
-            "maxUsd": 0.0553,
-            "maxPer1kUsd": 55.3
+            "baseUsd": 0.0006,
+            "perUnitUsd": 0.00239,
+            "maxUsd": 0.0603,
+            "maxPer1kUsd": 60.3
           },
           "source": {
             "id": "anonymous-octopus",

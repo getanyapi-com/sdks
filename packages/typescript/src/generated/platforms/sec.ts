@@ -133,7 +133,7 @@ export class SecNamespace {
    *
    * List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters.
    *
-   * Price: $0.0022 per request plus $0.00044 per result (maximum $0.0132).
+   * Price: $0.0024 per request plus $0.00048 per result (maximum $0.0144).
    *
    * @example
    * const res = await client.sec.filings({ limit: 3, ticker: "AAPL" });

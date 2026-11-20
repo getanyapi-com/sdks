@@ -200,7 +200,7 @@ export class PexelsNamespace {
    *
    * Search Pexels for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Pexels page.
    *
-   * Price: $0.00055 per request plus $0.0033 per result (maximum $0.0666).
+   * Price: $0.0006 per request plus $0.0036 per result (maximum $0.0726).
    *
    * @example
    * const res = await client.pexels.searchPhotos({ query: "coffee", limit: 2 });

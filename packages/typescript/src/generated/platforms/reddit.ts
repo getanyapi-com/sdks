@@ -1510,7 +1510,7 @@ export class RedditNamespace {
    *
    * Search posts within a single subreddit by query, sort, and timeframe.
    *
-   * Price: $0.00035 per request.
+   * Price: $0.00034 per request.
    *
    * @example
    * const res = await client.reddit.subredditSearch({ subreddit: "Fitness", query: "push ups" });

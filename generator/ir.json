@@ -30,8 +30,8 @@
       "category": "search",
       "description": "Get the referring pages linking to a domain or URL, each with the source page, anchor text, linking domain rating, and page title.",
       "pricing": {
-        "priceUsd": 0.00501,
-        "baseUsd": 0.00501,
+        "priceUsd": 0.00546,
+        "baseUsd": 0.00546,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -204,9 +204,9 @@
       "category": "search",
       "description": "Get related keyword suggestions for any seed term, each with an Ahrefs difficulty and search-volume bucket.",
       "pricing": {
-        "priceUsd": 0.00501,
+        "priceUsd": 0.00546,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.00495,
+        "perItemUsd": 0.0054,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -433,9 +433,9 @@
       "category": "search",
       "description": "Get the Ahrefs keyword-difficulty metrics for any search term: the difficulty score (0-100) and the number of referring domains a page needs to rank in the top 10 - as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00501,
+        "priceUsd": 0.00546,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.00495,
+        "perItemUsd": 0.0054,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -604,9 +604,9 @@
       "category": "search",
       "description": "Get an SEO authority overview for any domain or URL: Domain Rating, total backlinks, and referring domains - as normalized JSON. For the keywords a domain ranks for, use seo.ranked_keywords.",
       "pricing": {
-        "priceUsd": 0.00501,
+        "priceUsd": 0.00546,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.00495,
+        "perItemUsd": 0.0054,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -778,9 +778,9 @@
       "category": "search",
       "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.",
       "pricing": {
-        "priceUsd": 0.00501,
+        "priceUsd": 0.00546,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.00495,
+        "perItemUsd": 0.0054,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -1060,9 +1060,9 @@
       "category": "travel",
       "description": "Search Airbnb listings by location and dates with optional price, beds/bedrooms/bathrooms, and guest-party filters and get results (name, total-stay price label, rating, host) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0221,
-        "baseUsd": 0.00008,
-        "perItemUsd": 0.0011,
+        "priceUsd": 0.0241,
+        "baseUsd": 0.00009,
+        "perItemUsd": 0.0012,
         "perItemUnit": "result"
       },
       "tsNamespace": "airbnb",
@@ -1529,9 +1529,9 @@
       "category": "shop",
       "description": "Search Alibaba by keyword and get up to 25 wholesale listings (title, price range, minimum order, and supplier) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0193,
+        "priceUsd": 0.021,
         "baseUsd": 0,
-        "perItemUsd": 0.00077,
+        "perItemUsd": 0.00084,
         "perItemUnit": "result"
       },
       "tsNamespace": "alibaba",
@@ -2996,9 +2996,9 @@
       "category": "shop",
       "description": "Look up to 10 Amazon products in one call by ASIN (title, brand, price, ratings, images, and attributes) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.033,
+        "priceUsd": 0.036,
         "baseUsd": 0,
-        "perItemUsd": 0.0033,
+        "perItemUsd": 0.0036,
         "perItemUnit": "asin"
       },
       "tsNamespace": "amazon",
@@ -4130,7 +4130,7 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -10148,9 +10148,9 @@
       "category": "shop",
       "description": "Pull Capterra software reviews for any product: overall and sub-ratings, pros and cons, reviewer job title, company size, and industry as clean JSON.",
       "pricing": {
-        "priceUsd": 0.0825,
-        "baseUsd": 0.0055,
-        "perItemUsd": 0.00077,
+        "priceUsd": 0.09,
+        "baseUsd": 0.006,
+        "perItemUsd": 0.00084,
         "perItemUnit": "result"
       },
       "tsNamespace": "capterra",
@@ -11140,9 +11140,9 @@
       "category": "fin",
       "description": "Get the current top cryptocurrencies from CoinMarketCap (rank, price, market cap, volume, and 24h change) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0495,
+        "priceUsd": 0.054,
         "baseUsd": 0,
-        "perItemUsd": 0.00198,
+        "perItemUsd": 0.00216,
         "perItemUnit": "result"
       },
       "tsNamespace": "coinmarketcap",
@@ -23650,9 +23650,9 @@
       "category": "fin",
       "description": "Get US Congress members' financial disclosures and stock trades (member, ticker, transaction type, amount range, and dates), filterable by member, ticker, or date range. Results come newest filing first (by reportedUtc, not tradedUtc), so a recent filing can list trades made years earlier.",
       "pricing": {
-        "priceUsd": 0.0462,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.00181,
+        "priceUsd": 0.0504,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.00197,
         "perItemUnit": "result"
       },
       "tsNamespace": "congress",
@@ -32302,8 +32302,8 @@
       "category": "ads",
       "description": "Pull one Meta Ad Library ad with its creative: every carousel variant, image and video URL, headline, body, and call to action.",
       "pricing": {
-        "priceUsd": 0.00374,
-        "baseUsd": 0.00374,
+        "priceUsd": 0.00408,
+        "baseUsd": 0.00408,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -38951,9 +38951,9 @@
       "category": "social",
       "description": "Search Facebook Pages by keyword, optionally narrowed to a location, and get structured page profiles (name, category, followers, contact details).",
       "pricing": {
-        "priceUsd": 0.101,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0099,
+        "priceUsd": 0.11,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.0108,
         "perItemUnit": "result"
       },
       "tsNamespace": "facebook",
@@ -39565,9 +39565,9 @@
       "category": "shop",
       "description": "Extract Fiverr gig listings from any search or category URL: titles, sellers, ratings, and pricing as structured JSON.",
       "pricing": {
-        "priceUsd": 0.033,
+        "priceUsd": 0.036,
         "baseUsd": 0,
-        "perItemUsd": 0.00165,
+        "perItemUsd": 0.0018,
         "perItemUnit": "result"
       },
       "tsNamespace": "fiverr",
@@ -39789,8 +39789,8 @@
       "category": "shop",
       "description": "Pull G2 software reviews for any product: star rating, what reviewers like and dislike, problems solved, market segment, and G2's rating rubric as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00455,
-        "baseUsd": 0.00015,
+        "priceUsd": 0.00496,
+        "baseUsd": 0.00016,
         "perItemUsd": 0.00005,
         "perItemUnit": "result"
       },
@@ -48588,9 +48588,9 @@
       "category": "search",
       "description": "Pull the ads an advertiser is running from the Google Ads Transparency Center (creative details, formats, run dates, and headline and text where Google publishes them) as clean JSON. Each ad's detail page is read, so a 20-ad call can take a minute or more; many text ads come back only as an image of the ad.",
       "pricing": {
-        "priceUsd": 0.0199,
+        "priceUsd": 0.0217,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.00099,
+        "perItemUsd": 0.00108,
         "perItemUnit": "result"
       },
       "tsNamespace": "googleAds",
@@ -48809,9 +48809,9 @@
       "category": "fin",
       "description": "Fetch a live quote for any stock, index, ETF, mutual fund, currency pair, or crypto symbol: name, current price, the absolute and percent change on the day, quote currency, exchange and market state, plus intraday and reference figures (open, day high/low, previous close, volume, market cap, and the 52-week range).",
       "pricing": {
-        "priceUsd": 0.00116,
+        "priceUsd": 0.00126,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.0011,
+        "perItemUsd": 0.0012,
         "perItemUnit": "result"
       },
       "tsNamespace": "googleFinance",
@@ -60091,7 +60091,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.0022,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61751,7 +61751,7 @@
       "category": "social",
       "description": "List an Instagram account's story highlight reels by handle.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -66673,9 +66673,9 @@
       "category": "social",
       "description": "Search the LinkedIn Ad Library by search URL and list the matching ads (advertiser, creative text, format).",
       "pricing": {
-        "priceUsd": 0.0123,
-        "baseUsd": 0.00011,
-        "perItemUsd": 0.00061,
+        "priceUsd": 0.0134,
+        "baseUsd": 0.00012,
+        "perItemUsd": 0.00066,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -67122,8 +67122,8 @@
       "category": "social",
       "description": "Read a public LinkedIn article or newsletter issue by URL, including its full body text, author, publication time, and engagement counts.",
       "pricing": {
-        "priceUsd": 0.00565,
-        "baseUsd": 0.00565,
+        "priceUsd": 0.00616,
+        "baseUsd": 0.00616,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -68211,7 +68211,7 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.006,
+        "priceUsd": 0.02,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -69271,8 +69271,8 @@
       "category": "social",
       "description": "Find the deliverability-validated work email behind a LinkedIn profile URL or public ID. Returns each discovered email with its deliverability, validation status, and quality score, plus the person's name and headline.",
       "pricing": {
-        "priceUsd": 0.011,
-        "baseUsd": 0.011,
+        "priceUsd": 0.012,
+        "baseUsd": 0.012,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -77341,9 +77341,9 @@
       "category": "social",
       "description": "Search LinkedIn profiles by keyword with optional location and job-title filters. Each match returns a full profile record: name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id. For a cheaper name/headline/URL-only search use linkedin.search_profiles_thin; add emails with linkedin.search_profiles_email.",
       "pricing": {
-        "priceUsd": 0.198,
-        "baseUsd": 0.088,
-        "perItemUsd": 0.0044,
+        "priceUsd": 0.216,
+        "baseUsd": 0.096,
+        "perItemUsd": 0.0048,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -78046,9 +78046,9 @@
       "category": "social",
       "description": "People search returning a full profile AND a verified work email for each hit. Search LinkedIn profiles by keyword with optional location and job-title filters; each match returns the full profile record (name, headline, location, current position, work experience, education, and skills, plus the profile URL, handle, and id) together with an emails array carrying the discovered work email and its deliverability. Email discovery is best effort and needs the profile to expose a resolvable company domain, so on a broad search many matches return an empty emails array while still billing the email rate. If you already have names and company domains, email.find, email_finding.icypeas, and email_finding.dropleads resolve addresses directly for less, and linkedin.email enriches a single known profile URL. For a full profile without email use linkedin.search_profiles; for a cheaper name/headline/URL-only search use linkedin.search_profiles_thin.",
       "pricing": {
-        "priceUsd": 0.336,
-        "baseUsd": 0.088,
-        "perItemUsd": 0.0099,
+        "priceUsd": 0.366,
+        "baseUsd": 0.096,
+        "perItemUsd": 0.0108,
         "perItemUnit": "result"
       },
       "tsNamespace": "linkedin",
@@ -83213,9 +83213,9 @@
       "category": "data",
       "description": "Fetch one Nextdoor business page by its slug, with phone, email, website, and street address.",
       "pricing": {
-        "priceUsd": 0.00792,
-        "baseUsd": 0.0055,
-        "perItemUsd": 0.00242,
+        "priceUsd": 0.00864,
+        "baseUsd": 0.006,
+        "perItemUsd": 0.00264,
         "perItemUnit": "result"
       },
       "tsNamespace": "nextdoor",
@@ -83516,9 +83516,9 @@
       "category": "data",
       "description": "Find local businesses listed on Nextdoor by city and trade category, with phone, email, website, and street address.",
       "pricing": {
-        "priceUsd": 0.0594,
-        "baseUsd": 0.011,
-        "perItemUsd": 0.00242,
+        "priceUsd": 0.0648,
+        "baseUsd": 0.012,
+        "perItemUsd": 0.00264,
         "perItemUnit": "result"
       },
       "tsNamespace": "nextdoor",
@@ -92617,9 +92617,9 @@
       "category": "data",
       "description": "Skip-trace a person in the US by name, address, phone, or email and get back identity, address, and contact records in normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0077,
+        "priceUsd": 0.0084,
         "baseUsd": 0,
-        "perItemUsd": 0.0077,
+        "perItemUsd": 0.0084,
         "perItemUnit": "result"
       },
       "tsNamespace": "person",
@@ -100643,9 +100643,9 @@
       "category": "search",
       "description": "Search Pexels for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Pexels page.",
       "pricing": {
-        "priceUsd": 0.0666,
-        "baseUsd": 0.00055,
-        "perItemUsd": 0.0033,
+        "priceUsd": 0.0726,
+        "baseUsd": 0.0006,
+        "perItemUsd": 0.0036,
         "perItemUnit": "result"
       },
       "tsNamespace": "pexels",
@@ -102821,9 +102821,9 @@
       "category": "fin",
       "description": "Discover Polymarket prediction markets (question, outcome prices, volume, liquidity, and end dates) by keyword or sorted by activity, as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.132,
-        "baseUsd": 0.116,
-        "perItemUsd": 0.00066,
+        "priceUsd": 0.144,
+        "baseUsd": 0.126,
+        "perItemUsd": 0.00072,
         "perItemUnit": "result"
       },
       "tsNamespace": "polymarket",
@@ -103659,9 +103659,9 @@
       "category": "data",
       "description": "Search Realtor.com listings by location with optional price, property-type, beds/baths, listing-status, and keyword filters and get property records (price, address, beds, baths) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0468,
-        "baseUsd": 0.0055,
-        "perItemUsd": 0.00165,
+        "priceUsd": 0.051,
+        "baseUsd": 0.006,
+        "perItemUsd": 0.0018,
         "perItemUnit": "result"
       },
       "tsNamespace": "realtor",
@@ -105986,7 +105986,7 @@
       "category": "social",
       "description": "Search posts within a single subreddit by query, sort, and timeframe.",
       "pricing": {
-        "priceUsd": 0.00035,
+        "priceUsd": 0.00034,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -109725,9 +109725,9 @@
       "category": "fin",
       "description": "List a public company's SEC EDGAR filings - form type, filing date, accession number, and document links - by ticker, company name, or CIK, with optional form-type and date filters.",
       "pricing": {
-        "priceUsd": 0.0132,
-        "baseUsd": 0.0022,
-        "perItemUsd": 0.00044,
+        "priceUsd": 0.0144,
+        "baseUsd": 0.0024,
+        "perItemUsd": 0.00048,
         "perItemUnit": "result"
       },
       "tsNamespace": "sec",
@@ -109963,9 +109963,9 @@
       "category": "search",
       "description": "Semrush keyword research for any term: monthly search volume, CPC, competition, keyword difficulty, plus related keywords and question keywords.",
       "pricing": {
-        "priceUsd": 0.00495,
+        "priceUsd": 0.0054,
         "baseUsd": 0,
-        "perItemUsd": 0.00495,
+        "perItemUsd": 0.0054,
         "perItemUnit": "result"
       },
       "tsNamespace": "semrush",
@@ -110235,9 +110235,9 @@
       "category": "search",
       "description": "a Semrush SEO overview for any domain: Authority Score, organic and paid traffic, keyword and backlink counts, top country, and the domain's top organic keywords.",
       "pricing": {
-        "priceUsd": 0.00495,
+        "priceUsd": 0.0054,
         "baseUsd": 0,
-        "perItemUsd": 0.00495,
+        "perItemUsd": 0.0054,
         "perItemUnit": "result"
       },
       "tsNamespace": "semrush",
@@ -121575,9 +121575,9 @@
       "category": "data",
       "description": "Find a person's or brand's profiles across major social networks from a single name, returned as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0231,
-        "baseUsd": 0.0011,
-        "perItemUsd": 0.0022,
+        "priceUsd": 0.0252,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.0024,
         "perItemUnit": "result"
       },
       "tsNamespace": "social",
@@ -122284,9 +122284,9 @@
       "category": "music",
       "description": "Fetch stream counts and stats for a Spotify track, album, or artist URL.",
       "pricing": {
-        "priceUsd": 0.0022,
+        "priceUsd": 0.0024,
         "baseUsd": 0,
-        "perItemUsd": 0.0022,
+        "perItemUsd": 0.0024,
         "perItemUnit": "result"
       },
       "tsNamespace": "spotify",
@@ -123357,9 +123357,9 @@
       "category": "social",
       "description": "Pull posts from any Substack publication by its URL, or pass a single post URL (…/p/slug) to fetch just that one article. Returns title, subtitle, publish date, paywall status, word count, engagement (reactions, comments, restacks), author profile, publication details, the full article body as text, HTML and Markdown, and optional comment threads.",
       "pricing": {
-        "priceUsd": 0.265,
-        "baseUsd": 0.00039,
-        "perItemUsd": 0.00264,
+        "priceUsd": 0.289,
+        "baseUsd": 0.00042,
+        "perItemUsd": 0.00288,
         "perItemUnit": "result"
       },
       "tsNamespace": "substack",
@@ -130273,8 +130273,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00088,
-        "baseUsd": 0.00088,
+        "priceUsd": 0.00096,
+        "baseUsd": 0.00096,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -136388,8 +136388,8 @@
       "category": "shop",
       "description": "TikTok Shop creator performance by handle: GMV range, promoted product count, brand collaborations, follower age/gender/location demographics, category GMV split, and video versus live engagement.",
       "pricing": {
-        "priceUsd": 0.0055,
-        "baseUsd": 0.0055,
+        "priceUsd": 0.006,
+        "baseUsd": 0.006,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },
@@ -143933,9 +143933,9 @@
       "category": "search",
       "description": "Search Unsplash for free stock photos by keyword. Returns image URLs in several sizes, dimensions, alt text, the photographer's name and profile, and the photo's Unsplash page.",
       "pricing": {
-        "priceUsd": 0.0336,
-        "baseUsd": 0.00055,
-        "perItemUsd": 0.00165,
+        "priceUsd": 0.0366,
+        "baseUsd": 0.0006,
+        "perItemUsd": 0.0018,
         "perItemUnit": "result"
       },
       "tsNamespace": "unsplash",
@@ -148831,9 +148831,9 @@
       "category": "fin",
       "description": "Look up a stock or ETF by ticker symbol and get its Yahoo Finance quote (price, market cap, volume, and key stats) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00105,
+        "priceUsd": 0.00114,
         "baseUsd": 0.00006,
-        "perItemUsd": 0.00099,
+        "perItemUsd": 0.00108,
         "perItemUnit": "result"
       },
       "tsNamespace": "yahooFinance",
@@ -149847,7 +149847,7 @@
       "operationId": "youtube_channel_contact",
       "name": "YouTube Channel Contact Email",
       "category": "video",
-      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.44 per email found instead of the normal $0.11 or $0.132, and it runs only on the source that offers it.",
+      "description": "Reveal the business inquiry email a YouTube creator publishes behind the channel's View email address button. YouTube gates that address behind a signed-in Google session and a CAPTCHA, so it is absent from the channel page a logged-out scraper reads. Each lookup runs on one source only and never moves to another: the cheapest source unless the call names one. An email found inside the call is charged that source's price, and a channel with no email is free. A lookup the source cannot answer yet takes minutes to hours: it is charged when the lookup starts, refunded automatically if no email is found within 48 hours, and the call returns a request id at once with a link that collects the answer later with no API key. A finished answer stays readable for 3 days after it is found. Set `fresh` to true to have the address read from YouTube now instead of one a source already holds: that costs more, $0.452 per email found instead of the normal $0.11 or $0.144, and it runs only on the source that offers it.",
       "pricing": {
         "priceUsd": 0.11,
         "baseUsd": null,
@@ -149882,7 +149882,7 @@
           },
           "fresh": {
             "kind": "boolean",
-            "description": "Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.44 per email found instead of this API's normal $0.11 or $0.132; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.44 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes.",
+            "description": "Optional, and it costs more. Set true to have the address read from YouTube now instead of one a source already holds, for a channel that may have changed its email. With it on, the price is $0.452 per email found instead of this API's normal $0.11 or $0.144; a channel with no email is still free. Only one source offers it, so leave `source` out or name that source (the lane whose offer lists the `fresh` add-on); naming another source is refused with no charge. A lookup that is not ready inside the call is charged $0.452 when it starts and refunded if no email is found within 48 hours. Leave it out and nothing changes.",
             "default": false
           },
           "handle": {

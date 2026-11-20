@@ -199,7 +199,7 @@ export class G2Namespace {
    *
    * Pull G2 software reviews for any product: star rating, what reviewers like and dislike, problems solved, market segment, and G2's rating rubric as clean JSON.
    *
-   * Price: $0.00015 per request plus $0.00005 per result (maximum $0.00455).
+   * Price: $0.00016 per request plus $0.00005 per result (maximum $0.00496).
    *
    * @example
    * const res = await client.g2.reviews({ product: "hubspot-marketing-hub", limit: 50, sortBy: "recent" });
