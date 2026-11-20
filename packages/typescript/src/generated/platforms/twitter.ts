@@ -2039,7 +2039,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.
    *
-   * Price: $0.00021 per request.
+   * Price: $0.0002 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
@@ -2056,7 +2056,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.
    *
-   * Price: $0.00045 per request.
+   * Price: $0.00044 per request.
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20" });
