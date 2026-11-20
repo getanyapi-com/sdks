@@ -57,7 +57,7 @@ class G2ReviewsItem(BaseModel):
     created_utc: float | None = Field(
         default=None,
         alias="createdUtc",
-        description="UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="UTC epoch timestamp in seconds (Unix time) of when the review was published. On older reviews where G2 records no publication date, it is the date the review was submitted. Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     dislikes: str | None = Field(
         default=None,
@@ -109,7 +109,7 @@ class G2ReviewsItem(BaseModel):
     )
     ratings: G2ReviewsRating | None = Field(
         default=None,
-        description="G2's rating rubric, each on a 0 to 10 scale. A reviewer may skip any of them, and the last two are asked far less often.",
+        description="G2's rating rubric, each on G2's 1 to 7 scale. A reviewer may skip any of them, and the last two are asked far less often.",
     )
     response_type: str | None = Field(
         default=None,

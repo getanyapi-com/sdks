@@ -4668,7 +4668,7 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39917,7 +39917,7 @@
                   },
                   "createdUtc": {
                     "kind": "number",
-                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
+                    "description": "UTC epoch timestamp in seconds (Unix time) of when the review was published. On older reviews where G2 records no publication date, it is the date the review was submitted. Multiply by 1000 for a JS Date in milliseconds. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -40001,7 +40001,7 @@
                   },
                   "ratings": {
                     "kind": "object",
-                    "description": "G2's rating rubric, each on a 0 to 10 scale. A reviewer may skip any of them, and the last two are asked far less often.",
+                    "description": "G2's rating rubric, each on G2's 1 to 7 scale. A reviewer may skip any of them, and the last two are asked far less often.",
                     "properties": {
                       "easeOfAdmin": {
                         "kind": "integer",
@@ -44698,7 +44698,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -60091,7 +60091,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0022,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -72478,7 +72478,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.00249,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
