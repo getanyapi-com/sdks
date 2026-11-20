@@ -112,6 +112,11 @@ export interface TiktokAdLibrarySearchInput {
    */
   cursor?: string;
   /**
+   * Number of days of library history to search, from 1 to 365.
+   * Range: minimum 1, maximum 365.
+   */
+  days?: number;
+  /**
    * Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.
    */
   ignoreSources?: string[];
@@ -4335,7 +4340,7 @@ export class TiktokNamespace {
    *
    * Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.
    *
-   * Price: $0.00109 per request plus $0 per result (maximum $0.00109).
+   * Price: $0.00088 per request plus $0 per result (maximum $0.00088).
    *
    * @example
    * const res = await client.tiktok.profileContact({ handle: "gordonramsayofficial" });

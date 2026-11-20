@@ -58308,7 +58308,7 @@
       "category": "social",
       "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.",
       "pricing": {
-        "priceUsd": 0.0032,
+        "priceUsd": 0.00126,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -80706,7 +80706,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.00149,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -127556,6 +127556,13 @@
             "default": null,
             "format": null
           },
+          "days": {
+            "kind": "integer",
+            "description": "Number of days of library history to search, from 1 to 365.",
+            "minimum": 1,
+            "maximum": 365,
+            "default": null
+          },
           "ignoreSources": {
             "kind": "array",
             "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
@@ -130266,8 +130273,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00109,
-        "baseUsd": 0.00109,
+        "priceUsd": 0.00088,
+        "baseUsd": 0.00088,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },

@@ -5334,7 +5334,7 @@ class InstagramNamespace:
         Search Instagram for users, hashtags, or places by keyword and get matching
         results with names, counts, and links.
 
-        Price: $0.0032 per request.
+        Price: $0.00126 per request.
 
         Example:
             res = client.instagram.search(query="nasa")
@@ -6719,7 +6719,7 @@ class AsyncInstagramNamespace:
         Search Instagram for users, hashtags, or places by keyword and get matching
         results with names, counts, and links.
 
-        Price: $0.0032 per request.
+        Price: $0.00126 per request.
 
         Example:
             res = client.instagram.search(query="nasa")
