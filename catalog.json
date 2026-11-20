@@ -27058,6 +27058,51 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -27178,53 +27223,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
@@ -32059,7 +32057,7 @@
       "slug": "person_enrichment.prospeo",
       "category": "data",
       "name": "Person Enrichment - Prospeo",
-      "description": "Enrich one person into work email, mobile phone, full job history and employer firmographics from a LinkedIn URL, an email, or a name plus company domain.",
+      "description": "Enrich one person into work email, mobile phone, full job history and employer firmographics from a LinkedIn URL, an email, or a name plus company domain. Revealing the mobile number with enrichMobile costs extra, charged to your balance only when a mobile number is found. A call paid on its own with x402 or MPP pays the quoted price, mobile charge included, whether or not a number is found.",
       "method": "POST",
       "path": "/v1/run/person_enrichment.prospeo",
       "provider": "AnyAPI",
@@ -32071,10 +32069,18 @@
           "model": "flat",
           "unit": "request",
           "maxUsd": 0.066,
-          "maxPer1kUsd": 66
+          "maxPer1kUsd": 66,
+          "addons": [
+            {
+              "id": "mobile",
+              "label": "revealed mobile number",
+              "field": "enrichMobile",
+              "usd": 0.5892
+            }
+          ]
         },
-        "failoverMaxUsd": 0.066,
-        "failoverMaxPer1kUsd": 66
+        "failoverMaxUsd": 0.6552,
+        "failoverMaxPer1kUsd": 655.2
       },
       "lanes": [
         {
@@ -32082,7 +32088,15 @@
             "model": "flat",
             "unit": "request",
             "maxUsd": 0.066,
-            "maxPer1kUsd": 66
+            "maxPer1kUsd": 66,
+            "addons": [
+              {
+                "id": "mobile",
+                "label": "revealed mobile number",
+                "field": "enrichMobile",
+                "usd": 0.5892
+              }
+            ]
           },
           "source": {
             "id": "prospeo",

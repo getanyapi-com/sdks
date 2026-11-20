@@ -177393,7 +177393,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -217034,7 +217034,7 @@
     },
     "/v1/run/person_enrichment.prospeo": {
       "post": {
-        "description": "Enrich one person into work email, mobile phone, full job history and employer firmographics from a LinkedIn URL, an email, or a name plus company domain.\n\n**Price:** \\$66.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Person Enrichment - Prospeo pricing and uptime](https://getanyapi.com/api/person-enrichment/prospeo) - live USD price, lane routing, and measured 30-day uptime. [Every Person_enrichment endpoint](https://getanyapi.com/api/person-enrichment).",
+        "description": "Enrich one person into work email, mobile phone, full job history and employer firmographics from a LinkedIn URL, an email, or a name plus company domain. Revealing the mobile number with enrichMobile costs extra, charged to your balance only when a mobile number is found. A call paid on its own with x402 or MPP pays the quoted price, mobile charge included, whether or not a number is found.\n\n**Price:** \\$66.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Person Enrichment - Prospeo pricing and uptime](https://getanyapi.com/api/person-enrichment/prospeo) - live USD price, lane routing, and measured 30-day uptime. [Every Person_enrichment endpoint](https://getanyapi.com/api/person-enrichment).",
         "operationId": "person_enrichment_prospeo",
         "parameters": [
           {
@@ -217176,7 +217176,7 @@
                     "type": "string"
                   },
                   "enrichMobile": {
-                    "description": "Reveal the mobile number. Without it the number comes back masked.",
+                    "description": "Reveal the mobile number. Without it the number comes back masked. Adds $0.5892 to the call, charged to your balance only when a mobile number is found; a call paid on its own with x402 or MPP pays it either way.",
                     "type": "boolean"
                   },
                   "firstName": {
