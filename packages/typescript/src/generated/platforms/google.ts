@@ -1159,7 +1159,7 @@ export interface GoogleSearchInput {
    */
   autocorrect?: boolean;
   /**
-   * Deprecated: send page instead. A continuation token from an earlier response's nextCursor is still accepted and still continues on the source that issued it; page is ignored when cursor is sent alongside it.
+   * Deprecated: send page instead. A token from an earlier response's nextCursor continues on the source that issued it; page is ignored when cursor is sent alongside it. A token issued for a query restricted with site: may be refused; repeat the request with page instead.
    */
   cursor?: string;
   /**
@@ -1187,7 +1187,7 @@ export interface GoogleSearchInput {
    */
   location?: string;
   /**
-   * Which page of about 10 organic results to return, starting at 1. Send page 2, 3, ... to walk deeper; each page is billed as one request and any source can serve any page. Replaces cursor.
+   * Which page of about 10 organic results to return, starting at 1. Send page 2, 3, ... to walk deeper; each page is billed as one request. Past page 1, a query restricted with site: is served only by sources that keep the restriction on later pages. Replaces cursor.
    * Range: minimum 1.
    * Default: 1.
    */
@@ -1202,7 +1202,7 @@ export interface GoogleSearchInput {
    */
   query: string;
   /**
-   * Deprecated. Every source for this search returns a nextCursor, so this changes nothing about the price or which source serves you; it stays accepted so callers that already send it keep working.
+   * Deprecated: send page instead. Serves the request only from a source that returns a nextCursor for it. Some sources return none for a query restricted with site:, so for such a query this can pick a dearer source.
    */
   requireCursor?: boolean;
   /**
@@ -1238,7 +1238,7 @@ export interface GoogleSearchResult {
  */
 export interface GoogleSearchData {
   /**
-   * Opaque cursor for the next page of results, or null when this lane has no more. Pass it back as cursor to continue.
+   * Opaque cursor for the next page of results. Pass it back as cursor to continue. Null when the source that answered has no more results, or cannot continue this search (some sources on a query restricted with site:); send page for the next page instead.
    */
   nextCursor?: string | null;
   query: string;

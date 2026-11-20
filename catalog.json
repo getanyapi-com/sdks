@@ -51541,36 +51541,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0016,
-            "maxPer1kUsd": 1.6
-          },
-          "source": {
-            "id": "anonymous-salamander",
-            "name": "Salamander",
-            "kind": "anonymous",
-            "artworkKey": "salamander"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 68.9119170984456,
-            "latencyP50Ms": 9481,
-            "uptimeSample": 193,
-            "latencySample": 133,
-            "requests": 196,
-            "servedRequests": 133
-          },
-          "fields": [
-            "image",
-            "items",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00159,
             "maxPer1kUsd": 1.59
           },
@@ -51588,6 +51558,34 @@
             "latencySample": 278,
             "requests": 364,
             "servedRequests": 278
+          },
+          "fields": [
+            "image",
+            "items",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0016,
+            "maxPer1kUsd": 1.6
+          },
+          "source": {
+            "id": "anonymous-salamander",
+            "name": "Salamander",
+            "kind": "anonymous",
+            "artworkKey": "salamander"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 68.9119170984456,
+            "latencyP50Ms": 9481,
+            "uptimeSample": 193,
+            "latencySample": 133,
+            "requests": 196,
+            "servedRequests": 133
           },
           "fields": [
             "image",
