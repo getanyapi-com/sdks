@@ -68211,7 +68211,7 @@
       "category": "social",
       "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.",
       "pricing": {
-        "priceUsd": 0.006,
+        "priceUsd": 0.02,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -101265,7 +101265,7 @@
       "category": "social",
       "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.",
       "pricing": {
-        "priceUsd": 0.0032,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -130266,8 +130266,8 @@
       "category": "social",
       "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.",
       "pricing": {
-        "priceUsd": 0.00109,
-        "baseUsd": 0.00109,
+        "priceUsd": 0.00088,
+        "baseUsd": 0.00088,
         "perItemUsd": 0,
         "perItemUnit": "result"
       },

@@ -163673,7 +163673,7 @@
     },
     "/v1/run/linkedin.company_employees": {
       "post": {
-        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$6.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$20.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_employees",
         "parameters": [
           {
@@ -164229,7 +164229,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.006000",
+            "amount": "0.020000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -164271,7 +164271,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.007000",
+                "amount": "0.021000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -164303,7 +164303,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.006000",
+                "amount": "0.020000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -220310,7 +220310,7 @@
     },
     "/v1/run/pinterest.search": {
       "post": {
-        "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.\n\n**Price:** \\$3.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Pinterest Search pricing and uptime](https://getanyapi.com/api/pinterest/search) - live USD price, lane routing, and measured 30-day uptime. [Every Pinterest endpoint](https://getanyapi.com/api/pinterest).",
+        "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Pinterest Search pricing and uptime](https://getanyapi.com/api/pinterest/search) - live USD price, lane routing, and measured 30-day uptime. [Every Pinterest endpoint](https://getanyapi.com/api/pinterest).",
         "operationId": "pinterest_search",
         "parameters": [
           {
@@ -220835,7 +220835,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.003200",
+            "amount": "0.000800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -220877,7 +220877,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.004200",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -220909,7 +220909,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.003200",
+                "amount": "0.000800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -287499,7 +287499,7 @@
     },
     "/v1/run/tiktok.profile_contact": {
       "post": {
-        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$1.09 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$1.09 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Find the public contact email behind a TikTok creator's profile: the address written into the bio plus any published on the site the profile links to, each labelled with where it came from. Returns the creator's profile stats and linked social accounts alongside.\n\n**Price:** billed per result - \\$0.88 per 1,000 requests base + \\$0.00 per 1,000 results, capped at \\$0.88 per 1,000 requests.\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Contact Info pricing and uptime](https://getanyapi.com/api/tiktok/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_contact",
         "parameters": [
           {
@@ -288069,8 +288069,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.001090",
-            "min": "0.001090",
+            "max": "0.000880",
+            "min": "0.000880",
             "mode": "dynamic"
           },
           "protocols": [
@@ -288112,8 +288112,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.002090",
-                "min": "0.002090",
+                "max": "0.001880",
+                "min": "0.001880",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -288145,8 +288145,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.001090",
-                "min": "0.001090",
+                "max": "0.000880",
+                "min": "0.000880",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
