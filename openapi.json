@@ -27932,6 +27932,16 @@
                     "type": "array",
                     "uniqueItems": true
                   },
+                  "safeSearch": {
+                    "default": "moderate",
+                    "description": "How strictly adult content is filtered out of the results: off applies no filter, moderate (the default) applies the search engine's standard filter, and strict filters the most. A stricter level can return fewer results. A source that cannot apply the level you ask for is skipped.",
+                    "enum": [
+                      "off",
+                      "moderate",
+                      "strict"
+                    ],
+                    "type": "string"
+                  },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
                     "items": {
@@ -30314,8 +30324,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-19",
-                "checkOut": "2026-12-21",
+                "checkIn": "2026-12-20",
+                "checkOut": "2026-12-22",
                 "limit": 3,
                 "query": "New York"
               },
@@ -30323,8 +30333,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-19",
-                  "checkOut": "2026-12-21",
+                  "checkIn": "2026-12-20",
+                  "checkOut": "2026-12-22",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -31133,6 +31143,16 @@
                     },
                     "type": "array",
                     "uniqueItems": true
+                  },
+                  "safeSearch": {
+                    "default": "moderate",
+                    "description": "How strictly adult content is filtered out of the results: off applies no filter, moderate (the default) applies the search engine's standard filter, and strict filters the most. A stricter level can return fewer results. A source that cannot apply the level you ask for is skipped.",
+                    "enum": [
+                      "off",
+                      "moderate",
+                      "strict"
+                    ],
+                    "type": "string"
                   },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -59419,6 +59439,16 @@
                   "query": {
                     "description": "The DuckDuckGo search query.",
                     "minLength": 1,
+                    "type": "string"
+                  },
+                  "safeSearch": {
+                    "default": "moderate",
+                    "description": "How strictly adult content is filtered out of the results: off applies no filter, moderate (the default) applies the search engine's standard filter, and strict filters the most. A stricter level can return fewer results. A source that cannot apply the level you ask for is skipped.",
+                    "enum": [
+                      "off",
+                      "moderate",
+                      "strict"
+                    ],
                     "type": "string"
                   },
                   "source": {
@@ -120309,16 +120339,16 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDateFrom": "2026-12-19",
-                "departureDateTo": "2027-01-17",
+                "departureDateFrom": "2026-12-20",
+                "departureDateTo": "2027-01-18",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDateFrom": "2026-12-19",
-                  "departureDateTo": "2027-01-17",
+                  "departureDateFrom": "2026-12-20",
+                  "departureDateTo": "2027-01-18",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -121006,14 +121036,14 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDate": "2026-12-19",
+                "departureDate": "2026-12-20",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDate": "2026-12-19",
+                  "departureDate": "2026-12-20",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -121805,16 +121835,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-19",
-                "checkOut": "2026-12-21",
+                "checkIn": "2026-12-20",
+                "checkOut": "2026-12-22",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-19",
-                  "checkOut": "2026-12-21",
+                  "checkIn": "2026-12-20",
+                  "checkOut": "2026-12-22",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -122798,16 +122828,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-19",
-                "checkOut": "2026-12-21",
+                "checkIn": "2026-12-20",
+                "checkOut": "2026-12-22",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-19",
-                  "checkOut": "2026-12-21",
+                  "checkIn": "2026-12-20",
+                  "checkOut": "2026-12-22",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -224064,7 +224094,7 @@
     },
     "/v1/run/property_records.enformion": {
       "post": {
-        "description": "Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned. Billed only when a record is found.\n\n**Price:** \\$153.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Property Records - Enformion pricing and uptime](https://getanyapi.com/api/property-records/enformion) - live USD price, lane routing, and measured 30-day uptime. [Every Property_records endpoint](https://getanyapi.com/api/property-records).",
+        "description": "Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned, up to 50. Billed once per lookup that finds a record, however many parcels it returns.\n\n**Price:** \\$153.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Property Records - Enformion pricing and uptime](https://getanyapi.com/api/property-records/enformion) - live USD price, lane routing, and measured 30-day uptime. [Every Property_records endpoint](https://getanyapi.com/api/property-records).",
         "operationId": "property_records_enformion",
         "parameters": [
           {
@@ -229527,7 +229557,7 @@
     },
     "/v1/run/reddit.subreddit_details": {
       "post": {
-        "description": "Fetch a subreddit's metadata (weekly active users, description, and category).\n\n**Price:** \\$0.36 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Details pricing and uptime](https://getanyapi.com/api/reddit/subreddit-details) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch a subreddit's metadata (weekly active users, description, and category).\n\n**Price:** \\$0.36 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Details pricing and uptime](https://getanyapi.com/api/reddit/subreddit-details) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_details",
         "parameters": [
           {
@@ -285499,7 +285529,7 @@
     },
     "/v1/run/tiktok.photos": {
       "post": {
-        "description": "Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Photos pricing and uptime](https://getanyapi.com/api/tiktok/photos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Photos pricing and uptime](https://getanyapi.com/api/tiktok/photos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_photos",
         "parameters": [
           {
@@ -323086,16 +323116,16 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-19",
-                "checkOut": "2026-12-22",
+                "checkIn": "2026-12-20",
+                "checkOut": "2026-12-23",
                 "propertyId": "69764328"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-19",
-                  "checkOut": "2026-12-22",
+                  "checkIn": "2026-12-20",
+                  "checkOut": "2026-12-23",
                   "propertyId": "69764328"
                 },
                 "properties": {
@@ -324182,16 +324212,16 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-19",
-                "checkOut": "2026-12-22",
+                "checkIn": "2026-12-20",
+                "checkOut": "2026-12-23",
                 "location": "Lake Tahoe"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-19",
-                  "checkOut": "2026-12-22",
+                  "checkIn": "2026-12-20",
+                  "checkOut": "2026-12-23",
                   "location": "Lake Tahoe"
                 },
                 "properties": {
@@ -327689,7 +327719,7 @@
     },
     "/v1/run/web.map": {
       "post": {
-        "description": "Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Web Map pricing and uptime](https://getanyapi.com/api/web/map) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
+        "description": "Map an entire website into a clean list of its URLs (with titles and descriptions) in a single call.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Web Map pricing and uptime](https://getanyapi.com/api/web/map) - live USD price, lane routing, and measured 30-day uptime. [Every Web endpoint](https://getanyapi.com/api/web).",
         "operationId": "web_map",
         "parameters": [
           {

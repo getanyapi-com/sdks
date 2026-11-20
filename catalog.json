@@ -32981,7 +32981,7 @@
       "slug": "property_records.enformion",
       "category": "data",
       "name": "Property Records - Enformion",
-      "description": "Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned. Billed only when a record is found.",
+      "description": "Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned, up to 50. Billed once per lookup that finds a record, however many parcels it returns.",
       "method": "POST",
       "path": "/v1/run/property_records.enformion",
       "provider": "AnyAPI",
@@ -34101,6 +34101,39 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
+            "id": "anonymous-giraffe",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 99.2354740061162,
+            "latencyP50Ms": 1946,
+            "uptimeSample": 654,
+            "latencySample": 649,
+            "requests": 654,
+            "servedRequests": 649
+          },
+          "fields": [
+            "createdUtc",
+            "description",
+            "iconUrl",
+            "id",
+            "name",
+            "weeklyActiveUsers"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
             "id": "anonymous-tiger",
             "name": "Tiger",
             "kind": "anonymous",
@@ -34117,37 +34150,6 @@
           },
           "fields": [
             "advertiserCategory",
-            "createdUtc",
-            "description",
-            "iconUrl",
-            "id",
-            "name",
-            "weeklyActiveUsers"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
-            "id": "anonymous-giraffe",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 99.2354740061162,
-            "latencyP50Ms": 1946,
-            "uptimeSample": 654,
-            "latencySample": 649,
-            "requests": 654,
-            "servedRequests": 649
-          },
-          "fields": [
             "createdUtc",
             "description",
             "iconUrl",
@@ -41856,6 +41858,54 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
+            "id": "anonymous-tiger",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 77.48933143669986,
+            "latencyP50Ms": 750,
+            "uptimeSample": 2812,
+            "latencySample": 2179,
+            "requests": 2812,
+            "servedRequests": 2179
+          },
+          "fields": [
+            "authorHandle",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "hashtags",
+            "height",
+            "id",
+            "image",
+            "images",
+            "likes",
+            "region",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "views",
+            "watermarkedImage",
+            "width"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
             "id": "anonymous-giraffe",
             "name": "Giraffe",
             "kind": "anonymous",
@@ -41898,59 +41948,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0012,
-            "maxPer1kUsd": 1.2
-          },
-          "source": {
-            "id": "anonymous-tiger",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 77.48933143669986,
-            "latencyP50Ms": 750,
-            "uptimeSample": 2812,
-            "latencySample": 2179,
-            "requests": 2812,
-            "servedRequests": 2179
-          },
-          "fields": [
-            "authorHandle",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "hashtags",
-            "height",
-            "id",
-            "image",
-            "images",
-            "likes",
-            "region",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
-            "url",
-            "views",
-            "watermarkedImage",
-            "width"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "tiktok.playlist_videos",
@@ -50979,35 +50979,6 @@
             "maxPer1kUsd": 1
           },
           "source": {
-            "id": "anonymous-badger-23d97e8f",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 93.71428571428571,
-            "latencyP50Ms": 3788,
-            "uptimeSample": 525,
-            "latencySample": 492,
-            "requests": 531,
-            "servedRequests": 492
-          },
-          "fields": [
-            "description",
-            "results",
-            "title",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.001,
-            "maxPer1kUsd": 1
-          },
-          "source": {
             "id": "anonymous-salamander",
             "name": "Salamander",
             "kind": "anonymous",
@@ -51030,9 +51001,40 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
+            "id": "anonymous-badger-23d97e8f",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 93.71428571428571,
+            "latencyP50Ms": 3788,
+            "uptimeSample": 525,
+            "latencySample": 492,
+            "requests": 531,
+            "servedRequests": 492
+          },
+          "fields": [
+            "description",
+            "results",
+            "title",
+            "url"
+          ]
+        }
+      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "web.scrape",

@@ -8715,6 +8715,17 @@
             },
             "mustPopulate": false
           },
+          "safeSearch": {
+            "kind": "string",
+            "description": "How strictly adult content is filtered out of the results: off applies no filter, moderate (the default) applies the search engine's standard filter, and strict filters the most. A stricter level can return fewer results. A source that cannot apply the level you ask for is skipped.",
+            "enum": [
+              "off",
+              "moderate",
+              "strict"
+            ],
+            "default": "moderate",
+            "format": null
+          },
           "source": {
             "kind": "array",
             "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -9447,8 +9458,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-19",
-        "checkOut": "2026-12-21",
+        "checkIn": "2026-12-20",
+        "checkOut": "2026-12-22",
         "limit": 3,
         "query": "New York"
       },
@@ -9919,6 +9930,17 @@
               "format": null
             },
             "mustPopulate": false
+          },
+          "safeSearch": {
+            "kind": "string",
+            "description": "How strictly adult content is filtered out of the results: off applies no filter, moderate (the default) applies the search engine's standard filter, and strict filters the most. A stricter level can return fewer results. A source that cannot apply the level you ask for is skipped.",
+            "enum": [
+              "off",
+              "moderate",
+              "strict"
+            ],
+            "default": "moderate",
+            "format": null
           },
           "source": {
             "kind": "array",
@@ -25627,6 +25649,17 @@
             "description": "The DuckDuckGo search query.",
             "enum": null,
             "default": null,
+            "format": null
+          },
+          "safeSearch": {
+            "kind": "string",
+            "description": "How strictly adult content is filtered out of the results: off applies no filter, moderate (the default) applies the search engine's standard filter, and strict filters the most. A stricter level can return fewer results. A source that cannot apply the level you ask for is skipped.",
+            "enum": [
+              "off",
+              "moderate",
+              "strict"
+            ],
+            "default": "moderate",
             "format": null
           },
           "source": {
@@ -49055,8 +49088,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-19",
-        "departureDateTo": "2027-01-17",
+        "departureDateFrom": "2026-12-20",
+        "departureDateTo": "2027-01-18",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49346,7 +49379,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-19",
+        "departureDate": "2026-12-20",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -49747,8 +49780,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-19",
-        "checkOut": "2026-12-21",
+        "checkIn": "2026-12-20",
+        "checkOut": "2026-12-22",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -50345,8 +50378,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-19",
-        "checkOut": "2026-12-21",
+        "checkIn": "2026-12-20",
+        "checkOut": "2026-12-22",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -103163,7 +103196,7 @@
       "operationId": "property_records_enformion",
       "name": "Property Records - Enformion",
       "category": "data",
-      "description": "Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned. Billed only when a record is found.",
+      "description": "Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned, up to 50. Billed once per lookup that finds a record, however many parcels it returns.",
       "pricing": {
         "priceUsd": 0.1536,
         "baseUsd": null,
@@ -144624,8 +144657,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-19",
-        "checkOut": "2026-12-22",
+        "checkIn": "2026-12-20",
+        "checkOut": "2026-12-23",
         "propertyId": "69764328"
       },
       "input": {
@@ -145398,8 +145431,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-19",
-        "checkOut": "2026-12-22",
+        "checkIn": "2026-12-20",
+        "checkOut": "2026-12-23",
         "location": "Lake Tahoe"
       },
       "input": {

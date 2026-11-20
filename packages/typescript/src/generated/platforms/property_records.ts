@@ -238,7 +238,7 @@ export class PropertyRecordsNamespace {
   /**
    * Property Records - Enformion
    *
-   * Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned. Billed only when a record is found.
+   * Look up the public property records for one US address: current and previous owners, parcel number (APN), last sale, assessed and market values, property tax, beds, baths, living area, lot size, year built, land use, and zoning. One address can match several parcels, and every match is returned, up to 50. Billed once per lookup that finds a record, however many parcels it returns.
    *
    * Price: $0.1536 per request.
    *
