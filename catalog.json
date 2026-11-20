@@ -11165,8 +11165,8 @@
           "maxUsd": 0.0012,
           "maxPer1kUsd": 1.2
         },
-        "failoverMaxUsd": 0.032,
-        "failoverMaxPer1kUsd": 32
+        "failoverMaxUsd": 0.0012,
+        "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
         {
@@ -11196,7 +11196,9 @@
             "postId",
             "transcript"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -11227,7 +11229,7 @@
         }
       ],
       "tryEligible": false,
-      "failover": true
+      "failover": false
     },
     {
       "id": "facebook.profile",
@@ -20470,8 +20472,8 @@
           "maxUsd": 0.0032,
           "maxPer1kUsd": 3.2
         },
-        "failoverMaxUsd": 0.0032,
-        "failoverMaxPer1kUsd": 3.2
+        "failoverMaxUsd": 0.033,
+        "failoverMaxPer1kUsd": 33
       },
       "lanes": [
         {
@@ -20495,6 +20497,44 @@
             "latencySample": 4519,
             "requests": 4519,
             "servedRequests": 4519
+          },
+          "fields": [
+            "bio",
+            "followers",
+            "following",
+            "handle",
+            "id",
+            "image",
+            "items",
+            "name",
+            "postsCount",
+            "url",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0,
+            "perUnitUsd": 0.00165,
+            "maxUsd": 0.033,
+            "maxPer1kUsd": 33
+          },
+          "source": {
+            "id": "anonymous-octopus",
+            "name": "Octopus",
+            "kind": "anonymous",
+            "artworkKey": "octopus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 90.63829787234043,
+            "latencyP50Ms": 26439,
+            "uptimeSample": 235,
+            "latencySample": 213,
+            "requests": 241,
+            "servedRequests": 213
           },
           "fields": [
             "bio",
@@ -20543,49 +20583,11 @@
             "url",
             "verified"
           ]
-        },
-        {
-          "pricing": {
-            "model": "linear",
-            "unit": "result",
-            "baseUsd": 0,
-            "perUnitUsd": 0.00165,
-            "maxUsd": 0.033,
-            "maxPer1kUsd": 33
-          },
-          "source": {
-            "id": "anonymous-octopus",
-            "name": "Octopus",
-            "kind": "anonymous",
-            "artworkKey": "octopus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 90.63829787234043,
-            "latencyP50Ms": 26439,
-            "uptimeSample": 235,
-            "latencySample": 213,
-            "requests": 241,
-            "servedRequests": 213
-          },
-          "fields": [
-            "bio",
-            "followers",
-            "following",
-            "handle",
-            "id",
-            "image",
-            "items",
-            "name",
-            "postsCount",
-            "url",
-            "verified"
-          ]
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_audio",
@@ -32435,48 +32437,13 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0008,
-          "maxPer1kUsd": 0.8
+          "maxUsd": 0.0032,
+          "maxPer1kUsd": 3.2
         },
         "failoverMaxUsd": 0.0032,
         "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 88.30915178571429,
-            "latencyP50Ms": 2062,
-            "uptimeSample": 3584,
-            "latencySample": 3165,
-            "requests": 3584,
-            "servedRequests": 3165
-          },
-          "fields": [
-            "author",
-            "authorName",
-            "description",
-            "id",
-            "image",
-            "items",
-            "nextCursor",
-            "title",
-            "url",
-            "videoUrl"
-          ]
-        },
         {
           "pricing": {
             "model": "flat",
@@ -32511,9 +32478,46 @@
           ]
         }
       ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 88.30915178571429,
+            "latencyP50Ms": 2062,
+            "uptimeSample": 3584,
+            "latencySample": 3165,
+            "requests": 3584,
+            "servedRequests": 3165
+          },
+          "fields": [
+            "author",
+            "authorName",
+            "description",
+            "id",
+            "image",
+            "items",
+            "nextCursor",
+            "title",
+            "url",
+            "videoUrl"
+          ]
+        }
+      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "playstore.app",

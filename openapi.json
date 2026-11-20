@@ -88573,7 +88573,7 @@
     },
     "/v1/run/facebook.post_transcript": {
       "post": {
-        "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Transcript pricing and uptime](https://getanyapi.com/api/facebook/post-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Get the spoken-word transcript of any public Facebook video post by URL as normalized JSON.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Facebook Post Transcript pricing and uptime](https://getanyapi.com/api/facebook/post-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_post_transcript",
         "parameters": [
           {
@@ -142550,7 +142550,7 @@
     },
     "/v1/run/instagram.search": {
       "post": {
-        "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.\n\n**Price:** \\$3.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Instagram Search pricing and uptime](https://getanyapi.com/api/instagram/search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.\n\n**Price:** \\$3.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Search pricing and uptime](https://getanyapi.com/api/instagram/search) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_search",
         "parameters": [
           {
@@ -220310,7 +220310,7 @@
     },
     "/v1/run/pinterest.search": {
       "post": {
-        "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Pinterest Search pricing and uptime](https://getanyapi.com/api/pinterest/search) - live USD price, lane routing, and measured 30-day uptime. [Every Pinterest endpoint](https://getanyapi.com/api/pinterest).",
+        "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.\n\n**Price:** \\$3.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Pinterest Search pricing and uptime](https://getanyapi.com/api/pinterest/search) - live USD price, lane routing, and measured 30-day uptime. [Every Pinterest endpoint](https://getanyapi.com/api/pinterest).",
         "operationId": "pinterest_search",
         "parameters": [
           {
@@ -220835,7 +220835,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.003200",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -220877,7 +220877,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.004200",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -220909,7 +220909,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.003200",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
