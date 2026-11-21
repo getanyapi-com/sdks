@@ -70225,7 +70225,7 @@
       "category": "social",
       "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00079,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -71685,7 +71685,7 @@
       "category": "data",
       "description": "Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -76348,7 +76348,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -81226,7 +81226,7 @@
       "category": "data",
       "description": "Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with available address, contact, rating, and coordinate details as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.00099,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -81881,7 +81881,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00148,
+        "priceUsd": 0.0014,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -133393,7 +133393,7 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum items to return in one page.",
+            "description": "How many posts to ask for per page (1-30, default 30). This is a request, not a cap: a page can hold more or fewer posts than this, depending on the source that serves it. Follow nextCursor for more.",
             "minimum": 1,
             "maximum": 30,
             "default": 30
@@ -144050,7 +144050,7 @@
       "category": "social",
       "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).",
       "pricing": {
-        "priceUsd": 0.00022,
+        "priceUsd": 0.00021,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

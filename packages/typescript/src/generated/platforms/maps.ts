@@ -916,7 +916,7 @@ export class MapsNamespace {
    *
    * Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with available address, contact, rating, and coordinate details as normalized JSON.
    *
-   * Price: $0.001 per request.
+   * Price: $0.00099 per request.
    *
    * @example
    * const res = await client.maps.place({ query: "Blue Bottle Coffee", location: "San Francisco, CA" });
@@ -950,7 +950,7 @@ export class MapsNamespace {
    *
    * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
    *
-   * Price: $0.00148 per request.
+   * Price: $0.0014 per request.
    *
    * @example
    * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3 });

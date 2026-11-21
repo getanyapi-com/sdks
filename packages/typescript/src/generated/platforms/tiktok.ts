@@ -2147,7 +2147,7 @@ export interface TiktokSearchPhotosInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum items to return in one page.
+   * How many posts to ask for per page (1-30, default 30). This is a request, not a cap: a page can hold more or fewer posts than this, depending on the source that serves it. Follow nextCursor for more.
    * Range: minimum 1, maximum 30.
    * Default: 30.
    */
