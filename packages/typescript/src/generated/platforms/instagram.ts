@@ -5603,7 +5603,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.
    *
-   * Price: $0.00099 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.instagram.basicProfile({ userId: "314216" });

@@ -4679,7 +4679,7 @@ class InstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00099 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -6062,7 +6062,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00099 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
