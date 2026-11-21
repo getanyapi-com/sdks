@@ -1610,13 +1610,50 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0013,
-          "maxPer1kUsd": 1.3
+          "maxUsd": 0.00075,
+          "maxPer1kUsd": 0.75
         },
         "failoverMaxUsd": 0.0021,
         "failoverMaxPer1kUsd": 2.1
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00075,
+            "maxPer1kUsd": 0.75
+          },
+          "source": {
+            "id": "anonymous-chameleon-21ed4cb2",
+            "name": "Chameleon",
+            "kind": "anonymous",
+            "artworkKey": "chameleon"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 81.56966490299824,
+            "latencyP50Ms": 7021,
+            "uptimeSample": 1134,
+            "latencySample": 925,
+            "requests": 1176,
+            "servedRequests": 925
+          },
+          "fields": [
+            "asin",
+            "currency",
+            "image",
+            "isSponsored",
+            "items",
+            "listPrice",
+            "position",
+            "price",
+            "rating",
+            "reviewsCount",
+            "title",
+            "url"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -1675,45 +1712,6 @@
             "latencySample": 822,
             "requests": 857,
             "servedRequests": 822
-          },
-          "fields": [
-            "asin",
-            "currency",
-            "image",
-            "isSponsored",
-            "items",
-            "listPrice",
-            "position",
-            "price",
-            "rating",
-            "reviewsCount",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00075,
-            "maxPer1kUsd": 0.75
-          },
-          "source": {
-            "id": "anonymous-chameleon-21ed4cb2",
-            "name": "Chameleon",
-            "kind": "anonymous",
-            "artworkKey": "chameleon"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 81.56966490299824,
-            "latencyP50Ms": 7021,
-            "uptimeSample": 1134,
-            "latencySample": 925,
-            "requests": 1176,
-            "servedRequests": 925
           },
           "fields": [
             "asin",
@@ -10610,48 +10608,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00248,
-            "maxPer1kUsd": 2.48
-          },
-          "source": {
-            "id": "anonymous-badger-46ed45d5",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 32.46661981728742,
-            "latencyP50Ms": 6008,
-            "uptimeSample": 1423,
-            "latencySample": 462,
-            "requests": 1423,
-            "servedRequests": 462
-          },
-          "fields": [
-            "about",
-            "adLibraryPageId",
-            "address",
-            "category",
-            "coverPhotoUrl",
-            "email",
-            "id",
-            "image",
-            "items",
-            "links",
-            "phone",
-            "priceRange",
-            "rating",
-            "services",
-            "title",
-            "url",
-            "website"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00204,
@@ -10684,6 +10640,50 @@
             "createdUtc",
             "email",
             "followers",
+            "id",
+            "image",
+            "items",
+            "links",
+            "phone",
+            "priceRange",
+            "rating",
+            "services",
+            "title",
+            "url",
+            "website"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00248,
+            "maxPer1kUsd": 2.48
+          },
+          "source": {
+            "id": "anonymous-badger-46ed45d5",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 32.46661981728742,
+            "latencyP50Ms": 6008,
+            "uptimeSample": 1423,
+            "latencySample": 462,
+            "requests": 1423,
+            "servedRequests": 462
+          },
+          "fields": [
+            "about",
+            "adLibraryPageId",
+            "address",
+            "category",
+            "coverPhotoUrl",
+            "email",
             "id",
             "image",
             "items",
@@ -14910,13 +14910,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00088,
-          "maxPer1kUsd": 0.88
+          "maxUsd": 0.00087,
+          "maxPer1kUsd": 0.87
         },
         "failoverMaxUsd": 0.00099,
         "failoverMaxPer1kUsd": 0.99
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00087,
+            "maxPer1kUsd": 0.87
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -14929,20 +14943,6 @@
             "name": "Giraffe",
             "kind": "anonymous",
             "artworkKey": "giraffe"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00089,
-            "maxPer1kUsd": 0.89
-          },
-          "source": {
-            "id": "anonymous-tiger-6f8f398d",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
           }
         },
         {
@@ -19784,20 +19784,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00055,
-            "maxPer1kUsd": 0.55
-          },
-          "source": {
-            "id": "anonymous-tiger-6f8f398d",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.00056,
             "maxPer1kUsd": 0.56
           },
@@ -20569,8 +20555,8 @@
           "maxUsd": 0.00126,
           "maxPer1kUsd": 1.26
         },
-        "failoverMaxUsd": 0.0032,
-        "failoverMaxPer1kUsd": 3.2
+        "failoverMaxUsd": 0.00126,
+        "failoverMaxPer1kUsd": 1.26
       },
       "lanes": [
         {
@@ -20604,7 +20590,9 @@
             "url",
             "verified"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -20640,9 +20628,7 @@
             "url",
             "verified"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "linear",
@@ -20684,7 +20670,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": true
+      "failover": false
     },
     {
       "id": "instagram.search_audio",
@@ -50378,6 +50364,51 @@
             "maxPer1kUsd": 7
           },
           "source": {
+            "id": "anonymous-walrus",
+            "name": "Walrus",
+            "kind": "anonymous",
+            "artworkKey": "walrus"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 89.7161936560935,
+            "latencyP50Ms": 9227,
+            "uptimeSample": 2995,
+            "latencySample": 2687,
+            "requests": 2995,
+            "servedRequests": 2687
+          },
+          "fields": [
+            "budget",
+            "clientLocation",
+            "clientRating",
+            "clientReviewCount",
+            "clientTotalSpent",
+            "createdUtc",
+            "currency",
+            "description",
+            "duration",
+            "experienceLevel",
+            "hourlyRateMax",
+            "hourlyRateMin",
+            "items",
+            "jobId",
+            "jobType",
+            "paymentVerified",
+            "proposals",
+            "tags",
+            "title",
+            "url"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.007,
+            "maxPer1kUsd": 7
+          },
+          "source": {
             "id": "anonymous-giraffe-e3d7e4f7",
             "name": "Giraffe",
             "kind": "anonymous",
@@ -50459,53 +50490,6 @@
             "premium",
             "proposals",
             "reposted",
-            "tags",
-            "title",
-            "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.007,
-            "maxPer1kUsd": 7
-          },
-          "source": {
-            "id": "anonymous-walrus",
-            "name": "Walrus",
-            "kind": "anonymous",
-            "artworkKey": "walrus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 89.7161936560935,
-            "latencyP50Ms": 9227,
-            "uptimeSample": 2995,
-            "latencySample": 2687,
-            "requests": 2995,
-            "servedRequests": 2687
-          },
-          "fields": [
-            "budget",
-            "clientLocation",
-            "clientRating",
-            "clientReviewCount",
-            "clientTotalSpent",
-            "createdUtc",
-            "currency",
-            "description",
-            "duration",
-            "experienceLevel",
-            "hourlyRateMax",
-            "hourlyRateMin",
-            "items",
-            "jobId",
-            "jobType",
-            "paymentVerified",
-            "proposals",
             "tags",
             "title",
             "url"
