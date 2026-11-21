@@ -19,6 +19,7 @@ import { BlueskyNamespace } from "./platforms/bluesky.js";
 import { BookingNamespace } from "./platforms/booking.js";
 import { BraveNamespace } from "./platforms/brave.js";
 import { CapterraNamespace } from "./platforms/capterra.js";
+import { CardsNamespace } from "./platforms/cards.js";
 import { ChatgptNamespace } from "./platforms/chatgpt.js";
 import { CoinmarketcapNamespace } from "./platforms/coinmarketcap.js";
 import { CompanyEnrichmentNamespace } from "./platforms/company_enrichment.js";
@@ -250,6 +251,15 @@ export class AnyAPI extends AnyAPIBase {
     return (this._namespaces["capterra"] ??= new CapterraNamespace(
       this._core,
     )) as CapterraNamespace;
+  }
+
+  /**
+   * Typed methods for the cards platform.
+   */
+  get cards(): CardsNamespace {
+    return (this._namespaces["cards"] ??= new CardsNamespace(
+      this._core,
+    )) as CardsNamespace;
   }
 
   /**

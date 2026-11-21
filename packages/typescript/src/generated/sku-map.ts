@@ -96,6 +96,14 @@ import type {
   CapterraReviewsInput,
 } from "./platforms/capterra.js";
 import type {
+  CardsGradedCertData,
+  CardsGradedCertInput,
+  CardsPopulationData,
+  CardsPopulationInput,
+  CardsPopulationSearchData,
+  CardsPopulationSearchInput,
+} from "./platforms/cards.js";
+import type {
   ChatgptSearchData,
   ChatgptSearchInput,
 } from "./platforms/chatgpt.js";
@@ -1332,6 +1340,21 @@ export interface SkuMap {
     input: CapterraReviewsInput;
     data: CapterraReviewsData;
     result: RunResult<CapterraReviewsData>;
+  };
+  "cards.graded_cert": {
+    input: CardsGradedCertInput;
+    data: CardsGradedCertData;
+    result: RunResult<CardsGradedCertData>;
+  };
+  "cards.population": {
+    input: CardsPopulationInput;
+    data: CardsPopulationData;
+    result: RunResult<CardsPopulationData>;
+  };
+  "cards.population_search": {
+    input: CardsPopulationSearchInput;
+    data: CardsPopulationSearchData;
+    result: RunResult<CardsPopulationSearchData>;
   };
   "chatgpt.search": {
     input: ChatgptSearchInput;

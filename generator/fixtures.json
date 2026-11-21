@@ -696,6 +696,50 @@
     "items": 1,
     "replayed": false
   },
+  "cards.graded_cert": {
+    "output": {
+      "found": true,
+      "data": {
+        "certNumber": "sample",
+        "gradingCompany": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "cards.population": {
+    "output": {
+      "found": true,
+      "data": {
+        "cardId": "sample",
+        "_extra": "passthrough"
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
+  "cards.population_search": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "cardId": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "chatgpt.search": {
     "output": {
       "found": true,

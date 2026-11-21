@@ -10558,6 +10558,1155 @@
       }
     },
     {
+      "slug": "cards.graded_cert",
+      "platform": "cards",
+      "action": "graded_cert",
+      "operationId": "cards_graded_cert",
+      "name": "Graded Card Cert Lookup",
+      "category": "data",
+      "description": "Look up one graded trading card slab by its PSA, BGS, SGC or CGC certificate number and get the card (year, set, number, player or character, variety), its grade with BGS subgrades, the approximate population in that grade, the estimated market value with its low and high range, the last sale of any copy in that grade, and the sales of this exact slab that carry its certificate number (eBay and Fanatics Collect sales only from about the last 90 days, when the seller put the number in the title), in one normalized response. Sports cards, Pokemon and other trading card games.",
+      "pricing": {
+        "priceUsd": 0.00338,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "cards",
+      "tsMethod": "gradedCert",
+      "tsIterMethod": null,
+      "pyNamespace": "cards",
+      "pyMethod": "graded_cert",
+      "pyIterMethod": null,
+      "inputTypeName": "CardsGradedCertInput",
+      "outputTypeName": "CardsGradedCertData",
+      "example": {
+        "certNumber": "0011562845",
+        "gradingCompany": "BGS"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "certNumber": {
+            "kind": "string",
+            "description": "Certificate number printed on the slab label, digits only, e.g. 171634124. Keep any leading zeros: BGS numbers start with 00 (0011562845).",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "gradingCompany": {
+            "kind": "string",
+            "description": "The company that graded the slab. Required because the same number can exist at two graders (4272318 is both a PSA and an SGC cert).",
+            "enum": [
+              "PSA",
+              "BGS",
+              "SGC",
+              "CGC"
+            ],
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "certNumber",
+          "gradingCompany"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "cardName": {
+              "kind": "string",
+              "description": "Full card name, e.g. \"1999 Pokemon Game Holo Charizard #4\". Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "cardNumber": {
+              "kind": "string",
+              "description": "Card number within the set.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "category": {
+              "kind": "string",
+              "description": "Card category, e.g. pokemon, basketball or football.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "certNumber": {
+              "kind": "string",
+              "description": "Certificate number of the slab. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "certUrl": {
+              "kind": "string",
+              "description": "The grading company's own certificate verification page, when it has one (PSA).",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "grade": {
+              "kind": "number",
+              "description": "Numeric grade, e.g. 9.5. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "gradeLabel": {
+              "kind": "string",
+              "description": "Grade as printed with its grader, e.g. \"PSA 9\" or \"BGS 9.5\".",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "gradingCompany": {
+              "kind": "string",
+              "description": "Grading company of the slab: PSA, BGS, SGC or CGC. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "image": {
+              "kind": "string",
+              "description": "Card image URL, when one is known.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "lastSaleInGrade": {
+              "kind": "object",
+              "description": "The most recent sale of any copy of this card at this grade. Every member is null when none is recorded.",
+              "properties": {
+                "marketplace": {
+                  "kind": "string",
+                  "description": "Where it sold, as a lowercase marketplace id, e.g. ebay, fanatics (Fanatics Collect, including former PWCC venues), goldin or heritage.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "price": {
+                  "kind": "number",
+                  "description": "Sale price in USD.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "saleType": {
+                  "kind": "string",
+                  "description": "How it sold: AUCTION, BUY_IT_NOW or BEST_OFFER.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                },
+                "soldUtc": {
+                  "kind": "number",
+                  "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "url": {
+                  "kind": "string",
+                  "description": "Link to the sold listing.",
+                  "nullable": true,
+                  "enum": null,
+                  "default": null,
+                  "format": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "populationInGrade": {
+              "kind": "integer",
+              "description": "Approximate number of copies of this card graded at this grade by this grader. It tracks the grader's own population report closely (within about 2% for PSA) but is not the official count.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "qualifier": {
+              "kind": "string",
+              "description": "Grade qualifier such as OC (off center) or MK (marks), or null when the grade has none.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "sales": {
+              "kind": "array",
+              "description": "Sales of this exact slab that carry its certificate number, newest first. Sales recorded with the number itself are kept whatever their age; eBay and Fanatics Collect sales are found only from about the last 90 days and only when the seller wrote the number in the title. Empty when no such sale is found, which does not mean the slab never sold.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "grade": {
+                    "kind": "string",
+                    "description": "Grade as listed, e.g. \"PSA 6\".",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Listing photo URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "marketplace": {
+                    "kind": "string",
+                    "description": "Where it sold, as a lowercase marketplace id, e.g. ebay, fanatics (Fanatics Collect, including former PWCC venues), goldin or heritage.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "matchedBy": {
+                    "kind": "string",
+                    "description": "How the sale was tied to this slab: cert_field (the sale record carries the certificate number) or title (the seller wrote the number in the listing title).",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "price": {
+                    "kind": "number",
+                    "description": "Sale price in USD.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "saleId": {
+                    "kind": "string",
+                    "description": "Identifier of the sale record.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "saleType": {
+                    "kind": "string",
+                    "description": "How it sold: AUCTION, BUY_IT_NOW or BEST_OFFER.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "shippingPrice": {
+                    "kind": "number",
+                    "description": "Shipping charged in USD, when known.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "soldUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "title": {
+                    "kind": "string",
+                    "description": "Listing title.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "url": {
+                    "kind": "string",
+                    "description": "Link to the sold listing.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "saleId"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "salesInGrade": {
+              "kind": "integer",
+              "description": "Number of recorded sales of any copy of this card at this grade.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "set": {
+              "kind": "string",
+              "description": "Set name, e.g. \"Pokemon Game\" or \"Fleer\".",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "subgrades": {
+              "kind": "object",
+              "description": "BGS subgrades. Every member is null for graders that do not issue subgrades.",
+              "properties": {
+                "centering": {
+                  "kind": "number",
+                  "description": "Centering subgrade.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "corners": {
+                  "kind": "number",
+                  "description": "Corners subgrade.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "edges": {
+                  "kind": "number",
+                  "description": "Edges subgrade.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                },
+                "surfaces": {
+                  "kind": "number",
+                  "description": "Surface subgrade.",
+                  "nullable": true,
+                  "minimum": null,
+                  "maximum": null,
+                  "default": null
+                }
+              },
+              "required": [],
+              "open": true
+            },
+            "subject": {
+              "kind": "string",
+              "description": "Player or character on the card.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "value": {
+              "kind": "number",
+              "description": "Estimated market value in USD of this card at this grade, modeled from recent sales.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "valueConfidence": {
+              "kind": "number",
+              "description": "Confidence in the estimated value, 0 to 100. Higher means more recent comparable sales.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "valueHigh": {
+              "kind": "number",
+              "description": "High end of the estimated value range in USD.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "valueLow": {
+              "kind": "number",
+              "description": "Low end of the estimated value range in USD.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "variety": {
+              "kind": "string",
+              "description": "Variety or parallel, e.g. \"1st Edition Holo\" or \"Refractor\", or null for the base card.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "year": {
+              "kind": "integer",
+              "description": "Year of the card's set.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "certNumber",
+            "gradingCompany"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "cardName",
+            "certNumber",
+            "grade",
+            "gradingCompany"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "cards.population",
+      "platform": "cards",
+      "action": "population",
+      "operationId": "cards_population",
+      "name": "Graded Card Population",
+      "category": "data",
+      "description": "Get one graded trading card's population report across PSA, BGS, SGC and CGC by card ID (from Graded Card Population Search): total graded, gem count and gem rate, the count at every grade on a common scale with the share graded higher, and per grader the count at every grade including half grades and qualified grades (OC, MK and the like), with the date the population last changed. Sports cards, Pokemon and other trading card games.",
+      "pricing": {
+        "priceUsd": 0.00338,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "cards",
+      "tsMethod": "population",
+      "tsIterMethod": null,
+      "pyNamespace": "cards",
+      "pyMethod": "population",
+      "pyIterMethod": null,
+      "inputTypeName": "CardsPopulationInput",
+      "outputTypeName": "CardsPopulationData",
+      "example": {
+        "cardId": "ffb8699bb7f435eff4e9761f8e29358e351d777e"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "cardId": {
+            "kind": "string",
+            "description": "Card ID from Graded Card Population Search (cards.population_search), 40 hex characters, e.g. ffb8699bb7f435eff4e9761f8e29358e351d777e. Each variant (base, 1st edition, shadowless, refractor...) has its own ID.",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "cardId"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "byGrader": {
+              "kind": "array",
+              "description": "Population per grading company. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "gemRatePercent": {
+                    "kind": "number",
+                    "description": "Share of this grader's copies that are gem mint or better, in percent.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "gems": {
+                    "kind": "integer",
+                    "description": "Copies this grader graded gem mint or better.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "grader": {
+                    "kind": "string",
+                    "description": "Grader code: psa, bgs, sgc or cgc.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "graderCardName": {
+                    "kind": "string",
+                    "description": "The card as this grader lists it, which can differ from the combined description.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "graderName": {
+                    "kind": "string",
+                    "description": "Grader display name, e.g. \"Beckett (BGS)\".",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "grades": {
+                    "kind": "array",
+                    "description": "Count at each of this grader's grades, highest first, including half grades and labels such as \"10 Pristine\", \"10 Black Label\" and \"Auth\". Qualified copies are not in these counts.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "count": {
+                          "kind": "integer",
+                          "description": "Copies at this grade.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "grade": {
+                          "kind": "string",
+                          "description": "Grade as the grader names it, e.g. \"10\", \"9.5\" or \"10 Pristine\".",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "isGem": {
+                          "kind": "boolean",
+                          "description": "True when this grade counts as gem mint or better.",
+                          "nullable": true,
+                          "default": null
+                        }
+                      },
+                      "required": [
+                        "grade"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "popReportUrl": {
+                    "kind": "string",
+                    "description": "The grader's own population report page for this card or set.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "populationChangedUtc": {
+                    "kind": "number",
+                    "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "qualifiedGrades": {
+                    "kind": "array",
+                    "description": "Copies with a qualified grade (OC, MK and the like) at each numeric grade. To count copies graded higher than a grade the way the grader's own report does, add the qualified copies above it to the plain counts above it. Empty for graders that do not issue qualifiers.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "count": {
+                          "kind": "integer",
+                          "description": "Qualified copies at this grade.",
+                          "nullable": true,
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "grade": {
+                          "kind": "string",
+                          "description": "Numeric grade the qualifier applies to.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [
+                        "grade"
+                      ],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
+                  "qualifiedTotal": {
+                    "kind": "integer",
+                    "description": "Total qualified copies, or null when the grader issues none.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "totalGraded": {
+                    "kind": "integer",
+                    "description": "Copies this grader has graded, qualified grades included.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "grader"
+                ],
+                "open": true
+              },
+              "mustPopulate": true
+            },
+            "cardId": {
+              "kind": "string",
+              "description": "Card ID. Populated whenever the provider has data for the entity.",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "cardNumber": {
+              "kind": "string",
+              "description": "Card number within the set.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "category": {
+              "kind": "string",
+              "description": "Card category, e.g. tcg-cards or baseball-cards.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "description": {
+              "kind": "string",
+              "description": "Full card description, e.g. \"1999 Pokemon Game Charizard-Holo Base 4\". Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "gemRatePercent": {
+              "kind": "number",
+              "description": "Share of graded copies that are gem mint or better, in percent.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "gems": {
+              "kind": "integer",
+              "description": "Copies graded gem mint or better across all included graders.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "graders": {
+              "kind": "array",
+              "description": "Graders whose counts are included, e.g. [\"psa\", \"bgs\", \"sgc\", \"cgc\"].",
+              "items": {
+                "kind": "string",
+                "enum": null,
+                "default": null,
+                "format": null
+              },
+              "mustPopulate": false
+            },
+            "image": {
+              "kind": "string",
+              "description": "Front image URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "imageBack": {
+              "kind": "string",
+              "description": "Back image URL.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "name": {
+              "kind": "string",
+              "description": "Card name: player or character.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "parallel": {
+              "kind": "string",
+              "description": "Variant or parallel name, e.g. \"1st Edition\" or \"Refractor\".",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "populationChangedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "qualifiedGrades": {
+              "kind": "array",
+              "description": "PSA copies with a qualified grade (OC, MK, ST and the like) at each numeric grade, counted apart from the plain grades.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "count": {
+                    "kind": "integer",
+                    "description": "Qualified copies at this grade.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "grade": {
+                    "kind": "string",
+                    "description": "Numeric grade the qualifier applies to.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  }
+                },
+                "required": [
+                  "grade"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "set": {
+              "kind": "string",
+              "description": "Set name.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "totalPopulation": {
+              "kind": "integer",
+              "description": "Total copies graded across all included graders. Populated whenever the provider has data for the entity.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "universalGrades": {
+              "kind": "array",
+              "description": "Count at every grade on a common scale that lines up the graders (Perfect, Pristine, Gem Mint, Mint+, 9 down to 1, Authentic), highest first.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "count": {
+                    "kind": "integer",
+                    "description": "Copies at this grade across all included graders.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "grade": {
+                    "kind": "string",
+                    "description": "Grade on the common scale, e.g. \"Gem Mint\" or \"8.5\".",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "percentGradedHigher": {
+                    "kind": "number",
+                    "description": "Share of all graded copies graded above this grade, in percent.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "percentOfTotal": {
+                    "kind": "number",
+                    "description": "Share of all graded copies at this grade, in percent.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "grade"
+                ],
+                "open": true
+              },
+              "mustPopulate": false
+            },
+            "updatedUtc": {
+              "kind": "number",
+              "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            },
+            "year": {
+              "kind": "integer",
+              "description": "Year of the card's set.",
+              "nullable": true,
+              "minimum": null,
+              "maximum": null,
+              "default": null
+            }
+          },
+          "required": [
+            "cardId"
+          ],
+          "open": true,
+          "mustPopulate": [
+            "byGrader",
+            "cardId",
+            "description",
+            "totalPopulation"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
+      "slug": "cards.population_search",
+      "platform": "cards",
+      "action": "population_search",
+      "operationId": "cards_population_search",
+      "name": "Graded Card Population Search",
+      "category": "data",
+      "description": "Search graded trading cards across PSA, BGS, SGC and CGC by free text (year, set, player or character, card number, parallel) and get each matching card variant with its card ID, year, set, number, parallel, total graded population, gem count and gem rate. Pass the card ID to Graded Card Population for the count at every grade.",
+      "pricing": {
+        "priceUsd": 0.00225,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
+      },
+      "tsNamespace": "cards",
+      "tsMethod": "populationSearch",
+      "tsIterMethod": null,
+      "pyNamespace": "cards",
+      "pyMethod": "population_search",
+      "pyIterMethod": null,
+      "inputTypeName": "CardsPopulationSearchInput",
+      "outputTypeName": "CardsPopulationSearchData",
+      "example": {
+        "query": "1999 Pokemon Base Charizard"
+      },
+      "input": {
+        "kind": "object",
+        "properties": {
+          "allowFallbacks": {
+            "kind": "boolean",
+            "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+            "default": true
+          },
+          "ignoreSources": {
+            "kind": "array",
+            "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
+          "page": {
+            "kind": "integer",
+            "description": "1-based results page of 10 cards, up to 5 pages. Each page is billed as one request.",
+            "minimum": 1,
+            "maximum": 5,
+            "default": 1
+          },
+          "preferLatencyUnderMs": {
+            "kind": "integer",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+            "minimum": 1,
+            "maximum": null,
+            "default": null
+          },
+          "query": {
+            "kind": "string",
+            "description": "Free text describing the card: year, set, player or character, card number and parallel, e.g. \"2018 Topps Chrome Update Shohei Ohtani Refractor\".",
+            "enum": null,
+            "default": null,
+            "format": null
+          },
+          "source": {
+            "kind": "array",
+            "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+            "items": {
+              "kind": "string",
+              "enum": null,
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "open": false
+      },
+      "output": {
+        "envelope": "found-data",
+        "data": {
+          "kind": "object",
+          "properties": {
+            "hasMore": {
+              "kind": "boolean",
+              "description": "True when another page of matches exists.",
+              "nullable": true,
+              "default": null
+            },
+            "items": {
+              "kind": "array",
+              "description": "Matching card variants, best match first. Each variant (base, 1st edition, shadowless, refractor...) is its own row. Populated whenever the provider has data for the entity.",
+              "items": {
+                "kind": "object",
+                "properties": {
+                  "cardId": {
+                    "kind": "string",
+                    "description": "Card ID. Pass it as cardId to Graded Card Population (cards.population) for the count at every grade. Populated whenever the provider has data for the entity.",
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "cardNumber": {
+                    "kind": "string",
+                    "description": "Card number within the set.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "category": {
+                    "kind": "string",
+                    "description": "Card category, e.g. tcg-cards or baseball-cards.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "description": {
+                    "kind": "string",
+                    "description": "Full card description, e.g. \"1999 Pokemon Game Charizard-Holo Base 4\". Populated whenever the provider has data for the entity.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "gemRatePercent": {
+                    "kind": "number",
+                    "description": "Share of graded copies that are gem mint or better, in percent.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "gems": {
+                    "kind": "integer",
+                    "description": "Copies graded gem mint or better.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "graders": {
+                    "kind": "array",
+                    "description": "Graders whose counts are included, e.g. [\"psa\", \"bgs\", \"sgc\", \"cgc\"].",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "image": {
+                    "kind": "string",
+                    "description": "Card image URL.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "name": {
+                    "kind": "string",
+                    "description": "Card name: player or character.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "parallel": {
+                    "kind": "string",
+                    "description": "Variant or parallel name, e.g. \"1st Edition\", \"Shadowless\" or \"Refractor\".",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "set": {
+                    "kind": "string",
+                    "description": "Set name.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
+                  "totalPopulation": {
+                    "kind": "integer",
+                    "description": "Total copies graded across the graders listed in graders.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  },
+                  "year": {
+                    "kind": "integer",
+                    "description": "Year of the card's set.",
+                    "nullable": true,
+                    "minimum": null,
+                    "maximum": null,
+                    "default": null
+                  }
+                },
+                "required": [
+                  "cardId"
+                ],
+                "open": true,
+                "mustPopulate": [
+                  "cardId",
+                  "description"
+                ]
+              },
+              "mustPopulate": true
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "open": false,
+          "mustPopulate": [
+            "items"
+          ]
+        }
+      },
+      "pagination": {
+        "paginated": false,
+        "itemsField": null,
+        "cursorInputField": null,
+        "nextCursorField": null
+      }
+    },
+    {
       "slug": "chatgpt.search",
       "platform": "chatgpt",
       "action": "search",
@@ -141480,7 +142629,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00047,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

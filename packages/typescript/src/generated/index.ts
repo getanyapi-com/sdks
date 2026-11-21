@@ -20,6 +20,7 @@ export * from "./platforms/bluesky.js";
 export * from "./platforms/booking.js";
 export * from "./platforms/brave.js";
 export * from "./platforms/capterra.js";
+export * from "./platforms/cards.js";
 export * from "./platforms/chatgpt.js";
 export * from "./platforms/coinmarketcap.js";
 export * from "./platforms/company_enrichment.js";
