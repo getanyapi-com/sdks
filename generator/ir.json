@@ -34798,7 +34798,7 @@
       "category": "social",
       "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0011,
+        "priceUsd": 0.00109,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -62306,7 +62306,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00135,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70070,7 +70070,7 @@
       "category": "social",
       "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00119,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
