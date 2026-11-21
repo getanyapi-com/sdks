@@ -60357,7 +60357,7 @@
     },
     "/v1/run/douyin.video": {
       "post": {
-        "description": "Fetch a public Douyin video by share URL with normalized author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Douyin Video pricing and uptime](https://getanyapi.com/api/douyin/video) - live USD price, lane routing, and measured 30-day uptime. [Every Douyin endpoint](https://getanyapi.com/api/douyin).",
+        "description": "Fetch a public Douyin video by share URL with normalized author and engagement data.\n\n**Price:** \\$1.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Douyin Video pricing and uptime](https://getanyapi.com/api/douyin/video) - live USD price, lane routing, and measured 30-day uptime. [Every Douyin endpoint](https://getanyapi.com/api/douyin).",
         "operationId": "douyin_video",
         "parameters": [
           {
@@ -62304,7 +62304,7 @@
     },
     "/v1/run/ebay.accepted_offers": {
       "post": {
-        "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023. Auctions are never Best Offers, so look at fixed-price sales. Results come back newest first, so with a small limit the sales can cover only the last few days of a date window; raise limit (up to 240) to cover more of it.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [eBay Accepted Offer Prices pricing and uptime](https://getanyapi.com/api/ebay/accepted-offers) - live USD price, lane routing, and measured 30-day uptime. [Every Ebay endpoint](https://getanyapi.com/api/ebay).",
+        "description": "Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023. Auctions are never Best Offers, so look at fixed-price sales. Results come back newest first, so with a small limit the sales can cover only the last few days of a date window; raise limit (up to 240) or walk pages to cover more of it. To page, send page 2, 3 and so on while hasMore is true, keeping query, dates, filters and limit the same; paging needs a limit of at least 10.\n\n**Price:** \\$3.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [eBay Accepted Offer Prices pricing and uptime](https://getanyapi.com/api/ebay/accepted-offers) - live USD price, lane routing, and measured 30-day uptime. [Every Ebay endpoint](https://getanyapi.com/api/ebay).",
         "operationId": "ebay_accepted_offers",
         "parameters": [
           {
@@ -62413,7 +62413,7 @@
                   },
                   "limit": {
                     "default": 240,
-                    "description": "Maximum number of sales to return (1-240, default 240). Sales without a listing title or image are left out, so a page can hold fewer.",
+                    "description": "Maximum number of sales to return (1-240, default 240). It is also the page size when you send page. Sales without a listing title or image are left out, so a page can hold fewer.",
                     "maximum": 240,
                     "minimum": 1,
                     "type": "integer"
@@ -62427,6 +62427,11 @@
                     "description": "Optional minimum price paid, in USD (e.g. 200). It trims the returned page; it does not search all history for sales at that price.",
                     "minimum": 0,
                     "type": "number"
+                  },
+                  "page": {
+                    "description": "1-based results page (e.g. 2); leave it out for the first page. Use with hasMore in the output to paginate, and keep query, dates, filters, and limit the same while walking pages, because limit sets the page size. Paging needs a limit of at least 10.",
+                    "minimum": 1,
+                    "type": "integer"
                   },
                   "preferLatencyUnderMs": {
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -62499,6 +62504,10 @@
                                 {
                                   "additionalProperties": false,
                                   "properties": {
+                                    "hasMore": {
+                                      "description": "True when another results page exists. A page can be short or empty while this is still true, because sales without a title or image and sales outside minPrice or maxPrice are left out; request page + 1 with the same inputs to continue. Paging needs a limit of at least 10, so with a smaller limit treat hasMore as a hint to search again with a larger limit.",
+                                      "type": "boolean"
+                                    },
                                     "items": {
                                       "description": "Completed eBay sales, newest first: title, the price the buyer actually paid, sale date, units sold, shipping, format, and item URL. Populated whenever the provider has data for the entity.",
                                       "items": {
@@ -65350,7 +65359,7 @@
                                             "type": "number"
                                           },
                                           "soldUtc": {
-                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the sale ended. Most sales carry the time to the minute; some carry only the day, as midnight UTC.",
                                             "type": "number"
                                           },
                                           "title": {
@@ -66007,7 +66016,7 @@
                                             "type": "number"
                                           },
                                           "soldUtc": {
-                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.",
+                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the sale ended. Most sales carry the time to the minute; some carry only the day, as midnight UTC.",
                                             "type": "number"
                                           },
                                           "title": {
@@ -109679,7 +109688,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -110178,7 +110187,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001800",
+            "amount": "0.004800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -110220,7 +110229,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002800",
+                "amount": "0.005800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -110252,7 +110261,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.004800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -125131,7 +125140,7 @@
     },
     "/v1/run/google_hotels.search": {
       "post": {
-        "description": "Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Hotels Search pricing and uptime](https://getanyapi.com/api/google-hotels/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google Hotels endpoint](https://getanyapi.com/api/google-hotels).",
+        "description": "Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Hotels Search pricing and uptime](https://getanyapi.com/api/google-hotels/search) - live USD price, lane routing, and measured 30-day uptime. [Every Google Hotels endpoint](https://getanyapi.com/api/google-hotels).",
         "operationId": "google_hotels_search",
         "parameters": [
           {
@@ -125946,7 +125955,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001500",
+            "amount": "0.004800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -125988,7 +125997,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002500",
+                "amount": "0.005800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -126020,7 +126029,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001500",
+                "amount": "0.004800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -141916,7 +141925,7 @@
     },
     "/v1/run/instagram.profile": {
       "post": {
-        "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.\n\n**Price:** \\$0.56 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile pricing and uptime](https://getanyapi.com/api/instagram/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.\n\n**Price:** \\$0.54 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile pricing and uptime](https://getanyapi.com/api/instagram/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_profile",
         "parameters": [
           {
@@ -142770,7 +142779,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000560",
+            "amount": "0.000540",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -142812,7 +142821,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001560",
+                "amount": "0.001540",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -142844,7 +142853,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000560",
+                "amount": "0.000540",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -173127,7 +173136,7 @@
     },
     "/v1/run/linkedin.post": {
       "post": {
-        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.64 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.64 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_post",
         "parameters": [
           {
@@ -179764,7 +179773,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -180436,7 +180445,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.001200",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -180478,7 +180487,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.002200",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -180510,7 +180519,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.001200",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -317993,7 +318002,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {

@@ -31,7 +31,7 @@ export interface EbayAcceptedOffersInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of sales to return (1-240, default 240). Sales without a listing title or image are left out, so a page can hold fewer.
+   * Maximum number of sales to return (1-240, default 240). It is also the page size when you send page. Sales without a listing title or image are left out, so a page can hold fewer.
    * Range: minimum 1, maximum 240.
    * Default: 240.
    */
@@ -46,6 +46,11 @@ export interface EbayAcceptedOffersInput {
    * Range: minimum 0.
    */
   minPrice?: number;
+  /**
+   * 1-based results page (e.g. 2); leave it out for the first page. Use with hasMore in the output to paginate, and keep query, dates, filters, and limit the same while walking pages, because limit sets the page size. Paging needs a limit of at least 10.
+   * Range: minimum 1.
+   */
+  page?: number;
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.
    * Range: minimum 1.
@@ -130,6 +135,10 @@ export interface EbayAcceptedOffersItem {
  * The `data` payload of eBay Accepted Offer Prices (ebay.accepted_offers).
  */
 export interface EbayAcceptedOffersData {
+  /**
+   * True when another results page exists. A page can be short or empty while this is still true, because sales without a title or image and sales outside minPrice or maxPrice are left out; request page + 1 with the same inputs to continue. Paging needs a limit of at least 10, so with a smaller limit treat hasMore as a hint to search again with a larger limit.
+   */
+  hasMore?: boolean;
   /**
    * Completed eBay sales, newest first: title, the price the buyer actually paid, sale date, units sold, shipping, format, and item URL. Populated whenever the provider has data for the entity.
    */
@@ -784,7 +793,7 @@ export interface EbaySoldListingsItem {
    */
   soldPrice?: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the sale ended. Most sales carry the time to the minute; some carry only the day, as midnight UTC.
    */
   soldUtc?: number;
   /**
@@ -917,7 +926,7 @@ export interface EbaySoldListingsThinItem {
    */
   soldPrice?: number;
   /**
-   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the sale ended. Most sales carry the time to the minute; some carry only the day, as midnight UTC.
    */
   soldUtc?: number;
   /**
@@ -951,7 +960,7 @@ export class EbayNamespace {
   /**
    * eBay Accepted Offer Prices
    *
-   * Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023. Auctions are never Best Offers, so look at fixed-price sales. Results come back newest first, so with a small limit the sales can cover only the last few days of a date window; raise limit (up to 240) to cover more of it.
+   * Retrieve completed eBay sales for any keyword with the price the buyer actually paid, including accepted Best Offer amounts where available, plus the sale date, units sold, shipping, and format. History is available back to December 2023. Auctions are never Best Offers, so look at fixed-price sales. Results come back newest first, so with a small limit the sales can cover only the last few days of a date window; raise limit (up to 240) or walk pages to cover more of it. To page, send page 2, 3 and so on while hasMore is true, keeping query, dates, filters and limit the same; paging needs a limit of at least 10.
    *
    * Price: $0.003 per request.
    *
