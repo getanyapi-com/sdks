@@ -30324,8 +30324,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-20",
-                "checkOut": "2026-12-22",
+                "checkIn": "2026-12-21",
+                "checkOut": "2026-12-23",
                 "limit": 3,
                 "query": "New York"
               },
@@ -30333,8 +30333,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-20",
-                  "checkOut": "2026-12-22",
+                  "checkIn": "2026-12-21",
+                  "checkOut": "2026-12-23",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -93014,7 +93014,7 @@
     },
     "/v1/run/facebook.search_posts": {
       "post": {
-        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$30.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$30.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_search_posts",
         "parameters": [
           {
@@ -120353,16 +120353,16 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDateFrom": "2026-12-20",
-                "departureDateTo": "2027-01-18",
+                "departureDateFrom": "2026-12-21",
+                "departureDateTo": "2027-01-19",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDateFrom": "2026-12-20",
-                  "departureDateTo": "2027-01-18",
+                  "departureDateFrom": "2026-12-21",
+                  "departureDateTo": "2027-01-19",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -121050,14 +121050,14 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDate": "2026-12-20",
+                "departureDate": "2026-12-21",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDate": "2026-12-20",
+                  "departureDate": "2026-12-21",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -121849,16 +121849,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-20",
-                "checkOut": "2026-12-22",
+                "checkIn": "2026-12-21",
+                "checkOut": "2026-12-23",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-20",
-                  "checkOut": "2026-12-22",
+                  "checkIn": "2026-12-21",
+                  "checkOut": "2026-12-23",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -122842,16 +122842,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-20",
-                "checkOut": "2026-12-22",
+                "checkIn": "2026-12-21",
+                "checkOut": "2026-12-23",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-20",
-                  "checkOut": "2026-12-22",
+                  "checkIn": "2026-12-21",
+                  "checkOut": "2026-12-23",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -177410,7 +177410,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -314353,7 +314353,7 @@
     },
     "/v1/run/twitter.profile": {
       "post": {
-        "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.\n\n**Price:** \\$0.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Profile pricing and uptime](https://getanyapi.com/api/x-twitter/profile) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.\n\n**Price:** \\$0.19 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Profile pricing and uptime](https://getanyapi.com/api/x-twitter/profile) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_profile",
         "parameters": [
           {
@@ -314863,7 +314863,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000200",
+            "amount": "0.000190",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -314905,7 +314905,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001190",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -314937,7 +314937,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000200",
+                "amount": "0.000190",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -323151,16 +323151,16 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-20",
-                "checkOut": "2026-12-23",
+                "checkIn": "2026-12-21",
+                "checkOut": "2026-12-24",
                 "propertyId": "69764328"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-20",
-                  "checkOut": "2026-12-23",
+                  "checkIn": "2026-12-21",
+                  "checkOut": "2026-12-24",
                   "propertyId": "69764328"
                 },
                 "properties": {
@@ -324247,16 +324247,16 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-20",
-                "checkOut": "2026-12-23",
+                "checkIn": "2026-12-21",
+                "checkOut": "2026-12-24",
                 "location": "Lake Tahoe"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-20",
-                  "checkOut": "2026-12-23",
+                  "checkIn": "2026-12-21",
+                  "checkOut": "2026-12-24",
                   "location": "Lake Tahoe"
                 },
                 "properties": {
