@@ -34008,7 +34008,7 @@
       "category": "social",
       "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0011,
+        "priceUsd": 0.00105,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -38209,7 +38209,7 @@
       "category": "social",
       "description": "Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70213,7 +70213,7 @@
       "category": "social",
       "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -71673,7 +71673,7 @@
       "category": "data",
       "description": "Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.",
       "pricing": {
-        "priceUsd": 0.0015,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73641,7 +73641,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.00249,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

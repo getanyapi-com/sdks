@@ -5562,7 +5562,7 @@ class LinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.001 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -5653,7 +5653,7 @@ class LinkedinNamespace:
         hiring team, the applicant tracking system behind it, and the hiring company
         with its size, follower count, website and description.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.job(url="https://www.linkedin.com/jobs/view/4431721875/")
@@ -5850,7 +5850,7 @@ class LinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.0025 per request.
+        Price: $0.00249 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")
@@ -6531,7 +6531,7 @@ class AsyncLinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.001 per request.
+        Price: $0.0008 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -6622,7 +6622,7 @@ class AsyncLinkedinNamespace:
         hiring team, the applicant tracking system behind it, and the hiring company
         with its size, follower count, website and description.
 
-        Price: $0.0015 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.linkedin.job(url="https://www.linkedin.com/jobs/view/4431721875/")
@@ -6819,7 +6819,7 @@ class AsyncLinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.0025 per request.
+        Price: $0.00249 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")

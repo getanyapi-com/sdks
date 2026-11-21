@@ -6786,7 +6786,7 @@ export class LinkedinNamespace {
    *
    * Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.
    *
-   * Price: $0.001 per request.
+   * Price: $0.0008 per request.
    *
    * @example
    * const res = await client.linkedin.companyThin({ url: "https://www.linkedin.com/company/stripe" });
@@ -6854,7 +6854,7 @@ export class LinkedinNamespace {
    *
    * Fetch one LinkedIn job posting by URL: title, full description, location, salary when disclosed, applicant count, employment and workplace type, seniority, benefits, industries, apply links, posting and expiry dates, the hiring team, the applicant tracking system behind it, and the hiring company with its size, follower count, website and description.
    *
-   * Price: $0.0015 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.linkedin.job({ url: "https://www.linkedin.com/jobs/view/4431721875/" });
@@ -7013,7 +7013,7 @@ export class LinkedinNamespace {
    *
    * Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.
    *
-   * Price: $0.0025 per request.
+   * Price: $0.00249 per request.
    *
    * @example
    * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/patrickcollison" });
