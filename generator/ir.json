@@ -62306,7 +62306,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00135,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73653,7 +73653,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.00249,
+        "priceUsd": 0.0024,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -142641,7 +142641,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
