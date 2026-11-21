@@ -3672,7 +3672,7 @@ class FacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0.03 per request.
+        Price: $0.016 per request.
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")
@@ -4527,7 +4527,7 @@ class AsyncFacebookNamespace:
         Search public Facebook posts by keyword, optionally filtered by location,
         and get structured post records (text, author, engagement).
 
-        Price: $0.03 per request.
+        Price: $0.016 per request.
 
         Example:
             res = client.facebook.search_posts(limit=3, query="nike")

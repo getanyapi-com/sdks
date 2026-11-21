@@ -4241,7 +4241,7 @@ export class FacebookNamespace {
    *
    * Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).
    *
-   * Price: $0.03 per request.
+   * Price: $0.016 per request.
    *
    * @example
    * const res = await client.facebook.searchPosts({ query: "nike", limit: 3 });

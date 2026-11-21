@@ -10847,48 +10847,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00248,
-            "maxPer1kUsd": 2.48
-          },
-          "source": {
-            "id": "anonymous-badger-46ed45d5",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 32.46661981728742,
-            "latencyP50Ms": 6008,
-            "uptimeSample": 1423,
-            "latencySample": 462,
-            "requests": 1423,
-            "servedRequests": 462
-          },
-          "fields": [
-            "about",
-            "adLibraryPageId",
-            "address",
-            "category",
-            "coverPhotoUrl",
-            "email",
-            "id",
-            "image",
-            "items",
-            "links",
-            "phone",
-            "priceRange",
-            "rating",
-            "services",
-            "title",
-            "url",
-            "website"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00204,
@@ -10921,6 +10879,50 @@
             "createdUtc",
             "email",
             "followers",
+            "id",
+            "image",
+            "items",
+            "links",
+            "phone",
+            "priceRange",
+            "rating",
+            "services",
+            "title",
+            "url",
+            "website"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00248,
+            "maxPer1kUsd": 2.48
+          },
+          "source": {
+            "id": "anonymous-badger-46ed45d5",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 32.46661981728742,
+            "latencyP50Ms": 6008,
+            "uptimeSample": 1423,
+            "latencySample": 462,
+            "requests": 1423,
+            "servedRequests": 462
+          },
+          "fields": [
+            "about",
+            "adLibraryPageId",
+            "address",
+            "category",
+            "coverPhotoUrl",
+            "email",
             "id",
             "image",
             "items",
@@ -12316,19 +12318,19 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.03,
-          "maxPer1kUsd": 30
+          "maxUsd": 0.016,
+          "maxPer1kUsd": 16
         },
-        "failoverMaxUsd": 0.0649,
-        "failoverMaxPer1kUsd": 64.9
+        "failoverMaxUsd": 0.1037,
+        "failoverMaxPer1kUsd": 103.7
       },
       "lanes": [
         {
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.03,
-            "maxPer1kUsd": 30
+            "maxUsd": 0.016,
+            "maxPer1kUsd": 16
           },
           "source": {
             "id": "anonymous-dolphin-4b1ed522",
@@ -12369,8 +12371,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.03,
-            "maxPer1kUsd": 30
+            "maxUsd": 0.0204,
+            "maxPer1kUsd": 20.4
           },
           "source": {
             "id": "anonymous-fox",
@@ -12408,10 +12410,10 @@
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00007,
-            "perUnitUsd": 0.00324,
-            "maxUsd": 0.0649,
-            "maxPer1kUsd": 64.9
+            "baseUsd": 0.0001,
+            "perUnitUsd": 0.00518,
+            "maxUsd": 0.1037,
+            "maxPer1kUsd": 103.7
           },
           "source": {
             "id": "anonymous-octopus",
@@ -49395,20 +49397,6 @@
             "maxPer1kUsd": 0.48
           },
           "source": {
-            "id": "anonymous-owl-2ea373ed",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00048,
-            "maxPer1kUsd": 0.48
-          },
-          "source": {
             "id": "anonymous-bison-091bf9ea",
             "name": "Bison",
             "kind": "anonymous",
@@ -49513,6 +49501,20 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00048,
+            "maxPer1kUsd": 0.48
+          },
+          "source": {
+            "id": "anonymous-owl-2ea373ed",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          }
+        },
         {
           "pricing": {
             "model": "linear",
