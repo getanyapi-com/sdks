@@ -355,7 +355,7 @@ export interface AhrefsTrafficInput {
    */
   ignoreSources?: string[];
   /**
-   * Analysis scope: subdomains covers the domain and its subdomains, domain covers the root domain only, prefix covers every page under the given path, exact matches only the given URL.
+   * Analysis scope. Only subdomains, the whole website with its subdomains, is served now; a request for domain, prefix or exact is refused. A page URL is analyzed as its whole website.
    * One of: exact, subdomains, prefix, domain.
    * Default: subdomains.
    */
@@ -370,14 +370,14 @@ export interface AhrefsTrafficInput {
    */
   source?: string[];
   /**
-   * The domain or page URL to analyze (e.g. ahrefs.com).
+   * The website to analyze (e.g. ahrefs.com). A page URL is analyzed as its whole website.
    */
   url: string;
 }
 
 export interface AhrefsTrafficItem {
   /**
-   * The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.
+   * The domain or URL the metrics are scoped to.
    */
   domain: string;
   /**
@@ -385,28 +385,27 @@ export interface AhrefsTrafficItem {
    */
   mode?: string;
   /**
-   * Estimated monthly organic search visits.
+   * Estimated monthly organic search visits for the latest month.
    */
-  monthlyTraffic?: number;
+  monthlyTraffic?: number | null;
   /**
    * Estimated monthly USD value of the organic traffic, what the same clicks would cost in paid search.
    */
-  monthlyTrafficValueUsd?: number;
+  monthlyTrafficValueUsd?: number | null;
   /**
    * Countries sending the most organic traffic, up to five.
    */
   topCountries?: AhrefsTrafficTopCountrie[];
   /**
-   * The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords. Populated whenever the provider has data for the entity.
-   * Present whenever the upstream returns this record.
+   * The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords.
    */
   topKeywords?: AhrefsTrafficTopKeyword[];
   /**
-   * The pages receiving the most organic traffic, up to five.
+   * The pages receiving the most organic traffic. Currently always null: Ahrefs no longer publishes top pages.
    */
-  topPages?: AhrefsTrafficTopPage[];
+  topPages?: AhrefsTrafficTopPage[] | null;
   /**
-   * Monthly organic traffic estimates for recent months, oldest first.
+   * Monthly organic traffic estimates, oldest first, for as many months as Ahrefs publishes for the site.
    */
   trafficHistory?: AhrefsTrafficTrafficHistory[];
   [extra: string]: unknown;
@@ -420,7 +419,7 @@ export interface AhrefsTrafficTopCountrie {
   /**
    * Share (0-100) of the domain's organic traffic from this country.
    */
-  sharePct?: number;
+  sharePct?: number | null;
   [extra: string]: unknown;
 }
 
@@ -432,11 +431,11 @@ export interface AhrefsTrafficTopKeyword {
   /**
    * Current Google organic position for this keyword.
    */
-  position?: number;
+  position?: number | null;
   /**
    * Estimated monthly traffic this keyword drives to the domain.
    */
-  traffic?: number;
+  traffic?: number | null;
   [extra: string]: unknown;
 }
 
@@ -464,7 +463,7 @@ export interface AhrefsTrafficTrafficHistory {
   /**
    * Estimated organic search visits in that month.
    */
-  organicTraffic?: number;
+  organicTraffic?: number | null;
   [extra: string]: unknown;
 }
 
@@ -473,7 +472,7 @@ export interface AhrefsTrafficTrafficHistory {
  */
 export interface AhrefsTrafficData {
   /**
-   * Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top pages, top countries, and traffic history. Populated whenever the provider has data for the entity.
+   * Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top countries, and traffic history.
    */
   items: AhrefsTrafficItem[];
 }
@@ -556,9 +555,9 @@ export class AhrefsNamespace {
   /**
    * Ahrefs Traffic Overview
    *
-   * Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.
+   * Get the Ahrefs organic traffic overview for a website Ahrefs publishes traffic for (its Top Websites list, mostly larger sites): monthly organic traffic estimate and value, the top 5 keywords it ranks for with position and traffic, traffic by country, and a monthly traffic history - as normalized JSON. Other websites return not found. Top pages are not available. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.
    *
-   * Price: $0.00006 per request plus $0.0054 per result (maximum $0.00546).
+   * Price: $0.0012 per request plus $0.00456 per result (maximum $0.00576).
    *
    * @example
    * const res = await client.ahrefs.traffic({ url: "ahrefs.com", mode: "subdomains" });

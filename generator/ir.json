@@ -776,11 +776,11 @@
       "operationId": "ahrefs_traffic",
       "name": "Ahrefs Traffic Overview",
       "category": "search",
-      "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.",
+      "description": "Get the Ahrefs organic traffic overview for a website Ahrefs publishes traffic for (its Top Websites list, mostly larger sites): monthly organic traffic estimate and value, the top 5 keywords it ranks for with position and traffic, traffic by country, and a monthly traffic history - as normalized JSON. Other websites return not found. Top pages are not available. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.",
       "pricing": {
-        "priceUsd": 0.00546,
-        "baseUsd": 0.00006,
-        "perItemUsd": 0.0054,
+        "priceUsd": 0.00576,
+        "baseUsd": 0.0012,
+        "perItemUsd": 0.00456,
         "perItemUnit": "result"
       },
       "tsNamespace": "ahrefs",
@@ -816,7 +816,7 @@
           },
           "mode": {
             "kind": "string",
-            "description": "Analysis scope: subdomains covers the domain and its subdomains, domain covers the root domain only, prefix covers every page under the given path, exact matches only the given URL.",
+            "description": "Analysis scope. Only subdomains, the whole website with its subdomains, is served now; a request for domain, prefix or exact is refused. A page URL is analyzed as its whole website.",
             "enum": [
               "exact",
               "subdomains",
@@ -846,7 +846,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "The domain or page URL to analyze (e.g. ahrefs.com).",
+            "description": "The website to analyze (e.g. ahrefs.com). A page URL is analyzed as its whole website.",
             "enum": null,
             "default": null,
             "format": null
@@ -864,13 +864,13 @@
           "properties": {
             "items": {
               "kind": "array",
-              "description": "Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top pages, top countries, and traffic history. Populated whenever the provider has data for the entity.",
+              "description": "Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top countries, and traffic history.",
               "items": {
                 "kind": "object",
                 "properties": {
                   "domain": {
                     "kind": "string",
-                    "description": "The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.",
+                    "description": "The domain or URL the metrics are scoped to.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -884,7 +884,8 @@
                   },
                   "monthlyTraffic": {
                     "kind": "integer",
-                    "description": "Estimated monthly organic search visits.",
+                    "description": "Estimated monthly organic search visits for the latest month.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -892,6 +893,7 @@
                   "monthlyTrafficValueUsd": {
                     "kind": "number",
                     "description": "Estimated monthly USD value of the organic traffic, what the same clicks would cost in paid search.",
+                    "nullable": true,
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -912,6 +914,7 @@
                         "sharePct": {
                           "kind": "number",
                           "description": "Share (0-100) of the domain's organic traffic from this country.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
@@ -926,7 +929,7 @@
                   },
                   "topKeywords": {
                     "kind": "array",
-                    "description": "The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords. Populated whenever the provider has data for the entity.",
+                    "description": "The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords.",
                     "items": {
                       "kind": "object",
                       "properties": {
@@ -940,6 +943,7 @@
                         "position": {
                           "kind": "integer",
                           "description": "Current Google organic position for this keyword.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
@@ -947,6 +951,7 @@
                         "traffic": {
                           "kind": "integer",
                           "description": "Estimated monthly traffic this keyword drives to the domain.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
@@ -957,11 +962,12 @@
                       ],
                       "open": true
                     },
-                    "mustPopulate": true
+                    "mustPopulate": false
                   },
                   "topPages": {
                     "kind": "array",
-                    "description": "The pages receiving the most organic traffic, up to five.",
+                    "description": "The pages receiving the most organic traffic. Currently always null: Ahrefs no longer publishes top pages.",
+                    "nullable": true,
                     "items": {
                       "kind": "object",
                       "properties": {
@@ -996,7 +1002,7 @@
                   },
                   "trafficHistory": {
                     "kind": "array",
-                    "description": "Monthly organic traffic estimates for recent months, oldest first.",
+                    "description": "Monthly organic traffic estimates, oldest first, for as many months as Ahrefs publishes for the site.",
                     "items": {
                       "kind": "object",
                       "properties": {
@@ -1010,6 +1016,7 @@
                         "organicTraffic": {
                           "kind": "integer",
                           "description": "Estimated organic search visits in that month.",
+                          "nullable": true,
                           "minimum": null,
                           "maximum": null,
                           "default": null
@@ -1026,22 +1033,15 @@
                 "required": [
                   "domain"
                 ],
-                "open": true,
-                "mustPopulate": [
-                  "domain",
-                  "topKeywords"
-                ]
+                "open": true
               },
-              "mustPopulate": true
+              "mustPopulate": false
             }
           },
           "required": [
             "items"
           ],
-          "open": false,
-          "mustPopulate": [
-            "items"
-          ]
+          "open": false
         }
       },
       "pagination": {

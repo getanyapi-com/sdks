@@ -4083,7 +4083,7 @@
     },
     "/v1/run/ahrefs.traffic": {
       "post": {
-        "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.\n\n**Price:** billed per result - \\$0.06 per 1,000 requests base + \\$5.40 per 1,000 results, capped at \\$5.46 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Ahrefs Traffic Overview pricing and uptime](https://getanyapi.com/api/ahrefs/traffic) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
+        "description": "Get the Ahrefs organic traffic overview for a website Ahrefs publishes traffic for (its Top Websites list, mostly larger sites): monthly organic traffic estimate and value, the top 5 keywords it ranks for with position and traffic, traffic by country, and a monthly traffic history - as normalized JSON. Other websites return not found. Top pages are not available. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.\n\n**Price:** billed per result - \\$1.20 per 1,000 requests base + \\$4.56 per 1,000 results, capped at \\$5.76 per 1,000 requests.\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Ahrefs Traffic Overview pricing and uptime](https://getanyapi.com/api/ahrefs/traffic) - live USD price, lane routing, and measured 30-day uptime. [Every Ahrefs endpoint](https://getanyapi.com/api/ahrefs).",
         "operationId": "ahrefs_traffic",
         "parameters": [
           {
@@ -4174,7 +4174,7 @@
                   },
                   "mode": {
                     "default": "subdomains",
-                    "description": "Analysis scope: subdomains covers the domain and its subdomains, domain covers the root domain only, prefix covers every page under the given path, exact matches only the given URL.",
+                    "description": "Analysis scope. Only subdomains, the whole website with its subdomains, is served now; a request for domain, prefix or exact is refused. A page URL is analyzed as its whole website.",
                     "enum": [
                       "exact",
                       "subdomains",
@@ -4198,7 +4198,7 @@
                     "uniqueItems": true
                   },
                   "url": {
-                    "description": "The domain or page URL to analyze (e.g. ahrefs.com).",
+                    "description": "The website to analyze (e.g. ahrefs.com). A page URL is analyzed as its whole website.",
                     "type": "string"
                   }
                 },
@@ -4253,25 +4253,30 @@
                                   "additionalProperties": false,
                                   "properties": {
                                     "items": {
-                                      "description": "Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top pages, top countries, and traffic history. Populated whenever the provider has data for the entity.",
+                                      "description": "Traffic overview records: the requested domain plus its monthly organic traffic, top ranking keywords, top countries, and traffic history.",
                                       "items": {
                                         "properties": {
                                           "domain": {
-                                            "description": "The domain or URL the metrics are scoped to. Populated whenever the provider has data for the entity.",
-                                            "type": "string",
-                                            "x-anyapi-must-populate": true
+                                            "description": "The domain or URL the metrics are scoped to.",
+                                            "type": "string"
                                           },
                                           "mode": {
                                             "description": "Analysis scope used: subdomains, domain, prefix, or exact.",
                                             "type": "string"
                                           },
                                           "monthlyTraffic": {
-                                            "description": "Estimated monthly organic search visits.",
-                                            "type": "integer"
+                                            "description": "Estimated monthly organic search visits for the latest month.",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ]
                                           },
                                           "monthlyTrafficValueUsd": {
                                             "description": "Estimated monthly USD value of the organic traffic, what the same clicks would cost in paid search.",
-                                            "type": "number"
+                                            "type": [
+                                              "number",
+                                              "null"
+                                            ]
                                           },
                                           "topCountries": {
                                             "description": "Countries sending the most organic traffic, up to five.",
@@ -4283,7 +4288,10 @@
                                                 },
                                                 "sharePct": {
                                                   "description": "Share (0-100) of the domain's organic traffic from this country.",
-                                                  "type": "number"
+                                                  "type": [
+                                                    "number",
+                                                    "null"
+                                                  ]
                                                 }
                                               },
                                               "required": [
@@ -4294,7 +4302,7 @@
                                             "type": "array"
                                           },
                                           "topKeywords": {
-                                            "description": "The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords. Populated whenever the provider has data for the entity.",
+                                            "description": "The top organic keywords the domain already ranks for, up to five. Not ordered by traffic. For the full ranked-keyword list, use seo.ranked_keywords.",
                                             "items": {
                                               "properties": {
                                                 "keyword": {
@@ -4303,11 +4311,17 @@
                                                 },
                                                 "position": {
                                                   "description": "Current Google organic position for this keyword.",
-                                                  "type": "integer"
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 },
                                                 "traffic": {
                                                   "description": "Estimated monthly traffic this keyword drives to the domain.",
-                                                  "type": "integer"
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 }
                                               },
                                               "required": [
@@ -4315,11 +4329,10 @@
                                               ],
                                               "type": "object"
                                             },
-                                            "type": "array",
-                                            "x-anyapi-must-populate": true
+                                            "type": "array"
                                           },
                                           "topPages": {
-                                            "description": "The pages receiving the most organic traffic, up to five.",
+                                            "description": "The pages receiving the most organic traffic. Currently always null: Ahrefs no longer publishes top pages.",
                                             "items": {
                                               "properties": {
                                                 "sharePct": {
@@ -4340,10 +4353,13 @@
                                               ],
                                               "type": "object"
                                             },
-                                            "type": "array"
+                                            "type": [
+                                              "array",
+                                              "null"
+                                            ]
                                           },
                                           "trafficHistory": {
-                                            "description": "Monthly organic traffic estimates for recent months, oldest first.",
+                                            "description": "Monthly organic traffic estimates, oldest first, for as many months as Ahrefs publishes for the site.",
                                             "items": {
                                               "properties": {
                                                 "monthUtc": {
@@ -4352,7 +4368,10 @@
                                                 },
                                                 "organicTraffic": {
                                                   "description": "Estimated organic search visits in that month.",
-                                                  "type": "integer"
+                                                  "type": [
+                                                    "integer",
+                                                    "null"
+                                                  ]
                                                 }
                                               },
                                               "required": [
@@ -4368,8 +4387,7 @@
                                         ],
                                         "type": "object"
                                       },
-                                      "type": "array",
-                                      "x-anyapi-must-populate": true
+                                      "type": "array"
                                     }
                                   },
                                   "required": [
@@ -4651,8 +4669,8 @@
         "x-payment-info": {
           "price": {
             "currency": "USD",
-            "max": "0.005460",
-            "min": "0.000060",
+            "max": "0.005760",
+            "min": "0.001200",
             "mode": "dynamic"
           },
           "protocols": [
@@ -4694,8 +4712,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.006460",
-                "min": "0.001060",
+                "max": "0.006760",
+                "min": "0.002200",
                 "minimumUsd": "0.001000",
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -4727,8 +4745,8 @@
               },
               "pricing": {
                 "currency": "USD",
-                "max": "0.005460",
-                "min": "0.000060",
+                "max": "0.005760",
+                "min": "0.001200",
                 "minimumUsd": null,
                 "mode": "dynamic",
                 "quoteBasis": "floor"
@@ -87727,7 +87745,7 @@
     },
     "/v1/run/facebook.page_contact": {
       "post": {
-        "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Page Contact Info pricing and uptime](https://getanyapi.com/api/facebook/page-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Page Contact Info pricing and uptime](https://getanyapi.com/api/facebook/page-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_page_contact",
         "parameters": [
           {
@@ -97388,7 +97406,7 @@
     },
     "/v1/run/gemini.search": {
       "post": {
-        "description": "Ask Gemini a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
+        "description": "Ask Gemini a web-grounded question and receive an answer with source citations.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
         "operationId": "gemini_search",
         "parameters": [
           {
@@ -292365,7 +292383,7 @@
     },
     "/v1/run/tiktok.profile_videos": {
       "post": {
-        "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Videos pricing and uptime](https://getanyapi.com/api/tiktok/profile-videos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Profile Videos pricing and uptime](https://getanyapi.com/api/tiktok/profile-videos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_profile_videos",
         "parameters": [
           {
@@ -293772,7 +293790,7 @@
     },
     "/v1/run/tiktok.search_keyword": {
       "post": {
-        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_search_keyword",
         "parameters": [
           {

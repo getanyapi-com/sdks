@@ -263,7 +263,7 @@
       "slug": "ahrefs.traffic",
       "category": "search",
       "name": "Ahrefs Traffic Overview",
-      "description": "Get the Ahrefs organic traffic overview for any domain or URL: monthly traffic estimate and value, the top 5 keywords it already ranks for with position and traffic, top pages, traffic by country, and a monthly traffic history - as normalized JSON. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.",
+      "description": "Get the Ahrefs organic traffic overview for a website Ahrefs publishes traffic for (its Top Websites list, mostly larger sites): monthly organic traffic estimate and value, the top 5 keywords it ranks for with position and traffic, traffic by country, and a monthly traffic history - as normalized JSON. Other websites return not found. Top pages are not available. For a domain's full ranked-keyword list with search volume and difficulty, use seo.ranked_keywords.",
       "method": "POST",
       "path": "/v1/run/ahrefs.traffic",
       "provider": "AnyAPI",
@@ -274,38 +274,29 @@
         "from": {
           "model": "linear",
           "unit": "result",
-          "baseUsd": 0.00006,
-          "perUnitUsd": 0.0054,
-          "maxUsd": 0.00546,
-          "maxPer1kUsd": 5.46
+          "baseUsd": 0.0012,
+          "perUnitUsd": 0.00456,
+          "maxUsd": 0.00576,
+          "maxPer1kUsd": 5.76
         },
-        "failoverMaxUsd": 0.00546,
-        "failoverMaxPer1kUsd": 5.46
+        "failoverMaxUsd": 0.00611,
+        "failoverMaxPer1kUsd": 6.11
       },
       "lanes": [
         {
           "pricing": {
             "model": "linear",
             "unit": "result",
-            "baseUsd": 0.00006,
-            "perUnitUsd": 0.0054,
-            "maxUsd": 0.00546,
-            "maxPer1kUsd": 5.46
+            "baseUsd": 0.0012,
+            "perUnitUsd": 0.00456,
+            "maxUsd": 0.00576,
+            "maxPer1kUsd": 5.76
           },
           "source": {
-            "id": "anonymous-octopus",
-            "name": "Octopus",
+            "id": "anonymous-chameleon-0ccad02d",
+            "name": "Chameleon",
             "kind": "anonymous",
-            "artworkKey": "octopus"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 98.10333551340746,
-            "latencyP50Ms": 9712,
-            "uptimeSample": 1529,
-            "latencySample": 1500,
-            "requests": 1529,
-            "servedRequests": 1500
+            "artworkKey": "chameleon"
           },
           "fields": [
             "domain",
@@ -315,14 +306,39 @@
             "monthlyTrafficValueUsd",
             "topCountries",
             "topKeywords",
-            "topPages",
+            "trafficHistory"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "linear",
+            "unit": "result",
+            "baseUsd": 0.00012,
+            "perUnitUsd": 0.00599,
+            "maxUsd": 0.00611,
+            "maxPer1kUsd": 6.11
+          },
+          "source": {
+            "id": "anonymous-heron-42180e27",
+            "name": "Heron",
+            "kind": "anonymous",
+            "artworkKey": "heron"
+          },
+          "fields": [
+            "domain",
+            "items",
+            "mode",
+            "monthlyTraffic",
+            "monthlyTrafficValueUsd",
+            "topCountries",
+            "topKeywords",
             "trafficHistory"
           ]
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "airbnb.search",
@@ -10832,6 +10848,48 @@
         },
         {
           "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00248,
+            "maxPer1kUsd": 2.48
+          },
+          "source": {
+            "id": "anonymous-badger-46ed45d5",
+            "name": "Badger",
+            "kind": "anonymous",
+            "artworkKey": "badger"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 32.46661981728742,
+            "latencyP50Ms": 6008,
+            "uptimeSample": 1423,
+            "latencySample": 462,
+            "requests": 1423,
+            "servedRequests": 462
+          },
+          "fields": [
+            "about",
+            "adLibraryPageId",
+            "address",
+            "category",
+            "coverPhotoUrl",
+            "email",
+            "id",
+            "image",
+            "items",
+            "links",
+            "phone",
+            "priceRange",
+            "rating",
+            "services",
+            "title",
+            "url",
+            "website"
+          ]
+        },
+        {
+          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.00204,
@@ -10864,50 +10922,6 @@
             "createdUtc",
             "email",
             "followers",
-            "id",
-            "image",
-            "items",
-            "links",
-            "phone",
-            "priceRange",
-            "rating",
-            "services",
-            "title",
-            "url",
-            "website"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00248,
-            "maxPer1kUsd": 2.48
-          },
-          "source": {
-            "id": "anonymous-badger-46ed45d5",
-            "name": "Badger",
-            "kind": "anonymous",
-            "artworkKey": "badger"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 32.46661981728742,
-            "latencyP50Ms": 6008,
-            "uptimeSample": 1423,
-            "latencySample": 462,
-            "requests": 1423,
-            "servedRequests": 462
-          },
-          "fields": [
-            "about",
-            "adLibraryPageId",
-            "address",
-            "category",
-            "coverPhotoUrl",
-            "email",
             "id",
             "image",
             "items",
@@ -12660,8 +12674,8 @@
           "maxUsd": 0.002,
           "maxPer1kUsd": 2
         },
-        "failoverMaxUsd": 0.0025,
-        "failoverMaxPer1kUsd": 2.5
+        "failoverMaxUsd": 0.0048,
+        "failoverMaxPer1kUsd": 4.8
       },
       "lanes": [
         {
@@ -12725,9 +12739,7 @@
             "title",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
+        },
         {
           "pricing": {
             "model": "flat",
@@ -43415,20 +43427,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00059,
-            "maxPer1kUsd": 0.59
-          },
-          "source": {
-            "id": "anonymous-tiger-6f8f398d",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0006,
             "maxPer1kUsd": 0.6
           },
@@ -43936,6 +43934,55 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-quokka",
+            "name": "Quokka",
+            "kind": "anonymous",
+            "artworkKey": "quokka"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.557414990208294,
+            "latencyP50Ms": 2791,
+            "uptimeSample": 5617,
+            "latencySample": 3233,
+            "requests": 5617,
+            "servedRequests": 3233
+          },
+          "fields": [
+            "author",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "caption",
+            "comments",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "image",
+            "likes",
+            "nextCursor",
+            "paidPartnership",
+            "region",
+            "saves",
+            "shares",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "videos",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
             "maxUsd": 0.0012,
             "maxPer1kUsd": 1.2
           },
@@ -44075,55 +44122,6 @@
             "image",
             "likes",
             "locationName",
-            "paidPartnership",
-            "region",
-            "saves",
-            "shares",
-            "soundAuthor",
-            "soundClipId",
-            "soundTitle",
-            "url",
-            "videoUrl",
-            "videos",
-            "views"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-quokka",
-            "name": "Quokka",
-            "kind": "anonymous",
-            "artworkKey": "quokka"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.557414990208294,
-            "latencyP50Ms": 2791,
-            "uptimeSample": 5617,
-            "latencySample": 3233,
-            "requests": 5617,
-            "servedRequests": 3233
-          },
-          "fields": [
-            "author",
-            "authorImage",
-            "authorName",
-            "authorUserId",
-            "caption",
-            "comments",
-            "createdUtc",
-            "durationSeconds",
-            "hashtags",
-            "id",
-            "image",
-            "likes",
-            "nextCursor",
             "paidPartnership",
             "region",
             "saves",
