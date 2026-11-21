@@ -6718,7 +6718,7 @@ export class LinkedinNamespace {
    *
    * Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.
    *
-   * Price: $0.0011 per request.
+   * Price: $0.00109 per request.
    *
    * @example
    * const res = await client.linkedin.company({ url: "https://www.linkedin.com/company/stripe" });

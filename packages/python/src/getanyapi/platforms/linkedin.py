@@ -5476,7 +5476,7 @@ class LinkedinNamespace:
         employee count and range, follower count, founded year, headquarters and
         office locations, funding data, tagline, logo, website, and specialities.
 
-        Price: $0.0011 per request.
+        Price: $0.00109 per request.
 
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
@@ -6445,7 +6445,7 @@ class AsyncLinkedinNamespace:
         employee count and range, follower count, founded year, headquarters and
         office locations, funding data, tagline, logo, website, and specialities.
 
-        Price: $0.0011 per request.
+        Price: $0.00109 per request.
 
         Example:
             res = client.linkedin.company(url="https://www.linkedin.com/company/stripe")
