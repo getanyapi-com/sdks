@@ -11763,13 +11763,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.00115,
+          "maxPer1kUsd": 1.15
         },
         "failoverMaxUsd": 0.0067,
         "failoverMaxPer1kUsd": 6.7
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00115,
+            "maxPer1kUsd": 1.15
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -11924,22 +11938,6 @@
             "text",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00115,
-            "maxPer1kUsd": 1.15
-          },
-          "source": {
-            "id": "anonymous-giraffe-5e3cbaa1",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          }
         }
       ],
       "tryEligible": true,
@@ -43331,20 +43329,6 @@
             "maxPer1kUsd": 0.39
           },
           "source": {
-            "id": "anonymous-tiger-6f8f398d",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00039,
-            "maxPer1kUsd": 0.39
-          },
-          "source": {
             "id": "anonymous-owl-2ea373ed",
             "name": "Owl",
             "kind": "anonymous",
@@ -43625,6 +43609,20 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00039,
+            "maxPer1kUsd": 0.39
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
