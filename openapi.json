@@ -143525,7 +143525,7 @@
     },
     "/v1/run/instagram.profile": {
       "post": {
-        "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.\n\n**Price:** \\$0.54 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 9 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile pricing and uptime](https://getanyapi.com/api/instagram/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.\n\n**Price:** \\$0.54 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile pricing and uptime](https://getanyapi.com/api/instagram/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_profile",
         "parameters": [
           {
@@ -283577,7 +283577,7 @@
                     "uniqueItems": true
                   },
                   "startDate": {
-                    "description": "Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2026-08-01).",
+                    "description": "Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2026-08-01). Without dates, results lean toward popular posts of any age, so set startDate (e.g. a week ago) to get recent posts; there is no sort option.",
                     "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
                     "type": "string"
                   }
@@ -283632,7 +283632,7 @@
                                   "additionalProperties": false,
                                   "properties": {
                                     "posts": {
-                                      "description": "Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider has data for the entity.",
+                                      "description": "Matching public post records: text, author, engagement counts, timestamp, and URL. Without date filters, results tend to favor popular posts of any age. Use startDate or endDate to narrow the results; neither guarantees newest-first order. Populated whenever the provider has data for the entity.",
                                       "items": {
                                         "properties": {
                                           "code": {
@@ -284682,7 +284682,7 @@
     },
     "/v1/run/threads.user_posts": {
       "post": {
-        "description": "List a Threads user's recent public posts by username: text, engagement counts, and post URLs.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Threads User Posts pricing and uptime](https://getanyapi.com/api/threads/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Threads endpoint](https://getanyapi.com/api/threads).",
+        "description": "List one page of a Threads user's recent public posts by username (typically about 15): text, engagement counts, and post URLs. There is no paging or date filter, and an older pinned post may appear first.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Threads User Posts pricing and uptime](https://getanyapi.com/api/threads/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Threads endpoint](https://getanyapi.com/api/threads).",
         "operationId": "threads_user_posts",
         "parameters": [
           {
@@ -284838,7 +284838,7 @@
                                   "additionalProperties": false,
                                   "properties": {
                                     "posts": {
-                                      "description": "The user's recent posts. Populated whenever the provider has data for the entity.",
+                                      "description": "One response of about the 15 most recent posts; there is no next page. A pinned post can come first even when it is older, so sort by createdUtc for newest first. Populated whenever the provider has data for the entity.",
                                       "items": {
                                         "properties": {
                                           "code": {
@@ -321555,7 +321555,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.47 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
@@ -322182,7 +322182,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000480",
+            "amount": "0.000470",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -322224,7 +322224,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001480",
+                "amount": "0.001470",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -322256,7 +322256,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000480",
+                "amount": "0.000470",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

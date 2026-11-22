@@ -182,7 +182,7 @@ export interface ThreadsSearchInput {
    */
   source?: string[];
   /**
-   * Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2026-08-01).
+   * Only return posts published on or after this date, format YYYY-MM-DD (e.g. 2026-08-01). Without dates, results lean toward popular posts of any age, so set startDate (e.g. a week ago) to get recent posts; there is no sort option.
    */
   startDate?: string;
 }
@@ -248,7 +248,7 @@ export interface ThreadsSearchPost {
  */
 export interface ThreadsSearchData {
   /**
-   * Matching public post records: text, author, engagement counts, timestamp, and URL. Populated whenever the provider has data for the entity.
+   * Matching public post records: text, author, engagement counts, timestamp, and URL. Without date filters, results tend to favor popular posts of any age. Use startDate or endDate to narrow the results; neither guarantees newest-first order. Populated whenever the provider has data for the entity.
    */
   posts: ThreadsSearchPost[];
 }
@@ -397,7 +397,7 @@ export interface ThreadsUserPostsPost {
  */
 export interface ThreadsUserPostsData {
   /**
-   * The user's recent posts. Populated whenever the provider has data for the entity.
+   * One response of about the 15 most recent posts; there is no next page. A pinned post can come first even when it is older, so sort by createdUtc for newest first. Populated whenever the provider has data for the entity.
    */
   posts: ThreadsUserPostsPost[];
 }
@@ -480,7 +480,7 @@ export class ThreadsNamespace {
   /**
    * Threads User Posts
    *
-   * List a Threads user's recent public posts by username: text, engagement counts, and post URLs.
+   * List one page of a Threads user's recent public posts by username (typically about 15): text, engagement counts, and post URLs. There is no paging or date filter, and an older pinned post may appear first.
    *
    * Price: $0.0012 per request.
    *
