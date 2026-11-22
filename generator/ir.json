@@ -53193,7 +53193,7 @@
       "category": "data",
       "description": "Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.",
       "pricing": {
-        "priceUsd": 0.00125,
+        "priceUsd": 0.00115,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -53253,7 +53253,7 @@
           },
           "postedLimit": {
             "kind": "string",
-            "description": "Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates. This can raise your price: a dearer source serves a request that sets it, and you are quoted and charged its price.",
+            "description": "Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates.",
             "enum": [
               "24h",
               "week"
@@ -53282,10 +53282,16 @@
               "kind": "string",
               "enum": [
                 "admin2Code",
+                "companyDescription",
                 "companyRevenue",
+                "companySize",
+                "companyUrl",
+                "companyWebsite",
                 "discoveredUtc",
                 "expired",
                 "language",
+                "latitude",
+                "longitude",
                 "rating",
                 "reviewCount",
                 "streetAddress"

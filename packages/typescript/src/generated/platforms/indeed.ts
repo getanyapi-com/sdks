@@ -34,7 +34,7 @@ export interface IndeedJobsInput {
    */
   location?: string;
   /**
-   * Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates. This can raise your price: a dearer source serves a request that sets it, and you are quoted and charged its price.
+   * Only return jobs posted within this window: 24h (past day) or week (past 7 days). Omit for all dates.
    * One of: 24h, week.
    */
   postedLimit?: "24h" | "week";
@@ -52,10 +52,16 @@ export interface IndeedJobsInput {
    */
   requireFields?: (
     | "admin2Code"
+    | "companyDescription"
     | "companyRevenue"
+    | "companySize"
+    | "companyUrl"
+    | "companyWebsite"
     | "discoveredUtc"
     | "expired"
     | "language"
+    | "latitude"
+    | "longitude"
     | "rating"
     | "reviewCount"
     | "streetAddress"
@@ -189,7 +195,7 @@ export class IndeedNamespace {
    *
    * Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.
    *
-   * Price: $0.00125 per request.
+   * Price: $0.00115 per request.
    *
    * @example
    * const res = await client.indeed.jobs({ query: "data analyst", limit: 3, location: "Austin, TX" });
