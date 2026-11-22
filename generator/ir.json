@@ -41321,7 +41321,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70070,7 +70070,7 @@
       "category": "social",
       "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.",
       "pricing": {
-        "priceUsd": 0.00119,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132358,7 +132358,7 @@
       "category": "social",
       "description": "List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00059,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
