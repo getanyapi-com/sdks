@@ -10352,13 +10352,36 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.00072,
+          "maxPer1kUsd": 0.72
         },
         "failoverMaxUsd": 0.00477,
         "failoverMaxPer1kUsd": 4.77
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00072,
+            "maxPer1kUsd": 0.72
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 75.75757575757575,
+            "latencyP50Ms": 5634,
+            "uptimeSample": 99,
+            "latencySample": 75,
+            "requests": 99,
+            "servedRequests": 75
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -10469,31 +10492,6 @@
             "text",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00072,
-            "maxPer1kUsd": 0.72
-          },
-          "source": {
-            "id": "anonymous-giraffe-5e3cbaa1",
-            "name": "Giraffe",
-            "kind": "anonymous",
-            "artworkKey": "giraffe"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 75.75757575757575,
-            "latencyP50Ms": 5634,
-            "uptimeSample": 99,
-            "latencySample": 75,
-            "requests": 99,
-            "servedRequests": 75
-          }
         }
       ],
       "tryEligible": true,
@@ -15717,8 +15715,8 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.0005,
-            "maxPer1kUsd": 0.5
+            "maxUsd": 0.00049,
+            "maxPer1kUsd": 0.49
           },
           "source": {
             "id": "anonymous-bison-091bf9ea",
@@ -28190,51 +28188,6 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
-          ]
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -28355,6 +28308,53 @@
             "startDate",
             "text",
             "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
           ]
         }
       ],
@@ -43341,20 +43341,6 @@
           "pricing": {
             "model": "flat",
             "unit": "request",
-            "maxUsd": 0.00039,
-            "maxPer1kUsd": 0.39
-          },
-          "source": {
-            "id": "anonymous-owl-2ea373ed",
-            "name": "Owl",
-            "kind": "anonymous",
-            "artworkKey": "owl"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
             "maxUsd": 0.0004,
             "maxPer1kUsd": 0.4
           },
@@ -43625,6 +43611,20 @@
         }
       ],
       "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00039,
+            "maxPer1kUsd": 0.39
+          },
+          "source": {
+            "id": "anonymous-owl-2ea373ed",
+            "name": "Owl",
+            "kind": "anonymous",
+            "artworkKey": "owl"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -44077,13 +44077,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0006,
-          "maxPer1kUsd": 0.6
+          "maxUsd": 0.00059,
+          "maxPer1kUsd": 0.59
         },
         "failoverMaxUsd": 0.0032,
         "failoverMaxPer1kUsd": 3.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00059,
+            "maxPer1kUsd": 0.59
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -44403,20 +44417,6 @@
             "name": "Owl",
             "kind": "anonymous",
             "artworkKey": "owl"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00059,
-            "maxPer1kUsd": 0.59
-          },
-          "source": {
-            "id": "anonymous-tiger-6f8f398d",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
           }
         }
       ],
@@ -50027,13 +50027,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00049,
-          "maxPer1kUsd": 0.49
+          "maxUsd": 0.00048,
+          "maxPer1kUsd": 0.48
         },
         "failoverMaxUsd": 0.00049,
         "failoverMaxPer1kUsd": 0.49
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00048,
+            "maxPer1kUsd": 0.48
+          },
+          "source": {
+            "id": "anonymous-bison-091bf9ea",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -50119,20 +50133,6 @@
             "name": "Owl",
             "kind": "anonymous",
             "artworkKey": "owl"
-          }
-        },
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00048,
-            "maxPer1kUsd": 0.48
-          },
-          "source": {
-            "id": "anonymous-bison-091bf9ea",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
           }
         },
         {
@@ -50236,7 +50236,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "twitter.search_communities",
