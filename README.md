@@ -66,7 +66,9 @@ detail. The essentials:
   overrides live here too.
 - **Errors and retries.** Every failure raises an `AnyAPIError` subclass mapped from the HTTP
   status (400/401/402/404/429/502, plus `Connection`/`Timeout` at status 0). Only 429 and
-  proven pre-send network failures retry, with jittered backoff honoring `Retry-After`; timeouts
+  proven pre-send network failures retry, with jittered backoff honoring `Retry-After`; a 429
+  whose `Retry-After` is past 8s is raised at once with `RateLimitedError.retryAfterSeconds` /
+  `retry_after_seconds` (the account's per-minute `rate_limited` limit sends up to 60s); timeouts
   never retry. For billed TypeScript `run()` calls, Node's built-in undici transport and Bun
   1.3.11 expose qualifying proof. Cloudflare Workers, Deno, and browsers do not, so an unknown
   send phase gets no automatic network retry. Python `httpx.ConnectError` qualifies, while

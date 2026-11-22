@@ -135,7 +135,7 @@ Per-call transport overrides: `timeoutMs`, `maxRetries`, `maxInProgressWaitMs`, 
 | `InsufficientBalanceError` | 402  | Wallet balance or per-key cap exceeded     |
 | `NotFoundError`            | 404  | Slug or resource does not exist            |
 | `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
-| `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
+| `RateLimitedError`         | 429  | Too many requests; see below               |
 | `UpstreamError`            | 502  | An upstream backend failed                 |
 | `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
@@ -147,6 +147,14 @@ on the client or per request. Timeouts are never retried. Connection failures du
 billed `POST /v1/run` are not retried because the call may already have been charged. When the
 send phase is unknown, the SDK does not retry. Configure with
 `new AnyAPI({ timeoutMs, maxRetries })`.
+
+### Rate limits
+
+Each account may start a limited number of new requests to one API per UTC minute. A request over
+the limit gets `429` with `code` `rate_limited` and `Retry-After` set to the seconds until the
+next minute; nothing was run or charged. `RateLimitedError.retryAfterSeconds` carries that delay. The SDK
+retries a 429 only when its `Retry-After` is 8 seconds or less, waiting it in full; a longer one
+is raised at once so you can wait or spread the load.
 
 ### Waiting out a run that is still in flight
 

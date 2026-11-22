@@ -141,8 +141,8 @@ function backoffDelay(attempt: number): number {
 /**
  * Parse a Retry-After header (delta-seconds or HTTP-date) into a non-negative delay in ms.
  * Returns undefined when the header is absent or unparseable. The value is NOT capped here:
- * each caller applies its own ceiling (ordinary backoff clamps to RETRY_MAX_DELAY_MS; the
- * in-progress path measures the raw value against its wait budget).
+ * each caller applies its own ceiling (a 429 longer than RETRY_MAX_DELAY_MS is raised rather
+ * than retried; the in-progress path measures the raw value against its wait budget).
  */
 function parseRetryAfterMs(header: string | null): number | undefined {
   if (header === null) {
@@ -687,12 +687,16 @@ export class AnyAPI implements ClientCore {
         response.headers.get("retry-after"),
       );
 
-      if (response.status === 429 && attempt < opts.maxRetries) {
-        const delay =
-          retryAfterMs !== undefined
-            ? Math.min(retryAfterMs, RETRY_MAX_DELAY_MS)
-            : backoffDelay(attempt);
-        await sleep(delay, opts.signal);
+      // A 429 waits its Retry-After in full or not at all: one longer than the ordinary
+      // backoff ceiling is raised now, carrying the delay, because a shorter wait (the
+      // account's per-minute limit sends up to 60s) is certain to be refused again. See
+      // SPEC 2.8.
+      if (
+        response.status === 429 &&
+        attempt < opts.maxRetries &&
+        (retryAfterMs === undefined || retryAfterMs <= RETRY_MAX_DELAY_MS)
+      ) {
+        await sleep(retryAfterMs ?? backoffDelay(attempt), opts.signal);
         attempt += 1;
         continue;
       }
@@ -720,7 +724,13 @@ export class AnyAPI implements ClientCore {
         }
       }
 
-      throw errorFromStatus(response.status, message, requestId, code);
+      throw errorFromStatus(
+        response.status,
+        message,
+        requestId,
+        code,
+        retryAfterMs === undefined ? undefined : Math.ceil(retryAfterMs / 1000),
+      );
     }
   }
 

@@ -45,8 +45,27 @@ export class NotFoundError extends AnyAPIError {}
  * HTTP 404s). See SPEC 2.3 erratum.
  */
 export class ResultNotFoundError extends NotFoundError {}
-/** HTTP 429. */
-export class RateLimitedError extends AnyAPIError {}
+/**
+ * HTTP 429. `retryAfterSeconds` is the response's Retry-After when it carried one: wait that
+ * long before sending again. Code `rate_limited` on a run means the account reached its limit
+ * of new requests a minute to that API; nothing was run or charged.
+ */
+export class RateLimitedError extends AnyAPIError {
+  readonly retryAfterSeconds?: number;
+
+  constructor(
+    message: string,
+    status: number,
+    requestId?: string,
+    code?: string,
+    retryAfterSeconds?: number,
+  ) {
+    super(message, status, requestId, code);
+    if (retryAfterSeconds !== undefined) {
+      this.retryAfterSeconds = retryAfterSeconds;
+    }
+  }
+}
 /** HTTP 502. */
 export class UpstreamError extends AnyAPIError {}
 /** status 0, network failure. */
@@ -90,6 +109,7 @@ export function errorFromStatus(
   message: string,
   requestId?: string,
   code?: string,
+  retryAfterSeconds?: number,
 ): AnyAPIError {
   switch (status) {
     case 400:
@@ -101,7 +121,7 @@ export function errorFromStatus(
     case 404:
       return new NotFoundError(message, status, requestId, code);
     case 429:
-      return new RateLimitedError(message, status, requestId, code);
+      return new RateLimitedError(message, status, requestId, code, retryAfterSeconds);
     case 502:
       return new UpstreamError(message, status, requestId, code);
     default:

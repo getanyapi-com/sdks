@@ -50,15 +50,21 @@ describe("retry policy", () => {
     await expect(promise).resolves.toBeDefined();
   });
 
-  it("caps Retry-After at maxDelay (8s)", async () => {
-    const { fetch } = mockFetch([
-      { status: 429, headers: { "retry-after": "3600" }, body: { error: "rate" } },
+  it("raises a 429 whose Retry-After exceeds maxDelay (8s) at once, carrying the delay", async () => {
+    const { fetch, calls } = mockFetch([
+      {
+        status: 429,
+        headers: { "retry-after": "42" },
+        body: { error: "limit reached", code: "rate_limited" },
+      },
       { body: foundEnvelope({}) },
     ]);
     const client = new AnyAPI({ apiKey: "k", fetch });
-    const promise = client.run("a.b", {});
-    await vi.advanceTimersByTimeAsync(8000);
-    await expect(promise).resolves.toBeDefined();
+    const err = await client.run("a.b", {}).catch((e: unknown) => e);
+    expect(err).toBeInstanceOf(RateLimitedError);
+    expect((err as RateLimitedError).code).toBe("rate_limited");
+    expect((err as RateLimitedError).retryAfterSeconds).toBe(42);
+    expect(calls).toHaveLength(1);
   });
 
   it("retries a pre-send connection failure then succeeds", async () => {

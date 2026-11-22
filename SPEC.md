@@ -613,7 +613,9 @@ export declare class BadRequestError extends AnyAPIError {} // 400
 export declare class AuthenticationError extends AnyAPIError {} // 401
 export declare class InsufficientBalanceError extends AnyAPIError {} // 402
 export declare class NotFoundError extends AnyAPIError {} // 404
-export declare class RateLimitedError extends AnyAPIError {} // 429
+export declare class RateLimitedError extends AnyAPIError {
+  readonly retryAfterSeconds?: number; // the 429's Retry-After, see 2.8
+} // 429
 export declare class UpstreamError extends AnyAPIError {} // 502
 export declare class ConnectionError extends AnyAPIError {} // status 0, network failure
 export declare class TimeoutError extends AnyAPIError {} // status 0, request timed out
@@ -877,8 +879,13 @@ export interface AgentSignupResult {
 - Backoff: jittered exponential. `delay(attempt) = min(baseDelay * 2**attempt, maxDelay)`
   then multiply by a random factor in `[0.5, 1.5)`. Constants: `baseDelay = 500ms`,
   `maxDelay = 8000ms`. `attempt` starts at 0 for the first retry.
-- Honor a `Retry-After` response header on 429 when present (seconds or HTTP-date); use it
-  as the delay instead of the computed backoff, capped at `maxDelay`.
+- Honor a `Retry-After` response header on 429 when present (seconds or HTTP-date): wait it
+  in full instead of the computed backoff, or not at all. A 429 whose `Retry-After` exceeds
+  `maxDelay` is raised at once rather than retried early, because a shorter wait is certain to
+  be refused again (the account's per-minute limit, code `rate_limited`, sends up to 60s, to the
+  start of the next UTC minute).
+- `RateLimitedError` carries that delay as `retryAfterSeconds` / `retry_after_seconds`
+  (whole seconds, rounded up; absent when the response had no `Retry-After`).
 - Sending `Idempotency-Key` does not expand transport-level retry eligibility. Ambiguous
   billed-POST transport failures remain non-retryable in every runtime, and stay that way
   until the SDK can positively detect that the gateway honors idempotency keys. The one
@@ -1105,7 +1112,7 @@ class BadRequestError(AnyAPIError): ...          # 400
 class AuthenticationError(AnyAPIError): ...      # 401
 class InsufficientBalanceError(AnyAPIError): ... # 402
 class NotFoundError(AnyAPIError): ...            # 404
-class RateLimitedError(AnyAPIError): ...         # 429
+class RateLimitedError(AnyAPIError): ...         # 429; .retry_after_seconds: int | None, see 2.8
 class UpstreamError(AnyAPIError): ...            # 502
 class ConnectionError(AnyAPIError): ...          # status 0 (network); name shadows builtin intentionally, exported from getanyapi
 class TimeoutError(AnyAPIError): ...             # status 0 (timeout); shadows builtin intentionally
