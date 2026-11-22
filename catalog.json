@@ -17872,6 +17872,37 @@
             "maxPer1kUsd": 1
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "bio",
+            "bioLinks",
+            "displayName",
+            "externalUrl",
+            "followers",
+            "following",
+            "handle",
+            "isBusiness",
+            "posts",
+            "private",
+            "title",
+            "url",
+            "userId",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
             "id": "anonymous-pangolin",
             "name": "Pangolin",
             "kind": "anonymous",
@@ -18148,6 +18179,32 @@
         "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "author",
+            "avatarUrl",
+            "comments",
+            "createdUtc",
+            "id",
+            "likes",
+            "nextCursor",
+            "text",
+            "userId",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -19147,6 +19204,59 @@
             "maxPer1kUsd": 1.1
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "altText",
+            "audioId",
+            "author",
+            "authorId",
+            "authorPrivate",
+            "authorVerified",
+            "avatarUrl",
+            "caption",
+            "captionEdited",
+            "carouselCount",
+            "coauthors",
+            "comments",
+            "countsHidden",
+            "createdUtc",
+            "hasAudio",
+            "hashtags",
+            "height",
+            "id",
+            "image",
+            "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
+            "mediaType",
+            "mentions",
+            "nextCursor",
+            "paidPartnership",
+            "posts",
+            "productType",
+            "shortcode",
+            "soundAuthor",
+            "soundTitle",
+            "taggedUsers",
+            "url",
+            "videoUrl",
+            "width"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
             "id": "anonymous-chameleon-6403d3f5",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -19825,6 +19935,33 @@
             "maxPer1kUsd": 1.1
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "author",
+            "avatarUrl",
+            "comments",
+            "createdUtc",
+            "id",
+            "likes",
+            "nextCursor",
+            "replies",
+            "text",
+            "userId",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
             "id": "anonymous-chameleon-6403d3f5",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -20021,6 +20158,31 @@
         "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "latestStoryUtc",
+            "likers",
+            "private",
+            "totalLikes",
+            "userId",
+            "username",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -21144,6 +21306,30 @@
             "maxPer1kUsd": 2.2
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "handle",
+            "id",
+            "image",
+            "items",
+            "name",
+            "private",
+            "url",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0022,
+            "maxPer1kUsd": 2.2
+          },
+          "source": {
             "id": "anonymous-chameleon-6403d3f5",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -21172,7 +21358,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_following",
@@ -21197,6 +21383,30 @@
         "failoverMaxPer1kUsd": 2.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0022,
+            "maxPer1kUsd": 2.2
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "handle",
+            "id",
+            "image",
+            "items",
+            "name",
+            "private",
+            "url",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -21233,7 +21443,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "instagram.search_hashtag",
@@ -21654,6 +21864,29 @@
             "maxPer1kUsd": 2.2
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "private",
+            "profiles",
+            "userId",
+            "username",
+            "verified"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0022,
+            "maxPer1kUsd": 2.2
+          },
+          "source": {
             "id": "anonymous-chameleon-6403d3f5",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -21731,6 +21964,44 @@
         "failoverMaxPer1kUsd": 2.4
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0022,
+            "maxPer1kUsd": 2.2
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "audioId",
+            "avatarUrl",
+            "code",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "expiresUtc",
+            "height",
+            "id",
+            "image",
+            "items",
+            "mediaType",
+            "paidPartnership",
+            "private",
+            "productType",
+            "soundAuthor",
+            "soundTitle",
+            "userId",
+            "username",
+            "verified",
+            "videoUrl",
+            "width"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -21850,6 +22121,32 @@
         "failoverMaxPer1kUsd": 16
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00188,
+            "maxPer1kUsd": 1.88
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "id",
+            "items",
+            "mediaUrl",
+            "permalink",
+            "username",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -22056,6 +22353,29 @@
         "failoverMaxPer1kUsd": 15
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0022,
+            "maxPer1kUsd": 2.2
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "displayName",
+            "private",
+            "profiles",
+            "userId",
+            "username",
+            "verified"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -22479,6 +22799,31 @@
         "failoverMaxPer1kUsd": 1.64
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "coverUrl",
+            "createdUtc",
+            "highlights",
+            "id",
+            "mediaCount",
+            "ownerHandle",
+            "title",
+            "userId"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -23204,6 +23549,52 @@
             "maxPer1kUsd": 1.2
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "caption",
+            "coauthors",
+            "comments",
+            "countsHidden",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "hashtags",
+            "id",
+            "isPinned",
+            "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
+            "media",
+            "mentions",
+            "nextCursor",
+            "paidPartnership",
+            "productType",
+            "reels",
+            "reshares",
+            "shortcode",
+            "soundAuthor",
+            "soundTitle",
+            "userId",
+            "username",
+            "verified",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0012,
+            "maxPer1kUsd": 1.2
+          },
+          "source": {
             "id": "anonymous-giraffe",
             "name": "Giraffe",
             "kind": "anonymous",
@@ -23498,6 +23889,59 @@
             "maxPer1kUsd": 1.73
           },
           "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "avatarUrl",
+            "caption",
+            "captionsUrl",
+            "coauthors",
+            "comments",
+            "countsHidden",
+            "createdUtc",
+            "displayName",
+            "durationSeconds",
+            "facebookComments",
+            "facebookLikes",
+            "facebookViews",
+            "hashtags",
+            "id",
+            "isPinned",
+            "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
+            "media",
+            "mentions",
+            "nextCursor",
+            "paidPartnership",
+            "productType",
+            "reels",
+            "reposts",
+            "reshares",
+            "saves",
+            "sharedToFacebook",
+            "shortcode",
+            "soundAuthor",
+            "soundTitle",
+            "userId",
+            "username",
+            "verified",
+            "views"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00173,
+            "maxPer1kUsd": 1.73
+          },
+          "source": {
             "id": "anonymous-chameleon-6403d3f5",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -23642,6 +24086,63 @@
         "failoverMaxPer1kUsd": 1.2
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0011,
+            "maxPer1kUsd": 1.1
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "altText",
+            "audioId",
+            "author",
+            "authorId",
+            "authorName",
+            "authorPrivate",
+            "authorVerified",
+            "avatarUrl",
+            "caption",
+            "captionEdited",
+            "carouselCount",
+            "coauthors",
+            "comments",
+            "countsHidden",
+            "createdUtc",
+            "hasAudio",
+            "hashtags",
+            "height",
+            "id",
+            "image",
+            "likes",
+            "locationId",
+            "locationLat",
+            "locationLng",
+            "locationName",
+            "mediaType",
+            "mentions",
+            "nextCursor",
+            "paidPartnership",
+            "posts",
+            "productType",
+            "reshares",
+            "shortcode",
+            "soundAuthor",
+            "soundTitle",
+            "taggedUsers",
+            "url",
+            "videoDurationSeconds",
+            "videoUrl",
+            "views",
+            "width"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
