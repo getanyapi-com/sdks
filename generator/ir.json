@@ -119949,7 +119949,7 @@
       "inputTypeName": "ShopifyProductInput",
       "outputTypeName": "ShopifyProductData",
       "example": {
-        "product": "mens-strider",
+        "product": "anytime-ankle-sock-natural-grey-heather",
         "store": "allbirds.com"
       },
       "input": {
@@ -119980,7 +119980,7 @@
           },
           "product": {
             "kind": "string",
-            "description": "Product handle, the slug after /products/ in the product URL, e.g. mens-strider; the full product page URL also works.",
+            "description": "Product handle, the slug after /products/ in the product URL, e.g. anytime-ankle-sock-natural-grey-heather; the full product page URL also works.",
             "enum": null,
             "default": null,
             "format": null

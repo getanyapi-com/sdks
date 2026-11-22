@@ -25,7 +25,7 @@ export interface ShopifyProductInput {
    */
   preferLatencyUnderMs?: number;
   /**
-   * Product handle, the slug after /products/ in the product URL, e.g. mens-strider; the full product page URL also works.
+   * Product handle, the slug after /products/ in the product URL, e.g. anytime-ankle-sock-natural-grey-heather; the full product page URL also works.
    */
   product: string;
   /**
@@ -643,7 +643,7 @@ export class ShopifyNamespace {
    * Price: $0.00085 per request.
    *
    * @example
-   * const res = await client.shopify.product({ product: "mens-strider", store: "allbirds.com" });
+   * const res = await client.shopify.product({ product: "anytime-ankle-sock-natural-grey-heather", store: "allbirds.com" });
    */
   product(
     input: ShopifyProductInput,

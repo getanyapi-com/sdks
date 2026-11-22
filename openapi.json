@@ -264851,13 +264851,13 @@
           "content": {
             "application/json": {
               "example": {
-                "product": "mens-strider",
+                "product": "anytime-ankle-sock-natural-grey-heather",
                 "store": "allbirds.com"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "product": "mens-strider",
+                  "product": "anytime-ankle-sock-natural-grey-heather",
                   "store": "allbirds.com"
                 },
                 "properties": {
@@ -264881,7 +264881,7 @@
                     "type": "integer"
                   },
                   "product": {
-                    "description": "Product handle, the slug after /products/ in the product URL, e.g. mens-strider; the full product page URL also works.",
+                    "description": "Product handle, the slug after /products/ in the product URL, e.g. anytime-ankle-sock-natural-grey-heather; the full product page URL also works.",
                     "minLength": 1,
                     "type": "string"
                   },
