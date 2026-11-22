@@ -73659,7 +73659,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.00249,
+        "priceUsd": 0.0023,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -78038,7 +78038,7 @@
       "category": "social",
       "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.",
       "pricing": {
-        "priceUsd": 0.00245,
+        "priceUsd": 0.0023,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -128331,7 +128331,7 @@
           "properties": {
             "posts": {
               "kind": "array",
-              "description": "One response of about the 15 most recent posts; there is no next page. A pinned post can come first even when it is older, so sort by createdUtc for newest first. Populated whenever the provider has data for the entity.",
+              "description": "One page of recent public posts (typically about 15); there is no next page. An older pinned post may appear first. Populated whenever the provider has data for the entity.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -142647,7 +142647,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00047,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

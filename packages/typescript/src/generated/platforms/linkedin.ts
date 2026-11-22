@@ -7013,7 +7013,7 @@ export class LinkedinNamespace {
    *
    * Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.
    *
-   * Price: $0.00249 per request.
+   * Price: $0.0023 per request.
    *
    * @example
    * const res = await client.linkedin.profile({ url: "https://www.linkedin.com/in/patrickcollison" });
@@ -7258,7 +7258,7 @@ export class LinkedinNamespace {
    *
    * Search public LinkedIn posts with rich author, engagement, attachment, and poll details.
    *
-   * Price: $0.00245 per request.
+   * Price: $0.0023 per request.
    *
    * @example
    * const res = await client.linkedin.searchPostsFull({ query: "artificial intelligence", datePosted: "last-week", limit: 10, sort: "relevance" });

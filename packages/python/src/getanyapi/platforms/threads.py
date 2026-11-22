@@ -250,7 +250,7 @@ class ThreadsSearchUsersUser(BaseModel):
 
 class ThreadsUserPostsData(BaseModel):
     posts: list[ThreadsUserPostsPost] = Field(
-        description="One response of about the 15 most recent posts; there is no next page. A pinned post can come first even when it is older, so sort by createdUtc for newest first. Populated whenever the provider has data for the entity."
+        description="One page of recent public posts (typically about 15); there is no next page. An older pinned post may appear first. Populated whenever the provider has data for the entity."
     )
 
 
