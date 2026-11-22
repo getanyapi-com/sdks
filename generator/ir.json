@@ -61266,7 +61266,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0022,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -142641,7 +142641,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00047,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
