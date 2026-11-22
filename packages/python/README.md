@@ -117,7 +117,7 @@ res = client.google.search(
 | `InsufficientBalanceError` | 402  | Wallet balance or per-key cap exceeded     |
 | `NotFoundError`            | 404  | Slug or resource does not exist            |
 | `ResultNotFoundError`      | -    | `unwrap` on an empty found-data result     |
-| `RateLimitedError`         | 429  | Too many requests (retried automatically)  |
+| `RateLimitedError`         | 429  | Too many requests; see below               |
 | `UpstreamError`            | 502  | An upstream backend failed                 |
 | `ConnectionError`          | 0    | Network or transport failure               |
 | `TimeoutError`             | 0    | Request exceeded its timeout (not retried) |
@@ -128,6 +128,14 @@ exponential backoff honoring `Retry-After`. Default `max_retries` is 2 (up to 3 
 on the client (`AnyAPI(max_retries=...)`) or per request via `options`. Timeouts are never
 retried. Connection failures during or after a billed `POST /v1/run` are not retried because the
 call may already have been charged. When the send phase is unknown, the SDK does not retry.
+
+### Rate limits
+
+Each account may start a limited number of new requests to one API per UTC minute. A request over
+the limit gets `429` with `code` `rate_limited` and `Retry-After` set to the seconds until the
+next minute; nothing was run or charged. `RateLimitedError.retry_after_seconds` carries that delay. The SDK
+retries a 429 only when its `Retry-After` is 8 seconds or less, waiting it in full; a longer one
+is raised at once so you can wait or spread the load.
 
 ### Waiting out a run that is still in flight
 
