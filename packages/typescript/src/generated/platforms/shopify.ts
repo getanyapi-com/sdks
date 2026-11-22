@@ -225,7 +225,7 @@ export interface ShopifyProductsInput {
    */
   onlyOnSale?: boolean;
   /**
-   * 1-based page of the store's product list. Each page is billed as one request.
+   * 1-based page of the store's product list. Each page is billed as one request. Shopify serves only a store's first 25,000 products, so page times limit can reach at most 25,000.
    * Range: minimum 1.
    * Default: 1.
    */

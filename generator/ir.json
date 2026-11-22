@@ -63629,7 +63629,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00069,
+        "priceUsd": 0.00068,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -120394,7 +120394,7 @@
           },
           "page": {
             "kind": "integer",
-            "description": "1-based page of the store's product list. Each page is billed as one request.",
+            "description": "1-based page of the store's product list. Each page is billed as one request. Shopify serves only a store's first 25,000 products, so page times limit can reach at most 25,000.",
             "minimum": 1,
             "maximum": null,
             "default": 1
