@@ -5235,7 +5235,7 @@ class InstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00175 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -5590,7 +5590,7 @@ class InstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.0022 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -5699,7 +5699,7 @@ class InstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.00135 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")
@@ -6620,7 +6620,7 @@ class AsyncInstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.00175 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -6975,7 +6975,7 @@ class AsyncInstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.0022 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -7084,7 +7084,7 @@ class AsyncInstagramNamespace:
         List the posts an Instagram user is tagged in, with cursor pagination
         (author, caption, likes, comments).
 
-        Price: $0.00135 per request.
+        Price: $0.00188 per request.
 
         Example:
             res = client.instagram.tagged_posts(handle="nasa")

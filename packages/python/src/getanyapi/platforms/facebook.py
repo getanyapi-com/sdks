@@ -3170,7 +3170,7 @@ class FacebookNamespace:
         Fetch recent posts from any public Facebook group by URL: text, author,
         reactions, and comment counts.
 
-        Price: $0.00072 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
@@ -4025,7 +4025,7 @@ class AsyncFacebookNamespace:
         Fetch recent posts from any public Facebook group by URL: text, author,
         reactions, and comment counts.
 
-        Price: $0.00072 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.group_posts(url="https://www.facebook.com/groups/instantpotcommunity/")
