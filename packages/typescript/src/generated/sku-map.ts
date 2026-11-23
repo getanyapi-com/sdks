@@ -572,6 +572,8 @@ import type {
   LinkedinProfileReactionsInput,
   LinkedinProfileThinData,
   LinkedinProfileThinInput,
+  LinkedinSearchAccountsData,
+  LinkedinSearchAccountsInput,
   LinkedinSearchCompaniesData,
   LinkedinSearchCompaniesInput,
   LinkedinSearchGroupsData,
@@ -2395,6 +2397,11 @@ export interface SkuMap {
     input: LinkedinProfileThinInput;
     data: LinkedinProfileThinData;
     result: RunResult<LinkedinProfileThinData>;
+  };
+  "linkedin.search_accounts": {
+    input: LinkedinSearchAccountsInput;
+    data: LinkedinSearchAccountsData;
+    result: RunResult<LinkedinSearchAccountsData>;
   };
   "linkedin.search_companies": {
     input: LinkedinSearchCompaniesInput;

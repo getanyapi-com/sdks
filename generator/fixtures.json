@@ -4889,6 +4889,24 @@
     "items": 1,
     "replayed": false
   },
+  "linkedin.search_accounts": {
+    "output": {
+      "found": true,
+      "data": {
+        "items": [
+          {
+            "id": "sample",
+            "url": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "linkedin.search_companies": {
     "output": {
       "found": true,

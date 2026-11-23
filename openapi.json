@@ -96404,7 +96404,7 @@
     },
     "/v1/run/facebook.search_posts": {
       "post": {
-        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$16.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$16.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_search_posts",
         "parameters": [
           {
@@ -118967,7 +118967,7 @@
     },
     "/v1/run/google.search_100": {
       "post": {
-        "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Search Top 100 pricing and uptime](https://getanyapi.com/api/google/search-100) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Search Top 100 pricing and uptime](https://getanyapi.com/api/google/search-100) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_search_100",
         "parameters": [
           {
@@ -141534,7 +141534,7 @@
     },
     "/v1/run/instagram.post": {
       "post": {
-        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.38 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.\n\n**Price:** \\$0.38 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Post pricing and uptime](https://getanyapi.com/api/instagram/post) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_post",
         "parameters": [
           {
@@ -156774,7 +156774,7 @@
     },
     "/v1/run/instagram.user_posts": {
       "post": {
-        "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.\n\n**Price:** \\$0.68 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Posts pricing and uptime](https://getanyapi.com/api/instagram/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.\n\n**Price:** \\$0.67 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Posts pricing and uptime](https://getanyapi.com/api/instagram/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_posts",
         "parameters": [
           {
@@ -157543,7 +157543,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000680",
+            "amount": "0.000670",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -157585,7 +157585,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001680",
+                "amount": "0.001670",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -157617,7 +157617,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000680",
+                "amount": "0.000670",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -157646,7 +157646,7 @@
     },
     "/v1/run/instagram.user_reels": {
       "post": {
-        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.67 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 10 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).\n\n**Price:** \\$0.67 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 9 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram User Reels pricing and uptime](https://getanyapi.com/api/instagram/user-reels) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_user_reels",
         "parameters": [
           {
@@ -181806,7 +181806,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -182561,6 +182561,1599 @@
               },
               "pricing": {
                 "amount": "0.000800",
+                "currency": "USD",
+                "minimumUsd": null,
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              },
+              "rail": "mpp",
+              "settlement": {
+                "onExecutionFailure": "charged_undelivered",
+                "onVerificationError": "indeterminate",
+                "timing": "before_execution"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "/v1/run/linkedin.search_accounts": {
+      "post": {
+        "description": "LinkedIn company search with Sales Navigator's account filters: one call returns a page of up to 25 companies matching filters on industry, headquarters location, headcount, and follower count, with industries and headquarters locations to exclude. Each company comes with name, industry, size, description, and logo, and its url opens the company page and can be passed to linkedin.company for the full record. To search companies by keyword use linkedin.search_companies; to find people at matching companies use linkedin.search_leads.\n\n**Price:** \\$70.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Sales Navigator Account Search pricing and uptime](https://getanyapi.com/api/linkedin/search-accounts) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "operationId": "linkedin_search_accounts",
+        "parameters": [
+          {
+            "description": "Optional. Comma-separated keys (dotted paths like `author.name` descend into nested objects) to keep on each result item: each row of the API's result list, or the `data` object itself for an API that returns one record. Keys are matched relative to that item, not against the top-level response envelope, so use `jq` to reshape the whole envelope. Shrinks the response without changing cost.",
+            "in": "query",
+            "name": "fields",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. Cap the number of result rows returned; a `_truncated` note reports how many were withheld so you can page via the API's own `limit`. An API that returns one record is not trimmed. Does not change cost.",
+            "in": "query",
+            "name": "max_items",
+            "required": false,
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Optional. Return only a structural outline (top-level keys, item counts, and per-field byte sizes) instead of the full data. Does not change cost.",
+            "in": "query",
+            "name": "summary",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Optional. A jq expression applied to the result envelope; its output replaces `output` (multiple outputs collect into an array). Reshape freely, e.g. `jq=.data | {title, description, md: .markdown[:3500]}`. Runs sandboxed with a 250ms / 2MB budget; on failure the full result is returned with a `jqError`. Does not change cost.",
+            "in": "query",
+            "name": "jq",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional. The most you are willing to pay for this one request, in US dollars (for example 0.05). Any route that would charge more than this is not used, so a request only ever runs on something you can afford. If nothing is available at or below your amount, the request is refused before it runs, nothing is charged, and the message tells you the cheapest price per request so you can raise it. Leave it out to accept the normal price.",
+            "in": "query",
+            "name": "max_cost_usd",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Optional wallet idempotency key, scoped to this customer for 24 hours. When the gateway honors the key, this synchronous in-process execution can continue after the caller disconnects, bounded by its execution deadline. A completed replayable result charges normally exactly once and can be replayed without another provider run or charge. A pending duplicate returns 409 idempotency_in_progress; reuse with different request semantics returns 409 idempotency_conflict.",
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "companyHeadcount": [
+                  "D"
+                ],
+                "industry": [
+                  "Software Development"
+                ],
+                "location": "United States"
+              },
+              "schema": {
+                "additionalProperties": false,
+                "anyOf": [
+                  {
+                    "required": [
+                      "industry"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "location"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "companyHeadcount"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "followers"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "excludeIndustries"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "excludeLocations"
+                    ]
+                  }
+                ],
+                "description": "At least one filter is required: industry, location, companyHeadcount, followers, excludeIndustries, or excludeLocations.",
+                "example": {
+                  "companyHeadcount": [
+                    "D"
+                  ],
+                  "industry": [
+                    "Software Development"
+                  ],
+                  "location": "United States"
+                },
+                "properties": {
+                  "allowFallbacks": {
+                    "default": true,
+                    "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
+                    "type": "boolean"
+                  },
+                  "companyHeadcount": {
+                    "description": "Filter by LinkedIn's headcount band for the company. Codes: B=1-10, C=11-50, D=51-200, E=201-500, F=501-1,000, G=1,001-5,000, H=5,001-10,000, I=10,001+ (the same codes as linkedin.search_leads; there is no Self-Employed code for companies). The band is LinkedIn's own, so a result's employeeCountRange or employeesOnLinkedInText can fall outside it.",
+                    "items": {
+                      "enum": [
+                        "B",
+                        "C",
+                        "D",
+                        "E",
+                        "F",
+                        "G",
+                        "H",
+                        "I"
+                      ],
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "excludeIndustries": {
+                    "description": "Exclude companies in any of these LinkedIn industries, by name (same names as industry). Up to 70 values.",
+                    "items": {
+                      "enum": [
+                        "Abrasives and Nonmetallic Minerals Manufacturing",
+                        "Accessible Architecture and Design",
+                        "Accessible Hardware Manufacturing",
+                        "Accommodation Services",
+                        "Accounting",
+                        "Administration of Justice",
+                        "Administrative and Support Services",
+                        "Advertising Services",
+                        "Agricultural Chemical Manufacturing",
+                        "Agriculture, Construction, Mining Machinery Manufacturing",
+                        "Air, Water, and Waste Program Management",
+                        "Airlines and Aviation",
+                        "Alternative Dispute Resolution",
+                        "Alternative Fuel Vehicle Manufacturing",
+                        "Alternative Medicine",
+                        "Ambulance Services",
+                        "Amusement Parks and Arcades",
+                        "Animal Feed Manufacturing",
+                        "Animation and Post-production",
+                        "Apparel Manufacturing",
+                        "Appliances, Electrical, and Electronics Manufacturing",
+                        "Architectural and Structural Metal Manufacturing",
+                        "Architecture and Planning",
+                        "Armed Forces",
+                        "Artificial Rubber and Synthetic Fiber Manufacturing",
+                        "Artists and Writers",
+                        "Audio and Video Equipment Manufacturing",
+                        "Automation Machinery Manufacturing",
+                        "Aviation and Aerospace Component Manufacturing",
+                        "Baked Goods Manufacturing",
+                        "Banking",
+                        "Bars, Taverns, and Nightclubs",
+                        "Bed-and-Breakfasts, Hostels, Homestays",
+                        "Beverage Manufacturing",
+                        "Biomass Electric Power Generation",
+                        "Biotechnology Research",
+                        "Blockchain Services",
+                        "Blogs",
+                        "Boilers, Tanks, and Shipping Container Manufacturing",
+                        "Book and Periodical Publishing",
+                        "Book Publishing",
+                        "Breweries",
+                        "Broadcast Media Production and Distribution",
+                        "Building Construction",
+                        "Building Equipment Contractors",
+                        "Building Finishing Contractors",
+                        "Building Structure and Exterior Contractors",
+                        "Business Consulting and Services",
+                        "Business Content",
+                        "Business Intelligence Platforms",
+                        "Cable and Satellite Programming",
+                        "Capital Markets",
+                        "Caterers",
+                        "Chemical Manufacturing",
+                        "Chemical Raw Materials Manufacturing",
+                        "Child Day Care Services",
+                        "Chiropractors",
+                        "Circuses and Magic Shows",
+                        "Civic and Social Organizations",
+                        "Civil Engineering",
+                        "Claims Adjusting, Actuarial Services",
+                        "Clay and Refractory Products Manufacturing",
+                        "Climate Data and Analytics",
+                        "Climate Technology Product Manufacturing",
+                        "Coal Mining",
+                        "Collection Agencies",
+                        "Commercial and Industrial Equipment Rental",
+                        "Commercial and Industrial Machinery Maintenance",
+                        "Commercial and Service Industry Machinery Manufacturing",
+                        "Communications Equipment Manufacturing",
+                        "Community Development and Urban Planning",
+                        "Community Services",
+                        "Computer and Network Security",
+                        "Computer Games",
+                        "Computer Hardware Manufacturing",
+                        "Computer Networking Products",
+                        "Computers and Electronics Manufacturing",
+                        "Conservation Programs",
+                        "Construction",
+                        "Construction Hardware Manufacturing",
+                        "Consumer Goods Rental",
+                        "Consumer Services",
+                        "Correctional Institutions",
+                        "Cosmetology and Barber Schools",
+                        "Courts of Law",
+                        "Credit Intermediation",
+                        "Cutlery and Handtool Manufacturing",
+                        "Dairy Product Manufacturing",
+                        "Dance Companies",
+                        "Data Infrastructure and Analytics",
+                        "Data Security Software Products",
+                        "Defense and Space Manufacturing",
+                        "Dentists",
+                        "Design Services",
+                        "Desktop Computing Software Products",
+                        "Digital Accessibility Services",
+                        "Distilleries",
+                        "E-Learning Providers",
+                        "Economic Programs",
+                        "Education",
+                        "Education Administration Programs",
+                        "Electric Lighting Equipment Manufacturing",
+                        "Electric Power Generation",
+                        "Electric Power Transmission, Control, and Distribution",
+                        "Electrical Equipment Manufacturing",
+                        "Electronic and Precision Equipment Maintenance",
+                        "Embedded Software Products",
+                        "Emergency and Relief Services",
+                        "Engineering Services",
+                        "Engines and Power Transmission Equipment Manufacturing",
+                        "Entertainment Providers",
+                        "Environmental Quality Programs",
+                        "Environmental Services",
+                        "Equipment Rental Services",
+                        "Events Services",
+                        "Executive Offices",
+                        "Executive Search Services",
+                        "Fabricated Metal Products",
+                        "Facilities Services",
+                        "Family Planning Centers",
+                        "Farming",
+                        "Farming, Ranching, Forestry",
+                        "Fashion Accessories Manufacturing",
+                        "Financial Services",
+                        "Fine Arts Schools",
+                        "Fire Protection",
+                        "Fisheries",
+                        "Flight Training",
+                        "Food and Beverage Manufacturing",
+                        "Food and Beverage Retail",
+                        "Food and Beverage Services",
+                        "Footwear and Leather Goods Repair",
+                        "Footwear Manufacturing",
+                        "Forestry and Logging",
+                        "Fossil Fuel Electric Power Generation",
+                        "Freight and Package Transportation",
+                        "Fruit and Vegetable Preserves Manufacturing",
+                        "Fuel Cell Manufacturing",
+                        "Fundraising",
+                        "Funds and Trusts",
+                        "Furniture and Home Furnishings Manufacturing",
+                        "Gambling Facilities and Casinos",
+                        "Geothermal Electric Power Generation",
+                        "Glass Product Manufacturing",
+                        "Glass, Ceramics and Concrete Manufacturing",
+                        "Golf Courses and Country Clubs",
+                        "Government Administration",
+                        "Government Relations Services",
+                        "Graphic Design",
+                        "Ground Passenger Transportation",
+                        "Health and Human Services",
+                        "Higher Education",
+                        "Highway, Street, and Bridge Construction",
+                        "Historical Sites",
+                        "Holding Companies",
+                        "Home Health Care Services",
+                        "Horticulture",
+                        "Hospitality",
+                        "Hospitals",
+                        "Hospitals and Health Care",
+                        "Hotels and Motels",
+                        "Household and Institutional Furniture Manufacturing",
+                        "Household Appliance Manufacturing",
+                        "Household Services",
+                        "Housing and Community Development",
+                        "Housing Programs",
+                        "Human Resources Services",
+                        "HVAC and Refrigeration Equipment Manufacturing",
+                        "Hydroelectric Power Generation",
+                        "Individual and Family Services",
+                        "Industrial Machinery Manufacturing",
+                        "Industry Associations",
+                        "Information Services",
+                        "Insurance",
+                        "Insurance Agencies and Brokerages",
+                        "Insurance and Employee Benefit Funds",
+                        "Insurance Carriers",
+                        "Interior Design",
+                        "International Affairs",
+                        "International Trade and Development",
+                        "Internet Marketplace Platforms",
+                        "Internet News",
+                        "Internet Publishing",
+                        "Interurban and Rural Bus Services",
+                        "Investment Advice",
+                        "Investment Banking",
+                        "Investment Management",
+                        "IT Services and IT Consulting",
+                        "IT System Custom Software Development",
+                        "IT System Data Services",
+                        "IT System Design Services",
+                        "IT System Installation and Disposal",
+                        "IT System Operations and Maintenance",
+                        "IT System Testing and Evaluation",
+                        "IT System Training and Support",
+                        "Janitorial Services",
+                        "Landscaping Services",
+                        "Language Schools",
+                        "Laundry and Drycleaning Services",
+                        "Law Enforcement",
+                        "Law Practice",
+                        "Leasing Non-residential Real Estate",
+                        "Leasing Residential Real Estate",
+                        "Leather Product Manufacturing",
+                        "Legal Services",
+                        "Legislative Offices",
+                        "Libraries",
+                        "Lime and Gypsum Products Manufacturing",
+                        "Loan Brokers",
+                        "Machinery Manufacturing",
+                        "Magnetic and Optical Media Manufacturing",
+                        "Manufacturing",
+                        "Maritime Transportation",
+                        "Market Research",
+                        "Marketing Services",
+                        "Mattress and Blinds Manufacturing",
+                        "Measuring and Control Instrument Manufacturing",
+                        "Meat Products Manufacturing",
+                        "Media & Telecommunications",
+                        "Media Production",
+                        "Medical and Diagnostic Laboratories",
+                        "Medical Equipment Manufacturing",
+                        "Medical Practices",
+                        "Mental Health Care",
+                        "Metal Ore Mining",
+                        "Metal Treatments",
+                        "Metal Valve, Ball, and Roller Manufacturing",
+                        "Metalworking Machinery Manufacturing",
+                        "Military and International Affairs",
+                        "Mining",
+                        "Mobile Computing Software Products",
+                        "Mobile Food Services",
+                        "Mobile Gaming Apps",
+                        "Motor Vehicle Manufacturing",
+                        "Motor Vehicle Parts Manufacturing",
+                        "Movies and Sound Recording",
+                        "Movies, Videos and Sound",
+                        "Museums",
+                        "Museums, Historical Sites, and Zoos",
+                        "Musicians",
+                        "Nanotechnology Research",
+                        "Natural Gas Distribution",
+                        "Natural Gas Extraction",
+                        "Newspaper Publishing",
+                        "Non-profit Organizations",
+                        "Nonmetallic Mineral Mining",
+                        "Nonresidential Building Construction",
+                        "Nuclear Electric Power Generation",
+                        "Nursing Homes and Residential Care Facilities",
+                        "Office Administration",
+                        "Office Furniture and Fixtures Manufacturing",
+                        "Oil and Coal Product Manufacturing",
+                        "Oil and Gas",
+                        "Oil Extraction",
+                        "Oil, Gas, and Mining",
+                        "Online and Mail Order Retail",
+                        "Online Audio and Video Media",
+                        "Operations Consulting",
+                        "Optometrists",
+                        "Outpatient Care Centers",
+                        "Outsourcing and Offshoring Consulting",
+                        "Packaging and Containers Manufacturing",
+                        "Paint, Coating, and Adhesive Manufacturing",
+                        "Paper and Forest Product Manufacturing",
+                        "Pension Funds",
+                        "Performing Arts",
+                        "Performing Arts and Spectator Sports",
+                        "Periodical Publishing",
+                        "Personal and Laundry Services",
+                        "Personal Care Product Manufacturing",
+                        "Personal Care Services",
+                        "Pet Services",
+                        "Pharmaceutical Manufacturing",
+                        "Philanthropic Fundraising Services",
+                        "Photography",
+                        "Physical, Occupational and Speech Therapists",
+                        "Physicians",
+                        "Pipeline Transportation",
+                        "Plastics and Rubber Product Manufacturing",
+                        "Plastics Manufacturing",
+                        "Political Organizations",
+                        "Postal Services",
+                        "Primary and Secondary Education",
+                        "Primary Metal Manufacturing",
+                        "Printing Services",
+                        "Professional Organizations",
+                        "Professional Services",
+                        "Professional Training and Coaching",
+                        "Public Assistance Programs",
+                        "Public Health",
+                        "Public Policy Offices",
+                        "Public Relations and Communications Services",
+                        "Public Safety",
+                        "Racetracks",
+                        "Radio and Television Broadcasting",
+                        "Rail Transportation",
+                        "Railroad Equipment Manufacturing",
+                        "Ranching",
+                        "Ranching and Fisheries",
+                        "Real Estate",
+                        "Real Estate Agents and Brokers",
+                        "Real Estate and Equipment Rental Services",
+                        "Recreational Facilities",
+                        "Regenerative Design",
+                        "Religious Institutions",
+                        "Renewable Energy Equipment Manufacturing",
+                        "Renewable Energy Power Generation",
+                        "Renewable Energy Semiconductor Manufacturing",
+                        "Repair and Maintenance",
+                        "Research Services",
+                        "Residential Building Construction",
+                        "Restaurants",
+                        "Retail",
+                        "Retail Apparel and Fashion",
+                        "Retail Appliances, Electrical, and Electronic Equipment",
+                        "Retail Art Dealers",
+                        "Retail Art Supplies",
+                        "Retail Books and Printed News",
+                        "Retail Building Materials and Garden Equipment",
+                        "Retail Florists",
+                        "Retail Furniture and Home Furnishings",
+                        "Retail Gasoline",
+                        "Retail Groceries",
+                        "Retail Health and Personal Care Products",
+                        "Retail Luxury Goods and Jewelry",
+                        "Retail Motor Vehicles",
+                        "Retail Musical Instruments",
+                        "Retail Office Equipment",
+                        "Retail Office Supplies and Gifts",
+                        "Retail Pharmacies",
+                        "Retail Recyclable Materials & Used Merchandise",
+                        "Reupholstery and Furniture Repair",
+                        "Robot Manufacturing",
+                        "Robotics Engineering",
+                        "Rubber Products Manufacturing",
+                        "Satellite Telecommunications",
+                        "Savings Institutions",
+                        "School and Employee Bus Services",
+                        "Seafood Product Manufacturing",
+                        "Secretarial Schools",
+                        "Securities and Commodity Exchanges",
+                        "Security and Investigations",
+                        "Security Guards and Patrol Services",
+                        "Security Systems Services",
+                        "Semiconductor Manufacturing",
+                        "Services for Renewable Energy",
+                        "Services for the Elderly and Disabled",
+                        "Sheet Music Publishing",
+                        "Shipbuilding",
+                        "Shuttles and Special Needs Transportation Services",
+                        "Sightseeing Transportation",
+                        "Skiing Facilities",
+                        "Smart Meter Manufacturing",
+                        "Soap and Cleaning Product Manufacturing",
+                        "Social Networking Platforms",
+                        "Software Development",
+                        "Solar Electric Power Generation",
+                        "Sound Recording",
+                        "Space Research and Technology",
+                        "Specialty Trade Contractors",
+                        "Spectator Sports",
+                        "Sporting Goods Manufacturing",
+                        "Sports and Recreation Instruction",
+                        "Sports Teams and Clubs",
+                        "Spring and Wire Product Manufacturing",
+                        "Staffing and Recruiting",
+                        "Steam and Air-Conditioning Supply",
+                        "Strategic Management Services",
+                        "Subdivision of Land",
+                        "Sugar and Confectionery Product Manufacturing",
+                        "Surveying and Mapping Services",
+                        "Taxi and Limousine Services",
+                        "Technical and Vocational Training",
+                        "Technology, Information and Internet",
+                        "Technology, Information and Media",
+                        "Telecommunications",
+                        "Telecommunications Carriers",
+                        "Telephone Call Centers",
+                        "Temporary Help Services",
+                        "Textile Manufacturing",
+                        "Theater Companies",
+                        "Think Tanks",
+                        "Tobacco Manufacturing",
+                        "Translation and Localization",
+                        "Transportation Equipment Manufacturing",
+                        "Transportation Programs",
+                        "Transportation, Logistics, Supply Chain and Storage",
+                        "Travel Arrangements",
+                        "Truck Transportation",
+                        "Trusts and Estates",
+                        "Turned Products and Fastener Manufacturing",
+                        "Urban Transit Services",
+                        "Utilities",
+                        "Utilities Administration",
+                        "Utility System Construction",
+                        "Vehicle Repair and Maintenance",
+                        "Venture Capital and Private Equity Principals",
+                        "Veterinary Services",
+                        "Vocational Rehabilitation Services",
+                        "Warehousing and Storage",
+                        "Waste Collection",
+                        "Waste Treatment and Disposal",
+                        "Water Supply and Irrigation Systems",
+                        "Water, Waste, Steam, and Air Conditioning Services",
+                        "Wellness and Fitness Services",
+                        "Wholesale",
+                        "Wholesale Alcoholic Beverages",
+                        "Wholesale Apparel and Sewing Supplies",
+                        "Wholesale Appliances, Electrical, and Electronics",
+                        "Wholesale Building Materials",
+                        "Wholesale Chemical and Allied Products",
+                        "Wholesale Computer Equipment",
+                        "Wholesale Drugs and Sundries",
+                        "Wholesale Food and Beverage",
+                        "Wholesale Footwear",
+                        "Wholesale Furniture and Home Furnishings",
+                        "Wholesale Hardware, Plumbing, Heating Equipment",
+                        "Wholesale Import and Export",
+                        "Wholesale Luxury Goods and Jewelry",
+                        "Wholesale Machinery",
+                        "Wholesale Metals and Minerals",
+                        "Wholesale Motor Vehicles and Parts",
+                        "Wholesale Paper Products",
+                        "Wholesale Petroleum and Petroleum Products",
+                        "Wholesale Photography Equipment and Supplies",
+                        "Wholesale Raw Farm Products",
+                        "Wholesale Recyclable Materials",
+                        "Wind Electric Power Generation",
+                        "Wineries",
+                        "Wireless Services",
+                        "Women's Handbag Manufacturing",
+                        "Wood Product Manufacturing",
+                        "Writing and Editing",
+                        "Zoos and Botanical Gardens"
+                      ],
+                      "type": "string"
+                    },
+                    "maxItems": 70,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "excludeLocations": {
+                    "description": "Exclude companies headquartered in any of these locations, by place name. Best effort: companies headquartered in an excluded location can still appear. Commas are not allowed in a value. Up to 70 values.",
+                    "items": {
+                      "minLength": 1,
+                      "pattern": "^[^,]*[^,\\s][^,]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 70,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "followers": {
+                    "description": "Filter by how many LinkedIn followers the company page has, as one or more ranges: 1-50, 51-100, 101-1000, 1001-5000, 5001+.",
+                    "items": {
+                      "enum": [
+                        "1-50",
+                        "51-100",
+                        "101-1000",
+                        "1001-5000",
+                        "5001+"
+                      ],
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "ignoreSources": {
+                    "description": "Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "industry": {
+                    "description": "Filter to companies in any of these LinkedIn industries, by name (e.g. ['Software Development']). A broad industry also matches its sub-industries (Software Development includes Computer Games). Up to 70 values.",
+                    "items": {
+                      "enum": [
+                        "Abrasives and Nonmetallic Minerals Manufacturing",
+                        "Accessible Architecture and Design",
+                        "Accessible Hardware Manufacturing",
+                        "Accommodation Services",
+                        "Accounting",
+                        "Administration of Justice",
+                        "Administrative and Support Services",
+                        "Advertising Services",
+                        "Agricultural Chemical Manufacturing",
+                        "Agriculture, Construction, Mining Machinery Manufacturing",
+                        "Air, Water, and Waste Program Management",
+                        "Airlines and Aviation",
+                        "Alternative Dispute Resolution",
+                        "Alternative Fuel Vehicle Manufacturing",
+                        "Alternative Medicine",
+                        "Ambulance Services",
+                        "Amusement Parks and Arcades",
+                        "Animal Feed Manufacturing",
+                        "Animation and Post-production",
+                        "Apparel Manufacturing",
+                        "Appliances, Electrical, and Electronics Manufacturing",
+                        "Architectural and Structural Metal Manufacturing",
+                        "Architecture and Planning",
+                        "Armed Forces",
+                        "Artificial Rubber and Synthetic Fiber Manufacturing",
+                        "Artists and Writers",
+                        "Audio and Video Equipment Manufacturing",
+                        "Automation Machinery Manufacturing",
+                        "Aviation and Aerospace Component Manufacturing",
+                        "Baked Goods Manufacturing",
+                        "Banking",
+                        "Bars, Taverns, and Nightclubs",
+                        "Bed-and-Breakfasts, Hostels, Homestays",
+                        "Beverage Manufacturing",
+                        "Biomass Electric Power Generation",
+                        "Biotechnology Research",
+                        "Blockchain Services",
+                        "Blogs",
+                        "Boilers, Tanks, and Shipping Container Manufacturing",
+                        "Book and Periodical Publishing",
+                        "Book Publishing",
+                        "Breweries",
+                        "Broadcast Media Production and Distribution",
+                        "Building Construction",
+                        "Building Equipment Contractors",
+                        "Building Finishing Contractors",
+                        "Building Structure and Exterior Contractors",
+                        "Business Consulting and Services",
+                        "Business Content",
+                        "Business Intelligence Platforms",
+                        "Cable and Satellite Programming",
+                        "Capital Markets",
+                        "Caterers",
+                        "Chemical Manufacturing",
+                        "Chemical Raw Materials Manufacturing",
+                        "Child Day Care Services",
+                        "Chiropractors",
+                        "Circuses and Magic Shows",
+                        "Civic and Social Organizations",
+                        "Civil Engineering",
+                        "Claims Adjusting, Actuarial Services",
+                        "Clay and Refractory Products Manufacturing",
+                        "Climate Data and Analytics",
+                        "Climate Technology Product Manufacturing",
+                        "Coal Mining",
+                        "Collection Agencies",
+                        "Commercial and Industrial Equipment Rental",
+                        "Commercial and Industrial Machinery Maintenance",
+                        "Commercial and Service Industry Machinery Manufacturing",
+                        "Communications Equipment Manufacturing",
+                        "Community Development and Urban Planning",
+                        "Community Services",
+                        "Computer and Network Security",
+                        "Computer Games",
+                        "Computer Hardware Manufacturing",
+                        "Computer Networking Products",
+                        "Computers and Electronics Manufacturing",
+                        "Conservation Programs",
+                        "Construction",
+                        "Construction Hardware Manufacturing",
+                        "Consumer Goods Rental",
+                        "Consumer Services",
+                        "Correctional Institutions",
+                        "Cosmetology and Barber Schools",
+                        "Courts of Law",
+                        "Credit Intermediation",
+                        "Cutlery and Handtool Manufacturing",
+                        "Dairy Product Manufacturing",
+                        "Dance Companies",
+                        "Data Infrastructure and Analytics",
+                        "Data Security Software Products",
+                        "Defense and Space Manufacturing",
+                        "Dentists",
+                        "Design Services",
+                        "Desktop Computing Software Products",
+                        "Digital Accessibility Services",
+                        "Distilleries",
+                        "E-Learning Providers",
+                        "Economic Programs",
+                        "Education",
+                        "Education Administration Programs",
+                        "Electric Lighting Equipment Manufacturing",
+                        "Electric Power Generation",
+                        "Electric Power Transmission, Control, and Distribution",
+                        "Electrical Equipment Manufacturing",
+                        "Electronic and Precision Equipment Maintenance",
+                        "Embedded Software Products",
+                        "Emergency and Relief Services",
+                        "Engineering Services",
+                        "Engines and Power Transmission Equipment Manufacturing",
+                        "Entertainment Providers",
+                        "Environmental Quality Programs",
+                        "Environmental Services",
+                        "Equipment Rental Services",
+                        "Events Services",
+                        "Executive Offices",
+                        "Executive Search Services",
+                        "Fabricated Metal Products",
+                        "Facilities Services",
+                        "Family Planning Centers",
+                        "Farming",
+                        "Farming, Ranching, Forestry",
+                        "Fashion Accessories Manufacturing",
+                        "Financial Services",
+                        "Fine Arts Schools",
+                        "Fire Protection",
+                        "Fisheries",
+                        "Flight Training",
+                        "Food and Beverage Manufacturing",
+                        "Food and Beverage Retail",
+                        "Food and Beverage Services",
+                        "Footwear and Leather Goods Repair",
+                        "Footwear Manufacturing",
+                        "Forestry and Logging",
+                        "Fossil Fuel Electric Power Generation",
+                        "Freight and Package Transportation",
+                        "Fruit and Vegetable Preserves Manufacturing",
+                        "Fuel Cell Manufacturing",
+                        "Fundraising",
+                        "Funds and Trusts",
+                        "Furniture and Home Furnishings Manufacturing",
+                        "Gambling Facilities and Casinos",
+                        "Geothermal Electric Power Generation",
+                        "Glass Product Manufacturing",
+                        "Glass, Ceramics and Concrete Manufacturing",
+                        "Golf Courses and Country Clubs",
+                        "Government Administration",
+                        "Government Relations Services",
+                        "Graphic Design",
+                        "Ground Passenger Transportation",
+                        "Health and Human Services",
+                        "Higher Education",
+                        "Highway, Street, and Bridge Construction",
+                        "Historical Sites",
+                        "Holding Companies",
+                        "Home Health Care Services",
+                        "Horticulture",
+                        "Hospitality",
+                        "Hospitals",
+                        "Hospitals and Health Care",
+                        "Hotels and Motels",
+                        "Household and Institutional Furniture Manufacturing",
+                        "Household Appliance Manufacturing",
+                        "Household Services",
+                        "Housing and Community Development",
+                        "Housing Programs",
+                        "Human Resources Services",
+                        "HVAC and Refrigeration Equipment Manufacturing",
+                        "Hydroelectric Power Generation",
+                        "Individual and Family Services",
+                        "Industrial Machinery Manufacturing",
+                        "Industry Associations",
+                        "Information Services",
+                        "Insurance",
+                        "Insurance Agencies and Brokerages",
+                        "Insurance and Employee Benefit Funds",
+                        "Insurance Carriers",
+                        "Interior Design",
+                        "International Affairs",
+                        "International Trade and Development",
+                        "Internet Marketplace Platforms",
+                        "Internet News",
+                        "Internet Publishing",
+                        "Interurban and Rural Bus Services",
+                        "Investment Advice",
+                        "Investment Banking",
+                        "Investment Management",
+                        "IT Services and IT Consulting",
+                        "IT System Custom Software Development",
+                        "IT System Data Services",
+                        "IT System Design Services",
+                        "IT System Installation and Disposal",
+                        "IT System Operations and Maintenance",
+                        "IT System Testing and Evaluation",
+                        "IT System Training and Support",
+                        "Janitorial Services",
+                        "Landscaping Services",
+                        "Language Schools",
+                        "Laundry and Drycleaning Services",
+                        "Law Enforcement",
+                        "Law Practice",
+                        "Leasing Non-residential Real Estate",
+                        "Leasing Residential Real Estate",
+                        "Leather Product Manufacturing",
+                        "Legal Services",
+                        "Legislative Offices",
+                        "Libraries",
+                        "Lime and Gypsum Products Manufacturing",
+                        "Loan Brokers",
+                        "Machinery Manufacturing",
+                        "Magnetic and Optical Media Manufacturing",
+                        "Manufacturing",
+                        "Maritime Transportation",
+                        "Market Research",
+                        "Marketing Services",
+                        "Mattress and Blinds Manufacturing",
+                        "Measuring and Control Instrument Manufacturing",
+                        "Meat Products Manufacturing",
+                        "Media & Telecommunications",
+                        "Media Production",
+                        "Medical and Diagnostic Laboratories",
+                        "Medical Equipment Manufacturing",
+                        "Medical Practices",
+                        "Mental Health Care",
+                        "Metal Ore Mining",
+                        "Metal Treatments",
+                        "Metal Valve, Ball, and Roller Manufacturing",
+                        "Metalworking Machinery Manufacturing",
+                        "Military and International Affairs",
+                        "Mining",
+                        "Mobile Computing Software Products",
+                        "Mobile Food Services",
+                        "Mobile Gaming Apps",
+                        "Motor Vehicle Manufacturing",
+                        "Motor Vehicle Parts Manufacturing",
+                        "Movies and Sound Recording",
+                        "Movies, Videos and Sound",
+                        "Museums",
+                        "Museums, Historical Sites, and Zoos",
+                        "Musicians",
+                        "Nanotechnology Research",
+                        "Natural Gas Distribution",
+                        "Natural Gas Extraction",
+                        "Newspaper Publishing",
+                        "Non-profit Organizations",
+                        "Nonmetallic Mineral Mining",
+                        "Nonresidential Building Construction",
+                        "Nuclear Electric Power Generation",
+                        "Nursing Homes and Residential Care Facilities",
+                        "Office Administration",
+                        "Office Furniture and Fixtures Manufacturing",
+                        "Oil and Coal Product Manufacturing",
+                        "Oil and Gas",
+                        "Oil Extraction",
+                        "Oil, Gas, and Mining",
+                        "Online and Mail Order Retail",
+                        "Online Audio and Video Media",
+                        "Operations Consulting",
+                        "Optometrists",
+                        "Outpatient Care Centers",
+                        "Outsourcing and Offshoring Consulting",
+                        "Packaging and Containers Manufacturing",
+                        "Paint, Coating, and Adhesive Manufacturing",
+                        "Paper and Forest Product Manufacturing",
+                        "Pension Funds",
+                        "Performing Arts",
+                        "Performing Arts and Spectator Sports",
+                        "Periodical Publishing",
+                        "Personal and Laundry Services",
+                        "Personal Care Product Manufacturing",
+                        "Personal Care Services",
+                        "Pet Services",
+                        "Pharmaceutical Manufacturing",
+                        "Philanthropic Fundraising Services",
+                        "Photography",
+                        "Physical, Occupational and Speech Therapists",
+                        "Physicians",
+                        "Pipeline Transportation",
+                        "Plastics and Rubber Product Manufacturing",
+                        "Plastics Manufacturing",
+                        "Political Organizations",
+                        "Postal Services",
+                        "Primary and Secondary Education",
+                        "Primary Metal Manufacturing",
+                        "Printing Services",
+                        "Professional Organizations",
+                        "Professional Services",
+                        "Professional Training and Coaching",
+                        "Public Assistance Programs",
+                        "Public Health",
+                        "Public Policy Offices",
+                        "Public Relations and Communications Services",
+                        "Public Safety",
+                        "Racetracks",
+                        "Radio and Television Broadcasting",
+                        "Rail Transportation",
+                        "Railroad Equipment Manufacturing",
+                        "Ranching",
+                        "Ranching and Fisheries",
+                        "Real Estate",
+                        "Real Estate Agents and Brokers",
+                        "Real Estate and Equipment Rental Services",
+                        "Recreational Facilities",
+                        "Regenerative Design",
+                        "Religious Institutions",
+                        "Renewable Energy Equipment Manufacturing",
+                        "Renewable Energy Power Generation",
+                        "Renewable Energy Semiconductor Manufacturing",
+                        "Repair and Maintenance",
+                        "Research Services",
+                        "Residential Building Construction",
+                        "Restaurants",
+                        "Retail",
+                        "Retail Apparel and Fashion",
+                        "Retail Appliances, Electrical, and Electronic Equipment",
+                        "Retail Art Dealers",
+                        "Retail Art Supplies",
+                        "Retail Books and Printed News",
+                        "Retail Building Materials and Garden Equipment",
+                        "Retail Florists",
+                        "Retail Furniture and Home Furnishings",
+                        "Retail Gasoline",
+                        "Retail Groceries",
+                        "Retail Health and Personal Care Products",
+                        "Retail Luxury Goods and Jewelry",
+                        "Retail Motor Vehicles",
+                        "Retail Musical Instruments",
+                        "Retail Office Equipment",
+                        "Retail Office Supplies and Gifts",
+                        "Retail Pharmacies",
+                        "Retail Recyclable Materials & Used Merchandise",
+                        "Reupholstery and Furniture Repair",
+                        "Robot Manufacturing",
+                        "Robotics Engineering",
+                        "Rubber Products Manufacturing",
+                        "Satellite Telecommunications",
+                        "Savings Institutions",
+                        "School and Employee Bus Services",
+                        "Seafood Product Manufacturing",
+                        "Secretarial Schools",
+                        "Securities and Commodity Exchanges",
+                        "Security and Investigations",
+                        "Security Guards and Patrol Services",
+                        "Security Systems Services",
+                        "Semiconductor Manufacturing",
+                        "Services for Renewable Energy",
+                        "Services for the Elderly and Disabled",
+                        "Sheet Music Publishing",
+                        "Shipbuilding",
+                        "Shuttles and Special Needs Transportation Services",
+                        "Sightseeing Transportation",
+                        "Skiing Facilities",
+                        "Smart Meter Manufacturing",
+                        "Soap and Cleaning Product Manufacturing",
+                        "Social Networking Platforms",
+                        "Software Development",
+                        "Solar Electric Power Generation",
+                        "Sound Recording",
+                        "Space Research and Technology",
+                        "Specialty Trade Contractors",
+                        "Spectator Sports",
+                        "Sporting Goods Manufacturing",
+                        "Sports and Recreation Instruction",
+                        "Sports Teams and Clubs",
+                        "Spring and Wire Product Manufacturing",
+                        "Staffing and Recruiting",
+                        "Steam and Air-Conditioning Supply",
+                        "Strategic Management Services",
+                        "Subdivision of Land",
+                        "Sugar and Confectionery Product Manufacturing",
+                        "Surveying and Mapping Services",
+                        "Taxi and Limousine Services",
+                        "Technical and Vocational Training",
+                        "Technology, Information and Internet",
+                        "Technology, Information and Media",
+                        "Telecommunications",
+                        "Telecommunications Carriers",
+                        "Telephone Call Centers",
+                        "Temporary Help Services",
+                        "Textile Manufacturing",
+                        "Theater Companies",
+                        "Think Tanks",
+                        "Tobacco Manufacturing",
+                        "Translation and Localization",
+                        "Transportation Equipment Manufacturing",
+                        "Transportation Programs",
+                        "Transportation, Logistics, Supply Chain and Storage",
+                        "Travel Arrangements",
+                        "Truck Transportation",
+                        "Trusts and Estates",
+                        "Turned Products and Fastener Manufacturing",
+                        "Urban Transit Services",
+                        "Utilities",
+                        "Utilities Administration",
+                        "Utility System Construction",
+                        "Vehicle Repair and Maintenance",
+                        "Venture Capital and Private Equity Principals",
+                        "Veterinary Services",
+                        "Vocational Rehabilitation Services",
+                        "Warehousing and Storage",
+                        "Waste Collection",
+                        "Waste Treatment and Disposal",
+                        "Water Supply and Irrigation Systems",
+                        "Water, Waste, Steam, and Air Conditioning Services",
+                        "Wellness and Fitness Services",
+                        "Wholesale",
+                        "Wholesale Alcoholic Beverages",
+                        "Wholesale Apparel and Sewing Supplies",
+                        "Wholesale Appliances, Electrical, and Electronics",
+                        "Wholesale Building Materials",
+                        "Wholesale Chemical and Allied Products",
+                        "Wholesale Computer Equipment",
+                        "Wholesale Drugs and Sundries",
+                        "Wholesale Food and Beverage",
+                        "Wholesale Footwear",
+                        "Wholesale Furniture and Home Furnishings",
+                        "Wholesale Hardware, Plumbing, Heating Equipment",
+                        "Wholesale Import and Export",
+                        "Wholesale Luxury Goods and Jewelry",
+                        "Wholesale Machinery",
+                        "Wholesale Metals and Minerals",
+                        "Wholesale Motor Vehicles and Parts",
+                        "Wholesale Paper Products",
+                        "Wholesale Petroleum and Petroleum Products",
+                        "Wholesale Photography Equipment and Supplies",
+                        "Wholesale Raw Farm Products",
+                        "Wholesale Recyclable Materials",
+                        "Wind Electric Power Generation",
+                        "Wineries",
+                        "Wireless Services",
+                        "Women's Handbag Manufacturing",
+                        "Wood Product Manufacturing",
+                        "Writing and Editing",
+                        "Zoos and Botanical Gardens"
+                      ],
+                      "type": "string"
+                    },
+                    "maxItems": 70,
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "location": {
+                    "description": "Filter by where the company is headquartered, by place name (e.g. 'United States', 'Berlin'). Commas are not allowed in a value.",
+                    "pattern": "^[^,]*[^,\\s][^,]*$",
+                    "type": "string"
+                  },
+                  "page": {
+                    "default": 1,
+                    "description": "Which page of up to 25 companies to return, starting at 1 (1-100, default 1). Each page is billed as one request.",
+                    "maximum": 100,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "preferLatencyUnderMs": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "source": {
+                    "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  }
+                },
+                "title": "LinkedIn Sales Navigator account search input",
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "costUsd": {
+                      "description": "USD charged on the original run. On a replay this value is echoed for parity; the replay itself is free.",
+                      "type": "number"
+                    },
+                    "hint": {
+                      "description": "Optional one-line nudge, absent when there is nothing to say. `large_result:` suggests the fields/max_items/summary/jq controls for a big response. `paging_unavailable:` means this result came from a source that cannot return a `nextCursor`, so it may be INCOMPLETE and cannot be continued - re-run with `requireFields: [\"nextCursor\"]` to be served only by a source that can page, which may cost more per request. `malformed_query:` means X read your search query differently than it looks (adjacent bare words are ANDed and OR binds tighter, so a multi-word alternative is not a phrase, and an operator after an unbracketed OR list applies to its last alternative only); the run was served and billed as X read it, and the hint carries the corrected query to send instead. `date_adjusted:` means a date you sent was outside the range the platform accepts, so the run used the nearest accepted date the hint names.",
+                      "type": "string"
+                    },
+                    "items": {
+                      "description": "Number of result rows returned; an API that returns one record counts it as one row. For per-result APIs the per-item cost is charged against this count; for input-priced APIs the charge is per submitted input, independent of this count.",
+                      "type": "integer"
+                    },
+                    "jqError": {
+                      "description": "Present only when a `jq` expression failed; `output` then carries the full unshaped result and this explains why the reshape did not apply.",
+                      "type": "string"
+                    },
+                    "output": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": false,
+                          "properties": {
+                            "data": {
+                              "description": "The results wrapper, or null when nothing matched.",
+                              "oneOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "additionalProperties": false,
+                                  "properties": {
+                                    "items": {
+                                      "description": "Matching companies, up to 25 per page. Populated whenever the provider has data for the entity.",
+                                      "items": {
+                                        "description": "A LinkedIn company: name, industry, size, description, and logo, plus a company page URL you can pass to linkedin.company for the full record.",
+                                        "properties": {
+                                          "description": {
+                                            "description": "Company description from its LinkedIn page, when it has one. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "employeeCountRange": {
+                                            "description": "Company size as stated on its LinkedIn page, one of 1-10, 11-50, 51-200, 201-500, 501-1000, 1001-5000, 5001-10000, 10001+. It can differ from employeesOnLinkedInText, which counts members. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "employeesOnLinkedInText": {
+                                            "description": "How many LinkedIn members list the company as their employer, as LinkedIn displays the number (e.g. '144' or '220K+'). Text, not an integer, because large counts are rounded. It can fall outside the companyHeadcount band searched for.",
+                                            "type": "string"
+                                          },
+                                          "id": {
+                                            "description": "LinkedIn company id, the last segment of `url`. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "image": {
+                                            "description": "Company logo image URL. The query string is a signed token, so keep the URL intact. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "industry": {
+                                            "description": "Company industry, as a LinkedIn industry name. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "name": {
+                                            "description": "Company name. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          },
+                                          "url": {
+                                            "description": "LinkedIn company page URL in its numeric-id form (https://www.linkedin.com/company/1035). It opens the company page on LinkedIn, and passing it as `url` to linkedin.company returns the full record. Populated whenever the provider has data for the entity.",
+                                            "type": "string",
+                                            "x-anyapi-must-populate": true
+                                          }
+                                        },
+                                        "required": [
+                                          "id",
+                                          "url"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      "type": "array",
+                                      "x-anyapi-must-populate": true
+                                    },
+                                    "page": {
+                                      "description": "The page this response holds, starting at 1.",
+                                      "type": "integer"
+                                    },
+                                    "totalPages": {
+                                      "description": "How many pages of up to 25 companies the search has, at most 100.",
+                                      "type": "integer"
+                                    },
+                                    "totalResults": {
+                                      "description": "How many companies match the search in total, across every page.",
+                                      "type": "integer"
+                                    }
+                                  },
+                                  "required": [
+                                    "items"
+                                  ],
+                                  "type": "object"
+                                }
+                              ]
+                            },
+                            "found": {
+                              "description": "True when the page returned at least one company.",
+                              "type": "boolean"
+                            },
+                            "reason": {
+                              "description": "Present only when `found` is false, and says why there is no result. `not_found`: the source states the target does not exist, or returned nothing for it. A `found: false` answer is a successful call, not an error, and `costUsd` is what it actually cost.",
+                              "enum": [
+                                "not_found"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "found",
+                            "data"
+                          ],
+                          "title": "LinkedIn Sales Navigator account search output",
+                          "type": "object"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Normalized output, or null when the replay payload was not retained."
+                    },
+                    "provider": {
+                      "description": "Always \"AnyAPI\".",
+                      "type": "string"
+                    },
+                    "replayed": {
+                      "description": "True when this response replays the durable result of an earlier run without billing or upstream execution.",
+                      "type": "boolean"
+                    },
+                    "resultId": {
+                      "description": "Opaque handle to the full unshaped result, cached ~15 min. Re-shape it for free (fields/max_items/summary/jq) via GET /v1/results/{id}, no re-billing. Absent when the result was too large to cache.",
+                      "type": "string"
+                    },
+                    "source": {
+                      "description": "The source that served this run. Its `id` is the value `source` and `ignoreSources` accept; leave `source` out to keep automatic routing and failover. Absent when no source identity applies to the run.",
+                      "properties": {
+                        "artworkKey": {
+                          "description": "Key for this source's artwork.",
+                          "type": "string"
+                        },
+                        "id": {
+                          "description": "Stable identifier for this source.",
+                          "type": "string"
+                        },
+                        "kind": {
+                          "description": "anonymous is a stable identity for an unattributed source; brand names the dataset that supplies the data.",
+                          "enum": [
+                            "anonymous",
+                            "brand"
+                          ],
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Display name for this source.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "kind",
+                        "artworkKey"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "output",
+                    "provider",
+                    "costUsd",
+                    "items",
+                    "replayed"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Normalized result.",
+            "headers": {
+              "Idempotency-Replayed": {
+                "description": "Present only when the request carried an Idempotency-Key this gateway honored. \"false\" means the key was claimed and the run executed freshly; \"true\" means it replayed a prior identical run and was NOT charged again. Absent means either no key was sent or this gateway does not honor keys, so a retry could be charged twice.",
+                "schema": {
+                  "enum": [
+                    "false",
+                    "true"
+                  ],
+                  "type": "string"
+                }
+              },
+              "PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Payment-Receipt": {
+                "description": "Inline mpp payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-PAYMENT-RESPONSE": {
+                "description": "Inline x402 payment receipt.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Input did not match the schema, or the upstream rejected the request."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Missing or invalid API key."
+          },
+          "402": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/PaymentRequiredError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TrialCapReached"
+                    }
+                  ]
+                }
+              },
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "challengeId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "status": {
+                      "const": 402,
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "challengeId"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Insufficient wallet balance or spend cap, or an inline-payment challenge. Agent trials receive a trial_cap_reached continuation with a live RFC 8628 device authorization.",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "description": "Inline x402 payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "WWW-Authenticate": {
+                "description": "Inline mpp payment challenge.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "This API key's access (run only or read only) does not allow this operation."
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Unknown API. A target that does not exist is not a 404: the call succeeds with `output.found` false and `data` null."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Idempotency collision. Codes: idempotency_in_progress means retry after the Retry-After delay; idempotency_conflict means use a new key for different request semantics; idempotency_needs_review means stop retrying and contact AnyAPI support with X-Anyapi-Request-Id."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "The request was well formed but this API cannot serve the requested target site; the body's `alternatives` array lists the AnyAPI APIs that can."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Rate limited. Codes: rate_limited means this account has reached its limit of new requests a minute to this API, so nothing was run or charged; retry after Retry-After seconds, when the next minute starts. provider_rate_limited means the upstream was rate limited; resend the same request, with the same cursor if one was sent, after Retry-After seconds. Inspect `payment` when present before deciding whether to retry.",
+            "headers": {
+              "Retry-After": {
+                "description": "Seconds to wait before retrying.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "An internal error prevented completion. Inspect payment when present before retrying."
+          },
+          "502": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Every provider failed with a server/transport error, or inline payment settlement could not be confirmed; inspect `payment` when present before retrying."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "apiKeyAuth": []
+          },
+          {}
+        ],
+        "summary": "LinkedIn Sales Navigator Account Search",
+        "tags": [
+          "linkedin"
+        ],
+        "x-mint": {
+          "href": "/api-reference/linkedin/search-accounts"
+        },
+        "x-payment-info": {
+          "price": {
+            "amount": "0.070000",
+            "currency": "USD",
+            "mode": "fixed"
+          },
+          "protocols": [
+            {
+              "x402": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              }
+            },
+            {
+              "mpp": {
+                "asset": "0x20c000000000000000000000b9537d11c60e8b50",
+                "currency": "USD",
+                "intent": "charge",
+                "method": "tempo",
+                "network": "tempo",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "rail": "tempo",
+                "scheme": "exact"
+              }
+            }
+          ],
+          "rails": [
+            {
+              "headers": {
+                "challenge": [
+                  "PAYMENT-REQUIRED"
+                ],
+                "credential": [
+                  "PAYMENT-SIGNATURE",
+                  "X-PAYMENT"
+                ],
+                "receipt": [
+                  "PAYMENT-RESPONSE",
+                  "X-PAYMENT-RESPONSE"
+                ]
+              },
+              "pricing": {
+                "amount": "0.071000",
+                "currency": "USD",
+                "minimumUsd": "0.001000",
+                "mode": "fixed",
+                "quoteBasis": "floor"
+              },
+              "protocol": {
+                "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+                "network": "eip155:8453",
+                "payTo": "0x754BD2A6799e766B1E2b9f1Ae7fBdC0CeD96ef13",
+                "scheme": "exact"
+              },
+              "rail": "x402",
+              "settlement": {
+                "onExecutionFailure": "released",
+                "onUnknownFinalization": "indeterminate",
+                "timing": "after_execution"
+              }
+            },
+            {
+              "headers": {
+                "challenge": [
+                  "WWW-Authenticate"
+                ],
+                "credential": [
+                  "Authorization"
+                ],
+                "receipt": [
+                  "Payment-Receipt"
+                ]
+              },
+              "pricing": {
+                "amount": "0.070000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -317790,7 +319383,7 @@
     },
     "/v1/run/twitter.community": {
       "post": {
-        "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.\n\n**Price:** \\$0.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Community pricing and uptime](https://getanyapi.com/api/x-twitter/community) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Fetch a Twitter/X community's public details (name, description, member count, join policy) by URL.\n\n**Price:** \\$0.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Community pricing and uptime](https://getanyapi.com/api/x-twitter/community) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_community",
         "parameters": [
           {
@@ -318389,7 +319982,7 @@
     },
     "/v1/run/twitter.community_tweets": {
       "post": {
-        "description": "List tweets posted in a Twitter/X community by URL: top tweets by default, or the newest with sort=latest.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Community Tweets pricing and uptime](https://getanyapi.com/api/x-twitter/community-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "List tweets posted in a Twitter/X community by URL: top tweets by default, or the newest with sort=latest.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Community Tweets pricing and uptime](https://getanyapi.com/api/x-twitter/community-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_community_tweets",
         "parameters": [
           {
@@ -319007,7 +320600,7 @@
     },
     "/v1/run/twitter.followers": {
       "post": {
-        "description": "Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Followers pricing and uptime](https://getanyapi.com/api/x-twitter/followers) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Fetch the follower list of any public X (Twitter) account by username with cursor pagination. Limit is a per-page maximum and a native page holds up to 200 accounts; follow the response's nextCursor for more.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Followers pricing and uptime](https://getanyapi.com/api/x-twitter/followers) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_followers",
         "parameters": [
           {
@@ -319644,7 +321237,7 @@
     },
     "/v1/run/twitter.following": {
       "post": {
-        "description": "List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; follow the response's nextCursor for more.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Following pricing and uptime](https://getanyapi.com/api/x-twitter/following) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "List the accounts a public X (Twitter) account follows by username with cursor pagination. Limit is a per-page maximum; follow the response's nextCursor for more.\n\n**Price:** \\$0.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Following pricing and uptime](https://getanyapi.com/api/x-twitter/following) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_following",
         "parameters": [
           {
@@ -320280,7 +321873,7 @@
     },
     "/v1/run/twitter.profile": {
       "post": {
-        "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.\n\n**Price:** \\$0.19 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Profile pricing and uptime](https://getanyapi.com/api/x-twitter/profile) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.\n\n**Price:** \\$0.19 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Profile pricing and uptime](https://getanyapi.com/api/x-twitter/profile) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_profile",
         "parameters": [
           {
@@ -320901,7 +322494,7 @@
     },
     "/v1/run/twitter.replies": {
       "post": {
-        "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Post Replies pricing and uptime](https://getanyapi.com/api/x-twitter/replies) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Post Replies pricing and uptime](https://getanyapi.com/api/x-twitter/replies) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_replies",
         "parameters": [
           {
@@ -321582,7 +323175,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
@@ -322913,7 +324506,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -323582,7 +325175,7 @@
     },
     "/v1/run/twitter.thread": {
       "post": {
-        "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.\n\n**Price:** \\$2.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Tweet Thread pricing and uptime](https://getanyapi.com/api/x-twitter/thread) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Resolve the linear self-thread containing an X (Twitter) post, from its root through the author's linked continuations. This excludes replies from other users.\n\n**Price:** \\$2.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Tweet Thread pricing and uptime](https://getanyapi.com/api/x-twitter/thread) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_thread",
         "parameters": [
           {
@@ -324354,7 +325947,7 @@
     },
     "/v1/run/twitter.trends": {
       "post": {
-        "description": "Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.\n\n**Price:** \\$0.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Trends pricing and uptime](https://getanyapi.com/api/x-twitter/trends) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Get current X (Twitter) trends for worldwide, a country, or a city in X ranking order, including the resolved location.\n\n**Price:** \\$0.10 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Trends pricing and uptime](https://getanyapi.com/api/x-twitter/trends) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_trends",
         "parameters": [
           {
@@ -324977,7 +326570,7 @@
     },
     "/v1/run/twitter.tweet": {
       "post": {
-        "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).\n\n**Price:** \\$0.21 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Tweet pricing and uptime](https://getanyapi.com/api/x-twitter/tweet) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).\n\n**Price:** \\$0.21 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Twitter Tweet pricing and uptime](https://getanyapi.com/api/x-twitter/tweet) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_tweet",
         "parameters": [
           {
@@ -326197,7 +327790,7 @@
     },
     "/v1/run/twitter.user_posts": {
       "post": {
-        "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Posts pricing and uptime](https://getanyapi.com/api/x-twitter/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Posts pricing and uptime](https://getanyapi.com/api/x-twitter/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_user_posts",
         "parameters": [
           {
