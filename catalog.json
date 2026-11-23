@@ -28264,6 +28264,51 @@
             "maxPer1kUsd": 0.8
           },
           "source": {
+            "id": "anonymous-mongoose",
+            "name": "Mongoose",
+            "kind": "anonymous",
+            "artworkKey": "mongoose"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.354835044127114,
+            "latencyP50Ms": 8515,
+            "uptimeSample": 211208,
+            "latencySample": 121138,
+            "requests": 211208,
+            "servedRequests": 121138
+          },
+          "fields": [
+            "about",
+            "avatarUrl",
+            "company",
+            "companyName",
+            "companyUrl",
+            "connections",
+            "current",
+            "currentPosition",
+            "education",
+            "endDate",
+            "experience",
+            "followers",
+            "headline",
+            "location",
+            "name",
+            "position",
+            "publicIdentifier",
+            "school",
+            "schoolUrl",
+            "startDate"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0008,
+            "maxPer1kUsd": 0.8
+          },
+          "source": {
             "id": "anonymous-chameleon-21ed4cb2",
             "name": "Chameleon",
             "kind": "anonymous",
@@ -28384,53 +28429,6 @@
             "startDate",
             "text",
             "url"
-          ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0008,
-            "maxPer1kUsd": 0.8
-          },
-          "source": {
-            "id": "anonymous-mongoose",
-            "name": "Mongoose",
-            "kind": "anonymous",
-            "artworkKey": "mongoose"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.354835044127114,
-            "latencyP50Ms": 8515,
-            "uptimeSample": 211208,
-            "latencySample": 121138,
-            "requests": 211208,
-            "servedRequests": 121138
-          },
-          "fields": [
-            "about",
-            "avatarUrl",
-            "company",
-            "companyName",
-            "companyUrl",
-            "connections",
-            "current",
-            "currentPosition",
-            "education",
-            "endDate",
-            "experience",
-            "followers",
-            "headline",
-            "location",
-            "name",
-            "position",
-            "publicIdentifier",
-            "school",
-            "schoolUrl",
-            "startDate"
           ]
         }
       ],
@@ -33761,7 +33759,7 @@
       "slug": "pinterest.search",
       "category": "social",
       "name": "Pinterest Search",
-      "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.",
+      "description": "Search Pinterest by keyword and get pin results with titles, images, and links.",
       "method": "POST",
       "path": "/v1/run/pinterest.search",
       "provider": "AnyAPI",
@@ -50373,13 +50371,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00049,
-          "maxPer1kUsd": 0.49
+          "maxUsd": 0.00048,
+          "maxPer1kUsd": 0.48
         },
         "failoverMaxUsd": 0.00049,
         "failoverMaxPer1kUsd": 0.49
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00048,
+            "maxPer1kUsd": 0.48
+          },
+          "source": {
+            "id": "anonymous-bison-091bf9ea",
+            "name": "Bison",
+            "kind": "anonymous",
+            "artworkKey": "bison"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -50430,20 +50442,6 @@
         }
       ],
       "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00048,
-            "maxPer1kUsd": 0.48
-          },
-          "source": {
-            "id": "anonymous-bison-091bf9ea",
-            "name": "Bison",
-            "kind": "anonymous",
-            "artworkKey": "bison"
-          }
-        },
         {
           "pricing": {
             "model": "flat",
@@ -50582,7 +50580,7 @@
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "twitter.search_communities",

@@ -176,11 +176,11 @@ export interface PinterestSearchInput {
    */
   source?: string[];
   /**
-   * Kind of results to return: all pins, only video pins, boards, or profiles (e.g. videos).
-   * One of: all-pins, videos, boards, profiles.
+   * Kind of results to return. Only all-pins is supported; leave type out for the same results.
+   * One of: all-pins.
    * Default: all-pins.
    */
-  type?: "all-pins" | "videos" | "boards" | "profiles";
+  type?: "all-pins";
 }
 
 export interface PinterestSearchItem {
@@ -257,7 +257,7 @@ export class PinterestNamespace {
   /**
    * Pinterest Search
    *
-   * Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.
+   * Search Pinterest by keyword and get pin results with titles, images, and links.
    *
    * Price: $0.0008 per request.
    *

@@ -103615,7 +103615,7 @@
       "operationId": "pinterest_search",
       "name": "Pinterest Search",
       "category": "social",
-      "description": "Search Pinterest by keyword and get pin, video, board, or profile results with titles, images, and links.",
+      "description": "Search Pinterest by keyword and get pin results with titles, images, and links.",
       "pricing": {
         "priceUsd": 0.0008,
         "baseUsd": null,
@@ -103708,12 +103708,9 @@
           },
           "type": {
             "kind": "string",
-            "description": "Kind of results to return: all pins, only video pins, boards, or profiles (e.g. videos).",
+            "description": "Kind of results to return. Only all-pins is supported; leave type out for the same results.",
             "enum": [
-              "all-pins",
-              "videos",
-              "boards",
-              "profiles"
+              "all-pins"
             ],
             "default": "all-pins",
             "format": null
@@ -143819,7 +143816,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00049,
+        "priceUsd": 0.00048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
