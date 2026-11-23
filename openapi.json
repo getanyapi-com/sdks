@@ -192536,7 +192536,7 @@
     },
     "/v1/run/maps.search": {
       "post": {
-        "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.\n\n**Price:** \\$1.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 9 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Search pricing and uptime](https://getanyapi.com/api/maps/search) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
+        "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.\n\n**Price:** \\$1.39 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 8 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Search pricing and uptime](https://getanyapi.com/api/maps/search) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
         "operationId": "maps_search",
         "parameters": [
           {
@@ -193164,7 +193164,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001350",
+            "amount": "0.001390",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -193206,7 +193206,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002350",
+                "amount": "0.002390",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -193238,7 +193238,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001350",
+                "amount": "0.001390",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -321561,7 +321561,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {

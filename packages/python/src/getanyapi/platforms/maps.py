@@ -729,7 +729,7 @@ class MapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.00135 per request.
+        Price: $0.00139 per request.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", query="coffee")
@@ -864,7 +864,7 @@ class AsyncMapsNamespace:
         normalized place records with ratings, addresses, and contact basics per
         request.
 
-        Price: $0.00135 per request.
+        Price: $0.00139 per request.
 
         Example:
             res = client.maps.search(limit=3, location="Austin, TX", query="coffee")
