@@ -142665,7 +142665,7 @@
       "operationId": "twitter_search",
       "name": "X / Twitter Search",
       "category": "social",
-      "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Limit is a per-page maximum; native pages contain approximately 20 tweets unless requireSinglePage selects a bulk lane.",
+      "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
         "priceUsd": 0.00048,
         "baseUsd": null,
@@ -142709,13 +142709,6 @@
             },
             "mustPopulate": false
           },
-          "limit": {
-            "kind": "integer",
-            "description": "Page size to ask for (1-50, default 20). Some sources honor it; others always return their whole native page of about 20. A page is never trimmed after the call, so follow nextCursor to continue exactly where this response ended.",
-            "minimum": 1,
-            "maximum": 50,
-            "default": 20
-          },
           "preferLatencyUnderMs": {
             "kind": "integer",
             "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
@@ -142741,11 +142734,6 @@
             ],
             "default": "Latest",
             "format": null
-          },
-          "requireSinglePage": {
-            "kind": "boolean",
-            "description": "Set true to get up to limit results in one response instead of provider-native pages, served by a bulk provider when needed.",
-            "default": null
           },
           "source": {
             "kind": "array",
