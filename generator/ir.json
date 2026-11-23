@@ -9443,10 +9443,10 @@
       "category": "travel",
       "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0008,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.111,
+        "baseUsd": 0.0024,
+        "perItemUsd": 0.0054,
+        "perItemUnit": "result"
       },
       "tsNamespace": "booking",
       "tsMethod": "search",

@@ -30596,7 +30596,7 @@
     },
     "/v1/run/booking.search": {
       "post": {
-        "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Booking.com Search pricing and uptime](https://getanyapi.com/api/booking/search) - live USD price, lane routing, and measured 30-day uptime. [Every Booking endpoint](https://getanyapi.com/api/booking).",
+        "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.\n\n**Price:** billed per result - \\$2.40 per 1,000 requests base + \\$5.40 per 1,000 results, capped at \\$111.00 per 1,000 requests.\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Booking.com Search pricing and uptime](https://getanyapi.com/api/booking/search) - live USD price, lane routing, and measured 30-day uptime. [Every Booking endpoint](https://getanyapi.com/api/booking).",
         "operationId": "booking_search",
         "parameters": [
           {
@@ -31211,9 +31211,10 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
             "currency": "USD",
-            "mode": "fixed"
+            "max": "0.111000",
+            "min": "0.002400",
+            "mode": "dynamic"
           },
           "protocols": [
             {
@@ -31253,10 +31254,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
                 "currency": "USD",
+                "max": "0.112000",
+                "min": "0.003400",
                 "minimumUsd": "0.001000",
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -31285,10 +31287,11 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
                 "currency": "USD",
+                "max": "0.111000",
+                "min": "0.002400",
                 "minimumUsd": null,
-                "mode": "fixed",
+                "mode": "dynamic",
                 "quoteBasis": "floor"
               },
               "protocol": {
@@ -96404,7 +96407,7 @@
     },
     "/v1/run/facebook.search_posts": {
       "post": {
-        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$16.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Search public Facebook posts by keyword, optionally filtered by location, and get structured post records (text, author, engagement).\n\n**Price:** \\$16.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Post Search pricing and uptime](https://getanyapi.com/api/facebook/search-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_search_posts",
         "parameters": [
           {
@@ -323788,7 +323791,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
