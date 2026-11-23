@@ -5273,7 +5273,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00054 per request.
+        Price: $0.00053 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -6680,7 +6680,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00054 per request.
+        Price: $0.00053 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
