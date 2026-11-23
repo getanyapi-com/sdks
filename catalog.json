@@ -15763,13 +15763,45 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.024,
-          "maxPer1kUsd": 24
+          "maxUsd": 0.0018,
+          "maxPer1kUsd": 1.8
         },
         "failoverMaxUsd": 0.024,
         "failoverMaxPer1kUsd": 24
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0018,
+            "maxPer1kUsd": 1.8
+          },
+          "source": {
+            "id": "anonymous-koala",
+            "name": "Koala",
+            "kind": "anonymous",
+            "artworkKey": "koala"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 57.5984990619137,
+            "latencyP50Ms": 125644,
+            "uptimeSample": 1066,
+            "latencySample": 614,
+            "requests": 1100,
+            "servedRequests": 614
+          },
+          "fields": [
+            "aiOverview",
+            "link",
+            "position",
+            "query",
+            "results",
+            "snippet",
+            "title"
+          ]
+        },
         {
           "pricing": {
             "model": "flat",
@@ -15803,43 +15835,9 @@
           ]
         }
       ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0018,
-            "maxPer1kUsd": 1.8
-          },
-          "source": {
-            "id": "anonymous-koala",
-            "name": "Koala",
-            "kind": "anonymous",
-            "artworkKey": "koala"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 57.5984990619137,
-            "latencyP50Ms": 125644,
-            "uptimeSample": 1066,
-            "latencySample": 614,
-            "requests": 1100,
-            "servedRequests": 614
-          },
-          "fields": [
-            "aiOverview",
-            "link",
-            "position",
-            "query",
-            "results",
-            "snippet",
-            "title"
-          ]
-        }
-      ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "google.trends",
@@ -25720,13 +25718,27 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.0012,
-          "maxPer1kUsd": 1.2
+          "maxUsd": 0.00119,
+          "maxPer1kUsd": 1.19
         },
         "failoverMaxUsd": 0.00242,
         "failoverMaxPer1kUsd": 2.42
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00119,
+            "maxPer1kUsd": 1.19
+          },
+          "source": {
+            "id": "anonymous-tiger-6f8f398d",
+            "name": "Tiger",
+            "kind": "anonymous",
+            "artworkKey": "tiger"
+          }
+        },
         {
           "pricing": {
             "model": "flat",
@@ -25846,22 +25858,6 @@
             "text",
             "url"
           ]
-        }
-      ],
-      "notServingSources": [
-        {
-          "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.00119,
-            "maxPer1kUsd": 1.19
-          },
-          "source": {
-            "id": "anonymous-tiger-6f8f398d",
-            "name": "Tiger",
-            "kind": "anonymous",
-            "artworkKey": "tiger"
-          }
         }
       ],
       "tryEligible": true,
@@ -30560,7 +30556,7 @@
       "slug": "maps.search_nearby",
       "category": "maps",
       "name": "Google Maps Nearby Search",
-      "description": "Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country. Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.",
+      "description": "Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country (name those fields in requireFields when they must be present). Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.",
       "method": "POST",
       "path": "/v1/run/maps.search_nearby",
       "provider": "AnyAPI",
@@ -30627,11 +30623,45 @@
             "url",
             "website"
           ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0013,
+            "maxPer1kUsd": 1.3
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "fields": [
+            "address",
+            "categories",
+            "category",
+            "cid",
+            "description",
+            "image",
+            "items",
+            "latitude",
+            "longitude",
+            "name",
+            "nextCursor",
+            "phone",
+            "placeId",
+            "rank",
+            "rating",
+            "reviewCount",
+            "url",
+            "website"
+          ]
         }
       ],
       "tryEligible": true,
       "tryMaxItems": 3,
-      "failover": false
+      "failover": true
     },
     {
       "id": "mercari.product",

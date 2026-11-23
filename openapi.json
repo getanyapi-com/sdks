@@ -118964,7 +118964,7 @@
     },
     "/v1/run/google.search_100": {
       "post": {
-        "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.\n\n**Price:** \\$24.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Search Top 100 pricing and uptime](https://getanyapi.com/api/google/search-100) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Run a Google web search and get up to 100 ranked organic results in one call, with true absolute positions rather than per-page numbering. One charge per call whatever the depth, which normally makes it cheaper than paging google.search past roughly 20 results; when the backup source has to answer, the call costs more, up to $0.024. It reads ten pages of Google to build the list, so a call can take up to about five minutes - use google.search when you want the first page back in a second.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Search Top 100 pricing and uptime](https://getanyapi.com/api/google/search-100) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_search_100",
         "parameters": [
           {
@@ -119476,7 +119476,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.024000",
+            "amount": "0.001800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -119518,7 +119518,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.025000",
+                "amount": "0.002800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -119550,7 +119550,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.024000",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -169343,7 +169343,7 @@
     },
     "/v1/run/linkedin.company_posts_thin": {
       "post": {
-        "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Posts (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-posts-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.\n\n**Price:** \\$1.19 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Posts (basic) pricing and uptime](https://getanyapi.com/api/linkedin/company-posts-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_posts_thin",
         "parameters": [
           {
@@ -169825,7 +169825,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.001190",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -169867,7 +169867,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002200",
+                "amount": "0.002190",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -169899,7 +169899,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001190",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -193267,7 +193267,7 @@
     },
     "/v1/run/maps.search_nearby": {
       "post": {
-        "description": "Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country. Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Maps Nearby Search pricing and uptime](https://getanyapi.com/api/maps/search-nearby) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
+        "description": "Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country (name those fields in requireFields when they must be present). Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.\n\n**Price:** \\$1.30 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Maps Nearby Search pricing and uptime](https://getanyapi.com/api/maps/search-nearby) - live USD price, lane routing, and measured 30-day uptime. [Every Maps endpoint](https://getanyapi.com/api/maps).",
         "operationId": "maps_search_nearby",
         "parameters": [
           {
@@ -193415,6 +193415,23 @@
                     "description": "What you would type in the Google Maps search bar (e.g. coffee shop).",
                     "minLength": 1,
                     "type": "string"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged. Name the output fields this request must be able to return, for example `street` or `countryCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "items": {
+                      "enum": [
+                        "city",
+                        "countryCode",
+                        "domain",
+                        "neighborhood",
+                        "postalCode",
+                        "state",
+                        "street"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
                   },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",

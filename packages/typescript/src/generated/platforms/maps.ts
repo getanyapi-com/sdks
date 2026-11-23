@@ -766,6 +766,18 @@ export interface MapsSearchNearbyInput {
    */
   query: string;
   /**
+   * Optional; omit it and routing is unchanged. Name the output fields this request must be able to return, for example `street` or `countryCode`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. A named field can still be absent on a place that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: (
+    | "city"
+    | "countryCode"
+    | "domain"
+    | "neighborhood"
+    | "postalCode"
+    | "state"
+    | "street"
+  )[];
+  /**
    * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
   source?: string[];
@@ -965,7 +977,7 @@ export class MapsNamespace {
   /**
    * Google Maps Nearby Search
    *
-   * Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country. Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.
+   * Search Google Maps around an exact latitude and longitude and get up to 20 normalized places per call, each with the address broken into street, city, state, postal code and country (name those fields in requireFields when they must be present). Use this when you have coordinates and want the map viewport centred on them; use maps.search when you only have a place name. Pass the returned nextCursor back as cursor for the next 20 places.
    *
    * Price: $0.0013 per request.
    *
