@@ -25,8 +25,8 @@ export interface IndeedJobsInput {
    */
   ignoreSources?: string[];
   /**
-   * Maximum number of results to return (1-20, default 20).
-   * Range: minimum 1, maximum 20.
+   * Maximum number of results to return (1-100, default 20).
+   * Range: minimum 1, maximum 100.
    */
   limit?: number;
   /**
@@ -151,7 +151,13 @@ export interface IndeedJobsItem {
    */
   reviewCount?: number;
   salaryCurrency?: string;
+  /**
+   * Outside the US, salary may be null even when the Indeed listing shows pay.
+   */
   salaryMax?: number | null;
+  /**
+   * Outside the US, salary may be null even when the Indeed listing shows pay.
+   */
   salaryMin?: number | null;
   /**
    * Salary period, e.g. YEAR or HOUR.
@@ -193,7 +199,7 @@ export class IndeedNamespace {
   /**
    * Indeed Jobs
    *
-   * Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.
+   * Search Indeed job listings by keyword, location, and country, with up to 100 normalized job records per request. Outside the US, salary may be null even when the Indeed listing shows pay.
    *
    * Price: $0.00115 per request.
    *

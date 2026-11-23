@@ -53192,7 +53192,7 @@
       "operationId": "indeed_jobs",
       "name": "Indeed Jobs",
       "category": "data",
-      "description": "Search Indeed job listings by keyword, location, and country, with up to 20 normalized job records per request.",
+      "description": "Search Indeed job listings by keyword, location, and country, with up to 100 normalized job records per request. Outside the US, salary may be null even when the Indeed listing shows pay.",
       "pricing": {
         "priceUsd": 0.00115,
         "baseUsd": null,
@@ -53240,9 +53240,9 @@
           },
           "limit": {
             "kind": "integer",
-            "description": "Maximum number of results to return (1-20, default 20).",
+            "description": "Maximum number of results to return (1-100, default 20).",
             "minimum": 1,
-            "maximum": 20,
+            "maximum": 100,
             "default": null
           },
           "location": {
@@ -53486,6 +53486,7 @@
                   },
                   "salaryMax": {
                     "kind": "number",
+                    "description": "Outside the US, salary may be null even when the Indeed listing shows pay.",
                     "nullable": true,
                     "minimum": null,
                     "maximum": null,
@@ -53493,6 +53494,7 @@
                   },
                   "salaryMin": {
                     "kind": "number",
+                    "description": "Outside the US, salary may be null even when the Indeed listing shows pay.",
                     "nullable": true,
                     "minimum": null,
                     "maximum": null,
