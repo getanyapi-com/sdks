@@ -1138,7 +1138,7 @@ class RedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.00035 per request.
+        Price: $0.00034 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1202,7 +1202,7 @@ class RedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00038 per request.
+        Price: $0.00036 per request.
 
         Example:
             res = client.reddit.subreddit_posts(subreddit="programming")
@@ -1533,7 +1533,7 @@ class AsyncRedditNamespace:
 
         Search Reddit posts across all subreddits by query.
 
-        Price: $0.00035 per request.
+        Price: $0.00034 per request.
 
         Example:
             res = client.reddit.search(query="mechanical keyboard")
@@ -1597,7 +1597,7 @@ class AsyncRedditNamespace:
 
         Fetch posts from a subreddit listing (hot, new, or top).
 
-        Price: $0.00038 per request.
+        Price: $0.00036 per request.
 
         Example:
             res = client.reddit.subreddit_posts(subreddit="programming")

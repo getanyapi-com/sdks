@@ -1416,7 +1416,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.00035 per request.
+   * Price: $0.00034 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
@@ -1470,7 +1470,7 @@ export class RedditNamespace {
    *
    * Fetch posts from a subreddit listing (hot, new, or top).
    *
-   * Price: $0.00038 per request.
+   * Price: $0.00036 per request.
    *
    * @example
    * const res = await client.reddit.subredditPosts({ subreddit: "programming" });
