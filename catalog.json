@@ -12367,45 +12367,6 @@
         },
         {
           "pricing": {
-            "model": "flat",
-            "unit": "request",
-            "maxUsd": 0.0204,
-            "maxPer1kUsd": 20.4
-          },
-          "source": {
-            "id": "anonymous-fox",
-            "name": "Fox",
-            "kind": "anonymous",
-            "artworkKey": "fox"
-          },
-          "health": {
-            "window": "30d",
-            "uptimePct": 59.94729907773386,
-            "latencyP50Ms": 11469,
-            "uptimeSample": 759,
-            "latencySample": 455,
-            "requests": 759,
-            "servedRequests": 455
-          },
-          "fields": [
-            "authorId",
-            "authorImage",
-            "authorName",
-            "authorUrl",
-            "commentCount",
-            "createdUtc",
-            "id",
-            "image",
-            "items",
-            "reactionCount",
-            "reactions",
-            "shareCount",
-            "text",
-            "url"
-          ]
-        },
-        {
-          "pricing": {
             "model": "linear",
             "unit": "result",
             "baseUsd": 0.0001,
@@ -12445,6 +12406,47 @@
             "shareCount",
             "text",
             "type",
+            "url"
+          ]
+        }
+      ],
+      "notServingSources": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.0204,
+            "maxPer1kUsd": 20.4
+          },
+          "source": {
+            "id": "anonymous-fox",
+            "name": "Fox",
+            "kind": "anonymous",
+            "artworkKey": "fox"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 59.94729907773386,
+            "latencyP50Ms": 11469,
+            "uptimeSample": 759,
+            "latencySample": 455,
+            "requests": 759,
+            "servedRequests": 455
+          },
+          "fields": [
+            "authorId",
+            "authorImage",
+            "authorName",
+            "authorUrl",
+            "commentCount",
+            "createdUtc",
+            "id",
+            "image",
+            "items",
+            "reactionCount",
+            "reactions",
+            "shareCount",
+            "text",
             "url"
           ]
         }
@@ -50357,13 +50359,36 @@
         "from": {
           "model": "flat",
           "unit": "request",
-          "maxUsd": 0.00048,
-          "maxPer1kUsd": 0.48
+          "maxUsd": 0.00047,
+          "maxPer1kUsd": 0.47
         },
         "failoverMaxUsd": 0.00049,
         "failoverMaxPer1kUsd": 0.49
       },
       "lanes": [
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00047,
+            "maxPer1kUsd": 0.47
+          },
+          "source": {
+            "id": "anonymous-giraffe-5e3cbaa1",
+            "name": "Giraffe",
+            "kind": "anonymous",
+            "artworkKey": "giraffe"
+          },
+          "health": {
+            "window": "30d",
+            "uptimePct": 98.26498422712933,
+            "latencyP50Ms": 1618,
+            "uptimeSample": 6340,
+            "latencySample": 6230,
+            "requests": 6340,
+            "servedRequests": 6230
+          }
+        },
         {
           "pricing": {
             "model": "flat",

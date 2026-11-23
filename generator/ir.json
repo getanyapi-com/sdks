@@ -143819,7 +143819,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00047,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
