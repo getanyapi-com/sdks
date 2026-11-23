@@ -2002,7 +2002,7 @@ export class YoutubeNamespace {
    *
    * List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).
    *
-   * Price: $0.00079 per request.
+   * Price: $0.00074 per request.
    *
    * @example
    * const res = await client.youtube.channelVideos({ handle: "@mkbhd" });
@@ -2113,7 +2113,7 @@ export class YoutubeNamespace {
    *
    * Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.
    *
-   * Price: $0.00043 per request.
+   * Price: $0.00039 per request.
    *
    * @example
    * const res = await client.youtube.search({ query: "how to cook rice" });
@@ -2247,7 +2247,7 @@ export class YoutubeNamespace {
    *
    * Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.
    *
-   * Price: $0.0007 per request.
+   * Price: $0.00064 per request.
    *
    * @example
    * const res = await client.youtube.video({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
@@ -2264,7 +2264,7 @@ export class YoutubeNamespace {
    *
    * List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.00078 per request.
+   * Price: $0.00074 per request.
    *
    * @example
    * const res = await client.youtube.videoComments({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
@@ -2324,7 +2324,7 @@ export class YoutubeNamespace {
    *
    * Fetch the transcript/captions of a YouTube video or Short by URL or ID.
    *
-   * Price: $0.0009 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscript({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });
