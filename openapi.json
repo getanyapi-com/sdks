@@ -110888,7 +110888,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -144496,7 +144496,7 @@
     },
     "/v1/run/instagram.profile_contact": {
       "post": {
-        "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.\n\n**Price:** \\$1.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Contact Info pricing and uptime](https://getanyapi.com/api/instagram/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.\n\n**Price:** \\$1.45 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Profile Contact Info pricing and uptime](https://getanyapi.com/api/instagram/profile-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_profile_contact",
         "parameters": [
           {
@@ -306005,7 +306005,7 @@
     },
     "/v1/run/tiktok.video_download": {
       "post": {
-        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Download pricing and uptime](https://getanyapi.com/api/tiktok/video-download) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_download",
         "parameters": [
           {
@@ -306104,6 +306104,7 @@
                         "authorFollowers",
                         "authorVerified",
                         "height",
+                        "watermarkedUrl",
                         "width"
                       ],
                       "type": "string"
@@ -306239,7 +306240,7 @@
                                       "type": "string"
                                     },
                                     "sdVideoUrl": {
-                                      "description": "Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived on the same terms as videoUrl.",
+                                      "description": "Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. On a photo-mode post, the post's music. Signed and short-lived on the same terms as videoUrl.",
                                       "format": "uri",
                                       "type": "string"
                                     },
@@ -306263,13 +306264,13 @@
                                       "type": "string"
                                     },
                                     "videoUrl": {
-                                      "description": "Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
+                                      "description": "Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. On a photo-mode post it is the post's music, an audio file (MP4 or MP3), not a video. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
                                       "format": "uri",
                                       "type": "string",
                                       "x-anyapi-must-populate": true
                                     },
                                     "watermarkedUrl": {
-                                      "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.",
+                                      "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file. Usually absent on a photo-mode post.",
                                       "format": "uri",
                                       "type": "string"
                                     },
@@ -306287,7 +306288,7 @@
                               ]
                             },
                             "found": {
-                              "description": "False when the post has no downloadable video file: a deleted or private video, or a photo-mode post (use tiktok.photos for those).",
+                              "description": "False when the post is deleted or private. A photo-mode post can also come back false; when it comes back true, videoUrl and sdVideoUrl carry its music, not a video, and watermarkedUrl is usually absent (use tiktok.photos for its images).",
                               "type": "boolean"
                             },
                             "reason": {

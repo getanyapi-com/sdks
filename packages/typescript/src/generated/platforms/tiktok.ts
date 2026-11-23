@@ -3646,7 +3646,9 @@ export interface TiktokVideoDownloadInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `height` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("authorFollowers" | "authorVerified" | "height" | "width")[];
+  requireFields?: (
+    "authorFollowers" | "authorVerified" | "height" | "watermarkedUrl" | "width"
+  )[];
   /**
    * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -3720,7 +3722,7 @@ export interface TiktokVideoDownloadData {
    */
   region?: string;
   /**
-   * Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived on the same terms as videoUrl.
+   * Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. On a photo-mode post, the post's music. Signed and short-lived on the same terms as videoUrl.
    * Format: uri.
    */
   sdVideoUrl?: string;
@@ -3744,12 +3746,12 @@ export interface TiktokVideoDownloadData {
    */
   url?: string;
   /**
-   * Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.
+   * Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. On a photo-mode post it is the post's music, an audio file (MP4 or MP3), not a video. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.
    * Format: uri.
    */
   videoUrl: string;
   /**
-   * Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.
+   * Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file. Usually absent on a photo-mode post.
    * Format: uri.
    */
   watermarkedUrl?: string;
@@ -4882,7 +4884,7 @@ export class TiktokNamespace {
   /**
    * TikTok Video Download
    *
-   * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.
+   * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.
    *
    * Price: $0.0008 per request.
    *

@@ -14374,8 +14374,8 @@
           "maxUsd": 0.0015,
           "maxPer1kUsd": 1.5
         },
-        "failoverMaxUsd": 0.0048,
-        "failoverMaxPer1kUsd": 4.8
+        "failoverMaxUsd": 0.0018,
+        "failoverMaxPer1kUsd": 1.8
       },
       "lanes": [
         {
@@ -14478,7 +14478,9 @@
             "title",
             "url"
           ]
-        },
+        }
+      ],
+      "notServingSources": [
         {
           "pricing": {
             "model": "flat",
@@ -20750,6 +20752,36 @@
             "requests": 2263,
             "servedRequests": 2244
           }
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.00175,
+            "maxPer1kUsd": 1.75
+          },
+          "source": {
+            "id": "anonymous-kiwi",
+            "name": "Kiwi",
+            "kind": "anonymous",
+            "artworkKey": "kiwi"
+          },
+          "fields": [
+            "bio",
+            "bioLinks",
+            "displayName",
+            "emails",
+            "externalUrl",
+            "handle",
+            "isBusiness",
+            "phones",
+            "private",
+            "publicEmail",
+            "publicPhone",
+            "title",
+            "url",
+            "verified"
+          ]
         },
         {
           "pricing": {
@@ -46975,7 +47007,7 @@
       "slug": "tiktok.video_download",
       "category": "social",
       "name": "TikTok Video Download",
-      "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.",
+      "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.",
       "method": "POST",
       "path": "/v1/run/tiktok.video_download",
       "provider": "AnyAPI",
@@ -47034,6 +47066,42 @@
             "url",
             "videoUrl",
             "watermarkedUrl"
+          ]
+        },
+        {
+          "pricing": {
+            "model": "flat",
+            "unit": "request",
+            "maxUsd": 0.001,
+            "maxPer1kUsd": 1
+          },
+          "source": {
+            "id": "anonymous-ibex",
+            "name": "Ibex",
+            "kind": "anonymous",
+            "artworkKey": "ibex"
+          },
+          "fields": [
+            "authorHandle",
+            "authorImage",
+            "authorName",
+            "authorUserId",
+            "authorVerified",
+            "caption",
+            "createdUtc",
+            "durationSeconds",
+            "hashtags",
+            "height",
+            "id",
+            "image",
+            "region",
+            "sdVideoUrl",
+            "soundAuthor",
+            "soundClipId",
+            "soundTitle",
+            "url",
+            "videoUrl",
+            "width"
           ]
         },
         {

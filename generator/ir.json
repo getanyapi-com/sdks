@@ -136695,7 +136695,7 @@
       "operationId": "tiktok_video_download",
       "name": "TikTok Video Download",
       "category": "social",
-      "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. Photo-mode posts carry no video file - use tiktok.photos for those.",
+      "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.",
       "pricing": {
         "priceUsd": 0.0008,
         "baseUsd": null,
@@ -136748,6 +136748,7 @@
                 "authorFollowers",
                 "authorVerified",
                 "height",
+                "watermarkedUrl",
                 "width"
               ],
               "default": null,
@@ -136888,7 +136889,7 @@
             },
             "sdVideoUrl": {
               "kind": "string",
-              "description": "Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived on the same terms as videoUrl.",
+              "description": "Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. On a photo-mode post, the post's music. Signed and short-lived on the same terms as videoUrl.",
               "enum": null,
               "default": null,
               "format": "uri"
@@ -136923,14 +136924,14 @@
             },
             "videoUrl": {
               "kind": "string",
-              "description": "Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
+              "description": "Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. On a photo-mode post it is the post's music, an audio file (MP4 or MP3), not a video. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": "uri"
             },
             "watermarkedUrl": {
               "kind": "string",
-              "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.",
+              "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file. Usually absent on a photo-mode post.",
               "enum": null,
               "default": null,
               "format": "uri"

@@ -734,7 +734,11 @@ class TiktokVideoDownloadInput(TypedDict, total=False):
     preferLatencyUnderMs: NotRequired[int]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
     requireFields: NotRequired[
-        list[Literal["authorFollowers", "authorVerified", "height", "width"]]
+        list[
+            Literal[
+                "authorFollowers", "authorVerified", "height", "watermarkedUrl", "width"
+            ]
+        ]
     ]
     """Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `height` or `width`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a video that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge."""
     source: NotRequired[list[str]]
@@ -3074,7 +3078,7 @@ class TiktokVideoDownloadData(BaseModel):
     sd_video_url: str | None = Field(
         default=None,
         alias="sdVideoUrl",
-        description="Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. Signed and short-lived on the same terms as videoUrl.",
+        description="Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. On a photo-mode post, the post's music. Signed and short-lived on the same terms as videoUrl.",
     )
     sound_author: str | None = Field(
         default=None,
@@ -3096,12 +3100,12 @@ class TiktokVideoDownloadData(BaseModel):
     )
     video_url: str = Field(
         alias="videoUrl",
-        description="Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
+        description="Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. On a photo-mode post it is the post's music, an audio file (MP4 or MP3), not a video. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
     )
     watermarked_url: str | None = Field(
         default=None,
         alias="watermarkedUrl",
-        description="Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file.",
+        description="Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file. Usually absent on a photo-mode post.",
     )
     width: int | None = Field(
         default=None, description="Pixel width of the file in videoUrl."
@@ -4281,8 +4285,10 @@ class TiktokNamespace:
 
         Get the playable media files behind a TikTok video URL: the clean
         no-watermark MP4, the watermarked one TikTok's own save button produces, and
-        the cover image, with duration and pixel dimensions. Photo-mode posts carry
-        no video file - use tiktok.photos for those.
+        the cover image, with duration and pixel dimensions. A photo-mode post has
+        no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio
+        file) and watermarkedUrl is usually absent, or the call may answer not
+        found; use tiktok.photos for its images.
 
         Price: $0.0008 per request.
 
@@ -5412,8 +5418,10 @@ class AsyncTiktokNamespace:
 
         Get the playable media files behind a TikTok video URL: the clean
         no-watermark MP4, the watermarked one TikTok's own save button produces, and
-        the cover image, with duration and pixel dimensions. Photo-mode posts carry
-        no video file - use tiktok.photos for those.
+        the cover image, with duration and pixel dimensions. A photo-mode post has
+        no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio
+        file) and watermarkedUrl is usually absent, or the call may answer not
+        found; use tiktok.photos for its images.
 
         Price: $0.0008 per request.
 
