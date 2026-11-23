@@ -3783,7 +3783,7 @@ class TiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.00059 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
@@ -4916,7 +4916,7 @@ class AsyncTiktokNamespace:
         List a TikTok creator's recent videos (views, likes, comments) by handle
         with cursor pagination.
 
-        Price: $0.00059 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.profile_videos(handle="zachking")
