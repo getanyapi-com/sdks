@@ -138,6 +138,21 @@ class InstagramEmbedInput(TypedDict, total=False):
     """Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
 
 
+class InstagramFindHashtagsInput(TypedDict, total=False):
+    """Input for Instagram Hashtag Finder."""
+
+    allowFallbacks: NotRequired[bool]
+    """Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    ignoreSources: NotRequired[list[str]]
+    """Optional. Source ids to skip for this request, taken from this endpoint's `lanes[].source.id`. The cheapest remaining source serves. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the remaining sources. An id that does not serve this endpoint, or that is also in `source`, is rejected as invalid input with no charge; skipping every source is rejected the same way."""
+    preferLatencyUnderMs: NotRequired[int]
+    """Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted. Minimum: 1."""
+    query: Required[str]
+    """Keyword to find hashtags for, in any language, with or without a leading #. One call returns one page of results; there is no next page."""
+    source: NotRequired[list[str]]
+    """Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`."""
+
+
 class InstagramFollowersInput(TypedDict, total=False):
     """Input for Instagram Followers."""
 
@@ -1176,6 +1191,31 @@ class InstagramEmbedData(BaseModel):
 
     html: str = Field(
         description="Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramFindHashtagsData(BaseModel):
+    hashtags: list[InstagramFindHashtagsHashtag] = Field(
+        description="Hashtags matching the keyword in Instagram's order, usually around 55 per search. Populated whenever the provider has data for the entity."
+    )
+
+
+class InstagramFindHashtagsHashtag(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+    id: str = Field(
+        description="Instagram hashtag id, as a string so every digit is exact. Populated whenever the provider has data for the entity."
+    )
+    name: str = Field(
+        description="Hashtag without the #. Pass it to instagram.search_hashtag or instagram.hashtag_analytics. Populated whenever the provider has data for the entity."
+    )
+    posts_count: int | None = Field(
+        default=None,
+        alias="postsCount",
+        description="Number of posts using the hashtag. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+    )
+    url: str = Field(
+        description="Link to the hashtag's page on Instagram. Populated whenever the provider has data for the entity."
     )
 
 
@@ -4796,6 +4836,28 @@ class InstagramNamespace:
         )
         return RunResult[InstagramEmbedData].model_validate(raw)
 
+    def find_hashtags(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramFindHashtagsInput],
+    ) -> RunResult[InstagramFindHashtagsData]:
+        """Instagram Hashtag Finder
+
+        Find Instagram hashtags by keyword: get the matching tags, usually around 55
+        per search, each with its name, link, post count, and tag id. To list the
+        posts under a hashtag you already know, use instagram.search_hashtag.
+
+        Price: $0.0011 per request.
+
+        Example:
+            res = client.instagram.find_hashtags(query="coffee")
+        """
+        raw = self._client._run_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.find_hashtags", dict(input), options
+        )
+        return RunResult[InstagramFindHashtagsData].model_validate(raw)
+
     def followers(
         self,
         *,
@@ -6178,6 +6240,28 @@ class AsyncInstagramNamespace:
             "instagram.embed", dict(input), options
         )
         return RunResult[InstagramEmbedData].model_validate(raw)
+
+    async def find_hashtags(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[InstagramFindHashtagsInput],
+    ) -> RunResult[InstagramFindHashtagsData]:
+        """Instagram Hashtag Finder
+
+        Find Instagram hashtags by keyword: get the matching tags, usually around 55
+        per search, each with its name, link, post count, and tag id. To list the
+        posts under a hashtag you already know, use instagram.search_hashtag.
+
+        Price: $0.0011 per request.
+
+        Example:
+            res = client.instagram.find_hashtags(query="coffee")
+        """
+        raw = await self._client._arun_raw(  # pyright: ignore[reportPrivateUsage]
+            "instagram.find_hashtags", dict(input), options
+        )
+        return RunResult[InstagramFindHashtagsData].model_validate(raw)
 
     async def followers(
         self,

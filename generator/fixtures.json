@@ -3552,6 +3552,25 @@
     "items": 1,
     "replayed": false
   },
+  "instagram.find_hashtags": {
+    "output": {
+      "found": true,
+      "data": {
+        "hashtags": [
+          {
+            "name": "sample",
+            "url": "sample",
+            "id": "sample",
+            "_extra": "passthrough"
+          }
+        ]
+      }
+    },
+    "provider": "AnyAPI",
+    "costUsd": 0.001,
+    "items": 1,
+    "replayed": false
+  },
   "instagram.followers": {
     "output": {
       "found": true,

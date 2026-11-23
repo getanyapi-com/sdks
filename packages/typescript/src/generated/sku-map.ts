@@ -437,6 +437,8 @@ import type {
   InstagramCommentRepliesInput,
   InstagramEmbedData,
   InstagramEmbedInput,
+  InstagramFindHashtagsData,
+  InstagramFindHashtagsInput,
   InstagramFollowersData,
   InstagramFollowersInput,
   InstagramFollowingData,
@@ -2067,6 +2069,11 @@ export interface SkuMap {
     input: InstagramEmbedInput;
     data: InstagramEmbedData;
     result: RunResult<InstagramEmbedData>;
+  };
+  "instagram.find_hashtags": {
+    input: InstagramFindHashtagsInput;
+    data: InstagramFindHashtagsData;
+    result: RunResult<InstagramFindHashtagsData>;
   };
   "instagram.followers": {
     input: InstagramFollowersInput;
