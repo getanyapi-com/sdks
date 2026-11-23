@@ -4459,7 +4459,7 @@ export class TiktokNamespace {
    *
    * List a TikTok creator's recent videos (views, likes, comments) by handle with cursor pagination.
    *
-   * Price: $0.0004 per request.
+   * Price: $0.00059 per request.
    *
    * @example
    * const res = await client.tiktok.profileVideos({ handle: "zachking" });
