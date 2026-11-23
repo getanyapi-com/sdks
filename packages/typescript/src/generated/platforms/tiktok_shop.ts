@@ -459,7 +459,7 @@ export interface TiktokShopProductReviewsReview {
    */
   country: string;
   /**
-   * Review time as epoch milliseconds. Populated whenever the provider has data for the entity.
+   * UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity.
    */
   createdUtc: number;
   /**

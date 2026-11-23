@@ -181806,7 +181806,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -311701,14 +311701,22 @@
                                         "properties": {
                                           "avatarUrl": {
                                             "description": "Reviewer's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "country": {
                                             "description": "Reviewer's country code.",
                                             "type": "string"
                                           },
                                           "createdUtc": {
-                                            "description": "Review time as epoch milliseconds. Populated whenever the provider has data for the entity.",
+                                            "description": "UTC epoch timestamp in seconds (Unix time). Multiply by 1000 for a JS Date in milliseconds. When the review was posted. Populated whenever the provider has data for the entity.",
                                             "type": "number",
                                             "x-anyapi-must-populate": true
                                           },
@@ -311720,7 +311728,15 @@
                                           "images": {
                                             "description": "Photos the reviewer attached, as image URLs; empty when the review has none. Some are signed and short-lived, so the query string is kept intact. Omitted when the serving source does not report review photos.",
                                             "items": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "x-anyapi-domain": [
+                                                "tiktokcdn.com",
+                                                "tiktokcdn-us.com",
+                                                "tiktokcdn-eu.com",
+                                                "ibyteimg.com",
+                                                "ttcdn-us.com",
+                                                "lh3.googleusercontent.com"
+                                              ]
                                             },
                                             "type": "array"
                                           },
@@ -313600,7 +313616,15 @@
                                           },
                                           "image": {
                                             "description": "Product image URL.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "originalPrice": {
                                             "description": "Pre-discount list price, or null when the product is not on sale.",
@@ -313643,6 +313667,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "tiktok.com",
                                             "x-anyapi-must-populate": true
                                           }
                                         },
@@ -328508,7 +328533,7 @@
     },
     "/v1/run/twitter.user_tweets": {
       "post": {
-        "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Tweets and Replies pricing and uptime](https://getanyapi.com/api/x-twitter/user-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Tweets and Replies pricing and uptime](https://getanyapi.com/api/x-twitter/user-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_user_tweets",
         "parameters": [
           {
