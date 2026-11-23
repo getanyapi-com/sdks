@@ -4242,7 +4242,7 @@ class TiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0006 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")
@@ -5375,7 +5375,7 @@ class AsyncTiktokNamespace:
         List the comments on a TikTok video by URL with cursor pagination (text,
         author, likes, reply count).
 
-        Price: $0.0006 per request.
+        Price: $0.0004 per request.
 
         Example:
             res = client.tiktok.video_comments(url="https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m")

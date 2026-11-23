@@ -154763,7 +154763,7 @@
     },
     "/v1/run/instagram.tagged_posts": {
       "post": {
-        "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).\n\n**Price:** \\$1.88 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Tagged Posts pricing and uptime](https://getanyapi.com/api/instagram/tagged-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).\n\n**Price:** \\$1.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Tagged Posts pricing and uptime](https://getanyapi.com/api/instagram/tagged-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_tagged_posts",
         "parameters": [
           {
@@ -155419,7 +155419,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001880",
+            "amount": "0.001350",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -155461,7 +155461,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002880",
+                "amount": "0.002350",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -155493,7 +155493,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001880",
+                "amount": "0.001350",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -305364,7 +305364,7 @@
     },
     "/v1/run/tiktok.video_comments": {
       "post": {
-        "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Comments pricing and uptime](https://getanyapi.com/api/tiktok/video-comments) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).\n\n**Price:** \\$0.40 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Video Comments pricing and uptime](https://getanyapi.com/api/tiktok/video-comments) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_video_comments",
         "parameters": [
           {
@@ -305905,7 +305905,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000600",
+            "amount": "0.000400",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -305947,7 +305947,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001600",
+                "amount": "0.001400",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -305979,7 +305979,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000600",
+                "amount": "0.000400",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -326915,7 +326915,7 @@
     },
     "/v1/run/twitter.user_tweets": {
       "post": {
-        "description": "Get up to the requested limit of tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination where available.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Tweets and Replies pricing and uptime](https://getanyapi.com/api/x-twitter/user-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.44 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Tweets and Replies pricing and uptime](https://getanyapi.com/api/x-twitter/user-tweets) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_user_tweets",
         "parameters": [
           {
@@ -326980,14 +326980,12 @@
           "content": {
             "application/json": {
               "example": {
-                "handle": "levelsio",
-                "limit": 20
+                "handle": "levelsio"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "handle": "levelsio",
-                  "limit": 20
+                  "handle": "levelsio"
                 },
                 "properties": {
                   "allowFallbacks": {
@@ -327012,13 +327010,6 @@
                     "type": "array",
                     "uniqueItems": true
                   },
-                  "limit": {
-                    "default": 20,
-                    "description": "Page size to ask for (1-100, default 20). Some sources honor it; others always return their whole native page of about 20 authored tweets and replies. A page is never trimmed after the call, so follow nextCursor and pass it back as cursor to continue exactly where this response ended.",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "integer"
-                  },
                   "preferLatencyUnderMs": {
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
                     "minimum": 1,
@@ -327034,10 +327025,6 @@
                     },
                     "type": "array",
                     "uniqueItems": true
-                  },
-                  "requireSinglePage": {
-                    "description": "Require a lane that can return the requested limit in one response.",
-                    "type": "boolean"
                   },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -327056,6 +327043,14 @@
                 "type": "object",
                 "x-aliases": {
                   "username": "handle"
+                },
+                "x-anyapi-compat-inputs": {
+                  "limit": {
+                    "ignore": true
+                  },
+                  "requireSinglePage": {
+                    "ignore": true
+                  }
                 }
               }
             }
