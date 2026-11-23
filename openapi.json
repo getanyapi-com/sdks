@@ -150403,7 +150403,6 @@
                       "enum": [
                         "bioLinks",
                         "category",
-                        "isBusiness",
                         "private"
                       ],
                       "type": "string"
@@ -167936,7 +167935,7 @@
     },
     "/v1/run/linkedin.company_employees": {
       "post": {
-        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$6.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "List the employees of a LinkedIn company by name or company URL, with optional job-title filtering.\n\n**Price:** \\$20.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Company Employees pricing and uptime](https://getanyapi.com/api/linkedin/company-employees) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_company_employees",
         "parameters": [
           {
@@ -168500,7 +168499,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.006000",
+            "amount": "0.020000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -168542,7 +168541,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.007000",
+                "amount": "0.021000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -168574,7 +168573,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.006000",
+                "amount": "0.020000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
