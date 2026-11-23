@@ -9458,8 +9458,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-22",
-        "checkOut": "2026-12-24",
+        "checkIn": "2026-12-23",
+        "checkOut": "2026-12-25",
         "limit": 3,
         "query": "New York"
       },
@@ -34798,7 +34798,7 @@
       "category": "social",
       "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00109,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -45873,7 +45873,7 @@
       "category": "search",
       "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50263,8 +50263,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-22",
-        "departureDateTo": "2027-01-20",
+        "departureDateFrom": "2026-12-23",
+        "departureDateTo": "2027-01-21",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50554,7 +50554,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-22",
+        "departureDate": "2026-12-23",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50955,8 +50955,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-22",
-        "checkOut": "2026-12-24",
+        "checkIn": "2026-12-23",
+        "checkOut": "2026-12-25",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51553,8 +51553,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-22",
-        "checkOut": "2026-12-24",
+        "checkIn": "2026-12-23",
+        "checkOut": "2026-12-25",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -62312,7 +62312,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00135,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63131,7 +63131,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00068,
+        "priceUsd": 0.00067,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63635,7 +63635,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00068,
+        "priceUsd": 0.00067,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -81887,7 +81887,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.0014,
+        "priceUsd": 0.00135,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -106699,7 +106699,7 @@
       "category": "social",
       "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "pricing": {
-        "priceUsd": 0.00036,
+        "priceUsd": 0.00035,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -145845,8 +145845,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-22",
-        "checkOut": "2026-12-25",
+        "checkIn": "2026-12-23",
+        "checkOut": "2026-12-26",
         "propertyId": "69764328"
       },
       "input": {
@@ -146619,8 +146619,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-22",
-        "checkOut": "2026-12-25",
+        "checkIn": "2026-12-23",
+        "checkOut": "2026-12-26",
         "location": "Lake Tahoe"
       },
       "input": {
