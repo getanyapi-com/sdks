@@ -1695,7 +1695,7 @@ class TwitterNamespace:
         tweets with text, author, engagement, and cursor pagination. Every call
         returns one full native page of about 20 tweets; follow nextCursor for more.
 
-        Price: $0.00047 per request.
+        Price: $0.00048 per request.
 
         Example:
             res = client.twitter.search(query="openai")
@@ -2233,7 +2233,7 @@ class AsyncTwitterNamespace:
         tweets with text, author, engagement, and cursor pagination. Every call
         returns one full native page of about 20 tweets; follow nextCursor for more.
 
-        Price: $0.00047 per request.
+        Price: $0.00048 per request.
 
         Example:
             res = client.twitter.search(query="openai")

@@ -49493,7 +49493,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00084,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61273,7 +61273,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.0022,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -62313,7 +62313,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00135,
+        "priceUsd": 0.00188,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134170,7 +134170,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0006,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -139109,7 +139109,7 @@
       "category": "shop",
       "description": "Fetch TikTok Shop product details (title, price, sales, seller, and ratings) from a product URL.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00095,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143819,7 +143819,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00047,
+        "priceUsd": 0.00048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -151740,7 +151740,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00044,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

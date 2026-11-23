@@ -2073,7 +2073,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.
    *
-   * Price: $0.00047 per request.
+   * Price: $0.00048 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
