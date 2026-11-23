@@ -54066,7 +54066,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00079,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57196,7 +57196,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.00037,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143816,7 +143816,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
