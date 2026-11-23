@@ -35071,6 +35071,8 @@
                   },
                   "currency": {
                     "kind": "string",
+                    "description": "Currency code of the ad's reported spend, such as USD or EUR. Null when the source does not report one, which is the case for most ads.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -35256,7 +35258,6 @@
                   "active",
                   "startDate",
                   "endDate",
-                  "currency",
                   "text",
                   "displayFormat",
                   "platforms",
@@ -63131,7 +63132,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00067,
+        "priceUsd": 0.00068,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -133374,7 +133375,7 @@
       "category": "social",
       "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154308,7 +154309,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00089,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

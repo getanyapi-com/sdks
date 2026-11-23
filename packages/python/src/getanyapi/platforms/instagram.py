@@ -5784,7 +5784,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.00067 per request.
+        Price: $0.00068 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -7169,7 +7169,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.00067 per request.
+        Price: $0.00068 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")

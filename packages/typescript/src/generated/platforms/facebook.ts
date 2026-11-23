@@ -943,7 +943,10 @@ export interface FacebookCompanyAdsAd {
    * Call-to-action button type on the ad, e.g. "SHOP_NOW".
    */
   ctaType?: string;
-  currency: string;
+  /**
+   * Currency code of the ad's reported spend, such as USD or EUR. Null when the source does not report one, which is the case for most ads.
+   */
+  currency?: string | null;
   /**
    * Populated whenever the provider has data for the entity.
    */

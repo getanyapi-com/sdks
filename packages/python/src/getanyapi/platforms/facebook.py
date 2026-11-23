@@ -1229,7 +1229,10 @@ class FacebookCompanyAdsAd(BaseModel):
         alias="ctaType",
         description='Call-to-action button type on the ad, e.g. "SHOP_NOW".',
     )
-    currency: str
+    currency: str | None = Field(
+        default=None,
+        description="Currency code of the ad's reported spend, such as USD or EUR. Null when the source does not report one, which is the case for most ads.",
+    )
     display_format: str = Field(
         alias="displayFormat",
         description="Populated whenever the provider has data for the entity.",

@@ -4579,7 +4579,7 @@ export class TiktokNamespace {
    *
    * Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.
    *
-   * Price: $0.0018 per request.
+   * Price: $0.0012 per request.
    *
    * @example
    * const res = await client.tiktok.searchPhotos({ query: "latte art" });
