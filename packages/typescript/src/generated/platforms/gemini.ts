@@ -52,7 +52,7 @@ export interface GeminiSearchCitation {
  */
 export interface GeminiSearchData {
   /**
-   * The web-grounded answer as text. Populated whenever the provider has data for the entity.
+   * The answer as text. Populated whenever the provider has data for the entity.
    */
   answer: string;
   /**
@@ -60,7 +60,7 @@ export interface GeminiSearchData {
    */
   answerMarkdown: string;
   /**
-   * Sources cited by the answer. Populated whenever the provider has data for the entity.
+   * Sources cited by the answer. Empty when Gemini answered without citing any pages.
    */
   citations: GeminiSearchCitation[];
   /**
@@ -79,7 +79,7 @@ export class GeminiNamespace {
   /**
    * Gemini Search
    *
-   * Ask Gemini a web-grounded question and receive an answer with source citations.
+   * Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.
    *
    * Price: $0.0048 per request.
    *

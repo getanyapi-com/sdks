@@ -41320,7 +41320,7 @@
       "operationId": "gemini_search",
       "name": "Gemini Search",
       "category": "search",
-      "description": "Ask Gemini a web-grounded question and receive an answer with source citations.",
+      "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
         "priceUsd": 0.0048,
         "baseUsd": null,
@@ -41395,7 +41395,7 @@
           "properties": {
             "answer": {
               "kind": "string",
-              "description": "The web-grounded answer as text. Populated whenever the provider has data for the entity.",
+              "description": "The answer as text. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
@@ -41409,7 +41409,7 @@
             },
             "citations": {
               "kind": "array",
-              "description": "Sources cited by the answer. Populated whenever the provider has data for the entity.",
+              "description": "Sources cited by the answer. Empty when Gemini answered without citing any pages.",
               "items": {
                 "kind": "object",
                 "properties": {
@@ -41434,7 +41434,7 @@
                 ],
                 "open": true
               },
-              "mustPopulate": true
+              "mustPopulate": false
             },
             "prompt": {
               "kind": "string",
@@ -41453,8 +41453,7 @@
           "open": false,
           "mustPopulate": [
             "answer",
-            "answerMarkdown",
-            "citations"
+            "answerMarkdown"
           ]
         }
       },
