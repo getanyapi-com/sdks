@@ -49493,7 +49493,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00078,
+        "priceUsd": 0.00077,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57346,7 +57346,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.00037,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83188,7 +83188,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00139,
+        "priceUsd": 0.00135,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132558,7 +132558,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.00037,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -151899,7 +151899,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00039,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153187,7 +153187,7 @@
       "category": "video",
       "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
-        "priceUsd": 0.00073,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155606,7 +155606,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00083,
+        "priceUsd": 0.00082,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

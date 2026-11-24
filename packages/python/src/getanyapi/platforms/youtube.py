@@ -1360,7 +1360,7 @@ class YoutubeNamespace:
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) and the links on its About page, by handle or channel ID.
 
-        Price: $0.00039 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.youtube.channel(handle="@mkbhd")
@@ -1613,7 +1613,7 @@ class YoutubeNamespace:
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time).
 
-        Price: $0.00073 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -1981,7 +1981,7 @@ class YoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video or Short by URL or ID.
 
-        Price: $0.00083 per request.
+        Price: $0.00082 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2031,7 +2031,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube channel's stats (subscribers, video count, total views,
         description) and the links on its About page, by handle or channel ID.
 
-        Price: $0.00039 per request.
+        Price: $0.00038 per request.
 
         Example:
             res = client.youtube.channel(handle="@mkbhd")
@@ -2286,7 +2286,7 @@ class AsyncYoutubeNamespace:
         List a YouTube channel's videos by handle or channel ID with cursor
         pagination (title, views, length, publish time).
 
-        Price: $0.00073 per request.
+        Price: $0.00072 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -2654,7 +2654,7 @@ class AsyncYoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video or Short by URL or ID.
 
-        Price: $0.00083 per request.
+        Price: $0.00082 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
