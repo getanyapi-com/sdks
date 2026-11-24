@@ -186,7 +186,7 @@ export interface EtsySearchInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `rating`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: ("rating" | "reviewsCount" | "totalResults")[];
+  requireFields?: ("rating" | "totalResults")[];
   /**
    * Result order: relevance (Etsy's own order, the default), newest, price_low, or price_high.
    * One of: relevance, newest, price_low, price_high.
@@ -228,11 +228,11 @@ export interface EtsySearchItem {
    */
   price?: number | null;
   /**
-   * Average rating of the listing, 0-5, or null when unrated or the serving source does not report it.
+   * Average rating of the shop selling the listing, 0-5, or null when the shop is unrated or the serving source does not report it.
    */
   rating?: number | null;
   /**
-   * Number of reviews of the listing, or null when not reported.
+   * Number of reviews of the listing, or null when the serving source does not report it.
    */
   reviewsCount?: number | null;
   /**
@@ -488,7 +488,7 @@ export class EtsyNamespace {
   /**
    * Etsy Search
    *
-   * Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.
+   * Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, shop rating and ad flag for each listing in one normalized response.
    *
    * Price: $0.0009 per request.
    *

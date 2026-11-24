@@ -945,7 +945,7 @@ export class MapsNamespace {
    *
    * Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.
    *
-   * Price: $0 per request plus $0.00004 per result (maximum $0.0035).
+   * Price: $0.00015 per request plus $0.00002 per result (maximum $0.00215).
    *
    * @example
    * const res = await client.maps.reviews({ placeId: "ChIJN1t_tDeuEmsRUsoyG83frY4", limit: 3 });
@@ -962,7 +962,7 @@ export class MapsNamespace {
    *
    * Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.
    *
-   * Price: $0.00134 per request.
+   * Price: $0.00133 per request.
    *
    * @example
    * const res = await client.maps.search({ location: "Austin, TX", query: "coffee", limit: 3 });

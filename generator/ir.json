@@ -32358,7 +32358,7 @@
       "operationId": "etsy_search",
       "name": "Etsy Search",
       "category": "shop",
-      "description": "Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, rating and ad flag for each listing in one normalized response.",
+      "description": "Search Etsy listings by keyword, the same results an Etsy search or /market page shows, with optional sort, price range and page, and get title, price, original price, image, shop, shop rating and ad flag for each listing in one normalized response.",
       "pricing": {
         "priceUsd": 0.0009,
         "baseUsd": null,
@@ -32437,7 +32437,6 @@
               "kind": "string",
               "enum": [
                 "rating",
-                "reviewsCount",
                 "totalResults"
               ],
               "default": null,
@@ -32532,7 +32531,7 @@
                   },
                   "rating": {
                     "kind": "number",
-                    "description": "Average rating of the listing, 0-5, or null when unrated or the serving source does not report it.",
+                    "description": "Average rating of the shop selling the listing, 0-5, or null when the shop is unrated or the serving source does not report it.",
                     "nullable": true,
                     "minimum": null,
                     "maximum": null,
@@ -32540,7 +32539,7 @@
                   },
                   "reviewsCount": {
                     "kind": "integer",
-                    "description": "Number of reviews of the listing, or null when not reported.",
+                    "description": "Number of reviews of the listing, or null when the serving source does not report it.",
                     "nullable": true,
                     "minimum": null,
                     "maximum": null,
@@ -34020,7 +34019,7 @@
       "category": "social",
       "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00109,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48665,7 +48664,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.016,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57731,7 +57730,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.00072,
+        "priceUsd": 0.00071,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70380,7 +70379,7 @@
       "category": "social",
       "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.",
       "pricing": {
-        "priceUsd": 0.00078,
+        "priceUsd": 0.00077,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73040,7 +73039,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.00058,
+        "priceUsd": 0.00057,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -82888,9 +82887,9 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0035,
-        "baseUsd": 0,
-        "perItemUsd": 0.00004,
+        "priceUsd": 0.00215,
+        "baseUsd": 0.00015,
+        "perItemUsd": 0.00002,
         "perItemUnit": "result"
       },
       "tsNamespace": "maps",
@@ -83187,7 +83186,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00134,
+        "priceUsd": 0.00133,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
