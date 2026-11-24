@@ -9458,8 +9458,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-23",
-        "checkOut": "2026-12-25",
+        "checkIn": "2026-12-24",
+        "checkOut": "2026-12-26",
         "limit": 3,
         "query": "New York"
       },
@@ -47508,7 +47508,7 @@
       "category": "search",
       "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00087,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50264,8 +50264,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-23",
-        "departureDateTo": "2027-01-21",
+        "departureDateFrom": "2026-12-24",
+        "departureDateTo": "2027-01-22",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50555,7 +50555,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-23",
+        "departureDate": "2026-12-24",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50956,8 +50956,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-23",
-        "checkOut": "2026-12-25",
+        "checkIn": "2026-12-24",
+        "checkOut": "2026-12-26",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51554,8 +51554,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-23",
-        "checkOut": "2026-12-25",
+        "checkIn": "2026-12-24",
+        "checkOut": "2026-12-26",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -59640,7 +59640,7 @@
       "category": "social",
       "description": "Search Instagram for users, hashtags, or places by keyword and get matching results with names, counts, and links.",
       "pricing": {
-        "priceUsd": 0.0032,
+        "priceUsd": 0.00126,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63281,7 +63281,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00067,
+        "priceUsd": 0.00068,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -72758,7 +72758,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.00056,
+        "priceUsd": 0.00054,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -147138,8 +147138,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-23",
-        "checkOut": "2026-12-26",
+        "checkIn": "2026-12-24",
+        "checkOut": "2026-12-27",
         "propertyId": "69764328"
       },
       "input": {
@@ -147912,8 +147912,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-23",
-        "checkOut": "2026-12-26",
+        "checkIn": "2026-12-24",
+        "checkOut": "2026-12-27",
         "location": "Lake Tahoe"
       },
       "input": {
@@ -154010,7 +154010,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00039,
+        "priceUsd": 0.00037,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154916,7 +154916,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00064,
+        "priceUsd": 0.00062,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155152,7 +155152,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00074,
+        "priceUsd": 0.00073,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

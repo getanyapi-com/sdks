@@ -591,7 +591,7 @@ export class VrboNamespace {
    * Price: $0.00085 per request.
    *
    * @example
-   * const res = await client.vrbo.listing({ propertyId: "69764328", adults: 2, checkIn: "2026-12-23", checkOut: "2026-12-26" });
+   * const res = await client.vrbo.listing({ propertyId: "69764328", adults: 2, checkIn: "2026-12-24", checkOut: "2026-12-27" });
    */
   listing(
     input: VrboListingInput,
@@ -608,7 +608,7 @@ export class VrboNamespace {
    * Price: $0.00085 per request.
    *
    * @example
-   * const res = await client.vrbo.search({ checkIn: "2026-12-23", checkOut: "2026-12-26", location: "Lake Tahoe", adults: 2 });
+   * const res = await client.vrbo.search({ checkIn: "2026-12-24", checkOut: "2026-12-27", location: "Lake Tahoe", adults: 2 });
    */
   search(
     input: VrboSearchInput,
