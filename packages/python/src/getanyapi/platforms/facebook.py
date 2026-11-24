@@ -3544,7 +3544,7 @@ class FacebookNamespace:
         List a Facebook page's recent posts by URL or page id with cursor pagination
         (text, author, publication time, permalink).
 
-        Price: $0.00115 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_posts(url="https://www.facebook.com/nike")
@@ -4399,7 +4399,7 @@ class AsyncFacebookNamespace:
         List a Facebook page's recent posts by URL or page id with cursor pagination
         (text, author, publication time, permalink).
 
-        Price: $0.00115 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.facebook.profile_posts(url="https://www.facebook.com/nike")

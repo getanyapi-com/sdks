@@ -5823,7 +5823,7 @@ class InstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.0012 per request.
+        Price: $0.001 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")
@@ -7230,7 +7230,7 @@ class AsyncInstagramNamespace:
 
         List an Instagram account's story highlight reels by handle.
 
-        Price: $0.0012 per request.
+        Price: $0.001 per request.
 
         Example:
             res = client.instagram.user_highlights(handle="nasa")

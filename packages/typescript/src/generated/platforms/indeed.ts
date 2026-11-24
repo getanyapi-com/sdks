@@ -201,7 +201,7 @@ export class IndeedNamespace {
    *
    * Search Indeed job listings by keyword, location, and country, with up to 100 normalized job records per request. Outside the US, salary may be null even when the Indeed listing shows pay.
    *
-   * Price: $0.00115 per request.
+   * Price: $0.00125 per request.
    *
    * @example
    * const res = await client.indeed.jobs({ query: "data analyst", limit: 3, location: "Austin, TX" });

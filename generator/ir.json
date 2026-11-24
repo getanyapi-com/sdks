@@ -4668,7 +4668,7 @@
       "category": "shop",
       "description": "Search Amazon from any search or category URL and get up to 20 matching products (title, price, rating, and thumbnail) in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39301,7 +39301,7 @@
       "category": "social",
       "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).",
       "pricing": {
-        "priceUsd": 0.00115,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49492,7 +49492,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00077,
+        "priceUsd": 0.00076,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -53193,7 +53193,7 @@
       "category": "data",
       "description": "Search Indeed job listings by keyword, location, and country, with up to 100 normalized job records per request. Outside the US, salary may be null even when the Indeed listing shows pay.",
       "pricing": {
-        "priceUsd": 0.00115,
+        "priceUsd": 0.00125,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63081,7 +63081,7 @@
       "category": "social",
       "description": "List an Instagram account's story highlight reels by handle.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132557,7 +132557,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00037,
+        "priceUsd": 0.00035,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143461,7 +143461,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00019,
+        "priceUsd": 0.00017,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146082,7 +146082,7 @@
       "category": "social",
       "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00044,
+        "priceUsd": 0.00043,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -151885,7 +151885,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.00036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153173,7 +153173,7 @@
       "category": "video",
       "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
-        "priceUsd": 0.00072,
+        "priceUsd": 0.00071,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155592,7 +155592,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00082,
+        "priceUsd": 0.00081,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
