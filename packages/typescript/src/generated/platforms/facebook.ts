@@ -3579,7 +3579,7 @@ export class FacebookNamespace {
    *
    * Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.
    *
-   * Price: $0.00105 per request.
+   * Price: $0.00109 per request.
    *
    * @example
    * const res = await client.facebook.adsSearch({ query: "nike", country: "US", searchType: "keyword_exact_phrase" });
@@ -3807,7 +3807,7 @@ export class FacebookNamespace {
    *
    * Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00072 per request.
    *
    * @example
    * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/instantpotcommunity/" });
@@ -4130,7 +4130,7 @@ export class FacebookNamespace {
    *
    * List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00115 per request.
    *
    * @example
    * const res = await client.facebook.profilePosts({ url: "https://www.facebook.com/nike" });
