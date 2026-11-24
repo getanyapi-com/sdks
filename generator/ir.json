@@ -49493,7 +49493,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00079,
+        "priceUsd": 0.00078,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132558,7 +132558,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00039,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144033,6 +144033,19 @@
             "default": "Latest",
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "nextCursor"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -144260,7 +144273,7 @@
             },
             "nextCursor": {
               "kind": "string",
-              "description": "Opaque cursor for the next page of search results, or null when there are no more. Pass it back as cursor to continue.",
+              "description": "Opaque cursor for the next page of search results. Pass it back as cursor to continue. Null when there are no more results, or when the source that served this call cannot continue the search; to be served only by a source that can, send requireFields: [\"nextCursor\"] on the first page.",
               "nullable": true,
               "enum": null,
               "default": null,
@@ -151886,7 +151899,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153174,7 +153187,7 @@
       "category": "video",
       "description": "List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).",
       "pricing": {
-        "priceUsd": 0.00074,
+        "priceUsd": 0.00073,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154010,7 +154023,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00037,
+        "priceUsd": 0.00036,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154916,7 +154929,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00062,
+        "priceUsd": 0.00061,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155152,7 +155165,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00073,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155593,7 +155606,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00084,
+        "priceUsd": 0.00083,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
