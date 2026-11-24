@@ -636,7 +636,7 @@ export interface YoutubeChannelVideosData {
    */
   nextCursor: string | null;
   /**
-   * Populated whenever the provider has data for the entity.
+   * The channel's regular videos, as its Videos tab lists them. Shorts are not included; they are returned by youtube.channel_shorts. Populated whenever the provider has data for the entity.
    */
   videos: YoutubeChannelVideosVideo[];
 }
@@ -2000,7 +2000,7 @@ export class YoutubeNamespace {
   /**
    * YouTube Channel Videos
    *
-   * List a YouTube channel's videos by handle or channel ID with cursor pagination (title, views, length, publish time).
+   * List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.
    *
    * Price: $0.0007 per request.
    *

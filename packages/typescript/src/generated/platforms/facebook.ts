@@ -3659,7 +3659,7 @@ export class FacebookNamespace {
    *
    * List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.
    *
-   * Price: $0.0011 per request.
+   * Price: $0.00109 per request.
    *
    * @example
    * const res = await client.facebook.companyAds({ pageId: "15087023444", sortBy: "recent" });
