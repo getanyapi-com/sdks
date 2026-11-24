@@ -4717,7 +4717,7 @@ class InstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00079 per request.
+        Price: $0.00077 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -5187,7 +5187,7 @@ class InstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.00037 per request.
+        Price: $0.00035 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -5273,7 +5273,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00053 per request.
+        Price: $0.00052 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -5650,7 +5650,7 @@ class InstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.0022 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -5888,7 +5888,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00067 per request.
+        Price: $0.00065 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -6122,7 +6122,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00079 per request.
+        Price: $0.00077 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -6594,7 +6594,7 @@ class AsyncInstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.00037 per request.
+        Price: $0.00035 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -6680,7 +6680,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00053 per request.
+        Price: $0.00052 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -7057,7 +7057,7 @@ class AsyncInstagramNamespace:
         instead. For the full list of accounts Instagram suggests as similar, use
         instagram.suggested_profiles.
 
-        Price: $0.0022 per request.
+        Price: $0.00175 per request.
 
         Example:
             res = client.instagram.similar_profiles(handle="nasa")
@@ -7295,7 +7295,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00067 per request.
+        Price: $0.00065 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")

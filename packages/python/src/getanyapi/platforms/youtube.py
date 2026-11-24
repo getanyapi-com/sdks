@@ -1743,7 +1743,7 @@ class YoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.00034 per request.
+        Price: $0.00033 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -1896,7 +1896,7 @@ class YoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.00059 per request.
+        Price: $0.00058 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1917,7 +1917,7 @@ class YoutubeNamespace:
         List the comments on a YouTube video or Short by URL with cursor pagination
         (text, author, likes, reply count).
 
-        Price: $0.00072 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.youtube.video_comments(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2416,7 +2416,7 @@ class AsyncYoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.00034 per request.
+        Price: $0.00033 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -2569,7 +2569,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.00059 per request.
+        Price: $0.00058 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2590,7 +2590,7 @@ class AsyncYoutubeNamespace:
         List the comments on a YouTube video or Short by URL with cursor pagination
         (text, author, likes, reply count).
 
-        Price: $0.00072 per request.
+        Price: $0.0007 per request.
 
         Example:
             res = client.youtube.video_comments(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")

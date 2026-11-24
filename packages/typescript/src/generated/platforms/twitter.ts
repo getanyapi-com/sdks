@@ -2019,7 +2019,7 @@ export class TwitterNamespace {
    *
    * Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.
    *
-   * Price: $0.00017 per request.
+   * Price: $0.00014 per request.
    *
    * @example
    * const res = await client.twitter.profile({ handle: "nasa" });
@@ -2036,7 +2036,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.
    *
-   * Price: $0.00044 per request.
+   * Price: $0.00042 per request.
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20" });
@@ -2073,7 +2073,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.
    *
-   * Price: $0.00048 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -2258,7 +2258,7 @@ export class TwitterNamespace {
    *
    * Get an X (Twitter) account's profile Posts-tab timeline by handle. Results follow profile order: a pinned post may appear first, followed by otherwise reverse-chronological authored posts, reposts, quotes, and self-thread continuations.
    *
-   * Price: $0.00044 per request.
+   * Price: $0.00043 per request.
    *
    * @example
    * const res = await client.twitter.userPosts({ handle: "levelsio" });
@@ -2295,7 +2295,7 @@ export class TwitterNamespace {
    *
    * Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.
    *
-   * Price: $0.00043 per request.
+   * Price: $0.00041 per request.
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio" });

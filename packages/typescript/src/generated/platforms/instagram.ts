@@ -5662,7 +5662,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.
    *
-   * Price: $0.00079 per request.
+   * Price: $0.00077 per request.
    *
    * @example
    * const res = await client.instagram.basicProfile({ userId: "314216" });
@@ -6070,7 +6070,7 @@ export class InstagramNamespace {
    *
    * Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.
    *
-   * Price: $0.00037 per request.
+   * Price: $0.00035 per request.
    *
    * @example
    * const res = await client.instagram.post({ url: "https://www.instagram.com/reel/DWzrfE2kaY8/" });
@@ -6147,7 +6147,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.
    *
-   * Price: $0.00053 per request.
+   * Price: $0.00052 per request.
    *
    * @example
    * const res = await client.instagram.profile({ handle: "nasa" });
@@ -6452,7 +6452,7 @@ export class InstagramNamespace {
    *
    * List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.
    *
-   * Price: $0.0022 per request.
+   * Price: $0.00175 per request.
    *
    * @example
    * const res = await client.instagram.similarProfiles({ handle: "nasa" });
@@ -6648,7 +6648,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.00067 per request.
+   * Price: $0.00065 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });
