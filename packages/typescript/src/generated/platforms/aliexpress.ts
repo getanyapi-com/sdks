@@ -654,7 +654,7 @@ export class AliexpressNamespace {
    *
    * Search AliExpress by keyword with optional sort, price-range, page, ship-to country and currency, and get title, price, original price, units sold and image for each product in one normalized response.
    *
-   * Price: $0.00107 per request.
+   * Price: $0.00085 per request.
    *
    * @example
    * const res = await client.aliexpress.search({ query: "minecraft room projector" });

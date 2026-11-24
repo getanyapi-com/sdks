@@ -2658,7 +2658,7 @@
       "category": "shop",
       "description": "Search AliExpress by keyword with optional sort, price-range, page, ship-to country and currency, and get title, price, original price, units sold and image for each product in one normalized response.",
       "pricing": {
-        "priceUsd": 0.00107,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -9443,10 +9443,10 @@
       "category": "travel",
       "description": "Search Booking.com stays by destination and dates with optional guest and room occupancy and get hotel results (name, price, review score, location) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.111,
-        "baseUsd": 0.0024,
-        "perItemUsd": 0.0054,
-        "perItemUnit": "result"
+        "priceUsd": 0.0008,
+        "baseUsd": null,
+        "perItemUsd": null,
+        "perItemUnit": null
       },
       "tsNamespace": "booking",
       "tsMethod": "search",
@@ -152947,7 +152947,7 @@
       "category": "video",
       "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination, views, and publish timestamps.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
