@@ -1571,6 +1571,10 @@ export interface FacebookGroupPostsInput {
    */
   preferLatencyUnderMs?: number;
   /**
+   * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sharedPostText`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "sharedPostText"[];
+  /**
    * Ordering for the returned posts (e.g. TOP_POSTS).
    * One of: TOP_POSTS, RECENT_ACTIVITY, CHRONOLOGICAL, CHRONOLOGICAL_LISTINGS.
    */
@@ -1608,7 +1612,7 @@ export interface FacebookGroupPostsPost {
    */
   image?: string;
   /**
-   * Populated whenever the provider has data for the entity.
+   * When the post was published, as a UTC epoch timestamp in seconds. On a post that shares another post, a source that cannot tell a share apart returns the shared post's time here; name `sharedPostText` in `requireFields` to be served by a source that returns the sharing post's own time. Populated whenever the provider has data for the entity.
    */
   publishTime: number;
   reactionCount: number;
@@ -1646,7 +1650,11 @@ export interface FacebookGroupPostsPost {
     wow?: number;
   };
   /**
-   * Populated whenever the provider has data for the entity.
+   * Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields` from the first page.
+   */
+  sharedPostText?: string | null;
+  /**
+   * Text of the post. On a post that shares another post, some sources return the shared post's text here instead of the words its author added; name `sharedPostText` in `requireFields` to be served by a source that returns the author's own words here and the shared post's text in `sharedPostText`. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -2417,7 +2425,12 @@ export interface FacebookPostInput {
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `videoUrl` or `views`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
   requireFields?: (
-    "authorVerified" | "feedbackId" | "reactions" | "videoUrl" | "views"
+    | "authorVerified"
+    | "feedbackId"
+    | "reactions"
+    | "sharedPostText"
+    | "videoUrl"
+    | "views"
   )[];
   /**
    * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
@@ -2504,9 +2517,13 @@ export interface FacebookPostData {
      */
     wow?: number;
   } | null;
+  /**
+   * Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields`.
+   */
+  sharedPostText?: string | null;
   shares: number;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Text of the post. On a post that shares another post, some sources return the shared post's text here instead of the words its author added; name `sharedPostText` in `requireFields` to be served by a source that returns the author's own words here and the shared post's text in `sharedPostText`. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**
@@ -2875,7 +2892,7 @@ export interface FacebookProfilePostsInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "shares"[];
+  requireFields?: ("sharedPostText" | "shares")[];
   /**
    * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -2953,11 +2970,15 @@ export interface FacebookProfilePostsPost {
     wow?: number;
   };
   /**
+   * Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields` from the first page.
+   */
+  sharedPostText?: string | null;
+  /**
    * Number of times the post was shared. Null when this source does not report it.
    */
   shares?: number | null;
   /**
-   * Populated whenever the provider has data for the entity.
+   * Text of the post as the page or profile wrote it. On a post that shares another post, this is the words the sharer added. Populated whenever the provider has data for the entity.
    */
   text: string;
   /**

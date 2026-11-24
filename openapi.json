@@ -86047,6 +86047,17 @@
                     "minimum": 1,
                     "type": "integer"
                   },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sharedPostText`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+                    "items": {
+                      "enum": [
+                        "sharedPostText"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
+                  },
                   "sort": {
                     "description": "Ordering for the returned posts (e.g. TOP_POSTS).",
                     "enum": [
@@ -86154,7 +86165,7 @@
                                             ]
                                           },
                                           "publishTime": {
-                                            "description": "Populated whenever the provider has data for the entity.",
+                                            "description": "When the post was published, as a UTC epoch timestamp in seconds. On a post that shares another post, a source that cannot tell a share apart returns the shared post's time here; name `sharedPostText` in `requireFields` to be served by a source that returns the sharing post's own time. Populated whenever the provider has data for the entity.",
                                             "type": "integer",
                                             "x-anyapi-must-populate": true
                                           },
@@ -86195,8 +86206,15 @@
                                             },
                                             "type": "object"
                                           },
+                                          "sharedPostText": {
+                                            "description": "Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields` from the first page.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
                                           "text": {
-                                            "description": "Populated whenever the provider has data for the entity.",
+                                            "description": "Text of the post. On a post that shares another post, some sources return the shared post's text here instead of the words its author added; name `sharedPostText` in `requireFields` to be served by a source that returns the author's own words here and the shared post's text in `sharedPostText`. Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
                                           },
@@ -90684,6 +90702,7 @@
                         "authorVerified",
                         "feedbackId",
                         "reactions",
+                        "sharedPostText",
                         "videoUrl",
                         "views"
                       ],
@@ -90841,11 +90860,18 @@
                                         "null"
                                       ]
                                     },
+                                    "sharedPostText": {
+                                      "description": "Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields`.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
                                     "shares": {
                                       "type": "integer"
                                     },
                                     "text": {
-                                      "description": "Populated whenever the provider has data for the entity.",
+                                      "description": "Text of the post. On a post that shares another post, some sources return the shared post's text here instead of the words its author added; name `sharedPostText` in `requireFields` to be served by a source that returns the author's own words here and the shared post's text in `sharedPostText`. Populated whenever the provider has data for the entity.",
                                       "type": "string",
                                       "x-anyapi-must-populate": true
                                     },
@@ -93849,6 +93875,7 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `shares`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
+                        "sharedPostText",
                         "shares"
                       ],
                       "type": "string"
@@ -94039,6 +94066,13 @@
                                             },
                                             "type": "object"
                                           },
+                                          "sharedPostText": {
+                                            "description": "Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields` from the first page.",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ]
+                                          },
                                           "shares": {
                                             "description": "Number of times the post was shared. Null when this source does not report it.",
                                             "type": [
@@ -94047,7 +94081,7 @@
                                             ]
                                           },
                                           "text": {
-                                            "description": "Populated whenever the provider has data for the entity.",
+                                            "description": "Text of the post as the page or profile wrote it. On a post that shares another post, this is the words the sharer added. Populated whenever the provider has data for the entity.",
                                             "type": "string",
                                             "x-anyapi-must-populate": true
                                           },
@@ -152236,7 +152270,7 @@
     },
     "/v1/run/instagram.similar_profiles": {
       "post": {
-        "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_similar_profiles",
         "parameters": [
           {
@@ -182390,7 +182424,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.79 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.79 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -325131,7 +325165,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -349679,7 +349713,7 @@
     },
     "/v1/run/youtube.search": {
       "post": {
-        "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.\n\n**Price:** \\$0.33 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Search pricing and uptime](https://getanyapi.com/api/youtube/search) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.\n\n**Price:** \\$0.32 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Search pricing and uptime](https://getanyapi.com/api/youtube/search) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_search",
         "parameters": [
           {
@@ -350239,7 +350273,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000330",
+            "amount": "0.000320",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -350281,7 +350315,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001330",
+                "amount": "0.001320",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -350313,7 +350347,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000330",
+                "amount": "0.000320",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -352204,7 +352238,7 @@
     },
     "/v1/run/youtube.video": {
       "post": {
-        "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.\n\n**Price:** \\$0.58 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video pricing and uptime](https://getanyapi.com/api/youtube/video) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.\n\n**Price:** \\$0.57 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video pricing and uptime](https://getanyapi.com/api/youtube/video) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_video",
         "parameters": [
           {
@@ -352754,7 +352788,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000580",
+            "amount": "0.000570",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -352796,7 +352830,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001580",
+                "amount": "0.001570",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -352828,7 +352862,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000580",
+                "amount": "0.000570",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

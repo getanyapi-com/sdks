@@ -36397,6 +36397,19 @@
             "maximum": null,
             "default": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `sharedPostText`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "sharedPostText"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "sort": {
             "kind": "string",
             "description": "Ordering for the returned posts (e.g. TOP_POSTS).",
@@ -36488,7 +36501,7 @@
                   },
                   "publishTime": {
                     "kind": "integer",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "When the post was published, as a UTC epoch timestamp in seconds. On a post that shares another post, a source that cannot tell a share apart returns the shared post's time here; name `sharedPostText` in `requireFields` to be served by a source that returns the sharing post's own time. Populated whenever the provider has data for the entity.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
@@ -36556,9 +36569,17 @@
                     "required": [],
                     "open": true
                   },
+                  "sharedPostText": {
+                    "kind": "string",
+                    "description": "Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields` from the first page.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "text": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Text of the post. On a post that shares another post, some sources return the shared post's text here instead of the words its author added; name `sharedPostText` in `requireFields` to be served by a source that returns the author's own words here and the shared post's text in `sharedPostText`. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -38272,6 +38293,7 @@
                 "authorVerified",
                 "feedbackId",
                 "reactions",
+                "sharedPostText",
                 "videoUrl",
                 "views"
               ],
@@ -38441,6 +38463,14 @@
               "required": [],
               "open": true
             },
+            "sharedPostText": {
+              "kind": "string",
+              "description": "Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields`.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "shares": {
               "kind": "integer",
               "minimum": null,
@@ -38449,7 +38479,7 @@
             },
             "text": {
               "kind": "string",
-              "description": "Populated whenever the provider has data for the entity.",
+              "description": "Text of the post. On a post that shares another post, some sources return the shared post's text here instead of the words its author added; name `sharedPostText` in `requireFields` to be served by a source that returns the author's own words here and the shared post's text in `sharedPostText`. Populated whenever the provider has data for the entity.",
               "enum": null,
               "default": null,
               "format": null
@@ -39362,6 +39392,7 @@
             "items": {
               "kind": "string",
               "enum": [
+                "sharedPostText",
                 "shares"
               ],
               "default": null,
@@ -39566,6 +39597,14 @@
                     "required": [],
                     "open": true
                   },
+                  "sharedPostText": {
+                    "kind": "string",
+                    "description": "Text of the post this post shares. Null when the post shares nothing, when the shared post has no readable text, or when the serving source does not report it. To be served by a source that reports it, name `sharedPostText` in `requireFields` from the first page.",
+                    "nullable": true,
+                    "enum": null,
+                    "default": null,
+                    "format": null
+                  },
                   "shares": {
                     "kind": "integer",
                     "description": "Number of times the post was shared. Null when this source does not report it.",
@@ -39576,7 +39615,7 @@
                   },
                   "text": {
                     "kind": "string",
-                    "description": "Populated whenever the provider has data for the entity.",
+                    "description": "Text of the post as the page or profile wrote it. On a post that shares another post, this is the words the sharer added. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -154008,7 +154047,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00033,
+        "priceUsd": 0.00032,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154914,7 +154953,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00058,
+        "priceUsd": 0.00057,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
