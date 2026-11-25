@@ -7935,7 +7935,7 @@ export class LinkedinNamespace {
    *
    * Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).
    *
-   * Price: $0.00056 per request.
+   * Price: $0.00055 per request.
    *
    * @example
    * const res = await client.linkedin.post({ url: "https://www.linkedin.com/posts/stripe_last-week-agent-traffic-surpassed-human-activity-7470882737390940160-2Nxs" });

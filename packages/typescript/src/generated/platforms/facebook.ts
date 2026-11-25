@@ -3828,7 +3828,7 @@ export class FacebookNamespace {
    *
    * Fetch recent posts from any public Facebook group by URL: text, author, reactions, and comment counts.
    *
-   * Price: $0.00072 per request.
+   * Price: $0.00071 per request.
    *
    * @example
    * const res = await client.facebook.groupPosts({ url: "https://www.facebook.com/groups/instantpotcommunity/" });
@@ -4014,7 +4014,7 @@ export class FacebookNamespace {
    *
    * Fetch a single Facebook post by URL with its text and engagement counts (likes, comments, shares, views).
    *
-   * Price: $0.00072 per request.
+   * Price: $0.00071 per request.
    *
    * @example
    * const res = await client.facebook.post({ url: "https://www.facebook.com/reel/2166091230582141/" });

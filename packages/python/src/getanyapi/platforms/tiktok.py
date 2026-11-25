@@ -3981,7 +3981,7 @@ class TiktokNamespace:
         Search TikTok's top results for a keyword (caption, views, likes, comments,
         shares) with cursor pagination.
 
-        Price: $0.0006 per request.
+        Price: $0.00059 per request.
 
         Example:
             res = client.tiktok.search_top(query="funny")
@@ -5114,7 +5114,7 @@ class AsyncTiktokNamespace:
         Search TikTok's top results for a keyword (caption, views, likes, comments,
         shares) with cursor pagination.
 
-        Price: $0.0006 per request.
+        Price: $0.00059 per request.
 
         Example:
             res = client.tiktok.search_top(query="funny")

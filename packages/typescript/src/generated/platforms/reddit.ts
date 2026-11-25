@@ -1416,7 +1416,7 @@ export class RedditNamespace {
    *
    * Search Reddit posts across all subreddits by query.
    *
-   * Price: $0.00034 per request.
+   * Price: $0.00035 per request.
    *
    * @example
    * const res = await client.reddit.search({ query: "mechanical keyboard" });
