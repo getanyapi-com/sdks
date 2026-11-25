@@ -1439,7 +1439,7 @@ class GoogleNamespace:
         when omitted); both are echoed in the response. Interest over time only, not
         related queries or regions.
 
-        Price: $0.002 per request.
+        Price: $0.016 per request.
 
         Example:
             res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
@@ -1868,7 +1868,7 @@ class AsyncGoogleNamespace:
         when omitted); both are echoed in the response. Interest over time only, not
         related queries or regions.
 
-        Price: $0.002 per request.
+        Price: $0.016 per request.
 
         Example:
             res = client.google.trends(geo="US", keywords=["coffee", "tea"], timeframe="12m")
