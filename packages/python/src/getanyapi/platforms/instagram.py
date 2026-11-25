@@ -4754,7 +4754,7 @@ class InstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00076 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -5925,7 +5925,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00062 per request.
+        Price: $0.00061 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -6159,7 +6159,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00076 per request.
+        Price: $0.00075 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -7332,7 +7332,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00062 per request.
+        Price: $0.00061 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")

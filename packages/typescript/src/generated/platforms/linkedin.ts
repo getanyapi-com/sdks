@@ -7898,7 +7898,7 @@ export class LinkedinNamespace {
    *
    * Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.
    *
-   * Price: $0.00051 per request.
+   * Price: $0.0005 per request.
    *
    * @example
    * const res = await client.linkedin.jobsThin({ query: "software engineer", limit: 3, location: "United States", workplaceType: "remote" });

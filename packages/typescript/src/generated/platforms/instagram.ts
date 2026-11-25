@@ -5714,7 +5714,7 @@ export class InstagramNamespace {
    *
    * Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.
    *
-   * Price: $0.00076 per request.
+   * Price: $0.00075 per request.
    *
    * @example
    * const res = await client.instagram.basicProfile({ userId: "314216" });
@@ -6700,7 +6700,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.00062 per request.
+   * Price: $0.00061 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });
