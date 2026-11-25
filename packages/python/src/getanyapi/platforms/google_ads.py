@@ -310,7 +310,7 @@ class GoogleAdsNamespace:
         format, run dates, impression range, regions, and creative variations as
         clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.00119 per request.
 
         Example:
             res = client.google_ads.ad_details(url="https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089")
@@ -429,7 +429,7 @@ class AsyncGoogleAdsNamespace:
         format, run dates, impression range, regions, and creative variations as
         clean JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.00119 per request.
 
         Example:
             res = client.google_ads.ad_details(url="https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089")

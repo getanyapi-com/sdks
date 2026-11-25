@@ -404,7 +404,7 @@ export class GoogleAdsNamespace {
    *
    * Look up a single Google Ads Transparency Center creative by URL and get its format, run dates, impression range, regions, and creative variations as clean JSON.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00119 per request.
    *
    * @example
    * const res = await client.googleAds.adDetails({ url: "https://adstransparency.google.com/advertiser/AR13309761427309854721/creative/CR00826878176251609089" });
