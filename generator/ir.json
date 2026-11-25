@@ -49549,7 +49549,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00072,
+        "priceUsd": 0.00071,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134530,7 +134530,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00037,
+        "priceUsd": 0.00035,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153162,7 +153162,7 @@
       "category": "video",
       "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination, views, and publish timestamps.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.00099,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
