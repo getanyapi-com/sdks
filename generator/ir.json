@@ -41360,7 +41360,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0025,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48703,7 +48703,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.016,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49530,7 +49530,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00073,
+        "priceUsd": 0.00072,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -94976,7 +94976,7 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132651,7 +132651,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00033,
+        "priceUsd": 0.00031,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143555,7 +143555,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00013,
+        "priceUsd": 0.00012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143770,7 +143770,7 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.00041,
+        "priceUsd": 0.0004,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146176,7 +146176,7 @@
       "category": "social",
       "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -151979,7 +151979,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00034,
+        "priceUsd": 0.00033,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153267,7 +153267,7 @@
       "category": "video",
       "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.",
       "pricing": {
-        "priceUsd": 0.00068,
+        "priceUsd": 0.00067,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155245,7 +155245,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00069,
+        "priceUsd": 0.00068,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155686,7 +155686,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00078,
+        "priceUsd": 0.00077,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
