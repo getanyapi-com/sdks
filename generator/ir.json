@@ -49530,7 +49530,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00073,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132651,7 +132651,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00035,
+        "priceUsd": 0.00033,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
