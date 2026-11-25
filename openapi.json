@@ -30662,8 +30662,8 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-24",
-                "checkOut": "2026-12-26",
+                "checkIn": "2026-12-25",
+                "checkOut": "2026-12-27",
                 "limit": 3,
                 "query": "New York"
               },
@@ -30671,8 +30671,8 @@
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-24",
-                  "checkOut": "2026-12-26",
+                  "checkIn": "2026-12-25",
+                  "checkOut": "2026-12-27",
                   "limit": 3,
                   "query": "New York"
                 },
@@ -88702,7 +88702,7 @@
     },
     "/v1/run/facebook.page_contact": {
       "post": {
-        "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Page Contact Info pricing and uptime](https://getanyapi.com/api/facebook/page-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "Look up a Facebook Page's public contact details (email, phone, website, and address) by page URL or ID.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Page Contact Info pricing and uptime](https://getanyapi.com/api/facebook/page-contact) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_page_contact",
         "parameters": [
           {
@@ -124122,16 +124122,16 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDateFrom": "2026-12-24",
-                "departureDateTo": "2027-01-22",
+                "departureDateFrom": "2026-12-25",
+                "departureDateTo": "2027-01-23",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDateFrom": "2026-12-24",
-                  "departureDateTo": "2027-01-22",
+                  "departureDateFrom": "2026-12-25",
+                  "departureDateTo": "2027-01-23",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -124827,14 +124827,14 @@
           "content": {
             "application/json": {
               "example": {
-                "departureDate": "2026-12-24",
+                "departureDate": "2026-12-25",
                 "destination": "LHR",
                 "origin": "JFK"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "departureDate": "2026-12-24",
+                  "departureDate": "2026-12-25",
                   "destination": "LHR",
                   "origin": "JFK"
                 },
@@ -125634,16 +125634,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-24",
-                "checkOut": "2026-12-26",
+                "checkIn": "2026-12-25",
+                "checkOut": "2026-12-27",
                 "country": "us",
                 "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-24",
-                  "checkOut": "2026-12-26",
+                  "checkIn": "2026-12-25",
+                  "checkOut": "2026-12-27",
                   "country": "us",
                   "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
                 },
@@ -126635,16 +126635,16 @@
           "content": {
             "application/json": {
               "example": {
-                "checkIn": "2026-12-24",
-                "checkOut": "2026-12-26",
+                "checkIn": "2026-12-25",
+                "checkOut": "2026-12-27",
                 "country": "us",
                 "query": "hotels near times square new york"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
-                  "checkIn": "2026-12-24",
-                  "checkOut": "2026-12-26",
+                  "checkIn": "2026-12-25",
+                  "checkOut": "2026-12-27",
                   "country": "us",
                   "query": "hotels near times square new york"
                 },
@@ -182424,7 +182424,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.79 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.79 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -285783,6 +285783,10 @@
                     "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
                     "type": "boolean"
                   },
+                  "cursor": {
+                    "description": "Pagination cursor from a previous response's nextCursor.",
+                    "type": "string"
+                  },
                   "endDate": {
                     "description": "Only return posts published on or before this date, format YYYY-MM-DD (e.g. 2026-08-07). Threads pages backwards in time from here, so narrowing this is how you walk older results.",
                     "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
@@ -285805,6 +285809,17 @@
                   "query": {
                     "description": "Keyword or #hashtag to search public Threads posts for (e.g. Widgetable). A #hashtag can return different posts than the plain word, so if a tag returns nothing, try the word without #. Single words and brand names return the most; quotes around the whole query are removed, since quoted searches return nothing. Search a brand or topic rather than a URL - a query that is only a domain is searched by its name (wander.com is searched as wander).",
                     "type": "string"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+                    "items": {
+                      "enum": [
+                        "nextCursor"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
                   },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -285870,6 +285885,13 @@
                                 {
                                   "additionalProperties": false,
                                   "properties": {
+                                    "nextCursor": {
+                                      "description": "Opaque cursor for the next page of posts, or null when this source has no more. Pass it back as cursor to continue.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
                                     "posts": {
                                       "description": "Matching public post records: text, author, engagement counts, timestamp, and URL. Without date filters, results tend to favor popular posts of any age. Use startDate or endDate to narrow the results; neither guarantees newest-first order. Populated whenever the provider has data for the entity.",
                                       "items": {
@@ -286921,7 +286943,7 @@
     },
     "/v1/run/threads.user_posts": {
       "post": {
-        "description": "List one page of a Threads user's recent public posts by username (typically about 15): text, engagement counts, and post URLs. There is no paging or date filter, and an older pinned post may appear first.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Threads User Posts pricing and uptime](https://getanyapi.com/api/threads/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Threads endpoint](https://getanyapi.com/api/threads).",
+        "description": "List a Threads user's recent public posts by username, one page per call (typically 10 to 15): text, engagement counts, and post URLs. Pass nextCursor back as cursor for older posts when it is not null. There is no date filter, and an older pinned post may appear first.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Threads User Posts pricing and uptime](https://getanyapi.com/api/threads/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Threads endpoint](https://getanyapi.com/api/threads).",
         "operationId": "threads_user_posts",
         "parameters": [
           {
@@ -286999,6 +287021,10 @@
                     "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
                     "type": "boolean"
                   },
+                  "cursor": {
+                    "description": "Pagination cursor from a previous response's nextCursor.",
+                    "type": "string"
+                  },
                   "handle": {
                     "description": "The Threads username to list posts for, without the @ prefix.",
                     "type": "string"
@@ -287016,6 +287042,17 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Prefer sources whose typical response time (median over the trailing 30 days, as published on this endpoint's lane health) is under this many milliseconds; among those, the cheapest serves. This can raise your price: when the cheapest source misses the target, a faster and dearer one serves, and you are quoted and charged its price. If no source is that fast the request is still served, by whichever source offers the best speed for its price - it is never refused for being slow. Sources we have not timed are tried last. This is a preference, not a guarantee: the median describes past requests and is not a ceiling on this one, and it excludes any wait this request itself asks for. On a paginated walk it applies to the first page only: later pages stay with the source that page chose, at the price it was quoted.",
                     "minimum": 1,
                     "type": "integer"
+                  },
+                  "requireFields": {
+                    "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `nextCursor`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a post that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+                    "items": {
+                      "enum": [
+                        "nextCursor"
+                      ],
+                      "type": "string"
+                    },
+                    "type": "array",
+                    "uniqueItems": true
                   },
                   "source": {
                     "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -287076,8 +287113,15 @@
                                 {
                                   "additionalProperties": false,
                                   "properties": {
+                                    "nextCursor": {
+                                      "description": "Opaque cursor for the next page of posts, or null when this source has no more. Pass it back as cursor to continue.",
+                                      "type": [
+                                        "string",
+                                        "null"
+                                      ]
+                                    },
                                     "posts": {
-                                      "description": "One page of recent public posts (typically about 15); there is no next page. An older pinned post may appear first. Populated whenever the provider has data for the entity.",
+                                      "description": "One page of recent public posts (typically 10 to 15). An older pinned post may appear first. Populated whenever the provider has data for the entity.",
                                       "items": {
                                         "properties": {
                                           "code": {
@@ -325165,7 +325209,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -331424,16 +331468,16 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-24",
-                "checkOut": "2026-12-27",
+                "checkIn": "2026-12-25",
+                "checkOut": "2026-12-28",
                 "propertyId": "69764328"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-24",
-                  "checkOut": "2026-12-27",
+                  "checkIn": "2026-12-25",
+                  "checkOut": "2026-12-28",
                   "propertyId": "69764328"
                 },
                 "properties": {
@@ -332528,16 +332572,16 @@
             "application/json": {
               "example": {
                 "adults": 2,
-                "checkIn": "2026-12-24",
-                "checkOut": "2026-12-27",
+                "checkIn": "2026-12-25",
+                "checkOut": "2026-12-28",
                 "location": "Lake Tahoe"
               },
               "schema": {
                 "additionalProperties": false,
                 "example": {
                   "adults": 2,
-                  "checkIn": "2026-12-24",
-                  "checkOut": "2026-12-27",
+                  "checkIn": "2026-12-25",
+                  "checkOut": "2026-12-28",
                   "location": "Lake Tahoe"
                 },
                 "properties": {

@@ -189,7 +189,7 @@ export class BookingNamespace {
    * Price: $0.0008 per request.
    *
    * @example
-   * const res = await client.booking.search({ query: "New York", adults: 2, checkIn: "2026-12-24", checkOut: "2026-12-26", limit: 3 });
+   * const res = await client.booking.search({ query: "New York", adults: 2, checkIn: "2026-12-25", checkOut: "2026-12-27", limit: 3 });
    */
   search(
     input: BookingSearchInput,
