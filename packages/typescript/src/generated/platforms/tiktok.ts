@@ -4539,7 +4539,7 @@ export class TiktokNamespace {
    *
    * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
-   * Price: $0.00039 per request.
+   * Price: $0.00037 per request.
    *
    * @example
    * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: "relevance" });
