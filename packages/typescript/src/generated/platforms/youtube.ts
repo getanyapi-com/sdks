@@ -2002,7 +2002,7 @@ export class YoutubeNamespace {
    *
    * List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.
    *
-   * Price: $0.00067 per request.
+   * Price: $0.00066 per request.
    *
    * @example
    * const res = await client.youtube.channelVideos({ handle: "@mkbhd" });
@@ -2324,7 +2324,7 @@ export class YoutubeNamespace {
    *
    * Fetch the transcript/captions of a YouTube video or Short by URL or ID.
    *
-   * Price: $0.00077 per request.
+   * Price: $0.00076 per request.
    *
    * @example
    * const res = await client.youtube.videoTranscript({ url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" });

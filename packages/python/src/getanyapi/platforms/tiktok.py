@@ -3916,7 +3916,7 @@ class TiktokNamespace:
         in each post plus view, like and comment counts. tiktok.search_keyword
         returns videos and drops these.
 
-        Price: $0.0012 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.tiktok.search_photos(query="latte art")
@@ -5049,7 +5049,7 @@ class AsyncTiktokNamespace:
         in each post plus view, like and comment counts. tiktok.search_keyword
         returns videos and drops these.
 
-        Price: $0.0012 per request.
+        Price: $0.0018 per request.
 
         Example:
             res = client.tiktok.search_photos(query="latte art")

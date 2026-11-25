@@ -82478,7 +82478,7 @@
     },
     "/v1/run/facebook.company_ads": {
       "post": {
-        "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.\n\n**Price:** \\$1.02 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Company Ads pricing and uptime](https://getanyapi.com/api/facebook/company-ads) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.\n\n**Price:** \\$1.02 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Company Ads pricing and uptime](https://getanyapi.com/api/facebook/company-ads) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_company_ads",
         "parameters": [
           {
@@ -110923,7 +110923,7 @@
     },
     "/v1/run/google.ai_overview": {
       "post": {
-        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Ask Google Search a prompt and receive the AI Overview it generated for that scrape, with every source Google listed. Google regenerates the overview per search, so the same prompt can return different wording and a different source list.\n\n**Price:** \\$1.50 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google AI Overview pricing and uptime](https://getanyapi.com/api/google/ai-overview) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_ai_overview",
         "parameters": [
           {
@@ -119614,7 +119614,7 @@
     },
     "/v1/run/google.trends": {
       "post": {
-        "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.\n\n**Price:** \\$16.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Google Trends pricing and uptime](https://getanyapi.com/api/google/trends) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
+        "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Google Trends pricing and uptime](https://getanyapi.com/api/google/trends) - live USD price, lane routing, and measured 30-day uptime. [Every Google endpoint](https://getanyapi.com/api/google).",
         "operationId": "google_trends",
         "parameters": [
           {
@@ -120154,7 +120154,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.016000",
+            "amount": "0.002000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -120196,7 +120196,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.017000",
+                "amount": "0.003000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -120228,7 +120228,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.016000",
+                "amount": "0.002000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -139621,7 +139621,9 @@
                     "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `createdUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.",
                     "items": {
                       "enum": [
-                        "createdUtc"
+                        "createdUtc",
+                        "locations",
+                        "mentions"
                       ],
                       "type": "string"
                     },
@@ -139736,9 +139738,54 @@
                                             "description": "Direct URL to the media image (highest resolution).",
                                             "type": "string"
                                           },
+                                          "links": {
+                                            "description": "Web addresses the link stickers on the item open, without Instagram's redirect or click-tracking parameters. Empty when it carries none.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": "array"
+                                          },
+                                          "locations": {
+                                            "description": "Places tagged with a location sticker on the item. Empty when it tags none; null when the source does not report locations.",
+                                            "items": {
+                                              "properties": {
+                                                "id": {
+                                                  "description": "Instagram location identifier.",
+                                                  "type": "string"
+                                                },
+                                                "lat": {
+                                                  "description": "Latitude in decimal degrees.",
+                                                  "type": "number"
+                                                },
+                                                "lng": {
+                                                  "description": "Longitude in decimal degrees.",
+                                                  "type": "number"
+                                                },
+                                                "name": {
+                                                  "description": "Location name.",
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "type": "object"
+                                            },
+                                            "type": [
+                                              "array",
+                                              "null"
+                                            ]
+                                          },
                                           "mediaType": {
                                             "description": "Media type: 1 = image, 2 = video.",
                                             "type": "integer"
+                                          },
+                                          "mentions": {
+                                            "description": "Usernames of the accounts tagged with a mention sticker on the item, without the leading @. Empty when it tags none; null when the source does not report mentions.",
+                                            "items": {
+                                              "type": "string"
+                                            },
+                                            "type": [
+                                              "array",
+                                              "null"
+                                            ]
                                           },
                                           "paidPartnership": {
                                             "description": "True when the item is tagged as a paid partnership.",
@@ -139747,6 +139794,27 @@
                                           "productType": {
                                             "description": "Instagram product type of the media, for example story.",
                                             "type": "string"
+                                          },
+                                          "stickers": {
+                                            "description": "Link stickers placed on the item. Empty when it carries none.",
+                                            "items": {
+                                              "properties": {
+                                                "id": {
+                                                  "description": "Sticker identifier.",
+                                                  "type": "string"
+                                                },
+                                                "linkTitle": {
+                                                  "description": "Text shown on a link sticker.",
+                                                  "type": "string"
+                                                },
+                                                "linkUrl": {
+                                                  "description": "Web address the link sticker opens, without Instagram's redirect or click-tracking parameters.",
+                                                  "type": "string"
+                                                }
+                                              },
+                                              "type": "object"
+                                            },
+                                            "type": "array"
                                           },
                                           "videoUrl": {
                                             "description": "Direct URL to the media video, when the item is a video.",
@@ -139757,6 +139825,10 @@
                                             "type": "integer"
                                           }
                                         },
+                                        "required": [
+                                          "links",
+                                          "stickers"
+                                        ],
                                         "type": "object"
                                       },
                                       "type": "array"
@@ -190535,7 +190607,7 @@
     },
     "/v1/run/linkedin.search_profiles_thin": {
       "post": {
-        "description": "Cheap people search: name/handle, headline, VANITY profile URL, location. No full profile or email - for full profiles per hit use linkedin.search_profiles, add emails with linkedin.search_profiles_email.\n\n**Price:** \\$32.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [LinkedIn Profile Search (basic) pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Cheap people search: name/handle, headline, VANITY profile URL, location. No full profile or email - for full profiles per hit use linkedin.search_profiles, add emails with linkedin.search_profiles_email.\n\n**Price:** \\$32.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile Search (basic) pricing and uptime](https://getanyapi.com/api/linkedin/search-profiles-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_profiles_thin",
         "parameters": [
           {
@@ -300198,7 +300270,7 @@
     },
     "/v1/run/tiktok.search_photos": {
       "post": {
-        "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Photo Search pricing and uptime](https://getanyapi.com/api/tiktok/search-photos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.\n\n**Price:** \\$1.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [TikTok Photo Search pricing and uptime](https://getanyapi.com/api/tiktok/search-photos) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_search_photos",
         "parameters": [
           {
@@ -300792,7 +300864,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.001200",
+            "amount": "0.001800",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -300834,7 +300906,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.002200",
+                "amount": "0.002800",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -300866,7 +300938,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001200",
+                "amount": "0.001800",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -325341,7 +325413,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -347403,7 +347475,7 @@
     },
     "/v1/run/youtube.channel_videos": {
       "post": {
-        "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.\n\n**Price:** \\$0.67 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel Videos pricing and uptime](https://getanyapi.com/api/youtube/channel-videos) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.\n\n**Price:** \\$0.66 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel Videos pricing and uptime](https://getanyapi.com/api/youtube/channel-videos) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_channel_videos",
         "parameters": [
           {
@@ -347956,7 +348028,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000670",
+            "amount": "0.000660",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -347998,7 +348070,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001670",
+                "amount": "0.001660",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -348030,7 +348102,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000670",
+                "amount": "0.000660",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -354329,7 +354401,7 @@
     },
     "/v1/run/youtube.video_transcript": {
       "post": {
-        "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.\n\n**Price:** \\$0.77 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript pricing and uptime](https://getanyapi.com/api/youtube/video-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.\n\n**Price:** \\$0.76 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript pricing and uptime](https://getanyapi.com/api/youtube/video-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_video_transcript",
         "parameters": [
           {
@@ -354821,7 +354893,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000770",
+            "amount": "0.000760",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -354863,7 +354935,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001770",
+                "amount": "0.001760",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -354895,7 +354967,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000770",
+                "amount": "0.000760",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",

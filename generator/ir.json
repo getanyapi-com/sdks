@@ -48703,7 +48703,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.016,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -56371,7 +56371,9 @@
             "items": {
               "kind": "string",
               "enum": [
-                "createdUtc"
+                "createdUtc",
+                "locations",
+                "mentions"
               ],
               "default": null,
               "format": null
@@ -56482,12 +56484,76 @@
                     "default": null,
                     "format": null
                   },
+                  "links": {
+                    "kind": "array",
+                    "description": "Web addresses the link stickers on the item open, without Instagram's redirect or click-tracking parameters. Empty when it carries none.",
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
+                  },
+                  "locations": {
+                    "kind": "array",
+                    "description": "Places tagged with a location sticker on the item. Empty when it tags none; null when the source does not report locations.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "id": {
+                          "kind": "string",
+                          "description": "Instagram location identifier.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "lat": {
+                          "kind": "number",
+                          "description": "Latitude in decimal degrees.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "lng": {
+                          "kind": "number",
+                          "description": "Longitude in decimal degrees.",
+                          "minimum": null,
+                          "maximum": null,
+                          "default": null
+                        },
+                        "name": {
+                          "kind": "string",
+                          "description": "Location name.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
+                  },
                   "mediaType": {
                     "kind": "integer",
                     "description": "Media type: 1 = image, 2 = video.",
                     "minimum": null,
                     "maximum": null,
                     "default": null
+                  },
+                  "mentions": {
+                    "kind": "array",
+                    "description": "Usernames of the accounts tagged with a mention sticker on the item, without the leading @. Empty when it tags none; null when the source does not report mentions.",
+                    "nullable": true,
+                    "items": {
+                      "kind": "string",
+                      "enum": null,
+                      "default": null,
+                      "format": null
+                    },
+                    "mustPopulate": false
                   },
                   "paidPartnership": {
                     "kind": "boolean",
@@ -56500,6 +56566,39 @@
                     "enum": null,
                     "default": null,
                     "format": null
+                  },
+                  "stickers": {
+                    "kind": "array",
+                    "description": "Link stickers placed on the item. Empty when it carries none.",
+                    "items": {
+                      "kind": "object",
+                      "properties": {
+                        "id": {
+                          "kind": "string",
+                          "description": "Sticker identifier.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkTitle": {
+                          "kind": "string",
+                          "description": "Text shown on a link sticker.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        },
+                        "linkUrl": {
+                          "kind": "string",
+                          "description": "Web address the link sticker opens, without Instagram's redirect or click-tracking parameters.",
+                          "enum": null,
+                          "default": null,
+                          "format": null
+                        }
+                      },
+                      "required": [],
+                      "open": true
+                    },
+                    "mustPopulate": false
                   },
                   "videoUrl": {
                     "kind": "string",
@@ -56516,7 +56615,10 @@
                     "default": null
                   }
                 },
-                "required": [],
+                "required": [
+                  "links",
+                  "stickers"
+                ],
                 "open": true
               },
               "mustPopulate": false
@@ -134765,7 +134867,7 @@
       "category": "social",
       "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153267,7 +153369,7 @@
       "category": "video",
       "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.",
       "pricing": {
-        "priceUsd": 0.00067,
+        "priceUsd": 0.00066,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155686,7 +155788,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00077,
+        "priceUsd": 0.00076,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

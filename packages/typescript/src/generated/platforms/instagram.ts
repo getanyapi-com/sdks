@@ -1240,7 +1240,7 @@ export interface InstagramHighlightDetailInput {
   /**
    * Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `createdUtc`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. Naming a combination that no single source returns together is refused as invalid input, with no charge.
    */
-  requireFields?: "createdUtc"[];
+  requireFields?: ("createdUtc" | "locations" | "mentions")[];
   /**
    * Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.
    */
@@ -1277,9 +1277,21 @@ export interface InstagramHighlightDetailItem {
    */
   image?: string;
   /**
+   * Web addresses the link stickers on the item open, without Instagram's redirect or click-tracking parameters. Empty when it carries none.
+   */
+  links: string[];
+  /**
+   * Places tagged with a location sticker on the item. Empty when it tags none; null when the source does not report locations.
+   */
+  locations?: InstagramHighlightDetailLocation[] | null;
+  /**
    * Media type: 1 = image, 2 = video.
    */
   mediaType?: number;
+  /**
+   * Usernames of the accounts tagged with a mention sticker on the item, without the leading @. Empty when it tags none; null when the source does not report mentions.
+   */
+  mentions?: string[] | null;
   /**
    * True when the item is tagged as a paid partnership.
    */
@@ -1289,6 +1301,10 @@ export interface InstagramHighlightDetailItem {
    */
   productType?: string;
   /**
+   * Link stickers placed on the item. Empty when it carries none.
+   */
+  stickers: InstagramHighlightDetailSticker[];
+  /**
    * Direct URL to the media video, when the item is a video.
    */
   videoUrl?: string;
@@ -1296,6 +1312,42 @@ export interface InstagramHighlightDetailItem {
    * Media pixel width.
    */
   width?: number;
+  [extra: string]: unknown;
+}
+
+export interface InstagramHighlightDetailLocation {
+  /**
+   * Instagram location identifier.
+   */
+  id?: string;
+  /**
+   * Latitude in decimal degrees.
+   */
+  lat?: number;
+  /**
+   * Longitude in decimal degrees.
+   */
+  lng?: number;
+  /**
+   * Location name.
+   */
+  name?: string;
+  [extra: string]: unknown;
+}
+
+export interface InstagramHighlightDetailSticker {
+  /**
+   * Sticker identifier.
+   */
+  id?: string;
+  /**
+   * Text shown on a link sticker.
+   */
+  linkTitle?: string;
+  /**
+   * Web address the link sticker opens, without Instagram's redirect or click-tracking parameters.
+   */
+  linkUrl?: string;
   [extra: string]: unknown;
 }
 
