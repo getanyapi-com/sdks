@@ -7776,7 +7776,7 @@ export class LinkedinNamespace {
    *
    * Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.
    *
-   * Price: $0.00077 per request.
+   * Price: $0.00078 per request.
    *
    * @example
    * const res = await client.linkedin.companyThin({ url: "https://www.linkedin.com/company/stripe" });

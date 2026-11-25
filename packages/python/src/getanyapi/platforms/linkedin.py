@@ -6527,7 +6527,7 @@ class LinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.00077 per request.
+        Price: $0.00078 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -7523,7 +7523,7 @@ class AsyncLinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.00077 per request.
+        Price: $0.00078 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
