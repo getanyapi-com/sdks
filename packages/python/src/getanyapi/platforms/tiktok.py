@@ -3871,7 +3871,7 @@ class TiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.0004 per request.
+        Price: $0.00039 per request.
 
         Example:
             res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy="relevance")
@@ -3916,7 +3916,7 @@ class TiktokNamespace:
         in each post plus view, like and comment counts. tiktok.search_keyword
         returns videos and drops these.
 
-        Price: $0.0018 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.search_photos(query="latte art")
@@ -5004,7 +5004,7 @@ class AsyncTiktokNamespace:
         Search TikTok by keyword and get matching videos (caption, views, likes,
         comments, shares) as normalized JSON.
 
-        Price: $0.0004 per request.
+        Price: $0.00039 per request.
 
         Example:
             res = client.tiktok.search_keyword(datePosted=0, query="cooking", sortBy="relevance")
@@ -5049,7 +5049,7 @@ class AsyncTiktokNamespace:
         in each post plus view, like and comment counts. tiktok.search_keyword
         returns videos and drops these.
 
-        Price: $0.0018 per request.
+        Price: $0.0012 per request.
 
         Example:
             res = client.tiktok.search_photos(query="latte art")

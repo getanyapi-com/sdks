@@ -41360,7 +41360,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48703,7 +48703,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.016,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -62601,7 +62601,7 @@
       "category": "social",
       "description": "List the posts an Instagram user is tagged in, with cursor pagination (author, caption, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00188,
+        "priceUsd": 0.00135,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -68318,7 +68318,7 @@
       "category": "social",
       "description": "Search the LinkedIn Ad Library by company or keyword and list matching ads (advertiser, headline, creative text, format, CTA, and run dates) with pagination.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00119,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -95078,7 +95078,7 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.0025,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134511,7 +134511,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134867,7 +134867,7 @@
       "category": "social",
       "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144160,7 +144160,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.00048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154205,7 +154205,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0003,
+        "priceUsd": 0.00028,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154697,7 +154697,7 @@
       "category": "video",
       "description": "Search YouTube Shorts by keyword and get matching Shorts (title, views, URL) with cursor pagination as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00119,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155111,7 +155111,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00055,
+        "priceUsd": 0.00053,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

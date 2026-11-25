@@ -6333,7 +6333,7 @@ class LinkedinNamespace:
         (advertiser, headline, creative text, format, CTA, and run dates) with
         pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.00119 per request.
 
         Example:
             res = client.linkedin.ads_search(company="microsoft")
@@ -7329,7 +7329,7 @@ class AsyncLinkedinNamespace:
         (advertiser, headline, creative text, format, CTA, and run dates) with
         pagination.
 
-        Price: $0.0012 per request.
+        Price: $0.00119 per request.
 
         Example:
             res = client.linkedin.ads_search(company="microsoft")

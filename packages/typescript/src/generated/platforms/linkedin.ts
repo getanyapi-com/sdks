@@ -7620,7 +7620,7 @@ export class LinkedinNamespace {
    *
    * Search the LinkedIn Ad Library by company or keyword and list matching ads (advertiser, headline, creative text, format, CTA, and run dates) with pagination.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00119 per request.
    *
    * @example
    * const res = await client.linkedin.adsSearch({ company: "microsoft" });

@@ -1745,7 +1745,7 @@ class YoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.0003 per request.
+        Price: $0.00028 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -1833,7 +1833,7 @@ class YoutubeNamespace:
         Search YouTube Shorts by keyword and get matching Shorts (title, views, URL)
         with cursor pagination as normalized JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.00119 per request.
 
         Example:
             res = client.youtube.search_shorts(query="cats")
@@ -1898,7 +1898,7 @@ class YoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.00055 per request.
+        Price: $0.00053 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2420,7 +2420,7 @@ class AsyncYoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.0003 per request.
+        Price: $0.00028 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -2508,7 +2508,7 @@ class AsyncYoutubeNamespace:
         Search YouTube Shorts by keyword and get matching Shorts (title, views, URL)
         with cursor pagination as normalized JSON.
 
-        Price: $0.0012 per request.
+        Price: $0.00119 per request.
 
         Example:
             res = client.youtube.search_shorts(query="cats")
@@ -2573,7 +2573,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.00055 per request.
+        Price: $0.00053 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
