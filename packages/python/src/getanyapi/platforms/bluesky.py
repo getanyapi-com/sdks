@@ -9,6 +9,12 @@ from pydantic import BaseModel, ConfigDict, Field
 from typing_extensions import NotRequired, Required, TypedDict, Unpack
 
 from ..types import RequestOptions, RunResult
+from .._pagination import (
+    AsyncPaginator,
+    Paginator,
+    apaginate,
+    paginate,
+)
 
 if TYPE_CHECKING:
     from .._async_client import AsyncAnyAPI
@@ -50,6 +56,8 @@ class BlueskyUserPostsInput(TypedDict, total=False):
 
     allowFallbacks: NotRequired[bool]
     """Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price. Default: true."""
+    cursor: NotRequired[str]
+    """Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; a page holds up to 50 posts."""
     handle: Required[str]
     """Bluesky handle, e.g. "bsky.app" or "jay.bsky.team"."""
     ignoreSources: NotRequired[list[str]]
@@ -123,6 +131,13 @@ class BlueskyProfileData(BaseModel):
 
 
 class BlueskyUserPostsData(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
+
+    next_cursor: str | None = Field(
+        default=None,
+        alias="nextCursor",
+        description="Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
+    )
     posts: list[BlueskyUserPostsPost] = Field(
         description="The account's recent posts. Populated whenever the provider has data for the entity."
     )
@@ -232,6 +247,29 @@ class BlueskyNamespace:
         )
         return RunResult[BlueskyUserPostsData].model_validate(raw)
 
+    def iter_user_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[BlueskyUserPostsInput],
+    ) -> Paginator[BlueskyUserPostsPost, BlueskyUserPostsData]:
+        """Iterate Bluesky User Posts results, following pagination cursors.
+
+        Yields validated `BlueskyUserPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return paginate(
+            self._client,
+            "bluesky.user_posts",
+            dict(input),
+            "posts",
+            item_model=BlueskyUserPostsPost,
+            data_model=BlueskyUserPostsData,
+            bare=False,
+            options=options,
+        )
+
 
 class AsyncBlueskyNamespace:
     """Typed methods for this platform. Attached lazily to the client."""
@@ -301,3 +339,26 @@ class AsyncBlueskyNamespace:
             "bluesky.user_posts", dict(input), options
         )
         return RunResult[BlueskyUserPostsData].model_validate(raw)
+
+    def iter_user_posts(
+        self,
+        *,
+        options: RequestOptions | None = None,
+        **input: Unpack[BlueskyUserPostsInput],
+    ) -> AsyncPaginator[BlueskyUserPostsPost, BlueskyUserPostsData]:
+        """Iterate Bluesky User Posts results, following pagination cursors.
+
+        Yields validated `BlueskyUserPostsPost` items from the `posts` field of
+        each page. Use `.pages()` on the returned paginator to walk whole
+        `RunResult` pages.
+        """
+        return apaginate(
+            self._client,
+            "bluesky.user_posts",
+            dict(input),
+            "posts",
+            item_model=BlueskyUserPostsPost,
+            data_model=BlueskyUserPostsData,
+            bare=False,
+            options=options,
+        )

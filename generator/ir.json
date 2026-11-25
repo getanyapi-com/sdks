@@ -9266,10 +9266,10 @@
       },
       "tsNamespace": "bluesky",
       "tsMethod": "userPosts",
-      "tsIterMethod": null,
+      "tsIterMethod": "iterUserPosts",
       "pyNamespace": "bluesky",
       "pyMethod": "user_posts",
-      "pyIterMethod": null,
+      "pyIterMethod": "iter_user_posts",
       "inputTypeName": "BlueskyUserPostsInput",
       "outputTypeName": "BlueskyUserPostsData",
       "example": {
@@ -9282,6 +9282,13 @@
             "kind": "boolean",
             "description": "Optional, default true. We recommend leaving it out. Setting it to false is experimental (its behavior may change) and ties the request to the sources listed in `source`: only they may serve, the request is refused with no charge if none of them can, and no other source rescues it when they fail. To control cost, set `max_cost_usd` instead: the REST query parameter or MCP `run_api` argument, on requests paid from your AnyAPI wallet. When true, the listed sources are tried first and any other source may serve after them, at the normal price.",
             "default": true
+          },
+          "cursor": {
+            "kind": "string",
+            "description": "Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; a page holds up to 50 posts.",
+            "enum": null,
+            "default": null,
+            "format": null
           },
           "handle": {
             "kind": "string",
@@ -9343,6 +9350,14 @@
         "data": {
           "kind": "object",
           "properties": {
+            "nextCursor": {
+              "kind": "string",
+              "description": "Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.",
+              "nullable": true,
+              "enum": null,
+              "default": null,
+              "format": null
+            },
             "posts": {
               "kind": "array",
               "description": "The account's recent posts. Populated whenever the provider has data for the entity.",
@@ -9447,10 +9462,10 @@
         }
       },
       "pagination": {
-        "paginated": false,
-        "itemsField": null,
-        "cursorInputField": null,
-        "nextCursorField": null
+        "paginated": true,
+        "itemsField": "posts",
+        "cursorInputField": "cursor",
+        "nextCursorField": "nextCursor"
       }
     },
     {
@@ -41379,7 +41394,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.0025,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83346,7 +83361,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00132,
+        "priceUsd": 0.0013,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

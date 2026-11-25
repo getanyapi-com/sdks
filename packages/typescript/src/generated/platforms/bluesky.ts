@@ -2,9 +2,11 @@
 
 import type {
   ClientCore,
+  Paginator,
   RequestOptions,
   RunResult,
 } from "../../core/index.js";
+import { paginate } from "../../core/index.js";
 
 /**
  * Input for Bluesky Post (bluesky.post).
@@ -149,6 +151,10 @@ export interface BlueskyUserPostsInput {
    */
   allowFallbacks?: boolean;
   /**
+   * Opaque pagination cursor from a previous response's nextCursor. Omit for the first page; a page holds up to 50 posts.
+   */
+  cursor?: string;
+  /**
    * Bluesky handle, e.g. "bsky.app" or "jay.bsky.team".
    */
   handle: string;
@@ -220,6 +226,10 @@ export interface BlueskyUserPostsPost {
  */
 export interface BlueskyUserPostsData {
   /**
+   * Opaque cursor for the next page of posts, or null when there are no more. Pass it back as cursor to continue.
+   */
+  nextCursor?: string | null;
+  /**
    * The account's recent posts. Populated whenever the provider has data for the entity.
    */
   posts: BlueskyUserPostsPost[];
@@ -281,5 +291,25 @@ export class BlueskyNamespace {
     options?: RequestOptions,
   ): Promise<RunResult<BlueskyUserPostsData>> {
     return this._core.run("bluesky.user_posts", input, options);
+  }
+
+  /**
+   * Iterate every result of Bluesky User Posts across pages.
+   *
+   * Yields items directly; call `.pages()` on the return value to walk whole
+   * result pages instead (each carries its own costUsd).
+   */
+  iterUserPosts(
+    input: BlueskyUserPostsInput,
+    options?: RequestOptions,
+  ): Paginator<BlueskyUserPostsPost, RunResult<BlueskyUserPostsData>> {
+    return paginate<BlueskyUserPostsPost, RunResult<BlueskyUserPostsData>>(
+      this._core,
+      "bluesky.user_posts",
+      input as unknown as Record<string, unknown>,
+      "posts",
+      false,
+      options,
+    );
   }
 }
