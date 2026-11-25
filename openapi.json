@@ -82478,7 +82478,7 @@
     },
     "/v1/run/facebook.company_ads": {
       "post": {
-        "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.\n\n**Price:** \\$1.09 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Company Ads pricing and uptime](https://getanyapi.com/api/facebook/company-ads) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
+        "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.\n\n**Price:** \\$1.09 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Facebook Company Ads pricing and uptime](https://getanyapi.com/api/facebook/company-ads) - live USD price, lane routing, and measured 30-day uptime. [Every Facebook endpoint](https://getanyapi.com/api/facebook).",
         "operationId": "facebook_company_ads",
         "parameters": [
           {
@@ -152270,7 +152270,7 @@
     },
     "/v1/run/instagram.similar_profiles": {
       "post": {
-        "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
+        "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.\n\n**Price:** \\$1.75 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Instagram Similar Profiles pricing and uptime](https://getanyapi.com/api/instagram/similar-profiles) - live USD price, lane routing, and measured 30-day uptime. [Every Instagram endpoint](https://getanyapi.com/api/instagram).",
         "operationId": "instagram_similar_profiles",
         "parameters": [
           {
@@ -290327,7 +290327,16 @@
                                           },
                                           "authorImage": {
                                             "description": "Reply author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ibytedtos.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorName": {
                                             "description": "Reply author's display name.",
@@ -292273,7 +292282,16 @@
                                           },
                                           "authorImage": {
                                             "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ibytedtos.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "authorName": {
                                             "description": "Author's display name.",
@@ -292318,7 +292336,16 @@
                                           },
                                           "image": {
                                             "description": "URL of the video's cover/thumbnail image. Signed and short-lived, so the query string is load-bearing and kept intact. Empty when the upstream omits it.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ibytedtos.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "likeCount": {
                                             "description": "Number of likes on the video. Some sources round large counts (27.7M instead of 27,712,408); name the field in requireFields to be served only by a source that returns the exact count.",
@@ -292360,11 +292387,22 @@
                                           "url": {
                                             "description": "Canonical tiktok.com URL of the video, with tracking query params stripped. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "tiktok.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "videoUrl": {
                                             "description": "Playable video URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "tiktokv.com",
+                                              "tiktokv.us",
+                                              "tiktokv.eu",
+                                              "tiktok.com",
+                                              "tokcdn.com"
+                                            ]
                                           }
                                         },
                                         "required": [
@@ -293571,7 +293609,16 @@
                                     },
                                     "authorImage": {
                                       "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "ibyteimg.com",
+                                        "ibytedtos.com",
+                                        "ttcdn-us.com",
+                                        "lh3.googleusercontent.com"
+                                      ]
                                     },
                                     "authorName": {
                                       "description": "Author's display name.",
@@ -293617,12 +293664,30 @@
                                             "description": "The image without TikTok's watermark or the creator's handle. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Despite the .jpeg in the path this is often served as HEIC, so transcode if you need broad browser support. Populated whenever the provider has data for the entity.",
                                             "format": "uri",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ibytedtos.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "watermarkedImage": {
                                             "description": "The same image carrying TikTok's watermark and the creator's handle. Signed and short-lived on the same terms as image.",
                                             "format": "uri",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": [
+                                              "tiktokcdn.com",
+                                              "tiktokcdn-us.com",
+                                              "tiktokcdn-eu.com",
+                                              "ibyteimg.com",
+                                              "ibytedtos.com",
+                                              "ttcdn-us.com",
+                                              "lh3.googleusercontent.com"
+                                            ]
                                           },
                                           "width": {
                                             "description": "Pixel width of the image.",
@@ -293670,7 +293735,8 @@
                                     },
                                     "url": {
                                       "description": "Canonical TikTok URL of the photo post.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "tiktok.com"
                                     },
                                     "views": {
                                       "description": "View count.",
@@ -308455,6 +308521,15 @@
                                     "authorImage": {
                                       "description": "Author's avatar image URL. Signed and short-lived, so the query string is load-bearing and kept intact. Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "ibyteimg.com",
+                                        "ibytedtos.com",
+                                        "ttcdn-us.com",
+                                        "lh3.googleusercontent.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "authorName": {
@@ -308503,7 +308578,16 @@
                                     "image": {
                                       "description": "Cover image for the video. A signed, short-lived TikTok CDN URL, often served as HEIC rather than JPEG, so fetch it promptly and transcode if you need broad browser support.",
                                       "format": "uri",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "ibyteimg.com",
+                                        "ibytedtos.com",
+                                        "ttcdn-us.com",
+                                        "lh3.googleusercontent.com"
+                                      ]
                                     },
                                     "region": {
                                       "description": "Two-letter region code the video was published from.",
@@ -308512,7 +308596,17 @@
                                     "sdVideoUrl": {
                                       "description": "Standard-resolution H.264 MP4 without the watermark (often 720p), playable in every browser; the same file as videoUrl when the source has no higher-resolution file. On a photo-mode post, the post's music. Signed and short-lived on the same terms as videoUrl.",
                                       "format": "uri",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "tiktokv.com",
+                                        "tiktokv.us",
+                                        "tiktokv.eu",
+                                        "tiktok.com",
+                                        "tokcdn.com"
+                                      ]
                                     },
                                     "soundAuthor": {
                                       "description": "Credited author of the sound. Populated whenever the provider has data for the entity.",
@@ -308531,18 +308625,39 @@
                                     },
                                     "url": {
                                       "description": "Canonical TikTok URL of the video.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "tiktok.com"
                                     },
                                     "videoUrl": {
                                       "description": "Direct MP4 without the TikTok watermark or handle overlay, at the highest resolution the source has: often 1080p and often encoded as H.265 (HEVC), which some browsers such as Firefox cannot play; use sdVideoUrl for those. On a photo-mode post it is the post's music, an audio file (MP4 or MP3), not a video. A signed, short-lived TikTok CDN URL, so fetch it promptly; the query params are the signature and must be kept intact. Send no cookies with the request - a tt_chain_token cookie makes the CDN answer 403. Still returned when the creator has turned off downloads: it is then the clean file TikTok streams for playback. Populated whenever the provider has data for the entity.",
                                       "format": "uri",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "tiktokv.com",
+                                        "tiktokv.us",
+                                        "tiktokv.eu",
+                                        "tiktok.com",
+                                        "tokcdn.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "watermarkedUrl": {
                                       "description": "Direct MP4 carrying TikTok's watermark and the creator's handle, the same file TikTok's own save button produces. Signed and short-lived on the same terms as videoUrl. Absent when the creator has turned off downloads, because TikTok then publishes no watermarked file. Usually absent on a photo-mode post.",
                                       "format": "uri",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "tiktokcdn.com",
+                                        "tiktokcdn-us.com",
+                                        "tiktokcdn-eu.com",
+                                        "tiktokv.com",
+                                        "tiktokv.us",
+                                        "tiktokv.eu",
+                                        "tiktok.com",
+                                        "tokcdn.com"
+                                      ]
                                     },
                                     "width": {
                                       "description": "Pixel width of the file in videoUrl.",
@@ -309121,7 +309236,8 @@
                                     },
                                     "url": {
                                       "description": "Canonical TikTok URL of the video.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "tiktok.com"
                                     }
                                   },
                                   "required": [
@@ -325209,7 +325325,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -343046,7 +343162,7 @@
     },
     "/v1/run/youtube.channel": {
       "post": {
-        "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.\n\n**Price:** \\$0.36 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel pricing and uptime](https://getanyapi.com/api/youtube/channel) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.\n\n**Price:** \\$0.34 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel pricing and uptime](https://getanyapi.com/api/youtube/channel) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_channel",
         "parameters": [
           {
@@ -343584,7 +343700,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000360",
+            "amount": "0.000340",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -343626,7 +343742,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001360",
+                "amount": "0.001340",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -343658,7 +343774,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000360",
+                "amount": "0.000340",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -347262,7 +347378,7 @@
     },
     "/v1/run/youtube.channel_videos": {
       "post": {
-        "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.\n\n**Price:** \\$0.70 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel Videos pricing and uptime](https://getanyapi.com/api/youtube/channel-videos) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.\n\n**Price:** \\$0.68 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Channel Videos pricing and uptime](https://getanyapi.com/api/youtube/channel-videos) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_channel_videos",
         "parameters": [
           {
@@ -347815,7 +347931,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000700",
+            "amount": "0.000680",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -347857,7 +347973,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001700",
+                "amount": "0.001680",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -347889,7 +348005,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000700",
+                "amount": "0.000680",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -349757,7 +349873,7 @@
     },
     "/v1/run/youtube.search": {
       "post": {
-        "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.\n\n**Price:** \\$0.32 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Search pricing and uptime](https://getanyapi.com/api/youtube/search) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.\n\n**Price:** \\$0.31 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Search pricing and uptime](https://getanyapi.com/api/youtube/search) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_search",
         "parameters": [
           {
@@ -350317,7 +350433,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000320",
+            "amount": "0.000310",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -350359,7 +350475,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001320",
+                "amount": "0.001310",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -350391,7 +350507,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000320",
+                "amount": "0.000310",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -352282,7 +352398,7 @@
     },
     "/v1/run/youtube.video": {
       "post": {
-        "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.\n\n**Price:** \\$0.57 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video pricing and uptime](https://getanyapi.com/api/youtube/video) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.\n\n**Price:** \\$0.56 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video pricing and uptime](https://getanyapi.com/api/youtube/video) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_video",
         "parameters": [
           {
@@ -352832,7 +352948,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000570",
+            "amount": "0.000560",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -352874,7 +352990,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001570",
+                "amount": "0.001560",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -352906,7 +353022,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000570",
+                "amount": "0.000560",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -354187,7 +354303,7 @@
     },
     "/v1/run/youtube.video_transcript": {
       "post": {
-        "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.\n\n**Price:** \\$0.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript pricing and uptime](https://getanyapi.com/api/youtube/video-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
+        "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.\n\n**Price:** \\$0.78 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [YouTube Video Transcript pricing and uptime](https://getanyapi.com/api/youtube/video-transcript) - live USD price, lane routing, and measured 30-day uptime. [Every YouTube endpoint](https://getanyapi.com/api/youtube).",
         "operationId": "youtube_video_transcript",
         "parameters": [
           {
@@ -354679,7 +354795,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000800",
+            "amount": "0.000780",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -354721,7 +354837,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001800",
+                "amount": "0.001780",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -354753,7 +354869,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000800",
+                "amount": "0.000780",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
