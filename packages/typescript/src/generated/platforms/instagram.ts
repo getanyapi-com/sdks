@@ -6452,7 +6452,7 @@ export class InstagramNamespace {
    *
    * List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.
    *
-   * Price: $0.0022 per request.
+   * Price: $0.00175 per request.
    *
    * @example
    * const res = await client.instagram.similarProfiles({ handle: "nasa" });
@@ -6648,7 +6648,7 @@ export class InstagramNamespace {
    *
    * List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).
    *
-   * Price: $0.00064 per request.
+   * Price: $0.00063 per request.
    *
    * @example
    * const res = await client.instagram.userReels({ handle: "nasa" });

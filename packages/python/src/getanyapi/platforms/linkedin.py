@@ -6815,7 +6815,7 @@ class LinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.00228 per request.
+        Price: $0.00227 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")
@@ -7811,7 +7811,7 @@ class AsyncLinkedinNamespace:
         awards, languages, projects, publications, and verified/premium/open-to-work
         flags.
 
-        Price: $0.00228 per request.
+        Price: $0.00227 per request.
 
         Example:
             res = client.linkedin.profile(url="https://www.linkedin.com/in/patrickcollison")
