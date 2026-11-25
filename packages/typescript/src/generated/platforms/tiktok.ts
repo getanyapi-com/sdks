@@ -4268,7 +4268,7 @@ export class TiktokNamespace {
    *
    * Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.00119 per request.
    *
    * @example
    * const res = await client.tiktok.photos({ url: "https://www.tiktok.com/@foodbyfranchi/video/7479916555602513174" });
@@ -4829,7 +4829,7 @@ export class TiktokNamespace {
    *
    * Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).
    *
-   * Price: $0.00039 per request.
+   * Price: $0.00037 per request.
    *
    * @example
    * const res = await client.tiktok.video({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287?_r=1&u_code=elgjf3ff8cajhk&preview_pb=0&sharer_language=en&_d=elh6737j6kjl71&share_item_id=7654638524729216287&source=h5_m" });
@@ -4886,7 +4886,7 @@ export class TiktokNamespace {
    *
    * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.
    *
-   * Price: $0.0008 per request.
+   * Price: $0.00079 per request.
    *
    * @example
    * const res = await client.tiktok.videoDownload({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287" });
@@ -4903,7 +4903,7 @@ export class TiktokNamespace {
    *
    * Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.
    *
-   * Price: $0.0011 per request.
+   * Price: $0.00109 per request.
    *
    * @example
    * const res = await client.tiktok.videoTranscript({ url: "https://www.tiktok.com/@washingtonpost/video/7609177768793787679" });

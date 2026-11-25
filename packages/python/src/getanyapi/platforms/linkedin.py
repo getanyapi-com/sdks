@@ -6527,7 +6527,7 @@ class LinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.00078 per request.
+        Price: $0.00077 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -7133,7 +7133,7 @@ class LinkedinNamespace:
         Search public LinkedIn posts with rich author, engagement, attachment, and
         poll details.
 
-        Price: $0.00228 per request.
+        Price: $0.00229 per request.
 
         Example:
             res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")
@@ -7523,7 +7523,7 @@ class AsyncLinkedinNamespace:
         tagline. No follower count, founded year, office locations, or funding data
         - for those use linkedin.company.
 
-        Price: $0.00078 per request.
+        Price: $0.00077 per request.
 
         Example:
             res = client.linkedin.company_thin(url="https://www.linkedin.com/company/stripe")
@@ -8129,7 +8129,7 @@ class AsyncLinkedinNamespace:
         Search public LinkedIn posts with rich author, engagement, attachment, and
         poll details.
 
-        Price: $0.00228 per request.
+        Price: $0.00229 per request.
 
         Example:
             res = client.linkedin.search_posts_full(datePosted="last-week", limit=10, query="artificial intelligence", sort="relevance")

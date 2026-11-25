@@ -34797,7 +34797,7 @@
       "category": "social",
       "description": "List the Meta Ad Library ads a company is running by page ID or company name (creative text, format, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00109,
+        "priceUsd": 0.00108,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -41360,7 +41360,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48703,7 +48703,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.002,
+        "priceUsd": 0.016,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70418,7 +70418,7 @@
       "category": "social",
       "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.",
       "pricing": {
-        "priceUsd": 0.00078,
+        "priceUsd": 0.00077,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -79376,7 +79376,7 @@
       "category": "social",
       "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.",
       "pricing": {
-        "priceUsd": 0.00228,
+        "priceUsd": 0.00229,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132032,7 +132032,7 @@
       "category": "social",
       "description": "Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.00119,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -137561,7 +137561,7 @@
       "category": "social",
       "description": "Fetch a single TikTok video by URL with its caption and engagement counts (views, likes, comments, shares, saves).",
       "pricing": {
-        "priceUsd": 0.00039,
+        "priceUsd": 0.00037,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -138088,7 +138088,7 @@
       "category": "social",
       "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00079,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -138366,7 +138366,7 @@
       "category": "social",
       "description": "Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.",
       "pricing": {
-        "priceUsd": 0.0011,
+        "priceUsd": 0.00109,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
