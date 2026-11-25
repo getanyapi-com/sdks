@@ -1271,7 +1271,7 @@ class GoogleNamespace:
         Search Google News by keyword and get fresh articles (headlines, sources,
         links, and publish times) as clean JSON.
 
-        Price: $0.00083 per request.
+        Price: $0.00082 per request.
 
         Example:
             res = client.google.news(gl="us", hl="en", query="openai")
@@ -1700,7 +1700,7 @@ class AsyncGoogleNamespace:
         Search Google News by keyword and get fresh articles (headlines, sources,
         links, and publish times) as clean JSON.
 
-        Price: $0.00083 per request.
+        Price: $0.00082 per request.
 
         Example:
             res = client.google.news(gl="us", hl="en", query="openai")

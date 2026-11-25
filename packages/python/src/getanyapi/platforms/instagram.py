@@ -4717,7 +4717,7 @@ class InstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00077 per request.
+        Price: $0.00076 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -5208,7 +5208,7 @@ class InstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00071 per request.
+        Price: $0.00069 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -5888,7 +5888,7 @@ class InstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00063 per request.
+        Price: $0.00062 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
@@ -6122,7 +6122,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's core public profile fields (followers, posts,
         bio, verification) by user id.
 
-        Price: $0.00077 per request.
+        Price: $0.00076 per request.
 
         Example:
             res = client.instagram.basic_profile(userId="314216")
@@ -6615,7 +6615,7 @@ class AsyncInstagramNamespace:
         List the comments on an Instagram post or reel by URL with cursor pagination
         (text, author, likes).
 
-        Price: $0.00071 per request.
+        Price: $0.00069 per request.
 
         Example:
             res = client.instagram.post_comments(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -7295,7 +7295,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's reels by handle with cursor pagination (caption,
         plays, likes, comments).
 
-        Price: $0.00063 per request.
+        Price: $0.00062 per request.
 
         Example:
             res = client.instagram.user_reels(handle="nasa")
