@@ -175829,7 +175829,7 @@
     },
     "/v1/run/linkedin.post": {
       "post": {
-        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.55 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).\n\n**Price:** \\$0.55 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post pricing and uptime](https://getanyapi.com/api/linkedin/post) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_post",
         "parameters": [
           {
@@ -243441,7 +243441,7 @@
     },
     "/v1/run/rednote.profile": {
       "post": {
-        "description": "Look up a RedNote (Xiaohongshu) profile by user ID and return normalized profile details.\n\n**Price:** \\$10.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [RedNote (Xiaohongshu) Profile pricing and uptime](https://getanyapi.com/api/rednote/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Rednote endpoint](https://getanyapi.com/api/rednote).",
+        "description": "Look up a RedNote (Xiaohongshu) profile by user ID and return normalized profile details.\n\n**Price:** \\$10.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [RedNote (Xiaohongshu) Profile pricing and uptime](https://getanyapi.com/api/rednote/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Rednote endpoint](https://getanyapi.com/api/rednote).",
         "operationId": "rednote_profile",
         "parameters": [
           {
@@ -324140,7 +324140,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.84 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
@@ -324762,7 +324762,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000840",
+            "amount": "0.000480",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -324804,7 +324804,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001840",
+                "amount": "0.001480",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -324836,7 +324836,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000840",
+                "amount": "0.000480",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
