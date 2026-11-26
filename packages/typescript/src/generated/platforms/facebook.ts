@@ -1588,7 +1588,7 @@ export interface FacebookGroupPostsInput {
    */
   source?: string[];
   /**
-   * The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/).
+   * The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/). Any other Facebook link inside a group, such as a link to one post, a permalink, a member or the group's media, is read as that group's address.
    */
   url: string;
 }

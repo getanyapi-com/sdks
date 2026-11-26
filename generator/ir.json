@@ -4130,7 +4130,7 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -36469,7 +36469,7 @@
           },
           "url": {
             "kind": "string",
-            "description": "The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/).",
+            "description": "The URL of a public Facebook group to fetch posts from (e.g. https://www.facebook.com/groups/instantpotcommunity/). Any other Facebook link inside a group, such as a link to one post, a permalink, a member or the group's media, is read as that group's address.",
             "enum": null,
             "default": null,
             "format": null
@@ -82706,7 +82706,7 @@
       "category": "data",
       "description": "Look up a place on Google Maps by name or search query (optionally scoped to a location) and get the best-matching place with available address, contact, rating, and coordinate details as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.001,
+        "priceUsd": 0.00099,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
