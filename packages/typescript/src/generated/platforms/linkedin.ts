@@ -6066,6 +6066,10 @@ export interface LinkedinSearchLeadsInput {
    */
   recentlyPostedOnLinkedIn?: boolean;
   /**
+   * Optional; omit it and routing is unchanged. Name the output fields this request must be able to return, for example `premium`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on a lead who genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge.
+   */
+  requireFields?: "premium"[];
+  /**
    * Alternatively, a LinkedIn Sales Navigator lead-search URL you built in Sales Navigator (e.g. https://www.linkedin.com/sales/search/people?query=(keywords%3Aengineer)). When set it overrides query and every other filter on this request; only page still applies.
    */
   salesNavUrl?: string;
@@ -6144,7 +6148,7 @@ export interface LinkedinSearchLeadsItem {
    */
   openProfile?: boolean;
   /**
-   * Whether the member has a LinkedIn Premium subscription.
+   * Whether the member has a LinkedIn Premium subscription. Absent when the serving source does not report it.
    */
   premium?: boolean;
   /**
