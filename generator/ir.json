@@ -49410,7 +49410,7 @@
       "category": "search",
       "description": "Search the Google Ads Transparency Center for advertisers by keyword and get matching advertiser IDs, regions, and estimated ad counts as clean JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49564,7 +49564,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00071,
+        "priceUsd": 0.0007,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -58292,7 +58292,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00052,
+        "priceUsd": 0.00051,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61595,7 +61595,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.0022,
+        "priceUsd": 0.00175,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -130245,7 +130245,7 @@
       "category": "social",
       "description": "Search TikTok's public Ads Library by keyword or advertiser (advertiser, title, audience band, run dates, library link, and video).",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -130322,6 +130322,20 @@
             "default": null,
             "format": null
           },
+          "requireFields": {
+            "kind": "array",
+            "description": "Optional; omit it and routing is unchanged, with the cheapest source serving. Name the output fields this request must be able to return, for example `status`, and it is served only by a source that returns every one of them. Fields you do not name are still returned whenever the serving source has them. This can raise your price: when the cheapest source cannot return a named field, a dearer source serves, and you are quoted and charged its price. A named field can still be absent on an ad that genuinely lacks it. Naming a combination that no single source returns together is refused as invalid input, with no charge. On a paginated walk it applies to the first page only; later pages stay with the source that page chose, at the price it was quoted.",
+            "items": {
+              "kind": "string",
+              "enum": [
+                "format",
+                "status"
+              ],
+              "default": null,
+              "format": null
+            },
+            "mustPopulate": false
+          },
           "source": {
             "kind": "array",
             "description": "Optional and experimental: its behavior may change. We recommend leaving it out and letting automatic routing choose: routing serves the cheapest source, uses cheaper sources as they are added, and fails over to another source when one fails, so your requests are not tied to the uptime of one source. To control cost, set a price ceiling instead: on requests paid from your AnyAPI wallet, the `max_cost_usd` REST query parameter or MCP `run_api` argument skips any source that would charge more, and refuses the request with no charge if none is left. Avoid pinning a single source, especially with `allowFallbacks` false: when that source has an outage your requests fail while others are served. If you send it, list source ids from this endpoint's `lanes[].source.id` in /catalog or /apis; they are tried first in the order given, then the others, unless `allowFallbacks` is false. You are charged for the source that serves, plus any source tried before it that charged for its attempt, and never more than the most this endpoint can cost with the sources that may serve. An id that does not serve this endpoint is rejected as invalid input with no charge; a listed source that is not serving right now is refused with no charge, so omit `source` to be served by another. On a paginated walk, later pages must include the source that served page one, or omit `source`.",
@@ -130392,7 +130406,8 @@
                   },
                   "format": {
                     "kind": "string",
-                    "description": "TikTok's creative format code for the ad, as the ad library reports it.",
+                    "description": "TikTok's creative format code for the ad, as the ad library reports it. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -130406,7 +130421,8 @@
                   },
                   "status": {
                     "kind": "string",
-                    "description": "TikTok's audit status code for the ad, as the ad library reports it.",
+                    "description": "TikTok's audit status code for the ad, as the ad library reports it. Null when the serving source does not report it.",
+                    "nullable": true,
                     "enum": null,
                     "default": null,
                     "format": null
@@ -132787,7 +132803,7 @@
       "category": "social",
       "description": "Fetch a TikTok creator's public profile (followers, likes, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00031,
+        "priceUsd": 0.0003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -142221,7 +142237,7 @@
       "category": "social",
       "description": "List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0011,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144194,7 +144210,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00085,
+        "priceUsd": 0.00048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

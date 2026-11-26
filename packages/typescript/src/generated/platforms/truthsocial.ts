@@ -299,7 +299,7 @@ export class TruthsocialNamespace {
    *
    * List a Truth Social account's recent posts by handle - text, engagement (likes, comments, shares), and timestamps as clean JSON.
    *
-   * Price: $0.0012 per request.
+   * Price: $0.0011 per request.
    *
    * @example
    * const res = await client.truthsocial.userPosts({ handle: "realDonaldTrump" });
