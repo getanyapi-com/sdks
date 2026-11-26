@@ -47579,7 +47579,7 @@
       "category": "search",
       "description": "Search Google News by keyword and get fresh articles (headlines, sources, links, and publish times) as clean JSON.",
       "pricing": {
-        "priceUsd": 0.00081,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -54139,7 +54139,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00074,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57519,7 +57519,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.00034,
+        "priceUsd": 0.00033,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57905,7 +57905,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.00069,
+        "priceUsd": 0.00068,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -58292,7 +58292,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00051,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70554,7 +70554,7 @@
       "category": "social",
       "description": "Basic company: name, description, employee count, industry, logo, website, tagline. No follower count, founded year, office locations, or funding data - for those use linkedin.company.",
       "pricing": {
-        "priceUsd": 0.00077,
+        "priceUsd": 0.00076,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -72931,7 +72931,7 @@
       "category": "data",
       "description": "Cheap job index: title, company, location, posted date, URL. No description, salary, applicant counts, or seniority - for those use linkedin.jobs.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73214,7 +73214,7 @@
       "category": "social",
       "description": "Fetch a single LinkedIn post or article by URL (title, text, author, like and comment counts, publish date).",
       "pricing": {
-        "priceUsd": 0.00055,
+        "priceUsd": 0.00054,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73982,7 +73982,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.00226,
+        "priceUsd": 0.00225,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83374,7 +83374,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.0013,
+        "priceUsd": 0.00129,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -108202,7 +108202,7 @@
       "category": "social",
       "description": "Fetch a subreddit's metadata (weekly active users, description, and category).",
       "pricing": {
-        "priceUsd": 0.00031,
+        "priceUsd": 0.0003,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134930,7 +134930,7 @@
       "category": "social",
       "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143720,7 +143720,7 @@
       "category": "social",
       "description": "Fetch a Twitter/X account's public profile (followers, tweets, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00011,
+        "priceUsd": 0.0001,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143935,7 +143935,7 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00039,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146341,7 +146341,7 @@
       "category": "social",
       "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00039,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154268,7 +154268,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00028,
+        "priceUsd": 0.00027,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155174,7 +155174,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00051,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155410,7 +155410,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00068,
+        "priceUsd": 0.00067,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

@@ -1453,7 +1453,7 @@ export class RedditNamespace {
    *
    * Fetch a subreddit's metadata (weekly active users, description, and category).
    *
-   * Price: $0.00031 per request.
+   * Price: $0.0003 per request.
    *
    * @example
    * const res = await client.reddit.subredditDetails({ subreddit: "programming" });
