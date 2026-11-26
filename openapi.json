@@ -98531,7 +98531,7 @@
     },
     "/v1/run/gemini.search": {
       "post": {
-        "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.\n\n**Price:** \\$4.80 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
+        "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.\n\n**Price:** \\$2.00 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Gemini Search pricing and uptime](https://getanyapi.com/api/gemini/search) - live USD price, lane routing, and measured 30-day uptime. [Every Gemini endpoint](https://getanyapi.com/api/gemini).",
         "operationId": "gemini_search",
         "parameters": [
           {
@@ -99017,7 +99017,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.004800",
+            "amount": "0.002000",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -99059,7 +99059,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.005800",
+                "amount": "0.003000",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -99091,7 +99091,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.004800",
+                "amount": "0.002000",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -325483,7 +325483,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
