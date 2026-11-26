@@ -41394,7 +41394,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.0048,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -48737,7 +48737,7 @@
       "category": "search",
       "description": "Google Trends interest over time for up to 5 search terms compared on one 0-100 scale, where 100 is the peak search interest of any term in the window. Returns one series per term, in the order you sent them, with a value for every time bucket. Choose the country or region with geo (worldwide when omitted) and the window with timeframe (the past 12 months when omitted); both are echoed in the response. Interest over time only, not related queries or regions.",
       "pricing": {
-        "priceUsd": 0.016,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -61595,7 +61595,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0017,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134917,7 +134917,7 @@
       "category": "social",
       "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.",
       "pricing": {
-        "priceUsd": 0.0012,
+        "priceUsd": 0.0018,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144210,7 +144210,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00084,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
