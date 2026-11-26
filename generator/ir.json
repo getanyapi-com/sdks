@@ -9492,8 +9492,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-25",
-        "checkOut": "2026-12-27",
+        "checkIn": "2026-12-26",
+        "checkOut": "2026-12-28",
         "limit": 3,
         "query": "New York"
       },
@@ -34053,7 +34053,7 @@
       "category": "social",
       "description": "Search the Meta Ad Library by keyword and get matching ads (advertiser, creative text, CTA, platforms, and run dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.00079,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -41394,7 +41394,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50335,8 +50335,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-25",
-        "departureDateTo": "2027-01-23",
+        "departureDateFrom": "2026-12-26",
+        "departureDateTo": "2027-01-24",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50626,7 +50626,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-25",
+        "departureDate": "2026-12-26",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -51027,8 +51027,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-25",
-        "checkOut": "2026-12-27",
+        "checkIn": "2026-12-26",
+        "checkOut": "2026-12-28",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51625,8 +51625,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-25",
-        "checkOut": "2026-12-27",
+        "checkIn": "2026-12-26",
+        "checkOut": "2026-12-28",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -61595,7 +61595,7 @@
       "category": "social",
       "description": "List the related profiles Instagram's website shows for a public profile, with each account's handle, display name, verified flag and avatar. This is Instagram's shorter web list: it often holds only a few accounts and can be empty even for a large profile. When it comes back empty or cannot be read, the accounts Instagram's app suggests for the profile may be returned instead. For the full list of accounts Instagram suggests as similar, use instagram.suggested_profiles.",
       "pricing": {
-        "priceUsd": 0.00175,
+        "priceUsd": 0.0022,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144194,7 +144194,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00046,
+        "priceUsd": 0.00085,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -147367,8 +147367,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-25",
-        "checkOut": "2026-12-28",
+        "checkIn": "2026-12-26",
+        "checkOut": "2026-12-29",
         "propertyId": "69764328"
       },
       "input": {
@@ -148141,8 +148141,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-25",
-        "checkOut": "2026-12-28",
+        "checkIn": "2026-12-26",
+        "checkOut": "2026-12-29",
         "location": "Lake Tahoe"
       },
       "input": {
@@ -152115,7 +152115,7 @@
       "category": "video",
       "description": "Fetch a YouTube channel's stats (subscribers, video count, total views, description) and the links on its About page, by handle or channel ID.",
       "pricing": {
-        "priceUsd": 0.00032,
+        "priceUsd": 0.00031,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153403,7 +153403,7 @@
       "category": "video",
       "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.",
       "pricing": {
-        "priceUsd": 0.00066,
+        "priceUsd": 0.00065,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155145,7 +155145,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00052,
+        "priceUsd": 0.00051,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155822,7 +155822,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00076,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
