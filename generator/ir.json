@@ -1783,7 +1783,7 @@
       "category": "shop",
       "description": "Look up one AliExpress product by id and get its price, original price, rating, reviews count, images, options, variants with stock, specifications, store, ship-from country and delivery estimate in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0009,
+        "priceUsd": 0.00089,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -54139,7 +54139,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's core public profile fields (followers, posts, bio, verification) by user id.",
       "pricing": {
-        "priceUsd": 0.00074,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57519,7 +57519,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.00033,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -57905,7 +57905,7 @@
       "category": "social",
       "description": "List the comments on an Instagram post or reel by URL with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.00068,
+        "priceUsd": 0.00069,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -58292,7 +58292,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00051,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63454,7 +63454,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00078,
+        "priceUsd": 0.0008,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83374,7 +83374,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00129,
+        "priceUsd": 0.00128,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
