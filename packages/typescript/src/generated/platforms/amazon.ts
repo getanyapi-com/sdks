@@ -572,7 +572,7 @@ export interface AmazonProductInput {
    */
   source?: string[];
   /**
-   * Full Amazon product URL (e.g. https://www.amazon.com/dp/B0CX23V2ZK).
+   * Full Amazon product URL (e.g. https://www.amazon.com/dp/B0CX23V2ZK). A /dp/ or /gp/product/ link whose product id (ASIN) is shorter than 10 characters names no product and is refused as invalid input, with no charge.
    */
   url: string;
 }
