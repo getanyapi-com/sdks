@@ -178294,7 +178294,7 @@
     },
     "/v1/run/linkedin.profile": {
       "post": {
-        "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.\n\n**Price:** \\$2.24 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile pricing and uptime](https://getanyapi.com/api/linkedin/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.\n\n**Price:** \\$2.24 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile pricing and uptime](https://getanyapi.com/api/linkedin/profile) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile",
         "parameters": [
           {
@@ -182554,7 +182554,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.76 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.76 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -187826,7 +187826,7 @@
     },
     "/v1/run/linkedin.search_posts_full": {
       "post": {
-        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$2.28 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Search public LinkedIn posts with rich author, engagement, attachment, and poll details.\n\n**Price:** \\$2.28 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Post Search (full) pricing and uptime](https://getanyapi.com/api/linkedin/search-posts-full) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_search_posts_full",
         "parameters": [
           {
@@ -233072,7 +233072,7 @@
     },
     "/v1/run/reddit.avatar": {
       "post": {
-        "description": "Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.\n\n**Price:** \\$0.36 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Avatar pricing and uptime](https://getanyapi.com/api/reddit/avatar) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Get a Reddit user's profile picture URL, karma, and account age by username. The cheapest Reddit user lookup; use reddit.profile for bio, trophies, and post and comment counts.\n\n**Price:** \\$0.37 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Avatar pricing and uptime](https://getanyapi.com/api/reddit/avatar) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_avatar",
         "parameters": [
           {
@@ -233564,7 +233564,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000360",
+            "amount": "0.000370",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -233606,7 +233606,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001360",
+                "amount": "0.001370",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -233638,7 +233638,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000360",
+                "amount": "0.000370",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -233667,7 +233667,7 @@
     },
     "/v1/run/reddit.post": {
       "post": {
-        "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.\n\n**Price:** \\$0.48 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post pricing and uptime](https://getanyapi.com/api/reddit/post) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch a single Reddit post by URL, including its full body text, score, comment count, upvote ratio, and subreddit, as normalized JSON.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post pricing and uptime](https://getanyapi.com/api/reddit/post) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_post",
         "parameters": [
           {
@@ -234198,7 +234198,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000480",
+            "amount": "0.000490",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -234240,7 +234240,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001480",
+                "amount": "0.001490",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -234272,7 +234272,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000480",
+                "amount": "0.000490",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -234301,7 +234301,7 @@
     },
     "/v1/run/reddit.post_comments": {
       "post": {
-        "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.\n\n**Price:** \\$0.58 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post Comments pricing and uptime](https://getanyapi.com/api/reddit/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "List the comments on a Reddit post by URL (author, body, score, timestamp, parent comment). Replies carry the parentId of the comment they answer.\n\n**Price:** \\$0.59 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Post Comments pricing and uptime](https://getanyapi.com/api/reddit/post-comments) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_post_comments",
         "parameters": [
           {
@@ -234864,7 +234864,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000580",
+            "amount": "0.000590",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -234906,7 +234906,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001580",
+                "amount": "0.001590",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -234938,7 +234938,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000580",
+                "amount": "0.000590",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -237505,7 +237505,7 @@
     },
     "/v1/run/reddit.subreddit_posts": {
       "post": {
-        "description": "Fetch posts from a subreddit listing (hot, new, or top).\n\n**Price:** \\$0.36 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Posts pricing and uptime](https://getanyapi.com/api/reddit/subreddit-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
+        "description": "Fetch posts from a subreddit listing (hot, new, or top).\n\n**Price:** \\$0.37 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Reddit Subreddit Posts pricing and uptime](https://getanyapi.com/api/reddit/subreddit-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Reddit endpoint](https://getanyapi.com/api/reddit).",
         "operationId": "reddit_subreddit_posts",
         "parameters": [
           {
@@ -238091,7 +238091,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000360",
+            "amount": "0.000370",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -238133,7 +238133,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001360",
+                "amount": "0.001370",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -238165,7 +238165,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000360",
+                "amount": "0.000370",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
