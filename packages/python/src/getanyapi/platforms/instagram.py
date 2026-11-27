@@ -5224,7 +5224,7 @@ class InstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.00045 per request.
+        Price: $0.00033 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -5310,7 +5310,7 @@ class InstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00051 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -5881,7 +5881,7 @@ class InstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.0008 per request.
+        Price: $0.00078 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
@@ -6631,7 +6631,7 @@ class AsyncInstagramNamespace:
         extra on top of the price. If you want the spoken words as well,
         instagram.reel_transcript transcribes the same reel.
 
-        Price: $0.00045 per request.
+        Price: $0.00033 per request.
 
         Example:
             res = client.instagram.post(url="https://www.instagram.com/reel/DWzrfE2kaY8/")
@@ -6717,7 +6717,7 @@ class AsyncInstagramNamespace:
         Fetch an Instagram account's public profile (followers, posts, bio,
         verification) by handle.
 
-        Price: $0.00051 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.instagram.profile(handle="nasa")
@@ -7288,7 +7288,7 @@ class AsyncInstagramNamespace:
         List an Instagram account's recent posts (likes, comments, captions) by
         handle with cursor pagination.
 
-        Price: $0.0008 per request.
+        Price: $0.00078 per request.
 
         Example:
             res = client.instagram.user_posts(handle="nasa")
