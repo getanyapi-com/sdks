@@ -6489,7 +6489,11 @@
                                           "images": {
                                             "description": "Product image URLs, primary first. Populated whenever the provider has data for the entity.",
                                             "items": {
-                                              "type": "string"
+                                              "type": "string",
+                                              "x-anyapi-domain": [
+                                                "aliexpress-media.com",
+                                                "alicdn.com"
+                                              ]
                                             },
                                             "type": "array",
                                             "x-anyapi-must-populate": true
@@ -6686,7 +6690,8 @@
                                           },
                                           "url": {
                                             "description": "AliExpress product page URL with tracking query parameters removed.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "aliexpress.com"
                                           },
                                           "variants": {
                                             "description": "One entry per purchasable combination of options. Populated whenever the provider has data for the entity.",
@@ -6704,6 +6709,10 @@
                                                   "type": [
                                                     "string",
                                                     "null"
+                                                  ],
+                                                  "x-anyapi-domain": [
+                                                    "aliexpress-media.com",
+                                                    "alicdn.com"
                                                   ]
                                                 },
                                                 "inStock": {
@@ -6749,7 +6758,8 @@
                                             "type": [
                                               "string",
                                               "null"
-                                            ]
+                                            ],
+                                            "x-anyapi-domain": "aliexpress-media.com"
                                           },
                                           "wishlistCount": {
                                             "description": "Number of shoppers who added the product to their wish list, or null when the serving source does not report it.",
@@ -227691,7 +227701,8 @@
                                           },
                                           "image": {
                                             "description": "URL of the pin's full-size image; for a video pin, its cover image.",
-                                            "type": "string"
+                                            "type": "string",
+                                            "x-anyapi-domain": "pinimg.com"
                                           },
                                           "title": {
                                             "description": "Pin title, or the pin's description when the pin has no title.",
@@ -227700,6 +227711,7 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": "pinterest.com",
                                             "x-anyapi-must-populate": true
                                           },
                                           "videoUrl": {
@@ -227707,7 +227719,8 @@
                                             "type": [
                                               "string",
                                               "null"
-                                            ]
+                                            ],
+                                            "x-anyapi-domain": "pinimg.com"
                                           }
                                         },
                                         "required": [
@@ -270291,7 +270304,8 @@
                                       "type": [
                                         "string",
                                         "null"
-                                      ]
+                                      ],
+                                      "x-anyapi-domain": "similarcdn.com"
                                     },
                                     "monthlyVisits": {
                                       "description": "Estimated total visits in the snapshot month. Populated whenever the provider has data for the entity.",
@@ -324152,7 +324166,7 @@
     },
     "/v1/run/twitter.search": {
       "post": {
-        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.47 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.\n\n**Price:** \\$0.46 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 7 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter Search pricing and uptime](https://getanyapi.com/api/x-twitter/search) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search",
         "parameters": [
           {
@@ -324774,7 +324788,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000470",
+            "amount": "0.000460",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -324816,7 +324830,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001470",
+                "amount": "0.001460",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -324848,7 +324862,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000470",
+                "amount": "0.000460",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
@@ -325483,7 +325497,7 @@
     },
     "/v1/run/twitter.search_users": {
       "post": {
-        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 4 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
+        "description": "Search X (Twitter) accounts by keyword - the People tab of X search. Matches handles, display names, and profile bios, and returns normalized profile records with follower, following, and post counts plus cursor pagination. Use twitter.search for posts.\n\n**Price:** \\$0.49 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [X / Twitter User Search pricing and uptime](https://getanyapi.com/api/x-twitter/search-users) - live USD price, lane routing, and measured 30-day uptime. [Every X (Twitter) endpoint](https://getanyapi.com/api/x-twitter).",
         "operationId": "twitter_search_users",
         "parameters": [
           {
@@ -338798,7 +338812,7 @@
     },
     "/v1/run/weibo.post": {
       "post": {
-        "description": "Fetch a public Weibo post by ID with normalized author and engagement data.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Weibo Post pricing and uptime](https://getanyapi.com/api/weibo/post) - live USD price, lane routing, and measured 30-day uptime. [Every Weibo endpoint](https://getanyapi.com/api/weibo).",
+        "description": "Fetch a public Weibo post by ID with normalized author and engagement data.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Weibo Post pricing and uptime](https://getanyapi.com/api/weibo/post) - live USD price, lane routing, and measured 30-day uptime. [Every Weibo endpoint](https://getanyapi.com/api/weibo).",
         "operationId": "weibo_post",
         "parameters": [
           {
@@ -341315,7 +341329,7 @@
     },
     "/v1/run/weibo.user_posts": {
       "post": {
-        "description": "List public posts from a Weibo user with normalized author and engagement data.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 2 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [Weibo User Posts pricing and uptime](https://getanyapi.com/api/weibo/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Weibo endpoint](https://getanyapi.com/api/weibo).",
+        "description": "List public posts from a Weibo user with normalized author and engagement data.\n\n**Price:** \\$1.20 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** one lane serves this API today, so a failed attempt has nowhere to fail over to. Payment outcome follows the selected rail's settlement policy.\n\n**Catalog:** [Weibo User Posts pricing and uptime](https://getanyapi.com/api/weibo/user-posts) - live USD price, lane routing, and measured 30-day uptime. [Every Weibo endpoint](https://getanyapi.com/api/weibo).",
         "operationId": "weibo_user_posts",
         "parameters": [
           {
@@ -355296,7 +355310,8 @@
                                     },
                                     "authorUrl": {
                                       "description": "Canonical URL of the publishing channel, tracking query parameters stripped.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": "youtube.com"
                                     },
                                     "category": {
                                       "description": "YouTube category the video is filed under, for example \"Music\".",
@@ -355321,7 +355336,12 @@
                                     },
                                     "image": {
                                       "description": "URL of the video thumbnail image.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "ytimg.com",
+                                        "youtube.com",
+                                        "lh3.googleusercontent.com"
+                                      ]
                                     },
                                     "isAiGenerated": {
                                       "description": "True when the words were recognized from the audio by the serving lane rather than read from any YouTube caption track, or null when the serving source does not say.",
@@ -355391,7 +355411,11 @@
                                     },
                                     "url": {
                                       "description": "Watch URL of the video.",
-                                      "type": "string"
+                                      "type": "string",
+                                      "x-anyapi-domain": [
+                                        "youtube.com",
+                                        "youtu.be"
+                                      ]
                                     },
                                     "videoId": {
                                       "description": "Unique identifier of the video.",
