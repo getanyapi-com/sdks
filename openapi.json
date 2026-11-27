@@ -6691,7 +6691,10 @@
                                           "url": {
                                             "description": "AliExpress product page URL with tracking query parameters removed.",
                                             "type": "string",
-                                            "x-anyapi-domain": "aliexpress.com"
+                                            "x-anyapi-domain": [
+                                              "aliexpress.com",
+                                              "aliexpress.us"
+                                            ]
                                           },
                                           "variants": {
                                             "description": "One entry per purchasable combination of options. Populated whenever the provider has data for the entity.",
@@ -182548,7 +182551,7 @@
     },
     "/v1/run/linkedin.profile_thin": {
       "post": {
-        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.77 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 6 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
+        "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.\n\n**Price:** \\$0.77 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [LinkedIn Profile (basic) pricing and uptime](https://getanyapi.com/api/linkedin/profile-thin) - live USD price, lane routing, and measured 30-day uptime. [Every Linkedin endpoint](https://getanyapi.com/api/linkedin).",
         "operationId": "linkedin_profile_thin",
         "parameters": [
           {
@@ -227711,7 +227714,52 @@
                                           "url": {
                                             "description": "Populated whenever the provider has data for the entity.",
                                             "type": "string",
-                                            "x-anyapi-domain": "pinterest.com",
+                                            "x-anyapi-domain": [
+                                              "pinterest.com",
+                                              "pinterest.co.uk",
+                                              "pinterest.ca",
+                                              "pinterest.com.au",
+                                              "pinterest.de",
+                                              "pinterest.fr",
+                                              "pinterest.es",
+                                              "pinterest.it",
+                                              "pinterest.jp",
+                                              "pinterest.com.mx",
+                                              "pinterest.pt",
+                                              "pinterest.ch",
+                                              "pinterest.at",
+                                              "pinterest.nz",
+                                              "pinterest.co.nz",
+                                              "pinterest.ie",
+                                              "pinterest.se",
+                                              "pinterest.dk",
+                                              "pinterest.cl",
+                                              "pinterest.kr",
+                                              "pinterest.co.kr",
+                                              "pinterest.ph",
+                                              "pinterest.ru",
+                                              "pinterest.nl",
+                                              "pinterest.in",
+                                              "pinterest.co.in",
+                                              "pinterest.com.pe",
+                                              "pinterest.be",
+                                              "pinterest.hu",
+                                              "pinterest.pe",
+                                              "pinterest.co",
+                                              "pinterest.co.at",
+                                              "pinterest.com.bo",
+                                              "pinterest.com.ec",
+                                              "pinterest.com.py",
+                                              "pinterest.com.uy",
+                                              "pinterest.com.vn",
+                                              "pinterest.ec",
+                                              "pinterest.id",
+                                              "pinterest.mx",
+                                              "pinterest.th",
+                                              "pinterest.tw",
+                                              "pinterest.uk",
+                                              "pinterest.vn"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "videoUrl": {
@@ -243648,6 +243696,10 @@
                                     "image": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "xhscdn.com",
+                                        "rednotecdn.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "likedCount": {
@@ -243674,6 +243726,11 @@
                                     "shareUrl": {
                                       "description": "Populated whenever the provider has data for the entity.",
                                       "type": "string",
+                                      "x-anyapi-domain": [
+                                        "xiaohongshu.com",
+                                        "rednote.com",
+                                        "xhslink.com"
+                                      ],
                                       "x-anyapi-must-populate": true
                                     },
                                     "userId": {
@@ -244263,6 +244320,10 @@
                                           "authorImage": {
                                             "description": "URL of the author's avatar. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "xhscdn.com",
+                                              "rednotecdn.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "authorNickname": {
@@ -244300,6 +244361,10 @@
                                           "image": {
                                             "description": "URL of the note cover image. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "xhscdn.com",
+                                              "rednotecdn.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "likeCount": {
@@ -245529,6 +245594,10 @@
                                           "authorImage": {
                                             "description": "URL of the author's avatar. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "xhscdn.com",
+                                              "rednotecdn.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "authorNickname": {
@@ -245561,6 +245630,10 @@
                                           "image": {
                                             "description": "URL of the note cover image. Populated whenever the provider has data for the entity.",
                                             "type": "string",
+                                            "x-anyapi-domain": [
+                                              "xhscdn.com",
+                                              "rednotecdn.com"
+                                            ],
                                             "x-anyapi-must-populate": true
                                           },
                                           "likeCount": {
@@ -299578,7 +299651,7 @@
     },
     "/v1/run/tiktok.search_keyword": {
       "post": {
-        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.35 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 5 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
+        "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.\n\n**Price:** \\$0.60 per 1,000 requests (flat per request - same cost regardless of results returned).\n\n**Routing:** 3 independent lanes are available in execution order. A failed attempt uses the next lane only when the request's payment authorizes that lane's price; the normalized schema stays the same.\n\n**Catalog:** [TikTok Keyword Search pricing and uptime](https://getanyapi.com/api/tiktok/search-keyword) - live USD price, lane routing, and measured 30-day uptime. [Every TikTok endpoint](https://getanyapi.com/api/tiktok).",
         "operationId": "tiktok_search_keyword",
         "parameters": [
           {
@@ -300251,7 +300324,7 @@
         },
         "x-payment-info": {
           "price": {
-            "amount": "0.000350",
+            "amount": "0.000600",
             "currency": "USD",
             "mode": "fixed"
           },
@@ -300293,7 +300366,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.001350",
+                "amount": "0.001600",
                 "currency": "USD",
                 "minimumUsd": "0.001000",
                 "mode": "fixed",
@@ -300325,7 +300398,7 @@
                 ]
               },
               "pricing": {
-                "amount": "0.000350",
+                "amount": "0.000600",
                 "currency": "USD",
                 "minimumUsd": null,
                 "mode": "fixed",
