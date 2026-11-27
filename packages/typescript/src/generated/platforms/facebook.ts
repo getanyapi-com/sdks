@@ -3717,7 +3717,7 @@ export class FacebookNamespace {
    *
    * Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.
    *
-   * Price: $0.00096 per request.
+   * Price: $0.00118 per request.
    *
    * @example
    * const res = await client.facebook.eventDetails({ id: "4045709448982422" });
@@ -4151,7 +4151,7 @@ export class FacebookNamespace {
    *
    * List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).
    *
-   * Price: $0.00115 per request.
+   * Price: $0.00118 per request.
    *
    * @example
    * const res = await client.facebook.profilePosts({ url: "https://www.facebook.com/nike" });

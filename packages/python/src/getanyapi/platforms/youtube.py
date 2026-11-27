@@ -1569,7 +1569,7 @@ class YoutubeNamespace:
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination, views, and publish timestamps.
 
-        Price: $0.00099 per request.
+        Price: $0.00098 per request.
 
         Example:
             res = client.youtube.channel_shorts(handle="@zachking", sort="latest")
@@ -1615,7 +1615,7 @@ class YoutubeNamespace:
         Shorts are not included; use youtube.channel_shorts for them and
         youtube.channel_lives for live streams.
 
-        Price: $0.00065 per request.
+        Price: $0.00063 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -1745,7 +1745,7 @@ class YoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.00027 per request.
+        Price: $0.00026 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -1833,7 +1833,7 @@ class YoutubeNamespace:
         Search YouTube Shorts by keyword and get matching Shorts (title, views, URL)
         with cursor pagination as normalized JSON.
 
-        Price: $0.00119 per request.
+        Price: $0.00118 per request.
 
         Example:
             res = client.youtube.search_shorts(query="cats")
@@ -1898,7 +1898,7 @@ class YoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.0005 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1919,7 +1919,7 @@ class YoutubeNamespace:
         List the comments on a YouTube video or Short by URL with cursor pagination
         (text, author, likes, reply count).
 
-        Price: $0.00067 per request.
+        Price: $0.00066 per request.
 
         Example:
             res = client.youtube.video_comments(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -1983,7 +1983,7 @@ class YoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video or Short by URL or ID.
 
-        Price: $0.00075 per request.
+        Price: $0.00073 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2244,7 +2244,7 @@ class AsyncYoutubeNamespace:
         List a YouTube channel's Shorts by handle or channel ID with cursor
         pagination, views, and publish timestamps.
 
-        Price: $0.00099 per request.
+        Price: $0.00098 per request.
 
         Example:
             res = client.youtube.channel_shorts(handle="@zachking", sort="latest")
@@ -2290,7 +2290,7 @@ class AsyncYoutubeNamespace:
         Shorts are not included; use youtube.channel_shorts for them and
         youtube.channel_lives for live streams.
 
-        Price: $0.00065 per request.
+        Price: $0.00063 per request.
 
         Example:
             res = client.youtube.channel_videos(handle="@mkbhd")
@@ -2420,7 +2420,7 @@ class AsyncYoutubeNamespace:
         Search YouTube and get matching videos (title, channel, views, length,
         publish time) as normalized JSON.
 
-        Price: $0.00027 per request.
+        Price: $0.00026 per request.
 
         Example:
             res = client.youtube.search(query="how to cook rice")
@@ -2508,7 +2508,7 @@ class AsyncYoutubeNamespace:
         Search YouTube Shorts by keyword and get matching Shorts (title, views, URL)
         with cursor pagination as normalized JSON.
 
-        Price: $0.00119 per request.
+        Price: $0.00118 per request.
 
         Example:
             res = client.youtube.search_shorts(query="cats")
@@ -2573,7 +2573,7 @@ class AsyncYoutubeNamespace:
         Fetch a YouTube video or Short's metadata (title, channel, views, likes,
         duration, publish date) by URL or ID.
 
-        Price: $0.0005 per request.
+        Price: $0.00049 per request.
 
         Example:
             res = client.youtube.video(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2594,7 +2594,7 @@ class AsyncYoutubeNamespace:
         List the comments on a YouTube video or Short by URL with cursor pagination
         (text, author, likes, reply count).
 
-        Price: $0.00067 per request.
+        Price: $0.00066 per request.
 
         Example:
             res = client.youtube.video_comments(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -2658,7 +2658,7 @@ class AsyncYoutubeNamespace:
 
         Fetch the transcript/captions of a YouTube video or Short by URL or ID.
 
-        Price: $0.00075 per request.
+        Price: $0.00073 per request.
 
         Example:
             res = client.youtube.video_transcript(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")

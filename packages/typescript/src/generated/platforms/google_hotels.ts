@@ -769,7 +769,7 @@ export class GoogleHotelsNamespace {
    * Price: $0.0015 per request.
    *
    * @example
-   * const res = await client.googleHotels.details({ checkIn: "2026-12-26", checkOut: "2026-12-28", country: "us", propertyToken: "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB" });
+   * const res = await client.googleHotels.details({ checkIn: "2026-12-27", checkOut: "2026-12-29", country: "us", propertyToken: "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB" });
    */
   details(
     input: GoogleHotelsDetailsInput,
@@ -783,10 +783,10 @@ export class GoogleHotelsNamespace {
    *
    * Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.
    *
-   * Price: $0.0048 per request.
+   * Price: $0.0015 per request.
    *
    * @example
-   * const res = await client.googleHotels.search({ checkIn: "2026-12-26", checkOut: "2026-12-28", country: "us", query: "hotels near times square new york" });
+   * const res = await client.googleHotels.search({ checkIn: "2026-12-27", checkOut: "2026-12-29", country: "us", query: "hotels near times square new york" });
    */
   search(
     input: GoogleHotelsSearchInput,

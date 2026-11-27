@@ -4098,7 +4098,7 @@ export class TiktokNamespace {
    *
    * List the replies to a TikTok comment with cursor pagination (text, author, likes).
    *
-   * Price: $0.0006 per request.
+   * Price: $0.00058 per request.
    *
    * @example
    * const res = await client.tiktok.commentReplies({ commentId: "7623828115408274207", url: "https://www.tiktok.com/@stoolpresidente/video/7623818255903329566" });
@@ -4272,7 +4272,7 @@ export class TiktokNamespace {
    *
    * Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.
    *
-   * Price: $0.00119 per request.
+   * Price: $0.00118 per request.
    *
    * @example
    * const res = await client.tiktok.photos({ url: "https://www.tiktok.com/@foodbyfranchi/video/7479916555602513174" });
@@ -4543,7 +4543,7 @@ export class TiktokNamespace {
    *
    * Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.
    *
-   * Price: $0.00034 per request.
+   * Price: $0.00035 per request.
    *
    * @example
    * const res = await client.tiktok.searchKeyword({ query: "cooking", datePosted: 0, sortBy: "relevance" });
@@ -4850,7 +4850,7 @@ export class TiktokNamespace {
    *
    * List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).
    *
-   * Price: $0.0004 per request.
+   * Price: $0.00059 per request.
    *
    * @example
    * const res = await client.tiktok.videoComments({ url: "https://www.tiktok.com/@zachking/video/7650468599424945422?_r=1&u_code=f0hj7d780760m9&preview_pb=0&sharer_language=en&_d=f0hj7blh067h71&share_item_id=7650468599424945422&source=h5_m" });
@@ -4890,7 +4890,7 @@ export class TiktokNamespace {
    *
    * Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.
    *
-   * Price: $0.00079 per request.
+   * Price: $0.00078 per request.
    *
    * @example
    * const res = await client.tiktok.videoDownload({ url: "https://www.tiktok.com/@mrbeast/video/7654638524729216287" });
@@ -4907,7 +4907,7 @@ export class TiktokNamespace {
    *
    * Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.
    *
-   * Price: $0.00109 per request.
+   * Price: $0.00108 per request.
    *
    * @example
    * const res = await client.tiktok.videoTranscript({ url: "https://www.tiktok.com/@washingtonpost/video/7609177768793787679" });

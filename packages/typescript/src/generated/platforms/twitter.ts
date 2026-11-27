@@ -2036,7 +2036,7 @@ export class TwitterNamespace {
    *
    * Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.
    *
-   * Price: $0.00039 per request.
+   * Price: $0.00038 per request.
    *
    * @example
    * const res = await client.twitter.replies({ url: "https://x.com/jack/status/20" });
@@ -2073,7 +2073,7 @@ export class TwitterNamespace {
    *
    * Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.
    *
-   * Price: $0.00048 per request.
+   * Price: $0.00046 per request.
    *
    * @example
    * const res = await client.twitter.search({ query: "openai" });
@@ -2224,7 +2224,7 @@ export class TwitterNamespace {
    *
    * Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).
    *
-   * Price: $0.00021 per request.
+   * Price: $0.0002 per request.
    *
    * @example
    * const res = await client.twitter.tweet({ url: "https://x.com/SpaceX/status/1732824684683784516" });
@@ -2295,7 +2295,7 @@ export class TwitterNamespace {
    *
    * Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.
    *
-   * Price: $0.00038 per request.
+   * Price: $0.00037 per request.
    *
    * @example
    * const res = await client.twitter.userTweets({ handle: "levelsio" });

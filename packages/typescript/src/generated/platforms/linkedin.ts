@@ -7712,7 +7712,7 @@ export class LinkedinNamespace {
    *
    * Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.
    *
-   * Price: $0.00109 per request.
+   * Price: $0.00104 per request.
    *
    * @example
    * const res = await client.linkedin.company({ url: "https://www.linkedin.com/company/stripe" });
@@ -7763,7 +7763,7 @@ export class LinkedinNamespace {
    *
    * Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.
    *
-   * Price: $0.00119 per request.
+   * Price: $0.00114 per request.
    *
    * @example
    * const res = await client.linkedin.companyPostsThin({ url: "https://www.linkedin.com/company/stripe" });
@@ -7956,7 +7956,7 @@ export class LinkedinNamespace {
    *
    * List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.
    *
-   * Price: $0.0029 per request.
+   * Price: $0.00285 per request.
    *
    * @example
    * const res = await client.linkedin.postComments({ url: "https://www.linkedin.com/posts/stripe_philip-kl%C3%B6ckner-in-conversation-with-conor-activity-7477791740645564416-tIbZ", limit: 10 });
@@ -8144,7 +8144,7 @@ export class LinkedinNamespace {
    *
    * Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.
    *
-   * Price: $0.00079 per request.
+   * Price: $0.00077 per request.
    *
    * @example
    * const res = await client.linkedin.profileThin({ url: "https://www.linkedin.com/in/williamhgates" });

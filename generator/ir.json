@@ -9492,8 +9492,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-26",
-        "checkOut": "2026-12-28",
+        "checkIn": "2026-12-27",
+        "checkOut": "2026-12-29",
         "limit": 3,
         "query": "New York"
       },
@@ -35348,7 +35348,7 @@
       "category": "social",
       "description": "Fetch full details for a single Facebook event by ID or URL (name, schedule, venue, hosts, and attendance) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00096,
+        "priceUsd": 0.00118,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -39364,7 +39364,7 @@
       "category": "social",
       "description": "List a Facebook page's recent posts by URL or page id with cursor pagination (text, author, publication time, permalink).",
       "pricing": {
-        "priceUsd": 0.00115,
+        "priceUsd": 0.00118,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49564,7 +49564,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.0007,
+        "priceUsd": 0.00068,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50335,8 +50335,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-26",
-        "departureDateTo": "2027-01-24",
+        "departureDateFrom": "2026-12-27",
+        "departureDateTo": "2027-01-25",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50626,7 +50626,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-26",
+        "departureDate": "2026-12-27",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -51027,8 +51027,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-26",
-        "checkOut": "2026-12-28",
+        "checkIn": "2026-12-27",
+        "checkOut": "2026-12-29",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51611,7 +51611,7 @@
       "category": "travel",
       "description": "Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -51625,8 +51625,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-26",
-        "checkOut": "2026-12-28",
+        "checkIn": "2026-12-27",
+        "checkOut": "2026-12-29",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -58919,7 +58919,7 @@
       "category": "social",
       "description": "Look up the contact email and phone number an Instagram creator or business publishes on its profile, including the address behind the profile's Email button that public profile lookups do not return.",
       "pricing": {
-        "priceUsd": 0.00145,
+        "priceUsd": 0.0017,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63454,7 +63454,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00068,
+        "priceUsd": 0.00078,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -69366,7 +69366,7 @@
       "category": "social",
       "description": "Fetch a full LinkedIn company page by URL: name, description, industry, employee count and range, follower count, founded year, headquarters and office locations, funding data, tagline, logo, website, and specialities.",
       "pricing": {
-        "priceUsd": 0.00109,
+        "priceUsd": 0.00104,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -70399,7 +70399,7 @@
       "category": "social",
       "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.",
       "pricing": {
-        "priceUsd": 0.00119,
+        "priceUsd": 0.00114,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73406,7 +73406,7 @@
       "category": "social",
       "description": "List comments on a LinkedIn post - full text, commenter name/URL/job title, timestamps, and engagement.",
       "pricing": {
-        "priceUsd": 0.0029,
+        "priceUsd": 0.00285,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -76677,7 +76677,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.00079,
+        "priceUsd": 0.00077,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -107877,7 +107877,7 @@
       "category": "social",
       "description": "Search Reddit posts across all subreddits by query.",
       "pricing": {
-        "priceUsd": 0.00035,
+        "priceUsd": 0.00034,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -130945,7 +130945,7 @@
       "category": "social",
       "description": "List the replies to a TikTok comment with cursor pagination (text, author, likes).",
       "pricing": {
-        "priceUsd": 0.0006,
+        "priceUsd": 0.00058,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -132197,7 +132197,7 @@
       "category": "social",
       "description": "Get every image in a TikTok photo-mode (slideshow) post by URL, in order, with pixel dimensions and both the clean and watermarked variant of each. Videos carry no images - use tiktok.video_download for those.",
       "pricing": {
-        "priceUsd": 0.00119,
+        "priceUsd": 0.00118,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134574,7 +134574,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00034,
+        "priceUsd": 0.00035,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -138029,7 +138029,7 @@
       "category": "social",
       "description": "List the comments on a TikTok video by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.0004,
+        "priceUsd": 0.00059,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -138253,7 +138253,7 @@
       "category": "social",
       "description": "Get the playable media files behind a TikTok video URL: the clean no-watermark MP4, the watermarked one TikTok's own save button produces, and the cover image, with duration and pixel dimensions. A photo-mode post has no video: for one, videoUrl and sdVideoUrl carry the post's music (an audio file) and watermarkedUrl is usually absent, or the call may answer not found; use tiktok.photos for its images.",
       "pricing": {
-        "priceUsd": 0.00079,
+        "priceUsd": 0.00078,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -138531,7 +138531,7 @@
       "category": "social",
       "description": "Fetch the caption track TikTok itself published for a video, as TikTok wrote it. It is the cheapest way to get the words, and it is only as good as TikTok's own transcription: it mishears names and uncommon words, and many videos - especially non-English ones - have no caption track at all, which comes back as not found. When you need the words to be right, or there is no track to read, tiktok.video_transcript_full transcribes the audio with AnyAPI's own speech-to-text instead.",
       "pricing": {
-        "priceUsd": 0.00109,
+        "priceUsd": 0.00108,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143935,7 +143935,7 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.00039,
+        "priceUsd": 0.00038,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -144223,7 +144223,7 @@
       "category": "social",
       "description": "Search X (Twitter) with full advanced-search syntax (operators like from:, since:, until:, min_faves: work inline in the query) and get structured tweets with text, author, engagement, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00048,
+        "priceUsd": 0.00046,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -145620,7 +145620,7 @@
       "category": "social",
       "description": "Fetch a single Twitter/X tweet by URL with its full text and engagement counts (likes, retweets, replies, quotes, bookmarks, views).",
       "pricing": {
-        "priceUsd": 0.00021,
+        "priceUsd": 0.0002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146341,7 +146341,7 @@
       "category": "social",
       "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00038,
+        "priceUsd": 0.00037,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -147396,8 +147396,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-26",
-        "checkOut": "2026-12-29",
+        "checkIn": "2026-12-27",
+        "checkOut": "2026-12-30",
         "propertyId": "69764328"
       },
       "input": {
@@ -148170,8 +148170,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-26",
-        "checkOut": "2026-12-29",
+        "checkIn": "2026-12-27",
+        "checkOut": "2026-12-30",
         "location": "Lake Tahoe"
       },
       "input": {
@@ -153206,7 +153206,7 @@
       "category": "video",
       "description": "List a YouTube channel's Shorts by handle or channel ID with cursor pagination, views, and publish timestamps.",
       "pricing": {
-        "priceUsd": 0.00099,
+        "priceUsd": 0.00098,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -153432,7 +153432,7 @@
       "category": "video",
       "description": "List the regular videos on a YouTube channel's Videos tab by handle or channel ID, with cursor pagination (title, views, length, publish time). Shorts are not included; use youtube.channel_shorts for them and youtube.channel_lives for live streams.",
       "pricing": {
-        "priceUsd": 0.00065,
+        "priceUsd": 0.00063,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154268,7 +154268,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00027,
+        "priceUsd": 0.00026,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -154760,7 +154760,7 @@
       "category": "video",
       "description": "Search YouTube Shorts by keyword and get matching Shorts (title, views, URL) with cursor pagination as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00119,
+        "priceUsd": 0.00118,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155174,7 +155174,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00049,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155410,7 +155410,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00067,
+        "priceUsd": 0.00066,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155851,7 +155851,7 @@
       "category": "video",
       "description": "Fetch the transcript/captions of a YouTube video or Short by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00075,
+        "priceUsd": 0.00073,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
