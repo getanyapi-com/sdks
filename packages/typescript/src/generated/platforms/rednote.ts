@@ -390,7 +390,7 @@ export interface RednoteSearchNote {
    */
   createdUtc?: number;
   /**
-   * Note body text. Populated whenever the provider has data for the entity.
+   * Short preview of the note text, often cut off mid-sentence; it is not the full note. Pass this noteId to rednote.note for the full text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;
@@ -600,7 +600,7 @@ export interface RednoteUserNotesNote {
    */
   createdUtc?: number;
   /**
-   * Note body text. Populated whenever the provider has data for the entity.
+   * Short preview of the note text, often cut off mid-sentence; it is not the full note. Pass this noteId to rednote.note for the full text. Populated whenever the provider has data for the entity.
    * Present whenever the upstream returns this record.
    */
   description?: string;

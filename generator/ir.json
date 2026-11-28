@@ -57519,7 +57519,7 @@
       "category": "social",
       "description": "Fetch a single Instagram post or reel by URL (media URLs, like count, owner, type) as normalized JSON. Turn on hostVideo to also get the post's video on a hosted MP4 link that plays without an Instagram session, charged as an extra on top of the price. If you want the spoken words as well, instagram.reel_transcript transcribes the same reel.",
       "pricing": {
-        "priceUsd": 0.0005,
+        "priceUsd": 0.00033,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -58292,7 +58292,7 @@
       "category": "social",
       "description": "Fetch an Instagram account's public profile (followers, posts, bio, verification) by handle.",
       "pricing": {
-        "priceUsd": 0.00051,
+        "priceUsd": 0.0005,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63958,7 +63958,7 @@
       "category": "social",
       "description": "List an Instagram account's reels by handle with cursor pagination (caption, plays, likes, comments).",
       "pricing": {
-        "priceUsd": 0.00061,
+        "priceUsd": 0.0006,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83075,9 +83075,9 @@
       "category": "data",
       "description": "Fetch up to 100 Google Maps reviews for a place by place ID, sorted the way you need, in one normalized response.",
       "pricing": {
-        "priceUsd": 0.0035,
-        "baseUsd": 0,
-        "perItemUsd": 0.00004,
+        "priceUsd": 0.00215,
+        "baseUsd": 0.00015,
+        "perItemUsd": 0.00002,
         "perItemUnit": "result"
       },
       "tsNamespace": "maps",
@@ -95125,10 +95125,10 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0025,
-        "baseUsd": null,
-        "perItemUsd": null,
-        "perItemUnit": null
+        "priceUsd": 0.0109,
+        "baseUsd": 0.00006,
+        "perItemUsd": 0.0108,
+        "perItemUnit": "result"
       },
       "tsNamespace": "perplexity",
       "tsMethod": "search",
@@ -111221,7 +111221,7 @@
                   },
                   "description": {
                     "kind": "string",
-                    "description": "Note body text. Populated whenever the provider has data for the entity.",
+                    "description": "Short preview of the note text, often cut off mid-sentence; it is not the full note. Pass this noteId to rednote.note for the full text. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null
@@ -111678,7 +111678,7 @@
                   },
                   "description": {
                     "kind": "string",
-                    "description": "Note body text. Populated whenever the provider has data for the entity.",
+                    "description": "Short preview of the note text, often cut off mid-sentence; it is not the full note. Pass this noteId to rednote.note for the full text. Populated whenever the provider has data for the entity.",
                     "enum": null,
                     "default": null,
                     "format": null

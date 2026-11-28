@@ -380,7 +380,7 @@ class RednoteSearchNote(BaseModel):
     )
     description: str | None = Field(
         default=None,
-        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Short preview of the note text, often cut off mid-sentence; it is not the full note. Pass this noteId to rednote.note for the full text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
@@ -519,7 +519,7 @@ class RednoteUserNotesNote(BaseModel):
     )
     description: str | None = Field(
         default=None,
-        description="Note body text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
+        description="Short preview of the note text, often cut off mid-sentence; it is not the full note. Pass this noteId to rednote.note for the full text. Populated whenever the provider has data for the entity. Present whenever the upstream returns this record.",
     )
     image: str | None = Field(
         default=None,
