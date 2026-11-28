@@ -4130,7 +4130,7 @@
       "category": "shop",
       "description": "Fetch full Amazon product details (title, brand, price when in stock, images, ratings, review count, variants, and attributes) from a product URL.",
       "pricing": {
-        "priceUsd": 0.0008,
+        "priceUsd": 0.0009,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -9492,8 +9492,8 @@
       "outputTypeName": "BookingSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-27",
-        "checkOut": "2026-12-29",
+        "checkIn": "2026-12-28",
+        "checkOut": "2026-12-30",
         "limit": 3,
         "query": "New York"
       },
@@ -41394,7 +41394,7 @@
       "category": "search",
       "description": "Ask Gemini a web-grounded question and receive its answer, with source citations when Gemini cites pages.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -49564,7 +49564,7 @@
       "category": "search",
       "description": "List the ads a company is running from the Google Ads Transparency Center by domain or advertiser ID (creative ID, format, ad URL, and first/last shown dates) with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00066,
+        "priceUsd": 0.00064,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -50335,8 +50335,8 @@
       "inputTypeName": "GoogleFlightsCalendarInput",
       "outputTypeName": "GoogleFlightsCalendarData",
       "example": {
-        "departureDateFrom": "2026-12-27",
-        "departureDateTo": "2027-01-25",
+        "departureDateFrom": "2026-12-28",
+        "departureDateTo": "2027-01-26",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -50626,7 +50626,7 @@
       "inputTypeName": "GoogleFlightsSearchInput",
       "outputTypeName": "GoogleFlightsSearchData",
       "example": {
-        "departureDate": "2026-12-27",
+        "departureDate": "2026-12-28",
         "destination": "LHR",
         "origin": "JFK"
       },
@@ -51027,8 +51027,8 @@
       "inputTypeName": "GoogleHotelsDetailsInput",
       "outputTypeName": "GoogleHotelsDetailsData",
       "example": {
-        "checkIn": "2026-12-27",
-        "checkOut": "2026-12-29",
+        "checkIn": "2026-12-28",
+        "checkOut": "2026-12-30",
         "country": "us",
         "propertyToken": "ChcImaG28Zbom8uuARoKL20vMDNncTd2NBAB"
       },
@@ -51625,8 +51625,8 @@
       "inputTypeName": "GoogleHotelsSearchInput",
       "outputTypeName": "GoogleHotelsSearchData",
       "example": {
-        "checkIn": "2026-12-27",
-        "checkOut": "2026-12-29",
+        "checkIn": "2026-12-28",
+        "checkOut": "2026-12-30",
         "country": "us",
         "query": "hotels near times square new york"
       },
@@ -70399,7 +70399,7 @@
       "category": "social",
       "description": "Post text and link only. No engagement counts, author details, media, or reaction breakdown - for those use linkedin.company_posts.",
       "pricing": {
-        "priceUsd": 0.00114,
+        "priceUsd": 0.00113,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -73982,7 +73982,7 @@
       "category": "social",
       "description": "Fetch a rich LinkedIn member profile by URL: name, headline, avatar, location, connections and followers, current position, and full work experience with job titles, descriptions, dates, employment/workplace type, and per-role skills, plus education, skills, certifications, honors and awards, languages, projects, publications, and verified/premium/open-to-work flags.",
       "pricing": {
-        "priceUsd": 0.00224,
+        "priceUsd": 0.00223,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -76677,7 +76677,7 @@
       "category": "social",
       "description": "Lightweight profile: name, avatar, location, followers, public id, current company, and a basic experience/education list (company + dates; job titles, the current-role flag and the connections label only where the source and the profile show them; no descriptions or skills; past companies may be redacted). For full experience detail, skills, certifications, and verified flags use linkedin.profile.",
       "pricing": {
-        "priceUsd": 0.00076,
+        "priceUsd": 0.00075,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -83374,7 +83374,7 @@
       "category": "data",
       "description": "Search Google Maps for places matching a query and location: up to 20 normalized place records with ratings, addresses, and contact basics per request.",
       "pricing": {
-        "priceUsd": 0.00127,
+        "priceUsd": 0.00126,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -95125,7 +95125,7 @@
       "category": "search",
       "description": "Ask Perplexity a web-grounded question and receive an answer with source citations.",
       "pricing": {
-        "priceUsd": 0.0025,
+        "priceUsd": 0.002,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134574,7 +134574,7 @@
       "category": "social",
       "description": "Search TikTok by keyword and get matching videos (caption, views, likes, comments, shares) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0006,
+        "priceUsd": 0.00034,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -143935,7 +143935,7 @@
       "category": "social",
       "description": "Fetch the replies to any X (Twitter) post URL as structured records: author, text, and engagement. An empty result is valid and does not assert whether the target post exists.",
       "pricing": {
-        "priceUsd": 0.00036,
+        "priceUsd": 0.00034,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -146341,7 +146341,7 @@
       "category": "social",
       "description": "Get the tweets and replies authored by an X (Twitter) account, with engagement, views, language, and cursor pagination. Every call returns one full native page of about 20 tweets; follow nextCursor for more.",
       "pricing": {
-        "priceUsd": 0.00035,
+        "priceUsd": 0.00033,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -147396,8 +147396,8 @@
       "outputTypeName": "VrboListingData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-27",
-        "checkOut": "2026-12-30",
+        "checkIn": "2026-12-28",
+        "checkOut": "2026-12-31",
         "propertyId": "69764328"
       },
       "input": {
@@ -148170,8 +148170,8 @@
       "outputTypeName": "VrboSearchData",
       "example": {
         "adults": 2,
-        "checkIn": "2026-12-27",
-        "checkOut": "2026-12-30",
+        "checkIn": "2026-12-28",
+        "checkOut": "2026-12-31",
         "location": "Lake Tahoe"
       },
       "input": {
@@ -154322,7 +154322,7 @@
       "category": "video",
       "description": "Search YouTube and get matching videos (title, channel, views, length, publish time) as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.00024,
+        "priceUsd": 0.00022,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155228,7 +155228,7 @@
       "category": "video",
       "description": "Fetch a YouTube video or Short's metadata (title, channel, views, likes, duration, publish date) by URL or ID.",
       "pricing": {
-        "priceUsd": 0.00047,
+        "priceUsd": 0.00045,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -155464,7 +155464,7 @@
       "category": "video",
       "description": "List the comments on a YouTube video or Short by URL with cursor pagination (text, author, likes, reply count).",
       "pricing": {
-        "priceUsd": 0.00064,
+        "priceUsd": 0.00062,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null

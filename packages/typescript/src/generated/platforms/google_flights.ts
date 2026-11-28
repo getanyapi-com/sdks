@@ -359,7 +359,7 @@ export class GoogleFlightsNamespace {
    * Price: $0.00085 per request.
    *
    * @example
-   * const res = await client.googleFlights.calendar({ departureDateFrom: "2026-12-27", departureDateTo: "2027-01-25", destination: "LHR", origin: "JFK" });
+   * const res = await client.googleFlights.calendar({ departureDateFrom: "2026-12-28", departureDateTo: "2027-01-26", destination: "LHR", origin: "JFK" });
    */
   calendar(
     input: GoogleFlightsCalendarInput,
@@ -376,7 +376,7 @@ export class GoogleFlightsNamespace {
    * Price: $0.00085 per request.
    *
    * @example
-   * const res = await client.googleFlights.search({ departureDate: "2026-12-27", destination: "LHR", origin: "JFK" });
+   * const res = await client.googleFlights.search({ departureDate: "2026-12-28", destination: "LHR", origin: "JFK" });
    */
   search(
     input: GoogleFlightsSearchInput,
