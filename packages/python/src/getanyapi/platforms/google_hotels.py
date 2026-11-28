@@ -714,7 +714,7 @@ class GoogleHotelsNamespace:
         Google property ID, nightly price, rating, review count, coordinates, star
         class and photos as normalized JSON.
 
-        Price: $0.0048 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.google_hotels.search(checkIn="2026-12-28", checkOut="2026-12-30", country="us", query="hotels near times square new york")
@@ -765,7 +765,7 @@ class AsyncGoogleHotelsNamespace:
         Google property ID, nightly price, rating, review count, coordinates, star
         class and photos as normalized JSON.
 
-        Price: $0.0048 per request.
+        Price: $0.0015 per request.
 
         Example:
             res = client.google_hotels.search(checkIn="2026-12-28", checkOut="2026-12-30", country="us", query="hotels near times square new york")

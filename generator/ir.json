@@ -51611,7 +51611,7 @@
       "category": "travel",
       "description": "Search Google Hotels by destination and dates and get hotels with their Google property ID, nightly price, rating, review count, coordinates, star class and photos as normalized JSON.",
       "pricing": {
-        "priceUsd": 0.0048,
+        "priceUsd": 0.0015,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -63454,7 +63454,7 @@
       "category": "social",
       "description": "List an Instagram account's recent posts (likes, comments, captions) by handle with cursor pagination.",
       "pricing": {
-        "priceUsd": 0.00077,
+        "priceUsd": 0.00067,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
@@ -134930,7 +134930,7 @@
       "category": "social",
       "description": "Search TikTok for photo-mode (slideshow) posts by keyword, with every image in each post plus view, like and comment counts. tiktok.search_keyword returns videos and drops these.",
       "pricing": {
-        "priceUsd": 0.0018,
+        "priceUsd": 0.0012,
         "baseUsd": null,
         "perItemUsd": null,
         "perItemUnit": null
