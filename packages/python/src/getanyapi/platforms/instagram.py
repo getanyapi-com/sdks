@@ -5332,7 +5332,7 @@ class InstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.0017 per request.
+        Price: $0.00169 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")
@@ -6739,7 +6739,7 @@ class AsyncInstagramNamespace:
         publishes on its profile, including the address behind the profile's Email
         button that public profile lookups do not return.
 
-        Price: $0.0017 per request.
+        Price: $0.00169 per request.
 
         Example:
             res = client.instagram.profile_contact(handle="eminenceorganics")

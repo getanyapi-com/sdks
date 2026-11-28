@@ -1033,7 +1033,7 @@ class RedditNamespace:
         Fetch a single Reddit post by URL, including its full body text, score,
         comment count, upvote ratio, and subreddit, as normalized JSON.
 
-        Price: $0.00049 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.reddit.post(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
@@ -1428,7 +1428,7 @@ class AsyncRedditNamespace:
         Fetch a single Reddit post by URL, including its full body text, score,
         comment count, upvote ratio, and subreddit, as normalized JSON.
 
-        Price: $0.00049 per request.
+        Price: $0.0005 per request.
 
         Example:
             res = client.reddit.post(url="https://www.reddit.com/r/IAmA/comments/z1c9z/i_am_barack_obama_president_of_the_united_states/")
